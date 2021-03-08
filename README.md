@@ -1,5 +1,5 @@
 # Mintbase API
-### WIP: Not for use
+### WIP: Not for use!
 General purpose Mintbase API for interacting with NEAR, Ethereum, Arweave and other supported blockchains and decentralized filestorage systems.
 
 ## API
