@@ -1,7 +1,8 @@
 name: NPM-publish
 on:
   release:
-  types: [published]
+    types:
+      - created
 
 jobs:
   publish:
