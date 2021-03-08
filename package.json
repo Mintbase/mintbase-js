@@ -1,0 +1,24 @@
+{
+  "name": "mintbase",
+  "version": "0.0.1",
+  "description": "Mint, sell, transfer NFTs on the NEAR blockchain",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mintbase/mintbase-js.git"
+  },
+  "keywords": [
+    "NFT",
+    "Blockchain",
+    "Mintbase"
+  ],
+  "author": "@nategeier",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mintbase/mintbase-js/issues"
+  },
+  "homepage": "https://github.com/Mintbase/mintbase-js#readme"
+}
