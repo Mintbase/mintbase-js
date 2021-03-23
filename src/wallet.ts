@@ -12,7 +12,11 @@ import {
 import { MintbaseAPI } from './api'
 import { Chain, MintbaseAPIConfig, WalletLoginProps, Network } from './types'
 
-import { STORE_FACTORY_CONTRACT_NAME, DEFAULT_APP_NAME } from './constants'
+import {
+  STORE_FACTORY_CONTRACT_NAME,
+  DEFAULT_APP_NAME,
+  NEAR_LOCAL_STORAGE_KEY_SUFFIX,
+} from './constants'
 
 import { KeyStore } from 'near-api-js/lib/key_stores'
 
@@ -85,6 +89,10 @@ export class Wallet {
       const near = new Near(_connectionObject)
 
       this.activeNearConnection = near
+      this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
+
+      const accountId = this.activeWallet.getAccountId()
+      this.activeAccount = await this.activeNearConnection.account(accountId)
     }
   }
 
@@ -96,10 +104,33 @@ export class Wallet {
   public logout() {}
 
   /**
-   * TODO: switch accounts
+   * TODO: Check for accounts not on local storage
    */
-  public switchConnection({ account }: { account: string }) {
-    // allKeys: keys.find(elm => elm.access_key.permission === "FullAccess")
+  public async switchConnection({ accountId }: { accountId: string }) {
+    const _getFullAccessPublicKey = async (accountId: string) => {
+      const keysRequest = await this.viewAccessKeyList({ accountId: accountId })
+
+      const key = keysRequest.keys.find(
+        (elm: { access_key: { permission: string } }) =>
+          elm.access_key.permission === 'FullAccess'
+      )
+      return key
+    }
+
+    if (isBrowser) {
+      const localStorageKey = `${DEFAULT_APP_NAME}${NEAR_LOCAL_STORAGE_KEY_SUFFIX}`
+      const fullAccessKey = await _getFullAccessPublicKey(accountId)
+
+      localStorage.setItem(
+        localStorageKey,
+        JSON.stringify({
+          accountId: accountId,
+          allKeys: [fullAccessKey.public_key],
+        })
+      )
+
+      this.connect()
+    }
   }
 
   /**
@@ -187,6 +218,19 @@ export class Wallet {
           finality: 'final',
           account_id: account,
           public_key: publicKey,
+        },
+      },
+    })
+    return result
+  }
+
+  public viewAccessKeyList = async ({ accountId }: { accountId: string }) => {
+    const result = await this.rpcCall({
+      body: {
+        params: {
+          request_type: 'view_access_key_list',
+          finality: 'final',
+          account_id: accountId,
         },
       },
     })

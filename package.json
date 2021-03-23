@@ -7,7 +7,7 @@
     "build": "tsc -p ./tsconfig.json",
     "test": "jest",
     "dist": "npm run browserify",
-    "start:example": "npm run build && rm ./examples/mintbase.js && npm run dist && http-server ./examples/",
+    "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && http-server ./examples/",
     "browserify": "browserify browser-exports.js -o dist/mintbase.js && browserify browser-exports.js -o examples/mintbase.js"
   },
   "repository": {
