@@ -8,7 +8,10 @@ import {
   Account,
   utils,
   WalletConnection,
+  Contract,
 } from 'near-api-js'
+import BN from 'bn.js'
+
 import { MintbaseAPI } from './api'
 import { Chain, MintbaseAPIConfig, WalletLoginProps, Network } from './types'
 
@@ -16,6 +19,8 @@ import {
   STORE_FACTORY_CONTRACT_NAME,
   DEFAULT_APP_NAME,
   NEAR_LOCAL_STORAGE_KEY_SUFFIX,
+  BASE_ARWEAVE_URI,
+  MARKET_ACCOUNT,
 } from './constants'
 
 import { KeyStore } from 'near-api-js/lib/key_stores'
@@ -104,7 +109,8 @@ export class Wallet {
   public logout() {}
 
   /**
-   * TODO: Check for accounts not on local storage
+   * TODO1: Check for accounts not on local storage
+   * TODO2: Manage errors
    */
   public async switchConnection({ accountId }: { accountId: string }) {
     const _getFullAccessPublicKey = async (accountId: string) => {
@@ -198,9 +204,73 @@ export class Wallet {
 
   public async makeOffer() {}
 
-  public async deployStore() {}
+  public async deployStore({
+    storeId,
+    symbol,
+  }: {
+    storeId: string
+    symbol: string
+  }) {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const balance = '7000000000000000000000000'
+    const gas = new BN('300000000000000')
 
+    if (!account || !accountId) throw new Error('Account is not defined.')
+
+    const factoryContract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
+      viewMethods: [
+        'get_min_attached_balance',
+        'get_number_of_tokens',
+        'get_store_descriptions',
+        'get_token_description',
+        'get_owner',
+        'get_mintbase_fee',
+      ],
+      changeMethods: [
+        'create_store',
+        'set_mintbase_fee',
+        'transfer_ownership',
+        'new',
+      ],
+    })
+
+    const storeData = {
+      store_description: {
+        store_id: storeId,
+        owner_id: accountId,
+        symbol: symbol,
+        icon_base64: 'eeieieieie',
+        base_uri: BASE_ARWEAVE_URI,
+        marketplace_id: MARKET_ACCOUNT,
+      },
+    }
+
+    // @ts-ignore: method does not exist on Contract class
+    factoryContract.create_store(storeData, gas, balance)
+  }
+
+  /**
+   * TODO: Figure out how to make this work with Arweave?
+   * 1. Upload files to Arweave
+   * 2. Create metadata
+   * 3. Interact with contract
+   */
   public async mint() {}
+
+  public async fetchTransactionResult(txHash: string) {
+    const connection = this.activeNearConnection?.connection
+    if (!connection) throw new Error('Near connection is undefined.')
+
+    const accountId = this.activeWallet?.account().accountId
+    if (!accountId) throw new Error('Account Id is undefined.')
+
+    const decodeHash = utils.serialize.base_decode(txHash)
+
+    const txResult = await connection.provider.txStatus(decodeHash, accountId)
+
+    return txResult
+  }
 
   // === RPC CALLS ===
 

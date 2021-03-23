@@ -8,3 +8,4 @@ export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 
 // TODO: pull this from somewhere?
 export const STORE_FACTORY_CONTRACT_NAME = process.env.CONTRACT_NAME || 'mintbase13.testnet'
+export const MARKET_ACCOUNT = `0.${STORE_FACTORY_CONTRACT_NAME}`
