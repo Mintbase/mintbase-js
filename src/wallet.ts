@@ -200,9 +200,14 @@ export class Wallet {
     return keyStore
   }
 
-  public async transferAsset() {}
+  public async transferAsset(
+    contractName: string,
+    tokenId: string | string[]
+  ) {}
 
-  public async makeOffer() {}
+  public async listForSale(contractName: string, tokenId: string | string[]) {}
+
+  public async makeOffer(listId: string) {}
 
   public async deployStore({
     storeId,
