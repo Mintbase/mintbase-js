@@ -1,10 +1,10 @@
 export enum Chain {
-  NEAR = 'NEAR',
+  near = 'near',
 }
 
 export enum Network {
-  Main = 'Main',
-  Testnet = 'Testnet',
+  main = 'main',
+  testnet = 'testnet',
 }
 
 /**
@@ -41,4 +41,14 @@ export interface MintbaseAPIConfig {
   chain: Chain
   networkName?: Network
   apiBaseUrl?: string
+}
+
+export interface WalletLoginProps {
+  contractAddress?: string
+  accountId?: string
+  privateKey?:string // useful for node environment
+}
+
+export interface Account {
+  id: string
 }

@@ -12,13 +12,18 @@ export class MintbaseAPI {
 
   public readonly defaultLimit: number = 10
 
+  public chainName: string = Chain.near
+  public networkName: string = Network.testnet
+
   constructor(config: MintbaseAPIConfig, logger?: (arg: string) => void) {
     switch (config.chain) {
-      case Chain.NEAR:
+      case Chain.near:
         this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_MAINNET
+        this.chainName = Chain.near
         break
       default:
         this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_MAINNET
+        this.chainName = config.chain
         break
     }
 
@@ -26,7 +31,7 @@ export class MintbaseAPI {
   }
 
   /**
-   * Fetch list from the marketplace
+   * Fetch the marketplace
    * @param limit
    * @param offset
    */
@@ -55,11 +60,7 @@ export class MintbaseAPI {
     return result
   }
 
-  public async isOwner(tokenId: string, walletAddress: string) {}
+  public async isOwner(tokenId: string, accountAddress: string) {}
 
-  public async custom(query: string, variables: any) {}
-
-  public async transfer() {}
-
-  public async createStore() {}
+  public async customQuery(query: string, variables: any) {}
 }

@@ -1,4 +1,4 @@
 import { MintbaseAPI } from './api'
-import { MintbaseWallet } from './wallet'
+import { Wallet } from './wallet'
 
-export { MintbaseAPI, MintbaseWallet }
+export { MintbaseAPI, Wallet }

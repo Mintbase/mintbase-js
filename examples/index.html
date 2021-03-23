@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Mintbase.js Example</title>
+    <script src="./mintbase.js"></script>
+  </head>
+  <body>
+    <p>Example of app using Mintbase.js</p>
+    <p>Connected as: <span id="accountId"></span></p>
+    <p>Balance: <span id="balance"></span></p>
+    <p>Allowance: <span id="allowance"></span></p>
+
+    <img id="marketImg" style="height: 300px; width: 300px" />
+
+    <div>
+      <button onclick="connect()">Connect</button>
+      <button onclick="fetchMarketplace()">Fetch Marketplace</button>
+    </div>
+
+    <script>
+      let wallet
+
+      const connect = async () => {
+        wallet = new Mintbase.Wallet({ networkName: 'testnet' })
+
+        const details = await wallet.getDetails()
+
+        document.querySelector('#accountId').textContent = details?.accountId
+        document.querySelector('#balance').textContent = details?.balance
+        document.querySelector('#allowance').textContent = details?.allowance
+      }
+
+      const fetchMarketplace = async () => {
+        const market = await wallet.api.fetchMarketplace()
+
+        document
+          .querySelector('#marketImg')
+          .setAttribute('src', market[4].image)
+      }
+    </script>
+  </body>
+</html>

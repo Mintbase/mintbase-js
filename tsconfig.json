@@ -1,11 +1,12 @@
 {
   "include": ["./src/**/*"],
+  "exclude": ["node_modules"],
   "compilerOptions": {
     "outDir": "lib",
     "noImplicitThis": false,
     "module": "commonjs",
     "target": "es5",
-    // "types": ["node"],
+    "types": [],
     "lib": ["es2017", "dom"],
     "sourceMap": true,
     "declaration": true,
@@ -14,8 +15,10 @@
     "pretty": true,
     "strict": true,
     "baseUrl": ".",
+    "esModuleInterop": true,
     "paths": {
       "buffer": ["./buffer-override.d.ts"]
-    }
+    },
+    "skipDefaultLibCheck": false
   }
 }
