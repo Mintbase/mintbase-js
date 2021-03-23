@@ -4,6 +4,11 @@
 
 General purpose Mintbase API for interacting with NEAR, Ethereum, Arweave and other supported blockchains and decentralized filestorage systems.
 
+## Development
+
+- Install with `npm install`
+- Start example with `npm run start:example`
+
 ## API
 
 - Fetching
