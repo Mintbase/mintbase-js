@@ -13,7 +13,7 @@ import {
 import BN from 'bn.js'
 
 import { MintbaseAPI } from './api'
-import { Chain, MintbaseAPIConfig, WalletLoginProps, Network } from './types'
+import { Chain, MintbaseAPIConfig, WalletLoginProps, Network, MakeOfferProps } from './types'
 
 import {
   STORE_FACTORY_CONTRACT_NAME,
@@ -220,8 +220,15 @@ export class Wallet {
 
   public async listForSale(contractName: string, tokenId: string | string[]) {}
 
-  public async makeOffer(listId: string) {}
+  public async makeOffer(props: MakeOfferProps = {}) {
 
+  }
+
+  /**
+   * Creates a store. Interacts with the store factory to deploy a contract.
+   * @param param0 
+   * @returns 
+   */
   public async deployStore({
     storeId,
     symbol,
@@ -234,7 +241,7 @@ export class Wallet {
     const balance = '7000000000000000000000000'
     const gas = new BN('300000000000000')
 
-    if (!account || !accountId) throw new Error('Account is not defined.')
+    if (!account || !accountId) throw new Error('Account is undefined.')
 
     const factoryContract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
       viewMethods: [

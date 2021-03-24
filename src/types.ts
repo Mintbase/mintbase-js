@@ -49,6 +49,10 @@ export interface WalletLoginProps {
   privateKey?:string // useful for node environment
 }
 
+export interface MakeOfferProps {
+  listId?: string
+}
+
 export interface Account {
   id: string
 }
