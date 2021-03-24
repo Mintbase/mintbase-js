@@ -9,7 +9,8 @@
     "dist": "npm run browserify",
     "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && http-server ./examples/",
     "browserify": "browserify browser-exports.js -o dist/mintbase.js && browserify browser-exports.js -o examples/mintbase.js",
-    "doc": "typedoc src"
+    "doc": "typedoc src",
+    "start:docs": "http-server ./docs"
   },
   "repository": {
     "type": "git",
