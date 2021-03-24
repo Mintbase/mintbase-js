@@ -60,7 +60,7 @@ export class Wallet {
    */
   public async connect(props: WalletLoginProps = {}) {
     const contractAddress = props.contractAddress || STORE_FACTORY_CONTRACT_NAME
-
+    
     if (isBrowser) {
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
@@ -113,14 +113,25 @@ export class Wallet {
    * TODO2: Manage errors
    */
   public async switchConnection({ accountId }: { accountId: string }) {
+    // get a full access public key with the largest nonce
     const _getFullAccessPublicKey = async (accountId: string) => {
       const keysRequest = await this.viewAccessKeyList({ accountId: accountId })
 
-      const key = keysRequest.keys.find(
-        (elm: { access_key: { permission: string } }) =>
-          elm.access_key.permission === 'FullAccess'
+      // filter by full access keys
+      const fullAccessKeys = keysRequest.keys.filter(
+        (acc: { access_key: { permission: string } }) =>
+          acc.access_key.permission === 'FullAccess'
       )
-      return key
+
+      // get the highest nonce key
+      const highestNonceKey = fullAccessKeys.reduce(
+        (
+          acc: { access_key: { nonce: number } },
+          curr: { access_key: { nonce: number } }
+        ) => (acc?.access_key?.nonce > curr?.access_key?.nonce ? acc : curr)
+      )
+
+      return highestNonceKey
     }
 
     if (isBrowser) {
@@ -137,6 +148,8 @@ export class Wallet {
 
       this.connect()
     }
+    // TODO: Implement for Node environment
+    // if(isNode) {}
   }
 
   /**
@@ -251,14 +264,14 @@ export class Wallet {
       },
     }
 
-    // @ts-ignore: method does not exist on Contract class
+    // @ts-ignore: method does not exist on Contract type
     factoryContract.create_store(storeData, gas, balance)
   }
 
   /**
    * TODO: Figure out how to make this work with Arweave?
    * 1. Upload files to Arweave
-   * 2. Create metadata
+   * 2. Generate metadata
    * 3. Interact with contract
    */
   public async mint() {}
@@ -299,6 +312,11 @@ export class Wallet {
     return result
   }
 
+  /**
+   * Fetch all account access keys
+   * @param accountId account name
+   * @returns array of
+   */
   public viewAccessKeyList = async ({ accountId }: { accountId: string }) => {
     const result = await this.rpcCall({
       body: {
