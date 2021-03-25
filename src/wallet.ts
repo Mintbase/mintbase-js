@@ -11,9 +11,19 @@ import {
   Contract,
 } from 'near-api-js'
 import BN from 'bn.js'
+import { KeyStore } from 'near-api-js/lib/key_stores'
 
 import { MintbaseAPI } from './api'
-import { Chain, MintbaseAPIConfig, WalletLoginProps, Network, MakeOfferProps } from './types'
+import {
+  Chain,
+  MintbaseAPIConfig,
+  WalletLoginProps,
+  Network,
+  MakeOfferProps,
+  TransferAssetProps,
+  Token,
+  Split,
+} from './types'
 
 import {
   STORE_FACTORY_CONTRACT_NAME,
@@ -21,9 +31,9 @@ import {
   NEAR_LOCAL_STORAGE_KEY_SUFFIX,
   BASE_ARWEAVE_URI,
   MARKET_ACCOUNT,
+  STORE_CONTRACT_VIEW_METHODS,
+  STORE_CONTRACT_CALL_METHODS,
 } from './constants'
-
-import { KeyStore } from 'near-api-js/lib/key_stores'
 
 export class Wallet {
   public readonly api: MintbaseAPI
@@ -39,7 +49,9 @@ export class Wallet {
 
   public nearConfig: any
 
-  constructor(apiConfig: MintbaseAPIConfig) {
+  public readonly autoConnect: boolean = false
+
+  constructor(apiConfig: MintbaseAPIConfig, autoConnect: boolean) {
     this.api = new MintbaseAPI(apiConfig)
 
     this.networkName = apiConfig.networkName || Network.testnet
@@ -48,7 +60,11 @@ export class Wallet {
     this.nearConfig = this.getNearConfig(this.networkName)
     this.keyStore = this.getKeyStore()
 
-    this.connect()
+    this.autoConnect = autoConnect
+
+    if (autoConnect) {
+      this.connect()
+    }
 
     return this
   }
@@ -60,7 +76,7 @@ export class Wallet {
    */
   public async connect(props: WalletLoginProps = {}) {
     const contractAddress = props.contractAddress || STORE_FACTORY_CONTRACT_NAME
-    
+
     if (isBrowser) {
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
@@ -102,17 +118,20 @@ export class Wallet {
   }
 
   /**
-   * Removes connection from a NEAR smart contract
-   * @param contractAddress the contract address to remove connection from
+   * Disconnects user.
    *
    */
-  public logout() {}
+  public disconnect() {
+    this.activeWallet?.signOut()
+    this.activeNearConnection = undefined
+    this.activeAccount = undefined
+  }
 
   /**
    * TODO1: Check for accounts not on local storage
    * TODO2: Manage errors
    */
-  public async switchConnection({ accountId }: { accountId: string }) {
+  public async switchConnection(accountId: string) {
     // get a full access public key with the largest nonce
     const _getFullAccessPublicKey = async (accountId: string) => {
       const keysRequest = await this.viewAccessKeyList({ accountId: accountId })
@@ -154,6 +173,7 @@ export class Wallet {
 
   /**
    * Fetch local storage connections
+   * TODO: do we need this?
    */
   public listConnections() {}
 
@@ -213,21 +233,108 @@ export class Wallet {
     return keyStore
   }
 
-  public async transferAsset(
-    contractName: string,
-    tokenId: string | string[]
-  ) {}
+  public async transferOwnership({
+    contractName,
+    tokenIds,
+  }: TransferAssetProps) {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const MAX_GAS = new BN('300000000000000')
+    const ZERO = new BN('0')
 
-  public async listForSale(contractName: string, tokenId: string | string[]) {}
+    if (!account || !accountId) throw new Error('Account is undefined.')
 
-  public async makeOffer(props: MakeOfferProps = {}) {
+    if (!contractName) throw new Error('No contract was provided.')
 
+    const assetContract = new Contract(account, contractName, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await assetContract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ZERO)
+  }
+
+  public async listForSale(
+    tokenId: string /*| string[]*/,
+    price: string,
+    splitOwners: Split[]
+  ) {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+    const bal = '100000000000000000000000'
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    const token: Token = await this.api.fetchToken(tokenId)
+
+    const isOwner = token.ownerId === accountId
+    if (!isOwner) throw new Error('User does not own token.')
+
+    const assetContract = new Contract(account, token.storeId, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await assetContract.list_tokens(
+      {
+        contract_address: null,
+        token_ids: [Number(token.tokenId)],
+        autotransfer: true,
+        asking_price: price,
+        split_owners: null, //{ [accountId]: 10000 },
+      },
+      GAS,
+      bal
+    )
   }
 
   /**
+   * Makes offer.
+   * @param xxx
+   * @returns
+   */
+  public async makeOffer(props: MakeOfferProps = {}) {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    const groupId = props.groupId
+    if (!groupId) throw new Error('Please provide a groupId')
+
+    const result = await this.api.fetchLists(groupId)
+
+    if (result.list.length === 0) throw new Error('List is empty')
+
+    const list = result.list[0]
+
+    const tokenContract = new Contract(account, MARKET_ACCOUNT, {
+      viewMethods: ['get_token_owner_id', 'get_token', 'get_token_token_id'],
+      changeMethods: ['make_offer'],
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await tokenContract.make_offer(
+      {
+        token_key: list.tokenKey,
+        price: list.price,
+        timeout: { Hours: 72 },
+      },
+      GAS,
+      list.price
+    )
+  }
+
+  private getKeyPairFromLocalstorage() {}
+
+  /**
    * Creates a store. Interacts with the store factory to deploy a contract.
-   * @param param0 
-   * @returns 
+   * @param xxx
+   * @returns
    */
   public async deployStore({
     storeId,

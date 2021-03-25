@@ -1,9 +1,14 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
 
-import { MintbaseAPIConfig, Network, Chain, List } from './types'
+import { MintbaseAPIConfig, Network, Chain, List, Token } from './types'
 import { API_BASE_NEAR_MAINNET, BASE_ARWEAVE_URI } from './constants'
-import { FETCH_MARKETPLACE } from './queries'
+import {
+  FETCH_MARKETPLACE,
+  GET_LATEST_LIST,
+  GET_TOKENS_BY_OWNER_ID,
+  GET_TOKEN_BY_ID,
+} from './queries'
 
 export class MintbaseAPI {
   public readonly apiBaseUrl: string
@@ -50,9 +55,28 @@ export class MintbaseAPI {
     return done
   }
 
+  public async fetchLists(id: string) {
+    const list = await request(this.apiBaseUrl, GET_LATEST_LIST, {
+      groupId: id,
+    })
+
+    return list
+  }
+
   public async fetchThing() {}
 
-  public async fetchToken() {}
+  public async fetchToken(tokenId: string): Promise<Token> {
+    const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
+      tokenId: tokenId,
+    })
+
+    if (result.token.length === 0)
+      throw new Error(`${tokenId} is not a valid token`)
+
+    const token = result.token[0]
+
+    return token
+  }
 
   public async fetchArweave(id: string) {
     const request = await fetch(`${BASE_ARWEAVE_URI}/${id}`)
@@ -60,7 +84,25 @@ export class MintbaseAPI {
     return result
   }
 
-  public async isOwner(tokenId: string, accountAddress: string) {}
+  public async isOwner(tokenId: string, accountAddress: string) {
+    const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
+      tokenId: tokenId,
+    })
+
+    if (result.token.length === 0) return false
+
+    const token = result.token[0]
+
+    return token.ownerId === accountAddress
+  }
+
+  public async fetchOwnerTokens(accountId: string) {
+    const result = await request(this.apiBaseUrl, GET_TOKENS_BY_OWNER_ID, {
+      ownerId: accountId,
+    })
+
+    return result.token
+  }
 
   public async customQuery(query: string, variables: any) {}
 }

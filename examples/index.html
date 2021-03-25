@@ -18,7 +18,7 @@
     </div>
 
     <script>
-      let wallet = new Mintbase.Wallet({ networkName: 'testnet' })
+      let wallet = new Mintbase.Wallet({ networkName: 'testnet' }, false)
 
       const connect = async () => {
         const details = await wallet.getDetails()

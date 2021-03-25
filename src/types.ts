@@ -46,11 +46,28 @@ export interface MintbaseAPIConfig {
 export interface WalletLoginProps {
   contractAddress?: string
   accountId?: string
-  privateKey?:string // useful for node environment
+  privateKey?: string // useful for node environment
 }
 
 export interface MakeOfferProps {
-  listId?: string
+  groupId?: string
+}
+
+export interface TransferAssetProps {
+  contractName: string
+  tokenIds: [string, number][]
+}
+
+export interface Split {
+  accountId: string
+  split: number
+}
+
+export interface Token {
+  id: string
+  ownerId: string
+  storeId: string
+  tokenId: number
 }
 
 export interface Account {
