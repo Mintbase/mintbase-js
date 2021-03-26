@@ -1,0 +1,10 @@
+export declare const API_VERSION = 1;
+export declare const API_BASE_NEAR_MAINNET = "https://mintbase.hasura.app/v1/graphql";
+export declare const API_BASE_NEAR_TESTNET = "https://mintbase.hasura.app/v1/graphql";
+export declare const BASE_ARWEAVE_URI = "https://arweave.net";
+export declare const DEFAULT_APP_NAME = "Mintbase.js";
+export declare const NEAR_LOCAL_STORAGE_KEY_SUFFIX = "_wallet_auth_key";
+export declare const STORE_FACTORY_CONTRACT_NAME: string;
+export declare const MARKET_ACCOUNT: string;
+export declare const STORE_CONTRACT_VIEW_METHODS: string[];
+export declare const STORE_CONTRACT_CALL_METHODS: string[];
