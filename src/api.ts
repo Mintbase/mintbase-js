@@ -1,7 +1,7 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
 import { MintbaseAPIConfig, Network, Chain, Token } from './types'
-import { API_BASE_NEAR_MAINNET, BASE_ARWEAVE_URI } from './constants'
+import { API_BASE_NEAR_MAINNET, API_BASE_NEAR_TESTNET, BASE_ARWEAVE_URI } from './constants'
 import {
   FETCH_MARKETPLACE,
   GET_LATEST_LIST,
@@ -9,29 +9,25 @@ import {
   GET_TOKEN_BY_ID,
 } from './queries'
 
-export class MintbaseAPI {
-  public readonly apiBaseUrl: string
+export class API {
+  public apiBaseUrl: string = API_BASE_NEAR_TESTNET
 
-  public logger: (arg: string) => void
-
-  public readonly defaultLimit: number = 10
+  public defaultLimit = 10
 
   public chainName: string = Chain.near
   public networkName: string = Network.testnet
 
-  constructor(config: MintbaseAPIConfig, logger?: (arg: string) => void) {
+  constructor(config: MintbaseAPIConfig) {
     switch (config.chain) {
       case Chain.near:
-        this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_MAINNET
+        this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_TESTNET
         this.chainName = Chain.near
         break
       default:
-        this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_MAINNET
+        this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_TESTNET
         this.chainName = config.chain
         break
     }
-
-    this.logger = logger || ((arg: string) => arg)
   }
 
   /**

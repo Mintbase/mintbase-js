@@ -13,7 +13,7 @@ import {
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
 
-import { MintbaseAPI } from './api'
+import { API } from './api'
 import {
   Chain,
   MintbaseAPIConfig,
@@ -36,7 +36,7 @@ import {
 } from './constants'
 
 export class Wallet {
-  public readonly api: MintbaseAPI
+  public api: API
 
   public activeWallet?: WalletConnection
   public activeNearConnection?: Near
@@ -50,7 +50,7 @@ export class Wallet {
   public nearConfig: any
 
   constructor(apiConfig: MintbaseAPIConfig) {
-    this.api = new MintbaseAPI(apiConfig)
+    this.api = new API(apiConfig)
 
     this.networkName = apiConfig.networkName || Network.testnet
     this.chain = apiConfig.chain || Chain.near
@@ -366,7 +366,7 @@ export class Wallet {
    * 2. Generate metadata
    * 3. Interact with contract
    */
-  public async mint() {}
+  //public async mint() {}
 
   public async setSessionKeyPair(accountId: string, privateKey: string) {
     const keyStore = this.keyStore
@@ -392,7 +392,7 @@ export class Wallet {
     throw new Error('Runtime environment has to be Node or Browser')
   }
 
-  private getKeyPairFromLocalstorage() {}
+  // private getKeyPairFromLocalstorage() {}
 
   /**
    * Fetch local storage connections
