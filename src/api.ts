@@ -1,7 +1,6 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
-
-import { MintbaseAPIConfig, Network, Chain, List, Token } from './types'
+import { MintbaseAPIConfig, Network, Chain, Token } from './types'
 import { API_BASE_NEAR_MAINNET, BASE_ARWEAVE_URI } from './constants'
 import {
   FETCH_MARKETPLACE,
@@ -36,25 +35,53 @@ export class MintbaseAPI {
   }
 
   /**
-   * Fetch the marketplace
+   * Fetches the marketplace and each token's metadata.
    * @param limit
    * @param offset
    */
   public async fetchMarketplace(limit?: number, offset?: number): Promise<any> {
-    const result = await request(this.apiBaseUrl, FETCH_MARKETPLACE, {
+    const listings = await request(this.apiBaseUrl, FETCH_MARKETPLACE, {
       limit: limit || this.defaultLimit,
       offset: offset || 0,
     })
 
-    const promises = result.list.map(async (element: any) => {
-      const nft = await this.fetchArweave(element.token.thingId)
-      return nft
+    const promises = listings.list.map(async (list: any) => {
+      const metadata = await this.fetchArweave(list.token.thingId)
+
+      return { ...list, metadata: metadata }
     })
 
-    const done = await Promise.all(promises)
-    return done
+    const result = await Promise.all(promises)
+
+    return result
   }
 
+  /**
+   * Fetches token metadata.
+   * @param tokenId the token identifier
+   *
+   * @returns token metadata
+   */
+  public async fetchMetadata(tokenId: string, storeId: string) {
+    const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
+      tokenId: `${tokenId}:${storeId}`,
+    })
+
+    if (result.token.length === 0)
+      throw new Error(`${tokenId} is not a valid token.`)
+
+    const token = result.token[0]
+
+    const metadata = await this.fetchArweave(token.thingId)
+
+    return metadata
+  }
+
+  /**
+   * Fetches lists w/ no metadata.
+   * @param limit
+   * @param offset
+   */
   public async fetchLists(id: string) {
     const list = await request(this.apiBaseUrl, GET_LATEST_LIST, {
       groupId: id,
@@ -63,11 +90,13 @@ export class MintbaseAPI {
     return list
   }
 
-  public async fetchThing() {}
+  public async fetchThing() {
+    throw new Error('Not yet implemented')
+  }
 
-  public async fetchToken(tokenId: string): Promise<Token> {
+  public async fetchToken(tokenId: number, storeId: string): Promise<Token> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
-      tokenId: tokenId,
+      tokenId: `${tokenId}:${storeId}`,
     })
 
     if (result.token.length === 0)
@@ -84,7 +113,15 @@ export class MintbaseAPI {
     return result
   }
 
-  public async isOwner(tokenId: string, accountAddress: string) {
+  public async fetchOwnerTokens(accountId: string) {
+    const result = await request(this.apiBaseUrl, GET_TOKENS_BY_OWNER_ID, {
+      ownerId: accountId,
+    })
+
+    return result.token
+  }
+
+  public async isOwner(tokenId: number, accountAddress: string) {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: tokenId,
     })
@@ -96,13 +133,8 @@ export class MintbaseAPI {
     return token.ownerId === accountAddress
   }
 
-  public async fetchOwnerTokens(accountId: string) {
-    const result = await request(this.apiBaseUrl, GET_TOKENS_BY_OWNER_ID, {
-      ownerId: accountId,
-    })
-
-    return result.token
+  public async custom(query: string, variables: any) {
+    const result = await request(this.apiBaseUrl, query, variables)
+    return result
   }
-
-  public async customQuery(query: string, variables: any) {}
 }

@@ -68,6 +68,7 @@ export interface Token {
   ownerId: string
   storeId: string
   tokenId: number
+  thingId: string
 }
 
 export interface Account {

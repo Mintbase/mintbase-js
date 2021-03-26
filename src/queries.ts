@@ -68,6 +68,7 @@ export const GET_TOKEN_BY_ID = `
       ownerId
       storeId
       tokenId
+      thingId
     }
   }
 `

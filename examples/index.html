@@ -18,14 +18,19 @@
     </div>
 
     <script>
-      let wallet = new Mintbase.Wallet({ networkName: 'testnet' }, false)
+      let wallet = new Mintbase.Wallet({ networkName: 'testnet' })
 
       const connect = async () => {
-        const details = await wallet.getDetails()
+        wallet.connect()
+
+        const details = await wallet.details()
+
+        console.log(details)
+        /*const details = await wallet.details()
 
         document.querySelector('#accountId').textContent = details?.accountId
         document.querySelector('#balance').textContent = details?.balance
-        document.querySelector('#allowance').textContent = details?.allowance
+        document.querySelector('#allowance').textContent = details?.allowance*/
       }
 
       const fetchMarketplace = async () => {
@@ -35,6 +40,8 @@
           .querySelector('#marketImg')
           .setAttribute('src', market[4].image)
       }
+
+      connect()
     </script>
   </body>
 </html>

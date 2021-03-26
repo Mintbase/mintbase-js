@@ -49,9 +49,7 @@ export class Wallet {
 
   public nearConfig: any
 
-  public readonly autoConnect: boolean = false
-
-  constructor(apiConfig: MintbaseAPIConfig, autoConnect: boolean) {
+  constructor(apiConfig: MintbaseAPIConfig) {
     this.api = new MintbaseAPI(apiConfig)
 
     this.networkName = apiConfig.networkName || Network.testnet
@@ -59,12 +57,6 @@ export class Wallet {
 
     this.nearConfig = this.getNearConfig(this.networkName)
     this.keyStore = this.getKeyStore()
-
-    this.autoConnect = autoConnect
-
-    if (autoConnect) {
-      this.connect()
-    }
 
     return this
   }
@@ -114,11 +106,14 @@ export class Wallet {
 
       const accountId = this.activeWallet.getAccountId()
       this.activeAccount = await this.activeNearConnection.account(accountId)
+    } else {
+      throw new Error('Only Browser or Node environment supported.')
     }
   }
 
   /**
-   * Disconnects user.
+   * Disconnects user. Removes the LocalStorage entry that
+   * represents an authorized wallet account but leaves private keys intact.
    *
    */
   public disconnect() {
@@ -128,10 +123,17 @@ export class Wallet {
   }
 
   /**
-   * TODO1: Check for accounts not on local storage
-   * TODO2: Manage errors
+   * TODO1: Manage errors
    */
-  public async switchConnection(accountId: string) {
+  public async connectTo(accountId: string) {
+    // get localstorage accounts
+    const localAccounts = this.getLocalAccounts() as any
+
+    // does account user is trying to connect exists in storage?
+    if (!localAccounts[accountId]) {
+      return false
+    }
+
     // get a full access public key with the largest nonce
     const _getFullAccessPublicKey = async (accountId: string) => {
       const keysRequest = await this.viewAccessKeyList({ accountId: accountId })
@@ -166,19 +168,20 @@ export class Wallet {
       )
 
       this.connect()
+
+      return true
     }
     // TODO: Implement for Node environment
     // if(isNode) {}
+
+    return false
   }
 
   /**
-   * Fetch local storage connections
-   * TODO: do we need this?
+   * Fetches connected account details.
+   * @returns
    */
-  public listConnections() {}
-
-  // TODO: fix account type
-  public async getDetails() {
+  public async details() {
     const accountId = this.activeWallet?.getAccountId()
     const keyPair = await this.getSessionKeyPair()
 
@@ -209,34 +212,7 @@ export class Wallet {
     }
   }
 
-  private getKeyStore() {
-    if (isNode) return new keyStores.InMemoryKeyStore()
-    if (isBrowser) return new keyStores.BrowserLocalStorageKeyStore()
-
-    throw new Error('Runtime environment has to be Node or Browser')
-  }
-
-  public async getSessionKeyPair() {
-    const accountId = this.activeWallet?.getAccountId()
-    const keyStore = this.keyStore
-
-    if (!accountId) throw new Error('accountId is undefined')
-
-    return await keyStore?.getKey(this.networkName, accountId)
-  }
-
-  public async setSessionKeyPair(accountId: string, privateKey: string) {
-    const keyStore = this.keyStore
-
-    keyStore.setKey(this.networkName, accountId, KeyPair.fromString(privateKey))
-
-    return keyStore
-  }
-
-  public async transferOwnership({
-    contractName,
-    tokenIds,
-  }: TransferAssetProps) {
+  public async transfer({ contractName, tokenIds }: TransferAssetProps) {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const MAX_GAS = new BN('300000000000000')
@@ -256,7 +232,8 @@ export class Wallet {
   }
 
   public async listForSale(
-    tokenId: string /*| string[]*/,
+    tokenId: number /*| string[]*/,
+    storeId: string,
     price: string,
     splitOwners: Split[]
   ) {
@@ -267,7 +244,10 @@ export class Wallet {
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
-    const token: Token = await this.api.fetchToken(tokenId)
+    const token: Token = await this.api.fetchToken(
+      tokenId,
+      `${tokenId}:${storeId}`
+    )
 
     const isOwner = token.ownerId === accountId
     if (!isOwner) throw new Error('User does not own token.')
@@ -329,8 +309,6 @@ export class Wallet {
     )
   }
 
-  private getKeyPairFromLocalstorage() {}
-
   /**
    * Creates a store. Interacts with the store factory to deploy a contract.
    * @param xxx
@@ -390,6 +368,59 @@ export class Wallet {
    */
   public async mint() {}
 
+  public async setSessionKeyPair(accountId: string, privateKey: string) {
+    const keyStore = this.keyStore
+
+    keyStore.setKey(this.networkName, accountId, KeyPair.fromString(privateKey))
+
+    return keyStore
+  }
+
+  public async getSessionKeyPair() {
+    const accountId = this.activeWallet?.getAccountId()
+    const keyStore = this.keyStore
+
+    if (!accountId) throw new Error('accountId is undefined')
+
+    return await keyStore?.getKey(this.networkName, accountId)
+  }
+
+  private getKeyStore() {
+    if (isNode) return new keyStores.InMemoryKeyStore()
+    if (isBrowser) return new keyStores.BrowserLocalStorageKeyStore()
+
+    throw new Error('Runtime environment has to be Node or Browser')
+  }
+
+  private getKeyPairFromLocalstorage() {}
+
+  /**
+   * Fetch local storage connections
+   */
+  public getLocalAccounts() {
+    const regex = /near-api-js:keystore:/gm
+    const keys = Object.keys(localStorage)
+
+    const matches = keys.filter((key) => {
+      return regex.exec(key) !== null
+    })
+
+    let accounts = {}
+    matches.forEach((key) => {
+      const accountId = key.split(':')[2]
+
+      accounts = {
+        ...accounts,
+        [accountId]: {
+          accountId: accountId,
+          contractName: '', // get contractName connection
+        },
+      }
+    })
+
+    return accounts
+  }
+
   public async fetchTransactionResult(txHash: string) {
     const connection = this.activeNearConnection?.connection
     if (!connection) throw new Error('Near connection is undefined.')
@@ -422,6 +453,7 @@ export class Wallet {
           public_key: publicKey,
         },
       },
+      method: 'query',
     })
     return result
   }
@@ -440,16 +472,47 @@ export class Wallet {
           account_id: accountId,
         },
       },
+      method: 'query',
     })
+    return result
+  }
+
+  public transactionStatus = async (
+    transactionHash: string,
+    accountId: string
+  ) => {
+    const result = await this.rpcCall({
+      body: {
+        params: [transactionHash, accountId],
+      },
+      method: 'tx',
+    })
+
+    return result
+  }
+
+  public transactionStatusWithReceipts = async (
+    transactionHash: string,
+    accountId: string
+  ) => {
+    const result = await this.rpcCall({
+      body: {
+        params: [transactionHash, accountId],
+      },
+      method: 'EXPERIMENTAL_tx_status',
+    })
+
     return result
   }
 
   private rpcCall = async ({
     headers = {},
     body = {},
+    method,
   }: {
     headers?: any
     body?: any
+    method: string
   }) => {
     const request = await fetch(this.nearConfig.nodeUrl, {
       method: 'POST',
@@ -457,7 +520,7 @@ export class Wallet {
         ...body,
         jsonrpc: '2.0',
         id: `mintbase-${Math.random().toString().substr(2, 10)}`,
-        method: 'query',
+        method: method,
       }),
       headers: {
         ...headers,
