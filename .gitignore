@@ -14,6 +14,7 @@ mintbase-dev-service.json
 /build
 /dist
 
+/examples/mintbase.js
 
 # misc
 .DS_Store

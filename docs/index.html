@@ -1,0 +1,219 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>mintbase</title>
+	<meta name="description" content="Documentation for mintbase">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">mintbase</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>mintbase</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<a href="#mintbase-api" id="mintbase-api" style="color: inherit; text-decoration: none;">
+					<h1>Mintbase API</h1>
+				</a>
+				<a href="#wip-not-for-use" id="wip-not-for-use" style="color: inherit; text-decoration: none;">
+					<h3>WIP: Not for use!</h3>
+				</a>
+				<p>General purpose Mintbase API for interacting with NEAR, Ethereum, Arweave and other supported blockchains and decentralized filestorage systems.</p>
+				<a href="#initializing-and-connecting-mintbase-wallet" id="initializing-and-connecting-mintbase-wallet" style="color: inherit; text-decoration: none;">
+					<h2>Initializing and Connecting Mintbase Wallet</h2>
+				</a>
+				<p>Mintbase Wallet has access to the API.</p>
+				<pre><code class="language-js"><span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">Mintbase</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;mintbase.js&#039;</span>
+
+<span style="color: #008000">// Create a new instance of the Mintbase class</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">mintbase</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #001080">Mintbase</span><span style="color: #000000">.</span><span style="color: #795E26">Wallet</span><span style="color: #000000">({ </span><span style="color: #001080">networkName:</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;testnet&#039;</span><span style="color: #000000"> })</span>
+
+<span style="color: #008000">// Connect and fetch details</span>
+<span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">connect</span><span style="color: #000000">() {</span>
+<span style="color: #000000">  </span><span style="color: #001080">mintbase</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">()</span>
+
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">details</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">wallet</span><span style="color: #000000">.</span><span style="color: #795E26">details</span><span style="color: #000000">()</span>
+<span style="color: #000000">  </span><span style="color: #008000">/*</span>
+<span style="color: #008000">    accountId: &quot;qwerty.testnet&quot;</span>
+<span style="color: #008000">    allowance: &quot;0.25&quot;</span>
+<span style="color: #008000">    balance: &quot;365.77&quot;</span>
+<span style="color: #008000">    contractName: &quot;mintbase13.testnet&quot;</span>
+<span style="color: #008000">  */</span>
+<span style="color: #000000">}</span>
+
+<span style="color: #795E26">connect</span><span style="color: #000000">()</span>
+</code></pre>
+				<a href="#development" id="development" style="color: inherit; text-decoration: none;">
+					<h2>Development</h2>
+				</a>
+				<ul>
+					<li>Install with <code>npm install</code></li>
+					<li>Start example with <code>npm run start:example</code></li>
+				</ul>
+				<a href="#api" id="api" style="color: inherit; text-decoration: none;">
+					<h2>API</h2>
+				</a>
+				<ul>
+					<li>Fetching<ul>
+							<li>Fetch marketplace</li>
+							<li>Fetch store(s)</li>
+							<li>Fetch user(s)</li>
+							<li>Fetch asset(s)</li>
+							<li>Fetch order(s)</li>
+						</ul>
+					</li>
+					<li>Wallet management<ul>
+							<li>Login</li>
+							<li>Logout</li>
+							<li>Add accounts</li>
+							<li>Remove accounts</li>
+							<li>Switch accounts</li>
+						</ul>
+					</li>
+					<li>Mint<ul>
+							<li>Mint token</li>
+							<li>Royalties</li>
+						</ul>
+					</li>
+					<li>Making offers<ul>
+							<li>Bidding multiple assets</li>
+						</ul>
+					</li>
+					<li>Making listing / sell items<ul>
+							<li>Split revenues</li>
+						</ul>
+					</li>
+					<li>Buying items</li>
+					<li>Accepting offers</li>
+					<li>Transfer items</li>
+					<li>Advanced<ul>
+							<li>Listening to events</li>
+							<li>Bulk transfer</li>
+							<li>Purchasing on others behalf</li>
+							<li>Using other fungible tokens (wNEAR, ...) instead of NEAR</li>
+							<li>Private (?) auctions</li>
+							<li>Creating bundles</li>
+							<li>Schedule future listings</li>
+						</ul>
+					</li>
+				</ul>
+				<a href="#resources" id="resources" style="color: inherit; text-decoration: none;">
+					<h2>Resources</h2>
+				</a>
+				<ul>
+					<li><a href="https://docs.near.org/docs/develop/front-end/near-api-js">https://docs.near.org/docs/develop/front-end/near-api-js</a></li>
+					<li><a href="https://near.github.io/near-api-js/">https://near.github.io/near-api-js/</a></li>
+				</ul>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/api.html">api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/browser_index.html">browser-<wbr>index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/common_index.html">common-<wbr>index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/constants.html">constants</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/index.html">index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/queries.html">queries</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/types.html">types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/wallet.html">wallet</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>

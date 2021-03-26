@@ -4,7 +4,15 @@
   "description": "Mint, sell, transfer NFTs on the NEAR blockchain",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc -p ./tsconfig.json",
+    "test": "jest",
+    "dist": "npm run browserify",
+    "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && browserify browser-exports.js -o examples/mintbase.js && http-server ./examples/",
+    "browserify": "browserify browser-exports.js -o dist/mintbase.js && browserify browser-exports.js -g uglifyify -o dist/near-api-js.min.js",
+    "doc": "typedoc src",
+    "start:docs": "http-server ./docs",
+    "lint": "eslint src/**/*.ts",
+    "fix": "eslint src/**/*.ts --fix"
   },
   "repository": {
     "type": "git",
@@ -20,5 +28,30 @@
   "bugs": {
     "url": "https://github.com/Mintbase/mintbase-js/issues"
   },
-  "homepage": "https://github.com/Mintbase/mintbase-js#readme"
+  "homepage": "https://github.com/Mintbase/mintbase-js#readme",
+  "dependencies": {
+    "bn.js": "^5.2.0",
+    "browser-or-node": "^1.3.0",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
+    "isomorphic-unfetch": "^3.1.0",
+    "near-api-js": "^0.39.0"
+  },
+  "devDependencies": {
+    "@types/browser-or-node": "^1.3.0",
+    "@types/jest": "^26.0.20",
+    "@types/node-fetch": "^2.5.8",
+    "@typescript-eslint/eslint-plugin": "^4.19.0",
+    "@typescript-eslint/parser": "^4.19.0",
+    "browserify": "^17.0.0",
+    "eslint": "^7.22.0",
+    "http-server": "^0.12.3",
+    "jest": "^26.6.3",
+    "ts-jest": "^26.5.3",
+    "tsc": "^1.20150623.0",
+    "tslint": "^6.1.3",
+    "typedoc": "^0.20.33",
+    "typescript": "^4.2.3",
+    "uglifyify": "^5.0.2"
+  }
 }
