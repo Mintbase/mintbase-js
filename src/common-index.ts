@@ -1,2 +1,2 @@
-export * from './api'
-export * from './wallet'
+export { API } from './api'
+export { Wallet } from './wallet'

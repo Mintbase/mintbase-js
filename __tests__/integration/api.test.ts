@@ -1,8 +1,7 @@
-import { MintbaseAPI } from '../../src/index'
+import { API } from '../../src/index'
 import { Network, Chain } from '../../src/types'
-import { API_BASE_NEAR_MAINNET } from '../../src/constants'
 
-const client = new MintbaseAPI({ networkName: Network.main, chain: Chain.near })
+const client = new API({ networkName: Network.main, chain: Chain.near })
 
 describe('integration test - api', () => {
   test('API fetches arweave metadata from id', async () => {
