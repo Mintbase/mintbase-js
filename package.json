@@ -2,7 +2,7 @@
   "name": "mintbase",
   "version": "0.0.6",
   "description": "Mint, sell, transfer NFTs on the NEAR blockchain",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "test": "jest",
