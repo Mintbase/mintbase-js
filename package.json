@@ -6,11 +6,10 @@
   "scripts": {
     "build": "tsc -p ./tsconfig.json",
     "test": "jest",
-    "dist": "npm run browserify",
-    "browserify": "parcel build browser-exports.js -d dist/ --no-source-maps --out-file mintbase.js",
+    "dist": "parcel build browser-exports.js -d dist/ --no-source-maps --out-file mintbase.js",
     "lint": "eslint src/**/*.ts",
     "fix": "eslint src/**/*.ts --fix",
-    "prepublish": "npm run lint && npm run build && npm run dist",
+    "prepublish": "npm run lint && npm run build && npm run dist && npm run doc",
     "doc": "typedoc src",
     "start:docs": "http-server ./docs",
     "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && cp ./dist/mintbase.js ./examples/mintbase.js && http-server ./examples/"
