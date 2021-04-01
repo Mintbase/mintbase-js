@@ -5,13 +5,6 @@ export declare enum Network {
     main = "main",
     testnet = "testnet"
 }
-/**
- * Mintbase API configuration object
- * @param apiKey Optional key to use for API
- * @param networkName `Network` type to use. Defaults to `Network.Main` (mainnet)
- * @param gasPrice Default gas price to send to the Wyvern Protocol
- * @param apiBaseUrl Optional base URL to use for the API
- */
 export interface List {
     acceptedOfferId?: string;
     autoTransfer?: boolean;
@@ -29,10 +22,9 @@ export interface List {
 }
 /**
  * Mintbase API configuration object
- * @param apiKey Optional key to use for API
- * @param networkName `Network` type to use. Defaults to `Network.Main` (mainnet)
- * @param gasPrice Default gas price to send to the Wyvern Protocol
- * @param apiBaseUrl Optional base URL to use for the API
+ * @param chain `Chain` type to use. Defaults to `Chain.near`
+ * @param networkName `Network` type to use. Defaults to `Network.testnet` (testnet)
+ * @param apiBaseUrl The API base url
  */
 export interface MintbaseAPIConfig {
     chain: Chain;
@@ -44,17 +36,6 @@ export interface WalletLoginProps {
     accountId?: string;
     privateKey?: string;
 }
-export interface MakeOfferProps {
-    groupId?: string;
-}
-export interface TransferAssetProps {
-    contractName: string;
-    tokenIds: [string, number][];
-}
-export interface Split {
-    accountId: string;
-    split: number;
-}
 export interface Token {
     id: string;
     ownerId: string;
@@ -64,4 +45,94 @@ export interface Token {
 }
 export interface Account {
     id: string;
+}
+export declare enum Visibility {
+    nsfw = "nsfw",
+    safe = "safe"
+}
+export declare enum DisplayType {
+    boostNumber = "boost_number",
+    boostPercentage = "boost_percentage",
+    number = "number",
+    date = "date",
+    location = "location",
+    website = "website",
+    zoom = "zoom",
+    placeId = "place_id",
+    rarity = "rarity",
+    youtubeUrl = "youtube_url",
+    latitude = "latitude",
+    longitude = "longitude"
+}
+export interface Attribute {
+    trait_type: string;
+    display_type?: DisplayType;
+    value: string | number;
+}
+export declare enum MetadataField {
+    Id = "id",
+    Name = "name",
+    Description = "description",
+    Image = "image",
+    Price = "price",
+    Category = "category",
+    ForSale = "forSale",
+    ImagePreview = "imagePreview",
+    AmountToMint = "amountToMint",
+    NumAvailable = "numAvailable",
+    StripePrice = "stripePrice",
+    MetaId = "metaId",
+    Minter = "minter",
+    Minted = "minted",
+    MintOn = "mintedOn",
+    LastMinted = "lastMinted",
+    Tags = "tags",
+    Image_data = "image_data",
+    External_data = "external_data",
+    External_url = "external_url",
+    Background_color = "background_color",
+    Animation_url = "animation_url",
+    Youtube_url = "youtube_url",
+    Attributes = "attributes",
+    ContractAddress = "contractAddress",
+    Document = "document",
+    Lock = "lock",
+    Visibility = "visibility",
+    Chain = "chain",
+    Store = "store",
+    Royalty = "royalty",
+    Royalty_perc = "royalty_perc"
+}
+export interface MintMetadata {
+    [MetadataField.Id]?: string;
+    [MetadataField.Name]: string;
+    [MetadataField.Description]: string;
+    [MetadataField.Tags]: string[];
+    [MetadataField.Image]: string;
+    [MetadataField.Price]: number;
+    [MetadataField.AmountToMint]: number;
+    [MetadataField.NumAvailable]: number;
+    [MetadataField.StripePrice]: number;
+    [MetadataField.ForSale]: boolean;
+    [MetadataField.Attributes]: Attribute[];
+    [MetadataField.MetaId]: string | null;
+    [MetadataField.Image_data]: string | null;
+    [MetadataField.External_data]: string | null;
+    [MetadataField.External_url]: string | null;
+    [MetadataField.Background_color]: string;
+    [MetadataField.Animation_url]: string | null;
+    [MetadataField.Youtube_url]: string | null;
+    [MetadataField.Minter]: string | null;
+    [MetadataField.LastMinted]: Date | null;
+    [MetadataField.Document]: string[];
+    [MetadataField.Lock]: string[];
+    [MetadataField.Visibility]: Visibility;
+    [MetadataField.Chain]: Chain;
+    [MetadataField.ImagePreview]: string | null;
+    [MetadataField.ContractAddress]?: string | null;
+    [MetadataField.Store]?: string | null;
+    [MetadataField.Royalty]: {
+        [key: string]: number;
+    } | null;
+    [MetadataField.Royalty_perc]: number | null;
 }

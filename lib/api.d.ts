@@ -1,5 +1,9 @@
 import 'isomorphic-unfetch';
 import { MintbaseAPIConfig, Token } from './types';
+/**
+ * Mintbase API.
+ * Main entry point for users read Mintbase data.
+ */
 export declare class API {
     apiBaseUrl: string;
     defaultLimit: number;
@@ -7,28 +11,57 @@ export declare class API {
     networkName: string;
     constructor(config: MintbaseAPIConfig);
     /**
-     * Fetches the marketplace and each token's metadata.
-     * @param limit
-     * @param offset
+     * Fetch marketplace and each token's metadata (w/ cursor offset pagination enabled).
+     * @param limit number of results
+     * @param offset number of records to skip
      */
     fetchMarketplace(limit?: number, offset?: number): Promise<any>;
     /**
-     * Fetches token metadata.
-     * @param tokenId the token identifier
-     *
+     * Fetch token metadata.
+     * @param tokenId token id
      * @returns token metadata
      */
-    fetchMetadata(tokenId: string, storeId: string): Promise<any>;
+    fetchTokenMetadata(tokenId: string, storeId: string): Promise<any>;
     /**
-     * Fetches lists w/ no metadata.
-     * @param limit
-     * @param offset
+     * Fetch lists without metadata.
      */
     fetchLists(id: string): Promise<any>;
+    /**
+     * Fetch thing.
+     * TODO: Not yet implemented
+     */
     fetchThing(): Promise<void>;
+    /**
+     * Fetch token
+     * @param tokenId token id
+     * @param storeId store id
+     * @returns the token
+     */
     fetchToken(tokenId: number, storeId: string): Promise<Token>;
-    fetchArweave(id: string): Promise<any>;
+    /**
+     * Fetch metadata from Arweave
+     * @param id arweave content identifier
+     * @returns metadata
+     */
+    fetchMetadata(id: string): Promise<any>;
+    /**
+     * Fetch account owned tokens
+     * @param accountId account id
+     * @returns list of tokens
+     */
     fetchOwnerTokens(accountId: string): Promise<any>;
-    isOwner(tokenId: number, accountAddress: string): Promise<boolean>;
-    custom(query: string, variables: any): Promise<any>;
+    /**
+     * Checks whether account owns a token or not.
+     * @param tokenId token id
+     * @param accountId account id
+     * @returns whether an account owns a token or not.
+     */
+    isOwner(tokenId: number, accountId: string): Promise<boolean>;
+    /**
+     * Makes custom GraphQL query
+     * @param query custom GraphQL query
+     * @param variables object with variables passed to the query
+     * @returns result of query
+     */
+    custom(query: string, variables?: unknown): Promise<unknown>;
 }
