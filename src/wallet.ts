@@ -19,10 +19,7 @@ import {
   MintbaseAPIConfig,
   WalletLoginProps,
   Network,
-  MakeOfferProps,
-  TransferAssetProps,
   Token,
-  Split,
 } from './types'
 
 import {
@@ -34,7 +31,12 @@ import {
   STORE_CONTRACT_VIEW_METHODS,
   STORE_CONTRACT_CALL_METHODS,
 } from './constants'
+import { Minter } from './minter'
 
+/**
+ * Mintbase Wallet.
+ * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
+ */
 export class Wallet {
   public api: API
 
@@ -48,7 +50,14 @@ export class Wallet {
   public keyStore: KeyStore
 
   public nearConfig: any
+  public minter: Minter
 
+  /**
+   * Mintbase wallet constructor.
+   * Creates an instance of a Mintbase wallet.
+   * @param apiConfig api confuguration options.
+   * @returns the wallet instance
+   */
   constructor(apiConfig: MintbaseAPIConfig) {
     this.api = new API(apiConfig)
 
@@ -58,15 +67,17 @@ export class Wallet {
     this.nearConfig = this.getNearConfig(this.networkName)
     this.keyStore = this.getKeyStore()
 
+    this.minter = new Minter()
+
     return this
   }
 
   /**
    * Creates a connection to a NEAR smart contract
-   * @param contractAddress the contract address to initiate a connection
+   * @param props wallet connection properties - the config to create a connection with
    *
    */
-  public async connect(props: WalletLoginProps = {}) {
+  public async connect(props: WalletLoginProps = {}): Promise<void> {
     const contractAddress = props.contractAddress || STORE_FACTORY_CONTRACT_NAME
 
     if (isBrowser) {
@@ -76,7 +87,6 @@ export class Wallet {
       }
 
       const near = new Near(_connectionObject)
-
       this.activeNearConnection = near
       this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
 
@@ -87,6 +97,7 @@ export class Wallet {
       } else {
         this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
       }
+      
     } else if (isNode) {
       const privateKey = props.privateKey
 
@@ -114,20 +125,21 @@ export class Wallet {
   /**
    * Disconnects user. Removes the LocalStorage entry that
    * represents an authorized wallet account but leaves private keys intact.
-   *
    */
-  public disconnect() {
+  public disconnect(): void {
     this.activeWallet?.signOut()
     this.activeNearConnection = undefined
     this.activeAccount = undefined
   }
 
   /**
-   * TODO1: Manage errors
+   * Connects to a wallet stored on local storage.
+   * @param accountId the account identifier to connect.
+   * @returns whether connection was successful or not.
    */
-  public async connectTo(accountId: string) {
+  public async connectTo(accountId: string): Promise<boolean> {
     // get localstorage accounts
-    const localAccounts = this.getLocalAccounts() as any
+    const localAccounts = this.getLocalAccounts()
 
     // does account user is trying to connect exists in storage?
     if (!localAccounts[accountId]) {
@@ -136,7 +148,7 @@ export class Wallet {
 
     // get a full access public key with the largest nonce
     const _getFullAccessPublicKey = async (accountId: string) => {
-      const keysRequest = await this.viewAccessKeyList({ accountId: accountId })
+      const keysRequest = await this.viewAccessKeyList(accountId)
 
       // filter by full access keys
       const fullAccessKeys = keysRequest.keys.filter(
@@ -179,24 +191,29 @@ export class Wallet {
 
   /**
    * Fetches connected account details.
-   * @returns
+   * @returns details of the current connection.
    */
-  public async details() {
-    const accountId = this.activeWallet?.getAccountId()
+  public async details(): Promise<{
+    accountId: string
+    balance: string
+    allowance: string
+    contractName: string
+  }> {
+    const account = this.activeWallet?.account()
+    const accountId = account?.accountId
     const keyPair = await this.getSessionKeyPair()
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
 
     if (!keyPair || !accountId)
       throw new Error(`No Key Pair for account ${accountId}`)
 
     const publicKey = keyPair.getPublicKey().toString()
-    const balance = await this.activeWallet?.account().getAccountBalance()
+    const balance = await account.getAccountBalance()
 
     if (!balance) throw new Error(``)
 
-    const accessKey = await this.viewAccessKey({
-      account: accountId,
-      publicKey: publicKey,
-    })
+    const accessKey = await this.viewAccessKey(accountId, publicKey)
 
     const allowance = utils.format.formatNearAmount(
       accessKey.permission.FunctionCall.allowance
@@ -212,7 +229,20 @@ export class Wallet {
     }
   }
 
-  public async transfer({ contractName, tokenIds }: TransferAssetProps) {
+  /**
+   * Transfer one or more tokens.
+   * @param contractName The contract name to transfer tokens from.
+   * @param tokenIds The mapping of transfers, defined by: [[accountName1, tokenId1], [accountName2, tokenId2]]
+   */
+
+  // TODO: need more checks on the tokenIds
+  public async transfer({
+    contractName,
+    tokenIds,
+  }: {
+    contractName: string
+    tokenIds: [string, number][]
+  }): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const MAX_GAS = new BN('300000000000000')
@@ -222,27 +252,38 @@ export class Wallet {
 
     if (!contractName) throw new Error('No contract was provided.')
 
-    const assetContract = new Contract(account, contractName, {
+    const contract = new Contract(account, contractName, {
       viewMethods: STORE_CONTRACT_VIEW_METHODS,
       changeMethods: STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await assetContract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ZERO)
+    await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ZERO)
   }
 
+  /**
+   * List an item for sale in the market.
+   * @param tokenId The token id.
+   * @param storeId The token store id (contract name).
+   * @param price The listing price.
+   * @param splitOwners List of splits.
+   */
   public async listForSale(
     tokenId: number /*| string[]*/,
     storeId: string,
     price: string,
-    splitOwners: Split[]
-  ) {
+    splitOwners: { accountId: string; split: number }[]
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const GAS = new BN('300000000000000')
     const bal = '100000000000000000000000'
 
     if (!account || !accountId) throw new Error('Account is undefined.')
+
+    // TODO: Check if account owns the tokens that are trying to sell
+
+    console.log(splitOwners)
 
     const token: Token = await this.api.fetchToken(
       tokenId,
@@ -252,13 +293,15 @@ export class Wallet {
     const isOwner = token.ownerId === accountId
     if (!isOwner) throw new Error('User does not own token.')
 
-    const assetContract = new Contract(account, token.storeId, {
+    const contract = new Contract(account, token.storeId, {
       viewMethods: STORE_CONTRACT_VIEW_METHODS,
       changeMethods: STORE_CONTRACT_CALL_METHODS,
     })
 
+    // TODO: Checks on split_owners
+
     // @ts-ignore: method does not exist on Contract type
-    await assetContract.list_tokens(
+    await contract.list_tokens(
       {
         contract_address: null,
         token_ids: [Number(token.tokenId)],
@@ -272,36 +315,36 @@ export class Wallet {
   }
 
   /**
-   * Makes offer.
-   * @param xxx
-   * @returns
+   * Makes offer to a listing in the market.
+   * @param groupId
+   * @param price
    */
-  public async makeOffer(props: MakeOfferProps = {}) {
+  public async makeOffer(groupId: string, price?: number): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
-    const groupId = props.groupId
     if (!groupId) throw new Error('Please provide a groupId')
 
     const result = await this.api.fetchLists(groupId)
 
     if (result.list.length === 0) throw new Error('List is empty')
 
+    // TODO: make sure to get a list that is available
     const list = result.list[0]
 
-    const tokenContract = new Contract(account, MARKET_ACCOUNT, {
+    const contract = new Contract(account, MARKET_ACCOUNT, {
       viewMethods: ['get_token_owner_id', 'get_token', 'get_token_token_id'],
       changeMethods: ['make_offer'],
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await tokenContract.make_offer(
+    await contract.make_offer(
       {
         token_key: list.tokenKey,
-        price: list.price,
+        price: price || list.price,
         timeout: { Hours: 72 },
       },
       GAS,
@@ -310,17 +353,11 @@ export class Wallet {
   }
 
   /**
-   * Creates a store. Interacts with the store factory to deploy a contract.
-   * @param xxx
-   * @returns
+   * Creates a store
+   * @param storeId Store name
+   * @param symbol Store symbol
    */
-  public async deployStore({
-    storeId,
-    symbol,
-  }: {
-    storeId: string
-    symbol: string
-  }) {
+  public async deployStore(storeId: string, symbol: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const balance = '7000000000000000000000000'
@@ -328,7 +365,9 @@ export class Wallet {
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
-    const factoryContract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
+    // TODO: regex check inputs (storeId and symbol)
+
+    const contract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
       viewMethods: [
         'get_min_attached_balance',
         'get_number_of_tokens',
@@ -357,18 +396,48 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    factoryContract.create_store(storeData, gas, balance)
+    await contract.create_store(storeData, gas, balance)
   }
 
   /**
-   * TODO: Figure out how to make this work with Arweave?
-   * 1. Upload files to Arweave
-   * 2. Generate metadata
-   * 3. Interact with contract
+   * Mint a token
+   * @param amount The number of tokens to mint.
+   * @param contractName The contract in which tokens will be minted.
    */
-  //public async mint() {}
+  public async mint(amount: number, contractName: string): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const MAX_GAS = new BN('300000000000000')
+    const ZERO = new BN('0')
 
-  public async setSessionKeyPair(accountId: string, privateKey: string) {
+    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!contractName) throw new Error('No contract was provided.')
+
+    const contract = new Contract(account, contractName, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // TODO: Check if minter has a valid object to mint.
+
+    const metadataId = await this.minter.getMetadataId()
+
+    const obj = {
+      owner_id: accountId,
+      meta_id: metadataId,
+      num_to_mint: amount, //numToMint,
+      royalty_f: 1000,
+      royalty: null, //data[Field.Royalty],
+    }
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.mint_tokens(obj, MAX_GAS, ZERO)
+  }
+
+  public async setSessionKeyPair(
+    accountId: string,
+    privateKey: string
+  ): Promise<KeyStore> {
     const keyStore = this.keyStore
 
     keyStore.setKey(this.networkName, accountId, KeyPair.fromString(privateKey))
@@ -376,7 +445,7 @@ export class Wallet {
     return keyStore
   }
 
-  public async getSessionKeyPair() {
+  public async getSessionKeyPair(): Promise<KeyPair> {
     const accountId = this.activeWallet?.getAccountId()
     const keyStore = this.keyStore
 
@@ -397,7 +466,10 @@ export class Wallet {
   /**
    * Fetch local storage connections
    */
-  public getLocalAccounts() {
+  public getLocalAccounts():
+    | { accountId: string; contractName: string }[]
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    | any {
     const regex = /near-api-js:keystore:/gm
     const keys = Object.keys(localStorage)
 
@@ -413,7 +485,7 @@ export class Wallet {
         ...accounts,
         [accountId]: {
           accountId: accountId,
-          contractName: '', // get contractName connection
+          contractName: '', // TODO: get contractName connection
         },
       }
     })
@@ -421,7 +493,13 @@ export class Wallet {
     return accounts
   }
 
-  public async fetchTransactionResult(txHash: string) {
+  /**
+   * Fetch transaction result given a transaction hash.
+   * @param txHash the transaction's hash
+   * @returns the transaction result
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchTransactionResult(txHash: string): Promise<any> {
     const connection = this.activeNearConnection?.connection
     if (!connection) throw new Error('Near connection is undefined.')
 
@@ -435,82 +513,14 @@ export class Wallet {
     return txResult
   }
 
-  // === RPC CALLS ===
-
-  public viewAccessKey = async ({
-    account,
-    publicKey,
-  }: {
-    account: string
-    publicKey: string
-  }) => {
-    const result = await this.rpcCall({
-      body: {
-        params: {
-          request_type: 'view_access_key',
-          finality: 'final',
-          account_id: account,
-          public_key: publicKey,
-        },
-      },
-      method: 'query',
-    })
-    return result
-  }
-
-  /**
-   * Fetch all account access keys
-   * @param accountId account name
-   * @returns array of
-   */
-  public viewAccessKeyList = async ({ accountId }: { accountId: string }) => {
-    const result = await this.rpcCall({
-      body: {
-        params: {
-          request_type: 'view_access_key_list',
-          finality: 'final',
-          account_id: accountId,
-        },
-      },
-      method: 'query',
-    })
-    return result
-  }
-
-  public transactionStatus = async (
-    transactionHash: string,
-    accountId: string
-  ) => {
-    const result = await this.rpcCall({
-      body: {
-        params: [transactionHash, accountId],
-      },
-      method: 'tx',
-    })
-
-    return result
-  }
-
-  public transactionStatusWithReceipts = async (
-    transactionHash: string,
-    accountId: string
-  ) => {
-    const result = await this.rpcCall({
-      body: {
-        params: [transactionHash, accountId],
-      },
-      method: 'EXPERIMENTAL_tx_status',
-    })
-
-    return result
-  }
-
   private rpcCall = async ({
     headers = {},
     body = {},
     method,
   }: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     headers?: any
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     body?: any
     method: string
   }) => {
@@ -530,6 +540,93 @@ export class Wallet {
 
     const data = await request.json()
     return data?.result
+  }
+
+  /**
+   * Fetch access key information
+   * @param accountId account id
+   * @param publicKey public key
+   * @returns Access Key information
+   */
+  public viewAccessKey = async (
+    accountId: string,
+    publicKey: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<any> => {
+    const result = await this.rpcCall({
+      body: {
+        params: {
+          request_type: 'view_access_key',
+          finality: 'final',
+          account_id: accountId,
+          public_key: publicKey,
+        },
+      },
+      method: 'query',
+    })
+    return result
+  }
+
+  /**
+   * Fetch list of access keys for a given account
+   * @param accountId account id
+   * @returns List of access keys
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public viewAccessKeyList = async (accountId: string): Promise<any> => {
+    const result = await this.rpcCall({
+      body: {
+        params: {
+          request_type: 'view_access_key_list',
+          finality: 'final',
+          account_id: accountId,
+        },
+      },
+      method: 'query',
+    })
+    return result
+  }
+
+  /**
+   * Fetch a transaction status.
+   * @param transactionHash The transactions' hash.
+   * @param accountId The account who initiated the transation. TODO: Might not be really necessary to pass this.
+   * @returns The transaction result
+   */
+  public transactionStatus = async (
+    transactionHash: string,
+    accountId: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<any> => {
+    const result = await this.rpcCall({
+      body: {
+        params: [transactionHash, accountId],
+      },
+      method: 'tx',
+    })
+
+    return result
+  }
+
+  /**
+   * Fetch transaction status with all receipts.
+   * @param transactionHash The transactions' hash.
+   * @param accountId The account who initiated the transation. TODO: Might not be really necessary to pass this.
+   * @returns The transaction result with all receipts.
+   */
+  public transactionStatusWithReceipts = async (
+    transactionHash: string,
+    accountId: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  ): Promise<any> => {
+    const result = await this.rpcCall({
+      body: {
+        params: [transactionHash, accountId],
+      },
+      method: 'EXPERIMENTAL_tx_status',
+    })
+
+    return result
   }
 
   /**
