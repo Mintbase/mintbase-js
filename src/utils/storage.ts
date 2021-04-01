@@ -54,8 +54,6 @@ export const uploadToArweave = async (
   // Uploads to google cloud
   const fileName = await uploadCloud(buffer, contentType)
 
-  alert(CLOUD_GET_FILE_METADATA_URI(fileName))
-
   // Fetches arweave id. This request will trigger an upload in the cloud
   const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName))
 
