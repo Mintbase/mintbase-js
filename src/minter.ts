@@ -10,7 +10,6 @@ const validFileFormat: { [key: string]: string[] } = {
     'video/mp4',
     'audio/mpeg',
     'audio/mp3',
-    '',
   ],
 }
 
