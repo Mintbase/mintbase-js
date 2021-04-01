@@ -5,6 +5,7 @@
     <script src="./mintbase.js"></script>
   </head>
   <body>
+    <h1 id="loading"></h1>
     <p>Example of app using Mintbase.js</p>
     <p>Connected as: <span id="accountId"></span></p>
     <p>Balance: <span id="balance"></span></p>
@@ -15,10 +16,18 @@
     <div>
       <button onclick="connect()">Connect</button>
       <button onclick="fetchMarketplace()">Fetch Marketplace</button>
+      <button onclick="getMinterData()">Get Minter Data</button>
     </div>
+
+    <input id="file" type="file" />
+    <button onclick="mint()">Mint</button>
 
     <script>
       let wallet = new Mintbase.Wallet({ networkName: 'testnet' })
+
+      const getMinterData = () => {
+        console.log(wallet.minter.currentMint)
+      }
 
       const connect = async () => {
         wallet.connect()
@@ -36,9 +45,25 @@
       const fetchMarketplace = async () => {
         const market = await wallet.api.fetchMarketplace()
 
+        console.log(market)
+
         document
           .querySelector('#marketImg')
-          .setAttribute('src', market[4].image)
+          .setAttribute('src', market[0].metadata.image)
+      }
+
+      const mint = async () => {
+        const loading = document.querySelector('#loading')
+        const file = document.querySelector('#file').files[0]
+
+        loading.textContent = 'Loading...'
+
+        wallet.minter.setField('name', 'test file upload')
+        await wallet.minter.upload('image', file)
+
+        loading.textContent = ''
+
+        // await wallet.mint('3xr.mintbase13.testnet')
       }
 
       connect()

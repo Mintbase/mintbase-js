@@ -1,7 +1,7 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
 import { MintbaseAPIConfig, Network, Chain, Token } from './types'
-import { API_BASE_NEAR_MAINNET, API_BASE_NEAR_TESTNET, BASE_ARWEAVE_URI } from './constants'
+import { API_BASE_NEAR_TESTNET, BASE_ARWEAVE_URI } from './constants'
 import {
   FETCH_MARKETPLACE,
   GET_LATEST_LIST,
@@ -9,11 +9,13 @@ import {
   GET_TOKEN_BY_ID,
 } from './queries'
 
+/**
+ * Mintbase API.
+ * Main entry point for users read Mintbase data.
+ */
 export class API {
   public apiBaseUrl: string = API_BASE_NEAR_TESTNET
-
   public defaultLimit = 10
-
   public chainName: string = Chain.near
   public networkName: string = Network.testnet
 
@@ -31,18 +33,20 @@ export class API {
   }
 
   /**
-   * Fetches the marketplace and each token's metadata.
-   * @param limit
-   * @param offset
+   * Fetch marketplace and each token's metadata (w/ cursor offset pagination enabled).
+   * @param limit number of results
+   * @param offset number of records to skip
    */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async fetchMarketplace(limit?: number, offset?: number): Promise<any> {
     const listings = await request(this.apiBaseUrl, FETCH_MARKETPLACE, {
       limit: limit || this.defaultLimit,
       offset: offset || 0,
     })
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises = listings.list.map(async (list: any) => {
-      const metadata = await this.fetchArweave(list.token.thingId)
+      const metadata = await this.fetchMetadata(list.token.thingId)
 
       return { ...list, metadata: metadata }
     })
@@ -53,12 +57,15 @@ export class API {
   }
 
   /**
-   * Fetches token metadata.
-   * @param tokenId the token identifier
-   *
+   * Fetch token metadata.
+   * @param tokenId token id
    * @returns token metadata
    */
-  public async fetchMetadata(tokenId: string, storeId: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchTokenMetadata(
+    tokenId: string,
+    storeId: string
+  ): Promise<any> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: `${tokenId}:${storeId}`,
     })
@@ -68,17 +75,16 @@ export class API {
 
     const token = result.token[0]
 
-    const metadata = await this.fetchArweave(token.thingId)
+    const metadata = await this.fetchMetadata(token.thingId)
 
     return metadata
   }
 
   /**
-   * Fetches lists w/ no metadata.
-   * @param limit
-   * @param offset
+   * Fetch lists without metadata.
    */
-  public async fetchLists(id: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchLists(id: string): Promise<any> {
     const list = await request(this.apiBaseUrl, GET_LATEST_LIST, {
       groupId: id,
     })
@@ -86,10 +92,20 @@ export class API {
     return list
   }
 
-  public async fetchThing() {
-    throw new Error('Not yet implemented')
+  /**
+   * Fetch thing.
+   * TODO: Not yet implemented
+   */
+  public async fetchThing(): Promise<void> {
+    throw new Error('Not yet implemented.')
   }
 
+  /**
+   * Fetch token
+   * @param tokenId token id
+   * @param storeId store id
+   * @returns the token
+   */
   public async fetchToken(tokenId: number, storeId: string): Promise<Token> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: `${tokenId}:${storeId}`,
@@ -103,13 +119,25 @@ export class API {
     return token
   }
 
-  public async fetchArweave(id: string) {
+  /**
+   * Fetch metadata from Arweave
+   * @param id arweave content identifier
+   * @returns metadata
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchMetadata(id: string): Promise<any> {
     const request = await fetch(`${BASE_ARWEAVE_URI}/${id}`)
     const result = await request.json()
     return result
   }
 
-  public async fetchOwnerTokens(accountId: string) {
+  /**
+   * Fetch account owned tokens
+   * @param accountId account id
+   * @returns list of tokens
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchOwnerTokens(accountId: string): Promise<any> {
     const result = await request(this.apiBaseUrl, GET_TOKENS_BY_OWNER_ID, {
       ownerId: accountId,
     })
@@ -117,7 +145,13 @@ export class API {
     return result.token
   }
 
-  public async isOwner(tokenId: number, accountAddress: string) {
+  /**
+   * Checks whether account owns a token or not.
+   * @param tokenId token id
+   * @param accountId account id
+   * @returns whether an account owns a token or not.
+   */
+  public async isOwner(tokenId: number, accountId: string): Promise<boolean> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: tokenId,
     })
@@ -126,10 +160,16 @@ export class API {
 
     const token = result.token[0]
 
-    return token.ownerId === accountAddress
+    return token.ownerId === accountId
   }
 
-  public async custom(query: string, variables: any) {
+  /**
+   * Makes custom GraphQL query
+   * @param query custom GraphQL query
+   * @param variables object with variables passed to the query
+   * @returns result of query
+   */
+  public async custom(query: string, variables?: unknown): Promise<unknown> {
     const result = await request(this.apiBaseUrl, query, variables)
     return result
   }
