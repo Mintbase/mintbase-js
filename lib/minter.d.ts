@@ -1,11 +1,15 @@
 import { MetadataField } from './types';
+interface MinterConfigProps {
+    apiKey?: string;
+}
 /**
  * A programmatic metadata generator.
  */
 export declare class Minter {
     latestMints: any;
     currentMint: any;
-    constructor();
+    apiKey: string;
+    constructor(minterConfig: MinterConfigProps);
     /**
      * Uploads the current metadata object and returns its content identifier.
      */
@@ -25,3 +29,4 @@ export declare class Minter {
     upload(field: string, file: File): Promise<void>;
     private fieldChecks;
 }
+export {};
