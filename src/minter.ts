@@ -13,6 +13,10 @@ const validFileFormat: { [key: string]: string[] } = {
   ],
 }
 
+interface MinterConfigProps {
+  apiKey?: string
+}
+
 /**
  * A programmatic metadata generator.
  */
@@ -22,9 +26,13 @@ export class Minter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public currentMint: any
 
-  constructor() {
+  public apiKey: string
+
+  constructor(minterConfig: MinterConfigProps) {
     this.latestMints = {}
     this.currentMint = {}
+
+    this.apiKey = minterConfig.apiKey || 'anonymous'
   }
 
   /**
@@ -38,7 +46,7 @@ export class Minter {
     )
       throw new Error('Metadata is empty.')
 
-    const id = await uploadMetadata(this.currentMint)
+    const id = await uploadMetadata(this.currentMint, this.apiKey)
 
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}
@@ -84,7 +92,7 @@ export class Minter {
 
     // TODO: check file size limits
 
-    const result = await uploadToArweave(file)
+    const result = await uploadToArweave(file, this.apiKey)
 
     this.currentMint[field] = `${BASE_ARWEAVE_URI}/${result?.id}`
   }

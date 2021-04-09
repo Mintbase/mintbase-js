@@ -19,27 +19,28 @@ export const STORE_FACTORY_CONTRACT_NAME =
 export const MARKET_ACCOUNT = `0.${STORE_FACTORY_CONTRACT_NAME}`
 
 export const STORE_CONTRACT_VIEW_METHODS = [
-  'check_access',
-  'get_token_owner',
-  'get_name',
-  'get_marketplace',
+  'check_access', // REMOVED ?
+  'get_token_owner', // REMOVED
+  'get_name', // REMOVED
+  'get_marketplace', //REMOVED
 ]
+
 export const STORE_CONTRACT_CALL_METHODS = [
   'mint_tokens',
-  'grant_access',
-  'revoke_access',
-  'transfer_from',
+  'grant_access', // REMOVED
+  'revoke_access', // REMOVED
+  'transfer_from', // REMOVED
   'batch_burn',
   'batch_transfer',
   'grant_minter',
-  'renounce_minter',
+  'renounce_minter', // REMOVED
   'set_icon_base64',
-  'transfer',
+  'transfer', // REMOVED
   'set_base_uri',
   'new',
-  'destroy',
-  'list_tokens',
-  'set_marketplace',
+  'destroy', //REMOVED
+  'list_tokens', //REMOVED
+  'set_marketplace', //REMOVED
 ]
 
 export const CLOUD_STORAGE_CONFIG = {

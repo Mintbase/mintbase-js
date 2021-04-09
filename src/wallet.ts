@@ -67,7 +67,7 @@ export class Wallet {
     this.nearConfig = this.getNearConfig(this.networkName)
     this.keyStore = this.getKeyStore()
 
-    this.minter = new Minter()
+    this.minter = new Minter({ apiKey: apiConfig.apiKey })
 
     return this
   }
@@ -97,7 +97,6 @@ export class Wallet {
       } else {
         this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
       }
-      
     } else if (isNode) {
       const privateKey = props.privateKey
 

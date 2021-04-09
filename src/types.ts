@@ -33,6 +33,7 @@ export interface MintbaseAPIConfig {
   chain: Chain
   networkName?: Network
   apiBaseUrl?: string
+  apiKey?: string
 }
 
 export interface WalletLoginProps {

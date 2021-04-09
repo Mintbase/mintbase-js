@@ -16,6 +16,10 @@ if (!firebase.apps.length) {
 const storage = firebase.storage()
 const ARWEAVE_FOLDER = 'arweave'
 
+const headers = {
+  apiKey: 'api-key',
+}
+
 /**
  * Uploads raw binary data to the cloud. This method is useful because
  * we can trigger an arweave upload via an http request with the returned file name.
@@ -23,7 +27,7 @@ const ARWEAVE_FOLDER = 'arweave'
  * @param contentType the content type
  * @returns the filename
  */
-export const uploadCloud = async (
+const _uploadCloud = async (
   buffer: ArrayBuffer | Buffer,
   contentType: string
 ): Promise<string> => {
@@ -44,7 +48,8 @@ export const uploadCloud = async (
  * @returns retunrns an object containing the arweave content identifier and the content type.
  */
 export const uploadToArweave = async (
-  file: File
+  file: File,
+  apiKey?: string
 ): Promise<{ id: string; contentType: string }> => {
   if (isNode) throw new Error('Node environment does not yet supports uploads.')
 
@@ -52,10 +57,14 @@ export const uploadToArweave = async (
   const contentType = file.type
 
   // Uploads to google cloud
-  const fileName = await uploadCloud(buffer, contentType)
+  const fileName = await _uploadCloud(buffer, contentType)
 
   // Fetches arweave id. This request will trigger an upload in the cloud
-  const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName))
+  const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName), {
+    headers: {
+      [headers.apiKey]: apiKey || 'anonymous',
+    },
+  })
 
   const data = await request.json()
 
@@ -67,10 +76,16 @@ export const uploadToArweave = async (
  * @param metadata metadata object
  * @returns arweave content identifier
  */
-export const uploadMetadata = async (metadata: unknown): Promise<string> => {
+export const uploadMetadata = async (
+  metadata: unknown,
+  apiKey?: string
+): Promise<string> => {
   const request = await fetch(CLOUD_POST_METADATA_URI(), {
     method: 'POST',
     body: JSON.stringify(metadata),
+    headers: {
+      [headers.apiKey]: apiKey || 'anonymous',
+    },
   })
   const data = await request.json()
 
