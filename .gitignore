@@ -10,6 +10,8 @@
 
 .env 
 
+/lib
+/docs
 .cache
 
 mintbase-dev-service.json
