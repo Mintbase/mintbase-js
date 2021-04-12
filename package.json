@@ -9,10 +9,14 @@
     "dist": "parcel build browser-exports.js -d dist/ --no-source-maps --out-file mintbase.js",
     "lint": "eslint src/**/*.ts",
     "fix": "eslint src/**/*.ts --fix",
-    "prepublish": "npm run lint && npm run build && npm run dist && npm run doc",
     "doc": "typedoc src",
     "start:docs": "http-server ./docs",
-    "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && cp ./dist/mintbase.js ./examples/mintbase.js && http-server ./examples/"
+    "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && cp ./dist/mintbase.js ./examples/mintbase.js && http-server ./examples/",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "npm run type-check -- --watch",
+    "build:babel": "npm run build:types && npm run build:js",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir lib --extensions \".ts,.tsx\" --source-maps inline"
   },
   "repository": {
     "type": "git",
@@ -47,6 +51,11 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-typescript": "^7.13.0",
     "@types/browser-or-node": "^1.3.0",
     "@types/jest": "^26.0.22",
     "@types/node-fetch": "^2.5.8",
@@ -55,6 +64,9 @@
     "@typescript-eslint/eslint-plugin": "^4.19.0",
     "@typescript-eslint/parser": "^4.19.0",
     "babel-eslint": "^10.1.0",
+    "babel-plugin-inline-dotenv": "^1.6.0",
+    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
+    "babel-plugin-transform-node-env-inline": "^0.4.3",
     "browserify": "^17.0.0",
     "eslint": "^7.22.0",
     "esmify": "^2.1.1",
