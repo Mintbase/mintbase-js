@@ -1,25 +1,49 @@
 name: npm-publish
+
+#on:
+#  push:
+#    branches:
+#      - main # Change this to your default branch
+
 on:
-  push:
-    branches:
-      - main # Change this to your default branch
+  release:
+    types: [published]
+
+
 jobs:
-  npm-publish:
-    name: npm-publish
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      - name: Publish if version has been updated
-        uses: pascalgn/npm-publish-action@1.3.6
-        with: # All of theses inputs are optional
-          tag_name: "v%s"
-          tag_message: "v%s"
-          create_tag: "true"
-          commit_pattern: "^Release (\\S+)"
-          workspace: "."
-          publish_command: "yarn"
-          publish_args: "--non-interactive"
-        env: # More info about the environment variables in the README
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Leave this as is, it's automatically generated
-          NPM_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }} # You need to set this in your repo settings
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.release.target_commitish }}
+      
+      - name: Use Node.js 12
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+
+      - run: npm install
+
+      - run: git config --global user.name "microchipgnu"
+      - run: git config --global user.email "microchipgnu@gmail.com"
+
+      - run: npm version ${{ github.event.release.tag_name }}
+
+      - run: npm run build
+
+      # - run: npm test
+
+      - run: npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_AUTH_TOKEN }}"
+
+
+      - run: npm publish --tag ${{ github.event.release.target_commitish }}
+        env:
+          # Use a token to publish to NPM. See below for how to set it up
+          NPM_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
+      
+      - run: git push
+        env:
+          # The secret is passed automatically. Nothing to configure.
+          github-token: ${{ secrets.GITHUB_TOKEN }}

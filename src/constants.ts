@@ -44,10 +44,9 @@ export const STORE_CONTRACT_CALL_METHODS = [
 ]
 
 export const CLOUD_STORAGE_CONFIG = {
-  apiKey: 'AIzaSyAwZOiBAke2iUnLPp-hf4-uUKbL6lhaY0I',
-  // process.env.FIREBASE_PUBLIC_API_KEY,
-  authDomain: 'omni-base-1.firebaseapp.com', //process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: 'https://omni-base-1.firebaseio.com', // process.env.FIREBASE_DATABASE_URL,
-  projectId: 'omni-base-1', //process.env.FIREBASE_PROJECT_ID,
-  storageBucket: 'gs://omni-base-1.appspot.com', //process.env.FIRSTORE_BUCKET_URL,
+  apiKey: process.env.FIREBASE_PUBLIC_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.FIREBASE_DATABASE_URL,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIRSTORE_BUCKET_URL,
 }

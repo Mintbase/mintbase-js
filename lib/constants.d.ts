@@ -12,9 +12,9 @@ export declare const MARKET_ACCOUNT: string;
 export declare const STORE_CONTRACT_VIEW_METHODS: string[];
 export declare const STORE_CONTRACT_CALL_METHODS: string[];
 export declare const CLOUD_STORAGE_CONFIG: {
-    apiKey: string;
-    authDomain: string;
-    databaseURL: string;
-    projectId: string;
-    storageBucket: string;
+    apiKey: string | undefined;
+    authDomain: string | undefined;
+    databaseURL: string | undefined;
+    projectId: string | undefined;
+    storageBucket: string | undefined;
 };

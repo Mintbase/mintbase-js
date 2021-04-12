@@ -8,6 +8,8 @@
 /coverage
 .hidden
 
+.env 
+
 .cache
 
 mintbase-dev-service.json
