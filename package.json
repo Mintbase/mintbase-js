@@ -9,7 +9,7 @@
     "dist": "parcel build browser-exports.js -d dist/ --no-source-maps --out-file mintbase.js",
     "lint": "eslint src/**/*.ts",
     "fix": "eslint src/**/*.ts --fix",
-    "doc": "typedoc src && touch docs/.nojekyll",
+    "doc": "typedoc --out docs src && touch docs/.nojekyll",
     "start:docs": "http-server ./docs",
     "start:example": "npm run build && rm -f ./examples/mintbase.js && npm run dist && cp ./dist/mintbase.js ./examples/mintbase.js && http-server ./examples/",
     "type-check": "tsc --noEmit",
