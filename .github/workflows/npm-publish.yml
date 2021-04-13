@@ -13,6 +13,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      FIREBASE_PUBLIC_API_KEY: ${{ secrets.FIREBASE_PUBLIC_API_KEY_LIVE }}
+      FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN_LIVE }}
+      FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL_LIVE }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID_LIVE }}
+      FIRSTORE_BUCKET_URL: ${{ secrets.FIRSTORE_BUCKET_URL_LIVE }}
 
     steps:
       - uses: actions/checkout@v2
@@ -31,7 +37,7 @@ jobs:
 
       - run: npm version ${{ github.event.release.tag_name }}
 
-      - run: npm run build
+      - run: npm run build && npm run dist
 
       # - run: npm test
 
