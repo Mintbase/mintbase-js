@@ -1,3 +1,5 @@
+[![CI Pipeline](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml)
+
 # Mintbase API
 
 ### WIP: Not for use!
