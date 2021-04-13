@@ -14,7 +14,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
-      - run: yarn install --frozen-lockfile
+      - run: npm ci
       - uses: sterlingwes/gh-pages-deploy-action@v1.1
         with:
           access-token: ${{ secrets.DOCS_ACCESS_TOKEN }}
