@@ -37,7 +37,9 @@ jobs:
 
       - run: npm version ${{ github.event.release.tag_name }}
 
-      - run: npm run build && npm run dist
+      - run: npm run build 
+      
+      # - run: npm run dist
 
       # - run: npm test
 
