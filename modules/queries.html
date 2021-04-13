@@ -1,0 +1,211 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>queries | mintbase</title>
+	<meta name="description" content="Documentation for mintbase">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="../assets/css/main.css">
+	<script async src="../assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="../assets/js/search.json" data-base="..">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="../index.html" class="title">mintbase</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<ul class="tsd-breadcrumb">
+				<li>
+					<a href="../modules.html">mintbase</a>
+				</li>
+				<li>
+					<a href="queries.html">queries</a>
+				</li>
+			</ul>
+			<h1>Module queries</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Variables</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="queries.html#fetch_marketplace" class="tsd-kind-icon">FETCH_<wbr>MARKETPLACE</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="queries.html#get_latest_list" class="tsd-kind-icon">GET_<wbr>LATEST_<wbr>LIST</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="queries.html#get_tokens_by_owner_id" class="tsd-kind-icon">GET_<wbr>TOKENS_<wbr>BY_<wbr>OWNER_<wbr>ID</a></li>
+								<li class="tsd-kind-variable tsd-parent-kind-module"><a href="queries.html#get_token_by_id" class="tsd-kind-icon">GET_<wbr>TOKEN_<wbr>BY_<wbr>ID</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
+			</section>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Variables</h2>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="fetch_marketplace" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> FETCH_<wbr>MARKETPLACE</h3>
+					<div class="tsd-signature tsd-kind-icon">FETCH_<wbr>MARKETPLACE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getMyListed($limit: Int!, $offset: Int!) {\n    list(\n      where: { currentOfferId: { _is_null: true } }\n      order_by: [{ createdAt: desc }, { price: asc }]\n      limit: $limit\n      offset: $offset\n    ) {\n      id\n      price\n      ownerId\n      storeId\n      createdAt\n      groupId\n      tokenId\n      splits {\n        account\n        percent\n        id\n      }\n      token {\n        thingId\n      }\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0b97dbd/src/queries.ts#L1">queries.ts:1</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="get_latest_list" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> GET_<wbr>LATEST_<wbr>LIST</h3>
+					<div class="tsd-signature tsd-kind-icon">GET_<wbr>LATEST_<wbr>LIST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getListedItemsTree($groupId: String!) {\n    list(where: { groupId: { _eq: $groupId } }) {\n      createdAt\n      price\n      tokenKey\n      acceptedOfferId\n      removedAt\n      ownerId\n      token {\n        id\n        thingId\n        minter\n        ownerId\n        royaltyPercent\n        royaltys {\n          account\n          percent\n        }\n      }\n      splits {\n        account\n        percent\n      }\n      store {\n        id\n        name\n        owner\n        createdAt\n        things(limit: 5) {\n          id\n        }\n      }\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0b97dbd/src/queries.ts#L27">queries.ts:27</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="get_tokens_by_owner_id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> GET_<wbr>TOKENS_<wbr>BY_<wbr>OWNER_<wbr>ID</h3>
+					<div class="tsd-signature tsd-kind-icon">GET_<wbr>TOKENS_<wbr>BY_<wbr>OWNER_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getToken($ownerId: String!) {\n    token(where: {ownerId: {_eq: $ownerId}}) {\n      id\n      ownerId\n      storeId\n      tokenId\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0b97dbd/src/queries.ts#L75">queries.ts:75</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-variable tsd-parent-kind-module">
+					<a name="get_token_by_id" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> GET_<wbr>TOKEN_<wbr>BY_<wbr>ID</h3>
+					<div class="tsd-signature tsd-kind-icon">GET_<wbr>TOKEN_<wbr>BY_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getToken($tokenId: String!) {\n    token(where: {id: {_eq: $tokenId}}) {\n      id\n      ownerId\n      storeId\n      tokenId\n      thingId\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0b97dbd/src/queries.ts#L64">queries.ts:64</a></li>
+						</ul>
+					</aside>
+				</section>
+			</section>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="../modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="api.html">api</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="browser_index.html">browser-<wbr>index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="common_index.html">common-<wbr>index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="constants.html">constants</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="index.html">index</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="minter.html">minter</a>
+					</li>
+					<li class="current tsd-kind-module">
+						<a href="queries.html">queries</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="types.html">types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="utils_storage.html">utils/storage</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="wallet.html">wallet</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="queries.html#fetch_marketplace" class="tsd-kind-icon">FETCH_<wbr>MARKETPLACE</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="queries.html#get_latest_list" class="tsd-kind-icon">GET_<wbr>LATEST_<wbr>LIST</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="queries.html#get_tokens_by_owner_id" class="tsd-kind-icon">GET_<wbr>TOKENS_<wbr>BY_<wbr>OWNER_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="queries.html#get_token_by_id" class="tsd-kind-icon">GET_<wbr>TOKEN_<wbr>BY_<wbr>ID</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="../assets/js/main.js"></script>
+</body>
+</html>
