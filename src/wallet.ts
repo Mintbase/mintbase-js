@@ -292,7 +292,7 @@ export class Wallet {
 
     const isOwner = token.ownerId === accountId
     if (!isOwner) throw new Error('User does not own token.')*/
-    
+
     const contract = new Contract(account, storeId, {
       viewMethods: STORE_CONTRACT_VIEW_METHODS,
       changeMethods: STORE_CONTRACT_CALL_METHODS,
@@ -444,7 +444,13 @@ export class Wallet {
    * @param amount The number of tokens to mint.
    * @param contractName The contract in which tokens will be minted.
    */
-  public async mint(amount: number, contractName: string): Promise<void> {
+  public async mint(
+    amount: number,
+    contractName: string,
+    royalties: any,
+    splits: any,
+    category: string
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const MAX_GAS = new BN('300000000000000')
@@ -468,9 +474,13 @@ export class Wallet {
         reference: metadataId,
       },
       num_to_mint: amount, //numToMint,
-      royalty_args: null,
-      split_owners: null,
-      // extra: ""
+      royalty_args: !royalties
+        ? null
+        : { split_between: royalties, percentage: 1000 },
+      split_owners: splits || null,
+
+      // TODO: check if category is lowercase
+      category: !category ? null : category,
     }
 
     // @ts-ignore: method does not exist on Contract type
