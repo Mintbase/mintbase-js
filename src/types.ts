@@ -37,6 +37,7 @@ export interface MintbaseAPIConfig {
 }
 
 export interface WalletLoginProps {
+  requestSignIn?: boolean
   contractAddress?: string
   accountId?: string
   privateKey?: string // useful for node environment
@@ -46,7 +47,6 @@ export interface Token {
   id: string
   ownerId: string
   storeId: string
-  tokenId: number
   thingId: string
 }
 

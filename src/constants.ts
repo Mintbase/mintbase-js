@@ -3,8 +3,7 @@ export const API_BASE_NEAR_MAINNET = 'https://mintbase.hasura.app/v1/graphql'
 export const API_BASE_NEAR_TESTNET = 'https://mintbase.hasura.app/v1/graphql'
 export const BASE_ARWEAVE_URI = 'https://arweave.net'
 
-export const CLOUD_BASE_URI =
-  'https://us-central1-omni-base-1.cloudfunctions.net'
+export const CLOUD_BASE_URI = process.env.MINTBASEJS_CLOUD_URI
 export const CLOUD_GET_FILE_METADATA_URI = (fileName: string): string =>
   `${CLOUD_BASE_URI}/arweave/file/${fileName}`
 export const CLOUD_POST_METADATA_URI = (): string =>
@@ -15,7 +14,7 @@ export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 
 // TODO: pull this from somewhere else?
 export const STORE_FACTORY_CONTRACT_NAME =
-  process.env.CONTRACT_NAME || 'mintbase13.testnet'
+  process.env.CONTRACT_NAME || 'mintbase64.testnet'
 export const MARKET_ACCOUNT = `0.${STORE_FACTORY_CONTRACT_NAME}`
 
 export const STORE_CONTRACT_VIEW_METHODS = [
@@ -27,6 +26,8 @@ export const STORE_CONTRACT_VIEW_METHODS = [
 
 export const STORE_CONTRACT_CALL_METHODS = [
   'mint_tokens',
+  'nft_batch_approve',
+  'nft_approve',
   'grant_access', // REMOVED
   'revoke_access', // REMOVED
   'transfer_from', // REMOVED
@@ -44,9 +45,9 @@ export const STORE_CONTRACT_CALL_METHODS = [
 ]
 
 export const CLOUD_STORAGE_CONFIG = {
-  apiKey: process.env.FIREBASE_PUBLIC_API_KEY,
-  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
-  databaseURL: process.env.FIREBASE_DATABASE_URL,
-  projectId: process.env.FIREBASE_PROJECT_ID,
-  storageBucket: process.env.FIRSTORE_BUCKET_URL,
+  apiKey: process.env.MINTBASEJS_FIREBASE_PUBLIC_API_KEY,
+  authDomain: process.env.MINTBASEJS_FIREBASE_AUTH_DOMAIN,
+  databaseURL: process.env.MINTBASEJS_FIREBASE_DATABASE_URL,
+  projectId: process.env.MINTBASEJS_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.MINTBASEJS_FIRSTORE_BUCKET_URL,
 }
