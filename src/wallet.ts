@@ -9,6 +9,7 @@ import {
   utils,
   WalletConnection,
   Contract,
+  connect,
 } from 'near-api-js'
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
@@ -72,6 +73,10 @@ export class Wallet {
     return this
   }
 
+  public isConnected(): boolean | undefined {
+    return this.activeWallet?.isSignedIn()
+  }
+
   /**
    * Creates a connection to a NEAR smart contract
    * @param props wallet connection properties - the config to create a connection with
@@ -86,17 +91,19 @@ export class Wallet {
         ...this.getNearConfig(this.networkName, contractAddress),
       }
 
-      const near = new Near(_connectionObject)
+      const near = await connect(_connectionObject)
       this.activeNearConnection = near
       this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
 
-      if (this.activeWallet.isSignedIn()) {
+      if (props.requestSignIn) {
+        this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
+      } else if (this.activeWallet.isSignedIn()) {
         const accountId = this.activeWallet.getAccountId()
 
         this.activeAccount = await this.activeNearConnection.account(accountId)
-      } else {
-        this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
       }
+
+      await connect(_connectionObject)
     } else if (isNode) {
       const privateKey = props.privateKey
 
@@ -235,17 +242,14 @@ export class Wallet {
    */
 
   // TODO: need more checks on the tokenIds
-  public async transfer({
-    contractName,
-    tokenIds,
-  }: {
+  public async transfer(
+    tokenIds: [number, string][],
     contractName: string
-    tokenIds: [string, number][]
-  }): Promise<void> {
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const MAX_GAS = new BN('300000000000000')
-    const ZERO = new BN('0')
+    const YOCTO = new BN('1')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -257,7 +261,57 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ZERO)
+    await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, YOCTO)
+  }
+
+  /**
+   * List an item for sale in the market.
+   * @param tokenId The token id list.
+   * @param storeId The token store id (contract name).
+   * @param price The listing price.
+   * @param splitOwners List of splits.
+   */
+  public async batchList(
+    tokenId: string[],
+    storeId: string,
+    price: string,
+    splits?: { accountId: string; split: number }[]
+  ): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+    const listCost = '100000000000000000000000'
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    // TODO: Check if account owns the tokens that are trying to sell
+    /*const token: Token = await this.api.fetchToken(
+      tokenId,
+      `${tokenId}:${storeId}`
+    )
+
+    const isOwner = token.ownerId === accountId
+    if (!isOwner) throw new Error('User does not own token.')*/
+
+    const contract = new Contract(account, storeId, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // TODO: Checks on split_owners
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.nft_batch_approve(
+      {
+        token_ids: tokenId,
+        account_id: MARKET_ACCOUNT,
+        msg: JSON.stringify({
+          price: price,
+        }),
+      },
+      GAS,
+      listCost
+    )
   }
 
   /**
@@ -267,32 +321,29 @@ export class Wallet {
    * @param price The listing price.
    * @param splitOwners List of splits.
    */
-  public async listForSale(
-    tokenId: number /*| string[]*/,
+  public async list(
+    tokenId: string,
     storeId: string,
     price: string,
-    splitOwners: { accountId: string; split: number }[]
+    splits?: { accountId: string; split: number }[]
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const GAS = new BN('300000000000000')
-    const bal = '100000000000000000000000'
+    const listCost = '100000000000000000000000'
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
     // TODO: Check if account owns the tokens that are trying to sell
-
-    console.log(splitOwners)
-
-    const token: Token = await this.api.fetchToken(
+    /*const token: Token = await this.api.fetchToken(
       tokenId,
       `${tokenId}:${storeId}`
     )
 
     const isOwner = token.ownerId === accountId
-    if (!isOwner) throw new Error('User does not own token.')
+    if (!isOwner) throw new Error('User does not own token.')*/
 
-    const contract = new Contract(account, token.storeId, {
+    const contract = new Contract(account, storeId, {
       viewMethods: STORE_CONTRACT_VIEW_METHODS,
       changeMethods: STORE_CONTRACT_CALL_METHODS,
     })
@@ -300,16 +351,16 @@ export class Wallet {
     // TODO: Checks on split_owners
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.list_tokens(
+    await contract.nft_approve(
       {
-        contract_address: null,
-        token_ids: [Number(token.tokenId)],
-        autotransfer: true,
-        asking_price: price,
-        split_owners: null, //{ [accountId]: 10000 },
+        token_id: tokenId,
+        account_id: MARKET_ACCOUNT,
+        msg: JSON.stringify({
+          price: price,
+        }),
       },
       GAS,
-      bal
+      listCost
     )
   }
 
@@ -367,30 +418,20 @@ export class Wallet {
     // TODO: regex check inputs (storeId and symbol)
 
     const contract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
-      viewMethods: [
-        'get_min_attached_balance',
-        'get_number_of_tokens',
-        'get_store_descriptions',
-        'get_token_description',
-        'get_owner',
-        'get_mintbase_fee',
-      ],
-      changeMethods: [
-        'create_store',
-        'set_mintbase_fee',
-        'transfer_ownership',
-        'new',
-      ],
+      viewMethods: [],
+      changeMethods: ['create_store'],
     })
 
     const storeData = {
-      store_description: {
-        store_id: storeId,
-        owner_id: accountId,
-        symbol: symbol,
-        icon_base64: 'eeieieieie',
+      owner_id: accountId,
+      metadata: {
+        spec: 'nft-1.0.0',
+        name: storeId.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
+        symbol: symbol.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
+        icon: 'eeieieieie',
         base_uri: BASE_ARWEAVE_URI,
-        marketplace_id: MARKET_ACCOUNT,
+        reference: null,
+        reference_hash: null,
       },
     }
 
@@ -403,7 +444,13 @@ export class Wallet {
    * @param amount The number of tokens to mint.
    * @param contractName The contract in which tokens will be minted.
    */
-  public async mint(amount: number, contractName: string): Promise<void> {
+  public async mint(
+    amount: number,
+    contractName: string,
+    royalties: any,
+    splits: any,
+    category: string
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const MAX_GAS = new BN('300000000000000')
@@ -423,10 +470,17 @@ export class Wallet {
 
     const obj = {
       owner_id: accountId,
-      meta_id: metadataId,
+      metadata: {
+        reference: metadataId,
+      },
       num_to_mint: amount, //numToMint,
-      royalty_f: 1000,
-      royalty: null, //data[Field.Royalty],
+      royalty_args: !royalties
+        ? null
+        : { split_between: royalties, percentage: 1000 },
+      split_owners: splits || null,
+
+      // TODO: check if category is lowercase
+      category: !category ? null : category,
     }
 
     // @ts-ignore: method does not exist on Contract type

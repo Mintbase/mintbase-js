@@ -7,20 +7,6 @@ export const FETCH_MARKETPLACE = `
       offset: $offset
     ) {
       id
-      price
-      ownerId
-      storeId
-      createdAt
-      groupId
-      tokenId
-      splits {
-        account
-        percent
-        id
-      }
-      token {
-        thingId
-      }
     }
   }
 `
@@ -67,7 +53,6 @@ export const GET_TOKEN_BY_ID = `
       id
       ownerId
       storeId
-      tokenId
       thingId
     }
   }

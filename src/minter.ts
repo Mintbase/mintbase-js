@@ -83,10 +83,10 @@ export class Minter {
    * @param field The metadata field.
    * @param file The file to upload.
    */
-  public async upload(field: string, file: File): Promise<void> {
+  public async uploadSet(field: string, file: File): Promise<void> {
     // TODO: allowedFiles
-    if (!validFileFormat[field].includes(file.type))
-      throw new Error('File type not accepted.')
+    // if (!validFileFormat[field].includes(file.type))
+    //   throw new Error('File type not accepted.')
 
     // TODO: validateFile
 
@@ -95,6 +95,24 @@ export class Minter {
     const result = await uploadToArweave(file, this.apiKey)
 
     this.currentMint[field] = `${BASE_ARWEAVE_URI}/${result?.id}`
+  }
+
+  /**
+   * Uploads file and returns corresponding URI.
+   * @param file The file to upload.
+   */
+  public async upload(file: File): Promise<string> {
+    // TODO: allowedFiles
+    // if (!validFileFormat[field].includes(file.type))
+    //   throw new Error('File type not accepted.')
+
+    // TODO: validateFile
+
+    // TODO: check file size limits
+
+    const result = await uploadToArweave(file, this.apiKey)
+
+    return `${BASE_ARWEAVE_URI}/${result?.id}`
   }
 
   // TODO: implement all checks
