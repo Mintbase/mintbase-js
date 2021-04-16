@@ -12,7 +12,7 @@ export const FETCH_MARKETPLACE = `
 `
 export const GET_LATEST_LIST = `
   query getListedItemsTree($groupId: String!) {
-    list(where: { groupId: { _eq: $groupId } }) {
+    list(where: { groupId: { _eq: $groupId } }, limit: 1) {
       createdAt
       price
       tokenKey
@@ -25,22 +25,23 @@ export const GET_LATEST_LIST = `
         minter
         ownerId
         royaltyPercent
+        splits {
+          account
+          percent
+        }
         royaltys {
           account
           percent
         }
-      }
-      splits {
-        account
-        percent
-      }
-      store {
-        id
-        name
-        owner
-        createdAt
-        things(limit: 5) {
+        store {
           id
+          name
+          owner
+          createdAt
+          things(limit: 5) {
+            id
+            metaId
+          }
         }
       }
     }

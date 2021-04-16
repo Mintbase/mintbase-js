@@ -369,7 +369,7 @@ export class Wallet {
    * @param groupId
    * @param price
    */
-  public async makeOffer(groupId: string, price?: number): Promise<void> {
+  public async makeOffer(groupId: string, price?: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const GAS = new BN('300000000000000')
@@ -393,7 +393,7 @@ export class Wallet {
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer(
       {
-        token_key: list.tokenKey,
+        token_key: list.token.id,
         price: price || list.price,
         timeout: { Hours: 72 },
       },
