@@ -19,6 +19,7 @@ jobs:
       MINTBASEJS_FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL_LIVE }}
       MINTBASEJS_FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID_LIVE }}
       MINTBASEJS_FIRSTORE_BUCKET_URL: ${{ secrets.FIRSTORE_BUCKET_URL_LIVE }}
+      MINTBASEJS_CLOUD_URI: ${{ secrets.CLOUD_URI_LIVE }}
 
     steps:
       - uses: actions/checkout@v2
