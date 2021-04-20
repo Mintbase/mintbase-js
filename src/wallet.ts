@@ -265,6 +265,32 @@ export class Wallet {
   }
 
   /**
+   * Burn one or more tokens.
+   * @param contractName The contract name to burn tokens from.
+   * @param tokenIds The mapping of burns, defined by: [[accountName1, tokenId1], [accountName2, tokenId2]]
+   */
+
+  // TODO: need more checks on the tokenIds
+  public async burn(tokenIds: number[], contractName: string): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const MAX_GAS = new BN('300000000000000')
+    const YOCTO = new BN('1')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    if (!contractName) throw new Error('No contract was provided.')
+
+    const contract = new Contract(account, contractName, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.batch_burn({ token_ids: tokenIds }, MAX_GAS, YOCTO)
+  }
+
+  /**
    * List an item for sale in the market.
    * @param tokenId The token id list.
    * @param storeId The token store id (contract name).
