@@ -1,13 +1,13 @@
-export enum Chain {
+enum Chain {
   near = 'near',
 }
 
-export enum Network {
+enum Network {
   main = 'main',
   testnet = 'testnet',
 }
 
-export interface List {
+interface List {
   acceptedOfferId?: string
   autoTransfer?: boolean
   ownerId?: string
@@ -29,37 +29,45 @@ export interface List {
  * @param networkName `Network` type to use. Defaults to `Network.testnet` (testnet)
  * @param apiBaseUrl The API base url
  */
-export interface MintbaseAPIConfig {
-  chain: Chain
+interface MintbaseAPIConfig {
+  chain?: Chain
   networkName?: Network
   apiBaseUrl?: string
   apiKey?: string
 }
 
-export interface WalletLoginProps {
+interface WalletLoginProps {
   requestSignIn?: boolean
   contractAddress?: string
   accountId?: string
   privateKey?: string // useful for node environment
 }
 
-export interface Token {
+interface Token {
   id: string
   ownerId: string
   storeId: string
   thingId: string
 }
 
-export interface Account {
+interface Split {
+  [account: string]: number
+}
+
+interface Royalties {
+  [account: string]: number
+}
+
+interface Account {
   id: string
 }
 
-export enum Visibility {
+enum Visibility {
   nsfw = 'nsfw',
   safe = 'safe',
 }
 
-export enum DisplayType {
+enum DisplayType {
   boostNumber = 'boost_number',
   boostPercentage = 'boost_percentage',
   number = 'number',
@@ -74,13 +82,13 @@ export enum DisplayType {
   longitude = 'longitude',
 }
 
-export interface Attribute {
+interface Attribute {
   trait_type: string
   display_type?: DisplayType
   value: string | number
 }
 
-export enum MetadataField {
+enum MetadataField {
   Id = 'id',
   Name = 'name',
   Description = 'description',
@@ -115,7 +123,7 @@ export enum MetadataField {
   Royalty_perc = 'royalty_perc',
 }
 
-export interface MintMetadata {
+interface MintMetadata {
   [MetadataField.Id]?: string
   [MetadataField.Name]: string
   [MetadataField.Description]: string
@@ -145,4 +153,21 @@ export interface MintMetadata {
   [MetadataField.Store]?: string | null
   [MetadataField.Royalty]: { [key: string]: number } | null
   [MetadataField.Royalty_perc]: number | null
+}
+
+export {
+  Chain,
+  Network,
+  MintbaseAPIConfig,
+  WalletLoginProps,
+  Split,
+  Royalties,
+  Token,
+  List,
+  Account,
+  Visibility,
+  DisplayType,
+  Attribute,
+  MetadataField,
+  MintMetadata,
 }

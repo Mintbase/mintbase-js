@@ -27,7 +27,7 @@ export class API {
         break
       default:
         this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_TESTNET
-        this.chainName = config.chain
+        this.chainName = config.chain || Chain.near
         break
     }
   }
