@@ -289,7 +289,7 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.batch_burn({ token_ids: tokenIds }, MAX_GAS, YOCTO)
+    await contract.burn_tokens({ token_ids: tokenIds }, MAX_GAS, YOCTO)
   }
 
   /**
@@ -302,7 +302,8 @@ export class Wallet {
   public async batchList(
     tokenId: string[],
     storeId: string,
-    price: string
+    price: string,
+    autotransfer?: boolean
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -334,6 +335,7 @@ export class Wallet {
         account_id: MARKET_ACCOUNT,
         msg: JSON.stringify({
           price: price,
+          autotransfer: autotransfer || true,
         }),
       },
       GAS,
@@ -351,7 +353,8 @@ export class Wallet {
   public async list(
     tokenId: string,
     storeId: string,
-    price: string
+    price: string,
+    autotransfer?: boolean
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -383,6 +386,7 @@ export class Wallet {
         account_id: MARKET_ACCOUNT,
         msg: JSON.stringify({
           price: price,
+          autotransfer: autotransfer || true,
         }),
       },
       GAS,
@@ -412,7 +416,7 @@ export class Wallet {
     const list = result.list[0]
 
     const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: ['get_token_owner_id', 'get_token', 'get_token_token_id'],
+      viewMethods: [],
       changeMethods: ['make_offer'],
     })
 
@@ -593,6 +597,10 @@ export class Wallet {
     // @ts-ignore: method does not exist on Contract type
     await contract.mint_tokens(obj, MAX_GAS, ZERO)
   }
+
+  // public async addMinter(): Promise<void> {
+  //   return
+  // }
 
   public async setSessionKeyPair(
     accountId: string,
