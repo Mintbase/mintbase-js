@@ -1,4 +1,6 @@
 /** @hidden @module */
+import 'regenerator-runtime/runtime'
+
 import { API } from './api'
 import { Wallet } from './wallet'
 import {
