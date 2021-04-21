@@ -20,7 +20,8 @@ import {
   MintbaseAPIConfig,
   WalletLoginProps,
   Network,
-  Token,
+  Split,
+  Royalties,
 } from './types'
 
 import {
@@ -31,6 +32,7 @@ import {
   MARKET_ACCOUNT,
   STORE_CONTRACT_VIEW_METHODS,
   STORE_CONTRACT_CALL_METHODS,
+  DEFAULT_ROYALY_PERCENT,
 } from './constants'
 import { Minter } from './minter'
 
@@ -237,8 +239,8 @@ export class Wallet {
 
   /**
    * Transfer one or more tokens.
-   * @param contractName The contract name to transfer tokens from.
    * @param tokenIds The mapping of transfers, defined by: [[accountName1, tokenId1], [accountName2, tokenId2]]
+   * @param contractName The contract name to transfer tokens from.
    */
 
   // TODO: need more checks on the tokenIds
@@ -300,8 +302,7 @@ export class Wallet {
   public async batchList(
     tokenId: string[],
     storeId: string,
-    price: string,
-    splits?: { accountId: string; split: number }[]
+    price: string
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -350,8 +351,7 @@ export class Wallet {
   public async list(
     tokenId: string,
     storeId: string,
-    price: string,
-    splits?: { accountId: string; split: number }[]
+    price: string
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -473,9 +473,9 @@ export class Wallet {
   public async mint(
     amount: number,
     contractName: string,
-    royalties: any,
-    splits: any,
-    category: string
+    royalties?: Royalties,
+    splits?: Split,
+    category?: string
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -499,14 +499,95 @@ export class Wallet {
       metadata: {
         reference: metadataId,
       },
-      num_to_mint: amount, //numToMint,
+      num_to_mint: amount,
       royalty_args: !royalties
         ? null
-        : { split_between: royalties, percentage: 1000 },
+        : { split_between: royalties, percentage: DEFAULT_ROYALY_PERCENT },
       split_owners: splits || null,
 
       // TODO: check if category is lowercase
       category: !category ? null : category,
+    }
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.mint_tokens(obj, MAX_GAS, ZERO)
+  }
+
+  /**
+   * Mint more pieces of tokens of a thing.
+   * @param amount The number of tokens to mint.
+   * @param id The thing id
+   * @param splits The contract in which tokens will be minted.
+   */
+  public async mintMore(
+    amount: number,
+    id: string,
+    splits?: Split
+  ): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const MAX_GAS = new BN('300000000000000')
+    const ZERO = new BN('0')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    const thingResult = (await this.api.custom(
+      `query GET_THING_BY_ID($id: String!) {
+      thing(where: {id: {_eq: $id}}) {
+        metaId
+        storeId
+        memo
+        tokens {
+          royaltyPercent
+          royaltys {
+            id
+            account
+            percent
+          }
+        }
+      }
+    }
+    `,
+      { id: id }
+    )) as {
+      metaId: string
+      storeId: string
+      memo: string
+      tokens: {
+        royaltyPercent: string
+        royaltys: { account: string; percent: string }[]
+      }[]
+    }[]
+
+    if (thingResult.length === 0) throw new Error('Thing does not exist.')
+    if (thingResult[0].tokens.length === 0)
+      throw new Error('Thing does not have tokens.')
+
+    const thing = thingResult[0]
+    const contractName = thing.storeId
+    const memo = thing.memo
+    const metaId = thing.metaId
+    const token = thing.tokens[0]
+
+    const contract = new Contract(account, contractName, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    const obj = {
+      owner_id: accountId,
+      metadata: {
+        reference: metaId,
+      },
+      num_to_mint: amount,
+      royalty_args: {
+        split_between: token.royaltys,
+        percentage: token.royaltyPercent,
+      },
+      split_owners: splits || null,
+
+      // TODO: check if category is lowercase
+      category: memo,
     }
 
     // @ts-ignore: method does not exist on Contract type

@@ -1,6 +1,3 @@
-import 'regenerator-runtime/runtime'
+/** @ignore @module */
 
-import { API } from './api'
-import { Wallet } from './wallet'
-
-export { API, Wallet }
+export * from './common-index'
