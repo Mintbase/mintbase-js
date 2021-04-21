@@ -28,13 +28,13 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'mint_tokens',
   'nft_batch_approve',
   'nft_approve',
-  'grant_access', // REMOVED
-  'revoke_access', // REMOVED
-  'transfer_from', // REMOVED
+  'grant_minter',
+  'revoke_minter',
+  'burn_tokens',
+  'nft_revoke_all',
+  'nft_revoke',
   'batch_burn',
   'batch_transfer',
-  'grant_minter',
-  'renounce_minter', // REMOVED
   'set_icon_base64',
   'transfer', // REMOVED
   'set_base_uri',

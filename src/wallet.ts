@@ -394,8 +394,50 @@ export class Wallet {
     )
   }
 
+  public async revokeAccount(
+    tokenId: string,
+    storeId: string,
+    accountRevokeId: string
+  ): Promise<any> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    const contract = new Contract(account, storeId, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.nft_revoke(
+      { token_id: tokenId, account_id: accountRevokeId },
+      GAS
+    )
+  }
+
+  public async revokeAllAccounts(
+    tokenId: string,
+    storeId: string
+  ): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    const contract = new Contract(account, storeId, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.nft_revoke_all({ token_id: tokenId }, GAS)
+  }
+
   /**
-   * Makes offer to a listing in the market.
+   * Make an offer to a token.
    * @param groupId
    * @param price
    */
@@ -405,7 +447,6 @@ export class Wallet {
     const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
-
     if (!groupId) throw new Error('Please provide a groupId')
 
     const result = await this.api.fetchLists(groupId)
@@ -430,6 +471,26 @@ export class Wallet {
       GAS,
       list.price
     )
+  }
+
+  /**
+   *  Withdraw the escrow deposited for an offer.
+   * @param tokenKey The token key. `<tokenId>:<contractName>`
+   */
+  public async withdrawOffer(tokenKey: string): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+
+    const contract = new Contract(account, MARKET_ACCOUNT, {
+      viewMethods: [],
+      changeMethods: ['withdraw_offer'],
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.withdraw_offer({ token_key: tokenKey }, GAS)
   }
 
   /**
@@ -527,7 +588,7 @@ export class Wallet {
     amount: number,
     id: string,
     splits?: Split
-  ): Promise<void> {
+  ): Promise<any> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const MAX_GAS = new BN('300000000000000')
@@ -544,7 +605,6 @@ export class Wallet {
         tokens {
           royaltyPercent
           royaltys {
-            id
             account
             percent
           }
@@ -554,20 +614,26 @@ export class Wallet {
     `,
       { id: id }
     )) as {
-      metaId: string
-      storeId: string
-      memo: string
-      tokens: {
-        royaltyPercent: string
-        royaltys: { account: string; percent: string }[]
+      thing: {
+        metaId: string
+        storeId: string
+        memo: string
+        tokens: {
+          royaltyPercent: string
+          royaltys: { account: string; percent: string }[]
+        }[]
       }[]
-    }[]
+    }
 
-    if (thingResult.length === 0) throw new Error('Thing does not exist.')
-    if (thingResult[0].tokens.length === 0)
+    const _thing = thingResult.thing
+
+    if (_thing.length === 0) throw new Error('Thing does not exist.')
+
+    const thing = _thing[0]
+
+    if (thing.tokens.length === 0)
       throw new Error('Thing does not have tokens.')
 
-    const thing = thingResult[0]
     const contractName = thing.storeId
     const memo = thing.memo
     const metaId = thing.metaId
@@ -578,6 +644,17 @@ export class Wallet {
       changeMethods: STORE_CONTRACT_CALL_METHODS,
     })
 
+    let _royalties: any = {}
+
+    token.royaltys.forEach((royalty) => {
+      _royalties = {
+        ..._royalties,
+        [royalty.account]: royalty.percent,
+      }
+    })
+
+    if (Object.keys(_royalties).length === 0) _royalties = null
+
     const obj = {
       owner_id: accountId,
       metadata: {
@@ -585,7 +662,7 @@ export class Wallet {
       },
       num_to_mint: amount,
       royalty_args: {
-        split_between: token.royaltys,
+        split_between: _royalties,
         percentage: token.royaltyPercent,
       },
       split_owners: splits || null,
@@ -598,9 +675,47 @@ export class Wallet {
     await contract.mint_tokens(obj, MAX_GAS, ZERO)
   }
 
-  // public async addMinter(): Promise<void> {
-  //   return
-  // }
+  public async grantMinter(
+    minterAccountId: string,
+    contractName: string
+  ): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const MAX_GAS = new BN('300000000000000')
+    const ZERO = new BN('0')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!contractName) throw new Error('No contract was provided.')
+
+    const contract = new Contract(account, contractName, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.grant_minter({ account_id: minterAccountId }, MAX_GAS, ZERO)
+  }
+
+  public async revokeMinter(
+    minterAccountId: string,
+    contractName: string
+  ): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const MAX_GAS = new BN('300000000000000')
+    const ZERO = new BN('0')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!contractName) throw new Error('No contract was provided.')
+
+    const contract = new Contract(account, contractName, {
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.revoke_minter({ account_id: minterAccountId }, MAX_GAS, ZERO)
+  }
 
   public async setSessionKeyPair(
     accountId: string,
