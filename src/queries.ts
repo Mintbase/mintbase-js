@@ -10,6 +10,7 @@ export const FETCH_MARKETPLACE = `
     }
   }
 `
+
 export const GET_LATEST_LIST = `
   query getListedItemsTree($groupId: String!) {
     list(where: { groupId: { _eq: $groupId } }, limit: 1) {

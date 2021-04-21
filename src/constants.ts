@@ -51,3 +51,5 @@ export const CLOUD_STORAGE_CONFIG = {
   projectId: process.env.MINTBASEJS_FIREBASE_PROJECT_ID,
   storageBucket: process.env.MINTBASEJS_FIRSTORE_BUCKET_URL,
 }
+
+export const DEFAULT_ROYALY_PERCENT = 1000
