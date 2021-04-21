@@ -14,7 +14,7 @@ export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 
 // TODO: pull this from somewhere else?
 export const STORE_FACTORY_CONTRACT_NAME =
-  process.env.CONTRACT_NAME || 'mintbase64.testnet'
+  process.env.CONTRACT_NAME || 'moontbase.testnet'
 export const MARKET_ACCOUNT = `0.${STORE_FACTORY_CONTRACT_NAME}`
 
 export const STORE_CONTRACT_VIEW_METHODS = [
