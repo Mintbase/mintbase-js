@@ -245,7 +245,7 @@ export class Wallet {
 
   // TODO: need more checks on the tokenIds
   public async transfer(
-    tokenIds: [number, string][],
+    tokenIds: [string, string][],
     contractName: string
   ): Promise<void> {
     const account = this.activeWallet?.account()
@@ -303,7 +303,7 @@ export class Wallet {
     tokenId: string[],
     storeId: string,
     price: string,
-    autotransfer?: boolean
+    autotransfer: boolean = true
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -335,7 +335,7 @@ export class Wallet {
         account_id: MARKET_ACCOUNT,
         msg: JSON.stringify({
           price: price,
-          autotransfer: autotransfer || true,
+          autotransfer: autotransfer,
         }),
       },
       GAS,
@@ -437,11 +437,11 @@ export class Wallet {
   }
 
   /**
-   * Make an offer to a token.
+   * Make an offer to a token from a group.
    * @param groupId
    * @param price
    */
-  public async makeOffer(groupId: string, price?: string): Promise<void> {
+  public async makeGroupOffer(groupId: string, price?: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const GAS = new BN('300000000000000')
@@ -461,16 +461,80 @@ export class Wallet {
       changeMethods: ['make_offer'],
     })
 
+    const setPrice = price || list.price
+
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer(
       {
         token_key: list.token.id,
-        price: price || list.price,
+        price: setPrice,
         timeout: { Hours: 72 },
       },
       GAS,
-      list.price
+      setPrice
     )
+  }
+
+  /**
+   * Make an offer to a token.
+   * @param tokenId
+   * @param price
+   */
+  public async makeOffer(tokenId: string, price: string): Promise<void> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!tokenId) throw new Error('Please provide a tokenId')
+
+    const contract = new Contract(account, MARKET_ACCOUNT, {
+      viewMethods: [],
+      changeMethods: ['make_offer'],
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.make_offer(
+      {
+        token_key: tokenId,
+        price: price,
+        timeout: { Hours: 72 },
+      },
+      GAS,
+      price
+    )
+  }
+
+  /**
+   * Make an offer to a token.
+   * @param tokenId
+   * @param price
+   */
+  public async acceptAndTransfer(
+    tokenId: string
+  ): Promise<{ error: string | null }> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const GAS = new BN('300000000000000')
+
+    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!tokenId) throw new Error('Please provide a tokenId')
+
+    const contract = new Contract(account, MARKET_ACCOUNT, {
+      viewMethods: [],
+      changeMethods: ['accept_and_transfer'],
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.accept_and_transfer(
+      {
+        token_key: tokenId,
+      },
+      GAS
+    )
+    return {
+      error: null,
+    }
   }
 
   /**
