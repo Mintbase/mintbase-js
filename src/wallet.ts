@@ -22,6 +22,7 @@ import {
   Network,
   Split,
   Royalties,
+  NEARConfig,
 } from './types'
 
 import {
@@ -33,6 +34,13 @@ import {
   STORE_CONTRACT_VIEW_METHODS,
   STORE_CONTRACT_CALL_METHODS,
   DEFAULT_ROYALY_PERCENT,
+  MARKET_CONTRACT_VIEW_METHODS,
+  MARKET_CONTRACT_CALL_METHODS,
+  MAX_GAS,
+  ONE_YOCTO,
+  ZERO,
+  LIST_COST,
+  DEPLOY_STORE_COST,
 } from './constants'
 import { Minter } from './minter'
 
@@ -52,7 +60,7 @@ export class Wallet {
 
   public keyStore: KeyStore
 
-  public nearConfig: any
+  public nearConfig: NEARConfig
   public minter: Minter
 
   /**
@@ -146,6 +154,11 @@ export class Wallet {
    * @returns whether connection was successful or not.
    */
   public async connectTo(accountId: string): Promise<boolean> {
+    if (isNode)
+      throw new Error(
+        'Node environment does not yet support the connectTo method.'
+      )
+
     // get localstorage accounts
     const localAccounts = this.getLocalAccounts()
 
@@ -242,7 +255,6 @@ export class Wallet {
    * @param tokenIds The mapping of transfers, defined by: [[accountName1, tokenId1], [accountName2, tokenId2]]
    * @param contractName The contract name to transfer tokens from.
    */
-
   // TODO: need more checks on the tokenIds
   public async transfer(
     tokenIds: [string, string][],
@@ -250,11 +262,8 @@ export class Wallet {
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const MAX_GAS = new BN('300000000000000')
-    const YOCTO = new BN('1')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
-
     if (!contractName) throw new Error('No contract was provided.')
 
     const contract = new Contract(account, contractName, {
@@ -263,7 +272,7 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, YOCTO)
+    await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ONE_YOCTO)
   }
 
   /**
@@ -276,8 +285,6 @@ export class Wallet {
   public async burn(tokenIds: number[], contractName: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const MAX_GAS = new BN('300000000000000')
-    const YOCTO = new BN('1')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -289,7 +296,7 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.burn_tokens({ token_ids: tokenIds }, MAX_GAS, YOCTO)
+    await contract.burn_tokens({ token_ids: tokenIds }, MAX_GAS, ONE_YOCTO)
   }
 
   /**
@@ -307,8 +314,6 @@ export class Wallet {
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
-    const listCost = '100000000000000000000000'
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -338,8 +343,8 @@ export class Wallet {
           autotransfer: autotransfer,
         }),
       },
-      GAS,
-      listCost
+      MAX_GAS,
+      LIST_COST
     )
   }
 
@@ -358,8 +363,6 @@ export class Wallet {
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
-    const listCost = '100000000000000000000000'
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -389,8 +392,8 @@ export class Wallet {
           autotransfer: autotransfer || true,
         }),
       },
-      GAS,
-      listCost
+      MAX_GAS,
+      LIST_COST
     )
   }
 
@@ -398,10 +401,9 @@ export class Wallet {
     tokenId: string,
     storeId: string,
     accountRevokeId: string
-  ): Promise<any> {
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -413,7 +415,7 @@ export class Wallet {
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_revoke(
       { token_id: tokenId, account_id: accountRevokeId },
-      GAS
+      MAX_GAS
     )
   }
 
@@ -444,7 +446,6 @@ export class Wallet {
   public async makeGroupOffer(groupId: string, price?: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!groupId) throw new Error('Please provide a groupId')
@@ -457,8 +458,8 @@ export class Wallet {
     const list = result.list[0]
 
     const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: [],
-      changeMethods: ['make_offer'],
+      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
+      changeMethods: MARKET_CONTRACT_CALL_METHODS,
     })
 
     const setPrice = price || list.price
@@ -470,7 +471,7 @@ export class Wallet {
         price: setPrice,
         timeout: { Hours: 72 },
       },
-      GAS,
+      MAX_GAS,
       setPrice
     )
   }
@@ -483,14 +484,13 @@ export class Wallet {
   public async makeOffer(tokenId: string, price: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!tokenId) throw new Error('Please provide a tokenId')
 
     const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: [],
-      changeMethods: ['make_offer'],
+      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
+      changeMethods: MARKET_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -500,7 +500,7 @@ export class Wallet {
         price: price,
         timeout: { Hours: 72 },
       },
-      GAS,
+      MAX_GAS,
       price
     )
   }
@@ -515,14 +515,13 @@ export class Wallet {
   ): Promise<{ error: string | null }> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!tokenId) throw new Error('Please provide a tokenId')
 
     const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: [],
-      changeMethods: ['accept_and_transfer'],
+      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
+      changeMethods: MARKET_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -530,7 +529,7 @@ export class Wallet {
       {
         token_key: tokenId,
       },
-      GAS
+      MAX_GAS
     )
     return {
       error: null,
@@ -544,17 +543,16 @@ export class Wallet {
   public async withdrawOffer(tokenKey: string): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
     const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: [],
-      changeMethods: ['withdraw_offer'],
+      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
+      changeMethods: MARKET_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.withdraw_offer({ token_key: tokenKey }, GAS)
+    await contract.withdraw_offer({ token_key: tokenKey }, MAX_GAS)
   }
 
   /**
@@ -566,15 +564,14 @@ export class Wallet {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const balance = '7000000000000000000000000'
-    const gas = new BN('300000000000000')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
     // TODO: regex check inputs (storeId and symbol)
 
     const contract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
-      viewMethods: [],
-      changeMethods: ['create_store'],
+      viewMethods: STORE_CONTRACT_VIEW_METHODS,
+      changeMethods: STORE_CONTRACT_CALL_METHODS,
     })
 
     const storeData = {
@@ -591,7 +588,7 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.create_store(storeData, gas, balance)
+    await contract.create_store(storeData, MAX_GAS, DEPLOY_STORE_COST)
   }
 
   /**
@@ -608,8 +605,6 @@ export class Wallet {
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const MAX_GAS = new BN('300000000000000')
-    const ZERO = new BN('0')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!contractName) throw new Error('No contract was provided.')
@@ -655,8 +650,6 @@ export class Wallet {
   ): Promise<any> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const MAX_GAS = new BN('300000000000000')
-    const ZERO = new BN('0')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -745,8 +738,6 @@ export class Wallet {
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const MAX_GAS = new BN('300000000000000')
-    const ZERO = new BN('0')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!contractName) throw new Error('No contract was provided.')
@@ -766,8 +757,6 @@ export class Wallet {
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const MAX_GAS = new BN('300000000000000')
-    const ZERO = new BN('0')
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!contractName) throw new Error('No contract was provided.')
@@ -813,10 +802,9 @@ export class Wallet {
   /**
    * Fetch local storage connections
    */
-  public getLocalAccounts():
-    | { accountId: string; contractName: string }[]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    | any {
+  public getLocalAccounts(): {
+    [accountId: string]: { accountId?: string; contractName?: string }
+  } {
     const regex = /near-api-js:keystore:/gm
     const keys = Object.keys(localStorage)
 
@@ -824,7 +812,10 @@ export class Wallet {
       return regex.exec(key) !== null
     })
 
-    let accounts = {}
+    let accounts = {} as {
+      [accountId: string]: { accountId?: string; contractName?: string }
+    }
+
     matches.forEach((key) => {
       const accountId = key.split(':')[2]
 
@@ -981,7 +972,10 @@ export class Wallet {
    * @param networkName
    * @param contractAddress
    */
-  private getNearConfig(networkName: string, contractAddress?: string) {
+  private getNearConfig(
+    networkName: string,
+    contractAddress?: string
+  ): NEARConfig {
     switch (networkName) {
       case Network.testnet:
         return {

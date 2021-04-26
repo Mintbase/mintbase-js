@@ -1,3 +1,5 @@
+import BN from 'bn.js'
+
 export const API_VERSION = 1
 export const API_BASE_NEAR_MAINNET = 'https://mintbase.hasura.app/v1/graphql'
 export const API_BASE_NEAR_TESTNET = 'https://mintbase.hasura.app/v1/graphql'
@@ -32,16 +34,21 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'revoke_minter',
   'burn_tokens',
   'nft_revoke_all',
+  'create_store',
   'nft_revoke',
   'batch_burn',
   'batch_transfer',
   'set_icon_base64',
-  'transfer', // REMOVED
   'set_base_uri',
   'new',
-  'destroy', //REMOVED
-  'list_tokens', //REMOVED
-  'set_marketplace', //REMOVED
+]
+
+export const MARKET_CONTRACT_VIEW_METHODS = []
+
+export const MARKET_CONTRACT_CALL_METHODS = [
+  'make_offer',
+  'accept_and_transfer',
+  'withdraw_offer',
 ]
 
 export const CLOUD_STORAGE_CONFIG = {
@@ -53,3 +60,9 @@ export const CLOUD_STORAGE_CONFIG = {
 }
 
 export const DEFAULT_ROYALY_PERCENT = 1000
+
+export const MAX_GAS = new BN('300000000000000')
+export const ONE_YOCTO = new BN('1')
+export const ZERO = new BN('0')
+export const LIST_COST = new BN('100000000000000000000000')
+export const DEPLOY_STORE_COST = new BN('100000000000000000000000')

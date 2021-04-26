@@ -7,6 +7,14 @@ enum Network {
   testnet = 'testnet',
 }
 
+interface NEARConfig {
+  networkId: string
+  nodeUrl: string
+  contractName: string
+  walletUrl: string
+  helperUrl: string
+}
+
 interface List {
   acceptedOfferId?: string
   autoTransfer?: boolean
@@ -170,4 +178,5 @@ export {
   Attribute,
   MetadataField,
   MintMetadata,
+  NEARConfig,
 }
