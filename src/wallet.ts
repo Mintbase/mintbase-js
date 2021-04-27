@@ -622,15 +622,14 @@ export class Wallet {
       owner_id: accountId,
       metadata: {
         reference: metadataId,
+        // TODO: check if category is lowercase
+        extra: !category ? null : category,
       },
       num_to_mint: amount,
       royalty_args: !royalties
         ? null
         : { split_between: royalties, percentage: DEFAULT_ROYALY_PERCENT },
       split_owners: splits || null,
-
-      // TODO: check if category is lowercase
-      category: !category ? null : category,
     }
 
     // @ts-ignore: method does not exist on Contract type
@@ -716,6 +715,7 @@ export class Wallet {
       owner_id: accountId,
       metadata: {
         reference: metaId,
+        extra: memo,
       },
       num_to_mint: amount,
       royalty_args: {
@@ -723,9 +723,6 @@ export class Wallet {
         percentage: token.royaltyPercent,
       },
       split_owners: splits || null,
-
-      // TODO: check if category is lowercase
-      category: memo,
     }
 
     // @ts-ignore: method does not exist on Contract type
