@@ -33,7 +33,7 @@ import {
   MARKET_ACCOUNT,
   STORE_CONTRACT_VIEW_METHODS,
   STORE_CONTRACT_CALL_METHODS,
-  DEFAULT_ROYALY_PERCENT,
+  DEFAULT_ROYALTY_PERCENT,
   MARKET_CONTRACT_VIEW_METHODS,
   MARKET_CONTRACT_CALL_METHODS,
   MAX_GAS,
@@ -560,10 +560,13 @@ export class Wallet {
    * @param storeId Store name
    * @param symbol Store symbol
    */
-  public async deployStore(storeId: string, symbol: string): Promise<void> {
+  public async deployStore(
+    storeId: string,
+    symbol: string,
+    options?: { attachedDeposit: string }
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const balance = '7000000000000000000000000'
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
@@ -587,8 +590,12 @@ export class Wallet {
       },
     }
 
+    const attachedDeposit = !options?.attachedDeposit
+      ? DEPLOY_STORE_COST
+      : new BN(options?.attachedDeposit)
+
     // @ts-ignore: method does not exist on Contract type
-    await contract.create_store(storeData, MAX_GAS, DEPLOY_STORE_COST)
+    await contract.create_store(storeData, MAX_GAS, attachedDeposit)
   }
 
   /**
@@ -628,7 +635,7 @@ export class Wallet {
       num_to_mint: amount,
       royalty_args: !royalties
         ? null
-        : { split_between: royalties, percentage: DEFAULT_ROYALY_PERCENT },
+        : { split_between: royalties, percentage: DEFAULT_ROYALTY_PERCENT },
       split_owners: splits || null,
     }
 
