@@ -89,7 +89,7 @@
 					<div class="tsd-signature tsd-kind-icon">FETCH_<wbr>MARKETPLACE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getMyListed($limit: Int!, $offset: Int!) {\n    list(\n      where: { currentOfferId: { _is_null: true } }\n      order_by: [{ createdAt: desc }, { price: asc }]\n      limit: $limit\n      offset: $offset\n    ) {\n      id\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/d1ffc54/src/queries.ts#L1">queries.ts:1</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/queries.ts#L1">queries.ts:1</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -99,7 +99,7 @@
 					<div class="tsd-signature tsd-kind-icon">GET_<wbr>LATEST_<wbr>LIST<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getListedItemsTree($groupId: String!) {\n    list(where: { groupId: { _eq: $groupId } }, limit: 1) {\n      createdAt\n      price\n      tokenKey\n      acceptedOfferId\n      removedAt\n      ownerId\n      token {\n        id\n        thingId\n        minter\n        ownerId\n        royaltyPercent\n        splits {\n          account\n          percent\n        }\n        royaltys {\n          account\n          percent\n        }\n        store {\n          id\n          name\n          owner\n          createdAt\n          things(limit: 5) {\n            id\n            metaId\n          }\n        }\n      }\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/d1ffc54/src/queries.ts#L14">queries.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/queries.ts#L14">queries.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -109,7 +109,7 @@
 					<div class="tsd-signature tsd-kind-icon">GET_<wbr>TOKENS_<wbr>BY_<wbr>OWNER_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getToken($ownerId: String!) {\n    token(where: {ownerId: {_eq: $ownerId}}) {\n      id\n      ownerId\n      storeId\n      tokenId\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/d1ffc54/src/queries.ts#L62">queries.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/queries.ts#L62">queries.ts:62</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -119,7 +119,7 @@
 					<div class="tsd-signature tsd-kind-icon">GET_<wbr>TOKEN_<wbr>BY_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">&quot;\n  query getToken($tokenId: String!) {\n    token(where: {id: {_eq: $tokenId}}) {\n      id\n      ownerId\n      storeId\n      thingId\n    }\n  }\n&quot;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/d1ffc54/src/queries.ts#L52">queries.ts:52</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/queries.ts#L52">queries.ts:52</a></li>
 						</ul>
 					</aside>
 				</section>

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>MintbaseAPIConfig | mintbase</title>
+	<title>NEARConfig | mintbase</title>
 	<meta name="description" content="Documentation for mintbase">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -58,39 +58,21 @@
 					<a href="../modules/types.html">types</a>
 				</li>
 				<li>
-					<a href="types.mintbaseapiconfig.html">MintbaseAPIConfig</a>
+					<a href="types.nearconfig.html">NEARConfig</a>
 				</li>
 			</ul>
-			<h1>Interface MintbaseAPIConfig</h1>
+			<h1>Interface NEARConfig</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Mintbase API configuration object</p>
-					</div>
-					<dl class="tsd-comment-tags">
-						<dt>param</dt>
-						<dd><p><code>Chain</code> type to use. Defaults to <code>Chain.near</code></p>
-						</dd>
-						<dt>param</dt>
-						<dd><p><code>Network</code> type to use. Defaults to <code>Network.testnet</code> (testnet)</p>
-						</dd>
-						<dt>param</dt>
-						<dd><p>The API base url</p>
-						</dd>
-					</dl>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">MintbaseAPIConfig</span>
+						<span class="target">NEARConfig</span>
 					</li>
 				</ul>
 			</section>
@@ -101,10 +83,11 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.mintbaseapiconfig.html#apibaseurl" class="tsd-kind-icon">api<wbr>Base<wbr>Url</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.mintbaseapiconfig.html#apikey" class="tsd-kind-icon">api<wbr>Key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.mintbaseapiconfig.html#chain" class="tsd-kind-icon">chain</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.mintbaseapiconfig.html#networkname" class="tsd-kind-icon">network<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.nearconfig.html#contractname" class="tsd-kind-icon">contract<wbr>Name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.nearconfig.html#helperurl" class="tsd-kind-icon">helper<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.nearconfig.html#networkid" class="tsd-kind-icon">network<wbr>Id</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.nearconfig.html#nodeurl" class="tsd-kind-icon">node<wbr>Url</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="types.nearconfig.html#walleturl" class="tsd-kind-icon">wallet<wbr>Url</a></li>
 							</ul>
 						</section>
 					</div>
@@ -113,42 +96,52 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="apibaseurl" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> api<wbr>Base<wbr>Url</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Base<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="contractname" class="tsd-anchor"></a>
+					<h3>contract<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">contract<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L43">types.ts:43</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L13">types.ts:13</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="apikey" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> api<wbr>Key</h3>
-					<div class="tsd-signature tsd-kind-icon">api<wbr>Key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<a name="helperurl" class="tsd-anchor"></a>
+					<h3>helper<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">helper<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L44">types.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L15">types.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="chain" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> chain</h3>
-					<div class="tsd-signature tsd-kind-icon">chain<span class="tsd-signature-symbol">:</span> <a href="../enums/types.chain.html#near" class="tsd-signature-type" data-tsd-kind="Enumeration member">near</a></div>
+					<a name="networkid" class="tsd-anchor"></a>
+					<h3>network<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">network<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L41">types.ts:41</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L11">types.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="networkname" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> network<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">network<wbr>Name<span class="tsd-signature-symbol">:</span> <a href="../enums/types.network.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Network</a></div>
+					<a name="nodeurl" class="tsd-anchor"></a>
+					<h3>node<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">node<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L42">types.ts:42</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L12">types.ts:12</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="walleturl" class="tsd-anchor"></a>
+					<h3>wallet<wbr>Url</h3>
+					<div class="tsd-signature tsd-kind-icon">wallet<wbr>Url<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/3004de0/src/types.ts#L14">types.ts:14</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -212,30 +205,33 @@
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="types.mintmetadata.html" class="tsd-kind-icon">Mint<wbr>Metadata</a>
 					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.mintbaseapiconfig.html" class="tsd-kind-icon">MintbaseAPIConfig</a>
+					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.mintbaseapiconfig.html" class="tsd-kind-icon">MintbaseAPIConfig</a>
+						<a href="types.nearconfig.html" class="tsd-kind-icon">NEARConfig</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.mintbaseapiconfig.html#apibaseurl" class="tsd-kind-icon">api<wbr>Base<wbr>Url</a>
+								<a href="types.nearconfig.html#contractname" class="tsd-kind-icon">contract<wbr>Name</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.mintbaseapiconfig.html#apikey" class="tsd-kind-icon">api<wbr>Key</a>
+								<a href="types.nearconfig.html#helperurl" class="tsd-kind-icon">helper<wbr>Url</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.mintbaseapiconfig.html#chain" class="tsd-kind-icon">chain</a>
+								<a href="types.nearconfig.html#networkid" class="tsd-kind-icon">network<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="types.mintbaseapiconfig.html#networkname" class="tsd-kind-icon">network<wbr>Name</a>
+								<a href="types.nearconfig.html#nodeurl" class="tsd-kind-icon">node<wbr>Url</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="types.nearconfig.html#walleturl" class="tsd-kind-icon">wallet<wbr>Url</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.nearconfig.html" class="tsd-kind-icon">NEARConfig</a>
-					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
 						<a href="types.royalties.html" class="tsd-kind-icon">Royalties</a>
 					</li>
