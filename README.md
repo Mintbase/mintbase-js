@@ -19,7 +19,7 @@ const wallet = new Wallet({ chain: Chain.near, networkName: Network.testnet })
 async function connect() {
   await wallet.connect();
 
-  const details = await mintbase.details()
+  const details = await wallet.details()
   /*
     accountId: "qwerty.testnet"
     allowance: "0.25"
