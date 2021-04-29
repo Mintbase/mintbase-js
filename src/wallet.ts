@@ -809,16 +809,14 @@ export class Wallet {
   public getLocalAccounts(): {
     [accountId: string]: { accountId?: string; contractName?: string }
   } {
-    const regex = /near-api-js:keystore:/gm
+    const regex = /near-api-js:keystore:/
     const keys = Object.keys(localStorage)
 
     const matches = keys.filter((key) => {
       return regex.exec(key) !== null
     })
 
-    let accounts = {} as {
-      [accountId: string]: { accountId?: string; contractName?: string }
-    }
+    let accounts = {}
 
     matches.forEach((key) => {
       const accountId = key.split(':')[2]
