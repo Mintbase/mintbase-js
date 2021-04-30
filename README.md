@@ -19,6 +19,7 @@ General purpose Mintbase API for interacting with NEAR, Arweave and other suppor
   - [Install](#install)
   - [Getting Started](#getting-started)
   - [Support](#support)
+  - [Examples](#examples)
   - [License](#license)
 
 ## Install
@@ -29,7 +30,7 @@ $ npm install mintbase
 
 ## Getting started
 Initializing and Connecting Mintbase Wallet
-* Alternative try our [Create Mintbase App][6]
+* Aquire an API key in the `Developer` tab on [Mintbase][7]
 
 ```typescript
 import { Wallet, Chain, Network } from 'mintbase';
@@ -61,7 +62,8 @@ async function connect() {
 connect()
 ```
 
-If you want to bootstrap your app (React + Typescript) use: https://github.com/Mintbase/create-mintbase-app
+## Examples
+Bootstrap your appwith [Create MIntbase App (React + Typescript)][6]
 
 ## Support
 
@@ -74,8 +76,9 @@ or ask in our [developer telegram][2]
 [MIT][5]
 
 [1]: https://mintbase.github.io/mintbase-js/index.html
-[2]: https://mintbase.github.io/mintbase-js/issues/new
-[3]: https://mintbase.github.io/mintbase-js/issues/new
+[2]: https://github.com/Mintbase/mintbase-js/issues/new
+[3]: https://t.me/mintdev
 [4]: https://mintbase.github.io/mintbase-js/index.html
 [5]: https://github.com/Mintbase/mintbase-js/blob/main/LICENSE
 [6]: https://github.com/Mintbase/create-mintbase-app
+[7]: https://near.mintbase.io
