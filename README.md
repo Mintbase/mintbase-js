@@ -41,6 +41,7 @@ const wallet = new Wallet({ chain: Chain.near, networkName: Network.testnet })
 wallet: new Wallet({
   networkName: Wallet.testnet,
   chain: Wallet.near,
+  // Get this in the developer tab under your profile image
   apiKey: YOUR_MINTBASEJS_API_KEY,
 }),
 
