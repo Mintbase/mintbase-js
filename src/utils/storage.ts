@@ -35,9 +35,13 @@ const _uploadCloud = async (
 
   const fileName = uuidv4()
 
-  await storage
-    .ref(`${ARWEAVE_FOLDER}/${fileName}`)
-    .put(buffer, { contentType: contentType })
+  try {
+    await storage
+      .ref(`${ARWEAVE_FOLDER}/${fileName}`)
+      .put(buffer, { contentType: contentType })
+  } catch (error) {
+    return error
+  }
 
   return fileName
 }
@@ -56,19 +60,23 @@ export const uploadToArweave = async (
   const buffer = await file.arrayBuffer()
   const contentType = file.type
 
-  // Uploads to google cloud
-  const fileName = await _uploadCloud(buffer, contentType)
+  try {
+    // Uploads to google cloud
+    const fileName = await _uploadCloud(buffer, contentType)
 
-  // Fetches arweave id. This request will trigger an upload in the cloud
-  const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName), {
-    headers: {
-      [headers.apiKey]: apiKey || 'anonymous',
-    },
-  })
+    // Fetches arweave id. This request will trigger an upload in the cloud
+    const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName), {
+      headers: {
+        [headers.apiKey]: apiKey || 'anonymous',
+      },
+    })
 
-  const data = await request.json()
+    const data = await request.json()
 
-  return { id: data?.id, contentType: data?.contentType }
+    return { id: data?.id, contentType: data?.contentType }
+  } catch (error) {
+    return error
+  }
 }
 
 /**
@@ -80,14 +88,18 @@ export const uploadMetadata = async (
   metadata: unknown,
   apiKey?: string
 ): Promise<string> => {
-  const request = await fetch(CLOUD_POST_METADATA_URI(), {
-    method: 'POST',
-    body: JSON.stringify(metadata),
-    headers: {
-      [headers.apiKey]: apiKey || 'anonymous',
-    },
-  })
-  const data = await request.json()
+  try {
+    const request = await fetch(CLOUD_POST_METADATA_URI(), {
+      method: 'POST',
+      body: JSON.stringify(metadata),
+      headers: {
+        [headers.apiKey]: apiKey || 'anonymous',
+      },
+    })
+    const data = await request.json()
 
-  return data?.id as string
+    return data?.id as string
+  } catch (error) {
+    return error
+  }
 }
