@@ -23,7 +23,7 @@ export class Minter {
 
   public apiKey: string
 
-  constructor(minterConfig: MinterConfigProps) {
+  constructor(minterConfig: MinterConfigProps = {}) {
     this.latestMints = {}
     this.currentMint = {}
 
@@ -62,10 +62,11 @@ export class Minter {
     try {
       this.fieldChecks(key, value)
     } catch (error) {
-      return error
+      throw new Error(error.message)
     }
 
-    if (override && this.currentMint[key]) this.currentMint[key] = value
+    if (!this.currentMint[key]) this.currentMint[key] = value
+    else if (override && !!this.currentMint[key]) this.currentMint[key] = value
   }
 
   public setMetadata(metadata: any, override?: boolean): void {
