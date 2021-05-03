@@ -1,4 +1,4 @@
-[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] [![npm version](https://img.shields.io/npm/v/mintbase.svg?style=flat)](https://www.npmjs.com/package/mitnbase) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
+[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] [![npm version](https://img.shields.io/npm/v/mintbase.svg?style=flat)](https://www.npmjs.com/package/mintbase) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
 
 # ⚠️⚠️⚠️⚠️ WIP: Not for use! ⚠️⚠️⚠️⚠️
 
@@ -30,21 +30,20 @@ $ npm install mintbase
 
 ## Getting started
 Initializing and Connecting Mintbase Wallet
-* Aquire an API key in the `Developer` tab on [Mintbase][7]
+* Acquire an API key in the `Developer` tab on [Mintbase][7]
 
 ```typescript
 import { Wallet, Chain, Network } from 'mintbase';
 
 // Create a new instance of the Mintbase class
-const wallet = new Wallet({ chain: Chain.near, networkName: Network.testnet })
+const wallet = new Wallet({ 
+  chain: Chain.near, 
+  networkName: Network.testnet, 
+  apiKey: YOUR_MINTBASEJS_API_KEY
+})
 
 
-wallet: new Wallet({
-  networkName: Wallet.testnet,
-  chain: Wallet.near,
-  // Get this in the developer tab under your profile image
-  apiKey: YOUR_MINTBASEJS_API_KEY,
-}),
+
 
 // Connect and fetch details
 async function connect() {
@@ -63,7 +62,7 @@ connect()
 ```
 
 ## Examples
-Bootstrap your appwith [Create MIntbase App (React + Typescript)][6]
+Bootstrap your app with [Create Mintbase App (React + Typescript)][6]
 
 ## Support
 
