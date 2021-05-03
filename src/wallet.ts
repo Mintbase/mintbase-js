@@ -41,6 +41,7 @@ import {
   ZERO,
   LIST_COST,
   DEPLOY_STORE_COST,
+  TWENTY_FOUR,
 } from './constants'
 import { Minter } from './minter'
 
@@ -469,7 +470,7 @@ export class Wallet {
       {
         token_key: list.token.id,
         price: setPrice,
-        timeout: { Hours: 72 },
+        timeout: { Hours: TWENTY_FOUR },
       },
       MAX_GAS,
       setPrice
@@ -498,7 +499,7 @@ export class Wallet {
       {
         token_key: tokenId,
         price: price,
-        timeout: { Hours: 72 },
+        timeout: { Hours: TWENTY_FOUR },
       },
       MAX_GAS,
       price

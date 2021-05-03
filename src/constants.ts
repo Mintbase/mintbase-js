@@ -66,3 +66,6 @@ export const ONE_YOCTO = new BN('1')
 export const ZERO = new BN('0')
 export const LIST_COST = new BN('100000000000000000000000')
 export const DEPLOY_STORE_COST = new BN('7000000000000000000000000')
+
+export const TWENTY_FOUR = 24
+export const SEVENTY_TWO = 72
