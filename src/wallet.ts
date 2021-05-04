@@ -45,6 +45,8 @@ import {
 } from './constants'
 import { Minter } from './minter'
 
+import { calculateListCost } from './utils/near-costs'
+
 /**
  * Mintbase Wallet.
  * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
@@ -334,6 +336,8 @@ export class Wallet {
 
     // TODO: Checks on split_owners
 
+    const listCost = calculateListCost(tokenId.length)
+
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_approve(
       {
@@ -345,7 +349,7 @@ export class Wallet {
         }),
       },
       MAX_GAS,
-      LIST_COST
+      listCost
     )
   }
 
@@ -383,6 +387,8 @@ export class Wallet {
 
     // TODO: Checks on split_owners
 
+    const listCost = calculateListCost(1)
+
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_approve(
       {
@@ -394,7 +400,7 @@ export class Wallet {
         }),
       },
       MAX_GAS,
-      LIST_COST
+      listCost
     )
   }
 
