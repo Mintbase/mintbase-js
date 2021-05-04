@@ -7,6 +7,7 @@ import {
   CLOUD_GET_FILE_METADATA_URI,
   CLOUD_POST_METADATA_URI,
   CLOUD_STORAGE_CONFIG,
+  ERROR_MESSAGES,
 } from '../constants'
 
 if (!firebase.apps.length) {
@@ -40,7 +41,7 @@ const _uploadCloud = async (
       .ref(`${ARWEAVE_FOLDER}/${fileName}`)
       .put(buffer, { contentType: contentType })
   } catch (error) {
-    return error
+    throw new Error(ERROR_MESSAGES.uploadCloud)
   }
 
   return fileName
@@ -64,18 +65,22 @@ export const uploadToArweave = async (
     // Uploads to google cloud
     const fileName = await _uploadCloud(buffer, contentType)
 
-    // Fetches arweave id. This request will trigger an upload in the cloud
-    const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName), {
-      headers: {
-        [headers.apiKey]: apiKey || 'anonymous',
-      },
-    })
+    try {
+      // Fetches arweave id. This request will trigger an upload in the cloud
+      const request = await fetch(CLOUD_GET_FILE_METADATA_URI(fileName), {
+        headers: {
+          [headers.apiKey]: apiKey || 'anonymous',
+        },
+      })
 
-    const data = await request.json()
+      const data = await request.json()
 
-    return { id: data?.id, contentType: data?.contentType }
+      return { id: data?.id, contentType: data?.contentType }
+    } catch (error) {
+      throw new Error(ERROR_MESSAGES.decentralizedStorageFailed)
+    }
   } catch (error) {
-    return error
+    throw new Error(ERROR_MESSAGES.uploadFile)
   }
 }
 
@@ -100,6 +105,6 @@ export const uploadMetadata = async (
 
     return data?.id as string
   } catch (error) {
-    return error
+    throw new Error(ERROR_MESSAGES.uploadMetadata)
   }
 }

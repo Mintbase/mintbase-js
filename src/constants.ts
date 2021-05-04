@@ -133,6 +133,11 @@ export const ERROR_MESSAGES = {
   metadataEmpty: 'Metadata is empty',
   notString: 'Value is not of type string',
   badUrl: 'URL is not well formatted',
+  uploadFileAndSet: 'Failed at uploading and setting metadata field',
+  uploadFile: 'Failed at uploading file',
+  uploadCloud: 'Failed at uploading file to the cloud',
+  uploadMetadata: 'Failed at uploading metadata',
+  decentralizedStorageFailed: 'Failed storing on Arweave'
 }
 
 export const MIME_TYPES = {

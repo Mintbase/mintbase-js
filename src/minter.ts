@@ -8,6 +8,7 @@ import {
   MIME_TYPES,
 } from './constants'
 import { MetadataField } from './types'
+import { correctFileType } from './utils/files'
 interface MinterConfigProps {
   apiKey?: string
 }
@@ -75,7 +76,7 @@ export class Minter {
         this.setField(field as MetadataField, metadata[field], override)
       })
     } catch (error) {
-      throw new Error(ERROR_MESSAGES.metadataSet)
+      throw new Error(error.message)
     }
   }
 
@@ -93,7 +94,7 @@ export class Minter {
 
       this.currentMint[field] = url
     } catch (error) {
-      return error
+      throw new Error(ERROR_MESSAGES.uploadFileAndSet)
     }
   }
 
@@ -104,7 +105,7 @@ export class Minter {
   public async upload(file: File): Promise<string> {
     try {
       // corrects MIME type
-      const tFile = await _correctType(file)
+      const tFile = await correctFileType(file)
 
       if (tFile.size > FILE_UPLOAD_SIZE_LIMIT)
         throw new Error(ERROR_MESSAGES.fileSizeExceeded)
@@ -113,7 +114,7 @@ export class Minter {
 
       return `${BASE_ARWEAVE_URI}/${result?.id}`
     } catch (error) {
-      return error
+      throw new Error(ERROR_MESSAGES.uploadFile)
     }
   }
 
@@ -142,25 +143,4 @@ export class Minter {
         break
     }
   }
-}
-
-const _correctType = async (file: File): Promise<File> => {
-  const fileExtension = _getFileExtension(file.name)
-
-  if (!fileExtension) throw new Error(ERROR_MESSAGES.fileNoExtension)
-
-  if (fileExtension === 'glb') return _setMimeType(MIME_TYPES.glb, file)
-  if (fileExtension === 'gltf') return _setMimeType(MIME_TYPES.gltf, file)
-
-  return file
-}
-
-const _setMimeType = async (type: string, file: File): Promise<File> => {
-  return new File([new Blob([await file.arrayBuffer()])], file.name, {
-    type: type,
-  })
-}
-
-const _getFileExtension = (fileName: string): string | undefined => {
-  return fileName.split('.').pop()
 }
