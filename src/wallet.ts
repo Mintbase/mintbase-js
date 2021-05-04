@@ -43,6 +43,7 @@ import {
   DEPLOY_STORE_COST,
   FACTORY_CONTRACT_VIEW_METHODS,
   FACTORY_CONTRACT_CALL_METHODS,
+  TWENTY_FOUR,
 } from './constants'
 import { Minter } from './minter'
 
@@ -471,7 +472,7 @@ export class Wallet {
       {
         token_key: list.token.id,
         price: setPrice,
-        timeout: { Hours: 72 },
+        timeout: { Hours: TWENTY_FOUR },
       },
       MAX_GAS,
       setPrice
@@ -500,7 +501,7 @@ export class Wallet {
       {
         token_key: tokenId,
         price: price,
-        timeout: { Hours: 72 },
+        timeout: { Hours: TWENTY_FOUR },
       },
       MAX_GAS,
       price

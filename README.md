@@ -1,4 +1,4 @@
-[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] [![npm version](https://img.shields.io/npm/v/mintbase.svg?style=flat)](https://www.npmjs.com/package/mitnbase) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
+[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] [![npm version](https://img.shields.io/npm/v/mintbase.svg?style=flat)](https://www.npmjs.com/package/mintbase) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
 
 # ⚠️⚠️⚠️⚠️ WIP: Not for use! ⚠️⚠️⚠️⚠️
 
@@ -19,6 +19,7 @@ General purpose Mintbase API for interacting with NEAR, Arweave and other suppor
   - [Install](#install)
   - [Getting Started](#getting-started)
   - [Support](#support)
+  - [Examples](#examples)
   - [License](#license)
 
 ## Install
@@ -29,20 +30,20 @@ $ npm install mintbase
 
 ## Getting started
 Initializing and Connecting Mintbase Wallet
-* Alternative try our [Create Mintbase App][6]
+* Acquire an API key in the `Developer` tab on [Mintbase][7]
 
 ```typescript
 import { Wallet, Chain, Network } from 'mintbase';
 
 // Create a new instance of the Mintbase class
-const wallet = new Wallet({ chain: Chain.near, networkName: Network.testnet })
+const wallet = new Wallet({ 
+  chain: Chain.near, 
+  networkName: Network.testnet, 
+  apiKey: YOUR_MINTBASEJS_API_KEY
+})
 
 
-wallet: new Wallet({
-  networkName: Wallet.testnet,
-  chain: Wallet.near,
-  apiKey: YOUR_MINTBASEJS_API_KEY,
-}),
+
 
 // Connect and fetch details
 async function connect() {
@@ -60,7 +61,8 @@ async function connect() {
 connect()
 ```
 
-If you want to bootstrap your app (React + Typescript) use: https://github.com/Mintbase/create-mintbase-app
+## Examples
+Bootstrap your app with [Create Mintbase App (React + Typescript)][6]
 
 ## Support
 
@@ -73,8 +75,9 @@ or ask in our [developer telegram][2]
 [MIT][5]
 
 [1]: https://mintbase.github.io/mintbase-js/index.html
-[2]: https://mintbase.github.io/mintbase-js/issues/new
-[3]: https://mintbase.github.io/mintbase-js/issues/new
+[2]: https://github.com/Mintbase/mintbase-js/issues/new
+[3]: https://t.me/mintdev
 [4]: https://mintbase.github.io/mintbase-js/index.html
 [5]: https://github.com/Mintbase/mintbase-js/blob/main/LICENSE
 [6]: https://github.com/Mintbase/create-mintbase-app
+[7]: https://near.mintbase.io

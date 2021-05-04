@@ -152,3 +152,5 @@ export const MIME_TYPES = {
   mpeg: 'audio/mpeg',
   mp3: 'audio/mp3',
 }
+export const TWENTY_FOUR = 24
+export const SEVENTY_TWO = 72
