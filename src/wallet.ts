@@ -41,6 +41,8 @@ import {
   ZERO,
   LIST_COST,
   DEPLOY_STORE_COST,
+  FACTORY_CONTRACT_VIEW_METHODS,
+  FACTORY_CONTRACT_CALL_METHODS,
   TWENTY_FOUR,
 } from './constants'
 import { Minter } from './minter'
@@ -574,8 +576,8 @@ export class Wallet {
     // TODO: regex check inputs (storeId and symbol)
 
     const contract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods: FACTORY_CONTRACT_VIEW_METHODS,
+      changeMethods: FACTORY_CONTRACT_CALL_METHODS,
     })
 
     const storeData = {
