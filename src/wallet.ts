@@ -39,7 +39,6 @@ import {
   MAX_GAS,
   ONE_YOCTO,
   ZERO,
-  LIST_COST,
   DEPLOY_STORE_COST,
   TWENTY_FOUR,
 } from './constants'
