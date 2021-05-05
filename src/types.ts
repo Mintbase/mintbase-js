@@ -104,7 +104,7 @@ enum MetadataField {
   Price = 'price',
   Category = 'category',
   ForSale = 'forSale',
-  ImagePreview = 'imagePreview',
+  Image_preview = 'imagePreview',
   AmountToMint = 'amountToMint',
   NumAvailable = 'numAvailable',
   StripePrice = 'stripePrice',
@@ -156,7 +156,7 @@ interface MintMetadata {
   [MetadataField.Lock]: string[]
   [MetadataField.Visibility]: Visibility
   [MetadataField.Chain]: Chain
-  [MetadataField.ImagePreview]: string | null
+  [MetadataField.Image_preview]: string | null
   [MetadataField.ContractAddress]?: string | null
   [MetadataField.Store]?: string | null
   [MetadataField.Royalty]: { [key: string]: number } | null

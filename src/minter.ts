@@ -101,7 +101,7 @@ export class Minter {
    * Uploads file and returns corresponding URI.
    * @param file The file to upload.
    */
-  public async upload(file: File): Promise<string> {
+  public async upload(file: File): Promise<{ uri: string; hash: string }> {
     // TODO: allowedFiles
     // if (!validFileFormat[field].includes(file.type))
     //   throw new Error('File type not accepted.')
@@ -112,7 +112,10 @@ export class Minter {
 
     const result = await uploadToArweave(file, this.apiKey)
 
-    return `${BASE_ARWEAVE_URI}/${result?.id}`
+    return {
+      uri: `${BASE_ARWEAVE_URI}/${result?.id}`,
+      hash: result?.id,
+    }
   }
 
   // TODO: implement all checks
