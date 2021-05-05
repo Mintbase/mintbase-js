@@ -102,7 +102,12 @@ export class Minter {
    * Uploads file and returns corresponding URI.
    * @param file The file to upload.
    */
-  public async upload(file: File): Promise<{ uri: string; hash: string }> {
+  public async upload(
+    file: File
+  ): Promise<{
+    data: { uri: string; hash: string } | null
+    error: null | string
+  }> {
     try {
       // corrects MIME type
       const tFile = await correctFileType(file)
@@ -112,9 +117,15 @@ export class Minter {
 
       const result = await uploadToArweave(file, this.apiKey)
 
-      return { uri: `${BASE_ARWEAVE_URI}/${result?.id}`, hash: result?.id }
+      return {
+        data: { uri: `${BASE_ARWEAVE_URI}/${result?.id}`, hash: result?.id },
+        error: null,
+      }
     } catch (error) {
-      throw new Error(error.message)
+      return {
+        data: null,
+        error: error.message,
+      }
     }
   }
 
