@@ -33,18 +33,15 @@ const _uploadCloud = async (
   contentType: string
 ): Promise<string> => {
   if (isNode) throw new Error('Node environment does not yet supports uploads.')
-
-  const fileName = uuidv4()
-
   try {
+    const fileName = uuidv4()
     await storage
       .ref(`${ARWEAVE_FOLDER}/${fileName}`)
       .put(buffer, { contentType: contentType })
+    return fileName
   } catch (error) {
     throw new Error(ERROR_MESSAGES.uploadCloud)
   }
-
-  return fileName
 }
 
 /**
@@ -80,7 +77,7 @@ export const uploadToArweave = async (
       throw new Error(ERROR_MESSAGES.decentralizedStorageFailed)
     }
   } catch (error) {
-    throw new Error(ERROR_MESSAGES.uploadFile)
+    throw new Error(error.message)
   }
 }
 

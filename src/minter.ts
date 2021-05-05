@@ -114,7 +114,7 @@ export class Minter {
 
       return `${BASE_ARWEAVE_URI}/${result?.id}`
     } catch (error) {
-      throw new Error(ERROR_MESSAGES.uploadFile)
+      throw new Error(error.message)
     }
   }
 
