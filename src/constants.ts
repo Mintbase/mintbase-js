@@ -62,7 +62,6 @@ export const DEFAULT_ROYALTY_PERCENT = 1000
 export const MAX_GAS = new BN('300000000000000')
 export const ONE_YOCTO = new BN('1')
 export const ZERO = new BN('0')
-export const LIST_COST = new BN('100000000000000000000000')
 export const DEPLOY_STORE_COST = new BN('7000000000000000000000000')
 
 export const VALID_FILE_FORMATS: { [key: string]: string[] } = {
@@ -137,7 +136,7 @@ export const ERROR_MESSAGES = {
   uploadFile: 'Failed at uploading file',
   uploadCloud: 'Failed at uploading file to the cloud',
   uploadMetadata: 'Failed at uploading metadata',
-  decentralizedStorageFailed: 'Failed storing on Arweave'
+  decentralizedStorageFailed: 'Failed storing on Arweave',
 }
 
 export const MIME_TYPES = {
