@@ -136,7 +136,7 @@ export const ERROR_MESSAGES = {
   uploadFile: 'Failed at uploading file',
   uploadCloud: 'Failed at uploading file to the cloud',
   uploadMetadata: 'Failed at uploading metadata',
-  decentralizedStorageFailed: 'Failed storing on Arweave'
+  decentralizedStorageFailed: 'Failed storing on Arweave',
 }
 
 export const MIME_TYPES = {
