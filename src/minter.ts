@@ -109,7 +109,7 @@ export class Minter {
     error: null | string
   }> {
     try {
-      // corrects MIME type
+      // corrects MIME type.
       const tFile = await correctFileType(file)
 
       if (tFile.size > FILE_UPLOAD_SIZE_LIMIT)
