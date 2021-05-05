@@ -132,10 +132,10 @@ export class Minter {
   // TODO: implement all checks
   private fieldChecks(key: MetadataField, value: any): void {
     switch (key) {
-      case MetadataField.Youtube_url:
-        if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
-        if (!value.match(REGEX_URL)) throw new Error(ERROR_MESSAGES.badUrl)
-        break
+      // case MetadataField.Youtube_url:
+      //   if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
+      //   if (!value.match(REGEX_URL)) throw new Error(ERROR_MESSAGES.badUrl)
+      //   break
 
       case MetadataField.Image:
         if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
