@@ -349,7 +349,7 @@ export class Wallet {
         }),
       },
       MAX_GAS,
-      listCost
+      utils.format.parseNearAmount(listCost.toString())
     )
   }
 
@@ -400,7 +400,7 @@ export class Wallet {
         }),
       },
       MAX_GAS,
-      listCost
+      utils.format.parseNearAmount(listCost.toString())
     )
   }
 
