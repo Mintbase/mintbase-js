@@ -1,26 +1,23 @@
 import BN from 'bn.js'
 import { MetadataField } from './types'
 
-export const API_VERSION = 1
+export const API_VERSION = '1'
 export const API_BASE_NEAR_MAINNET =
+  process.env.MINTBASEJS_API_BASE_NEAR_MAINNET ||
   'https://mintbase-mainnet.hasura.app/v1/graphql'
 export const API_BASE_NEAR_TESTNET =
+  process.env.MINTBASEJS_API_BASE_NEAR_TESTNET ||
   'https://mintbase-testnet.hasura.app/v1/graphql'
 export const BASE_ARWEAVE_URI = 'https://arweave.net'
 
 export const CLOUD_BASE_URI = process.env.MINTBASEJS_CLOUD_URI
-export const CLOUD_GET_FILE_METADATA_URI = (fileName: string): string =>
-  `${CLOUD_BASE_URI}/arweave/file/${fileName}`
-export const CLOUD_POST_METADATA_URI = (): string =>
-  `${CLOUD_BASE_URI}/arweave/metadata/`
 
 export const DEFAULT_APP_NAME = 'Mintbase.js'
 export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 
 // TODO: pull this from somewhere else?
-export const STORE_FACTORY_CONTRACT_NAME =
-  process.env.CONTRACT_NAME || 'mintspace1.testnet'
-export const MARKET_ACCOUNT = `0.${STORE_FACTORY_CONTRACT_NAME}`
+export const FACTORY_CONTRACT_NAME =
+  process.env.MINTBASEJS_FACTORY_CONTRACT_NAME || 'mintspace.testnet'
 
 export const STORE_CONTRACT_VIEW_METHODS = []
 

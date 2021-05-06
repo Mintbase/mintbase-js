@@ -1,6 +1,6 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
-import { MintbaseAPIConfig, Network, Chain, Token } from './types'
+import { MintbaseAPIConfig, Network, Chain, Token, Constants } from './types'
 import { API_BASE_NEAR_TESTNET, BASE_ARWEAVE_URI } from './constants'
 import {
   FETCH_MARKETPLACE,
@@ -8,6 +8,7 @@ import {
   GET_TOKENS_BY_OWNER_ID,
   GET_TOKEN_BY_ID,
 } from './queries'
+import { initializeExternalConstants } from './utils/external-constants'
 
 /**
  * Mintbase API.
@@ -17,17 +18,27 @@ export class API {
   public apiBaseUrl: string = API_BASE_NEAR_TESTNET
   public defaultLimit = 10
   public chainName: string = Chain.near
-  public networkName: string = Network.testnet
+  public networkName: Network = Network.testnet
 
-  constructor(config: MintbaseAPIConfig) {
-    switch (config.chain) {
+  public constants: Constants
+
+  constructor(apiConfig: MintbaseAPIConfig) {
+    this.constants = apiConfig.constants
+
+    switch (apiConfig.chain) {
       case Chain.near:
-        this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_TESTNET
+        this.apiBaseUrl =
+          this.constants.API_BASE_NEAR_TESTNET ||
+          apiConfig.apiBaseUrl ||
+          API_BASE_NEAR_TESTNET
         this.chainName = Chain.near
         break
       default:
-        this.apiBaseUrl = config.apiBaseUrl || API_BASE_NEAR_TESTNET
-        this.chainName = config.chain || Chain.near
+        this.apiBaseUrl =
+          this.constants.API_BASE_NEAR_TESTNET ||
+          apiConfig.apiBaseUrl ||
+          API_BASE_NEAR_TESTNET
+        this.chainName = apiConfig.chain || Chain.near
         break
     }
   }
@@ -126,7 +137,9 @@ export class API {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async fetchMetadata(id: string): Promise<any> {
-    const request = await fetch(`${BASE_ARWEAVE_URI}/${id}`)
+    const request = await fetch(
+      `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${id}`
+    )
     const result = await request.json()
     return result
   }

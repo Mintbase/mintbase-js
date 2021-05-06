@@ -2,12 +2,7 @@
  * @jest-environment jsdom
  */
 
-import {
-  getFileExtension,
-  setMimeType,
-  correctFileType,
-} from '../../src/utils/files'
-import { ERROR_MESSAGES, FILE_UPLOAD_SIZE_LIMIT } from '../../src/constants'
+import { getFileExtension } from '../../src/utils/files'
 
 describe('unit test - file utils', () => {
   test('get file extension', () => {

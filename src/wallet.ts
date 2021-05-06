@@ -17,20 +17,20 @@ import { KeyStore } from 'near-api-js/lib/key_stores'
 import { API } from './api'
 import {
   Chain,
-  MintbaseAPIConfig,
   WalletLoginProps,
   Network,
   Split,
   Royalties,
   NEARConfig,
+  Constants,
+  WalletConfig,
 } from './types'
 
 import {
-  STORE_FACTORY_CONTRACT_NAME,
+  FACTORY_CONTRACT_NAME,
   DEFAULT_APP_NAME,
   NEAR_LOCAL_STORAGE_KEY_SUFFIX,
   BASE_ARWEAVE_URI,
-  MARKET_ACCOUNT,
   STORE_CONTRACT_VIEW_METHODS,
   STORE_CONTRACT_CALL_METHODS,
   DEFAULT_ROYALTY_PERCENT,
@@ -47,25 +47,28 @@ import {
 import { Minter } from './minter'
 
 import { calculateListCost } from './utils/near-costs'
+import { initializeExternalConstants } from './utils/external-constants'
 
 /**
  * Mintbase Wallet.
  * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
  */
 export class Wallet {
-  public api: API
+  public api: API | undefined
 
   public activeWallet?: WalletConnection
   public activeNearConnection?: Near
   public activeAccount?: Account
 
-  public networkName: string = Network.testnet
+  public networkName: Network = Network.testnet
   public chain: string = Chain.near
 
-  public keyStore: KeyStore
+  public keyStore: KeyStore | undefined
 
-  public nearConfig: NEARConfig
-  public minter: Minter
+  public nearConfig: NEARConfig | undefined
+  public minter: Minter | undefined
+
+  public constants: Constants
 
   /**
    * Mintbase wallet constructor.
@@ -73,18 +76,37 @@ export class Wallet {
    * @param apiConfig api confuguration options.
    * @returns the wallet instance
    */
-  constructor(apiConfig: MintbaseAPIConfig) {
-    this.api = new API(apiConfig)
-
-    this.networkName = apiConfig.networkName || Network.testnet
-    this.chain = apiConfig.chain || Chain.near
-
-    this.nearConfig = this.getNearConfig(this.networkName)
-    this.keyStore = this.getKeyStore()
-
-    this.minter = new Minter({ apiKey: apiConfig.apiKey })
-
+  constructor() {
+    this.constants = {}
     return this
+  }
+
+  public async init(walletConfig: WalletConfig): Promise<Wallet> {
+    console.log('CONFIG', walletConfig)
+    try {
+      this.constants = await initializeExternalConstants({
+        apiKey: walletConfig.apiKey,
+        networkName: this.networkName,
+      })
+
+      console.log('CONSTANTS', this.constants)
+
+      this.api = new API({ constants: this.constants })
+
+      this.networkName = walletConfig.networkName || Network.testnet
+      this.chain = walletConfig.chain || Chain.near
+      this.nearConfig = this.getNearConfig(this.networkName)
+      this.keyStore = this.getKeyStore()
+
+      this.minter = new Minter({
+        apiKey: walletConfig.apiKey,
+        constants: this.constants,
+      })
+
+      return this
+    } catch (error) {
+      return error
+    }
   }
 
   public isConnected(): boolean | undefined {
@@ -97,7 +119,10 @@ export class Wallet {
    *
    */
   public async connect(props: WalletLoginProps = {}): Promise<void> {
-    const contractAddress = props.contractAddress || STORE_FACTORY_CONTRACT_NAME
+    const contractAddress =
+      props.contractAddress ||
+      this.constants.FACTORY_CONTRACT_NAME ||
+      FACTORY_CONTRACT_NAME
 
     if (isBrowser) {
       const _connectionObject = {
@@ -123,7 +148,10 @@ export class Wallet {
 
       if (!privateKey) throw new Error('Private key is not defined.')
 
-      this.setSessionKeyPair(STORE_FACTORY_CONTRACT_NAME, privateKey)
+      this.setSessionKeyPair(
+        this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
+        privateKey
+      )
 
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
@@ -271,8 +299,12 @@ export class Wallet {
     if (!contractName) throw new Error('No contract was provided.')
 
     const contract = new Contract(account, contractName, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -295,8 +327,12 @@ export class Wallet {
     if (!contractName) throw new Error('No contract was provided.')
 
     const contract = new Contract(account, contractName, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -331,8 +367,12 @@ export class Wallet {
     if (!isOwner) throw new Error('User does not own token.')*/
 
     const contract = new Contract(account, storeId, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // TODO: Checks on split_owners
@@ -343,7 +383,9 @@ export class Wallet {
     await contract.nft_batch_approve(
       {
         token_ids: tokenId,
-        account_id: MARKET_ACCOUNT,
+        account_id: `0.${
+          this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME
+        }`,
         msg: JSON.stringify({
           price: price,
           autotransfer: autotransfer,
@@ -382,8 +424,12 @@ export class Wallet {
     if (!isOwner) throw new Error('User does not own token.')*/
 
     const contract = new Contract(account, storeId, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // TODO: Checks on split_owners
@@ -394,7 +440,9 @@ export class Wallet {
     await contract.nft_approve(
       {
         token_id: tokenId,
-        account_id: MARKET_ACCOUNT,
+        account_id: `0.${
+          this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME
+        }`,
         msg: JSON.stringify({
           price: price,
           autotransfer: autotransfer || true,
@@ -416,8 +464,12 @@ export class Wallet {
     if (!account || !accountId) throw new Error('Account is undefined.')
 
     const contract = new Contract(account, storeId, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -438,8 +490,12 @@ export class Wallet {
     if (!account || !accountId) throw new Error('Account is undefined.')
 
     const contract = new Contract(account, storeId, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -458,6 +514,8 @@ export class Wallet {
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!groupId) throw new Error('Please provide a groupId')
 
+    if (!this.api) throw new Error('API is not defined.')
+
     const result = await this.api.fetchLists(groupId)
 
     if (result.list.length === 0) throw new Error('List is empty')
@@ -465,10 +523,18 @@ export class Wallet {
     // TODO: make sure to get a list that is available
     const list = result.list[0]
 
-    const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
-      changeMethods: MARKET_CONTRACT_CALL_METHODS,
-    })
+    const contract = new Contract(
+      account,
+      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      {
+        viewMethods:
+          this.constants.MARKET_CONTRACT_VIEW_METHODS ||
+          MARKET_CONTRACT_VIEW_METHODS,
+        changeMethods:
+          this.constants.MARKET_CONTRACT_CALL_METHODS ||
+          MARKET_CONTRACT_CALL_METHODS,
+      }
+    )
 
     const setPrice = price || list.price
 
@@ -496,10 +562,18 @@ export class Wallet {
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!tokenId) throw new Error('Please provide a tokenId')
 
-    const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
-      changeMethods: MARKET_CONTRACT_CALL_METHODS,
-    })
+    const contract = new Contract(
+      account,
+      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      {
+        viewMethods:
+          this.constants.MARKET_CONTRACT_VIEW_METHODS ||
+          MARKET_CONTRACT_VIEW_METHODS,
+        changeMethods:
+          this.constants.MARKET_CONTRACT_CALL_METHODS ||
+          MARKET_CONTRACT_CALL_METHODS,
+      }
+    )
 
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer(
@@ -527,10 +601,18 @@ export class Wallet {
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!tokenId) throw new Error('Please provide a tokenId')
 
-    const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
-      changeMethods: MARKET_CONTRACT_CALL_METHODS,
-    })
+    const contract = new Contract(
+      account,
+      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      {
+        viewMethods:
+          this.constants.MARKET_CONTRACT_VIEW_METHODS ||
+          MARKET_CONTRACT_VIEW_METHODS,
+        changeMethods:
+          this.constants.MARKET_CONTRACT_CALL_METHODS ||
+          MARKET_CONTRACT_CALL_METHODS,
+      }
+    )
 
     // @ts-ignore: method does not exist on Contract type
     await contract.accept_and_transfer(
@@ -554,10 +636,18 @@ export class Wallet {
 
     if (!account || !accountId) throw new Error('Account is undefined.')
 
-    const contract = new Contract(account, MARKET_ACCOUNT, {
-      viewMethods: MARKET_CONTRACT_VIEW_METHODS,
-      changeMethods: MARKET_CONTRACT_CALL_METHODS,
-    })
+    const contract = new Contract(
+      account,
+      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      {
+        viewMethods:
+          this.constants.MARKET_CONTRACT_VIEW_METHODS ||
+          MARKET_CONTRACT_VIEW_METHODS,
+        changeMethods:
+          this.constants.MARKET_CONTRACT_CALL_METHODS ||
+          MARKET_CONTRACT_CALL_METHODS,
+      }
+    )
 
     // @ts-ignore: method does not exist on Contract type
     await contract.withdraw_offer({ token_key: tokenKey }, MAX_GAS)
@@ -580,10 +670,18 @@ export class Wallet {
 
     // TODO: regex check inputs (storeId and symbol)
 
-    const contract = new Contract(account, STORE_FACTORY_CONTRACT_NAME, {
-      viewMethods: FACTORY_CONTRACT_VIEW_METHODS,
-      changeMethods: FACTORY_CONTRACT_CALL_METHODS,
-    })
+    const contract = new Contract(
+      account,
+      this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
+      {
+        viewMethods:
+          this.constants.FACTORY_CONTRACT_VIEW_METHODS ||
+          FACTORY_CONTRACT_VIEW_METHODS,
+        changeMethods:
+          this.constants.FACTORY_CONTRACT_CALL_METHODS ||
+          FACTORY_CONTRACT_CALL_METHODS,
+      }
+    )
 
     const storeData = {
       owner_id: accountId,
@@ -592,7 +690,7 @@ export class Wallet {
         name: storeId.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
         symbol: symbol.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
         icon: 'eeieieieie',
-        base_uri: BASE_ARWEAVE_URI,
+        base_uri: this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI,
         reference: null,
         reference_hash: null,
       },
@@ -625,11 +723,17 @@ export class Wallet {
     if (!contractName) throw new Error('No contract was provided.')
 
     const contract = new Contract(account, contractName, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // TODO: Check if minter has a valid object to mint.
+
+    if (!this.minter) throw new Error('Minter not defined.')
 
     const metadataId = await this.minter.getMetadataId()
 
@@ -666,6 +770,7 @@ export class Wallet {
     const accountId = this.activeWallet?.account().accountId
 
     if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!this.api) throw new Error('API is not defined.')
 
     const thingResult = (await this.api.custom(
       `query GET_THING_BY_ID($id: String!) {
@@ -711,8 +816,12 @@ export class Wallet {
     const token = thing.tokens[0]
 
     const contract = new Contract(account, contractName, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     let _royalties: any = {}
@@ -755,8 +864,12 @@ export class Wallet {
     if (!contractName) throw new Error('No contract was provided.')
 
     const contract = new Contract(account, contractName, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -774,8 +887,12 @@ export class Wallet {
     if (!contractName) throw new Error('No contract was provided.')
 
     const contract = new Contract(account, contractName, {
-      viewMethods: STORE_CONTRACT_VIEW_METHODS,
-      changeMethods: STORE_CONTRACT_CALL_METHODS,
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
     })
 
     // @ts-ignore: method does not exist on Contract type
@@ -786,20 +903,25 @@ export class Wallet {
     accountId: string,
     privateKey: string
   ): Promise<KeyStore> {
-    const keyStore = this.keyStore
+    if (!this.keyStore) throw new Error('KeyStore not defined.')
 
-    keyStore.setKey(this.networkName, accountId, KeyPair.fromString(privateKey))
+    this.keyStore.setKey(
+      this.networkName,
+      accountId,
+      KeyPair.fromString(privateKey)
+    )
 
-    return keyStore
+    return this.keyStore
   }
 
   public async getSessionKeyPair(): Promise<KeyPair> {
     const accountId = this.activeWallet?.getAccountId()
-    const keyStore = this.keyStore
 
     if (!accountId) throw new Error('accountId is undefined')
 
-    return await keyStore?.getKey(this.networkName, accountId)
+    if (!this.keyStore) throw new Error('KeyStore not defined.')
+
+    return await this.keyStore?.getKey(this.networkName, accountId)
   }
 
   private getKeyStore() {
@@ -872,6 +994,8 @@ export class Wallet {
     body?: any
     method: string
   }) => {
+    if (!this.nearConfig) throw new Error('NEAR Config not defined.')
+
     const request = await fetch(this.nearConfig.nodeUrl, {
       method: 'POST',
       body: JSON.stringify({
@@ -983,7 +1107,7 @@ export class Wallet {
    * @param contractAddress
    */
   private getNearConfig(
-    networkName: string,
+    networkName: Network,
     contractAddress?: string
   ): NEARConfig {
     switch (networkName) {
@@ -991,7 +1115,10 @@ export class Wallet {
         return {
           networkId: 'testnet',
           nodeUrl: 'https://rpc.testnet.near.org',
-          contractName: contractAddress || STORE_FACTORY_CONTRACT_NAME,
+          contractName:
+            contractAddress ||
+            this.constants?.FACTORY_CONTRACT_NAME ||
+            FACTORY_CONTRACT_NAME,
           walletUrl: 'https://wallet.testnet.near.org',
           helperUrl: 'https://helper.testnet.near.org',
         }
@@ -1000,7 +1127,10 @@ export class Wallet {
         return {
           networkId: 'mainnet',
           nodeUrl: 'https://rpc.mainnet.near.org',
-          contractName: contractAddress || STORE_FACTORY_CONTRACT_NAME,
+          contractName:
+            contractAddress ||
+            this.constants?.FACTORY_CONTRACT_NAME ||
+            FACTORY_CONTRACT_NAME,
           walletUrl: 'https://wallet.mainnet.near.org',
           helperUrl: 'https://helper.mainnet.near.org',
         }
@@ -1008,7 +1138,10 @@ export class Wallet {
         return {
           networkId: 'testnet',
           nodeUrl: 'https://rpc.testnet.near.org',
-          contractName: contractAddress || STORE_FACTORY_CONTRACT_NAME,
+          contractName:
+            contractAddress ||
+            this.constants?.FACTORY_CONTRACT_NAME ||
+            FACTORY_CONTRACT_NAME,
           walletUrl: 'https://wallet.testnet.near.org',
           helperUrl: 'https://helper.testnet.near.org',
         }
