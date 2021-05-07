@@ -78,18 +78,14 @@ export class Wallet {
    */
   constructor() {
     this.constants = {}
-    return this
   }
 
   public async init(walletConfig: WalletConfig): Promise<Wallet> {
-    console.log('CONFIG', walletConfig)
     try {
       this.constants = await initializeExternalConstants({
         apiKey: walletConfig.apiKey,
         networkName: this.networkName,
       })
-
-      console.log('CONSTANTS', this.constants)
 
       this.api = new API({ constants: this.constants })
 
@@ -507,7 +503,11 @@ export class Wallet {
    * @param groupId
    * @param price
    */
-  public async makeGroupOffer(groupId: string, price?: string): Promise<void> {
+  public async makeGroupOffer(
+    groupId: string,
+    price?: string,
+    marketAddress?: string
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
@@ -525,7 +525,11 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      `0.${
+        marketAddress ||
+        this.constants.FACTORY_CONTRACT_NAME ||
+        FACTORY_CONTRACT_NAME
+      }`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
@@ -555,7 +559,11 @@ export class Wallet {
    * @param tokenId
    * @param price
    */
-  public async makeOffer(tokenId: string, price: string): Promise<void> {
+  public async makeOffer(
+    tokenId: string,
+    price: string,
+    marketAddress?: string
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
@@ -564,7 +572,8 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      marketAddress ||
+        `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
@@ -593,7 +602,8 @@ export class Wallet {
    * @param price
    */
   public async acceptAndTransfer(
-    tokenId: string
+    tokenId: string,
+    marketAddress?: string
   ): Promise<{ error: string | null }> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -603,7 +613,11 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      `0.${
+        marketAddress ||
+        this.constants.FACTORY_CONTRACT_NAME ||
+        FACTORY_CONTRACT_NAME
+      }`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
@@ -619,7 +633,8 @@ export class Wallet {
       {
         token_key: tokenId,
       },
-      MAX_GAS
+      MAX_GAS,
+      ONE_YOCTO
     )
     return {
       error: null,
@@ -630,7 +645,10 @@ export class Wallet {
    *  Withdraw the escrow deposited for an offer.
    * @param tokenKey The token key. `<tokenId>:<contractName>`
    */
-  public async withdrawOffer(tokenKey: string): Promise<void> {
+  public async withdrawOffer(
+    tokenKey: string,
+    marketAddress?: string
+  ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
@@ -638,7 +656,11 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      `0.${
+        marketAddress ||
+        this.constants.FACTORY_CONTRACT_NAME ||
+        FACTORY_CONTRACT_NAME
+      }`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
@@ -1123,7 +1145,7 @@ export class Wallet {
           helperUrl: 'https://helper.testnet.near.org',
         }
 
-      case Network.main:
+      case Network.mainnet:
         return {
           networkId: 'mainnet',
           nodeUrl: 'https://rpc.mainnet.near.org',

@@ -3,12 +3,7 @@ import firebase from 'firebase/app'
 import 'firebase/storage'
 import { isNode } from 'browser-or-node'
 import { v4 as uuidv4 } from 'uuid'
-import {
-  CLOUD_BASE_URI,
-  CLOUD_STORAGE_CONFIG,
-  ERROR_MESSAGES,
-} from '../constants'
-import { initializeExternalConstants } from './external-constants'
+import { CLOUD_URI, CLOUD_STORAGE_CONFIG, ERROR_MESSAGES } from '../constants'
 import { Constants } from 'src/types'
 
 const ARWEAVE_FOLDER = 'arweave'
@@ -49,16 +44,13 @@ export class Storage {
    */
   public async uploadMetadata(metadata: unknown): Promise<string> {
     try {
-      const request = await fetch(
-        `${this.constants.CLOUD_BASE_URI || CLOUD_BASE_URI}/arweave/metadata/`,
-        {
-          method: 'POST',
-          body: JSON.stringify(metadata),
-          headers: {
-            [headers.apiKey]: this.apiKey || 'anonymous',
-          },
-        }
-      )
+      const request = await fetch(`${CLOUD_URI}/arweave/metadata/`, {
+        method: 'POST',
+        body: JSON.stringify(metadata),
+        headers: {
+          [headers.apiKey]: this.apiKey || 'anonymous',
+        },
+      })
       const data = await request.json()
 
       return data?.id as string
@@ -87,16 +79,11 @@ export class Storage {
 
       try {
         // Fetches arweave id. This request will trigger an upload in the cloud
-        const request = await fetch(
-          `${
-            this.constants.CLOUD_BASE_URI || CLOUD_BASE_URI
-          }/arweave/file/${fileName}`,
-          {
-            headers: {
-              [headers.apiKey]: this.apiKey || 'anonymous',
-            },
-          }
-        )
+        const request = await fetch(`${CLOUD_URI}/arweave/file/${fileName}`, {
+          headers: {
+            [headers.apiKey]: this.apiKey || 'anonymous',
+          },
+        })
 
         const data = await request.json()
 

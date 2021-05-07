@@ -3,7 +3,7 @@ enum Chain {
 }
 
 enum Network {
-  main = 'main',
+  mainnet = 'mainnet',
   testnet = 'testnet',
 }
 
@@ -36,7 +36,6 @@ interface Constants {
   API_BASE_NEAR_MAINNET?: string
   API_BASE_NEAR_TESTNET?: string
   BASE_ARWEAVE_URI?: string
-  CLOUD_BASE_URI?: string
   FACTORY_CONTRACT_NAME?: string
   STORE_CONTRACT_VIEW_METHODS?: string[]
   STORE_CONTRACT_CALL_METHODS?: string[]
@@ -214,5 +213,5 @@ export {
   NEARConfig,
   Constants,
   CloudStorageConstants,
-  WalletConfig
+  WalletConfig,
 }

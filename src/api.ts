@@ -1,14 +1,17 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
 import { MintbaseAPIConfig, Network, Chain, Token, Constants } from './types'
-import { API_BASE_NEAR_TESTNET, BASE_ARWEAVE_URI } from './constants'
+import {
+  API_BASE_NEAR_MAINNET,
+  API_BASE_NEAR_TESTNET,
+  BASE_ARWEAVE_URI,
+} from './constants'
 import {
   FETCH_MARKETPLACE,
   GET_LATEST_LIST,
   GET_TOKENS_BY_OWNER_ID,
   GET_TOKEN_BY_ID,
 } from './queries'
-import { initializeExternalConstants } from './utils/external-constants'
 
 /**
  * Mintbase API.
@@ -18,19 +21,28 @@ export class API {
   public apiBaseUrl: string = API_BASE_NEAR_TESTNET
   public defaultLimit = 10
   public chainName: string = Chain.near
-  public networkName: Network = Network.testnet
+  public networkName: Network | undefined
 
   public constants: Constants
 
   constructor(apiConfig: MintbaseAPIConfig) {
     this.constants = apiConfig.constants
 
+    this.networkName = apiConfig.networkName || Network.testnet
+
     switch (apiConfig.chain) {
       case Chain.near:
-        this.apiBaseUrl =
-          this.constants.API_BASE_NEAR_TESTNET ||
-          apiConfig.apiBaseUrl ||
-          API_BASE_NEAR_TESTNET
+        if (this.networkName === Network.testnet) {
+          this.apiBaseUrl =
+            this.constants.API_BASE_NEAR_TESTNET ||
+            apiConfig.apiBaseUrl ||
+            API_BASE_NEAR_TESTNET
+        } else if (this.networkName === Network.mainnet) {
+          this.apiBaseUrl =
+            this.constants.API_BASE_NEAR_MAINNET ||
+            apiConfig.apiBaseUrl ||
+            API_BASE_NEAR_MAINNET
+        }
         this.chainName = Chain.near
         break
       default:
