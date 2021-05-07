@@ -130,66 +130,53 @@ interface Attribute {
 
 enum MetadataField {
   Id = 'id',
-  Name = 'name',
-  Description = 'description',
-  Image = 'image',
-  Price = 'price',
+  Title = 'title',
   Category = 'category',
-  ForSale = 'forSale',
-  Image_preview = 'imagePreview',
-  AmountToMint = 'amountToMint',
-  NumAvailable = 'numAvailable',
-  StripePrice = 'stripePrice',
-  MetaId = 'metaId',
-  Minter = 'minter',
-  Minted = 'minted',
-  MintOn = 'mintedOn',
-  LastMinted = 'lastMinted',
+  Description = 'description',
+  Media = 'media',
+  Media_hash = 'media_hash',
   Tags = 'tags',
-  Image_data = 'image_data',
-  External_data = 'external_data',
+  Image_preview = 'imagePreview',
+  Copies = 'copies',
+  Extra = 'extra',
   External_url = 'external_url',
   Background_color = 'background_color',
   Animation_url = 'animation_url',
+  Animation_hash = 'animation_hash',
   Youtube_url = 'youtube_url',
-  Attributes = 'attributes',
-  ContractAddress = 'contractAddress',
+  UpdatedAt = 'updated_at',
   Document = 'document',
+  Document_hash = 'document_hash',
   Lock = 'lock',
   Visibility = 'visibility',
   Chain = 'chain',
   Store = 'store',
   Royalty = 'royalty',
   Royalty_perc = 'royalty_perc',
+  SplitRevenue = 'split_revenue',
 }
 
 interface MintMetadata {
   [MetadataField.Id]?: string
-  [MetadataField.Name]: string
-  [MetadataField.Description]: string
+  [MetadataField.Title]: string
+  [MetadataField.Category]: string | null
+  [MetadataField.Description]: string | null
+  [MetadataField.Media]: string
+  [MetadataField.Media_hash]: string | null
   [MetadataField.Tags]: string[]
-  [MetadataField.Image]: string
-  [MetadataField.Price]: number
-  [MetadataField.AmountToMint]: number
-  [MetadataField.NumAvailable]: number
-  [MetadataField.StripePrice]: number
-  [MetadataField.ForSale]: boolean
-  [MetadataField.Attributes]: Attribute[]
-  [MetadataField.MetaId]: string | null
-  [MetadataField.Image_data]: string | null
-  [MetadataField.External_data]: string | null
+  [MetadataField.Image_preview]: string | null
+  [MetadataField.Copies]: number
+  [MetadataField.Extra]: Attribute[]
   [MetadataField.External_url]: string | null
-  [MetadataField.Background_color]: string
+  [MetadataField.Background_color]: string | null
   [MetadataField.Animation_url]: string | null
+  [MetadataField.Animation_hash]: string | null
   [MetadataField.Youtube_url]: string | null
-  [MetadataField.Minter]: string | null
-  [MetadataField.LastMinted]: Date | null
-  [MetadataField.Document]: string[]
+  [MetadataField.Document]: string | null
+  [MetadataField.Document_hash]: string[] | null
   [MetadataField.Lock]: string[]
   [MetadataField.Visibility]: Visibility
   [MetadataField.Chain]: Chain
-  [MetadataField.Image_preview]: string | null
-  [MetadataField.ContractAddress]?: string | null
   [MetadataField.Store]?: string | null
   [MetadataField.Royalty]: { [key: string]: number } | null
   [MetadataField.Royalty_perc]: number | null

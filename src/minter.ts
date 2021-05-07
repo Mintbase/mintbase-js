@@ -159,12 +159,12 @@ export class Minter {
       //   if (!value.match(REGEX_URL)) throw new Error(ERROR_MESSAGES.badUrl)
       //   break
 
-      case MetadataField.Image:
+      case MetadataField.Media:
         if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
         if (!value.match(REGEX_URL)) throw new Error(ERROR_MESSAGES.badUrl)
         break
 
-      case MetadataField.Name:
+      case MetadataField.Title:
         if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
         break
 

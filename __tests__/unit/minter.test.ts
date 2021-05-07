@@ -9,14 +9,14 @@ describe('unit test - minter', () => {
   test('set valid image metadata field', () => {
     const minter = new Minter()
 
-    minter.setField(MetadataField.Image, VALID_URL)
-    expect(minter.currentMint[MetadataField.Image]).toBe(VALID_URL)
+    minter.setField(MetadataField.Media, VALID_URL)
+    expect(minter.currentMint[MetadataField.Media]).toBe(VALID_URL)
   })
 
   test('set invalid image metadata field', () => {
     expect(() => {
       const minter = new Minter()
-      minter.setField(MetadataField.Image, INVALID_URL)
+      minter.setField(MetadataField.Media, INVALID_URL)
     }).toThrow(ERROR_MESSAGES.badUrl)
   })
 
