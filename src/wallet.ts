@@ -48,6 +48,7 @@ import { Minter } from './minter'
 
 import { calculateListCost } from './utils/near-costs'
 import { initializeExternalConstants } from './utils/external-constants'
+import { formatResponse } from './utils/responseBuilder'
 
 /**
  * Mintbase Wallet.
@@ -98,7 +99,7 @@ export class Wallet {
         apiKey: walletConfig.apiKey,
         constants: this.constants,
       })
-      
+
       return this
     } catch (error) {
       return error
@@ -794,7 +795,18 @@ export class Wallet {
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!this.api) throw new Error('API is not defined.')
 
-    const thingResult = (await this.api.custom(
+    // TODO: move this thing type to a proper place
+    const { data, error } = await this.api.custom<{
+      thing: {
+        metaId: string
+        storeId: string
+        memo: string
+        tokens: {
+          royaltyPercent: string
+          royaltys: { account: string; percent: string }[]
+        }[]
+      }[] 
+    }>(
       `query GET_THING_BY_ID($id: String!) {
       thing(where: {id: {_eq: $id}}) {
         metaId
@@ -810,22 +822,14 @@ export class Wallet {
       }
     }
     `,
-      { id: id }
-    )) as {
-      thing: {
-        metaId: string
-        storeId: string
-        memo: string
-        tokens: {
-          royaltyPercent: string
-          royaltys: { account: string; percent: string }[]
-        }[]
-      }[]
+      { id }
+    )
+
+    const { thing: _thing } = data
+
+    if (error || _thing.length === 0) {
+      return formatResponse({ error: 'Thing does not exist.' })
     }
-
-    const _thing = thingResult.thing
-
-    if (_thing.length === 0) throw new Error('Thing does not exist.')
 
     const thing = _thing[0]
 

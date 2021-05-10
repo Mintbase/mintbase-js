@@ -51,17 +51,18 @@ export class Minter {
       Object.keys(this.currentMint).length === 0 &&
       this.currentMint.constructor === Object
     )
-      return formatResponse({ error: ERROR_MESSAGES.metadataEmpty });
-      // throw new Error(ERROR_MESSAGES.metadataEmpty)
+      return formatResponse({ error: ERROR_MESSAGES.metadataEmpty })
+    // throw new Error(ERROR_MESSAGES.metadataEmpty)
 
-    if (!this.storage) throw new Error('Storage not initialized')
+    if (!this.storage)
+      return formatResponse({ error: 'Storage not initialized' })
 
     const id = await this.storage.uploadMetadata(this.currentMint)
 
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}
 
-    return formatResponse({ data: id });
+    return formatResponse({ data: id })
   }
 
   /**
@@ -118,12 +119,12 @@ export class Minter {
    */
   public async upload(
     file: File
-  ): Promise<{
-    data: { uri: string; hash: string } | null
-    error: null | string
-  }> {
+  ): Promise<ResponseData<{ uri: string; hash: string }>> {
     try {
-      if (!this.storage) throw new Error('Storage not initialized')
+      if (!this.storage) {
+        // throw new Error('Storage not initialized')
+        return formatResponse({ error: 'Storage not initialized' })
+      }
 
       // corrects MIME type.
       const tFile = await correctFileType(file)
@@ -131,25 +132,23 @@ export class Minter {
       if (
         tFile.size >
         (this.constants.FILE_UPLOAD_SIZE_LIMIT || FILE_UPLOAD_SIZE_LIMIT)
-      )
-        throw new Error(ERROR_MESSAGES.fileSizeExceeded)
+      ) {
+        formatResponse({ error: 'Storage not initialized' })
+        // throw new Error(ERROR_MESSAGES.fileSizeExceeded)
+      }
 
       const result = await this.storage.uploadToArweave(file)
 
-      return {
-        data: {
-          uri: `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${
-            result?.id
-          }`,
-          hash: result?.id,
-        },
-        error: null,
+      const data = {
+        uri: `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${
+          result?.id
+        }`,
+        hash: result?.id,
       }
+
+      return formatResponse({ data })
     } catch (error) {
-      return {
-        data: null,
-        error: error.message,
-      }
+      return formatResponse({ error: error.message })
     }
   }
 
