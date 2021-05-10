@@ -84,7 +84,7 @@ export class Wallet {
     try {
       this.constants = await initializeExternalConstants({
         apiKey: walletConfig.apiKey,
-        networkName: this.networkName,
+        networkName: walletConfig.networkName || this.networkName,
       })
 
       this.api = new API({ constants: this.constants })
@@ -346,7 +346,7 @@ export class Wallet {
     tokenId: string[],
     storeId: string,
     price: string,
-    autotransfer: boolean = true
+    autotransfer = true
   ): Promise<void> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId

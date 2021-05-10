@@ -13,7 +13,7 @@ const headers = {
 
 interface StorageConfigProps {
   apiKey?: string
-  constants: Constants
+  constants?: Constants
 }
 
 export class Storage {
@@ -24,8 +24,8 @@ export class Storage {
 
   public constants: Constants
 
-  constructor(storageConfig: StorageConfigProps) {
-    this.constants = storageConfig.constants
+  constructor(storageConfig: StorageConfigProps = {}) {
+    this.constants = storageConfig.constants || {}
     this.apiKey = storageConfig.apiKey || 'anonymous'
 
     if (!firebase.apps.length) {

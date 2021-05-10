@@ -7,12 +7,11 @@ import {
 } from './constants'
 import { Constants, MetadataField } from './types'
 import { correctFileType } from './utils/files'
-import { initializeExternalConstants } from './utils/external-constants'
 import { Storage } from './utils/storage'
 
 interface MinterConfigProps {
   apiKey?: string
-  constants: Constants
+  constants?: Constants
 }
 
 /**
@@ -29,14 +28,17 @@ export class Minter {
   public apiKey: string
   public constants: Constants
 
-  constructor(minterConfig: MinterConfigProps) {
+  constructor(minterConfig: MinterConfigProps = {}) {
     this.latestMints = {}
     this.currentMint = {}
 
-    this.constants = minterConfig.constants
+    this.constants = minterConfig.constants || {}
     this.apiKey = minterConfig.apiKey || 'anonymous'
 
-    this.storage = new Storage({ constants: this.constants })
+    this.storage = new Storage({
+      apiKey: this.apiKey,
+      constants: this.constants,
+    })
   }
 
   /**

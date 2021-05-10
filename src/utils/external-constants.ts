@@ -12,7 +12,9 @@ export const initializeExternalConstants = async ({
   const response = await fetch(`${CLOUD_URI}/developer`, {
     headers: {
       'api-key': apiKey || 'anonymous',
-      'api-version': API_VERSION,
+      'api-version': !networkName
+        ? API_VERSION
+        : `${API_VERSION}-${networkName}`,
     },
   })
 
