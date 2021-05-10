@@ -30,7 +30,8 @@ export class Storage {
 
     if (!firebase.apps.length) {
       this.firebase = firebase.initializeApp(
-        this.constants.CLOUD_STORAGE_CONFIG || CLOUD_STORAGE_CONFIG
+        this.constants.CLOUD_STORAGE_CONFIG || CLOUD_STORAGE_CONFIG,
+        'mintbase.js'
       )
 
       this.storage = this.firebase.storage()
