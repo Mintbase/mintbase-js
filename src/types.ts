@@ -3,7 +3,7 @@ enum Chain {
 }
 
 enum Network {
-  main = 'main',
+  mainnet = 'mainnet',
   testnet = 'testnet',
 }
 
@@ -31,6 +31,37 @@ interface List {
   currentOfferId?: string
 }
 
+interface Constants {
+  API_VERSION?: string
+  API_BASE_NEAR_MAINNET?: string
+  API_BASE_NEAR_TESTNET?: string
+  BASE_ARWEAVE_URI?: string
+  FACTORY_CONTRACT_NAME?: string
+  STORE_CONTRACT_VIEW_METHODS?: string[]
+  STORE_CONTRACT_CALL_METHODS?: string[]
+  MARKET_CONTRACT_VIEW_METHODS?: string[]
+  MARKET_CONTRACT_CALL_METHODS?: string[]
+  FACTORY_CONTRACT_VIEW_METHODS?: string[]
+  FACTORY_CONTRACT_CALL_METHODS?: string[]
+  CLOUD_STORAGE_CONFIG?: CloudStorageConstants
+  DEFAULT_ROYALTY_PERCENT?: number
+  FILE_UPLOAD_SIZE_LIMIT?: number
+}
+
+interface CloudStorageConstants {
+  apiKey: string
+  authDomain: string
+  databaseURL: string
+  projectId: string
+  storageBucket: string
+}
+
+interface WalletConfig {
+  apiKey: string
+  chain?: Chain
+  networkName?: Network
+}
+
 /**
  * Mintbase API configuration object
  * @param chain `Chain` type to use. Defaults to `Chain.near`
@@ -42,6 +73,7 @@ interface MintbaseAPIConfig {
   networkName?: Network
   apiBaseUrl?: string
   apiKey?: string
+  constants: Constants
 }
 
 interface WalletLoginProps {
@@ -179,4 +211,7 @@ export {
   MetadataField,
   MintMetadata,
   NEARConfig,
+  Constants,
+  CloudStorageConstants,
+  WalletConfig,
 }

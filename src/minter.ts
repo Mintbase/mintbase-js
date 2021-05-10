@@ -1,16 +1,17 @@
-import { uploadToArweave, uploadMetadata } from './utils/storage'
 import {
   BASE_ARWEAVE_URI,
   FILE_UPLOAD_SIZE_LIMIT,
   REGEX_URL,
   VALID_FILE_FORMATS,
   ERROR_MESSAGES,
-  MIME_TYPES,
 } from './constants'
-import { MetadataField } from './types'
+import { Constants, MetadataField } from './types'
 import { correctFileType } from './utils/files'
+import { Storage } from './utils/storage'
+
 interface MinterConfigProps {
   apiKey?: string
+  constants?: Constants
 }
 
 /**
@@ -22,13 +23,22 @@ export class Minter {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public currentMint: any
 
+  public storage: Storage | undefined
+
   public apiKey: string
+  public constants: Constants
 
   constructor(minterConfig: MinterConfigProps = {}) {
     this.latestMints = {}
     this.currentMint = {}
 
+    this.constants = minterConfig.constants || {}
     this.apiKey = minterConfig.apiKey || 'anonymous'
+
+    this.storage = new Storage({
+      apiKey: this.apiKey,
+      constants: this.constants,
+    })
   }
 
   /**
@@ -42,7 +52,9 @@ export class Minter {
     )
       throw new Error(ERROR_MESSAGES.metadataEmpty)
 
-    const id = await uploadMetadata(this.currentMint, this.apiKey)
+    if (!this.storage) throw new Error('Storage not initialized')
+
+    const id = await this.storage.uploadMetadata(this.currentMint)
 
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}
@@ -109,16 +121,26 @@ export class Minter {
     error: null | string
   }> {
     try {
+      if (!this.storage) throw new Error('Storage not initialized')
+
       // corrects MIME type.
       const tFile = await correctFileType(file)
 
-      if (tFile.size > FILE_UPLOAD_SIZE_LIMIT)
+      if (
+        tFile.size >
+        (this.constants.FILE_UPLOAD_SIZE_LIMIT || FILE_UPLOAD_SIZE_LIMIT)
+      )
         throw new Error(ERROR_MESSAGES.fileSizeExceeded)
 
-      const result = await uploadToArweave(file, this.apiKey)
+      const result = await this.storage.uploadToArweave(file)
 
       return {
-        data: { uri: `${BASE_ARWEAVE_URI}/${result?.id}`, hash: result?.id },
+        data: {
+          uri: `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${
+            result?.id
+          }`,
+          hash: result?.id,
+        },
         error: null,
       }
     } catch (error) {
