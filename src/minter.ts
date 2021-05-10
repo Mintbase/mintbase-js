@@ -121,6 +121,8 @@ export class Minter {
     error: null | string
   }> {
     try {
+      if (!this.storage) throw new Error('Storage not initialized')
+
       // corrects MIME type.
       const tFile = await correctFileType(file)
 
@@ -129,8 +131,6 @@ export class Minter {
         (this.constants.FILE_UPLOAD_SIZE_LIMIT || FILE_UPLOAD_SIZE_LIMIT)
       )
         throw new Error(ERROR_MESSAGES.fileSizeExceeded)
-
-      if (!this.storage) throw new Error('Storage not initialized')
 
       const result = await this.storage.uploadToArweave(file)
 
