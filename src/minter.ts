@@ -8,6 +8,7 @@ import {
 import { Constants, MetadataField } from './types'
 import { correctFileType } from './utils/files'
 import { Storage } from './utils/storage'
+import { formatResponse, ResponseData } from './utils/responseBuilder'
 
 interface MinterConfigProps {
   apiKey?: string
@@ -44,13 +45,14 @@ export class Minter {
   /**
    * Uploads the current metadata object and returns its content identifier.
    */
-  public async getMetadataId(): Promise<string> {
+  public async getMetadataId(): Promise<ResponseData<string>> {
     if (
       this.currentMint &&
       Object.keys(this.currentMint).length === 0 &&
       this.currentMint.constructor === Object
     )
-      throw new Error(ERROR_MESSAGES.metadataEmpty)
+      return formatResponse({ error: ERROR_MESSAGES.metadataEmpty });
+      // throw new Error(ERROR_MESSAGES.metadataEmpty)
 
     if (!this.storage) throw new Error('Storage not initialized')
 
@@ -59,7 +61,7 @@ export class Minter {
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}
 
-    return id
+    return formatResponse({ data: id });
   }
 
   /**

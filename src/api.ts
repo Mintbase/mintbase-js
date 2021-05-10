@@ -12,6 +12,7 @@ import {
   GET_TOKENS_BY_OWNER_ID,
   GET_TOKEN_BY_ID,
 } from './queries'
+import { formatResponse, ResponseData } from './utils/responseBuilder'
 
 /**
  * Mintbase API.
@@ -94,13 +95,14 @@ export class API {
     })
 
     if (result.token.length === 0)
-      throw new Error(`${tokenId} is not a valid token.`)
+      return formatResponse({ error: `${tokenId} is not a valid token.` })
+      // throw new Error(`${tokenId} is not a valid token.`)
 
     const token = result.token[0]
 
     const metadata = await this.fetchMetadata(token.thingId)
 
-    return metadata
+    return formatResponse({ data: metadata })
   }
 
   /**
@@ -129,17 +131,18 @@ export class API {
    * @param storeId store id
    * @returns the token
    */
-  public async fetchToken(tokenId: number, storeId: string): Promise<Token> {
+  public async fetchToken(tokenId: number, storeId: string): Promise<ResponseData<Token>> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: `${tokenId}:${storeId}`,
     })
 
     if (result.token.length === 0)
-      throw new Error(`${tokenId} is not a valid token`)
+      return formatResponse({ error: `${tokenId} is not a valid token` })
+      // throw new Error(`${tokenId} is not a valid token`)
 
     const token = result.token[0]
 
-    return token
+    return formatResponse({ data: token })
   }
 
   /**
