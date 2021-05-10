@@ -98,15 +98,15 @@ export class Wallet {
         apiKey: walletConfig.apiKey,
         constants: this.constants,
       })
-
+      
       return this
     } catch (error) {
       return error
     }
   }
 
-  public isConnected(): boolean | undefined {
-    return this.activeWallet?.isSignedIn()
+  public isConnected(): boolean {
+    return this.activeWallet?.isSignedIn() ?? false
   }
 
   /**
