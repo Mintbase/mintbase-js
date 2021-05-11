@@ -99,7 +99,6 @@ export class API {
 
     if (result.token.length === 0)
       return formatResponse({ error: `${tokenId} is not a valid token.` })
-    // throw new Error(`${tokenId} is not a valid token.`)
 
     const token = result.token[0]
 
@@ -144,7 +143,6 @@ export class API {
 
     if (result.token.length === 0)
       return formatResponse({ error: `${tokenId} is not a valid token` })
-    // throw new Error(`${tokenId} is not a valid token`)
 
     const token = result.token[0]
 

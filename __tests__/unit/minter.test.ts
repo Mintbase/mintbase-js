@@ -14,10 +14,9 @@ describe('unit test - minter', () => {
   })
 
   test('set invalid image metadata field', () => {
-    expect(() => {
-      const minter = new Minter()
-      minter.setField(MetadataField.Media, INVALID_URL)
-    }).toThrow(ERROR_MESSAGES.badUrl)
+    const minter = new Minter()
+    const { error } = minter.setField(MetadataField.Media, INVALID_URL)
+    expect(error).toBe(ERROR_MESSAGES.badUrl)
   })
 
   test('set field', () => {

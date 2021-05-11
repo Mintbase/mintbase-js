@@ -61,7 +61,6 @@ export class Storage {
       return formatResponse({ data })
     } catch (error) {
       return formatResponse({ error: ERROR_MESSAGES.uploadMetadata })
-      // throw new Error(ERROR_MESSAGES.uploadMetadata)
     }
   }
 
@@ -75,7 +74,6 @@ export class Storage {
   ): Promise<ResponseData<{ id: string; contentType: string }>> {
     if (isNode)
       return formatResponse({ error: 'Node environment does not yet supports uploads.' })
-      // throw new Error('Node environment does not yet supports uploads.')
 
     const buffer = await file.arrayBuffer()
     const contentType = file.type
@@ -99,11 +97,9 @@ export class Storage {
         return formatResponse({ data })
       } catch (error) {
         return formatResponse({ error: ERROR_MESSAGES.decentralizedStorageFailed })
-        // throw new Error(ERROR_MESSAGES.decentralizedStorageFailed)
       }
     } catch (error) {
       return formatResponse({ error: error.message })
-      // throw new Error(error.message)
     }
   }
 
@@ -120,13 +116,11 @@ export class Storage {
   ): Promise<ResponseData<string>> {
     if (isNode)
       return formatResponse({ error: 'Node environment does not yet supports uploads.' })
-      // throw new Error('Node environment does not yet supports uploads.')
     try {
       const fileName = uuidv4()
 
       if (!this.storage)
         return formatResponse({ error: 'Storage is not initialized' })
-        // throw new Error('Storage is not initialized')
 
       await this.storage
         .ref(`${ARWEAVE_FOLDER}/${fileName}`)
@@ -135,7 +129,6 @@ export class Storage {
       return formatResponse({ data: fileName })
     } catch (error) {
       return formatResponse({ error: ERROR_MESSAGES.uploadCloud })
-      // throw new Error(ERROR_MESSAGES.uploadCloud)
     }
   }
 }
