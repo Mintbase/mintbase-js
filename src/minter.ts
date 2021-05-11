@@ -8,6 +8,7 @@ import {
 import { Constants, MetadataField } from './types'
 import { correctFileType } from './utils/files'
 import { Storage } from './utils/storage'
+import { formatResponse, ResponseData } from './utils/responseBuilder'
 
 interface MinterConfigProps {
   apiKey?: string
@@ -44,22 +45,23 @@ export class Minter {
   /**
    * Uploads the current metadata object and returns its content identifier.
    */
-  public async getMetadataId(): Promise<string> {
+  public async getMetadataId(): Promise<ResponseData<string>> {
     if (
       this.currentMint &&
       Object.keys(this.currentMint).length === 0 &&
       this.currentMint.constructor === Object
     )
-      throw new Error(ERROR_MESSAGES.metadataEmpty)
+      return formatResponse({ error: ERROR_MESSAGES.metadataEmpty })
 
-    if (!this.storage) throw new Error('Storage not initialized')
+    if (!this.storage)
+      return formatResponse({ error: 'Storage not initialized' })
 
-    const id = await this.storage.uploadMetadata(this.currentMint)
+    const { data: id } = await this.storage.uploadMetadata(this.currentMint)
 
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}
 
-    return id
+    return formatResponse({ data: id })
   }
 
   /**
@@ -71,24 +73,27 @@ export class Minter {
     key: MetadataField,
     value: unknown,
     override?: boolean
-  ): void {
+  ): ResponseData<boolean> {
     try {
       this.fieldChecks(key, value)
     } catch (error) {
-      throw new Error(error.message)
+      return formatResponse({ error: error.message })
     }
 
     if (!this.currentMint[key]) this.currentMint[key] = value
     else if (override && !!this.currentMint[key]) this.currentMint[key] = value
+
+    return formatResponse({ data: true })
   }
 
-  public setMetadata(metadata: any, override?: boolean): void {
+  public setMetadata(metadata: any, override?: boolean): ResponseData<boolean> {
     try {
       Object.keys(metadata).forEach((field) => {
         this.setField(field as MetadataField, metadata[field], override)
       })
+      return formatResponse({ data: true })
     } catch (error) {
-      throw new Error(error.message)
+      return formatResponse({ error: error.message })
     }
   }
 
@@ -97,16 +102,20 @@ export class Minter {
    * @param field The metadata field.
    * @param file The file to upload.
    */
-  public async uploadField(field: string, file: File): Promise<void> {
+  public async uploadField(
+    field: string,
+    file: File
+  ): Promise<ResponseData<boolean>> {
     if (!VALID_FILE_FORMATS[field].includes(file.type))
-      throw new Error(ERROR_MESSAGES.fileTypeNotAccepted)
+      return formatResponse({ error: ERROR_MESSAGES.fileTypeNotAccepted })
 
     try {
       const url = await this.upload(file)
 
       this.currentMint[field] = url
+      return formatResponse({ data: true })
     } catch (error) {
-      throw new Error(ERROR_MESSAGES.uploadFileAndSet)
+      return formatResponse({ error: ERROR_MESSAGES.uploadFileAndSet })
     }
   }
 
@@ -116,12 +125,11 @@ export class Minter {
    */
   public async upload(
     file: File
-  ): Promise<{
-    data: { uri: string; hash: string } | null
-    error: null | string
-  }> {
+  ): Promise<ResponseData<{ uri: string; hash: string }>> {
     try {
-      if (!this.storage) throw new Error('Storage not initialized')
+      if (!this.storage) {
+        return formatResponse({ error: 'Storage not initialized' })
+      }
 
       // corrects MIME type.
       const tFile = await correctFileType(file)
@@ -129,36 +137,28 @@ export class Minter {
       if (
         tFile.size >
         (this.constants.FILE_UPLOAD_SIZE_LIMIT || FILE_UPLOAD_SIZE_LIMIT)
-      )
-        throw new Error(ERROR_MESSAGES.fileSizeExceeded)
-
-      const result = await this.storage.uploadToArweave(file)
-
-      return {
-        data: {
-          uri: `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${
-            result?.id
-          }`,
-          hash: result?.id,
-        },
-        error: null,
+      ) {
+        formatResponse({ error: 'Storage not initialized' })
       }
+
+      const { data: result } = await this.storage.uploadToArweave(file)
+
+      const data = {
+        uri: `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${
+          result?.id
+        }`,
+        hash: result?.id,
+      }
+
+      return formatResponse({ data })
     } catch (error) {
-      return {
-        data: null,
-        error: error.message,
-      }
+      return formatResponse({ error: error.message })
     }
   }
 
   // TODO: implement all checks
   private fieldChecks(key: MetadataField, value: any): void {
     switch (key) {
-      // case MetadataField.Youtube_url:
-      //   if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
-      //   if (!value.match(REGEX_URL)) throw new Error(ERROR_MESSAGES.badUrl)
-      //   break
-
       case MetadataField.Media:
         if (typeof value !== 'string') throw new Error(ERROR_MESSAGES.notString)
         if (!value.match(REGEX_URL)) throw new Error(ERROR_MESSAGES.badUrl)

@@ -5,6 +5,7 @@ import { isNode } from 'browser-or-node'
 import { v4 as uuidv4 } from 'uuid'
 import { CLOUD_URI, CLOUD_STORAGE_CONFIG, ERROR_MESSAGES } from '../constants'
 import { Constants } from 'src/types'
+import { formatResponse, ResponseData } from './responseBuilder'
 
 const ARWEAVE_FOLDER = 'arweave'
 const headers = {
@@ -43,7 +44,9 @@ export class Storage {
    * @param metadata metadata object
    * @returns arweave content identifier
    */
-  public async uploadMetadata(metadata: unknown): Promise<string> {
+  public async uploadMetadata(
+    metadata: unknown
+  ): Promise<ResponseData<string>> {
     try {
       const request = await fetch(`${CLOUD_URI}/arweave/metadata/`, {
         method: 'POST',
@@ -52,11 +55,12 @@ export class Storage {
           [headers.apiKey]: this.apiKey || 'anonymous',
         },
       })
+
       const data = await request.json()
 
-      return data?.id as string
+      return formatResponse({ data })
     } catch (error) {
-      throw new Error(ERROR_MESSAGES.uploadMetadata)
+      return formatResponse({ error: ERROR_MESSAGES.uploadMetadata })
     }
   }
 
@@ -67,9 +71,9 @@ export class Storage {
    */
   public async uploadToArweave(
     file: File
-  ): Promise<{ id: string; contentType: string }> {
+  ): Promise<ResponseData<{ id: string; contentType: string }>> {
     if (isNode)
-      throw new Error('Node environment does not yet supports uploads.')
+      return formatResponse({ error: 'Node environment does not yet supports uploads.' })
 
     const buffer = await file.arrayBuffer()
     const contentType = file.type
@@ -86,14 +90,16 @@ export class Storage {
           },
         })
 
-        const data = await request.json()
+        const { id, contentType } = await request.json()
 
-        return { id: data?.id, contentType: data?.contentType }
+        const data = { id, contentType }
+
+        return formatResponse({ data })
       } catch (error) {
-        throw new Error(ERROR_MESSAGES.decentralizedStorageFailed)
+        return formatResponse({ error: ERROR_MESSAGES.decentralizedStorageFailed })
       }
     } catch (error) {
-      throw new Error(error.message)
+      return formatResponse({ error: error.message })
     }
   }
 
@@ -107,21 +113,22 @@ export class Storage {
   private async uploadCloud(
     buffer: ArrayBuffer | Buffer,
     contentType: string
-  ): Promise<string> {
+  ): Promise<ResponseData<string>> {
     if (isNode)
-      throw new Error('Node environment does not yet supports uploads.')
+      return formatResponse({ error: 'Node environment does not yet supports uploads.' })
     try {
       const fileName = uuidv4()
 
-      if (!this.storage) throw new Error('Storage is not initialized')
+      if (!this.storage)
+        return formatResponse({ error: 'Storage is not initialized' })
 
       await this.storage
         .ref(`${ARWEAVE_FOLDER}/${fileName}`)
         .put(buffer, { contentType: contentType })
 
-      return fileName
+      return formatResponse({ data: fileName })
     } catch (error) {
-      throw new Error(ERROR_MESSAGES.uploadCloud)
+      return formatResponse({ error: ERROR_MESSAGES.uploadCloud })
     }
   }
 }

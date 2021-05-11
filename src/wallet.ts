@@ -48,6 +48,8 @@ import { Minter } from './minter'
 
 import { calculateListCost } from './utils/near-costs'
 import { initializeExternalConstants } from './utils/external-constants'
+import { formatResponse, ResponseData } from './utils/responseBuilder'
+import { FinalExecutionOutcome } from 'near-api-js/lib/providers'
 
 /**
  * Mintbase Wallet.
@@ -80,7 +82,7 @@ export class Wallet {
     this.constants = {}
   }
 
-  public async init(walletConfig: WalletConfig): Promise<Wallet> {
+  public async init(walletConfig: WalletConfig): Promise<ResponseData<Wallet>> {
     try {
       this.constants = await initializeExternalConstants({
         apiKey: walletConfig.apiKey,
@@ -98,15 +100,19 @@ export class Wallet {
         apiKey: walletConfig.apiKey,
         constants: this.constants,
       })
-      
-      return this
+
+      // TODO: decide if we should really return the formatted response or the atual instance
+      return formatResponse({ data: this })
     } catch (error) {
-      return error
+      return formatResponse({ error })
     }
   }
 
-  public isConnected(): boolean {
-    return this.activeWallet?.isSignedIn() ?? false
+  public isConnected(): ResponseData<boolean> {
+    const data = this.activeWallet?.isSignedIn() ?? false
+    // TODO: decide if we should really send on the formatted response or a simple boolean value
+    // return data
+    return formatResponse({ data })
   }
 
   /**
@@ -114,7 +120,9 @@ export class Wallet {
    * @param props wallet connection properties - the config to create a connection with
    *
    */
-  public async connect(props: WalletLoginProps = {}): Promise<void> {
+  public async connect(
+    props: WalletLoginProps = {}
+  ): Promise<ResponseData<string>> {
     const contractAddress =
       props.contractAddress ||
       this.constants.FACTORY_CONTRACT_NAME ||
@@ -139,10 +147,13 @@ export class Wallet {
       }
 
       await connect(_connectionObject)
+      // TODO: define a proper return value
+      return formatResponse({ data: 'connected' })
     } else if (isNode) {
       const privateKey = props.privateKey
 
-      if (!privateKey) throw new Error('Private key is not defined.')
+      if (!privateKey)
+        return formatResponse({ error: 'Private key is not defined.' })
 
       this.setSessionKeyPair(
         this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
@@ -161,8 +172,11 @@ export class Wallet {
 
       const accountId = this.activeWallet.getAccountId()
       this.activeAccount = await this.activeNearConnection.account(accountId)
+      return formatResponse({ data: 'connection activated' })
     } else {
-      throw new Error('Only Browser or Node environment supported.')
+      return formatResponse({
+        error: 'Only Browser or Node environment supported.',
+      })
     }
   }
 
@@ -170,10 +184,11 @@ export class Wallet {
    * Disconnects user. Removes the LocalStorage entry that
    * represents an authorized wallet account but leaves private keys intact.
    */
-  public disconnect(): void {
+  public disconnect(): ResponseData<string> {
     this.activeWallet?.signOut()
     this.activeNearConnection = undefined
     this.activeAccount = undefined
+    return formatResponse({ data: 'disconnected' })
   }
 
   /**
@@ -181,23 +196,24 @@ export class Wallet {
    * @param accountId the account identifier to connect.
    * @returns whether connection was successful or not.
    */
-  public async connectTo(accountId: string): Promise<boolean> {
+  public async connectTo(accountId: string): Promise<ResponseData<boolean>> {
     if (isNode)
-      throw new Error(
-        'Node environment does not yet support the connectTo method.'
-      )
+      return formatResponse({
+        error: 'Node environment does not yet support the connectTo method.',
+      })
 
     // get localstorage accounts
-    const localAccounts = this.getLocalAccounts()
+    const { data: localAccounts } = this.getLocalAccounts()
 
     // does account user is trying to connect exists in storage?
     if (!localAccounts[accountId]) {
-      return false
+      return formatResponse({ data: false })
+      // return false
     }
 
     // get a full access public key with the largest nonce
     const _getFullAccessPublicKey = async (accountId: string) => {
-      const keysRequest = await this.viewAccessKeyList(accountId)
+      const { data: keysRequest } = await this.viewAccessKeyList(accountId)
 
       // filter by full access keys
       const fullAccessKeys = keysRequest.keys.filter(
@@ -230,39 +246,43 @@ export class Wallet {
 
       this.connect()
 
-      return true
+      return formatResponse({ data: true })
     }
     // TODO: Implement for Node environment
     // if(isNode) {}
 
-    return false
+    return formatResponse({ data: false })
   }
 
   /**
    * Fetches connected account details.
    * @returns details of the current connection.
    */
-  public async details(): Promise<{
-    accountId: string
-    balance: string
-    allowance: string
-    contractName: string
-  }> {
+  public async details(): Promise<
+    ResponseData<{
+      accountId: string
+      balance: string
+      allowance: string
+      contractName: string
+    }>
+  > {
     const account = this.activeWallet?.account()
     const accountId = account?.accountId
-    const keyPair = await this.getSessionKeyPair()
+    const { data: keyPair } = await this.getSessionKeyPair()
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     if (!keyPair || !accountId)
-      throw new Error(`No Key Pair for account ${accountId}`)
+      return formatResponse({ error: `No Key Pair for account ${accountId}` })
 
     const publicKey = keyPair.getPublicKey().toString()
     const balance = await account.getAccountBalance()
 
-    if (!balance) throw new Error(``)
+    // TODO: we should add a proper error message for this one
+    if (!balance) return formatResponse({ error: '' })
 
-    const accessKey = await this.viewAccessKey(accountId, publicKey)
+    const { data: accessKey } = await this.viewAccessKey(accountId, publicKey)
 
     const allowance = utils.format.formatNearAmount(
       accessKey.permission.FunctionCall.allowance
@@ -270,12 +290,14 @@ export class Wallet {
 
     const contractName = this.activeNearConnection?.config.contractName
 
-    return {
+    const data = {
       accountId: accountId,
       balance: utils.format.formatNearAmount(balance?.total, 2),
       allowance: allowance,
       contractName: contractName,
     }
+
+    return formatResponse({ data })
   }
 
   /**
@@ -287,12 +309,14 @@ export class Wallet {
   public async transfer(
     tokenIds: [string, string][],
     contractName: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!contractName) throw new Error('No contract was provided.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -305,6 +329,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ONE_YOCTO)
+    return formatResponse({ data: true })
   }
 
   /**
@@ -314,13 +339,17 @@ export class Wallet {
    */
 
   // TODO: need more checks on the tokenIds
-  public async burn(tokenIds: number[], contractName: string): Promise<void> {
+  public async burn(
+    tokenIds: number[],
+    contractName: string
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-
-    if (!contractName) throw new Error('No contract was provided.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -333,6 +362,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.burn_tokens({ token_ids: tokenIds }, MAX_GAS, ONE_YOCTO)
+    return formatResponse({ data: true })
   }
 
   /**
@@ -347,11 +377,12 @@ export class Wallet {
     storeId: string,
     price: string,
     autotransfer = true
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     // TODO: Check if account owns the tokens that are trying to sell
     /*const token: Token = await this.api.fetchToken(
@@ -390,6 +421,7 @@ export class Wallet {
       MAX_GAS,
       utils.format.parseNearAmount(listCost.toString())
     )
+    return formatResponse({ data: true })
   }
 
   /**
@@ -404,11 +436,12 @@ export class Wallet {
     storeId: string,
     price: string,
     autotransfer?: boolean
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     // TODO: Check if account owns the tokens that are trying to sell
     /*const token: Token = await this.api.fetchToken(
@@ -447,17 +480,19 @@ export class Wallet {
       MAX_GAS,
       utils.format.parseNearAmount(listCost.toString())
     )
+    return formatResponse({ data: true })
   }
 
   public async revokeAccount(
     tokenId: string,
     storeId: string,
     accountRevokeId: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     const contract = new Contract(account, storeId, {
       viewMethods:
@@ -473,17 +508,19 @@ export class Wallet {
       { token_id: tokenId, account_id: accountRevokeId },
       MAX_GAS
     )
+    return formatResponse({ data: true })
   }
 
   public async revokeAllAccounts(
     tokenId: string,
     storeId: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const GAS = new BN('300000000000000')
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     const contract = new Contract(account, storeId, {
       viewMethods:
@@ -496,6 +533,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_revoke_all({ token_id: tokenId }, GAS)
+    return formatResponse({ data: true })
   }
 
   /**
@@ -507,18 +545,20 @@ export class Wallet {
     groupId: string,
     price?: string,
     marketAddress?: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!groupId) throw new Error('Please provide a groupId')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!groupId) formatResponse({ error: 'Please provide a groupId' })
 
-    if (!this.api) throw new Error('API is not defined.')
+    if (!this.api) return formatResponse({ error: 'API is not defined.' })
 
-    const result = await this.api.fetchLists(groupId)
+    const { data: result } = await this.api.fetchLists(groupId)
 
-    if (result.list.length === 0) throw new Error('List is empty')
+    if (result.list.length === 0)
+      return formatResponse({ error: 'List is empty' })
 
     // TODO: make sure to get a list that is available
     const list = result.list[0]
@@ -552,6 +592,7 @@ export class Wallet {
       MAX_GAS,
       setPrice
     )
+    return formatResponse({ data: true })
   }
 
   /**
@@ -563,12 +604,13 @@ export class Wallet {
     tokenId: string,
     price: string,
     marketAddress?: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!tokenId) throw new Error('Please provide a tokenId')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!tokenId) return formatResponse({ error: 'Please provide a tokenId' })
 
     const contract = new Contract(
       account,
@@ -594,6 +636,7 @@ export class Wallet {
       MAX_GAS,
       price
     )
+    return formatResponse({ data: true })
   }
 
   /**
@@ -604,12 +647,13 @@ export class Wallet {
   public async acceptAndTransfer(
     tokenId: string,
     marketAddress?: string
-  ): Promise<{ error: string | null }> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!tokenId) throw new Error('Please provide a tokenId')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!tokenId) return formatResponse({ error: 'Please provide a tokenId' })
 
     const contract = new Contract(
       account,
@@ -636,9 +680,7 @@ export class Wallet {
       MAX_GAS,
       ONE_YOCTO
     )
-    return {
-      error: null,
-    }
+    return formatResponse({ data: true })
   }
 
   /**
@@ -648,11 +690,12 @@ export class Wallet {
   public async withdrawOffer(
     tokenKey: string,
     marketAddress?: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     const contract = new Contract(
       account,
@@ -673,6 +716,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.withdraw_offer({ token_key: tokenKey }, MAX_GAS)
+    return formatResponse({ data: true })
   }
 
   /**
@@ -684,11 +728,12 @@ export class Wallet {
     storeId: string,
     symbol: string,
     options?: { attachedDeposit: string }
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
 
     // TODO: regex check inputs (storeId and symbol)
 
@@ -724,6 +769,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.create_store(storeData, MAX_GAS, attachedDeposit)
+    return formatResponse({ data: true })
   }
 
   /**
@@ -737,12 +783,14 @@ export class Wallet {
     royalties?: Royalties,
     splits?: Split,
     category?: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!contractName) throw new Error('No contract was provided.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -755,7 +803,7 @@ export class Wallet {
 
     // TODO: Check if minter has a valid object to mint.
 
-    if (!this.minter) throw new Error('Minter not defined.')
+    if (!this.minter) return formatResponse({ error: 'Minter not defined.' })
 
     const metadataId = await this.minter.getMetadataId()
 
@@ -775,6 +823,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.mint_tokens(obj, MAX_GAS, ZERO)
+    return formatResponse({ data: true })
   }
 
   /**
@@ -787,14 +836,25 @@ export class Wallet {
     amount: number,
     id: string,
     splits?: Split
-  ): Promise<any> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!this.api) throw new Error('API is not defined.')
 
-    const thingResult = (await this.api.custom(
+    // TODO: move this thing type to a proper place
+    const { data, error } = await this.api.custom<{
+      thing: {
+        metaId: string
+        storeId: string
+        memo: string
+        tokens: {
+          royaltyPercent: string
+          royaltys: { account: string; percent: string }[]
+        }[]
+      }[]
+    }>(
       `query GET_THING_BY_ID($id: String!) {
       thing(where: {id: {_eq: $id}}) {
         metaId
@@ -810,27 +870,19 @@ export class Wallet {
       }
     }
     `,
-      { id: id }
-    )) as {
-      thing: {
-        metaId: string
-        storeId: string
-        memo: string
-        tokens: {
-          royaltyPercent: string
-          royaltys: { account: string; percent: string }[]
-        }[]
-      }[]
+      { id }
+    )
+
+    const { thing: _thing } = data
+
+    if (error || _thing.length === 0) {
+      return formatResponse({ error: 'Thing does not exist.' })
     }
-
-    const _thing = thingResult.thing
-
-    if (_thing.length === 0) throw new Error('Thing does not exist.')
 
     const thing = _thing[0]
 
     if (thing.tokens.length === 0)
-      throw new Error('Thing does not have tokens.')
+      return formatResponse({ error: 'Thing does not have tokens.' })
 
     const contractName = thing.storeId
     const memo = thing.memo
@@ -873,17 +925,21 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.mint_tokens(obj, MAX_GAS, ZERO)
+    // TODO: define a response for this
+    return formatResponse({ data: true })
   }
 
   public async grantMinter(
     minterAccountId: string,
     contractName: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!contractName) throw new Error('No contract was provided.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -896,17 +952,21 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.grant_minter({ account_id: minterAccountId }, MAX_GAS, ZERO)
+    // TODO: define a response for this
+    return formatResponse({ data: true })
   }
 
   public async revokeMinter(
     minterAccountId: string,
     contractName: string
-  ): Promise<void> {
+  ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
-    if (!contractName) throw new Error('No contract was provided.')
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -919,13 +979,16 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.revoke_minter({ account_id: minterAccountId }, MAX_GAS, ZERO)
+    // TODO: define a response for this
+    return formatResponse({ data: true })
   }
 
   public async setSessionKeyPair(
     accountId: string,
     privateKey: string
-  ): Promise<KeyStore> {
-    if (!this.keyStore) throw new Error('KeyStore not defined.')
+  ): Promise<ResponseData<KeyStore>> {
+    if (!this.keyStore)
+      return formatResponse({ error: 'KeyStore not defined.' })
 
     this.keyStore.setKey(
       this.networkName,
@@ -933,17 +996,19 @@ export class Wallet {
       KeyPair.fromString(privateKey)
     )
 
-    return this.keyStore
+    return formatResponse({ data: this.keyStore })
   }
 
-  public async getSessionKeyPair(): Promise<KeyPair> {
+  public async getSessionKeyPair(): Promise<ResponseData<KeyPair>> {
     const accountId = this.activeWallet?.getAccountId()
 
-    if (!accountId) throw new Error('accountId is undefined')
+    if (!accountId) return formatResponse({ error: 'accountId is undefined' })
 
-    if (!this.keyStore) throw new Error('KeyStore not defined.')
+    if (!this.keyStore)
+      return formatResponse({ error: 'KeyStore not defined.' })
 
-    return await this.keyStore?.getKey(this.networkName, accountId)
+    const data = await this.keyStore?.getKey(this.networkName, accountId)
+    return formatResponse({ data })
   }
 
   private getKeyStore() {
@@ -958,9 +1023,9 @@ export class Wallet {
   /**
    * Fetch local storage connections
    */
-  public getLocalAccounts(): {
+  public getLocalAccounts(): ResponseData<{
     [accountId: string]: { accountId?: string; contractName?: string }
-  } {
+  }> {
     const regex = /near-api-js:keystore:/
     const keys = Object.keys(localStorage)
 
@@ -982,7 +1047,7 @@ export class Wallet {
       }
     })
 
-    return accounts
+    return formatResponse({ data: accounts })
   }
 
   /**
@@ -990,8 +1055,9 @@ export class Wallet {
    * @param txHash the transaction's hash
    * @returns the transaction result
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchTransactionResult(txHash: string): Promise<any> {
+  public async fetchTransactionResult(
+    txHash: string
+  ): Promise<ResponseData<FinalExecutionOutcome>> {
     const connection = this.activeNearConnection?.connection
     if (!connection) throw new Error('Near connection is undefined.')
 
@@ -1002,7 +1068,7 @@ export class Wallet {
 
     const txResult = await connection.provider.txStatus(decodeHash, accountId)
 
-    return txResult
+    return formatResponse({ data: txResult })
   }
 
   private rpcCall = async ({
@@ -1046,7 +1112,7 @@ export class Wallet {
     accountId: string,
     publicKey: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<any> => {
+  ): Promise<ResponseData<any>> => {
     const result = await this.rpcCall({
       body: {
         params: {
@@ -1058,7 +1124,7 @@ export class Wallet {
       },
       method: 'query',
     })
-    return result
+    return formatResponse({ data: result })
   }
 
   /**
@@ -1067,7 +1133,9 @@ export class Wallet {
    * @returns List of access keys
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public viewAccessKeyList = async (accountId: string): Promise<any> => {
+  public viewAccessKeyList = async (
+    accountId: string
+  ): Promise<ResponseData<any>> => {
     const result = await this.rpcCall({
       body: {
         params: {
@@ -1078,7 +1146,7 @@ export class Wallet {
       },
       method: 'query',
     })
-    return result
+    return formatResponse({ data: result })
   }
 
   /**
@@ -1091,7 +1159,7 @@ export class Wallet {
     transactionHash: string,
     accountId: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<any> => {
+  ): Promise<ResponseData<any>> => {
     const result = await this.rpcCall({
       body: {
         params: [transactionHash, accountId],
@@ -1099,7 +1167,7 @@ export class Wallet {
       method: 'tx',
     })
 
-    return result
+    return formatResponse({ data: result })
   }
 
   /**
@@ -1112,7 +1180,7 @@ export class Wallet {
     transactionHash: string,
     accountId: string
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  ): Promise<any> => {
+  ): Promise<ResponseData<any>> => {
     const result = await this.rpcCall({
       body: {
         params: [transactionHash, accountId],
@@ -1120,7 +1188,7 @@ export class Wallet {
       method: 'EXPERIMENTAL_tx_status',
     })
 
-    return result
+    return formatResponse({ data: result })
   }
 
   /**

@@ -12,6 +12,7 @@ import {
   GET_TOKENS_BY_OWNER_ID,
   GET_TOKEN_BY_ID,
 } from './queries'
+import { formatResponse, ResponseData } from './utils/responseBuilder'
 
 /**
  * Mintbase API.
@@ -61,7 +62,10 @@ export class API {
    * @param offset number of records to skip
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchMarketplace(limit?: number, offset?: number): Promise<any> {
+  public async fetchMarketplace(
+    limit?: number,
+    offset?: number
+  ): Promise<ResponseData<any>> {
     const listings = await request(this.apiBaseUrl, FETCH_MARKETPLACE, {
       limit: limit || this.defaultLimit,
       offset: offset || 0,
@@ -74,9 +78,9 @@ export class API {
       return { ...list, metadata: metadata }
     })
 
-    const result = await Promise.all(promises)
+    const data = await Promise.all(promises)
 
-    return result
+    return formatResponse({ data })
   }
 
   /**
@@ -88,31 +92,31 @@ export class API {
   public async fetchTokenMetadata(
     tokenId: string,
     storeId: string
-  ): Promise<any> {
+  ): Promise<ResponseData<any>> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: `${tokenId}:${storeId}`,
     })
 
     if (result.token.length === 0)
-      throw new Error(`${tokenId} is not a valid token.`)
+      return formatResponse({ error: `${tokenId} is not a valid token.` })
 
     const token = result.token[0]
 
     const metadata = await this.fetchMetadata(token.thingId)
 
-    return metadata
+    return formatResponse({ data: metadata })
   }
 
   /**
    * Fetch lists without metadata.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchLists(id: string): Promise<any> {
+  public async fetchLists(id: string): Promise<ResponseData<any>> {
     const list = await request(this.apiBaseUrl, GET_LATEST_LIST, {
       groupId: id,
     })
 
-    return list
+    return formatResponse({ data: list })
   }
 
   /**
@@ -129,17 +133,20 @@ export class API {
    * @param storeId store id
    * @returns the token
    */
-  public async fetchToken(tokenId: number, storeId: string): Promise<Token> {
+  public async fetchToken(
+    tokenId: number,
+    storeId: string
+  ): Promise<ResponseData<Token>> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: `${tokenId}:${storeId}`,
     })
 
     if (result.token.length === 0)
-      throw new Error(`${tokenId} is not a valid token`)
+      return formatResponse({ error: `${tokenId} is not a valid token` })
 
     const token = result.token[0]
 
-    return token
+    return formatResponse({ data: token })
   }
 
   /**
@@ -148,12 +155,12 @@ export class API {
    * @returns metadata
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchMetadata(id: string): Promise<any> {
+  public async fetchMetadata(id: string): Promise<ResponseData<any>> {
     const request = await fetch(
       `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${id}`
     )
-    const result = await request.json()
-    return result
+    const data = await request.json()
+    return formatResponse({ data })
   }
 
   /**
@@ -162,12 +169,13 @@ export class API {
    * @returns list of tokens
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchOwnerTokens(accountId: string): Promise<any> {
+  public async fetchOwnerTokens(accountId: string): Promise<ResponseData<any>> {
     const result = await request(this.apiBaseUrl, GET_TOKENS_BY_OWNER_ID, {
       ownerId: accountId,
     })
 
-    return result.token
+    const data = result.token
+    return formatResponse({ data })
   }
 
   /**
@@ -176,16 +184,22 @@ export class API {
    * @param accountId account id
    * @returns whether an account owns a token or not.
    */
-  public async isOwner(tokenId: number, accountId: string): Promise<boolean> {
+  public async isOwner(
+    tokenId: number,
+    accountId: string
+  ): Promise<ResponseData<boolean>> {
     const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
       tokenId: tokenId,
     })
 
-    if (result.token.length === 0) return false
+    if (result.token.length === 0) {
+      return formatResponse({ data: false })
+    }
 
     const token = result.token[0]
 
-    return token.ownerId === accountId
+    const data = token.ownerId === accountId
+    return formatResponse({ data })
   }
 
   /**
@@ -194,8 +208,9 @@ export class API {
    * @param variables object with variables passed to the query
    * @returns result of query
    */
-  public async custom(query: string, variables?: unknown): Promise<unknown> {
-    const result = await request(this.apiBaseUrl, query, variables)
-    return result
+  public async custom<T>(query: string, variables?: unknown): Promise<ResponseData<T>> {
+    const { data, error } = await request(this.apiBaseUrl, query, variables)
+
+    return formatResponse({ data, error })
   }
 }
