@@ -1,17 +1,9 @@
 import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
-import { MintbaseAPIConfig, Network, Chain, Token, Constants } from './types'
-import {
-  API_BASE_NEAR_MAINNET,
-  API_BASE_NEAR_TESTNET,
-  BASE_ARWEAVE_URI,
-} from './constants'
-import {
-  FETCH_MARKETPLACE,
-  GET_LATEST_LIST,
-  GET_TOKENS_BY_OWNER_ID,
-  GET_TOKEN_BY_ID,
-} from './queries'
+import urlcat from 'urlcat'
+
+import { MintbaseAPIConfig, Network, Chain, Constants } from './types'
+import { API_BASE_NEAR_MAINNET, API_BASE_NEAR_TESTNET } from './constants'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
 
 /**
@@ -20,7 +12,7 @@ import { formatResponse, ResponseData } from './utils/responseBuilder'
  */
 export class API {
   public apiBaseUrl: string = API_BASE_NEAR_TESTNET
-  public defaultLimit = 10
+  public defaultLimit = 20
   public chainName: string = Chain.near
   public networkName: Network | undefined
 
@@ -63,17 +55,25 @@ export class API {
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async fetchMarketplace(
-    limit?: number,
-    offset?: number
+    offset?: number,
+    limit?: number
   ): Promise<ResponseData<any>> {
-    const listings = await request(this.apiBaseUrl, FETCH_MARKETPLACE, {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/marketplace', {
       limit: limit || this.defaultLimit,
       offset: offset || 0,
     })
 
+    const response = await fetch(url)
+    const result = await response.json()
+
+    console.log(url)
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const promises = listings.list.map(async (list: any) => {
-      const metadata = await this.fetchMetadata(list.token.thingId)
+    const promises = result.list.map(async (list: any) => {
+      const baseUri = list.token.thing.store.baseUri
+      const metaId = list.token.thing.metaId
+      const metadataUri = urlcat(baseUri, metaId)
+      const metadata = await this.fetchMetadata(metadataUri)
 
       return { ...list, metadata: metadata }
     })
@@ -83,63 +83,149 @@ export class API {
     return formatResponse({ data })
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchAccount(accountId: string): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/accounts/:accountId', {
+      accountId: accountId,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  public async fetchTokenApprovals(
+    tokenKey: string,
+    contractAddress: string
+  ): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/token-approvals', {
+      accountId: contractAddress,
+      tokenKey: tokenKey,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  public async fetchApprovals(
+    offset?: number,
+    limit?: number
+  ): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/approvals/', {
+      limit: limit || this.defaultLimit,
+      offset: offset || 0,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
   /**
-   * Fetch token metadata.
-   * @param tokenId token id
+   * Fetch thing metadata.
+   * @param thingId Thing Id
    * @returns token metadata
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchTokenMetadata(
-    tokenId: string,
-    storeId: string
-  ): Promise<ResponseData<any>> {
-    const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
-      tokenId: `${tokenId}:${storeId}`,
+  public async fetchThingMetadata(thingId: string): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/things/:id', {
+      id: thingId,
     })
 
-    if (result.token.length === 0)
-      return formatResponse({ error: `${tokenId} is not a valid token.` })
+    const response = await fetch(url)
+    const result = await response.json()
 
-    const token = result.token[0]
+    if (result.thing.length === 0)
+      return formatResponse({ error: `${thingId} is not a valid thing.` })
 
-    const metadata = await this.fetchMetadata(token.thingId)
+    const thing = result.token[0]
+
+    const metadataUri = urlcat(thing.store.baseUri, thing.metaId)
+    const metadata = await this.fetchMetadata(metadataUri)
 
     return formatResponse({ data: metadata })
   }
 
   /**
-   * Fetch lists without metadata.
+   * Fetch list by id.
    */
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchLists(id: string): Promise<ResponseData<any>> {
-    const list = await request(this.apiBaseUrl, GET_LATEST_LIST, {
-      groupId: id,
+  public async fetchListById(id: string): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/lists/:id', {
+      id: id,
     })
 
-    return formatResponse({ data: list })
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchLists(
+    offset?: number,
+    limit?: number
+  ): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/lists/', {
+      limit: limit || this.defaultLimit,
+      offset: offset || 0,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  /**
+   * Fetch thing by Id
+   * TODO: Not yet implemented
+   */
+  public async fetchThingById(thingId: string): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/things/:id', {
+      id: thingId,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
   }
 
   /**
    * Fetch thing.
-   * TODO: Not yet implemented
    */
-  public async fetchThing(): Promise<void> {
-    throw new Error('Not yet implemented.')
+  public async fetchThings(
+    offset?: number,
+    limit?: number
+  ): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/things/', {
+      limit: limit || this.defaultLimit,
+      offset: offset || 0,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
   }
 
   /**
    * Fetch token
    * @param tokenId token id
-   * @param storeId store id
-   * @returns the token
+   * @returns the token data
    */
-  public async fetchToken(
-    tokenId: number,
-    storeId: string
-  ): Promise<ResponseData<Token>> {
-    const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
-      tokenId: `${tokenId}:${storeId}`,
+  public async fetchTokenById(tokenId: string): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/tokens/:id', {
+      id: tokenId,
     })
+
+    const response = await fetch(url)
+    const result = await response.json()
 
     if (result.token.length === 0)
       return formatResponse({ error: `${tokenId} is not a valid token` })
@@ -149,33 +235,67 @@ export class API {
     return formatResponse({ data: token })
   }
 
-  /**
-   * Fetch metadata from Arweave
-   * @param id arweave content identifier
-   * @returns metadata
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchMetadata(id: string): Promise<ResponseData<any>> {
-    const request = await fetch(
-      `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${id}`
-    )
-    const data = await request.json()
-    return formatResponse({ data })
-  }
-
-  /**
-   * Fetch account owned tokens
-   * @param accountId account id
-   * @returns list of tokens
-   */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchOwnerTokens(accountId: string): Promise<ResponseData<any>> {
-    const result = await request(this.apiBaseUrl, GET_TOKENS_BY_OWNER_ID, {
-      ownerId: accountId,
+  public async fetchTokens(
+    offset?: number,
+    limit?: number
+  ): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/tokens/', {
+      limit: limit || this.defaultLimit,
+      offset: offset || 0,
     })
 
-    const data = result.token
-    return formatResponse({ data })
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  public async fetchStoreById(storeId: string): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/stores/:id/', {
+      id: storeId,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  public async fetchStores(
+    offset?: number,
+    limit?: number
+  ): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/stores/', {
+      limit: limit || this.defaultLimit,
+      offset: offset || 0,
+    })
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
+  }
+
+  public async fetchCategories(): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/categories/')
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    const categories = result.thing.map(
+      (category: { memo: any }) => category.memo
+    )
+
+    return formatResponse({ data: categories })
+  }
+
+  public async fetchStats(): Promise<ResponseData<any>> {
+    const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/stats/')
+
+    const response = await fetch(url)
+    const result = await response.json()
+
+    return formatResponse({ data: result })
   }
 
   /**
@@ -184,21 +304,30 @@ export class API {
    * @param accountId account id
    * @returns whether an account owns a token or not.
    */
-  public async isOwner(
-    tokenId: number,
-    accountId: string
+  public async isTokenOwner(
+    accountId: string,
+    tokenKey: string
   ): Promise<ResponseData<boolean>> {
-    const result = await request(this.apiBaseUrl, GET_TOKEN_BY_ID, {
-      tokenId: tokenId,
-    })
+    const { data: token } = await this.fetchTokenById(tokenKey)
 
-    if (result.token.length === 0) {
+    if (!token) {
       return formatResponse({ data: false })
     }
 
-    const token = result.token[0]
+    const data = token?.ownerId === accountId
 
-    const data = token.ownerId === accountId
+    return formatResponse({ data })
+  }
+
+  /**
+   * Fetch metadata from Arweave
+   * @param id arweave content identifier
+   * @returns metadata
+   */
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public async fetchMetadata(url: string): Promise<ResponseData<any>> {
+    const request = await fetch(url)
+    const data = await request.json()
     return formatResponse({ data })
   }
 
@@ -208,8 +337,15 @@ export class API {
    * @param variables object with variables passed to the query
    * @returns result of query
    */
-  public async custom<T>(query: string, variables?: unknown): Promise<ResponseData<T>> {
-    const { data, error } = await request(this.apiBaseUrl, query, variables)
+  public async custom<T>(
+    query: string,
+    variables?: unknown
+  ): Promise<ResponseData<T>> {
+    const { data, error } = await request(
+      `${this.apiBaseUrl}/v1/graphql`,
+      query,
+      variables
+    )
 
     return formatResponse({ data, error })
   }
