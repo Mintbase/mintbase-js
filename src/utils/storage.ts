@@ -73,14 +73,16 @@ export class Storage {
     file: File
   ): Promise<ResponseData<{ id: string; contentType: string }>> {
     if (isNode)
-      return formatResponse({ error: 'Node environment does not yet supports uploads.' })
+      return formatResponse({
+        error: 'Node environment does not yet supports uploads.',
+      })
 
     const buffer = await file.arrayBuffer()
     const contentType = file.type
 
     try {
       // Uploads to google cloud
-      const fileName = await this.uploadCloud(buffer, contentType)
+      const { data: fileName } = await this.uploadCloud(buffer, contentType)
 
       try {
         // Fetches arweave id. This request will trigger an upload in the cloud
@@ -96,7 +98,9 @@ export class Storage {
 
         return formatResponse({ data })
       } catch (error) {
-        return formatResponse({ error: ERROR_MESSAGES.decentralizedStorageFailed })
+        return formatResponse({
+          error: ERROR_MESSAGES.decentralizedStorageFailed,
+        })
       }
     } catch (error) {
       return formatResponse({ error: error.message })
@@ -115,7 +119,9 @@ export class Storage {
     contentType: string
   ): Promise<ResponseData<string>> {
     if (isNode)
-      return formatResponse({ error: 'Node environment does not yet supports uploads.' })
+      return formatResponse({
+        error: 'Node environment does not yet supports uploads.',
+      })
     try {
       const fileName = uuidv4()
 
