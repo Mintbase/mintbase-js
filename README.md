@@ -3,24 +3,20 @@
 # ⚠️⚠️⚠️⚠️ WIP: Not for use! ⚠️⚠️⚠️⚠️
 
 ## Mintbase API
+
 General purpose Mintbase API for interacting with NEAR, Arweave and other supported blockchains and decentralized filestorage systems.
 
-
-
-
-
-[See the types documentation][1]  
-
+[See the types documentation][1]
 
 ## Table of Contents
 
-  - [Mintbase API](#mintbase-api)
-  - [Table of Contents](#table-of-contents)
-  - [Install](#install)
-  - [Getting Started](#getting-started)
-  - [Support](#support)
-  - [Examples](#examples)
-  - [License](#license)
+- [Mintbase API](#mintbase-api)
+- [Table of Contents](#table-of-contents)
+- [Install](#install)
+- [Getting Started](#getting-started)
+- [Support](#support)
+- [Examples](#examples)
+- [License](#license)
 
 ## Install
 
@@ -29,39 +25,47 @@ $ npm install mintbase
 ```
 
 ## Getting started
+
 Initializing and Connecting Mintbase Wallet
-* Acquire an API key in the `Developer` tab on [Mintbase][7]
+
+- Acquire an API key in the `Developer` tab on [Mintbase](https://mintbase.io/developer)
 
 ```typescript
-import { Wallet, Chain, Network } from 'mintbase';
-
-// Create a new instance of the Mintbase class
-const wallet = new Wallet({ 
-  chain: Chain.near, 
-  networkName: Network.testnet, 
-  apiKey: YOUR_MINTBASEJS_API_KEY
-})
-
-
-
+import { Wallet, Chain, Network } from 'mintbase'
 
 // Connect and fetch details
 async function connect() {
-  await wallet.connect();
+  const { data: walletData, error } = await new Wallet().init({
+    networkName: Network.testnet,
+    chain: Chain.near,
+    apiKey: API_KEY,
+  })
 
-  const details = await wallet.details()
-  /*
-    accountId: "qwerty.testnet"
-    allowance: "0.25"
-    balance: "365.77"
-    contractName: "mintbase13.testnet"
-  */
+  const { wallet, isConnected } = walletData
+
+  if (isConnected) {
+    const { data: details } = await wallet.details()
+
+    /*
+      accountId: "qwerty.testnet"
+      allowance: "0.25"
+      balance: "365.77"
+      contractName: "mintbase13.testnet"
+    */
+  }
 }
 
 connect()
 ```
 
+Here's an example of a button to connect to the wallet.
+
+```tsx
+<Button onClick={() => wallet.connect({ requestSignIn: true })}>Login</Button>
+```
+
 ## Examples
+
 Bootstrap your app with [Create Mintbase App (React + Typescript)][6]
 
 ## Support

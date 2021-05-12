@@ -82,7 +82,9 @@ export class Wallet {
     this.constants = {}
   }
 
-  public async init(walletConfig: WalletConfig): Promise<ResponseData<Wallet>> {
+  public async init(
+    walletConfig: WalletConfig
+  ): Promise<ResponseData<{ wallet: Wallet; isConnected: boolean }>> {
     try {
       this.constants = await initializeExternalConstants({
         apiKey: walletConfig.apiKey,
@@ -101,18 +103,21 @@ export class Wallet {
         constants: this.constants,
       })
 
+      await this.connect()
+
+      const data = { wallet: this, isConnected: this.isConnected() }
+
       // TODO: decide if we should really return the formatted response or the atual instance
-      return formatResponse({ data: this })
+      return formatResponse({
+        data,
+      })
     } catch (error) {
       return formatResponse({ error })
     }
   }
 
-  public isConnected(): ResponseData<boolean> {
-    const data = this.activeWallet?.isSignedIn() ?? false
-    // TODO: decide if we should really send on the formatted response or a simple boolean value
-    // return data
-    return formatResponse({ data })
+  public isConnected(): boolean {
+    return this.activeWallet?.isSignedIn() ?? false
   }
 
   /**
@@ -138,7 +143,7 @@ export class Wallet {
       this.activeNearConnection = near
       this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
 
-      if (props.requestSignIn) {
+      if (props?.requestSignIn) {
         this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
       } else if (this.activeWallet.isSignedIn()) {
         const accountId = this.activeWallet.getAccountId()
@@ -555,13 +560,9 @@ export class Wallet {
 
     if (!this.api) return formatResponse({ error: 'API is not defined.' })
 
-    const { data: result } = await this.api.fetchLists(groupId)
+    const { data: list, error } = await this.api.fetchListById(groupId)
 
-    if (result.list.length === 0)
-      return formatResponse({ error: 'List is empty' })
-
-    // TODO: make sure to get a list that is available
-    const list = result.list[0]
+    if (error) return formatResponse({ error })
 
     const contract = new Contract(
       account,
