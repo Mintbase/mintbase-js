@@ -31,10 +31,6 @@ Initializing and Connecting Mintbase Wallet
 - Acquire an API key in the `Developer` tab on [Mintbase](https://mintbase.io/developer)
 
 ```typescript
-connect()
-```
-
-```typescript
 import { Wallet, Chain, Network } from 'mintbase'
 
 // Connect and fetch details
