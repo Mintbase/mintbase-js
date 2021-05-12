@@ -66,7 +66,7 @@
 					<h2>Mintbase API</h2>
 				</a>
 				<p>General purpose Mintbase API for interacting with NEAR, Arweave and other supported blockchains and decentralized filestorage systems.</p>
-				<p><a href="https://mintbase.github.io/mintbase-js/index.html">See the types documentation</a>  </p>
+				<p><a href="https://mintbase.github.io/mintbase-js/index.html">See the types documentation</a></p>
 				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
 					<h2>Table of Contents</h2>
 				</a>
@@ -89,34 +89,36 @@
 				</a>
 				<p>Initializing and Connecting Mintbase Wallet</p>
 				<ul>
-					<li>Acquire an API key in the <code>Developer</code> tab on <a href="https://near.mintbase.io">Mintbase</a></li>
+					<li>Acquire an API key in the <code>Developer</code> tab on <a href="https://mintbase.io/developer">Mintbase</a></li>
 				</ul>
-				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Wallet</span><span style="color: #000000">, </span><span style="color: #001080">Chain</span><span style="color: #000000">, </span><span style="color: #001080">Network</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;mintbase&#039;</span><span style="color: #000000">;</span>
-
-<span style="color: #008000">// Create a new instance of the Mintbase class</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">wallet</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Wallet</span><span style="color: #000000">({ </span>
-<span style="color: #000000">  </span><span style="color: #001080">chain:</span><span style="color: #000000"> </span><span style="color: #001080">Chain</span><span style="color: #000000">.</span><span style="color: #001080">near</span><span style="color: #000000">, </span>
-<span style="color: #000000">  </span><span style="color: #001080">networkName:</span><span style="color: #000000"> </span><span style="color: #001080">Network</span><span style="color: #000000">.</span><span style="color: #001080">testnet</span><span style="color: #000000">, </span>
-<span style="color: #000000">  </span><span style="color: #001080">apiKey:</span><span style="color: #000000"> </span><span style="color: #0070C1">YOUR_MINTBASEJS_API_KEY</span>
-<span style="color: #000000">})</span>
-
-
-
+				<pre><code class="language-typescript"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Wallet</span><span style="color: #000000">, </span><span style="color: #001080">Chain</span><span style="color: #000000">, </span><span style="color: #001080">Network</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;mintbase&#039;</span>
 
 <span style="color: #008000">// Connect and fetch details</span>
 <span style="color: #0000FF">async</span><span style="color: #000000"> </span><span style="color: #0000FF">function</span><span style="color: #000000"> </span><span style="color: #795E26">connect</span><span style="color: #000000">() {</span>
-<span style="color: #000000">  </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">wallet</span><span style="color: #000000">.</span><span style="color: #795E26">connect</span><span style="color: #000000">();</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #001080">data</span><span style="color: #000000">: </span><span style="color: #0070C1">walletData</span><span style="color: #000000">, </span><span style="color: #0070C1">error</span><span style="color: #000000"> } = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Wallet</span><span style="color: #000000">().</span><span style="color: #795E26">init</span><span style="color: #000000">({</span>
+<span style="color: #000000">    </span><span style="color: #001080">networkName:</span><span style="color: #000000"> </span><span style="color: #001080">Network</span><span style="color: #000000">.</span><span style="color: #001080">testnet</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">chain:</span><span style="color: #000000"> </span><span style="color: #001080">Chain</span><span style="color: #000000">.</span><span style="color: #001080">near</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">apiKey:</span><span style="color: #000000"> </span><span style="color: #0070C1">API_KEY</span><span style="color: #000000">,</span>
+<span style="color: #000000">  })</span>
 
-<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">details</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">wallet</span><span style="color: #000000">.</span><span style="color: #795E26">details</span><span style="color: #000000">()</span>
-<span style="color: #000000">  </span><span style="color: #008000">/*</span>
-<span style="color: #008000">    accountId: &quot;qwerty.testnet&quot;</span>
-<span style="color: #008000">    allowance: &quot;0.25&quot;</span>
-<span style="color: #008000">    balance: &quot;365.77&quot;</span>
-<span style="color: #008000">    contractName: &quot;mintbase13.testnet&quot;</span>
-<span style="color: #008000">  */</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #0070C1">wallet</span><span style="color: #000000">, </span><span style="color: #0070C1">isConnected</span><span style="color: #000000"> } = </span><span style="color: #001080">walletData</span>
+
+<span style="color: #000000">  </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (</span><span style="color: #001080">isConnected</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> { </span><span style="color: #001080">data</span><span style="color: #000000">: </span><span style="color: #0070C1">details</span><span style="color: #000000"> } = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">wallet</span><span style="color: #000000">.</span><span style="color: #795E26">details</span><span style="color: #000000">()</span>
+
+<span style="color: #000000">    </span><span style="color: #008000">/*</span>
+<span style="color: #008000">      accountId: &quot;qwerty.testnet&quot;</span>
+<span style="color: #008000">      allowance: &quot;0.25&quot;</span>
+<span style="color: #008000">      balance: &quot;365.77&quot;</span>
+<span style="color: #008000">      contractName: &quot;mintbase13.testnet&quot;</span>
+<span style="color: #008000">    */</span>
+<span style="color: #000000">  }</span>
 <span style="color: #000000">}</span>
 
 <span style="color: #795E26">connect</span><span style="color: #000000">()</span>
+</code></pre>
+				<p>Here&#39;s an example of a button to connect to the wallet.</p>
+				<pre><code class="language-tsx"><span style="color: #800000">&lt;</span><span style="color: #267F99">Button</span><span style="color: #000000"> </span><span style="color: #FF0000">onClick</span><span style="color: #000000">=</span><span style="color: #0000FF">{</span><span style="color: #000000FF">() </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000FF"> </span><span style="color: #001080">wallet</span><span style="color: #000000FF">.</span><span style="color: #795E26">connect</span><span style="color: #000000FF">({ </span><span style="color: #001080">requestSignIn:</span><span style="color: #000000FF"> </span><span style="color: #0000FF">true</span><span style="color: #000000FF"> })</span><span style="color: #0000FF">}</span><span style="color: #800000">&gt;</span><span style="color: #000000">Login</span><span style="color: #800000">&lt;/</span><span style="color: #267F99">Button</span><span style="color: #800000">&gt;</span>
 </code></pre>
 				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
 					<h2>Examples</h2>
@@ -149,13 +151,16 @@
 						<a href="modules/minter.html">minter</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="modules/queries.html">queries</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="modules/types.html">types</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="modules/utils_external_constants.html">utils/external-<wbr>constants</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="modules/utils_near_costs.html">utils/near-<wbr>costs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="modules/utils_responsebuilder.html">utils/response<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="modules/utils_storage.html">utils/storage</a>
@@ -179,12 +184,14 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>

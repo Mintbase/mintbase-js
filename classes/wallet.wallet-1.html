@@ -102,6 +102,7 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#activewallet" class="tsd-kind-icon">active<wbr>Wallet</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#api" class="tsd-kind-icon">api</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#chain" class="tsd-kind-icon">chain</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#constants" class="tsd-kind-icon">constants</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#keystore" class="tsd-kind-icon">key<wbr>Store</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#minter" class="tsd-kind-icon">minter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="wallet.wallet-1.html#nearconfig" class="tsd-kind-icon">near<wbr>Config</a></li>
@@ -125,6 +126,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><a href="wallet.wallet-1.html#getnearconfig" class="tsd-kind-icon">get<wbr>Near<wbr>Config</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.wallet-1.html#getsessionkeypair" class="tsd-kind-icon">get<wbr>Session<wbr>Key<wbr>Pair</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.wallet-1.html#grantminter" class="tsd-kind-icon">grant<wbr>Minter</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.wallet-1.html#init" class="tsd-kind-icon">init</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.wallet-1.html#isconnected" class="tsd-kind-icon">is<wbr>Connected</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.wallet-1.html#list" class="tsd-kind-icon">list</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="wallet.wallet-1.html#makegroupoffer" class="tsd-kind-icon">make<wbr>Group<wbr>Offer</a></li>
@@ -153,13 +155,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Wallet<span class="tsd-signature-symbol">(</span>apiConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/types.mintbaseapiconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">MintbaseAPIConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="wallet.wallet-1.html" class="tsd-signature-type" data-tsd-kind="Class">Wallet</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Wallet<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="wallet.wallet-1.html" class="tsd-signature-type" data-tsd-kind="Class">Wallet</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L68">wallet.ts:68</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L73">wallet.ts:73</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -168,15 +170,6 @@
 									Creates an instance of a Mintbase wallet.</p>
 								</div>
 							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>apiConfig: <a href="../interfaces/types.mintbaseapiconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">MintbaseAPIConfig</a></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>api confuguration options.</p>
-									</div>
-								</li>
-							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="wallet.wallet-1.html" class="tsd-signature-type" data-tsd-kind="Class">Wallet</a></h4>
 							<p>the wallet instance</p>
 						</li>
@@ -191,7 +184,7 @@
 					<div class="tsd-signature tsd-kind-icon">active<wbr>Account<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Account</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L60">wallet.ts:60</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L63">wallet.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -201,7 +194,7 @@
 					<div class="tsd-signature tsd-kind-icon">active<wbr>Near<wbr>Connection<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Near</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L59">wallet.ts:59</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L62">wallet.ts:62</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -211,17 +204,17 @@
 					<div class="tsd-signature tsd-kind-icon">active<wbr>Wallet<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">WalletConnection</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L58">wallet.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L61">wallet.ts:61</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="api" class="tsd-anchor"></a>
 					<h3>api</h3>
-					<div class="tsd-signature tsd-kind-icon">api<span class="tsd-signature-symbol">:</span> <a href="api.api-1.html" class="tsd-signature-type" data-tsd-kind="Class">API</a></div>
+					<div class="tsd-signature tsd-kind-icon">api<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="api.api-1.html" class="tsd-signature-type" data-tsd-kind="Class">API</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L56">wallet.ts:56</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L59">wallet.ts:59</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -231,47 +224,57 @@
 					<div class="tsd-signature tsd-kind-icon">chain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L63">wallet.ts:63</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L66">wallet.ts:66</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="constants" class="tsd-anchor"></a>
+					<h3>constants</h3>
+					<div class="tsd-signature tsd-kind-icon">constants<span class="tsd-signature-symbol">:</span> <a href="../interfaces/types.constants.html" class="tsd-signature-type" data-tsd-kind="Interface">Constants</a></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L73">wallet.ts:73</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="keystore" class="tsd-anchor"></a>
 					<h3>key<wbr>Store</h3>
-					<div class="tsd-signature tsd-kind-icon">key<wbr>Store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">KeyStore</span></div>
+					<div class="tsd-signature tsd-kind-icon">key<wbr>Store<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">KeyStore</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L65">wallet.ts:65</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L68">wallet.ts:68</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="minter" class="tsd-anchor"></a>
 					<h3>minter</h3>
-					<div class="tsd-signature tsd-kind-icon">minter<span class="tsd-signature-symbol">:</span> <a href="minter.minter-1.html" class="tsd-signature-type" data-tsd-kind="Class">Minter</a></div>
+					<div class="tsd-signature tsd-kind-icon">minter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="minter.minter-1.html" class="tsd-signature-type" data-tsd-kind="Class">Minter</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L68">wallet.ts:68</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L71">wallet.ts:71</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="nearconfig" class="tsd-anchor"></a>
 					<h3>near<wbr>Config</h3>
-					<div class="tsd-signature tsd-kind-icon">near<wbr>Config<span class="tsd-signature-symbol">:</span> <a href="../interfaces/types.nearconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">NEARConfig</a></div>
+					<div class="tsd-signature tsd-kind-icon">near<wbr>Config<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/types.nearconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">NEARConfig</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L67">wallet.ts:67</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L70">wallet.ts:70</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="networkname" class="tsd-anchor"></a>
 					<h3>network<wbr>Name</h3>
-					<div class="tsd-signature tsd-kind-icon">network<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">network<wbr>Name<span class="tsd-signature-symbol">:</span> <a href="../enums/types.network.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Network</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L62">wallet.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L65">wallet.ts:65</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -282,13 +285,13 @@
 					<a name="acceptandtransfer" class="tsd-anchor"></a>
 					<h3>accept<wbr>And<wbr>Transfer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">accept<wbr>And<wbr>Transfer<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">accept<wbr>And<wbr>Transfer<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, marketAddress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L521">wallet.ts:521</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L648">wallet.ts:648</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -301,8 +304,11 @@
 								<li>
 									<h5>tokenId: <span class="tsd-signature-type">string</span></h5>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> marketAddress: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>error<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -310,13 +316,13 @@
 					<a name="batchlist" class="tsd-anchor"></a>
 					<h3>batch<wbr>List</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">batch<wbr>List<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, autotransfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">batch<wbr>List<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, autotransfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L313">wallet.ts:313</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L380">wallet.ts:380</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -348,7 +354,7 @@
 									<h5>autotransfer: <span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> = true</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -356,13 +362,13 @@
 					<a name="burn" class="tsd-anchor"></a>
 					<h3>burn</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">burn<span class="tsd-signature-symbol">(</span>tokenIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">burn<span class="tsd-signature-symbol">(</span>tokenIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">[]</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L289">wallet.ts:289</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L347">wallet.ts:347</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -385,7 +391,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -393,13 +399,13 @@
 					<a name="connect" class="tsd-anchor"></a>
 					<h3>connect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.walletloginprops.html" class="tsd-signature-type" data-tsd-kind="Interface">WalletLoginProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">connect<span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.walletloginprops.html" class="tsd-signature-type" data-tsd-kind="Interface">WalletLoginProps</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L99">wallet.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L128">wallet.ts:128</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -416,7 +422,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -424,13 +430,13 @@
 					<a name="connectto" class="tsd-anchor"></a>
 					<h3>connect<wbr>To</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">connect<wbr>To<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">connect<wbr>To<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L160">wallet.ts:160</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L204">wallet.ts:204</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -447,7 +453,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>whether connection was successful or not.</p>
 						</li>
 					</ul>
@@ -456,13 +462,13 @@
 					<a name="deploystore" class="tsd-anchor"></a>
 					<h3>deploy<wbr>Store</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">deploy<wbr>Store<span class="tsd-signature-symbol">(</span>storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, symbol<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>attachedDeposit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">deploy<wbr>Store<span class="tsd-signature-symbol">(</span>storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, symbol<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">{ </span>attachedDeposit<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L571">wallet.ts:571</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L728">wallet.ts:728</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -493,7 +499,7 @@
 									</ul>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -501,13 +507,13 @@
 					<a name="details" class="tsd-anchor"></a>
 					<h3>details</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">details<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>allowance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>balance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">details<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>allowance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>balance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L221">wallet.ts:221</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L266">wallet.ts:266</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -515,7 +521,7 @@
 									<p>Fetches connected account details.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>allowance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>balance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>allowance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>balance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>details of the current connection.</p>
 						</li>
 					</ul>
@@ -524,13 +530,13 @@
 					<a name="disconnect" class="tsd-anchor"></a>
 					<h3>disconnect</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">disconnect<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">disconnect<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L149">wallet.ts:149</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L192">wallet.ts:192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -539,7 +545,7 @@
 									represents an authorized wallet account but leaves private keys intact.</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -547,13 +553,13 @@
 					<a name="fetchtransactionresult" class="tsd-anchor"></a>
 					<h3>fetch<wbr>Transaction<wbr>Result</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Transaction<wbr>Result<span class="tsd-signature-symbol">(</span>txHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">fetch<wbr>Transaction<wbr>Result<span class="tsd-signature-symbol">(</span>txHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">FinalExecutionOutcome</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L850">wallet.ts:850</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1059">wallet.ts:1059</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -570,7 +576,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">FinalExecutionOutcome</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>the transaction result</p>
 						</li>
 					</ul>
@@ -585,7 +591,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L805">wallet.ts:805</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1015">wallet.ts:1015</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">InMemoryKeyStore</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">BrowserLocalStorageKeyStore</span></h4>
@@ -596,13 +602,13 @@
 					<a name="getlocalaccounts" class="tsd-anchor"></a>
 					<h3>get<wbr>Local<wbr>Accounts</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Local<wbr>Accounts<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{}</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Local<wbr>Accounts<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L817">wallet.ts:817</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1027">wallet.ts:1027</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -610,20 +616,7 @@
 									<p>Fetch local storage connections</p>
 								</div>
 							</div>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{}</span></h4>
-							<ul class="tsd-parameters">
-								<li class="tsd-parameter-index-signature">
-									<h5><span class="tsd-signature-symbol">[</span>accountId: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-symbol">{ </span>accountId<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>contractName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></h5>
-									<ul class="tsd-parameters">
-										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> account<wbr>Id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
-										</li>
-										<li class="tsd-parameter">
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> contract<wbr>Name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
-										</li>
-									</ul>
-								</li>
-							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{}</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -631,13 +624,13 @@
 					<a name="getnearconfig" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagPrivate">Private</span> get<wbr>Near<wbr>Config</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-private">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Near<wbr>Config<span class="tsd-signature-symbol">(</span>networkName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractAddress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/types.nearconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">NEARConfig</a></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Near<wbr>Config<span class="tsd-signature-symbol">(</span>networkName<span class="tsd-signature-symbol">: </span><a href="../enums/types.network.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Network</a>, contractAddress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/types.nearconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">NEARConfig</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L985">wallet.ts:985</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1200">wallet.ts:1200</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -648,7 +641,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>networkName: <span class="tsd-signature-type">string</span></h5>
+									<h5>networkName: <a href="../enums/types.network.html" class="tsd-signature-type" data-tsd-kind="Enumeration">Network</a></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> contractAddress: <span class="tsd-signature-type">string</span></h5>
@@ -664,16 +657,16 @@
 					<a name="getsessionkeypair" class="tsd-anchor"></a>
 					<h3>get<wbr>Session<wbr>Key<wbr>Pair</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Session<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyPair</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Session<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyPair</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L796">wallet.ts:796</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1003">wallet.ts:1003</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyPair</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyPair</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -681,13 +674,13 @@
 					<a name="grantminter" class="tsd-anchor"></a>
 					<h3>grant<wbr>Minter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">grant<wbr>Minter<span class="tsd-signature-symbol">(</span>minterAccountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">grant<wbr>Minter<span class="tsd-signature-symbol">(</span>minterAccountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L747">wallet.ts:747</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L933">wallet.ts:933</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -699,7 +692,30 @@
 									<h5>contractName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="init" class="tsd-anchor"></a>
+					<h3>init</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">init<span class="tsd-signature-symbol">(</span>walletConfig<span class="tsd-signature-symbol">: </span><a href="../interfaces/types.walletconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">WalletConfig</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>isConnected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>wallet<span class="tsd-signature-symbol">: </span><a href="wallet.wallet-1.html" class="tsd-signature-type" data-tsd-kind="Class">Wallet</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L85">wallet.ts:85</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>walletConfig: <a href="../interfaces/types.walletconfig.html" class="tsd-signature-type" data-tsd-kind="Interface">WalletConfig</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">{ </span>isConnected<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">; </span>wallet<span class="tsd-signature-symbol">: </span><a href="wallet.wallet-1.html" class="tsd-signature-type" data-tsd-kind="Class">Wallet</a><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -707,16 +723,16 @@
 					<a name="isconnected" class="tsd-anchor"></a>
 					<h3>is<wbr>Connected</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Connected<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Connected<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L90">wallet.ts:90</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L119">wallet.ts:119</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -724,13 +740,13 @@
 					<a name="list" class="tsd-anchor"></a>
 					<h3>list</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, autotransfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">list<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, autotransfer<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L364">wallet.ts:364</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L439">wallet.ts:439</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -762,7 +778,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> autotransfer: <span class="tsd-signature-type">boolean</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -770,13 +786,13 @@
 					<a name="makegroupoffer" class="tsd-anchor"></a>
 					<h3>make<wbr>Group<wbr>Offer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">make<wbr>Group<wbr>Offer<span class="tsd-signature-symbol">(</span>groupId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">make<wbr>Group<wbr>Offer<span class="tsd-signature-symbol">(</span>groupId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span>, marketAddress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L454">wallet.ts:454</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L549">wallet.ts:549</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -794,8 +810,11 @@
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> marketAddress: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -803,13 +822,13 @@
 					<a name="makeoffer" class="tsd-anchor"></a>
 					<h3>make<wbr>Offer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">make<wbr>Offer<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">make<wbr>Offer<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, marketAddress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L492">wallet.ts:492</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L604">wallet.ts:604</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -827,8 +846,11 @@
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> marketAddress: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -836,13 +858,13 @@
 					<a name="mint" class="tsd-anchor"></a>
 					<h3>mint</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">mint<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, royalties<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.royalties.html" class="tsd-signature-type" data-tsd-kind="Interface">Royalties</a>, splits<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.split.html" class="tsd-signature-type" data-tsd-kind="Interface">Split</a>, category<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">mint<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, royalties<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.royalties.html" class="tsd-signature-type" data-tsd-kind="Interface">Royalties</a>, splits<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.split.html" class="tsd-signature-type" data-tsd-kind="Interface">Split</a>, category<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L614">wallet.ts:614</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L781">wallet.ts:781</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -874,7 +896,7 @@
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> category: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -882,13 +904,13 @@
 					<a name="mintmore" class="tsd-anchor"></a>
 					<h3>mint<wbr>More</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">mint<wbr>More<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, splits<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.split.html" class="tsd-signature-type" data-tsd-kind="Interface">Split</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">mint<wbr>More<span class="tsd-signature-symbol">(</span>amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, splits<span class="tsd-signature-symbol">?: </span><a href="../interfaces/types.split.html" class="tsd-signature-type" data-tsd-kind="Interface">Split</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L660">wallet.ts:660</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L836">wallet.ts:836</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -917,7 +939,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -925,13 +947,13 @@
 					<a name="revokeaccount" class="tsd-anchor"></a>
 					<h3>revoke<wbr>Account</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">revoke<wbr>Account<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountRevokeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">revoke<wbr>Account<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountRevokeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L408">wallet.ts:408</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L491">wallet.ts:491</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -946,7 +968,7 @@
 									<h5>accountRevokeId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -954,13 +976,13 @@
 					<a name="revokeallaccounts" class="tsd-anchor"></a>
 					<h3>revoke<wbr>All<wbr>Accounts</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">revoke<wbr>All<wbr>Accounts<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">revoke<wbr>All<wbr>Accounts<span class="tsd-signature-symbol">(</span>tokenId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storeId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L430">wallet.ts:430</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L519">wallet.ts:519</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -972,7 +994,7 @@
 									<h5>storeId: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -980,13 +1002,13 @@
 					<a name="revokeminter" class="tsd-anchor"></a>
 					<h3>revoke<wbr>Minter</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">revoke<wbr>Minter<span class="tsd-signature-symbol">(</span>minterAccountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">revoke<wbr>Minter<span class="tsd-signature-symbol">(</span>minterAccountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L766">wallet.ts:766</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L960">wallet.ts:960</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -998,7 +1020,7 @@
 									<h5>contractName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1012,7 +1034,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L864">wallet.ts:864</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1075">wallet.ts:1075</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1040,13 +1062,13 @@
 					<a name="setsessionkeypair" class="tsd-anchor"></a>
 					<h3>set<wbr>Session<wbr>Key<wbr>Pair</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Session<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, privateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyStore</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Session<wbr>Key<wbr>Pair<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, privateKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyStore</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L785">wallet.ts:785</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L987">wallet.ts:987</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1058,7 +1080,7 @@
 									<h5>privateKey: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyStore</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">KeyStore</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1066,13 +1088,13 @@
 					<a name="transactionstatus" class="tsd-anchor"></a>
 					<h3>transaction<wbr>Status</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">transaction<wbr>Status<span class="tsd-signature-symbol">(</span>transactionHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">transaction<wbr>Status<span class="tsd-signature-symbol">(</span>transactionHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L944">wallet.ts:944</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1159">wallet.ts:1159</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1095,7 +1117,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>The transaction result</p>
 						</li>
 					</ul>
@@ -1104,13 +1126,13 @@
 					<a name="transactionstatuswithreceipts" class="tsd-anchor"></a>
 					<h3>transaction<wbr>Status<wbr>With<wbr>Receipts</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">transaction<wbr>Status<wbr>With<wbr>Receipts<span class="tsd-signature-symbol">(</span>transactionHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">transaction<wbr>Status<wbr>With<wbr>Receipts<span class="tsd-signature-symbol">(</span>transactionHash<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L965">wallet.ts:965</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1180">wallet.ts:1180</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1133,7 +1155,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>The transaction result with all receipts.</p>
 						</li>
 					</ul>
@@ -1142,13 +1164,13 @@
 					<a name="transfer" class="tsd-anchor"></a>
 					<h3>transfer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">transfer<span class="tsd-signature-symbol">(</span>tokenIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">transfer<span class="tsd-signature-symbol">(</span>tokenIds<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">[]</span>, contractName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L263">wallet.ts:263</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L314">wallet.ts:314</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1171,7 +1193,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1179,13 +1201,13 @@
 					<a name="viewaccesskey" class="tsd-anchor"></a>
 					<h3>view<wbr>Access<wbr>Key</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">view<wbr>Access<wbr>Key<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">view<wbr>Access<wbr>Key<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, publicKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L899">wallet.ts:899</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1112">wallet.ts:1112</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1208,7 +1230,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>Access Key information</p>
 						</li>
 					</ul>
@@ -1217,13 +1239,13 @@
 					<a name="viewaccesskeylist" class="tsd-anchor"></a>
 					<h3>view<wbr>Access<wbr>Key<wbr>List</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">view<wbr>Access<wbr>Key<wbr>List<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">view<wbr>Access<wbr>Key<wbr>List<span class="tsd-signature-symbol">(</span>accountId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L924">wallet.ts:924</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L1137">wallet.ts:1137</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1240,7 +1262,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 							<p>List of access keys</p>
 						</li>
 					</ul>
@@ -1249,13 +1271,13 @@
 					<a name="withdrawoffer" class="tsd-anchor"></a>
 					<h3>withdraw<wbr>Offer</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">withdraw<wbr>Offer<span class="tsd-signature-symbol">(</span>tokenKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">withdraw<wbr>Offer<span class="tsd-signature-symbol">(</span>tokenKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, marketAddress<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/0860540/src/wallet.ts#L551">wallet.ts:551</a></li>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/8712bc0/src/wallet.ts#L691">wallet.ts:691</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1271,8 +1293,11 @@
 										<p>The token key. <code>&lt;tokenId&gt;:&lt;contractName&gt;</code></p>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> marketAddress: <span class="tsd-signature-type">string</span></h5>
+								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="../interfaces/utils_responsebuilder.responsedata.html" class="tsd-signature-type" data-tsd-kind="Interface">ResponseData</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -1294,13 +1319,16 @@
 						<a href="../modules/minter.html">minter</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/queries.html">queries</a>
-					</li>
-					<li class=" tsd-kind-module">
 						<a href="../modules/types.html">types</a>
 					</li>
 					<li class=" tsd-kind-module">
+						<a href="../modules/utils_external_constants.html">utils/external-<wbr>constants</a>
+					</li>
+					<li class=" tsd-kind-module">
 						<a href="../modules/utils_near_costs.html">utils/near-<wbr>costs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/utils_responsebuilder.html">utils/response<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/utils_storage.html">utils/storage</a>
@@ -1334,6 +1362,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="wallet.wallet-1.html#chain" class="tsd-kind-icon">chain</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="wallet.wallet-1.html#constants" class="tsd-kind-icon">constants</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="wallet.wallet-1.html#keystore" class="tsd-kind-icon">key<wbr>Store</a>
@@ -1388,6 +1419,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="wallet.wallet-1.html#grantminter" class="tsd-kind-icon">grant<wbr>Minter</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="wallet.wallet-1.html#init" class="tsd-kind-icon">init</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="wallet.wallet-1.html#isconnected" class="tsd-kind-icon">is<wbr>Connected</a>
@@ -1462,12 +1496,14 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
+				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private"><span class="tsd-kind-icon">Private method</span></li>
