@@ -66,8 +66,6 @@ export class API {
     const response = await fetch(url)
     const result = await response.json()
 
-    console.log(url)
-
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises = result.list.map(async (list: any) => {
       const baseUri = list.token.thing.store.baseUri
