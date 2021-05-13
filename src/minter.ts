@@ -56,7 +56,11 @@ export class Minter {
     if (!this.storage)
       return formatResponse({ error: 'Storage not initialized' })
 
-    const { data: id } = await this.storage.uploadMetadata(this.currentMint)
+    const { data: uploadResult } = await this.storage.uploadMetadata(
+      this.currentMint
+    )
+
+    const { id } = uploadResult
 
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}

@@ -29,14 +29,12 @@ export class Storage {
     this.constants = storageConfig.constants || {}
     this.apiKey = storageConfig.apiKey || 'anonymous'
 
-    if (!firebase.apps.length) {
-      this.firebase = firebase.initializeApp(
-        this.constants.CLOUD_STORAGE_CONFIG || CLOUD_STORAGE_CONFIG,
-        'mintbase.js'
-      )
+    this.firebase = firebase.initializeApp(
+      this.constants.CLOUD_STORAGE_CONFIG || CLOUD_STORAGE_CONFIG,
+      'mintbase.js'
+    )
 
-      this.storage = this.firebase.storage()
-    }
+    this.storage = this.firebase.storage()
   }
 
   /**
@@ -46,7 +44,7 @@ export class Storage {
    */
   public async uploadMetadata(
     metadata: unknown
-  ): Promise<ResponseData<string>> {
+  ): Promise<ResponseData<{ id: string }>> {
     try {
       const request = await fetch(`${CLOUD_URI}/arweave/metadata/`, {
         method: 'POST',
@@ -56,7 +54,7 @@ export class Storage {
         },
       })
 
-      const data = await request.json()
+      const data: { id: string } = await request.json()
 
       return formatResponse({ data })
     } catch (error) {
@@ -82,7 +80,16 @@ export class Storage {
 
     try {
       // Uploads to google cloud
-      const { data: fileName } = await this.uploadCloud(buffer, contentType)
+      const { data: fileName, error } = await this.uploadCloud(
+        buffer,
+        contentType
+      )
+
+      if (error) {
+        console.error(error)
+
+        return formatResponse({ error })
+      }
 
       try {
         // Fetches arweave id. This request will trigger an upload in the cloud
