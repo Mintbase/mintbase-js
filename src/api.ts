@@ -143,7 +143,9 @@ export class API {
     const thing = result.token[0]
 
     const metadataUri = urlcat(thing.store.baseUri, thing.metaId)
-    const metadata = await this.fetchMetadata(metadataUri)
+    const { data: metadata, error } = await this.fetchMetadata(metadataUri)
+
+    if (error) return formatResponse({ error })
 
     return formatResponse({ data: metadata })
   }
@@ -160,7 +162,12 @@ export class API {
     const response = await fetch(url)
     const result = await response.json()
 
-    return formatResponse({ data: result })
+    if (result.list.length === 0)
+      return formatResponse({ error: `No results for ${id}` })
+
+    const list = result.list[0]
+
+    return formatResponse({ data: list })
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -325,6 +332,11 @@ export class API {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   public async fetchMetadata(url: string): Promise<ResponseData<any>> {
     const request = await fetch(url)
+
+    if (!request.ok) {
+      return formatResponse({ error: 'Not found' })
+    }
+
     const data = await request.json()
     return formatResponse({ data })
   }
@@ -339,12 +351,13 @@ export class API {
     query: string,
     variables?: unknown
   ): Promise<ResponseData<T>> {
-    const { data, error } = await request(
-      `${this.apiBaseUrl}/v1/graphql`,
-      query,
-      variables
-    )
+    const url = urlcat(this.apiBaseUrl, '/v1/graphql')
 
-    return formatResponse({ data, error })
+    try {
+      const data = await request(url, query, variables)
+      return formatResponse({ data })
+    } catch (error) {
+      return formatResponse({ error: error.message })
+    }
   }
 }
