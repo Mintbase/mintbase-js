@@ -7,6 +7,7 @@ import { CLOUD_URI, CLOUD_STORAGE_CONFIG, ERROR_MESSAGES } from '../constants'
 import { Constants } from 'src/types'
 import { formatResponse, ResponseData } from './responseBuilder'
 
+const FIREBASE_MJS_ID = 'FIREBASE_MJS_ID'
 const ARWEAVE_FOLDER = 'arweave'
 const headers = {
   apiKey: 'api-key',
@@ -29,10 +30,16 @@ export class Storage {
     this.constants = storageConfig.constants || {}
     this.apiKey = storageConfig.apiKey || 'anonymous'
 
-    this.firebase = firebase.initializeApp(
-      this.constants.CLOUD_STORAGE_CONFIG || CLOUD_STORAGE_CONFIG,
-      'mintbase.js'
+    const mintbaseJSFirebase = firebase.apps.find(
+      ({ name }) => name === FIREBASE_MJS_ID
     )
+
+    this.firebase =
+      mintbaseJSFirebase ??
+      firebase.initializeApp(
+        this.constants.CLOUD_STORAGE_CONFIG || CLOUD_STORAGE_CONFIG,
+        FIREBASE_MJS_ID
+      )
 
     this.storage = this.firebase.storage()
   }
