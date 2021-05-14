@@ -7,7 +7,7 @@ import {
   Network,
   Chain,
   Constants,
-  ThingMetadata,
+  MintMetadata,
 } from './types'
 import { API_BASE_NEAR_MAINNET, API_BASE_NEAR_TESTNET } from './constants'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
@@ -135,7 +135,7 @@ export class API {
    */
   public async fetchThingMetadata(
     thingId: string
-  ): Promise<ResponseData<ThingMetadata>> {
+  ): Promise<ResponseData<MintMetadata>> {
     const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/things/:id', {
       id: thingId,
     })
