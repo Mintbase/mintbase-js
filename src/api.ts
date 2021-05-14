@@ -140,7 +140,7 @@ export class API {
     if (result.thing.length === 0)
       return formatResponse({ error: `${thingId} is not a valid thing.` })
 
-    const thing = result.token[0]
+    const thing = result.thing.token[0]
 
     const metadataUri = urlcat(thing.store.baseUri, thing.metaId)
     const { data: metadata, error } = await this.fetchMetadata(metadataUri)
