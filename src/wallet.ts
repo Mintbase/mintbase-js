@@ -381,7 +381,10 @@ export class Wallet {
     tokenId: string[],
     storeId: string,
     price: string,
-    autotransfer = true
+    options?: {
+      autotransfer?: boolean
+      marketAddress?: string
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -415,12 +418,12 @@ export class Wallet {
     await contract.nft_batch_approve(
       {
         token_ids: tokenId,
-        account_id: `0.${
-          this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME
-        }`,
+        account_id:
+          options?.marketAddress ||
+          `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
         msg: JSON.stringify({
           price: price,
-          autotransfer: autotransfer,
+          autotransfer: options?.autotransfer ?? true,
         }),
       },
       MAX_GAS,
@@ -440,7 +443,10 @@ export class Wallet {
     tokenId: string,
     storeId: string,
     price: string,
-    autotransfer?: boolean
+    options?: {
+      autotransfer?: boolean
+      marketAddress?: string
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -474,12 +480,12 @@ export class Wallet {
     await contract.nft_approve(
       {
         token_id: tokenId,
-        account_id: `0.${
-          this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME
-        }`,
+        account_id:
+          options?.marketAddress ||
+          `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
         msg: JSON.stringify({
           price: price,
-          autotransfer: autotransfer || true,
+          autotransfer: options?.autotransfer ?? true,
         }),
       },
       MAX_GAS,
@@ -549,7 +555,9 @@ export class Wallet {
   public async makeGroupOffer(
     groupId: string,
     price?: string,
-    marketAddress?: string
+    options?: {
+      marketAddress?: string
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -566,11 +574,8 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${
-        marketAddress ||
-        this.constants.FACTORY_CONTRACT_NAME ||
-        FACTORY_CONTRACT_NAME
-      }`,
+      options?.marketAddress ||
+        `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
@@ -604,7 +609,9 @@ export class Wallet {
   public async makeOffer(
     tokenId: string,
     price: string,
-    marketAddress?: string
+    options?: {
+      marketAddress?: string
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -615,7 +622,7 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      marketAddress ||
+      options?.marketAddress ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
@@ -647,7 +654,9 @@ export class Wallet {
    */
   public async acceptAndTransfer(
     tokenId: string,
-    marketAddress?: string
+    options?: {
+      marketAddress?: string
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -658,11 +667,8 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${
-        marketAddress ||
-        this.constants.FACTORY_CONTRACT_NAME ||
-        FACTORY_CONTRACT_NAME
-      }`,
+      options?.marketAddress ||
+        `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
@@ -690,7 +696,9 @@ export class Wallet {
    */
   public async withdrawOffer(
     tokenKey: string,
-    marketAddress?: string
+    options?: {
+      marketAddress?: string
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -700,11 +708,8 @@ export class Wallet {
 
     const contract = new Contract(
       account,
-      `0.${
-        marketAddress ||
-        this.constants.FACTORY_CONTRACT_NAME ||
-        FACTORY_CONTRACT_NAME
-      }`,
+      options?.marketAddress ||
+        `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
           this.constants.MARKET_CONTRACT_VIEW_METHODS ||
