@@ -2,7 +2,13 @@ import 'isomorphic-unfetch'
 import { request } from 'graphql-request'
 import urlcat from 'urlcat'
 
-import { MintbaseAPIConfig, Network, Chain, Constants } from './types'
+import {
+  MintbaseAPIConfig,
+  Network,
+  Chain,
+  Constants,
+  ThingMetadata,
+} from './types'
 import { API_BASE_NEAR_MAINNET, API_BASE_NEAR_TESTNET } from './constants'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
 
@@ -65,8 +71,8 @@ export class API {
 
     const response = await fetch(url)
     const result = await response.json()
+    console.log(response)
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises = result.list.map(async (list: any) => {
       const baseUri = list.token.thing.store.baseUri
       const metaId = list.token.thing.metaId
@@ -128,8 +134,9 @@ export class API {
    * @param thingId Thing Id
    * @returns token metadata
    */
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  public async fetchThingMetadata(thingId: string): Promise<ResponseData<any>> {
+  public async fetchThingMetadata(
+    thingId: string
+  ): Promise<ResponseData<ThingMetadata>> {
     const url = urlcat(`${this.apiBaseUrl}/api/rest/`, '/things/:id', {
       id: thingId,
     })
@@ -140,7 +147,7 @@ export class API {
     if (result.thing.length === 0)
       return formatResponse({ error: `${thingId} is not a valid thing.` })
 
-    const thing = result.thing.token[0]
+    const thing = result.thing[0]
 
     const metadataUri = urlcat(thing.store.baseUri, thing.metaId)
     const { data: metadata, error } = await this.fetchMetadata(metadataUri)

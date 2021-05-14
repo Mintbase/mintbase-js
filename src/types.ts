@@ -182,6 +182,30 @@ interface MintMetadata {
   [MetadataField.Royalty_perc]: number | null
 }
 
+interface ThingMetadata {
+  category: string
+  description: string
+  copies: number
+  media_hash: string
+  lock: null
+  visibility: string
+  youtube_url: string | null
+  animation_url: string | null
+  animation_hash: string | null
+  document: string | null
+  document_hash: string | null
+  royalty: Record<string, number>
+  royalty_perc: number
+  split_revenue: null
+  tags: string[]
+  media: string
+  extra: []
+  title: string
+  store: string
+  external_url: string
+  type: string
+}
+
 export {
   Chain,
   Network,
@@ -201,4 +225,5 @@ export {
   Constants,
   CloudStorageConstants,
   WalletConfig,
+  ThingMetadata,
 }
