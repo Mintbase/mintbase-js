@@ -6,3 +6,11 @@ export const calculateListCost = (amount: number): number => {
   // return (APPROVAL_STORAGE * COST_PER_BYTE + MARKET_LIST_COST) * amount
   return 0.1
 }
+
+export const calculateTransferCost = (): number => {
+  return 0.1
+}
+
+export const calculateMintCost = (): number => {
+  return 0.1
+}
