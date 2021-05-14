@@ -71,7 +71,6 @@ export class API {
 
     const response = await fetch(url)
     const result = await response.json()
-    console.log(response)
 
     const promises = result.list.map(async (list: any) => {
       const baseUri = list.token.thing.store.baseUri
