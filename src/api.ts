@@ -76,9 +76,9 @@ export class API {
       const baseUri = list.token.thing.store.baseUri
       const metaId = list.token.thing.metaId
       const metadataUri = urlcat(baseUri, metaId)
-      const metadata = await this.fetchMetadata(metadataUri)
+      const { data: metadata } = await this.fetchMetadata(metadataUri)
 
-      return { ...list, metadata: metadata }
+      return { ...list, metadata }
     })
 
     const data = await Promise.all(promises)
