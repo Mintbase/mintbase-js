@@ -1,18 +1,38 @@
 import { API } from '../../src/api'
 import { Constants } from '../../src/types'
 import { apiNearMock, arweaveMock } from '../../src/setupTest'
-import { thingByIdMock, arweaveReplyMock } from '../../src/mocks'
+import {
+  thingByIdMock,
+  arweaveReplyMock,
+  marketplaceAPIResponseMock,
+  fetchMarketplaceReplyMock,
+} from '../../src/mocks'
 
 describe('api', () => {
   const constants: Constants = {}
-  arweaveMock.get(`/${thingByIdMock.thing[0].metaId}`).reply(200, arweaveReplyMock)
   const api = new API({ constants })
+  arweaveMock
+    .persist()
+    .get(/\/[-_0-9a-zA-Z]+/g)
+    .reply(200, arweaveReplyMock)
+
+  test('fetchMarketplace: should return ResponseData with arweave metadata', async () => {
+    apiNearMock
+      .get('/marketplace')
+      .query({ limit: 20, offset: 0 })
+      .reply(200, marketplaceAPIResponseMock)
+
+    const result = await api.fetchMarketplace()
+    const expectedResult = { data: fetchMarketplaceReplyMock, error: '' }
+
+    expect(result).toStrictEqual(expectedResult)
+  })
 
   test('fetchThingMetadata: should return ResponseData with arweave metadata', async () => {
     const thingId = 'id'
     apiNearMock.get(`/things/${thingId}`).reply(200, thingByIdMock)
 
-    const result = await api.fetchThingMetadata('id')
+    const result = await api.fetchThingMetadata(thingId)
     const expectedResult = { data: arweaveReplyMock, error: '' }
 
     expect(result).toStrictEqual(expectedResult)
