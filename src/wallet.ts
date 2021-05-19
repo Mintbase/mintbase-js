@@ -420,6 +420,7 @@ export class Wallet {
         token_ids: tokenId,
         account_id:
           options?.marketAddress ||
+          this.constants.MARKET_ADDRESS ||
           `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
         msg: JSON.stringify({
           price: price,
@@ -482,6 +483,7 @@ export class Wallet {
         token_id: tokenId,
         account_id:
           options?.marketAddress ||
+          this.constants.MARKET_ADDRESS ||
           `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
         msg: JSON.stringify({
           price: price,
@@ -575,6 +577,7 @@ export class Wallet {
     const contract = new Contract(
       account,
       options?.marketAddress ||
+        this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
@@ -623,6 +626,7 @@ export class Wallet {
     const contract = new Contract(
       account,
       options?.marketAddress ||
+        this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
@@ -668,6 +672,7 @@ export class Wallet {
     const contract = new Contract(
       account,
       options?.marketAddress ||
+        this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
@@ -709,6 +714,7 @@ export class Wallet {
     const contract = new Contract(
       account,
       options?.marketAddress ||
+        this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
       {
         viewMethods:
