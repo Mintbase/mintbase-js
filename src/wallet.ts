@@ -43,6 +43,7 @@ import {
   FACTORY_CONTRACT_VIEW_METHODS,
   FACTORY_CONTRACT_CALL_METHODS,
   TWENTY_FOUR,
+  MINTBASE_32x32_BASE64_DARK_LOGO,
 } from './constants'
 import { Minter } from './minter'
 
@@ -733,7 +734,7 @@ export class Wallet {
   public async deployStore(
     storeId: string,
     symbol: string,
-    options?: { attachedDeposit: string }
+    options?: { attachedDeposit?: string; icon?: string }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -762,7 +763,7 @@ export class Wallet {
         spec: 'nft-1.0.0',
         name: storeId.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
         symbol: symbol.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
-        icon: 'eeieieieie',
+        icon: options?.icon ?? MINTBASE_32x32_BASE64_DARK_LOGO,
         base_uri: this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI,
         reference: null,
         reference_hash: null,
