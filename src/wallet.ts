@@ -64,7 +64,7 @@ export class Wallet {
   public activeAccount?: Account
 
   public networkName: Network = Network.testnet
-  public chain: string = Chain.near
+  public chain: Chain = Chain.near
 
   public keyStore: KeyStore | undefined
 
@@ -92,7 +92,11 @@ export class Wallet {
         networkName: walletConfig.networkName || this.networkName,
       })
 
-      this.api = new API({ constants: this.constants })
+      this.api = new API({
+        networkName: walletConfig.networkName || this.networkName,
+        chain: walletConfig.chain || this.chain,
+        constants: this.constants,
+      })
 
       this.networkName = walletConfig.networkName || Network.testnet
       this.chain = walletConfig.chain || Chain.near
@@ -964,7 +968,11 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.grant_minter({ account_id: minterAccountId }, MAX_GAS, ONE_YOCTO)
+    await contract.grant_minter(
+      { account_id: minterAccountId },
+      MAX_GAS,
+      ONE_YOCTO
+    )
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
@@ -991,7 +999,11 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.revoke_minter({ account_id: minterAccountId }, MAX_GAS, ONE_YOCTO)
+    await contract.revoke_minter(
+      { account_id: minterAccountId },
+      MAX_GAS,
+      ONE_YOCTO
+    )
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
