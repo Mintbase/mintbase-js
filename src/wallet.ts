@@ -964,7 +964,7 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.grant_minter({ account_id: minterAccountId }, MAX_GAS, ZERO)
+    await contract.grant_minter({ account_id: minterAccountId }, MAX_GAS, ONE_YOCTO)
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
@@ -991,7 +991,7 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.revoke_minter({ account_id: minterAccountId }, MAX_GAS, ZERO)
+    await contract.revoke_minter({ account_id: minterAccountId }, MAX_GAS, ONE_YOCTO)
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
