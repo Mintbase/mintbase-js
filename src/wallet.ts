@@ -835,7 +835,7 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.mint_tokens(obj, MAX_GAS, ZERO)
+    await contract.mint_tokens(obj, MAX_GAS, ONE_YOCTO)
     return formatResponse({ data: true })
   }
 
@@ -937,7 +937,7 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.mint_tokens(obj, MAX_GAS, ZERO)
+    await contract.mint_tokens(obj, MAX_GAS, ONE_YOCTO)
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
