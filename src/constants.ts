@@ -58,7 +58,7 @@ export const CLOUD_STORAGE_CONFIG = {
 
 export const DEFAULT_ROYALTY_PERCENT = 1000
 
-export const MAX_GAS = new BN('300000000000000')
+export const MAX_GAS = new BN('200000000000000')
 export const ONE_YOCTO = new BN('1')
 export const ZERO = new BN('0')
 export const DEPLOY_STORE_COST = new BN('7000000000000000000000000')
