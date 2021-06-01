@@ -915,16 +915,15 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    let _royalties: any = {}
-
-    token.royaltys.forEach((royalty) => {
-      _royalties = {
-        ..._royalties,
-        [royalty.account]: royalty.percent,
-      }
-    })
-
-    if (Object.keys(_royalties).length === 0) _royalties = null
+    const _royalties = token.royaltys.reduce(
+      (accumulator, { account, percent }) => {
+        return {
+          ...accumulator,
+          [account]: percent,
+        }
+      },
+      {}
+    )
 
     const obj = {
       owner_id: accountId,
@@ -933,10 +932,13 @@ export class Wallet {
         extra: memo,
       },
       num_to_mint: amount,
-      royalty_args: {
-        split_between: _royalties,
-        percentage: token.royaltyPercent,
-      },
+      royalty_args:
+        Object.keys(_royalties).length > 0
+          ? {
+              split_between: _royalties,
+              percentage: token.royaltyPercent,
+            }
+          : null,
       split_owners: splits || null,
     }
 
