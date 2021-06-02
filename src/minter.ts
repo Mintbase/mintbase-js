@@ -107,16 +107,31 @@ export class Minter {
    * @param file The file to upload.
    */
   public async uploadField(
-    field: string,
+    field: MetadataField,
     file: File
   ): Promise<ResponseData<boolean>> {
-    if (!VALID_FILE_FORMATS[field].includes(file.type))
+    if (!VALID_FILE_FORMATS[field]?.includes(file.type))
       return formatResponse({ error: ERROR_MESSAGES.fileTypeNotAccepted })
 
     try {
-      const url = await this.upload(file)
+      const { data, error } = await this.upload(file)
 
-      this.currentMint[field] = url
+      if (error)
+        return formatResponse({ error: ERROR_MESSAGES.uploadFileAndSet })
+
+      const { uri, hash } = data
+
+      const { hash: keyHash, url: keyUrl } =
+        _determineUploadMetadataFields(field)
+
+      if (keyHash && keyUrl) {
+        this.currentMint[keyUrl] = uri
+        this.currentMint[keyHash] = hash
+      } else {
+        this.currentMint[field] = uri
+        this.currentMint[`${field}_hash`] = hash
+      }
+
       return formatResponse({ data: true })
     } catch (error) {
       return formatResponse({ error: ERROR_MESSAGES.uploadFileAndSet })
@@ -179,5 +194,26 @@ export class Minter {
       default:
         break
     }
+  }
+}
+
+const _determineUploadMetadataFields: (type: MetadataField) => {
+  url: string | null
+  hash: string | null
+} = (type) => {
+  switch (type) {
+    case MetadataField.Media:
+    case MetadataField.Media_hash:
+      return { url: MetadataField.Media, hash: MetadataField.Media_hash }
+
+    case MetadataField.Animation_url:
+    case MetadataField.Animation_hash:
+      return {
+        url: MetadataField.Animation_url,
+        hash: MetadataField.Animation_hash,
+      }
+
+    default:
+      return { url: null, hash: null }
   }
 }
