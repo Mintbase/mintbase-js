@@ -352,9 +352,13 @@ export class Wallet {
     const accountId = this.activeWallet?.account().accountId
 
     const contractName = tokenIds[0].split(':')[1]
-    const isSameContract = tokenIds.every(
-      (id) => id.split(':')[1] === contractName
-    )
+    const isSameContract = tokenIds.every((id) => {
+      const split = id.split(':')
+
+      if (split.length === 2) return split[1] === contractName
+
+      return false
+    })
 
     if (!isSameContract)
       return formatResponse({
