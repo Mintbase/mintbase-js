@@ -343,19 +343,27 @@ export class Wallet {
   }
 
   /**
-   * Burn one or more tokens.
+   * Burn one or more tokens from the same contract.
    * @param contractName The contract name to burn tokens from.
-   * @param tokenIds The mapping of burns, defined by: [[accountName1, tokenId1], [accountName2, tokenId2]]
+   * @param tokenIds An array containing token ids to be burnt.
    */
-
-  // TODO: need more checks on the tokenIds
-  public async burn(
-    tokenIds: number[],
-    contractName: string
-  ): Promise<ResponseData<boolean>> {
+  public async burn(tokenIds: string[]): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
+    const contractName = tokenIds[0].split(':')[1]
+    const isSameContract = tokenIds.every((id) => {
+      const split = id.split(':')
+
+      if (split.length === 2) return split[1] === contractName
+
+      return false
+    })
+
+    if (!isSameContract)
+      return formatResponse({
+        error: 'Tokens need to be all from the same contract.',
+      })
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
     if (!contractName)
@@ -370,8 +378,10 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
+    const burnIds = tokenIds.map((id) => id.split(':')[0])
+
     // @ts-ignore: method does not exist on Contract type
-    await contract.burn_tokens({ token_ids: tokenIds }, MAX_GAS, ONE_YOCTO)
+    await contract.burn_tokens({ token_ids: burnIds }, MAX_GAS, ONE_YOCTO)
     return formatResponse({ data: true })
   }
 
