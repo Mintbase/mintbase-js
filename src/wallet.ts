@@ -10,6 +10,7 @@ import {
   WalletConnection,
   Contract,
   connect,
+  Signer,
 } from 'near-api-js'
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
@@ -44,6 +45,7 @@ import {
   FACTORY_CONTRACT_CALL_METHODS,
   TWENTY_FOUR,
   MINTBASE_32x32_BASE64_DARK_LOGO,
+  ERROR_MESSAGES,
 } from './constants'
 import { Minter } from './minter'
 
@@ -51,7 +53,9 @@ import { calculateListCost } from './utils/near-costs'
 import { initializeExternalConstants } from './utils/external-constants'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers'
-
+import { messageEncode, messageDecode } from './utils/message'
+import { PublicKey, Signature } from 'near-api-js/lib/utils/key_pair'
+import * as ed from 'noble-ed25519'
 /**
  * Mintbase Wallet.
  * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
@@ -1039,14 +1043,54 @@ export class Wallet {
   public async getSessionKeyPair(): Promise<ResponseData<KeyPair>> {
     const accountId = this.activeWallet?.getAccountId()
 
-    if (!accountId) return formatResponse({ error: 'accountId is undefined' })
+    if (!accountId)
+      return formatResponse({ error: ERROR_MESSAGES.undefinedAccountId })
 
     if (!this.keyStore)
-      return formatResponse({ error: 'KeyStore not defined.' })
+      return formatResponse({ error: ERROR_MESSAGES.undefinedKeyStore })
 
     const data = await this.keyStore?.getKey(this.networkName, accountId)
     return formatResponse({ data })
   }
+
+  public async signMessage(message: string): Promise<
+    ResponseData<{
+      signature: Uint8Array
+      publicKey: PublicKey
+      accountId: string
+    }>
+  > {
+    if (!this.isConnected())
+      return formatResponse({ error: ERROR_MESSAGES.walletNotConnected })
+
+    const { data: keyPair, error } = await this.getSessionKeyPair()
+    if (error) return formatResponse({ error: ERROR_MESSAGES.invalidKeyPair })
+
+    const accountId = this.activeAccount?.accountId
+    if (!accountId)
+      return formatResponse({ error: ERROR_MESSAGES.undefinedAccountId })
+
+    const encodedMessage = messageEncode(message)
+
+    const _signature = keyPair.sign(encodedMessage)
+
+    const signature = _signature.signature
+    const publicKey = _signature.publicKey
+
+    return formatResponse({ data: { signature, publicKey, accountId } })
+  }
+
+  // public async validadeMessage(
+  //   message: string,
+  //   publicKey: string
+  // ): Promise<ResponseData<boolean>> {
+  //   const { data: keyPair, error } = await this.getSessionKeyPair()
+
+  //   if (error) return formatResponse({ error: 'No valid key pair.' })
+
+  //   keyPair.verify()
+  //   return formatResponse({ data: true })
+  // }
 
   private getKeyStore() {
     if (isNode) return new keyStores.InMemoryKeyStore()

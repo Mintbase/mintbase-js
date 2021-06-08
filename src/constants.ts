@@ -136,6 +136,10 @@ export const ERROR_MESSAGES = {
   uploadCloud: 'Failed at uploading file to the cloud',
   uploadMetadata: 'Failed at uploading metadata',
   decentralizedStorageFailed: 'Failed storing on Arweave',
+  invalidKeyPair: 'No valid key pair',
+  undefinedAccountId: 'Account Id is undefined',
+  undefinedKeyStore: 'Key Store is undefined',
+  walletNotConnected: 'Wallet is not connected'
 }
 
 export const MIME_TYPES = {
