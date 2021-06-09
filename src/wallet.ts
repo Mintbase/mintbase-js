@@ -11,6 +11,7 @@ import {
   Contract,
   connect,
   Signer,
+  InMemorySigner,
 } from 'near-api-js'
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
@@ -55,7 +56,7 @@ import { formatResponse, ResponseData } from './utils/responseBuilder'
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers'
 import { messageEncode, messageDecode } from './utils/message'
 import { PublicKey, Signature } from 'near-api-js/lib/utils/key_pair'
-import * as ed from 'noble-ed25519'
+import { sign } from 'tweetnacl'
 /**
  * Mintbase Wallet.
  * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
@@ -1056,7 +1057,7 @@ export class Wallet {
   public async signMessage(message: string): Promise<
     ResponseData<{
       signature: Uint8Array
-      publicKey: PublicKey
+      publicKey: Uint8Array
       accountId: string
     }>
   > {
@@ -1070,27 +1071,34 @@ export class Wallet {
     if (!accountId)
       return formatResponse({ error: ERROR_MESSAGES.undefinedAccountId })
 
-    const encodedMessage = messageEncode(message)
+    const arrayBuffer = new TextEncoder().encode(message).buffer
+    const encodedMessage = new Uint8Array(arrayBuffer)
 
-    const _signature = keyPair.sign(encodedMessage)
+    const { signature, publicKey } = keyPair.sign(encodedMessage)
 
-    const signature = _signature.signature
-    const publicKey = _signature.publicKey
+    console.log('PUB', publicKey)
 
-    return formatResponse({ data: { signature, publicKey, accountId } })
+    return formatResponse({
+      data: {
+        signature,
+        publicKey: publicKey.data,
+        accountId,
+      },
+    })
   }
 
-  // public async validadeMessage(
-  //   message: string,
-  //   publicKey: string
-  // ): Promise<ResponseData<boolean>> {
-  //   const { data: keyPair, error } = await this.getSessionKeyPair()
-
-  //   if (error) return formatResponse({ error: 'No valid key pair.' })
-
-  //   keyPair.verify()
-  //   return formatResponse({ data: true })
-  // }
+  public async verifySignature(requestBody: {
+    publicKey: Uint8Array
+    signature: Uint8Array
+    accountId: string
+    message: string
+  }): Promise<boolean> {
+    return sign.detached.verify(
+      messageEncode(requestBody.message),
+      requestBody.signature,
+      requestBody.publicKey
+    )
+  }
 
   private getKeyStore() {
     if (isNode) return new keyStores.InMemoryKeyStore()
