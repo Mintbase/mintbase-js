@@ -1056,9 +1056,10 @@ export class Wallet {
 
   public async signMessage(message: string): Promise<
     ResponseData<{
-      signature: Uint8Array
-      publicKey: Uint8Array
+      signature: number[]
+      publicKey: number[]
       accountId: string
+      publicKey_str: string
     }>
   > {
     if (!this.isConnected())
@@ -1076,27 +1077,26 @@ export class Wallet {
 
     const { signature, publicKey } = keyPair.sign(encodedMessage)
 
-    console.log('PUB', publicKey)
-
     return formatResponse({
       data: {
-        signature,
-        publicKey: publicKey.data,
+        signature: Array.from(signature),
+        publicKey: Array.from(publicKey.data),
+        publicKey_str: keyPair.getPublicKey().toString(),
         accountId,
       },
     })
   }
 
   public async verifySignature(requestBody: {
-    publicKey: Uint8Array
-    signature: Uint8Array
+    publicKey: number[]
+    signature: number[]
     accountId: string
     message: string
   }): Promise<boolean> {
     return sign.detached.verify(
       messageEncode(requestBody.message),
-      requestBody.signature,
-      requestBody.publicKey
+      new Uint8Array(requestBody.signature),
+      new Uint8Array(requestBody.publicKey)
     )
   }
 
