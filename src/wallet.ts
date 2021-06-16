@@ -10,8 +10,6 @@ import {
   WalletConnection,
   Contract,
   connect,
-  Signer,
-  InMemorySigner,
 } from 'near-api-js'
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
@@ -40,7 +38,6 @@ import {
   MARKET_CONTRACT_CALL_METHODS,
   MAX_GAS,
   ONE_YOCTO,
-  ZERO,
   DEPLOY_STORE_COST,
   FACTORY_CONTRACT_VIEW_METHODS,
   FACTORY_CONTRACT_CALL_METHODS,
@@ -54,8 +51,7 @@ import { calculateListCost } from './utils/near-costs'
 import { initializeExternalConstants } from './utils/external-constants'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers'
-import { messageEncode, messageDecode } from './utils/message'
-import { PublicKey, Signature } from 'near-api-js/lib/utils/key_pair'
+import { messageEncode } from './utils/message'
 import { sign } from 'tweetnacl'
 /**
  * Mintbase Wallet.
