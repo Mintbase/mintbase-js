@@ -70,9 +70,9 @@ Bootstrap your app with [Create Mintbase App (React + Typescript)][6]
 
 ## Support
 
-Open an [issue][3]!
+Open an [issue][2] 
 
-or ask in our [developer telegram][2]
+or ask in our [developer telegram][3]!
 
 ## License
 
