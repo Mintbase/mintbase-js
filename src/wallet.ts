@@ -38,12 +38,12 @@ import {
   MARKET_CONTRACT_CALL_METHODS,
   MAX_GAS,
   ONE_YOCTO,
-  ZERO,
   DEPLOY_STORE_COST,
   FACTORY_CONTRACT_VIEW_METHODS,
   FACTORY_CONTRACT_CALL_METHODS,
   TWENTY_FOUR,
   MINTBASE_32x32_BASE64_DARK_LOGO,
+  ERROR_MESSAGES,
 } from './constants'
 import { Minter } from './minter'
 
@@ -51,7 +51,8 @@ import { calculateListCost } from './utils/near-costs'
 import { initializeExternalConstants } from './utils/external-constants'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers'
-
+import { messageEncode } from './utils/message'
+import { sign } from 'tweetnacl'
 /**
  * Mintbase Wallet.
  * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
@@ -1039,13 +1040,60 @@ export class Wallet {
   public async getSessionKeyPair(): Promise<ResponseData<KeyPair>> {
     const accountId = this.activeWallet?.getAccountId()
 
-    if (!accountId) return formatResponse({ error: 'accountId is undefined' })
+    if (!accountId)
+      return formatResponse({ error: ERROR_MESSAGES.undefinedAccountId })
 
     if (!this.keyStore)
-      return formatResponse({ error: 'KeyStore not defined.' })
+      return formatResponse({ error: ERROR_MESSAGES.undefinedKeyStore })
 
     const data = await this.keyStore?.getKey(this.networkName, accountId)
     return formatResponse({ data })
+  }
+
+  public async signMessage(message: string): Promise<
+    ResponseData<{
+      signature: number[]
+      publicKey: number[]
+      accountId: string
+      publicKey_str: string
+    }>
+  > {
+    if (!this.isConnected())
+      return formatResponse({ error: ERROR_MESSAGES.walletNotConnected })
+
+    const { data: keyPair, error } = await this.getSessionKeyPair()
+    if (error) return formatResponse({ error: ERROR_MESSAGES.invalidKeyPair })
+
+    const accountId = this.activeAccount?.accountId
+    if (!accountId)
+      return formatResponse({ error: ERROR_MESSAGES.undefinedAccountId })
+
+    const arrayBuffer = new TextEncoder().encode(message).buffer
+    const encodedMessage = new Uint8Array(arrayBuffer)
+
+    const { signature, publicKey } = keyPair.sign(encodedMessage)
+
+    return formatResponse({
+      data: {
+        signature: Array.from(signature),
+        publicKey: Array.from(publicKey.data),
+        publicKey_str: keyPair.getPublicKey().toString(),
+        accountId,
+      },
+    })
+  }
+
+  public async verifySignature(requestBody: {
+    publicKey: number[]
+    signature: number[]
+    accountId: string
+    message: string
+  }): Promise<boolean> {
+    return sign.detached.verify(
+      messageEncode(requestBody.message),
+      new Uint8Array(requestBody.signature),
+      new Uint8Array(requestBody.publicKey)
+    )
   }
 
   private getKeyStore() {
