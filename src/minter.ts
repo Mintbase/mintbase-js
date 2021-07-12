@@ -56,9 +56,11 @@ export class Minter {
     if (!this.storage)
       return formatResponse({ error: 'Storage not initialized' })
 
-    const { data: uploadResult } = await this.storage.uploadMetadata(
+    const { data: uploadResult, error } = await this.storage.uploadMetadata(
       this.currentMint
     )
+
+    if (error) return formatResponse({ error })
 
     const { id } = uploadResult
 
@@ -160,7 +162,9 @@ export class Minter {
         formatResponse({ error: 'Storage not initialized' })
       }
 
-      const { data: result } = await this.storage.uploadToArweave(file)
+      const { data: result, error } = await this.storage.uploadToArweave(file)
+
+      if (!result || error) return formatResponse({ error })
 
       const data = {
         uri: `${this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI}/${

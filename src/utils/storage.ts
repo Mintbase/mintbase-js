@@ -93,8 +93,6 @@ export class Storage {
       )
 
       if (error) {
-        console.error(error)
-
         return formatResponse({ error })
       }
 
@@ -109,6 +107,9 @@ export class Storage {
         const { id, contentType } = await request.json()
 
         const data = { id, contentType }
+
+        if (!id || !contentType)
+          throw new Error(ERROR_MESSAGES.decentralizedStorageFailed)
 
         return formatResponse({ data })
       } catch (error) {
