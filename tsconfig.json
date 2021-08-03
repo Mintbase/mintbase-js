@@ -1,7 +1,6 @@
 {
   "include": ["./src/**/*"],
   "exclude": ["node_modules"],
-  "files": ["src/index.ts", "src/browser-index.ts"],
   "compilerOptions": {
     "outDir": "lib",
     "noImplicitThis": false,
