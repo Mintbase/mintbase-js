@@ -82,7 +82,7 @@ export class Minter {
   ): ResponseData<boolean> {
     try {
       this.fieldChecks(key, value)
-    } catch (error) {
+    } catch (error: any) {
       return formatResponse({ error: error.message })
     }
 
@@ -98,7 +98,7 @@ export class Minter {
         this.setField(field as MetadataField, metadata[field], override)
       })
       return formatResponse({ data: true })
-    } catch (error) {
+    } catch (error: any) {
       return formatResponse({ error: error.message })
     }
   }
@@ -174,7 +174,7 @@ export class Minter {
       }
 
       return formatResponse({ data })
-    } catch (error) {
+    } catch (error: any) {
       return formatResponse({ error: error.message })
     }
   }

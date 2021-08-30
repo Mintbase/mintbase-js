@@ -117,7 +117,7 @@ export class Storage {
           error: ERROR_MESSAGES.decentralizedStorageFailed,
         })
       }
-    } catch (error) {
+    } catch (error: any) {
       return formatResponse({ error: error.message })
     }
   }
