@@ -117,7 +117,7 @@ export class Wallet {
       return formatResponse({
         data,
       })
-    } catch (error) {
+    } catch (error: any) {
       return formatResponse({ error })
     }
   }
