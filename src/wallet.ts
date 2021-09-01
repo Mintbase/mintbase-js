@@ -325,7 +325,7 @@ export class Wallet {
     const accountId = this.activeWallet?.account().accountId
 
     if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+      return formatResponse({ error: 'Account is undefined' })
     if (!contractName)
       return formatResponse({ error: 'No contract was provided.' })
 
@@ -339,7 +339,11 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.batch_transfer({ token_ids: tokenIds }, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_transfer(
+      { token_ids: tokenIds },
+      MAX_GAS,
+      ONE_YOCTO
+    )
     return formatResponse({ data: true })
   }
 
@@ -382,7 +386,7 @@ export class Wallet {
     const burnIds = tokenIds.map((id) => id.split(':')[0])
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.burn_tokens({ token_ids: burnIds }, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_burn({ token_ids: burnIds }, MAX_GAS, ONE_YOCTO)
     return formatResponse({ data: true })
   }
 
@@ -818,7 +822,7 @@ export class Wallet {
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
     if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+      return formatResponse({ error: 'No cdddontract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -850,7 +854,7 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.mint_tokens(obj, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_mint(obj, MAX_GAS, ONE_YOCTO)
     return formatResponse({ data: true })
   }
 
@@ -954,7 +958,7 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.mint_tokens(obj, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_mint(obj, MAX_GAS, ONE_YOCTO)
     // TODO: define a response for this
     return formatResponse({ data: true })
   }

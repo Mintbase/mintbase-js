@@ -22,7 +22,7 @@ export const FACTORY_CONTRACT_NAME =
 export const STORE_CONTRACT_VIEW_METHODS = []
 
 export const STORE_CONTRACT_CALL_METHODS = [
-  'mint_tokens',
+  'nft_batch_mint',
   'nft_batch_approve',
   'nft_approve',
   'grant_minter',
@@ -30,8 +30,8 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'burn_tokens',
   'nft_revoke_all',
   'nft_revoke',
-  'batch_burn',
-  'batch_transfer',
+  'nft_batch_burn',
+  'nft_batch_transfer',
   'set_icon_base64',
   'set_base_uri',
   'new',
@@ -139,7 +139,7 @@ export const ERROR_MESSAGES = {
   invalidKeyPair: 'No valid key pair',
   undefinedAccountId: 'Account Id is undefined',
   undefinedKeyStore: 'Key Store is undefined',
-  walletNotConnected: 'Wallet is not connected'
+  walletNotConnected: 'Wallet is not connected',
 }
 
 export const MIME_TYPES = {
