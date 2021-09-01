@@ -362,7 +362,7 @@ export class API {
     try {
       const data = await request(url, query, variables)
       return formatResponse({ data })
-    } catch (error) {
+    } catch (error: any) {
       return formatResponse({ error: error.message })
     }
   }
