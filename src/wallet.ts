@@ -325,7 +325,7 @@ export class Wallet {
     const accountId = this.activeWallet?.account().accountId
 
     if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined' })
+      return formatResponse({ error: 'Account is undefined.' })
     if (!contractName)
       return formatResponse({ error: 'No contract was provided.' })
 
@@ -822,7 +822,7 @@ export class Wallet {
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
     if (!contractName)
-      return formatResponse({ error: 'No cdddontract was provided.' })
+      return formatResponse({ error: 'No contract was provided.' })
 
     const contract = new Contract(account, contractName, {
       viewMethods:
