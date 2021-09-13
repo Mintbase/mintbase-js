@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ResponseData | mintbase</title>
+	<title>Royalties | mintbase</title>
 	<meta name="description" content="Documentation for mintbase">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,78 +55,37 @@
 					<a href="../modules.html">mintbase</a>
 				</li>
 				<li>
-					<a href="../modules/utils_responsebuilder.html">utils/responseBuilder</a>
+					<a href="../modules/types.html">types</a>
 				</li>
 				<li>
-					<a href="utils_responsebuilder.responsedata.html">ResponseData</a>
+					<a href="types.Royalties.html">Royalties</a>
 				</li>
 			</ul>
-			<h1>Interface ResponseData&lt;T&gt;</h1>
+			<h1>Interface Royalties</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-type-parameters">
-				<h3>Type parameters</h3>
-				<ul class="tsd-type-parameters">
-					<li>
-						<h4>T</h4>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">ResponseData</span>
+						<span class="target">Royalties</span>
 					</li>
 				</ul>
 			</section>
-			<section class="tsd-panel-group tsd-index-group">
-				<h2>Index</h2>
-				<section class="tsd-panel tsd-index-panel">
-					<div class="tsd-index-content">
-						<section class="tsd-index-section ">
-							<h3>Properties</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_responsebuilder.responsedata.html#data" class="tsd-kind-icon">data</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="utils_responsebuilder.responsedata.html#error" class="tsd-kind-icon">error</a></li>
-							</ul>
-						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="data" class="tsd-anchor"></a>
-					<h3>data</h3>
-					<div class="tsd-signature tsd-kind-icon">data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">T</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/4f52bfd/src/utils/responseBuilder.ts#L8">utils/responseBuilder.ts:8</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="error" class="tsd-anchor"></a>
-					<h3>error</h3>
-					<div class="tsd-signature tsd-kind-icon">error<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/4f52bfd/src/utils/responseBuilder.ts#L9">utils/responseBuilder.ts:9</a></li>
-						</ul>
-					</aside>
-				</section>
+			<section class="tsd-panel tsd-kind-interface tsd-parent-kind-module">
+				<h3 class="tsd-before-signature">Indexable</h3>
+				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>account: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">number</span></div>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
 			<nav class="tsd-navigation primary">
 				<ul>
 					<li class=" ">
-						<a href="../modules.html">Exports</a>
+						<a href="../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/api.html">api</a>
@@ -141,9 +100,9 @@
 						<a href="../modules/mocks.html">mocks</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/setuptest.html">setup<wbr>Test</a>
+						<a href="../modules/setupTest.html">setup<wbr>Test</a>
 					</li>
-					<li class=" tsd-kind-module">
+					<li class="current tsd-kind-module">
 						<a href="../modules/types.html">types</a>
 					</li>
 					<li class=" tsd-kind-module">
@@ -155,8 +114,8 @@
 					<li class=" tsd-kind-module">
 						<a href="../modules/utils_near_costs.html">utils/near-<wbr>costs</a>
 					</li>
-					<li class="current tsd-kind-module">
-						<a href="../modules/utils_responsebuilder.html">utils/response<wbr>Builder</a>
+					<li class=" tsd-kind-module">
+						<a href="../modules/utils_responseBuilder.html">utils/response<wbr>Builder</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/utils_storage.html">utils/storage</a>
@@ -168,23 +127,63 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/types.Chain.html" class="tsd-kind-icon">Chain</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/types.DisplayType.html" class="tsd-kind-icon">Display<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/types.MetadataField.html" class="tsd-kind-icon">Metadata<wbr>Field</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/types.Network.html" class="tsd-kind-icon">Network</a>
+					</li>
+					<li class=" tsd-kind-enum tsd-parent-kind-module">
+						<a href="../enums/types.Visibility.html" class="tsd-kind-icon">Visibility</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.Account.html" class="tsd-kind-icon">Account</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.Attribute.html" class="tsd-kind-icon">Attribute</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.CloudStorageConstants.html" class="tsd-kind-icon">Cloud<wbr>Storage<wbr>Constants</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.Constants.html" class="tsd-kind-icon">Constants</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.List.html" class="tsd-kind-icon">List</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.MintMetadata.html" class="tsd-kind-icon">Mint<wbr>Metadata</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.MintbaseAPIConfig.html" class="tsd-kind-icon">MintbaseAPIConfig</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.NEARConfig.html" class="tsd-kind-icon">NEARConfig</a>
+					</li>
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="utils_responsebuilder.responsedata.html" class="tsd-kind-icon">Response<wbr>Data</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_responsebuilder.responsedata.html#data" class="tsd-kind-icon">data</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="utils_responsebuilder.responsedata.html#error" class="tsd-kind-icon">error</a>
-							</li>
-						</ul>
+					<li class="current tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.Royalties.html" class="tsd-kind-icon">Royalties</a>
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../modules/utils_responsebuilder.html#formatresponse" class="tsd-kind-icon">format<wbr>Response</a>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.Split.html" class="tsd-kind-icon">Split</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.Token.html" class="tsd-kind-icon">Token</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.WalletConfig.html" class="tsd-kind-icon">Wallet<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="types.WalletLoginProps.html" class="tsd-kind-icon">Wallet<wbr>Login<wbr>Props</a>
 					</li>
 				</ul>
 			</nav>
@@ -203,7 +202,6 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
