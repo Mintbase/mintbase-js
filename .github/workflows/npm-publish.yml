@@ -7,7 +7,7 @@ name: npm-publish
 
 on:
   release:
-    types: [published]
+    types: [released]
 
 jobs:
   build:
