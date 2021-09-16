@@ -2,7 +2,7 @@ name: Build and Deploy Docs
 
 on:
   release:
-    types: [published]
+    types: [released]
   
 jobs:
   build-and-deploy:
