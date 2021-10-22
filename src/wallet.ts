@@ -1310,7 +1310,7 @@ export class Wallet {
             contractAddress ||
             this.constants?.FACTORY_CONTRACT_NAME ||
             FACTORY_CONTRACT_NAME,
-          walletUrl: 'https://wallet.mainnet.near.org',
+          walletUrl: 'https://wallet.near.org',
           helperUrl: 'https://helper.mainnet.near.org',
         }
       default:
