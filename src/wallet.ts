@@ -404,10 +404,12 @@ export class Wallet {
     options?: {
       autotransfer?: boolean
       marketAddress?: string
+      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -447,7 +449,7 @@ export class Wallet {
           autotransfer: options?.autotransfer ?? true,
         }),
       },
-      MAX_GAS,
+      gas,
       utils.format.parseNearAmount(listCost.toString())
     )
     return formatResponse({ data: true })
@@ -467,10 +469,12 @@ export class Wallet {
     options?: {
       autotransfer?: boolean
       marketAddress?: string
+      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -510,7 +514,7 @@ export class Wallet {
           autotransfer: options?.autotransfer ?? true,
         }),
       },
-      MAX_GAS,
+      gas,
       utils.format.parseNearAmount(listCost.toString())
     )
     return formatResponse({ data: true })
@@ -634,10 +638,12 @@ export class Wallet {
     price: string,
     options?: {
       marketAddress?: string
+      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -665,7 +671,7 @@ export class Wallet {
         price: price,
         timeout: { Hours: TWENTY_FOUR },
       },
-      MAX_GAS,
+      gas,
       price
     )
     return formatResponse({ data: true })
@@ -680,10 +686,12 @@ export class Wallet {
     tokenId: string,
     options?: {
       marketAddress?: string
+      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -709,7 +717,7 @@ export class Wallet {
       {
         token_key: tokenId,
       },
-      MAX_GAS,
+      gas,
       ONE_YOCTO
     )
     return formatResponse({ data: true })
@@ -723,10 +731,12 @@ export class Wallet {
     tokenKey: string,
     options?: {
       marketAddress?: string
+      gas?:string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -747,7 +757,7 @@ export class Wallet {
     )
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.withdraw_offer({ token_key: tokenKey }, MAX_GAS)
+    await contract.withdraw_offer({ token_key: tokenKey }, gas)
     return formatResponse({ data: true })
   }
 
@@ -759,10 +769,11 @@ export class Wallet {
   public async deployStore(
     storeId: string,
     symbol: string,
-    options?: { attachedDeposit?: string; icon?: string }
+    options?: { attachedDeposit?: string; icon?: string; gas?: string }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -800,7 +811,7 @@ export class Wallet {
       : new BN(options?.attachedDeposit)
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.create_store(storeData, MAX_GAS, attachedDeposit)
+    await contract.create_store(storeData, gas, attachedDeposit)
     return formatResponse({ data: true })
   }
 
