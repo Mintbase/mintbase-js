@@ -574,7 +574,7 @@ export class Wallet {
   }
 
   /**
-   * Make an offer to a token from a group.
+   * Make an offer to a token from a group. asdasdasd
    * @param groupId
    * @param price
    */
@@ -583,10 +583,12 @@ export class Wallet {
     price?: string,
     options?: {
       marketAddress?: string
+      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -622,7 +624,7 @@ export class Wallet {
         price: setPrice,
         timeout: { Hours: TWENTY_FOUR },
       },
-      MAX_GAS,
+      gas,
       setPrice
     )
     return formatResponse({ data: true })
