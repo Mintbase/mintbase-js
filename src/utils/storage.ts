@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { CLOUD_URI, CLOUD_STORAGE_CONFIG, ERROR_MESSAGES } from '../constants'
 import { Constants } from 'src/types'
 import { formatResponse, ResponseData } from './responseBuilder'
+import { retryFetch } from './retryFetch'
 
 const FIREBASE_MJS_ID = 'FIREBASE_MJS_ID'
 const ARWEAVE_FOLDER = 'arweave'
@@ -53,7 +54,7 @@ export class Storage {
     metadata: unknown
   ): Promise<ResponseData<{ id: string }>> {
     try {
-      const request = await fetch(`${CLOUD_URI}/arweave/metadata/`, {
+      const request = await retryFetch(`${CLOUD_URI}/arweave/metadata/`, {
         method: 'POST',
         body: JSON.stringify(metadata),
         headers: {
@@ -98,7 +99,7 @@ export class Storage {
 
       try {
         // Fetches arweave id. This request will trigger an upload in the cloud
-        const request = await fetch(`${CLOUD_URI}/arweave/file/${fileName}`, {
+        const request = await retryFetch(`${CLOUD_URI}/arweave/file/${fileName}`, {
           headers: {
             [headers.apiKey]: this.apiKey || 'anonymous',
           },
