@@ -1,9 +1,10 @@
 /** @hidden @module */
 
-
 import { ERROR_MESSAGES, MIME_TYPES } from '../constants'
 
 export const correctFileType = async (file: File): Promise<File> => {
+  if (file.type.includes('svg')) return setMimeType(MIME_TYPES.svg, file)
+
   const fileExtension = getFileExtension(file.name)
 
   if (!fileExtension) throw new Error(ERROR_MESSAGES.fileNoExtension)
