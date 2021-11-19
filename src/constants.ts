@@ -66,6 +66,10 @@ export const DEPLOY_STORE_COST = new BN('7000000000000000000000000')
 export const VALID_FILE_FORMATS: { [key: string]: string[] } = {
   [MetadataField.Media]: ['image/jpeg', 'image/png', 'image/gif'],
   [MetadataField.Animation_url]: [
+    'image/png',
+    'image/jpeg',
+    'image/gif',
+    'image/svg',
     'audio/ogg',
     'video/webm',
     'video/mp4',
@@ -148,6 +152,7 @@ export const MIME_TYPES = {
   jpeg: 'image/jpeg',
   png: 'image/png',
   gif: 'image/gif',
+  svg: 'image/svg',
   ogg: 'audio/ogg',
   webm: 'video/webm',
   mp4: 'video/mp4',
