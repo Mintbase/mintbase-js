@@ -32,6 +32,7 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'nft_revoke',
   'nft_batch_burn',
   'nft_batch_transfer',
+  'nft_transfer',
   'set_icon_base64',
   'set_base_uri',
   'new',

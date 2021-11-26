@@ -348,6 +348,44 @@ export class Wallet {
   }
 
   /**
+   * Transfer one token.
+   * @param tokenId The token id to transfer.
+   * @param receiverId The account id to transfer to.
+   * @param contractName The contract name to transfer tokens from.
+   */
+  // TODO: need more checks on the tokenIds
+  public async simpleTransfer(
+    tokenId: string,
+    receiverId: string,
+    contractName: string
+  ): Promise<ResponseData<boolean>> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
+
+    const contract = new Contract(account, contractName, {
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.nft_transfer(
+      { receiver_id: receiverId, token_id: tokenId },
+      MAX_GAS,
+      ONE_YOCTO 
+    )
+    return formatResponse({ data: true })
+  }
+
+  /**
    * Burn one or more tokens from the same contract.
    * @param contractName The contract name to burn tokens from.
    * @param tokenIds An array containing token ids to be burnt.
@@ -733,7 +771,7 @@ export class Wallet {
     tokenKey: string,
     options?: {
       marketAddress?: string
-      gas?:string
+      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
