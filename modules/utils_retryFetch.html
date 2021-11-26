@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Split | mintbase</title>
+	<title>utils/retryFetch | mintbase</title>
 	<meta name="description" content="Documentation for mintbase">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,30 +55,60 @@
 					<a href="../modules.html">mintbase</a>
 				</li>
 				<li>
-					<a href="../modules/types.html">types</a>
-				</li>
-				<li>
-					<a href="types.Split.html">Split</a>
+					<a href="utils_retryFetch.html">utils/retryFetch</a>
 				</li>
 			</ul>
-			<h1>Interface Split</h1>
+			<h1>Module utils/retryFetch</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">Split</span>
-					</li>
-				</ul>
+			<section class="tsd-panel-group tsd-index-group">
+				<h2>Index</h2>
+				<section class="tsd-panel tsd-index-panel">
+					<div class="tsd-index-content">
+						<section class="tsd-index-section ">
+							<h3>Functions</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="utils_retryFetch.html#retryFetch" class="tsd-kind-icon">retry<wbr>Fetch</a></li>
+							</ul>
+						</section>
+					</div>
+				</section>
 			</section>
-			<section class="tsd-panel tsd-kind-interface tsd-parent-kind-module">
-				<h3 class="tsd-before-signature">Indexable</h3>
-				<div class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">[</span>account: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">]: </span><span class="tsd-signature-type">number</span></div>
+			<section class="tsd-panel-group tsd-member-group ">
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="retryFetch" class="tsd-anchor"></a>
+					<h3>retry<wbr>Fetch</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">retry<wbr>Fetch<span class="tsd-signature-symbol">(</span>url<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fetchOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">RequestInit</span>, retryOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">retry.OperationOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Mintbase/mintbase-js/blob/44a414f/src/utils/retryFetch.ts#L3">utils/retryFetch.ts:3</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>url: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fetchOptions: <span class="tsd-signature-type">RequestInit</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> retryOptions: <span class="tsd-signature-type">retry.OperationOptions</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Response</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
 			</section>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -88,105 +118,50 @@
 						<a href="../modules.html">Modules</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/api.html">api</a>
+						<a href="api.html">api</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/constants.html">constants</a>
+						<a href="constants.html">constants</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/minter.html">minter</a>
+						<a href="minter.html">minter</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/mocks.html">mocks</a>
+						<a href="mocks.html">mocks</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/setupTest.html">setup<wbr>Test</a>
+						<a href="setupTest.html">setup<wbr>Test</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="types.html">types</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="utils_external_constants.html">utils/external-<wbr>constants</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="utils_message.html">utils/message</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="utils_near_costs.html">utils/near-<wbr>costs</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="utils_responseBuilder.html">utils/response<wbr>Builder</a>
 					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/types.html">types</a>
+						<a href="utils_retryFetch.html">utils/retry<wbr>Fetch</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/utils_external_constants.html">utils/external-<wbr>constants</a>
+						<a href="utils_storage.html">utils/storage</a>
 					</li>
 					<li class=" tsd-kind-module">
-						<a href="../modules/utils_message.html">utils/message</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/utils_near_costs.html">utils/near-<wbr>costs</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/utils_responseBuilder.html">utils/response<wbr>Builder</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/utils_retryFetch.html">utils/retry<wbr>Fetch</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/utils_storage.html">utils/storage</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/wallet.html">wallet</a>
+						<a href="wallet.html">wallet</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/types.Chain.html" class="tsd-kind-icon">Chain</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/types.DisplayType.html" class="tsd-kind-icon">Display<wbr>Type</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/types.MetadataField.html" class="tsd-kind-icon">Metadata<wbr>Field</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/types.Network.html" class="tsd-kind-icon">Network</a>
-					</li>
-					<li class=" tsd-kind-enum tsd-parent-kind-module">
-						<a href="../enums/types.Visibility.html" class="tsd-kind-icon">Visibility</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.Account.html" class="tsd-kind-icon">Account</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.Attribute.html" class="tsd-kind-icon">Attribute</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.CloudStorageConstants.html" class="tsd-kind-icon">Cloud<wbr>Storage<wbr>Constants</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.Constants.html" class="tsd-kind-icon">Constants</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.List.html" class="tsd-kind-icon">List</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.MintMetadata.html" class="tsd-kind-icon">Mint<wbr>Metadata</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.MintbaseAPIConfig.html" class="tsd-kind-icon">MintbaseAPIConfig</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.NEARConfig.html" class="tsd-kind-icon">NEARConfig</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.Royalties.html" class="tsd-kind-icon">Royalties</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.Split.html" class="tsd-kind-icon">Split</a>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.Token.html" class="tsd-kind-icon">Token</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.WalletConfig.html" class="tsd-kind-icon">Wallet<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="types.WalletLoginProps.html" class="tsd-kind-icon">Wallet<wbr>Login<wbr>Props</a>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="utils_retryFetch.html#retryFetch" class="tsd-kind-icon">retry<wbr>Fetch</a>
 					</li>
 				</ul>
 			</nav>
