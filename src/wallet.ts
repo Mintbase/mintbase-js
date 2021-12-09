@@ -380,7 +380,7 @@ export class Wallet {
     await contract.nft_transfer(
       { receiver_id: receiverId, token_id: tokenId },
       MAX_GAS,
-      ONE_YOCTO 
+      ONE_YOCTO
     )
     return formatResponse({ data: true })
   }
@@ -612,7 +612,7 @@ export class Wallet {
   }
 
   /**
-   * Make an offer to a token from a group. asdasdasd
+   * Make an offer to a token from a group.
    * @param groupId
    * @param price
    */
@@ -668,6 +668,56 @@ export class Wallet {
     return formatResponse({ data: true })
   }
 
+  // Create a batch make offer that receives a list of tokenIds
+  public async batchMakeOffer(
+    tokenIds: string[],
+    prices: string[],
+    options?: {
+      marketAddress?: string
+      gas?: string
+    }
+  ): Promise<ResponseData<boolean>> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+
+    const contract = new Contract(
+      account,
+      options?.marketAddress ||
+        this.constants.MARKET_ADDRESS ||
+        `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
+      {
+        viewMethods:
+          this.constants.MARKET_CONTRACT_VIEW_METHODS ||
+          MARKET_CONTRACT_VIEW_METHODS,
+        changeMethods:
+          this.constants.MARKET_CONTRACT_CALL_METHODS ||
+          MARKET_CONTRACT_CALL_METHODS,
+      }
+    )
+
+    const totalPrice = prices.reduce(
+      (acc, curr) => acc.add(new BN(curr)),
+      new BN(0)
+    )
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.make_offer(
+      {
+        token_key: tokenIds,
+        price: prices,
+        timeout: Array(tokenIds.length).fill({ Hours: TWENTY_FOUR }),
+      },
+      gas,
+      totalPrice.toString()
+    )
+
+    return formatResponse({ data: true })
+  }
+
   /**
    * Make an offer to a token.
    * @param tokenId
@@ -707,9 +757,9 @@ export class Wallet {
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer(
       {
-        token_key: tokenId,
-        price: price,
-        timeout: { Hours: TWENTY_FOUR },
+        token_key: [tokenId],
+        price: [price],
+        timeout: [{ Hours: TWENTY_FOUR }],
       },
       gas,
       price
