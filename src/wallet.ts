@@ -668,7 +668,11 @@ export class Wallet {
     return formatResponse({ data: true })
   }
 
-  // Create a batch make offer that receives a list of tokenIds
+  /**
+   * Make an offer to multiple tokens.
+   * @param tokenIds: Array of tokenIds
+   * @param price: Price of each token
+   */
   public async batchMakeOffer(
     tokenIds: string[],
     prices: string[],
