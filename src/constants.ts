@@ -149,7 +149,7 @@ export const ERROR_MESSAGES = {
 
 export const MIME_TYPES = {
   gltf: 'model/gltf+json',
-  glb: 'mobel/gltf-binary',
+  glb: 'model/gltf-binary',
   jpeg: 'image/jpeg',
   png: 'image/png',
   gif: 'image/gif',
