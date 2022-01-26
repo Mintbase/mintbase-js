@@ -85,7 +85,8 @@ export class Wallet {
   }
 
   public async init(
-    walletConfig: WalletConfig
+    walletConfig: WalletConfig,
+    props: WalletLoginProps = {}
   ): Promise<ResponseData<{ wallet: Wallet; isConnected: boolean }>> {
     try {
       this.constants = await initializeExternalConstants({
@@ -109,7 +110,7 @@ export class Wallet {
         constants: this.constants,
       })
 
-      await this.connect()
+      await this.connect(props)
 
       const data = { wallet: this, isConnected: this.isConnected() }
 
@@ -123,6 +124,7 @@ export class Wallet {
   }
 
   public isConnected(): boolean {
+    // TODO: Implement isConnected for isNode if necessary
     return this.activeWallet?.isSignedIn() ?? false
   }
 
@@ -152,19 +154,21 @@ export class Wallet {
       if (props?.requestSignIn) {
         this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
       } else if (this.activeWallet.isSignedIn()) {
-        const accountId = this.activeWallet.getAccountId()
+        const accountId = this.getActiveAccountId()
 
         this.activeAccount = await this.activeNearConnection.account(accountId)
       }
 
       await connect(_connectionObject)
-      // TODO: define a proper return value
-      return formatResponse({ data: 'connected' })
+
     } else if (isNode) {
       const privateKey = props.privateKey
+      const accountId = props.accountId
 
       if (!privateKey)
-        return formatResponse({ error: 'Private key is not defined.' })
+        return formatResponse({ error: 'privateKey is not defined in WalletLoginProps.' })
+      if (!accountId)
+        return formatResponse({ error: 'accountId is not defined in WalletLoginProps.' })
 
       this.setSessionKeyPair(
         this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
@@ -179,16 +183,14 @@ export class Wallet {
       const near = new Near(_connectionObject)
 
       this.activeNearConnection = near
-      this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
-
-      const accountId = this.activeWallet.getAccountId()
       this.activeAccount = await this.activeNearConnection.account(accountId)
-      return formatResponse({ data: 'connection activated' })
+
     } else {
       return formatResponse({
         error: 'Only Browser or Node environment supported.',
       })
     }
+    return formatResponse({ data: 'Connection activated' })
   }
 
   /**
@@ -277,18 +279,17 @@ export class Wallet {
       contractName: string
     }>
   > {
-    const account = this.activeWallet?.account()
-    const accountId = account?.accountId
+    const accountId = this.getActiveAccountId()
     const { data: keyPair } = await this.getSessionKeyPair()
 
-    if (!account || !accountId)
+    if (!accountId)
       return formatResponse({ error: 'Account is undefined.' })
 
     if (!keyPair || !accountId)
       return formatResponse({ error: `No Key Pair for account ${accountId}` })
 
     const publicKey = keyPair.getPublicKey().toString()
-    const balance = await account.getAccountBalance()
+    const balance = await this.activeAccount.getAccountBalance()
 
     // TODO: we should add a proper error message for this one
     if (!balance) return formatResponse({ error: '' })
@@ -321,15 +322,16 @@ export class Wallet {
     tokenIds: [string, string][],
     contractName: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
     if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+      return formatResponse({ error: 'No contract name was provided.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -359,15 +361,16 @@ export class Wallet {
     receiverId: string,
     contractName: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
     if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+      return formatResponse({ error: 'No contract name was provided.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -391,8 +394,7 @@ export class Wallet {
    * @param tokenIds An array containing token ids to be burnt.
    */
   public async burn(tokenIds: string[]): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
     const contractName = tokenIds[0].split(':')[1]
     const isSameContract = tokenIds.every((id) => {
@@ -407,12 +409,14 @@ export class Wallet {
       return formatResponse({
         error: 'Tokens need to be all from the same contract.',
       })
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
     if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+      return formatResponse({ error: 'No contract name was provided.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -445,13 +449,14 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
-
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
+    
     // TODO: Check if account owns the tokens that are trying to sell
     /*const token: Token = await this.api.fetchToken(
       tokenId,
@@ -461,7 +466,7 @@ export class Wallet {
     const isOwner = token.ownerId === accountId
     if (!isOwner) throw new Error('User does not own token.')*/
 
-    const contract = new Contract(account, storeId, {
+    const contract = new Contract(this.activeAccount, storeId, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -510,12 +515,14 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
+
 
     // TODO: Check if account owns the tokens that are trying to sell
     /*const token: Token = await this.api.fetchToken(
@@ -526,7 +533,7 @@ export class Wallet {
     const isOwner = token.ownerId === accountId
     if (!isOwner) throw new Error('User does not own token.')*/
 
-    const contract = new Contract(account, storeId, {
+    const contract = new Contract(this.activeAccount, storeId, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -563,13 +570,14 @@ export class Wallet {
     storeId: string,
     accountRevokeId: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
 
-    const contract = new Contract(account, storeId, {
+    const contract = new Contract(this.activeAccount, storeId, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -590,14 +598,16 @@ export class Wallet {
     tokenId: string,
     storeId: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const GAS = new BN('300000000000000')
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
+    
 
-    const contract = new Contract(account, storeId, {
+    const contract = new Contract(this.activeAccount, storeId, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -624,13 +634,15 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
     if (!groupId) formatResponse({ error: 'Please provide a groupId' })
+    
 
     if (!this.api) return formatResponse({ error: 'API is not defined.' })
 
@@ -639,7 +651,7 @@ export class Wallet {
     if (error) return formatResponse({ error })
 
     const contract = new Contract(
-      account,
+      this.activeAccount,
       options?.marketAddress ||
         this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
@@ -681,15 +693,17 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
+    
 
     const contract = new Contract(
-      account,
+      this.activeAccount,
       options?.marketAddress ||
         this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
@@ -735,16 +749,18 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
     if (!tokenId) return formatResponse({ error: 'Please provide a tokenId' })
+    
 
     const contract = new Contract(
-      account,
+      this.activeAccount,
       options?.marketAddress ||
         this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
@@ -783,16 +799,16 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
-    if (!tokenId) return formatResponse({ error: 'Please provide a tokenId' })
-
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
+    
     const contract = new Contract(
-      account,
+      this.activeAccount,
       options?.marketAddress ||
         this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
@@ -828,15 +844,16 @@ export class Wallet {
       gas?: string
     }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
 
     const contract = new Contract(
-      account,
+      this.activeAccount,
       options?.marketAddress ||
         this.constants.MARKET_ADDRESS ||
         `0.${this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME}`,
@@ -865,17 +882,18 @@ export class Wallet {
     symbol: string,
     options?: { attachedDeposit?: string; icon?: string; gas?: string }
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
 
     // TODO: regex check inputs (storeId and symbol)
 
     const contract = new Contract(
-      account,
+      this.activeAccount,
       this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
       {
         viewMethods:
@@ -921,15 +939,14 @@ export class Wallet {
     splits?: Split,
     category?: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
-    if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -974,10 +991,12 @@ export class Wallet {
     id: string,
     splits?: Split
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId) throw new Error('Account is undefined.')
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
     if (!this.api) throw new Error('API is not defined.')
 
     // TODO: move this thing type to a proper place
@@ -1026,7 +1045,7 @@ export class Wallet {
     const metaId = thing.metaId
     const token = thing.tokens[0]
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -1072,15 +1091,14 @@ export class Wallet {
     minterAccountId: string,
     contractName: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
-    if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -1103,15 +1121,14 @@ export class Wallet {
     minterAccountId: string,
     contractName: string
   ): Promise<ResponseData<boolean>> {
-    const account = this.activeWallet?.account()
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
 
-    if (!account || !accountId)
-      return formatResponse({ error: 'Account is undefined.' })
-    if (!contractName)
-      return formatResponse({ error: 'No contract was provided.' })
+    if (!accountId)
+      return formatResponse({ error: 'AccountId is undefined.' })
+    if (!this.activeAccount)
+      return formatResponse({ error: 'No activeAccount set.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(this.activeAccount, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -1147,10 +1164,10 @@ export class Wallet {
   }
 
   public async getSessionKeyPair(): Promise<ResponseData<KeyPair>> {
-    const accountId = this.activeWallet?.getAccountId()
+    const accountId = this.getActiveAccountId()
 
     if (!accountId)
-      return formatResponse({ error: ERROR_MESSAGES.undefinedAccountId })
+      return formatResponse({ error: 'AccountId is undefined.' })
 
     if (!this.keyStore)
       return formatResponse({ error: ERROR_MESSAGES.undefinedKeyStore })
@@ -1213,6 +1230,19 @@ export class Wallet {
   }
 
   // private getKeyPairFromLocalstorage() {}
+  
+  /**
+   * Fetch active NEAR Account Id
+   */
+  public getActiveAccountId() {
+    if (isBrowser) {
+      return this.activeWallet?.getAccountId()
+    } else if (isNode) {
+      return this.activeAccount?.accountId
+    } else {
+      throw new Error('Runtime environment has to be Node or Browser')
+    }
+  }
 
   /**
    * Fetch local storage connections
@@ -1255,7 +1285,7 @@ export class Wallet {
     const connection = this.activeNearConnection?.connection
     if (!connection) throw new Error('Near connection is undefined.')
 
-    const accountId = this.activeWallet?.account().accountId
+    const accountId = this.getActiveAccountId()
     if (!accountId) throw new Error('Account Id is undefined.')
 
     const decodeHash = utils.serialize.base_decode(txHash)
