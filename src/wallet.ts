@@ -910,6 +910,46 @@ export class Wallet {
   }
 
   /**
+   * Transfers ownership of a store
+   * @param newOwner
+   * @param keepOldMinters
+   */
+  public async transferStoreOwnership(
+    newOwner: string,
+    contractName: string,
+    options?: { keepOldMinters: boolean }
+  ): Promise<ResponseData<boolean>> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+
+    if (!contractName)
+      return formatResponse({ error: 'No contract was provided.' })
+
+    const contract = new Contract(account, contractName, {
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
+    })
+
+    const keepOldMinters = options?.keepOldMinters || true
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.transfer_store_ownership(
+      { new_owner: newOwner, keep_old_minters: keepOldMinters },
+      MAX_GAS,
+      ONE_YOCTO
+    )
+
+    return formatResponse({ data: true })
+  }
+
+  /**
    * Mint a token
    * @param amount The number of tokens to mint.
    * @param contractName The contract in which tokens will be minted.

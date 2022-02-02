@@ -35,6 +35,7 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'nft_transfer',
   'set_icon_base64',
   'set_base_uri',
+  'transfer_store_ownership',
   'new',
 ]
 
