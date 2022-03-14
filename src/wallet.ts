@@ -578,11 +578,21 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    // @ts-ignore: method does not exist on Contract type
-    await contract.nft_revoke(
-      { token_id: tokenId, account_id: accountRevokeId },
-      MAX_GAS
-    )
+    // TODO: converge mainnet and testnet
+    if (this.networkName === 'testnet') {
+      // @ts-ignore: method does not exist on Contract type
+      await contract.nft_revoke(
+        { token_id: tokenId, account_id: accountRevokeId },
+        MAX_GAS,
+        ONE_YOCTO
+      )
+    } else {
+      // @ts-ignore: method does not exist on Contract type
+      await contract.nft_revoke(
+        { token_id: tokenId, account_id: accountRevokeId },
+        MAX_GAS
+      )
+    }
     return formatResponse({ data: true })
   }
 
@@ -606,8 +616,14 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    // @ts-ignore: method does not exist on Contract type
-    await contract.nft_revoke_all({ token_id: tokenId }, GAS)
+    // TODO: converge mainnet and testnet
+    if (this.networkName === 'testnet') {
+      // @ts-ignore: method does not exist on Contract type
+      await contract.nft_revoke_all({ token_id: tokenId }, GAS, ONE_YOCTO)
+    } else {
+      // @ts-ignore: method does not exist on Contract type
+      await contract.nft_revoke_all({ token_id: tokenId }, GAS)
+    }
     return formatResponse({ data: true })
   }
 
