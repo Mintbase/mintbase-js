@@ -1,6 +1,6 @@
 {
   "name": "mintbase",
-  "version": "0.4.3",
+  "version": "0.4.4",
   "description": "Mint, sell, transfer NFTs on the NEAR blockchain",
   "main": "lib/index.js",
   "scripts": {
