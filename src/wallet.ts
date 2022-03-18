@@ -1006,7 +1006,7 @@ export class Wallet {
     const royaltyPercentage =
       options?.royaltyPercentage || DEFAULT_ROYALTY_PERCENT
 
-    if (royaltyPercentage > 0 || royaltyPercentage < 5000) { // 5000 = 50%
+    if (royaltyPercentage === 0 || royaltyPercentage > 5000) { // 5000 = 50%
       throw new Error(ERROR_MESSAGES.invalidRoyalties)
     }
 
