@@ -1003,7 +1003,12 @@ export class Wallet {
 
     const { data: metadataId } = await this.minter.getMetadataId()
 
-    const royaltyPercentage = options?.royaltyPercentage || DEFAULT_ROYALTY_PERCENT
+    const royaltyPercentage =
+      options?.royaltyPercentage || DEFAULT_ROYALTY_PERCENT
+
+    if (royaltyPercentage > 0 || royaltyPercentage < 5000) { // 5000 = 50%
+      throw new Error(ERROR_MESSAGES.invalidRoyalties)
+    }
 
     const obj = {
       owner_id: accountId,
