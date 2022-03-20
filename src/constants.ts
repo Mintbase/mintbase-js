@@ -146,6 +146,7 @@ export const ERROR_MESSAGES = {
   undefinedAccountId: 'Account Id is undefined',
   undefinedKeyStore: 'Key Store is undefined',
   walletNotConnected: 'Wallet is not connected',
+  invalidRoyalties: 'Royalty percentage is invalid',
 }
 
 export const MIME_TYPES = {

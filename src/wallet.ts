@@ -975,7 +975,10 @@ export class Wallet {
     contractName: string,
     royalties?: Royalties,
     splits?: Split,
-    category?: string
+    category?: string,
+    options?: {
+      royaltyPercentage?: number
+    }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -1000,6 +1003,13 @@ export class Wallet {
 
     const { data: metadataId } = await this.minter.getMetadataId()
 
+    const royaltyPercentage =
+      options?.royaltyPercentage || DEFAULT_ROYALTY_PERCENT
+
+    if (royaltyPercentage === 0 || royaltyPercentage > 5000) { // 5000 = 50%
+      throw new Error(ERROR_MESSAGES.invalidRoyalties)
+    }
+
     const obj = {
       owner_id: accountId,
       metadata: {
@@ -1010,7 +1020,7 @@ export class Wallet {
       num_to_mint: amount,
       royalty_args: !royalties
         ? null
-        : { split_between: royalties, percentage: DEFAULT_ROYALTY_PERCENT },
+        : { split_between: royalties, percentage: royaltyPercentage },
       split_owners: splits || null,
     }
 
