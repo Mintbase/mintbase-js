@@ -998,7 +998,8 @@ export class Wallet {
 
     if (!this.minter) return formatResponse({ error: 'Minter not defined.' })
 
-    const { data: metadataId } = await this.minter.getMetadataId()
+    const { data: metadataId, error } = await this.minter.getMetadataId()
+    if (error) return formatResponse({ error })
 
     const obj = {
       owner_id: accountId,
