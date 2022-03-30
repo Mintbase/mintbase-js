@@ -579,20 +579,12 @@ export class Wallet {
     })
 
     // TODO: converge mainnet and testnet
-    if (this.networkName === 'testnet') {
-      // @ts-ignore: method does not exist on Contract type
-      await contract.nft_revoke(
-        { token_id: tokenId, account_id: accountRevokeId },
-        MAX_GAS,
-        ONE_YOCTO
-      )
-    } else {
-      // @ts-ignore: method does not exist on Contract type
-      await contract.nft_revoke(
-        { token_id: tokenId, account_id: accountRevokeId },
-        MAX_GAS
-      )
-    }
+    // @ts-ignore: method does not exist on Contract type
+    await contract.nft_revoke(
+      { token_id: tokenId, account_id: accountRevokeId },
+      MAX_GAS,
+      ONE_YOCTO
+    )
     return formatResponse({ data: true })
   }
 
@@ -616,14 +608,8 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    // TODO: converge mainnet and testnet
-    if (this.networkName === 'testnet') {
-      // @ts-ignore: method does not exist on Contract type
-      await contract.nft_revoke_all({ token_id: tokenId }, GAS, ONE_YOCTO)
-    } else {
-      // @ts-ignore: method does not exist on Contract type
-      await contract.nft_revoke_all({ token_id: tokenId }, GAS)
-    }
+    // @ts-ignore: method does not exist on Contract type
+    await contract.nft_revoke_all({ token_id: tokenId }, GAS, ONE_YOCTO)
     return formatResponse({ data: true })
   }
 
@@ -1007,7 +993,8 @@ export class Wallet {
     const royaltyPercentage =
       options?.royaltyPercentage || DEFAULT_ROYALTY_PERCENT
 
-    if (royaltyPercentage === 0 || royaltyPercentage > 5000) { // 5000 = 50%
+    if (royaltyPercentage === 0 || royaltyPercentage > 5000) {
+      // 5000 = 50%
       throw new Error(ERROR_MESSAGES.invalidRoyalties)
     }
 
