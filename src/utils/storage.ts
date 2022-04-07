@@ -60,7 +60,7 @@ export class Storage {
         headers: {
           [headers.apiKey]: this.apiKey || 'anonymous',
           'Access-Control-Allow-Origin': '*',
-          'Content-type': 'application/json',
+          'Content-type': 'text/plain',
         },
       })
 
