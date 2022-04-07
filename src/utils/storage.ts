@@ -59,6 +59,8 @@ export class Storage {
         body: JSON.stringify(metadata),
         headers: {
           [headers.apiKey]: this.apiKey || 'anonymous',
+          'Access-Control-Allow-Origin': '*',
+          'Content-type': 'text/plain',
         },
       })
 
@@ -99,11 +101,14 @@ export class Storage {
 
       try {
         // Fetches arweave id. This request will trigger an upload in the cloud
-        const request = await retryFetch(`${CLOUD_URI}/arweave/file/${fileName}`, {
-          headers: {
-            [headers.apiKey]: this.apiKey || 'anonymous',
-          },
-        })
+        const request = await retryFetch(
+          `${CLOUD_URI}/arweave/file/${fileName}`,
+          {
+            headers: {
+              [headers.apiKey]: this.apiKey || 'anonymous',
+            },
+          }
+        )
 
         const { id, contentType } = await request.json()
 
