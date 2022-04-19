@@ -1,8 +1,6 @@
 [![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] [![npm version](https://img.shields.io/npm/v/mintbase.svg?style=flat)](https://www.npmjs.com/package/mintbase) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
 [![Downloads](https://img.shields.io/npm/dt/mintbase.svg)](https://www.npmjs.com/package/mintbase)
 
-# ⚠️⚠️ In active development  ⚠️⚠️
-This package is under active development. Expect breaking changes often.
 ## Mintbase API
 
 General purpose Mintbase API for interacting with NEAR, Arweave and other supported blockchains and decentralized filestorage systems.
