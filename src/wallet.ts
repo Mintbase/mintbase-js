@@ -142,6 +142,9 @@ export class Wallet {
     if (isBrowser) {
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         ...this.getNearConfig(this.networkName, contractAddress),
       }
 
@@ -173,6 +176,9 @@ export class Wallet {
 
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         ...this.getNearConfig(this.networkName, contractAddress),
       }
 
