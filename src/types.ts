@@ -190,6 +190,11 @@ type OptionalMethodArgs = {
   callbackUrl?: string
 }
 
+type WalletConnectProps = {
+  successUrl?: string
+  failureUrl?: string
+}
+
 export {
   Chain,
   Network,
@@ -210,4 +215,5 @@ export {
   CloudStorageConstants,
   WalletConfig,
   OptionalMethodArgs,
+  WalletConnectProps,
 }

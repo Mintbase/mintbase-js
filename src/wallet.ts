@@ -25,6 +25,7 @@ import {
   Constants,
   WalletConfig,
   OptionalMethodArgs,
+  WalletConnectProps,
 } from './types'
 
 import {
@@ -133,7 +134,7 @@ export class Wallet {
    *
    */
   public async connect(
-    props: WalletLoginProps = {}
+    props: WalletLoginProps & WalletConnectProps = {}
   ): Promise<ResponseData<string>> {
     const contractAddress =
       props.contractAddress ||
@@ -154,7 +155,11 @@ export class Wallet {
       this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
 
       if (props?.requestSignIn) {
-        this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
+        this.activeWallet.requestSignIn({
+          contractId: contractAddress,
+          successUrl: props?.successUrl,
+          failureUrl: props?.failureUrl,
+        })
       } else if (this.activeWallet.isSignedIn()) {
         const accountId = this.activeWallet.getAccountId()
 
