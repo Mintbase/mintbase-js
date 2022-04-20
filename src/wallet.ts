@@ -350,7 +350,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_transfer({
-      meta: 'nft_batch_transfer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: { token_ids: tokenIds },
       gas: gas,
