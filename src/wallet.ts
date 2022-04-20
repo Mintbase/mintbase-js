@@ -393,7 +393,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_transfer({
-      meta: 'nft_transfer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: { receiver_id: receiverId, token_id: tokenId },
       gas: gas,
@@ -448,7 +448,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_burn({
-      meta: 'nft_batch_burn',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: { token_ids: burnIds },
       gas: gas,
@@ -504,7 +504,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_approve({
-      meta: 'nft_batch_approve',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_ids: tokenId,
@@ -571,7 +571,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_approve({
-      meta: 'nft_approve',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_id: tokenId,
@@ -615,7 +615,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_revoke({
-      meta: 'nft_revoke',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_id: tokenId,
@@ -650,7 +650,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_revoke_all({
-      meta: 'nft_revoke_all',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_id: tokenId,
@@ -709,7 +709,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer({
-      meta: 'make_offer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_key: list.token.id,
@@ -765,7 +765,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer({
-      meta: 'make_offer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_key: tokenIds,
@@ -818,7 +818,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.make_offer({
-      meta: 'make_offer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_key: [tokenId],
@@ -868,7 +868,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.accept_and_transfer({
-      meta: 'accept_and_transfer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_key: tokenId,
@@ -914,7 +914,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.withdraw_offer({
-      meta: 'withdraw_offer',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         token_key: tokenKey,
@@ -976,7 +976,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.create_store({
-      meta: 'create_store',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: storeData,
       gas,
@@ -1019,7 +1019,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.transfer_store_ownership({
-      meta: 'transfer_store_ownership',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         new_owner: newOwner,
@@ -1095,7 +1095,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_mint({
-      meta: 'nft_batch_mint',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: obj,
       gas: gas,
@@ -1207,7 +1207,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_mint({
-      meta: 'nft_batch_mint',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: obj,
       gas: gas,
@@ -1243,7 +1243,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.grant_minter({
-      meta: 'grant_minter',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         account_id: minterAccountId,
@@ -1281,7 +1281,7 @@ export class Wallet {
 
     // @ts-ignore: method does not exist on Contract type
     await contract.revoke_minter({
-      meta: 'revoke_minter',
+      meta: options?.meta,
       callbackUrl: options?.callbackUrl,
       args: {
         account_id: minterAccountId,
