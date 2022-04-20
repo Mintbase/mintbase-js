@@ -33,6 +33,7 @@ jobs:
           node-version: 14.x
 
       - run: npm install
+      - run: git stash
 
       - run: git config --global user.name "microchipgnu"
       - run: git config --global user.email "microchipgnu@gmail.com"
