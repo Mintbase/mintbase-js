@@ -7,6 +7,7 @@ import { CLOUD_URI, CLOUD_STORAGE_CONFIG, ERROR_MESSAGES } from '../constants'
 import { Constants } from 'src/types'
 import { formatResponse, ResponseData } from './responseBuilder'
 import { retryFetch } from './retryFetch'
+import { hash } from './crypto'
 
 const FIREBASE_MJS_ID = 'FIREBASE_MJS_ID'
 const ARWEAVE_FOLDER = 'arweave'
@@ -52,11 +53,13 @@ export class Storage {
    */
   public async uploadMetadata(
     metadata: unknown
-  ): Promise<ResponseData<{ id: string }>> {
+  ): Promise<ResponseData<{ id: string; fileHash: string }>> {
     try {
+      const stringifiedMetadata = JSON.stringify(metadata)
+
       const request = await retryFetch(`${CLOUD_URI}/arweave/metadata/`, {
         method: 'POST',
-        body: JSON.stringify(metadata),
+        body: stringifiedMetadata,
         headers: {
           [headers.apiKey]: this.apiKey || 'anonymous',
           'Access-Control-Allow-Origin': '*',
@@ -64,9 +67,12 @@ export class Storage {
         },
       })
 
+      const msgBuffer = new TextEncoder().encode(stringifiedMetadata)
+      const fileHash = await hash(msgBuffer)
+
       const data: { id: string } = await request.json()
 
-      return formatResponse({ data })
+      return formatResponse({ data: { ...data, fileHash } })
     } catch (error) {
       return formatResponse({ error: ERROR_MESSAGES.uploadMetadata })
     }

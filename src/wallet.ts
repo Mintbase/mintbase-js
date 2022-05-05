@@ -1073,7 +1073,8 @@ export class Wallet {
 
     if (!this.minter) return formatResponse({ error: 'Minter not defined.' })
 
-    const { data: metadataId, error } = await this.minter.getMetadataId()
+    const { data, error } = await this.minter.getMetadataId()
+    const {id: metadataId, fileHash: metadataFileHash} = data
     const metadata = this.minter.latestMints[metadataId]
 
     if (error) return formatResponse({ error })
@@ -1094,7 +1095,7 @@ export class Wallet {
         media: metadata?.media,
         media_hash: metadata?.media_hash,
         reference: metadataId,
-        reference_hash: metadataId,
+        reference_hash: metadataFileHash,
         extra: !category ? null : category.toLowerCase(),
       },
       num_to_mint: amount,

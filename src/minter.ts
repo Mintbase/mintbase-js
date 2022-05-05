@@ -9,6 +9,7 @@ import { Constants, MetadataField } from './types'
 import { correctFileType } from './utils/files'
 import { Storage } from './utils/storage'
 import { formatResponse, ResponseData } from './utils/responseBuilder'
+import { hash } from './utils/crypto'
 
 interface MinterConfigProps {
   apiKey?: string
@@ -45,7 +46,9 @@ export class Minter {
   /**
    * Uploads the current metadata object and returns its content identifier.
    */
-  public async getMetadataId(): Promise<ResponseData<string>> {
+  public async getMetadataId(): Promise<
+    ResponseData<{ id: string; fileHash: string }>
+  > {
     if (
       this.currentMint &&
       Object.keys(this.currentMint).length === 0 &&
@@ -62,12 +65,12 @@ export class Minter {
 
     if (error) return formatResponse({ error })
 
-    const { id } = uploadResult
+    const { id, fileHash } = uploadResult
 
     this.latestMints = { ...this.latestMints, [id]: this.currentMint }
     this.currentMint = {}
 
-    return formatResponse({ data: id })
+    return formatResponse({ data: { id, fileHash } })
   }
 
   /**
@@ -146,7 +149,7 @@ export class Minter {
    */
   public async upload(
     file: File
-  ): Promise<ResponseData<{ uri: string; hash: string }>> {
+  ): Promise<ResponseData<{ uri: string; hash: string; fileHash: string }>> {
     try {
       if (!this.storage) {
         return formatResponse({ error: 'Storage not initialized' })
@@ -162,6 +165,9 @@ export class Minter {
         formatResponse({ error: 'Storage not initialized' })
       }
 
+      const fileBuffer = await file.arrayBuffer()
+      const fileHash = await hash(fileBuffer) // base64-encoded SHA-256 hash
+
       const { data: result, error } = await this.storage.uploadToArweave(file)
 
       if (!result || error) return formatResponse({ error })
@@ -171,6 +177,7 @@ export class Minter {
           result?.id
         }`,
         hash: result?.id,
+        fileHash: fileHash,
       }
 
       return formatResponse({ data })
