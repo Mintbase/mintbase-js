@@ -183,6 +183,18 @@ interface MintMetadata {
   [MetadataField.Royalty_perc]: number | null
 }
 
+type OptionalMethodArgs = {
+  gas?: string
+  amount?: string
+  meta?: string
+  callbackUrl?: string
+}
+
+type WalletConnectProps = {
+  successUrl?: string
+  failureUrl?: string
+}
+
 export {
   Chain,
   Network,
@@ -202,4 +214,6 @@ export {
   Constants,
   CloudStorageConstants,
   WalletConfig,
+  OptionalMethodArgs,
+  WalletConnectProps,
 }

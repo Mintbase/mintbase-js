@@ -24,6 +24,8 @@ import {
   NEARConfig,
   Constants,
   WalletConfig,
+  OptionalMethodArgs,
+  WalletConnectProps,
 } from './types'
 
 import {
@@ -132,7 +134,7 @@ export class Wallet {
    *
    */
   public async connect(
-    props: WalletLoginProps = {}
+    props: WalletLoginProps & WalletConnectProps = {}
   ): Promise<ResponseData<string>> {
     const contractAddress =
       props.contractAddress ||
@@ -142,6 +144,9 @@ export class Wallet {
     if (isBrowser) {
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         ...this.getNearConfig(this.networkName, contractAddress),
       }
 
@@ -150,7 +155,11 @@ export class Wallet {
       this.activeWallet = new WalletAccount(near, DEFAULT_APP_NAME)
 
       if (props?.requestSignIn) {
-        this.activeWallet.requestSignIn(contractAddress, DEFAULT_APP_NAME)
+        this.activeWallet.requestSignIn({
+          contractId: contractAddress,
+          successUrl: props?.successUrl,
+          failureUrl: props?.failureUrl,
+        })
       } else if (this.activeWallet.isSignedIn()) {
         const accountId = this.activeWallet.getAccountId()
 
@@ -173,6 +182,9 @@ export class Wallet {
 
       const _connectionObject = {
         deps: { keyStore: this.getKeyStore() },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         ...this.getNearConfig(this.networkName, contractAddress),
       }
 
@@ -319,8 +331,11 @@ export class Wallet {
   // TODO: need more checks on the tokenIds
   public async transfer(
     tokenIds: [string, string][],
-    contractName: string
+    contractName: string,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
@@ -339,11 +354,13 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_batch_transfer(
-      { token_ids: tokenIds },
-      MAX_GAS,
-      ONE_YOCTO
-    )
+    await contract.nft_batch_transfer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: { token_ids: tokenIds },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     return formatResponse({ data: true })
   }
 
@@ -357,8 +374,11 @@ export class Wallet {
   public async simpleTransfer(
     tokenId: string,
     receiverId: string,
-    contractName: string
+    contractName: string,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
@@ -377,11 +397,14 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_transfer(
-      { receiver_id: receiverId, token_id: tokenId },
-      MAX_GAS,
-      ONE_YOCTO
-    )
+    await contract.nft_transfer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: { receiver_id: receiverId, token_id: tokenId },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
+
     return formatResponse({ data: true })
   }
 
@@ -390,7 +413,12 @@ export class Wallet {
    * @param contractName The contract name to burn tokens from.
    * @param tokenIds An array containing token ids to be burnt.
    */
-  public async burn(tokenIds: string[]): Promise<ResponseData<boolean>> {
+  public async burn(
+    tokenIds: string[],
+    options?: OptionalMethodArgs
+  ): Promise<ResponseData<boolean>> {
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
@@ -424,7 +452,13 @@ export class Wallet {
     const burnIds = tokenIds.map((id) => id.split(':')[0])
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_batch_burn({ token_ids: burnIds }, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_burn({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: { token_ids: burnIds },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     return formatResponse({ data: true })
   }
 
@@ -439,10 +473,9 @@ export class Wallet {
     tokenId: string[],
     storeId: string,
     price: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       autotransfer?: boolean
       marketAddress?: string
-      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
@@ -475,8 +508,10 @@ export class Wallet {
     const listCost = calculateListCost(tokenId.length)
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_batch_approve(
-      {
+    await contract.nft_batch_approve({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
         token_ids: tokenId,
         account_id:
           options?.marketAddress ||
@@ -487,9 +522,10 @@ export class Wallet {
           autotransfer: options?.autotransfer ?? true,
         }),
       },
-      gas,
-      utils.format.parseNearAmount(listCost.toString())
-    )
+      gas: gas,
+      amount: utils.format.parseNearAmount(listCost.toString()),
+    })
+
     return formatResponse({ data: true })
   }
 
@@ -504,10 +540,9 @@ export class Wallet {
     tokenId: string,
     storeId: string,
     price: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       autotransfer?: boolean
       marketAddress?: string
-      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
@@ -540,8 +575,10 @@ export class Wallet {
     const listCost = calculateListCost(1)
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_approve(
-      {
+    await contract.nft_approve({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
         token_id: tokenId,
         account_id:
           options?.marketAddress ||
@@ -552,19 +589,22 @@ export class Wallet {
           autotransfer: options?.autotransfer ?? true,
         }),
       },
-      gas,
-      utils.format.parseNearAmount(listCost.toString())
-    )
+      gas: gas,
+      amount: utils.format.parseNearAmount(listCost.toString()),
+    })
+
     return formatResponse({ data: true })
   }
 
   public async revokeAccount(
     tokenId: string,
     storeId: string,
-    accountRevokeId: string
+    accountRevokeId: string,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -578,23 +618,28 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    // TODO: converge mainnet and testnet
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_revoke(
-      { token_id: tokenId, account_id: accountRevokeId },
-      MAX_GAS,
-      ONE_YOCTO
-    )
+    await contract.nft_revoke({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        token_id: tokenId,
+        account_id: accountRevokeId,
+      },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     return formatResponse({ data: true })
   }
 
   public async revokeAllAccounts(
     tokenId: string,
-    storeId: string
+    storeId: string,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
-    const GAS = new BN('300000000000000')
+    const gas = !options?.gas ? new BN('300000000000000') : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -609,7 +654,15 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_revoke_all({ token_id: tokenId }, GAS, ONE_YOCTO)
+    await contract.nft_revoke_all({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        token_id: tokenId,
+      },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     return formatResponse({ data: true })
   }
 
@@ -621,14 +674,16 @@ export class Wallet {
   public async makeGroupOffer(
     groupId: string,
     price?: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       marketAddress?: string
-      gas?: string
+      timeout?: number
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+
+    const timeout = options?.timeout || TWENTY_FOUR
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -658,15 +713,17 @@ export class Wallet {
     const setPrice = price || list.price
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.make_offer(
-      {
+    await contract.make_offer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
         token_key: list.token.id,
         price: setPrice,
-        timeout: { Hours: TWENTY_FOUR },
+        timeout: { Hours: timeout },
       },
       gas,
-      setPrice
-    )
+      amount: utils.format.parseNearAmount(setPrice),
+    })
     return formatResponse({ data: true })
   }
 
@@ -678,14 +735,15 @@ export class Wallet {
   public async batchMakeOffer(
     tokenIds: string[],
     prices: string[],
-    options?: {
+    options?: OptionalMethodArgs & {
       marketAddress?: string
-      gas?: string
+      timeout?: number
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+    const timeout = options?.timeout || TWENTY_FOUR
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -711,15 +769,17 @@ export class Wallet {
     )
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.make_offer(
-      {
+    await contract.make_offer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
         token_key: tokenIds,
         price: prices,
-        timeout: Array(tokenIds.length).fill({ Hours: TWENTY_FOUR }),
+        timeout: Array(tokenIds.length).fill({ Hours: timeout }),
       },
       gas,
-      totalPrice.toString()
-    )
+      amount: totalPrice.toString(),
+    })
 
     return formatResponse({ data: true })
   }
@@ -732,14 +792,15 @@ export class Wallet {
   public async makeOffer(
     tokenId: string,
     price: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       marketAddress?: string
-      gas?: string
+      timeout?: number
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+    const timeout = options?.timeout || TWENTY_FOUR
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -761,15 +822,18 @@ export class Wallet {
     )
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.make_offer(
-      {
+    await contract.make_offer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
         token_key: [tokenId],
         price: [price],
-        timeout: [{ Hours: TWENTY_FOUR }],
+        timeout: [{ Hours: timeout }],
       },
       gas,
-      price
-    )
+      amount: price,
+    })
+
     return formatResponse({ data: true })
   }
 
@@ -780,9 +844,8 @@ export class Wallet {
    */
   public async acceptAndTransfer(
     tokenId: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       marketAddress?: string
-      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
@@ -809,13 +872,16 @@ export class Wallet {
     )
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.accept_and_transfer(
-      {
+    await contract.accept_and_transfer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
         token_key: tokenId,
       },
       gas,
-      ONE_YOCTO
-    )
+      amount: ONE_YOCTO,
+    })
+
     return formatResponse({ data: true })
   }
 
@@ -825,9 +891,8 @@ export class Wallet {
    */
   public async withdrawOffer(
     tokenKey: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       marketAddress?: string
-      gas?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
@@ -853,7 +918,15 @@ export class Wallet {
     )
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.withdraw_offer({ token_key: tokenKey }, gas)
+    await contract.withdraw_offer({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        token_key: tokenKey,
+      },
+      gas,
+    })
+
     return formatResponse({ data: true })
   }
 
@@ -865,7 +938,7 @@ export class Wallet {
   public async deployStore(
     storeId: string,
     symbol: string,
-    options?: { attachedDeposit?: string; icon?: string; gas?: string }
+    options?: OptionalMethodArgs & { attachedDeposit?: string; icon?: string }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
@@ -907,7 +980,14 @@ export class Wallet {
       : new BN(options?.attachedDeposit)
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.create_store(storeData, gas, attachedDeposit)
+    await contract.create_store({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: storeData,
+      gas,
+      amount: attachedDeposit,
+    })
+
     return formatResponse({ data: true })
   }
 
@@ -919,10 +999,11 @@ export class Wallet {
   public async transferStoreOwnership(
     newOwner: string,
     contractName: string,
-    options?: { keepOldMinters: boolean }
+    options?: OptionalMethodArgs & { keepOldMinters: boolean }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -942,12 +1023,16 @@ export class Wallet {
     const keepOldMinters = options?.keepOldMinters || true
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.transfer_store_ownership(
-      { new_owner: newOwner, keep_old_minters: keepOldMinters },
-      MAX_GAS,
-      ONE_YOCTO
-    )
-
+    await contract.transfer_store_ownership({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        new_owner: newOwner,
+        keep_old_minters: keepOldMinters,
+      },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     return formatResponse({ data: true })
   }
 
@@ -962,12 +1047,13 @@ export class Wallet {
     royalties?: Royalties,
     splits?: Split,
     category?: string,
-    options?: {
+    options?: OptionalMethodArgs & {
       royaltyPercentage?: number
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -1013,7 +1099,13 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_batch_mint(obj, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_mint({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: obj,
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     return formatResponse({ data: true })
   }
 
@@ -1026,10 +1118,12 @@ export class Wallet {
   public async mintMore(
     amount: number,
     id: string,
-    splits?: Split
+    splits?: Split,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!this.api) throw new Error('API is not defined.')
@@ -1117,17 +1211,26 @@ export class Wallet {
     }
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.nft_batch_mint(obj, MAX_GAS, ONE_YOCTO)
+    await contract.nft_batch_mint({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: obj,
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
+
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
 
   public async grantMinter(
     minterAccountId: string,
-    contractName: string
+    contractName: string,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -1144,21 +1247,28 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.grant_minter(
-      { account_id: minterAccountId },
-      MAX_GAS,
-      ONE_YOCTO
-    )
+    await contract.grant_minter({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        account_id: minterAccountId,
+      },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
+
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
 
   public async revokeMinter(
     minterAccountId: string,
-    contractName: string
+    contractName: string,
+    options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -1175,11 +1285,15 @@ export class Wallet {
     })
 
     // @ts-ignore: method does not exist on Contract type
-    await contract.revoke_minter(
-      { account_id: minterAccountId },
-      MAX_GAS,
-      ONE_YOCTO
-    )
+    await contract.revoke_minter({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        account_id: minterAccountId,
+      },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
     // TODO: define a response for this
     return formatResponse({ data: true })
   }
