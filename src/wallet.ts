@@ -1074,6 +1074,8 @@ export class Wallet {
     if (!this.minter) return formatResponse({ error: 'Minter not defined.' })
 
     const { data: metadataId, error } = await this.minter.getMetadataId()
+    const metadata = this.minter.latestMints[metadataId]
+
     if (error) return formatResponse({ error })
 
     const royaltyPercentage =
@@ -1087,9 +1089,13 @@ export class Wallet {
     const obj = {
       owner_id: accountId,
       metadata: {
+        title: metadata?.title,
+        description: metadata?.description,
+        media: metadata?.media,
+        media_hash: metadata?.media_hash,
         reference: metadataId,
-        // TODO: check if category is lowercase
-        extra: !category ? null : category,
+        reference_hash: metadataId,
+        extra: !category ? null : category.toLowerCase(),
       },
       num_to_mint: amount,
       royalty_args: !royalties
