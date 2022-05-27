@@ -1049,11 +1049,13 @@ export class Wallet {
     category?: string,
     options?: OptionalMethodArgs & {
       royaltyPercentage?: number
+      metadataId?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+    let metadataId = options?.metadataId
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -1073,8 +1075,11 @@ export class Wallet {
 
     if (!this.minter) return formatResponse({ error: 'Minter not defined.' })
 
-    const { data: metadataId, error } = await this.minter.getMetadataId()
-    if (error) return formatResponse({ error })
+    if (!metadataId) {
+      const { data, error } = await this.minter.getMetadataId()
+      if (error) return formatResponse({ error })
+      metadataId = data
+    }
 
     const royaltyPercentage =
       options?.royaltyPercentage || DEFAULT_ROYALTY_PERCENT
