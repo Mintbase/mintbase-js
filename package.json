@@ -1,6 +1,6 @@
 {
   "name": "mintbase",
-  "version": "0.5.1-add-optional-metadata-mint.1",
+  "version": "0.5.1",
   "description": "Mint, sell, transfer NFTs on the NEAR blockchain",
   "main": "lib/index.js",
   "scripts": {
