@@ -1266,6 +1266,44 @@ export class Wallet {
     return formatResponse({ data: true })
   }
 
+  public async batchChangeMinters(
+    grantMinters: string[],
+    revokeMinters: string[],
+    contractName: string,
+    options?: OptionalMethodArgs
+  ): Promise<ResponseData<boolean>> {
+    const account = this.activeWallet?.account()
+    const accountId = this.activeWallet?.account().accountId
+    const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
+
+    if (!account || !accountId)
+      return formatResponse({ error: 'Account is undefined.' })
+
+    const contract = new Contract(account, contractName, {
+      viewMethods:
+        this.constants.STORE_CONTRACT_VIEW_METHODS ||
+        STORE_CONTRACT_VIEW_METHODS,
+      changeMethods:
+        this.constants.STORE_CONTRACT_CALL_METHODS ||
+        STORE_CONTRACT_CALL_METHODS,
+    })
+
+    // @ts-ignore: method does not exist on Contract type
+    await contract.batch_change_minters({
+      meta: options?.meta,
+      callbackUrl: options?.callbackUrl,
+      args: {
+        grant: grantMinters.length > 0 ? grantMinters : undefined,
+        revoke: revokeMinters.length > 0 ? revokeMinters : undefined,
+      },
+      gas: gas,
+      amount: ONE_YOCTO,
+    })
+
+    // TODO: define a response for this
+    return formatResponse({ data: true })
+  }
+
   public async revokeMinter(
     minterAccountId: string,
     contractName: string,
