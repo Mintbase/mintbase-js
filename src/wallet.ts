@@ -1093,8 +1093,8 @@ export class Wallet {
       owner_id: accountId,
       metadata: {
         reference: metadataId,
-        // TODO: check if category is lowercase
-        extra: !category ? null : category,
+        // FIXME: media, media_hash, reference_hash
+        extra: !category ? null : category.toLowerCase(),
       },
       num_to_mint: amount,
       royalty_args: !royalties
@@ -1139,6 +1139,10 @@ export class Wallet {
         metaId: string
         storeId: string
         memo: string
+        metadata: {
+          media: string
+          media_hash: string
+        }
         tokens: {
           royaltyPercent: string
           royaltys: { account: string; percent: string }[]
@@ -1150,6 +1154,10 @@ export class Wallet {
         metaId
         storeId
         memo
+        metadata {
+          media
+          media_hash
+        }
         tokens {
           royaltyPercent
           royaltys {
@@ -1202,6 +1210,9 @@ export class Wallet {
       owner_id: accountId,
       metadata: {
         reference: metaId,
+        // TODO: reference_hash
+        media: thing.metadata.media,
+        media_hash: thing.metadata.media_hash,
         extra: memo,
       },
       num_to_mint: amount,
