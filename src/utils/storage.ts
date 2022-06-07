@@ -50,9 +50,9 @@ export class Storage {
    * @param metadata metadata object
    * @returns arweave content identifier
    */
-  public async uploadMetadata(
-    metadata: unknown
-  ): Promise<ResponseData<{ id: string }>> {
+  public async uploadMetadata(metadata: {
+    media: string
+  }): Promise<ResponseData<{ metadataId: string; mediaId: string }>> {
     try {
       const request = await retryFetch(`${CLOUD_URI}/arweave/metadata/`, {
         method: 'POST',
@@ -66,7 +66,9 @@ export class Storage {
 
       const data: { id: string } = await request.json()
 
-      return formatResponse({ data })
+      return formatResponse({
+        data: { metadataId: data.id, mediaId: metadata.media },
+      })
     } catch (error) {
       return formatResponse({ error: ERROR_MESSAGES.uploadMetadata })
     }

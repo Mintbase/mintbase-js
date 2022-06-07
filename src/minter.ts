@@ -45,7 +45,9 @@ export class Minter {
   /**
    * Uploads the current metadata object and returns its content identifier.
    */
-  public async getMetadataId(): Promise<ResponseData<string>> {
+  public async getMetadataId(): Promise<
+    ResponseData<{ metadataId: string; mediaId: string }>
+  > {
     if (
       this.currentMint &&
       Object.keys(this.currentMint).length === 0 &&
@@ -62,12 +64,12 @@ export class Minter {
 
     if (error) return formatResponse({ error })
 
-    const { id } = uploadResult
+    const { metadataId, mediaId } = uploadResult
 
-    this.latestMints = { ...this.latestMints, [id]: this.currentMint }
+    this.latestMints = { ...this.latestMints, [metadataId]: this.currentMint }
     this.currentMint = {}
 
-    return formatResponse({ data: id })
+    return formatResponse({ data: { metadataId, mediaId } })
   }
 
   /**

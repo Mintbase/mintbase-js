@@ -1050,12 +1050,14 @@ export class Wallet {
     options?: OptionalMethodArgs & {
       royaltyPercentage?: number
       metadataId?: string
+      mediaId?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
     let metadataId = options?.metadataId
+    let mediaId = options?.mediaId
 
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
@@ -1078,7 +1080,8 @@ export class Wallet {
     if (!metadataId) {
       const { data, error } = await this.minter.getMetadataId()
       if (error) return formatResponse({ error })
-      metadataId = data
+      metadataId = data.metadataId
+      mediaId = data.mediaId
     }
 
     const royaltyPercentage =
@@ -1093,7 +1096,8 @@ export class Wallet {
       owner_id: accountId,
       metadata: {
         reference: metadataId,
-        // FIXME: media, media_hash, reference_hash
+        media: mediaId,
+        // TODO: media_hash, reference_hash
         extra: !category ? null : category.toLowerCase(),
       },
       num_to_mint: amount,
