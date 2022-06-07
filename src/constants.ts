@@ -37,6 +37,7 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'set_base_uri',
   'transfer_store_ownership',
   'new',
+  'batch_change_minters'
 ]
 
 export const MARKET_CONTRACT_VIEW_METHODS = []
