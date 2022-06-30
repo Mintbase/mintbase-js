@@ -201,6 +201,24 @@ type NearTransaction = Transaction & {
   functionCalls: FunctionCall[]
 }
 
+let txs = []
+
+txs.push({
+  receiverId: 'received_id',
+  functionCalls: [
+    {
+      methodName: 'nft_revoke',
+      contractId: 'contract_id',
+      args: {
+        token_id: 'token_id',
+        account_id: 'something_somwthing',
+      },
+      attachedDeposit: `1`,
+      gas: 'gas',
+    },
+  ],
+})
+
 export {
   Chain,
   Network,

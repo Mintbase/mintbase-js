@@ -1652,32 +1652,7 @@ export class Wallet {
     }
   }
 
-  public async viewFunction({
-    methodName,
-    args,
-    contractId,
-  }: {
-    methodName: string
-    args: Record<string, string | number>
-    contractId: string
-  }) {
-    return
-  }
-  public async callFunction({
-    methodName,
-    args,
-    deposit,
-    contractId,
-    gas,
-  }: {
-    methodName: string
-    args: Record<string, string | number>
-    contractId: string
-    deposit: string
-    gas: number
-  }) {
-    return
-  }
+
 
   public async createTransaction({
     receiverId,
