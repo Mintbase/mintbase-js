@@ -26,6 +26,7 @@ import {
   WalletConfig,
   OptionalMethodArgs,
   WalletConnectProps,
+  NearTransaction,
 } from './types'
 
 import {
@@ -55,6 +56,14 @@ import { formatResponse, ResponseData } from './utils/responseBuilder'
 import { FinalExecutionOutcome } from 'near-api-js/lib/providers'
 import { messageEncode } from './utils/message'
 import { sign } from 'tweetnacl'
+import { base_decode } from 'near-api-js/lib/utils/serialize'
+import { PublicKey } from 'near-api-js/lib/utils'
+import {
+  Action,
+  createTransaction,
+  functionCall,
+} from 'near-api-js/lib/transaction'
+
 /**
  * Mintbase Wallet.
  * Main entry point for users to sign and interact with NEAR and Mintbase infrastructure.
@@ -1641,5 +1650,83 @@ export class Wallet {
           helperUrl: 'https://helper.testnet.near.org',
         }
     }
+  }
+
+  public async createTransaction({
+    receiverId,
+    actions,
+    nonceOffset,
+  }: {
+    receiverId: any
+    actions: Action[]
+    nonceOffset: number
+  }) {
+    if (!this.activeWallet || !this.activeNearConnection) {
+      throw new Error(`No active wallet or NEAR connection.`)
+    }
+
+    const localKey =
+      await this.activeNearConnection?.connection.signer.getPublicKey(
+        this.activeWallet?.account().accountId,
+        this.activeNearConnection.connection.networkId
+      )
+
+    const accessKey = await this.activeWallet
+      ?.account()
+      .accessKeyForTransaction(receiverId, actions, localKey)
+
+    if (!accessKey) {
+      throw new Error(
+        `Cannot find matching key for transaction sent to ${receiverId}`
+      )
+    }
+
+    const block = await this.activeNearConnection?.connection.provider.block({
+      finality: 'final',
+    })
+
+    if (!block) {
+      throw new Error(`Cannot find block for transaction sent to ${receiverId}`)
+    }
+
+    const blockHash = base_decode(block?.header?.hash)
+
+    const publicKey = PublicKey.from(accessKey.public_key)
+    const nonce = accessKey.access_key.nonce + nonceOffset
+
+    return createTransaction(
+      this.activeWallet?.account().accountId,
+      publicKey,
+      receiverId,
+      nonce,
+      actions,
+      blockHash
+    )
+  }
+
+  public async executeMultipleTransactions({
+    transactions,
+    options,
+  }: {
+    transactions: NearTransaction[]
+    options?: OptionalMethodArgs
+  }): Promise<void> {
+    const nearTransactions = await Promise.all(
+      transactions.map((tx, i) => {
+        return this.createTransaction({
+          receiverId: tx.receiverId,
+          actions: tx.functionCalls.map((fc) =>
+            functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
+          ),
+          nonceOffset: i + 1,
+        })
+      })
+    )
+
+    return this.activeWallet?.requestSignTransactions({
+      transactions: nearTransactions,
+      callbackUrl: options?.callbackUrl,
+      meta: options?.meta,
+    })
   }
 }

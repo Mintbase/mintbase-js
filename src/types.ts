@@ -1,3 +1,5 @@
+import { FunctionCall, Transaction } from 'near-api-js/lib/transaction'
+
 enum Chain {
   near = 'near',
 }
@@ -195,6 +197,10 @@ type WalletConnectProps = {
   failureUrl?: string
 }
 
+type NearTransaction = Transaction & {
+  functionCalls: FunctionCall[]
+}
+
 export {
   Chain,
   Network,
@@ -216,4 +222,5 @@ export {
   WalletConfig,
   OptionalMethodArgs,
   WalletConnectProps,
+  NearTransaction,
 }
