@@ -1652,8 +1652,6 @@ export class Wallet {
     }
   }
 
-
-
   public async createTransaction({
     receiverId,
     actions,
