@@ -13,6 +13,7 @@ import {
 } from 'near-api-js'
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
+import { SCHEMA } from 'near-api-js/lib/transaction'
 
 import { API } from './api'
 import {
@@ -28,6 +29,8 @@ import {
   WalletConnectProps,
   NearTransaction,
 } from './types'
+
+import { serialize } from 'borsh'
 
 import {
   FACTORY_CONTRACT_NAME,
@@ -1715,18 +1718,47 @@ export class Wallet {
       transactions.map(async (tx, i) => {
         return await this.createTransaction({
           receiverId: tx.receiverId,
-          actions: tx.functionCalls.map((fc) =>
-            functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
-          ),
+          actions: tx.functionCalls.map((fc) => {
+            return functionCall(
+              fc.methodName,
+              fc.args,
+              new BN(fc.gas),
+              new BN(fc.deposit)
+            )
+          }),
           nonceOffset: i + 1,
         })
       })
     )
 
-    return this.activeWallet?.requestSignTransactions({
-      transactions: nearTransactions,
-      callbackUrl: options?.callbackUrl,
-      meta: options?.meta,
-    })
+    console.log(nearTransactions)
+
+    try {
+      this.activeWallet?.requestSignTransactions({
+        transactions: nearTransactions,
+        callbackUrl: options?.callbackUrl,
+        meta: options?.meta,
+      })
+
+      // const currentUrl = new URL(window.location.href)
+      // const newUrl = new URL('sign', 'https://wallet.testnet.near.org/')
+
+      // newUrl.searchParams.set(
+      //   'transactions',
+      //   nearTransactions
+      //     .map((transaction) => serialize(SCHEMA, transaction))
+      //     .map((serialized) => Buffer.from(serialized).toString('base64'))
+      //     .join(',')
+      // )
+      // newUrl.searchParams.set(
+      //   'callbackUrl',
+      //   options?.callbackUrl || currentUrl.href
+      // )
+      // if (options?.meta) newUrl.searchParams.set('meta', options?.meta)
+
+      // window.location.assign(newUrl.toString())
+    } catch (e) {
+      console.log(e)
+    }
   }
 }
