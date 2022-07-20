@@ -1712,8 +1712,8 @@ export class Wallet {
     options?: OptionalMethodArgs
   }): Promise<void> {
     const nearTransactions = await Promise.all(
-      transactions.map((tx, i) => {
-        return this.createTransaction({
+      transactions.map(async (tx, i) => {
+        return await this.createTransaction({
           receiverId: tx.receiverId,
           actions: tx.functionCalls.map((fc) =>
             functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
