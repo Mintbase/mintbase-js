@@ -1719,46 +1719,40 @@ export class Wallet {
         return await this.createTransaction({
           receiverId: tx.receiverId,
           actions: tx.functionCalls.map((fc) => {
-            return functionCall(
-              fc.methodName,
-              fc.args,
-              new BN(fc.gas),
-              new BN(fc.deposit)
-            )
+            return functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
           }),
           nonceOffset: i + 1,
         })
       })
     )
 
-    console.log(nearTransactions)
+    this.activeWallet?.requestSignTransactions({
+      transactions: nearTransactions,
+      callbackUrl: options?.callbackUrl,
+      meta: options?.meta,
+    })
 
-    try {
-      this.activeWallet?.requestSignTransactions({
-        transactions: nearTransactions,
-        callbackUrl: options?.callbackUrl,
-        meta: options?.meta,
-      })
+    // const nearConfig = this.getNearConfig(this.networkName)
 
-      // const currentUrl = new URL(window.location.href)
-      // const newUrl = new URL('sign', 'https://wallet.testnet.near.org/')
+    // const currentUrl = new URL(window.location.href)
+    // const newUrl = new URL('sign', nearConfig.walletUrl)
 
-      // newUrl.searchParams.set(
-      //   'transactions',
-      //   nearTransactions
-      //     .map((transaction) => serialize(SCHEMA, transaction))
-      //     .map((serialized) => Buffer.from(serialized).toString('base64'))
-      //     .join(',')
-      // )
-      // newUrl.searchParams.set(
-      //   'callbackUrl',
-      //   options?.callbackUrl || currentUrl.href
-      // )
-      // if (options?.meta) newUrl.searchParams.set('meta', options?.meta)
+    // newUrl.searchParams.set(
+    //   'transactions',
+    //   nearTransactions
+    //     .map((transaction) => {
+    //       console.log('WILL SER. transaction', transaction)
+    //       return serialize(SCHEMA, transaction)
+    //     })
+    //     .map((serialized) => Buffer.from(serialized).toString('base64'))
+    //     .join(',')
+    // )
+    // newUrl.searchParams.set(
+    //   'callbackUrl',
+    //   options?.callbackUrl || currentUrl.href
+    // )
+    // if (options?.meta) newUrl.searchParams.set('meta', options?.meta)
 
-      // window.location.assign(newUrl.toString())
-    } catch (e) {
-      console.log(e)
-    }
+    // window.location.assign(newUrl.toString())
   }
 }
