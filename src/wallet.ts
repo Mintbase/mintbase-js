@@ -13,7 +13,6 @@ import {
 } from 'near-api-js'
 import BN from 'bn.js'
 import { KeyStore } from 'near-api-js/lib/key_stores'
-import { SCHEMA } from 'near-api-js/lib/transaction'
 
 import { API } from './api'
 import {
@@ -29,8 +28,6 @@ import {
   WalletConnectProps,
   NearTransaction,
 } from './types'
-
-import { serialize } from 'borsh'
 
 import {
   FACTORY_CONTRACT_NAME,
@@ -1731,28 +1728,5 @@ export class Wallet {
       callbackUrl: options?.callbackUrl,
       meta: options?.meta,
     })
-
-    // const nearConfig = this.getNearConfig(this.networkName)
-
-    // const currentUrl = new URL(window.location.href)
-    // const newUrl = new URL('sign', nearConfig.walletUrl)
-
-    // newUrl.searchParams.set(
-    //   'transactions',
-    //   nearTransactions
-    //     .map((transaction) => {
-    //       console.log('WILL SER. transaction', transaction)
-    //       return serialize(SCHEMA, transaction)
-    //     })
-    //     .map((serialized) => Buffer.from(serialized).toString('base64'))
-    //     .join(',')
-    // )
-    // newUrl.searchParams.set(
-    //   'callbackUrl',
-    //   options?.callbackUrl || currentUrl.href
-    // )
-    // if (options?.meta) newUrl.searchParams.set('meta', options?.meta)
-
-    // window.location.assign(newUrl.toString())
   }
 }
