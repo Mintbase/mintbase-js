@@ -1712,18 +1712,18 @@ export class Wallet {
     options?: OptionalMethodArgs
   }): Promise<void> {
     const nearTransactions = await Promise.all(
-      transactions.map((tx, i) => {
-        return this.createTransaction({
+      transactions.map(async (tx, i) => {
+        return await this.createTransaction({
           receiverId: tx.receiverId,
-          actions: tx.functionCalls.map((fc) =>
-            functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
-          ),
+          actions: tx.functionCalls.map((fc) => {
+            return functionCall(fc.methodName, fc.args, fc.gas, fc.deposit)
+          }),
           nonceOffset: i + 1,
         })
       })
     )
 
-    return this.activeWallet?.requestSignTransactions({
+    this.activeWallet?.requestSignTransactions({
       transactions: nearTransactions,
       callbackUrl: options?.callbackUrl,
       meta: options?.meta,
