@@ -1,6 +1,6 @@
 {
   "name": "mintbase",
-  "version": "0.7.0-rc.fix-exec-multiple-calls.0",
+  "version": "0.7.0-rc.1",
   "description": "Mint, sell, transfer NFTs on the NEAR blockchain",
   "main": "lib/index.js",
   "scripts": {
