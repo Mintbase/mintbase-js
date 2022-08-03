@@ -13,6 +13,7 @@ General purpose Mintbase API for interacting with NEAR, Arweave and other suppor
 - [Table of Contents](#table-of-contents)
 - [Install](#install)
 - [Getting Started](#getting-started)
+- [Documentation](#documentation)
 - [Support](#support)
 - [Examples](#examples)
 - [License](#license)
@@ -63,6 +64,19 @@ Here's an example of a button to connect to the wallet.
 <Button onClick={() => wallet.connect({ requestSignIn: true })}>Login</Button>
 ```
 
+## Documentation
+
+To see all available methods, their parameters and return values, check out the [Wallet module type documentation][8] 
+
+This is a good place to continue exploring after trying out the examples or if you're looking for a specific functionality.
+
+You can also take a look at the [API module type documentation][9] for methods pertaining to the retrieval of mintbase data.
+
+
+
+
+
+
 ## Examples
 
 Bootstrap your app with [Create Mintbase App (React + Typescript)][6]
@@ -84,3 +98,5 @@ or ask in our [developer telegram][3]!
 [5]: https://github.com/Mintbase/mintbase-js/blob/main/LICENSE
 [6]: https://github.com/Mintbase/create-mintbase-app
 [7]: https://near.mintbase.io
+[8]: https://mintbase.github.io/mintbase-js/classes/wallet.Wallet.html
+[9]: https://mintbase.github.io/mintbase-js/classes/api.API.html
