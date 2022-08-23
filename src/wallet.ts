@@ -1097,7 +1097,7 @@ export class Wallet {
       // 5000 = 50%
       throw new Error(ERROR_MESSAGES.invalidRoyalties)
     }
-
+    // @ts-ignore: method does not exist on Contract type
     const { base_uri } = await contract.nft_metadata()
 
     const obj = {
@@ -1208,7 +1208,7 @@ export class Wallet {
       },
       {}
     )
-
+    // @ts-ignore: method does not exist on Contract type
     const { base_uri } = await contract.nft_metadata()
 
     const obj = {
