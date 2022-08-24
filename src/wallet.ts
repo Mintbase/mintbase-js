@@ -1148,7 +1148,7 @@ export class Wallet {
         metaId: string
         storeId: string
         memo: string
-        royalties_percent: string
+        royalties_percent: number
         royalties: Record<string, number>[]
       }[]
     }>(
