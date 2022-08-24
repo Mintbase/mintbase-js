@@ -1148,37 +1148,42 @@ export class Wallet {
         metaId: string
         storeId: string
         memo: string
-        tokens: {
-          royaltyPercent: string
-          royaltys: { account: string; percent: string }[]
-        }[]
+        royalties_percent: number
+        royalties: Record<string, number>[]
       }[]
     }>(
-      `query GET_THING_BY_ID($id: String!) {
-      thing(where: {id: {_eq: $id}}) {
-        metaId
-        storeId
-        memo
-        tokens {
-          royaltyPercent
-          royaltys {
-            account
-            percent
+      `query v2_mintbasejs_getByThingId($id: String!) {
+        thing: mb_views_nft_tokens(where: {metadata_id: {_eq: $id}}, limit: 1) {
+            memo:mint_memo
+            metaId: metadata_id
+            storeId: nft_contract_id
+            royalties
+            royalties_percent
           }
         }
-      }
-    }
     `,
       { id }
     )
 
     const { thing: _thing } = data
 
+    const selectedThing = _thing[0]
+
+    const thing = {
+      memo: selectedThing.memo,
+      metaId: selectedThing.metaId,
+      storeId: selectedThing.storeId,
+      tokens: [
+        {
+          royaltyPercent: selectedThing.royalties_percent,
+          royaltys: selectedThing.royalties,
+        },
+      ],
+    }
+
     if (error || _thing.length === 0) {
       return formatResponse({ error: 'Thing does not exist.' })
     }
-
-    const thing = _thing[0]
 
     if (thing.tokens.length === 0)
       return formatResponse({ error: 'Thing does not have tokens.' })
