@@ -6,24 +6,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: 14.x
-    - run: npm ci
-    - run: npm run lint
-    - run: npm run test
-    - run: npm run build
-  
-  test:
-   needs:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run test
+      - run: npm run build
+
+  coverage:
+    needs:
       - build
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
     runs-on: ubuntu-latest
     steps:
-     - name: Run Tests with Coverage
-        uses: ArtiomTr/jest-coverage-report-action@v2.0.9
-        with:
-          package-manager: npm
-          test-script: npm run test
-          skip-step: build
+      - uses: actions/checkout@v1
+      - uses: ArtiomTr/jest-coverage-report-action@v2
