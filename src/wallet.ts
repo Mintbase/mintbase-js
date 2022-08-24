@@ -1152,7 +1152,7 @@ export class Wallet {
         royalties: Record<string, number>[]
       }[]
     }>(
-      `query GET_THING_BY_ID($id: String!) {
+      `query v2_getByThingId($id: String!) {
        thing: mb_views_nft_tokens(where: {metadata_id: {_eq: $id}}, limit: 1) {
           memo:mint_memo
           metaId: metadata_id
