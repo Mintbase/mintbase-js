@@ -1161,7 +1161,6 @@ export class Wallet {
             royalties_percent
           }
         }
-      }
     `,
       { id }
     )
