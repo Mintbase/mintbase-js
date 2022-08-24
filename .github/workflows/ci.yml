@@ -15,3 +15,15 @@ jobs:
     - run: npm run lint
     - run: npm run test
     - run: npm run build
+  
+  test:
+   needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+     - name: Run Tests with Coverage
+        uses: ArtiomTr/jest-coverage-report-action@v2.0.9
+        with:
+          package-manager: npm
+          test-script: npm run test
+          skip-step: build
