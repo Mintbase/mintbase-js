@@ -1152,16 +1152,16 @@ export class Wallet {
         royalties: Record<string, number>[]
       }[]
     }>(
-      `query v2_getByThingId($id: String!) {
-       thing: mb_views_nft_tokens(where: {metadata_id: {_eq: $id}}, limit: 1) {
-          memo:mint_memo
-          metaId: metadata_id
-          storeId: nft_contract_id
-          royalties
-          royalties_percent
+      `query v2_mintbasejs_getByThingId($id: String!) {
+        thing: mb_views_nft_tokens(where: {metadata_id: {_eq: $id}}, limit: 1) {
+            memo:mint_memo
+            metaId: metadata_id
+            storeId: nft_contract_id
+            royalties
+            royalties_percent
+          }
         }
       }
-    }
     `,
       { id }
     )
