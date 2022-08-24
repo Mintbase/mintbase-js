@@ -1149,7 +1149,7 @@ export class Wallet {
         storeId: string
         memo: string
         royalties_percent: string
-        royalties: { account: string; percent: string }[]
+        royalties: Record<string, number>[]
       }[]
     }>(
       `query GET_THING_BY_ID($id: String!) {
@@ -1185,8 +1185,6 @@ export class Wallet {
     if (error || _thing.length === 0) {
       return formatResponse({ error: 'Thing does not exist.' })
     }
-
-    // const thing = _thing[0]
 
     if (thing.tokens.length === 0)
       return formatResponse({ error: 'Thing does not have tokens.' })
