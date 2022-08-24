@@ -978,7 +978,7 @@ export class Wallet {
         name: storeId.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
         symbol: symbol.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
         icon: options?.icon ?? MINTBASE_32x32_BASE64_DARK_LOGO,
-        base_uri: this.constants.BASE_ARWEAVE_URI || BASE_ARWEAVE_URI,
+        base_uri: null,
         reference: null,
         reference_hash: null,
       },
@@ -1097,11 +1097,13 @@ export class Wallet {
       // 5000 = 50%
       throw new Error(ERROR_MESSAGES.invalidRoyalties)
     }
+    // @ts-ignore: method does not exist on Contract type
+    const { base_uri } = await contract.nft_metadata()
 
     const obj = {
       owner_id: accountId,
       metadata: {
-        reference: metadataId,
+        reference: base_uri ? metadataId : `${BASE_ARWEAVE_URI}/${metadataId}`,
         // TODO: check if category is lowercase
         extra: !category ? null : category,
       },
@@ -1211,11 +1213,13 @@ export class Wallet {
       },
       {}
     )
+    // @ts-ignore: method does not exist on Contract type
+    const { base_uri } = await contract.nft_metadata()
 
     const obj = {
       owner_id: accountId,
       metadata: {
-        reference: metaId,
+        reference: base_uri ? metaId : `${BASE_ARWEAVE_URI}/${metaId}`,
         extra: memo,
       },
       num_to_mint: amount,
