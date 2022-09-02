@@ -63,6 +63,7 @@ import {
   createTransaction,
   functionCall,
 } from 'near-api-js/lib/transaction'
+import { init } from './near-selector'
 
 /**
  * Mintbase Wallet.
@@ -120,7 +121,13 @@ export class Wallet {
         constants: this.constants,
       })
 
-      await this.connect()
+      init({
+        network: walletConfig.networkName || Network.testnet,
+        contractAddress:
+          this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
+      })
+
+      // await this.connect()
 
       const data = { wallet: this, isConnected: this.isConnected() }
 
