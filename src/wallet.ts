@@ -1197,8 +1197,8 @@ export class Wallet {
     const metaId = thing.metaId
     const token = thing.tokens[0]
 
-    const {royaltys} = token;
-    
+    const {royaltys, royaltyPercent} = token;
+
     const contract = new Contract(account, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
@@ -1225,7 +1225,7 @@ export class Wallet {
     if(_royalties && Object.keys(_royalties).length > 0) {
       royaltiesObj = {
         split_between: _royalties,
-        percentage: token.royaltyPercent,
+        percentage: royaltyPercent ? royaltyPercent : null,
       }
     }
 
