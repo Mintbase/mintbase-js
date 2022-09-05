@@ -1198,8 +1198,7 @@ export class Wallet {
     const token = thing.tokens[0]
 
     const {royaltys} = token;
-
-
+    
     const contract = new Contract(account, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
