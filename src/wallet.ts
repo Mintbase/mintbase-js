@@ -1141,8 +1141,8 @@ export class Wallet {
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
-    if(!amount) throw new Error('Amount is undefined.')
-    if(!id) throw new Error('Id is undefined.')
+    if (!amount) throw new Error('Amount is undefined.')
+    if (!id) throw new Error('Id is undefined.')
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!this.api) throw new Error('API is not defined.')
 
@@ -1221,11 +1221,14 @@ export class Wallet {
     // @ts-ignore: method does not exist on Contract type
     const { base_uri } = await contract.nft_metadata()
 
-    const royaltiesObj = _royalties ?  Object.keys(_royalties).length > 0
-    ? {
+    let royaltiesObj = null;
+
+    if(_royalties && Object.keys(_royalties).length > 0) {
+      royaltiesObj = {
         split_between: _royalties,
         percentage: token.royaltyPercent,
-      } : null : null;
+      }
+    }
 
     const obj = {
       owner_id: accountId,
