@@ -1191,6 +1191,10 @@ export class Wallet {
 
     const { thing: _thing } = data
 
+    if (error || _thing.length === 0) {
+      return formatResponse({ error: 'Thing does not exist.' })
+    }
+
     const selectedThing = _thing[0]
 
     const thing = {
@@ -1204,10 +1208,6 @@ export class Wallet {
           royaltys: selectedThing.royalties,
         },
       ],
-    }
-
-    if (error || _thing.length === 0) {
-      return formatResponse({ error: 'Thing does not exist.' })
     }
 
     if (thing.tokens.length === 0)
