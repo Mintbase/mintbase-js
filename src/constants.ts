@@ -19,7 +19,7 @@ export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 export const FACTORY_CONTRACT_NAME =
   process.env.MINTBASEJS_FACTORY_CONTRACT_NAME || 'mintspace1.testnet'
 
-export const STORE_CONTRACT_VIEW_METHODS = []
+export const STORE_CONTRACT_VIEW_METHODS = ['nft_metadata']
 
 export const STORE_CONTRACT_CALL_METHODS = [
   'nft_batch_mint',

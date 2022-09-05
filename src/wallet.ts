@@ -1217,7 +1217,7 @@ export class Wallet {
       },
       {}
     ) : null;
-    // @ts-ignore: method does not exist on Contract type
+    //  @ts-ignore: method does not exist on Contract type
     const { base_uri } = await contract.nft_metadata()
 
     let royaltiesObj = null;
