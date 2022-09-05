@@ -1097,8 +1097,26 @@ export class Wallet {
       // 5000 = 50%
       throw new Error(ERROR_MESSAGES.invalidRoyalties)
     }
-    // @ts-ignore: method does not exist on Contract type
-    const { base_uri } = await contract.nft_metadata()
+
+    // get contract base_uri
+    if (!this.api) throw new Error('API is not defined.')
+    const { data, error } = await this.api.custom<{
+      nft_contracts: {
+        base_uri: string
+      }[]
+    }>(
+      `query v2_mintbasejs_getByThingId($id: String!) {
+        nft_contracts(where: {id: {_eq: $id}}, limit: 1) {
+            base_uri
+          }
+        }
+    `,
+      { id: contractName }
+    )
+    if (error || data.nft_contracts.length === 0) {
+      return formatResponse({ error: 'Thing does not exist.' })
+    }
+    const { base_uri } = data.nft_contracts[0]
 
     const obj = {
       owner_id: accountId,
@@ -1152,15 +1170,17 @@ export class Wallet {
         metaId: string
         storeId: string
         memo: string
+        base_uri: string
         royalties_percent: number
         royalties: Record<string, number>[]
       }[]
     }>(
       `query v2_mintbasejs_getByThingId($id: String!) {
         thing: mb_views_nft_tokens(where: {metadata_id: {_eq: $id}}, limit: 1) {
-            memo:mint_memo
+            memo: mint_memo
             metaId: metadata_id
             storeId: nft_contract_id
+            base_uri
             royalties
             royalties_percent
           }
@@ -1177,6 +1197,7 @@ export class Wallet {
       memo: selectedThing.memo,
       metaId: selectedThing.metaId,
       storeId: selectedThing.storeId,
+      base_uri: selectedThing.base_uri,
       tokens: [
         {
           royaltyPercent: selectedThing.royalties_percent,
@@ -1197,7 +1218,7 @@ export class Wallet {
     const metaId = thing.metaId
     const token = thing.tokens[0]
 
-    const {royaltys, royaltyPercent} = token;
+    const { royaltys, royaltyPercent } = token
 
     const contract = new Contract(account, contractName, {
       viewMethods:
@@ -1208,21 +1229,20 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    const _royalties = royaltys ? royaltys.reduce(
-      (accumulator, { account, percent }) => {
-        return {
-          ...accumulator,
-          [account]: percent,
-        }
-      },
-      {}
-    ) : null;
-    // @ts-ignore: method does not exist on Contract type
-    const { base_uri } = await contract.nft_metadata()
+    const _royalties = royaltys
+      ? royaltys.reduce((accumulator, { account, percent }) => {
+          return {
+            ...accumulator,
+            [account]: percent,
+          }
+        }, {})
+      : null
 
-    let royaltiesObj = null;
+    const { base_uri } = thing
 
-    if(_royalties && Object.keys(_royalties).length > 0) {
+    let royaltiesObj = null
+
+    if (_royalties && Object.keys(_royalties).length > 0) {
       royaltiesObj = {
         split_between: _royalties,
         percentage: royaltyPercent ? royaltyPercent : null,
@@ -1236,7 +1256,7 @@ export class Wallet {
         extra: memo,
       },
       num_to_mint: amount,
-      royalty_args:royaltiesObj,
+      royalty_args: royaltiesObj,
       split_owners: splits || null,
     }
 
