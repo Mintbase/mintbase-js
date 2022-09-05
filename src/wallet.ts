@@ -1141,6 +1141,8 @@ export class Wallet {
     const accountId = this.activeWallet?.account().accountId
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
 
+    if(!amount) throw new Error('Amount is undefined.')
+    if(!id) throw new Error('Id is undefined.')
     if (!account || !accountId) throw new Error('Account is undefined.')
     if (!this.api) throw new Error('API is not defined.')
 
@@ -1195,6 +1197,9 @@ export class Wallet {
     const metaId = thing.metaId
     const token = thing.tokens[0]
 
+    const {royaltys} = token;
+
+
     const contract = new Contract(account, contractName, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
@@ -1204,7 +1209,7 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    const _royalties = token.royaltys.reduce(
+    const _royalties = royaltys ? royaltys.reduce(
       (accumulator, { account, percent }) => {
         return {
           ...accumulator,
@@ -1212,9 +1217,15 @@ export class Wallet {
         }
       },
       {}
-    )
+    ) : null;
     // @ts-ignore: method does not exist on Contract type
     const { base_uri } = await contract.nft_metadata()
+
+    const royaltiesObj = _royalties ?  Object.keys(_royalties).length > 0
+    ? {
+        split_between: _royalties,
+        percentage: token.royaltyPercent,
+      } : null : null;
 
     const obj = {
       owner_id: accountId,
@@ -1223,13 +1234,7 @@ export class Wallet {
         extra: memo,
       },
       num_to_mint: amount,
-      royalty_args:
-        Object.keys(_royalties).length > 0
-          ? {
-              split_between: _royalties,
-              percentage: token.royaltyPercent,
-            }
-          : null,
+      royalty_args:royaltiesObj,
       split_owners: splits || null,
     }
 
