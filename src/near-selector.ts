@@ -1,5 +1,5 @@
 import { setupWalletSelector } from '@near-wallet-selector/core'
-import { setupModal } from '@near-wallet-selector/modal-ui'
+import { setupModal as _setupModal } from '@near-wallet-selector/modal-ui'
 import { setupNearWallet } from '@near-wallet-selector/near-wallet'
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet'
 import { setupSender } from '@near-wallet-selector/sender'
@@ -9,7 +9,7 @@ import { setupLedger } from '@near-wallet-selector/ledger'
 import { setupWalletConnect } from '@near-wallet-selector/wallet-connect'
 import { setupNightlyConnect } from '@near-wallet-selector/nightly-connect'
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets'
-import { Network } from './types'
+import { NearWalletSelector, Network } from './types'
 
 export const init = async ({
   network,
@@ -17,7 +17,7 @@ export const init = async ({
 }: {
   network: Network
   contractAddress: string
-}) => {
+}): Promise<NearWalletSelector> => {
   const selector = await setupWalletSelector({
     network: network,
     modules: [
@@ -31,12 +31,13 @@ export const init = async ({
     ],
   })
 
-  const modal = setupModal(selector, {
-    contractId: contractAddress,
-  })
+  const setupModal = () =>
+    _setupModal(selector, {
+      contractId: contractAddress,
+    })
 
   return {
     selector,
-    modal,
+    setupModal,
   }
 }

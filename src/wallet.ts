@@ -27,6 +27,7 @@ import {
   OptionalMethodArgs,
   WalletConnectProps,
   NearTransaction,
+  NearWalletSelector,
 } from './types'
 
 import {
@@ -98,30 +99,36 @@ export class Wallet {
 
   public async init(
     walletConfig: WalletConfig
-  ): Promise<ResponseData<{ wallet: Wallet; isConnected: boolean }>> {
+  ): Promise<
+    ResponseData<{
+      wallet: Wallet
+      isConnected: boolean
+      walletSelector: NearWalletSelector
+    }>
+  > {
     try {
-      this.constants = await initializeExternalConstants({
-        apiKey: walletConfig.apiKey,
-        networkName: walletConfig.networkName || this.networkName,
-      })
+      // this.constants = await initializeExternalConstants({
+      //   apiKey: walletConfig.apiKey,
+      //   networkName: walletConfig.networkName || this.networkName,
+      // })
 
-      this.api = new API({
-        networkName: walletConfig.networkName || this.networkName,
-        chain: walletConfig.chain || this.chain,
-        constants: this.constants,
-      })
+      // this.api = new API({
+      //   networkName: walletConfig.networkName || this.networkName,
+      //   chain: walletConfig.chain || this.chain,
+      //   constants: this.constants,
+      // })
 
       this.networkName = walletConfig.networkName || Network.testnet
       this.chain = walletConfig.chain || Chain.near
       this.nearConfig = this.getNearConfig(this.networkName)
       this.keyStore = this.getKeyStore()
 
-      this.minter = new Minter({
-        apiKey: walletConfig.apiKey,
-        constants: this.constants,
-      })
+      // this.minter = new Minter({
+      //   apiKey: walletConfig.apiKey,
+      //   constants: this.constants,
+      // })
 
-      init({
+      const walletSelector = await init({
         network: walletConfig.networkName || Network.testnet,
         contractAddress:
           this.constants.FACTORY_CONTRACT_NAME || FACTORY_CONTRACT_NAME,
@@ -129,7 +136,11 @@ export class Wallet {
 
       // await this.connect()
 
-      const data = { wallet: this, isConnected: this.isConnected() }
+      const data = {
+        wallet: this,
+        isConnected: this.isConnected(),
+        walletSelector,
+      }
 
       // TODO: decide if we should really return the formatted response or the atual instance
       return formatResponse({

@@ -1,3 +1,5 @@
+import { WalletSelector } from '@near-wallet-selector/core'
+import { WalletSelectorModal } from '@near-wallet-selector/modal-ui'
 import { FunctionCall, Transaction } from 'near-api-js/lib/transaction'
 
 enum Chain {
@@ -201,6 +203,11 @@ type NearTransaction = Transaction & {
   functionCalls: FunctionCall[]
 }
 
+type NearWalletSelector = {
+  setupModal: () => WalletSelectorModal
+  selector: WalletSelector
+}
+
 export {
   Chain,
   Network,
@@ -223,4 +230,5 @@ export {
   OptionalMethodArgs,
   WalletConnectProps,
   NearTransaction,
+  NearWalletSelector,
 }
