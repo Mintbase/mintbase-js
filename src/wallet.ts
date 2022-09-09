@@ -1218,34 +1218,21 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    const _royalties = royaltys
-      ? royaltys.reduce((accumulator, { account, percent }) => {
-          return {
-            ...accumulator,
-            [account]: percent,
-          }
-        }, {})
-      : null
-
     const { base_uri } = thing
-
-    let royaltiesObj = null
-
-    if (_royalties && Object.keys(_royalties).length > 0) {
-      royaltiesObj = {
-        split_between: _royalties,
-        percentage: royaltyPercent ? royaltyPercent : null,
-      }
-    }
 
     const obj = {
       owner_id: accountId,
       metadata: {
-        reference: base_uri ? thing.reference : `${BASE_ARWEAVE_URI}/${thing.reference}`,
+        reference: base_uri
+          ? thing.reference
+          : `${BASE_ARWEAVE_URI}/${thing.reference}`,
         extra: memo,
       },
       num_to_mint: amount,
-      royalty_args: royaltiesObj,
+      royalty_args: {
+        split_between: royaltys,
+        percentage: royaltyPercent,
+      },
       split_owners: splits || null,
     }
 
