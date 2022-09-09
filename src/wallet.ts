@@ -1173,6 +1173,7 @@ export class Wallet {
         base_uri: string
         royalties_percent: number
         royalties: Record<string, number>[]
+        reference_hash: string
       }[]
     }>(
       `query v2_mintbasejs_getByThingId($id: String!) {
@@ -1183,6 +1184,7 @@ export class Wallet {
             base_uri
             royalties
             royalties_percent
+            reference_hash
           }
         }
     `,
@@ -1202,6 +1204,7 @@ export class Wallet {
       metaId: selectedThing.metaId,
       storeId: selectedThing.storeId,
       base_uri: selectedThing.base_uri,
+      reference: selectedThing.reference_hash,
       tokens: [
         {
           royaltyPercent: selectedThing.royalties_percent,
@@ -1252,7 +1255,7 @@ export class Wallet {
     const obj = {
       owner_id: accountId,
       metadata: {
-        reference: base_uri ? metaId : `${BASE_ARWEAVE_URI}/${metaId}`,
+        reference: base_uri ? thing.reference : `${BASE_ARWEAVE_URI}/${thing.reference}`,
         extra: memo,
       },
       num_to_mint: amount,
