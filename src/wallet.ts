@@ -424,6 +424,7 @@ export class Wallet {
    */
   public async burn(
     tokenIds: string[],
+    contractAddress: string,
     options?: OptionalMethodArgs
   ): Promise<ResponseData<boolean>> {
     const gas = !options?.gas ? MAX_GAS : new BN(options?.gas)
@@ -431,25 +432,12 @@ export class Wallet {
     const account = this.activeWallet?.account()
     const accountId = this.activeWallet?.account().accountId
 
-    const contractName = tokenIds[0].split(':')[1]
-    const isSameContract = tokenIds.every((id) => {
-      const split = id.split(':')
-
-      if (split.length === 2) return split[1] === contractName
-
-      return false
-    })
-
-    if (!isSameContract)
-      return formatResponse({
-        error: 'Tokens need to be all from the same contract.',
-      })
     if (!account || !accountId)
       return formatResponse({ error: 'Account is undefined.' })
-    if (!contractName)
+    if (!contractAddress)
       return formatResponse({ error: 'No contract was provided.' })
 
-    const contract = new Contract(account, contractName, {
+    const contract = new Contract(account, contractAddress, {
       viewMethods:
         this.constants.STORE_CONTRACT_VIEW_METHODS ||
         STORE_CONTRACT_VIEW_METHODS,
@@ -458,13 +446,11 @@ export class Wallet {
         STORE_CONTRACT_CALL_METHODS,
     })
 
-    const burnIds = tokenIds.map((id) => id.split(':')[0])
-
     // @ts-ignore: method does not exist on Contract type
     await contract.nft_batch_burn({
       meta: options?.meta,
       callbackUrl: options?.callbackUrl,
-      args: { token_ids: burnIds },
+      args: { token_ids: tokenIds },
       gas: gas,
       amount: ONE_YOCTO,
     })
