@@ -1171,6 +1171,7 @@ export class Wallet {
             royalties
             royalties_percent
             reference_hash
+            reference
           }
         }
     `,
@@ -1220,7 +1221,7 @@ export class Wallet {
 
     const { base_uri } = thing
 
-    const obj = {
+    const args = {
       owner_id: accountId,
       metadata: {
         reference: base_uri
@@ -1240,7 +1241,7 @@ export class Wallet {
     await contract.nft_batch_mint({
       meta: options?.meta,
       callbackUrl: options?.callbackUrl,
-      args: obj,
+      args: args,
       gas: gas,
       amount: ONE_YOCTO,
     })
