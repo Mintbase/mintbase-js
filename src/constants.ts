@@ -1,7 +1,9 @@
 import BN from 'bn.js'
 import { MetadataField } from './types'
 
-export const CLOUD_URI = process.env.MINTBASEJS_CLOUD_URI
+export const CLOUD_URI =
+  process.env.MINTBASEJS_CLOUD_URI ||
+  'https://us-central1-omni-live.cloudfunctions.net'
 export const API_VERSION = process.env.MINTBASEJS_API_VERSION || '1'
 
 export const API_BASE_NEAR_MAINNET =
@@ -37,7 +39,7 @@ export const STORE_CONTRACT_CALL_METHODS = [
   'set_base_uri',
   'transfer_store_ownership',
   'new',
-  'batch_change_minters'
+  'batch_change_minters',
 ]
 
 export const MARKET_CONTRACT_VIEW_METHODS = []
@@ -67,7 +69,12 @@ export const ZERO = new BN('0')
 export const DEPLOY_STORE_COST = new BN('7000000000000000000000000')
 
 export const VALID_FILE_FORMATS: { [key: string]: string[] } = {
-  [MetadataField.Media]: ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml'],
+  [MetadataField.Media]: [
+    'image/jpeg',
+    'image/png',
+    'image/gif',
+    'image/svg+xml',
+  ],
   [MetadataField.Animation_url]: [
     'image/png',
     'image/jpeg',
