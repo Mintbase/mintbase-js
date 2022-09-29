@@ -1,0 +1,28 @@
+{
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "@typescript-eslint",
+    "simple-import-sort"
+  ],
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "ignorePatterns": ["jest.config.js"],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "error",
+    "consistent-return": "error",
+    "object-curly-spacing": ["error", "always"],
+    "semi": ["error", "always"]
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  }
+}

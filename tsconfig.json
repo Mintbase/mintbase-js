@@ -1,27 +1,21 @@
 {
-  "include": ["./src/**/*"],
-  "exclude": ["node_modules"],
-  "files": ["src/index.ts", "src/browser-index.ts"],
   "compilerOptions": {
-    "outDir": "lib",
-    "noImplicitThis": false,
     "module": "commonjs",
-    "target": "es6",
-    "moduleResolution": "node",
-    "alwaysStrict": true,
-    "preserveSymlinks": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "types": ["jest"],
-    "lib": ["es2015", "esnext", "dom"],
-    "sourceMap": true,
     "declaration": true,
+    "noImplicitAny": false,
+    "removeComments": true,
+    "noLib": false,
+    "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "noImplicitReturns": true,
-    "pretty": true,
-    "strict": true,
-    "baseUrl": ".",
-    "esModuleInterop": true,
-    "skipDefaultLibCheck": false
-  }
+    "target": "es6",
+    "sourceMap": true,
+    "lib": [
+      "es6"
+    ]
+  },
+  "exclude": [
+    "node_modules",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ]
 }

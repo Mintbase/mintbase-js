@@ -1,0 +1,17 @@
+{
+  "name": "@mintbase/sdk",
+  "version": "0.0.1",
+  "description": "Core functions for  Mintbase JS SDK",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc-watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}

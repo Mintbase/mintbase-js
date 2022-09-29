@@ -1,0 +1,17 @@
+{
+  "name": "@mintbase/auth",
+  "version": "0.0.1",
+  "description": "Wallet and auth functions for Mintbase JS SDK",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc-watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
