@@ -4,7 +4,7 @@ describe('transactions', () => {
   describe('invokeContractMethod', () => {
     it('should return null', () => {
       expect(
-        invokeContractMethod()
+        invokeContractMethod(),
       ).toBe(null);
     });
   });

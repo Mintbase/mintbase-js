@@ -18,7 +18,9 @@
   "dependencies": {
     "@near-wallet-selector/default-wallets": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
-    "@near-wallet-selector/near-wallet": "^7.0.3"
+    "@near-wallet-selector/near-wallet": "^7.0.3",
+    "@near-wallet-selector/sender": "^7.0.3",
+    "rxjs": "^7.5.7"
   },
   "devDependencies": {
     "jest-environment-jsdom": "^29.1.1"

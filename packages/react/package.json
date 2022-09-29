@@ -1,0 +1,22 @@
+{
+  "name": "@mintbase/react",
+  "version": "0.0.1",
+  "description": "React app tools for  Mintbase JS SDK",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc-watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts --ext tsx",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3"
+  }
+}
