@@ -1,7 +1,7 @@
 {
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": "./tsconfig.json",
+    "project": "./tsconfig.lint.json",
     "ecmaVersion": 2018,
     "sourceType": "module"
   },
@@ -14,7 +14,8 @@
     "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
-  "ignorePatterns": ["jest.config.js"],
+  "ignorePatterns": ["jest.config.js", "lib/**"],
+
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",
     "consistent-return": "error",
