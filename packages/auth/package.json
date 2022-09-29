@@ -2,6 +2,7 @@
   "name": "@mintbase/auth",
   "version": "0.0.1",
   "description": "Wallet and auth functions for Mintbase JS SDK",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc-watch & jest --watch --coverage",
@@ -13,5 +14,13 @@
   ],
   "keywords": [],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "@near-wallet-selector/default-wallets": "^7.0.3",
+    "@near-wallet-selector/modal-ui": "^7.0.3",
+    "@near-wallet-selector/near-wallet": "^7.0.3"
+  },
+  "devDependencies": {
+    "jest-environment-jsdom": "^29.1.1"
+  }
 }

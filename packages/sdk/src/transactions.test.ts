@@ -1,11 +1,11 @@
-import { invokeContractMethod } from "./transactions";
+import { invokeContractMethod } from './transactions';
 
 describe('transactions', () => {
-    describe('invokeContractMethod', () => {
-        it('should return null', () => {
-            expect(
-                invokeContractMethod()
-            ).toBe(null);
-        });
+  describe('invokeContractMethod', () => {
+    it('should return null', () => {
+      expect(
+        invokeContractMethod()
+      ).toBe(null);
     });
+  });
 });

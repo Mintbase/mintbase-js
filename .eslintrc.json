@@ -19,8 +19,10 @@
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",
     "consistent-return": "error",
+    "indent": ["error", 2],
     "object-curly-spacing": ["error", "always"],
-    "semi": ["error", "always"]
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"]
   },
   "env": {
     "browser": true,

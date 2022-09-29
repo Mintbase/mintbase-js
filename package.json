@@ -4,8 +4,9 @@
   "description": "Mintbase Typescript SDK. A library for interacting with smart contracts on the NEAR Blockchain",
   "scripts": {
     "build": "lerna run build",
-    "test": "lerna run test --stream",
-    "lint": "lerna run lint"
+    "dev": "lerna run dev",
+    "lint": "lerna run lint",
+    "test": "lerna run test --stream"
   },
   "nodemonConfig": {
     "watch": [
@@ -33,6 +34,7 @@
   },
   "homepage": "https://github.com/Mintbase/mintbase-js#readme",
   "devDependencies": {
+    "@babel/parser": "^7.19.3",
     "@babel/preset-typescript": "^7.18.6",
     "@types/jest": "^25.2.3",
     "@types/node": "^13.13.5",
