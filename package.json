@@ -55,6 +55,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "lerna-jest": "^0.5.4"
+    "lerna-jest": "^0.5.4",
+    "near-api-js": "^0.44.2"
   }
 }
