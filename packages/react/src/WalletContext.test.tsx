@@ -7,7 +7,7 @@ import { setupWalletSelectorComponents, registerWalletAccountsSubscriber } from 
 jest.mock('@mintbase/auth');
 
 describe('WalletContext', () => {
-  it ('should provide error message when things go wrong', async () => {
+  test('should provide error message when things go wrong', async () => {
     // throw on startup
     (setupWalletSelectorComponents as jest.Mock)
       .mockRejectedValue('boom!');
@@ -33,7 +33,7 @@ describe('WalletContext', () => {
     });
   });
 
-  it ('should provide active account', async () => {
+  test('should provide active account', async () => {
     const testActiveAccountId = 'account123';
     // throw on startup
     (setupWalletSelectorComponents as jest.Mock)
@@ -73,7 +73,7 @@ describe('WalletContext', () => {
     });
   });
 
-  it ('handles provites event handlers', async () => {
+  test('should provide event handlers', async () => {
     const user = userEvent.setup();
     const mockShowModal = jest.fn();
     const mockSignOut = jest.fn();

@@ -65,9 +65,8 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     modal,
   } = components || {};
 
-  const signIn = (): void => {
+  const signIn = (): void =>
     modal.show();
-  };
 
   const signOut = async(): Promise<void> => {
     const wallet = await selector.wallet();
