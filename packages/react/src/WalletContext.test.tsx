@@ -14,8 +14,9 @@ jest.mock('@mintbase/auth');
 describe('WalletContext', () => {
   test('should provide error message when things go wrong', async () => {
     // throw on startup
+    const errorMessageToDisplay = '💥';
     (setupWalletSelectorComponents as jest.Mock)
-      .mockRejectedValue('boom!');
+      .mockRejectedValue(errorMessageToDisplay);
     (registerWalletAccountsSubscriber as jest.Mock)
       .mockImplementation((callback) => callback(['fake.accounts']));
 
@@ -34,13 +35,12 @@ describe('WalletContext', () => {
       );
     });
     await waitFor(() => {
-      screen.getByText('boom!');
+      screen.getByText(errorMessageToDisplay);
     });
   });
 
   test('should provide active account', async () => {
     const testActiveAccountId = 'account123';
-    // throw on startup
     (setupWalletSelectorComponents as jest.Mock)
       .mockResolvedValue({
         modal: 'foo',
@@ -91,6 +91,7 @@ describe('WalletContext', () => {
           unsubscribe: jest.fn(),
         };
       });
+
     const ContextReader: React.FC = () => {
       const { connect, disconnect } = useWallet();
       return (
