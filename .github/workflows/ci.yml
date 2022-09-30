@@ -17,15 +17,19 @@ jobs:
       - run: npm run build
       - run: npm run test
 
-  # Disabled for monorepo for now, this looks like a possible solution: https://github.com/sourceallies/coveralls-merge
-  # coverage:
-  #   needs:
-  #     - build
-  #   permissions:
-  #     checks: write
-  #     pull-requests: write
-  #     contents: write
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v1
-  #     - uses: ArtiomTr/jest-coverage-report-action@v2
+  coverage:
+    needs:
+      - build
+    permissions:
+      checks: write
+      pull-requests: write
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Aggregate LCOV results
+        uses: RauliL/lerna-lcov-aggregate-action@master
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
