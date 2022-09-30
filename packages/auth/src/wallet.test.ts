@@ -18,7 +18,7 @@ describe('wallet', () => {
     show: jest.fn(),
   };
   const mockWallet = {
-    disconnect: jest.fn(),
+    signOut: jest.fn(),
   };
   const mockSelector = {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
