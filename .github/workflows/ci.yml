@@ -12,7 +12,8 @@ jobs:
         with:
           node-version: 14.x
 
-      - run: npm ci
+      - run: npm i
+      - run: npx lerna bootstrap --no-ci
       - run: npm run lint
       - run: npm run test
       - run: npm run build
