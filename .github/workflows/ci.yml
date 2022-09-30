@@ -13,8 +13,8 @@ jobs:
           node-version: 14.x
 
       - run: npx lerna bootstrap --no-ci --force-local
-      - run: npm run build
       - run: npm run lint
+      - run: npm run build
       - run: npm run test
 
   coverage:
