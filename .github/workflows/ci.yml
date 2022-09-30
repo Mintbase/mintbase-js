@@ -11,19 +11,22 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: 14.x
-      - run: npm ci
-      - run: npm run lint
-      - run: npm run test
-      - run: npm run build
 
-  coverage:
-    needs:
-      - build
+      - run: npx lerna bootstrap --no-ci --force-local
+      - run: npm run lint
+      - run: npm run build
+      - run: npm run test
+
+      - name: Aggregate LCOV results
+        uses: RauliL/lerna-lcov-aggregate-action@master
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
     permissions:
       checks: write
       pull-requests: write
       contents: write
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v1
-      - uses: ArtiomTr/jest-coverage-report-action@v2
+

@@ -61,12 +61,12 @@ connect()
 Here's an example of a button to connect to the wallet.
 
 ```tsx
-<Button onClick={() => wallet.connect({ requestSignIn: true })}>Login</Button>
+<Button onClick={() => wallet.connect({ requestconnect: true })}>Login</Button>
 ```
 
 ## Documentation
 
-To see all available methods, their parameters and return values, check out the [Wallet module type documentation][8] 
+To see all available methods, their parameters and return values, check out the [Wallet module type documentation][8]
 
 This is a good place to continue exploring after trying out the examples or if you're looking for a specific functionality.
 
@@ -83,7 +83,7 @@ Bootstrap your app with [Create Mintbase App (React + Typescript)][6]
 
 ## Support
 
-Open an [issue][2] 
+Open an [issue][2]
 
 or ask in our [developer telegram][3]!
 

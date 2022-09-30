@@ -12,18 +12,30 @@
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
-    "plugin:@typescript-eslint/recommended"
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended"
   ],
   "ignorePatterns": ["jest.config.js", "lib/**", "src-v2/**"],
 
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",
+    "comma-dangle": ["error", "always-multiline"],
     "consistent-return": "error",
     "eol-last": ["error", "always"],
     "indent": ["error", 2],
+    "max-len": ["error", {
+      "code": 100,
+      "tabWidth": 4,
+      "ignoreStrings": true,
+      "ignoreComments": true,
+      "ignoreUrls": true
+    }],
+    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "env": {
     "browser": true,
