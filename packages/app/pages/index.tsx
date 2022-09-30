@@ -5,8 +5,8 @@ import styles from '../styles/Home.module.css';
 
 const Home: NextPage = () => {
   const {
-    signIn,
-    signOut,
+    connect,
+    disconnect,
     activeAccountId,
   } = useWallet();
   return (
@@ -32,14 +32,14 @@ const Home: NextPage = () => {
         {activeAccountId ?
           <div className={styles.description}>
             <h2>You are logged in as {activeAccountId}</h2>
-            <button className={styles.button} onClick={signOut}>
+            <button className={styles.button} onClick={disconnect}>
                 DISCONNECT
             </button>
           </div>
           :
           <div className={styles.description}>
             <h2>To continue, login with NEAR</h2>
-            <button className={styles.button} onClick={signIn}>
+            <button className={styles.button} onClick={connect}>
                 CONNECT
             </button>
           </div>

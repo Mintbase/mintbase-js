@@ -3,8 +3,8 @@ import {
   SetupNotCalledError,
   setupWalletSelectorComponents,
   walletSelectorComponents,
-  signIntoWalletselector,
-  signOutOfWalletSelector,
+  connectWalletSelector,
+  disconnectFromWalletSelector,
 } from './wallet';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
@@ -18,7 +18,7 @@ describe('wallet', () => {
     show: jest.fn(),
   };
   const mockWallet = {
-    signOut: jest.fn(),
+    disconnect: jest.fn(),
   };
   const mockSelector = {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -72,30 +72,30 @@ describe('wallet', () => {
     expect(subscription.unsubscribe).toBeDefined();
   });
 
-  test('signIntoWalletselector calls show modal', async () => {
+  test('connectWalletSelector calls show modal', async () => {
     await setupWithMockComponents();
-    signIntoWalletselector();
+    connectWalletSelector();
     expect(mockModal.show).toHaveBeenCalled();
   });
 
-  test('signIntoWalletselector throws when components are not setup', async () => {
+  test('connectWalletSelector throws when components are not setup', async () => {
     await setupWithNullComponents();
     expect(() => {
       // eslint-disable-next-line @typescript-eslint/no-empty-function
-      signIntoWalletselector();
+      connectWalletSelector();
     }).toThrow(SetupNotCalledError);
   });
 
 
-  test('signOutOfWalletSelector calls sign out on wallet', async () => {
+  test('disconnectFromWalletSelector calls sign out on wallet', async () => {
     await setupWithMockComponents();
-    await signOutOfWalletSelector();
-    expect(mockWallet.signOut).toHaveBeenCalled();
+    await disconnectFromWalletSelector();
+    expect(mockWallet.disconnect).toHaveBeenCalled();
   });
 
-  test('signOutOfWalletSelector throws when components are not setup', async () => {
+  test('disconnectFromWalletSelector throws when components are not setup', async () => {
     await setupWithNullComponents();
-    expect(signOutOfWalletSelector())
+    expect(disconnectFromWalletSelector())
       .rejects
       .toThrow(SetupNotCalledError);
   });

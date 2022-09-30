@@ -5,8 +5,8 @@ import { useWallet, WalletContextProvider } from './WalletContext';
 import {
   setupWalletSelectorComponents,
   registerWalletAccountsSubscriber,
-  signOutOfWalletSelector,
-  signIntoWalletselector,
+  disconnectFromWalletSelector,
+  connectWalletSelector,
 } from '@mintbase/auth';
 
 jest.mock('@mintbase/auth');
@@ -95,11 +95,11 @@ describe('WalletContext', () => {
         };
       });
     const ContextReader: React.FC = () => {
-      const { signIn, signOut } = useWallet();
+      const { connect, disconnect } = useWallet();
       return (
         <>
-          <div role="sign-in" onClick={signIn}>Sign in</div>
-          <div role="sign-out" onClick={signOut}>Sign out</div>
+          <div role="sign-in" onClick={connect}>Sign in</div>
+          <div role="sign-out" onClick={disconnect}>Sign out</div>
         </>
       );
     };
@@ -116,7 +116,7 @@ describe('WalletContext', () => {
       await userEvent.click(screen.getByRole('sign-in'));
       await userEvent.click(screen.getByRole('sign-out'));
     });
-    expect(signIntoWalletselector).toHaveBeenCalled();
-    expect(signOutOfWalletSelector).toHaveBeenCalled();
+    expect(connectWalletSelector).toHaveBeenCalled();
+    expect(disconnectFromWalletSelector).toHaveBeenCalled();
   });
 });

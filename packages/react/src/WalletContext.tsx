@@ -2,8 +2,8 @@ import { createContext, useCallback, useContext, useEffect, useState } from 'rea
 import {
   registerWalletAccountsSubscriber,
   setupWalletSelectorComponents,
-  signIntoWalletselector,
-  signOutOfWalletSelector,
+  connectWalletSelector,
+  disconnectFromWalletSelector,
 } from '@mintbase/auth';
 import type { WalletSelectorComponents } from '@mintbase/auth';
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
@@ -18,8 +18,8 @@ export type WalletContext = {
   accounts: AccountState[];
   activeAccountId: string | null;
   error: string | null;
-  signIn: () => void;
-  signOut: () => Promise<void>;
+  connect: () => void;
+  disconnect: () => Promise<void>;
 }
 
 export type WalletSetupComponents = {
@@ -70,11 +70,11 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     modal,
   } = components || {};
 
-  const signIn = (): void =>
-    signIntoWalletselector();
+  const connect = (): void =>
+    connectWalletSelector();
 
-  const signOut = async(): Promise<void> => {
-    await signOutOfWalletSelector();
+  const disconnect = async(): Promise<void> => {
+    await disconnectFromWalletSelector();
   };
 
   return (
@@ -85,8 +85,8 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
       activeAccountId: accounts
         .find((account) => account.active)?.accountId || null,
       error,
-      signIn,
-      signOut,
+      connect,
+      disconnect,
     }}>
       {children}
     </WalletContext.Provider>

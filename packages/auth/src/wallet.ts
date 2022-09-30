@@ -78,7 +78,7 @@ export const registerWalletAccountsSubscriber = (
     .subscribe(callback);
 };
 
-export const signIntoWalletselector = (): void => {
+export const connectWalletSelector = (): void => {
   if (!walletSelectorComponents.selector) {
     throw new SetupNotCalledError(
       WALLET_SETUP_NOT_CALLED_ERROR,
@@ -90,7 +90,7 @@ export const signIntoWalletselector = (): void => {
     .show();
 };
 
-export const signOutOfWalletSelector = async(): Promise<void> => {
+export const disconnectFromWalletSelector = async(): Promise<void> => {
   if (!walletSelectorComponents.selector) {
     throw new SetupNotCalledError(
       WALLET_SETUP_NOT_CALLED_ERROR,
@@ -100,6 +100,6 @@ export const signOutOfWalletSelector = async(): Promise<void> => {
   const wallet = await walletSelectorComponents
     .selector
     .wallet();
-  wallet.signOut();
+  wallet.disconnect();
 };
 
