@@ -3,9 +3,28 @@ import {
   SetupNotCalledError,
   setupWalletSelectorComponents,
   walletSelectorComponents,
+  signIntoWalletselector,
+  signOutOfWalletSelector,
 } from './wallet';
+import { setupWalletSelector } from '@near-wallet-selector/core';
+import { setupModal } from '@near-wallet-selector/modal-ui';
+import { Observable } from 'rxjs';
+
+jest.mock('@near-wallet-selector/core');
+jest.mock('@near-wallet-selector/modal-ui');
 
 describe('wallet', () => {
+  const mockModal = {
+    show: jest.fn(),
+  };
+  const mockWallet = {
+    signOut: jest.fn(),
+  };
+  const mockSelector = {
+    // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+    wallet: () => Promise.resolve(mockWallet),
+    store: { observable: new Observable() },
+  };
   beforeAll(() => {
     Object.defineProperty(global, 'localStorage', {
       value: {
@@ -16,28 +35,68 @@ describe('wallet', () => {
     });
   });
 
-  // warning: stateful tests, order matters.
-  test('registerWalletAccountsSubscriber throws when components are not setup', () => {
-    expect(() => {
-      // eslint-disable-next-line @typescript-eslint/no-empty-function
-      registerWalletAccountsSubscriber(() => {});
-    }).toThrow(SetupNotCalledError);
-  });
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const setupWithMockComponents = async () => {
+    (setupWalletSelector as jest.Mock).mockResolvedValueOnce(mockSelector);
+    (setupModal as jest.Mock).mockReturnValueOnce(mockModal);
+    return await setupWalletSelectorComponents();
+  };
+
+  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
+  const setupWithNullComponents = async () => {
+    (setupWalletSelector as jest.Mock).mockResolvedValueOnce(null);
+    (setupModal as jest.Mock).mockReturnValueOnce(null);
+    return await setupWalletSelectorComponents();
+  };
 
   test('setupWalletSelectorComponents returns and defines components', async () => {
-    expect(walletSelectorComponents).toBe(null);
-
-    const { modal, selector } = await setupWalletSelectorComponents();
+    const { modal, selector } = await setupWithMockComponents();
 
     expect(modal).toBeDefined();
     expect(selector).toBeDefined();
     expect(walletSelectorComponents).not.toBe(null);
   });
 
+  test('registerWalletAccountsSubscriber throws when components are not setup', async () => {
+    await setupWithNullComponents();
+    expect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      registerWalletAccountsSubscriber(() => {});
+    }).toThrow(SetupNotCalledError);
+  });
 
-  test('registerWalletAccountsSubscriber throws returns subscription', () => {
+  test('registerWalletAccountsSubscriber returns the subscription', async () => {
+    await setupWithMockComponents();
     // eslint-disable-next-line @typescript-eslint/no-empty-function
     const subscription = registerWalletAccountsSubscriber(() => {});
     expect(subscription.unsubscribe).toBeDefined();
+  });
+
+  test('signIntoWalletselector calls show modal', async () => {
+    await setupWithMockComponents();
+    signIntoWalletselector();
+    expect(mockModal.show).toHaveBeenCalled();
+  });
+
+  test('signIntoWalletselector throws when components are not setup', async () => {
+    await setupWithNullComponents();
+    expect(() => {
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      signIntoWalletselector();
+    }).toThrow(SetupNotCalledError);
+  });
+
+
+  test('signOutOfWalletSelector calls sign out on wallet', async () => {
+    await setupWithMockComponents();
+    await signOutOfWalletSelector();
+    expect(mockWallet.signOut).toHaveBeenCalled();
+  });
+
+  test('signOutOfWalletSelector throws when components are not setup', async () => {
+    await setupWithNullComponents();
+    expect(signOutOfWalletSelector())
+      .rejects
+      .toThrow(SetupNotCalledError);
   });
 });

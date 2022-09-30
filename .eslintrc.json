@@ -25,8 +25,9 @@
     "max-len": ["error", {
       "code": 100,
       "tabWidth": 4,
-      "ignoreUrls": true,
-      "ignoreStrings": true
+      "ignoreStrings": true,
+      "ignoreComments": true,
+      "ignoreUrls": true
     }],
     "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
     "object-curly-spacing": ["error", "always"],

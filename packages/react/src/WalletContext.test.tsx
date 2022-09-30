@@ -2,7 +2,12 @@
 import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useWallet, WalletContextProvider } from './WalletContext';
-import { setupWalletSelectorComponents, registerWalletAccountsSubscriber } from '@mintbase/auth';
+import {
+  setupWalletSelectorComponents,
+  registerWalletAccountsSubscriber,
+  signOutOfWalletSelector,
+  signIntoWalletselector,
+} from '@mintbase/auth';
 
 jest.mock('@mintbase/auth');
 
@@ -75,19 +80,12 @@ describe('WalletContext', () => {
 
   test('should provide event handlers', async () => {
     const user = userEvent.setup();
-    const mockShowModal = jest.fn();
-    const mockSignOut = jest.fn();
-    const mockWallet = {
-      signOut: mockSignOut,
-    };
+
     // throw on startup
     (setupWalletSelectorComponents as jest.Mock)
       .mockResolvedValue({
-        modal: { show: mockShowModal },
-        selector: {
-          // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-          wallet: () => Promise.resolve(mockWallet),
-        },
+        modal: 'foo',
+        selector:'bar',
       });
     (registerWalletAccountsSubscriber as jest.Mock)
       .mockImplementation((callback) => {
@@ -96,7 +94,6 @@ describe('WalletContext', () => {
           unsubscribe: jest.fn(),
         };
       });
-
     const ContextReader: React.FC = () => {
       const { signIn, signOut } = useWallet();
       return (
@@ -115,11 +112,11 @@ describe('WalletContext', () => {
         </WalletContextProvider>,
       );
     });
-    await act(() => {
-      userEvent.click(screen.getByRole('sign-in'));
-      userEvent.click(screen.getByRole('sign-out'));
+    await act(async () => {
+      await userEvent.click(screen.getByRole('sign-in'));
+      await userEvent.click(screen.getByRole('sign-out'));
     });
-    expect(mockShowModal).toHaveBeenCalled();
-    expect(mockSignOut).toHaveBeenCalled();
+    expect(signIntoWalletselector).toHaveBeenCalled();
+    expect(signOutOfWalletSelector).toHaveBeenCalled();
   });
 });

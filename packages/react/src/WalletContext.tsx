@@ -1,5 +1,10 @@
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
-import { registerWalletAccountsSubscriber, setupWalletSelectorComponents } from '@mintbase/auth';
+import {
+  registerWalletAccountsSubscriber,
+  setupWalletSelectorComponents,
+  signIntoWalletselector,
+  signOutOfWalletSelector,
+} from '@mintbase/auth';
 import type { WalletSelectorComponents } from '@mintbase/auth';
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
@@ -36,13 +41,13 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     setComponents(components);
   }, []);
 
+  // call setup on wallet selector
   useEffect(() => {
     setup().catch((err: unknown) => {
       setError(err.toString());
     });
   }, [setup]);
 
-  // once the components are setup
   // subscribe to account state changes
   useEffect(() => {
     if (!components) {
@@ -66,11 +71,10 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   } = components || {};
 
   const signIn = (): void =>
-    modal.show();
+    signIntoWalletselector();
 
   const signOut = async(): Promise<void> => {
-    const wallet = await selector.wallet();
-    wallet.signOut();
+    await signOutOfWalletSelector();
   };
 
   return (

@@ -10,10 +10,7 @@ export const DEFAULT_MINTBASE_CONTRACT_MAINNET = 'mintbase1.near';
 
 export const NEAR_WALLET_SELECTOR_DEBUG = NEAR_WALLET_ENV === 'testnet';
 
-export const DEFAULT_MINTBASE_CONTRACT = NEAR_WALLET_ENV !== 'testnet'
-  ? DEFAULT_MINTBASE_CONTRACT_TESTNET
-  : DEFAULT_MINTBASE_CONTRACT_MAINNET;
+export const NEAR_LOGIN_CONTRACT_ID = process.env.NEAR_LOGIN_CONTRACT_ID;
 
-export const NEAR_LOGIN_CONTRACT_ID = (
-  process.env.NEAR_LOGIN_CONTRACT_ID || DEFAULT_MINTBASE_CONTRACT
-);
+// error messages
+export const WALLET_SETUP_NOT_CALLED_ERROR = 'Call and await setupWalletSelectorComponents() before registering a subscriber';
