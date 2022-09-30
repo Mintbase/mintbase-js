@@ -18,8 +18,5 @@
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3"
-  },
-  "dependencies": {
-    "jest-environment-jsdom": "^29.1.2"
   }
 }
