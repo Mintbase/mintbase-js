@@ -40,6 +40,7 @@
     "@near-wallet-selector/default-wallets": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "@near-wallet-selector/near-wallet": "^7.0.3",
+    "@near-wallet-selector/sender": "^7.0.3",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^25.2.3",
