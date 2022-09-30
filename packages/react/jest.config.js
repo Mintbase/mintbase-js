@@ -2,6 +2,6 @@ module.exports = {
   ...require('../../jest.config.js'),
   testEnvironment: "jsdom",
   moduleNameMapper: {
-    "^~(.*)$": "<rootDir>/src/$1"
+    "@mintbase-js/auth": "<rootDir>/../../packages/auth/src/"
   }
 }
