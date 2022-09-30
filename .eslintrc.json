@@ -33,7 +33,9 @@
     "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "always"],
-    "quotes": ["error", "single"]
+    "quotes": ["error", "single"],
+    "react/prop-types": "off",
+    "react/react-in-jsx-scope": "off"
   },
   "env": {
     "browser": true,
