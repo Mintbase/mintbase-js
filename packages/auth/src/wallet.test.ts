@@ -90,7 +90,7 @@ describe('wallet', () => {
   test('disconnectFromWalletSelector calls sign out on wallet', async () => {
     await setupWithMockComponents();
     await disconnectFromWalletSelector();
-    expect(mockWallet.disconnect).toHaveBeenCalled();
+    expect(mockWallet.signOut).toHaveBeenCalled();
   });
 
   test('disconnectFromWalletSelector throws when components are not setup', async () => {
