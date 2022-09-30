@@ -100,6 +100,6 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
   const wallet = await walletSelectorComponents
     .selector
     .wallet();
-  wallet.disconnect();
+  wallet.signOut();
 };
 
