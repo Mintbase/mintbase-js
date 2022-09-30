@@ -79,9 +79,6 @@ describe('WalletContext', () => {
   });
 
   test('should provide event handlers', async () => {
-    const user = userEvent.setup();
-
-    // throw on startup
     (setupWalletSelectorComponents as jest.Mock)
       .mockResolvedValue({
         modal: 'foo',
