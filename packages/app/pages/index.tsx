@@ -1,4 +1,4 @@
-import { useWallet } from '@mintbase/react';
+import { useWallet } from '@mintbase-js/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';

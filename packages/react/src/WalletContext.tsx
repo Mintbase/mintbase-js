@@ -4,14 +4,14 @@ import {
   setupWalletSelectorComponents,
   connectWalletSelector,
   disconnectFromWalletSelector,
-} from '@mintbase/auth';
-import type { WalletSelectorComponents } from '@mintbase/auth';
+} from '@mintbase-js/auth';
+import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
-// but uses wrappers from @mintbase/auth and @mintbase/sdk
+// but uses wrappers from @mintbase-js/auth and @mintbase-js/sdk
 export type WalletContext = {
   selector: WalletSelector;
   modal: WalletSelectorModal;

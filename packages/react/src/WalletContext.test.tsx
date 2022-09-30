@@ -7,9 +7,9 @@ import {
   registerWalletAccountsSubscriber,
   disconnectFromWalletSelector,
   connectWalletSelector,
-} from '@mintbase/auth';
+} from '@mintbase-js/auth';
 
-jest.mock('@mintbase/auth');
+jest.mock('@mintbase-js/auth');
 
 describe('WalletContext', () => {
   test('should provide error message when things go wrong', async () => {
