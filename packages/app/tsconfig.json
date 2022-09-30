@@ -16,5 +16,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx"
+  ],
+  "exclude": [
+    "./.eslintrc.js"
   ]
 }
