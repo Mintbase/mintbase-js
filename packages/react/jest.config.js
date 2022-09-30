@@ -1,5 +1,7 @@
 module.exports = {
   ...require('../../jest.config.js'),
   testEnvironment: "jsdom",
-  modulePaths: ['<rootDir>/../../']
+  moduleNameMapper: {
+    "^~(.*)$": "<rootDir>/src/$1"
+  }
 }
