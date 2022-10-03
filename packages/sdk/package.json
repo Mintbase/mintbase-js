@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc-watch & jest --watch --coverage",
+    "dev": "tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
     "test": "jest --coverage"
   },

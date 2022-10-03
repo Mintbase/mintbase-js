@@ -2,13 +2,31 @@ import { useWallet } from '@mintbase-js/react';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
-
+import { callContractMethod, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
 const Home: NextPage = () => {
   const {
     connect,
     disconnect,
+    wallet,
     activeAccountId,
   } = useWallet();
+
+
+  const callTransferTest = async (): Promise<void> => {
+    const result = callContractMethod({
+      signerId: activeAccountId,
+      contractAddress: 'nobase.mintspace2.testnet',
+      methodName: 'nft_transfer',
+      args: {
+        'receiver_id': 'benipsen2.testnet',
+        'token_id': '0',
+      },
+      gas: MAX_GAS,
+      deposit: ONE_YOCTO,
+    }, { wallet });
+    console.log('got result!', result);
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -32,6 +50,10 @@ const Home: NextPage = () => {
         {activeAccountId ?
           <div className={styles.description}>
             <h2>You are logged in as {activeAccountId}</h2>
+            <pre>{JSON.stringify(wallet)}</pre>
+            <button className={styles.button} onClick={callTransferTest}>
+                TRANSFER CALL
+            </button>
             <button className={styles.button} onClick={disconnect}>
                 DISCONNECT
             </button>

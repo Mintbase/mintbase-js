@@ -4,9 +4,10 @@ import {
   setupWalletSelectorComponents,
   connectWalletSelector,
   disconnectFromWalletSelector,
+  getWallet,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
-import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
+import { WalletSelector, AccountState, Wallet } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
 // This is heavily based on
@@ -15,6 +16,7 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 export type WalletContext = {
   selector: WalletSelector;
   modal: WalletSelectorModal;
+  wallet: Wallet;
   accounts: AccountState[];
   activeAccountId: string | null;
   error: string | null;
@@ -34,10 +36,13 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 ) => {
   const [error, setError] = useState<string | null>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
+  const [wallet, setWallet] = useState<Wallet | null>(null);
   const [accounts, setAccounts] = useState<AccountState[]>([]);
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents();
+    const wallet = await getWallet();
+    setWallet(wallet);
     setComponents(components);
   }, []);
 
@@ -81,6 +86,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     <WalletContext.Provider value={{
       selector,
       modal,
+      wallet,
       accounts,
       activeAccountId: accounts
         .find((account) => account.active)?.accountId || null,
