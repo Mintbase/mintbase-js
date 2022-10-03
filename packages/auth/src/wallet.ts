@@ -1,4 +1,4 @@
-import { setupWalletSelector } from '@near-wallet-selector/core';
+import { setupWalletSelector, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
@@ -61,14 +61,18 @@ export class SetupNotCalledError extends Error {
   message: string;
 }
 
-export const registerWalletAccountsSubscriber = (
-  callback: (accounts: AccountState[]) => void,
-): Subscription => {
+const validateWalletComponentsAreSetup = (): void => {
   if (!walletSelectorComponents.selector) {
     throw new SetupNotCalledError(
       WALLET_SETUP_NOT_CALLED_ERROR,
     );
   }
+};
+
+export const registerWalletAccountsSubscriber = (
+  callback: (accounts: AccountState[]) => void,
+): Subscription => {
+  validateWalletComponentsAreSetup();
 
   return walletSelectorComponents
     .selector
@@ -78,12 +82,16 @@ export const registerWalletAccountsSubscriber = (
     .subscribe(callback);
 };
 
+export const getWallet = async (): Promise<Wallet> => {
+  validateWalletComponentsAreSetup();
+
+  return await walletSelectorComponents
+    .selector
+    .wallet();
+};
+
 export const connectWalletSelector = (): void => {
-  if (!walletSelectorComponents.selector) {
-    throw new SetupNotCalledError(
-      WALLET_SETUP_NOT_CALLED_ERROR,
-    );
-  }
+  validateWalletComponentsAreSetup();
 
   walletSelectorComponents
     .modal
@@ -91,11 +99,7 @@ export const connectWalletSelector = (): void => {
 };
 
 export const disconnectFromWalletSelector = async(): Promise<void> => {
-  if (!walletSelectorComponents.selector) {
-    throw new SetupNotCalledError(
-      WALLET_SETUP_NOT_CALLED_ERROR,
-    );
-  }
+  validateWalletComponentsAreSetup();
 
   const wallet = await walletSelectorComponents
     .selector

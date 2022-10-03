@@ -5,6 +5,7 @@ import {
   walletSelectorComponents,
   connectWalletSelector,
   disconnectFromWalletSelector,
+  getWallet,
 } from './wallet';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
@@ -19,6 +20,7 @@ describe('wallet', () => {
   };
   const mockWallet = {
     signOut: jest.fn(),
+    id: 'im.a.test.wallet',
   };
   const mockSelector = {
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -86,6 +88,18 @@ describe('wallet', () => {
     }).toThrow(SetupNotCalledError);
   });
 
+  test('getWallet throws when components are not setup', async () => {
+    await setupWithNullComponents();
+    expect(getWallet())
+      .rejects
+      .toThrow(SetupNotCalledError);
+  });
+
+  test('getWallet returns wallet', async () => {
+    await setupWithMockComponents();
+    const wallet = await getWallet();
+    expect(wallet.id).toBe(mockWallet.id);
+  });
 
   test('disconnectFromWalletSelector calls sign out on wallet', async () => {
     await setupWithMockComponents();
