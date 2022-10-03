@@ -2,6 +2,7 @@
   "name": "@mintbase-js/sdk",
   "version": "0.0.1",
   "description": "Core functions for  Mintbase JS SDK",
+  "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "dev": "tsc-watch & jest --watch --coverage",
@@ -13,5 +14,8 @@
   ],
   "keywords": [],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "near-api-js": "^0.44.2"
+  }
 }
