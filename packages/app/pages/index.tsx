@@ -13,12 +13,12 @@ const Home: NextPage = () => {
 
 
   const callTransferTest = async (): Promise<void> => {
-    const result = callContractMethod({
+    const result = await callContractMethod({
       signerId: activeAccountId,
       contractAddress: 'nobase.mintspace2.testnet',
       methodName: 'nft_transfer',
       args: {
-        'receiver_id': 'benipsen2.testnet',
+        'receiver_id': 'benipsen.testnet',
         'token_id': '0',
       },
       gas: MAX_GAS,
