@@ -1,4 +1,6 @@
-import { BrowserWalletSignAndSendTransactionParams, SignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
+import {
+  BrowserWalletSignAndSendTransactionParams,
+} from '@near-wallet-selector/core/lib/wallet';
 import { callContractMethod, NearContractCall, NoSigningMethodPassed } from './calls';
 import { MAX_GAS, ONE_YOCTO } from './constants';
 
