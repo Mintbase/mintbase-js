@@ -4,7 +4,7 @@
   "description": "Mintbase Typescript SDK. A library for interacting with smart contracts on the NEAR Blockchain",
   "scripts": {
     "build": "lerna run build",
-    "dev": "lerna run dev",
+    "dev": "lerna run watch --stream & cd packages/app && npm run dev",
     "lint": "lerna run lint",
     "test": "lerna run test --stream"
   },
