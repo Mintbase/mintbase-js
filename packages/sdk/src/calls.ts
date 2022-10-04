@@ -21,7 +21,7 @@ export class NoSigningMethodPassed extends Error {
   message: string;
 }
 
-export const callContractMethodWithWallet = async (
+const callContractMethodWithWallet = async (
   call: NearContractCall,
   wallet: Wallet,
 ): Promise<void | providers.FinalExecutionOutcome> => {
