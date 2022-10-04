@@ -54,7 +54,7 @@ export const executeMultipleCalls = async (
 ): Promise<void | providers.FinalExecutionOutcome> => {
   validateSigningOptions(signingOptions);
 
-  if (signingOptions) {
+  if (signingOptions.wallet) {
     return executeMultipleCallsWithWallet(
       calls,
       signingOptions.wallet,
