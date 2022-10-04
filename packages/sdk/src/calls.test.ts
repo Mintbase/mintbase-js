@@ -1,7 +1,7 @@
 import {
   BrowserWalletSignAndSendTransactionParams,
 } from '@near-wallet-selector/core/lib/wallet';
-import { callContractMethod, NearContractCall, NoSigningMethodPassed } from './calls';
+import { callContractMethod, executeMultipleCalls, NearContractCall, NoSigningMethodPassed } from './calls';
 import { MAX_GAS, ONE_YOCTO } from './constants';
 
 describe('contract method calls', () => {
@@ -27,15 +27,16 @@ describe('contract method calls', () => {
 
   const mockNearSelectorWallet = {
     signAndSendTransaction: jest.fn(),
+    signAndSendTransactions: jest.fn(),
   };
 
-  it('callContractMethod should throw without at least one method ', async () => {
+  test('callContractMethod should throw without a valid signing method ', async () => {
     expect(
       callContractMethod(testContractCall, {}),
     ).rejects.toThrow(NoSigningMethodPassed);
   });
 
-  it('calls through to browser wallet selector method', async () => {
+  test('callContractMethod calls through to browser wallet selector method', async () => {
     await callContractMethod(
       testContractCall,
       {
@@ -60,6 +61,34 @@ describe('contract method calls', () => {
     };
     expect(mockNearSelectorWallet.signAndSendTransaction)
       .toHaveBeenCalledWith(expectedCallSignature);
+
+  });
+
+
+  test('executeMultipleCalls should throw without a valid signing method ', async () => {
+    expect(
+      executeMultipleCalls([testContractCall], {}),
+    ).rejects.toThrow(NoSigningMethodPassed);
+  });
+
+  test('executeMultipleCalls calls through with multiple transactions', async () => {
+    await executeMultipleCalls(
+      [testContractCall, testContractCall],
+      {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        wallet: mockNearSelectorWallet as any,
+      },
+    );
+
+    expect(
+      mockNearSelectorWallet
+        .signAndSendTransactions
+        .mock
+        .calls[0][0]
+        .transactions
+        .length,
+    ).toBe(2);
+
 
   });
 
