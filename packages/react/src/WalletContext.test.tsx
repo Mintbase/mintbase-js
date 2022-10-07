@@ -7,24 +7,28 @@ import {
   registerWalletAccountsSubscriber,
   disconnectFromWalletSelector,
   connectWalletSelector,
+  pollForWalletConnection,
+  ConnectionTimeoutError,
 } from '@mintbase-js/auth';
 
 jest.mock('@mintbase-js/auth');
 
 describe('WalletContext', () => {
-  test('should provide error message when things go wrong', async () => {
+  test('should provide error message when setup goes wrong', async () => {
     // throw on startup
-    const errorMessageToDisplay = '💥';
+    const errorMessageToDisplay = 'boom';
     (setupWalletSelectorComponents as jest.Mock)
       .mockRejectedValue(errorMessageToDisplay);
     (registerWalletAccountsSubscriber as jest.Mock)
       .mockImplementation((callback) => callback(['fake.accounts']));
+    (pollForWalletConnection as jest.Mock)
+      .mockResolvedValue(['fake.acccount']);
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const ContextReader: React.FC = () => {
-      const { error } = useWallet();
+      const { errorMessage } = useWallet();
       return (
-        <div>{error}</div>
+        <div>{errorMessage}</div>
       );
     };
     act(() => {
@@ -34,6 +38,49 @@ describe('WalletContext', () => {
         </WalletContextProvider>,
       );
     });
+    await waitFor(() => {
+      screen.getByText(errorMessageToDisplay);
+    });
+  });
+
+  test('should provide connection error message when polling times out', async () => {
+    // throw on startup
+    const errorMessageToDisplay = 'oh snap!';
+    (setupWalletSelectorComponents as jest.Mock)
+      .mockResolvedValue({
+        modal: 'foo',
+        selector: 'bar',
+      });
+    (registerWalletAccountsSubscriber as jest.Mock)
+      .mockImplementation((callback) => {
+        callback(['whatever']);
+        return {
+          unsubscribe: jest.fn(),
+        };
+      });
+    (pollForWalletConnection as jest.Mock)
+      .mockRejectedValueOnce(new Error(errorMessageToDisplay));
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const ContextReader: React.FC = () => {
+      const { errorMessage, connect } = useWallet();
+      return (
+        <>
+          <div role="sign-in" onClick={connect}>Sign in</div>
+          <div>
+            {errorMessage}
+          </div>
+        </>
+      );
+    };
+    act(() => {
+      render(
+        <WalletContextProvider>
+          <ContextReader />
+        </WalletContextProvider>,
+      );
+    });
+    await userEvent.click(screen.getByRole('sign-in'));
     await waitFor(() => {
       screen.getByText(errorMessageToDisplay);
     });
@@ -56,6 +103,8 @@ describe('WalletContext', () => {
           unsubscribe: jest.fn(),
         };
       });
+    (pollForWalletConnection as jest.Mock)
+      .mockResolvedValue(null);
 
     // ts claims this await is useless but it is needed.
     const ContextReader: React.FC = () => {
@@ -91,6 +140,8 @@ describe('WalletContext', () => {
           unsubscribe: jest.fn(),
         };
       });
+    (pollForWalletConnection as jest.Mock)
+      .mockResolvedValue(['foo.near']);
 
     const ContextReader: React.FC = () => {
       const { connect, disconnect } = useWallet();
@@ -110,10 +161,10 @@ describe('WalletContext', () => {
         </WalletContextProvider>,
       );
     });
-    await act(async () => {
-      await userEvent.click(screen.getByRole('sign-in'));
-      await userEvent.click(screen.getByRole('sign-out'));
-    });
+
+    await userEvent.click(screen.getByRole('sign-in'));
+    await userEvent.click(screen.getByRole('sign-out'));
+
     expect(connectWalletSelector).toHaveBeenCalled();
     expect(disconnectFromWalletSelector).toHaveBeenCalled();
   });

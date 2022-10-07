@@ -9,6 +9,8 @@ const Home: NextPage = () => {
     disconnect,
     wallet,
     activeAccountId,
+    isConnected,
+    isWaitingForConnection,
   } = useWallet();
 
 
@@ -46,6 +48,8 @@ const Home: NextPage = () => {
         <p className={styles.description}>
           This is a test suite for development and testing with NextJS.<br />
         </p>
+
+        {isWaitingForConnection ? <div>Waiting for connetcion to be established...</div> : null}
 
         {activeAccountId ?
           <div className={styles.description}>

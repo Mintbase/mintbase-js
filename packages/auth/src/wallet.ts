@@ -11,6 +11,9 @@ import {
   DEFAULT_MINTBASE_CONTRACT_MAINNET,
   DEFAULT_MINTBASE_CONTRACT_TESTNET,
   WALLET_SETUP_NOT_CALLED_ERROR,
+  WALLET_CONNECTION_NOT_FOUND,
+  WALLET_CONNECTION_POLL_INTERVAL,
+  WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
@@ -61,6 +64,10 @@ export class SetupNotCalledError extends Error {
   message: string;
 }
 
+export class ConnectionTimeoutError extends Error {
+  message: string;
+}
+
 const validateWalletComponentsAreSetup = (): void => {
   if (!walletSelectorComponents.selector) {
     throw new SetupNotCalledError(
@@ -80,6 +87,51 @@ export const registerWalletAccountsSubscriber = (
     .observable
     .pipe(map((state) => state.accounts), distinctUntilChanged())
     .subscribe(callback);
+};
+
+// scoped to module and cleared since pollForWalletConnection might
+// get called repeatedly in react enviroments
+let timerReference = null;
+
+export const pollForWalletConnection = async (): Promise<AccountState[]> => {
+  validateWalletComponentsAreSetup();
+  // clear any existing timers
+  clearTimeout(timerReference);
+
+  const tryToResolveAccountsFromState = (
+    resolve: (value: AccountState[]) => void,
+    reject: (err: ConnectionTimeoutError) => void,
+    elapsed = 0,
+  ): void => {
+    const { accounts } = walletSelectorComponents
+      .selector
+      .store
+      .getState() || {};
+
+    // accounts present in state
+    if (accounts) {
+      resolve(accounts);
+    }
+
+    // timed out
+    if (elapsed > WALLET_CONNECTION_TIMEOUT) {
+      reject(new ConnectionTimeoutError(WALLET_CONNECTION_NOT_FOUND));
+    }
+
+    // try again
+    clearTimeout(timerReference);
+    timerReference = setTimeout(() =>
+      tryToResolveAccountsFromState(
+        resolve,
+        reject,
+        elapsed + WALLET_CONNECTION_POLL_INTERVAL,
+      ), WALLET_CONNECTION_POLL_INTERVAL);
+
+  };
+
+  return new Promise(
+    (resolve, reject) => tryToResolveAccountsFromState(resolve, reject),
+  );
 };
 
 export const getWallet = async (): Promise<Wallet> => {
@@ -106,4 +158,3 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
     .wallet();
   wallet.signOut();
 };
-
