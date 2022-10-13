@@ -45,9 +45,12 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents();
-    const wallet = await getWallet();
     setComponents(components);
-    setWallet(wallet);
+    try {
+      const wallet = await getWallet();
+      setWallet(wallet);
+    // eslint-disable-next-line no-empty
+    } finally { }
   }, []);
 
   // call setup on wallet selector
