@@ -8,7 +8,6 @@ import {
   disconnectFromWalletSelector,
   connectWalletSelector,
   pollForWalletConnection,
-  ConnectionTimeoutError,
 } from '@mintbase-js/auth';
 
 jest.mock('@mintbase-js/auth');
