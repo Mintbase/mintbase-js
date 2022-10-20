@@ -1159,7 +1159,8 @@ export class Wallet {
         base_uri: string
         royalties_percent: number
         royalties: Record<string, number>[]
-        reference_hash: string
+        reference: string
+        splitsFromTokenData: Record<string, number>
       }[]
     }>(
       `query v2_mintbasejs_getByThingId($id: String!) {
@@ -1172,6 +1173,7 @@ export class Wallet {
             royalties_percent
             reference_hash
             reference
+            splitsFromTokenData: splits
           }
         }
     `,
@@ -1191,17 +1193,19 @@ export class Wallet {
       metaId: selectedThing.metaId,
       storeId: selectedThing.storeId,
       base_uri: selectedThing.base_uri,
-      reference: selectedThing.reference_hash,
+      reference: selectedThing.reference,
       tokens: [
         {
           royaltyPercent: selectedThing.royalties_percent,
           royaltys: selectedThing.royalties,
         },
       ],
+      splits: splits || selectedThing.splitsFromTokenData || null
     }
 
     if (thing.tokens.length === 0)
       return formatResponse({ error: 'Thing does not have tokens.' })
+
 
     const contractName = thing.storeId
     const memo = thing.memo
@@ -1224,9 +1228,7 @@ export class Wallet {
     const args = {
       owner_id: accountId,
       metadata: {
-        reference: base_uri
-          ? thing.reference
-          : `${BASE_ARWEAVE_URI}/${thing.reference}`,
+        reference: thing.reference,
         extra: memo,
       },
       num_to_mint: amount,
@@ -1234,7 +1236,7 @@ export class Wallet {
         split_between: royaltys,
         percentage: royaltyPercent,
       },
-      split_owners: splits || null,
+      split_owners: thing.splits,
     }
 
     // @ts-ignore: method does not exist on Contract type
