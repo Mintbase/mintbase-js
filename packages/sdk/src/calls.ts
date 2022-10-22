@@ -22,11 +22,13 @@ export class NoSigningMethodPassed extends Error {
   message: string;
 }
 
+export const NoSigningMethodPassedError = new NoSigningMethodPassed(
+  'A near-api-js Account or near/wallet-selector Wallet is required to sign transactions',
+);
+
 const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): void => {
   if (!wallet && !account) {
-    throw new NoSigningMethodPassed(
-      'A near-api-js Account or near/wallet-selector Wallet is required to sign transactions',
-    );
+    throw NoSigningMethodPassedError;
   }
 };
 
@@ -34,7 +36,7 @@ export const callContractMethod = async (
   call: NearContractCall,
   signingOptions: NearCallSigningOptions,
 ): Promise<void | providers.FinalExecutionOutcome> => {
-  validateSigningOptions;
+  validateSigningOptions(signingOptions);
 
   if (signingOptions.wallet) {
     return callContractMethodWithWallet(

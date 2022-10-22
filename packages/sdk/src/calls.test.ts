@@ -1,7 +1,7 @@
 import {
   BrowserWalletSignAndSendTransactionParams,
 } from '@near-wallet-selector/core/lib/wallet';
-import { callContractMethod, executeMultipleCalls, NearContractCall, NoSigningMethodPassed } from './calls';
+import { callContractMethod, executeMultipleCalls, NearContractCall, NoSigningMethodPassed, NoSigningMethodPassedError } from './calls';
 import { MAX_GAS, ONE_YOCTO } from './constants';
 
 describe('contract method calls', () => {
@@ -30,10 +30,10 @@ describe('contract method calls', () => {
     signAndSendTransactions: jest.fn(),
   };
 
-  test('callContractMethod should throw without a valid signing method ', async () => {
-    expect(
-      callContractMethod(testContractCall, {}),
-    ).rejects.toThrow(NoSigningMethodPassed);
+  test('callContractMethod should throw without a valid signing method ', () => {
+    expect(callContractMethod(testContractCall, {}))
+      .rejects
+      .toThrow(NoSigningMethodPassedError);
   });
 
   test('callContractMethod calls through to browser wallet selector method', async () => {
@@ -66,9 +66,9 @@ describe('contract method calls', () => {
 
 
   test('executeMultipleCalls should throw without a valid signing method ', async () => {
-    expect(
-      executeMultipleCalls([testContractCall], {}),
-    ).rejects.toThrow(NoSigningMethodPassed);
+    expect(executeMultipleCalls([testContractCall], {}))
+      .rejects
+      .toThrow(NoSigningMethodPassedError);
   });
 
   test('executeMultipleCalls calls through with multiple transactions', async () => {
