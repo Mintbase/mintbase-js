@@ -10,7 +10,7 @@ The SDK is currently in active development. The following modules/functionality 
 
 ### @mintbase-js/sdk
 
- - Core NEAR smart contract method call util (single transaction)
+ - Core NEAR smart contract method call util (single and multiple transactions)
  - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
 
 ### @mintbase-js/auth
@@ -44,3 +44,5 @@ npm run dev
 ```
 
 This will watch for changes, compile typescript to `/lib` in each package as well as run Jest tests with coverage.
+
+The NextJS/React test suite can be run with `npm run dev` inside of packages/app.
