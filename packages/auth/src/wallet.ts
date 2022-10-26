@@ -1,4 +1,4 @@
-import { setupWalletSelector } from '@near-wallet-selector/core';
+import { setupWalletSelector, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
@@ -11,6 +11,9 @@ import {
   DEFAULT_MINTBASE_CONTRACT_MAINNET,
   DEFAULT_MINTBASE_CONTRACT_TESTNET,
   WALLET_SETUP_NOT_CALLED_ERROR,
+  WALLET_CONNECTION_NOT_FOUND,
+  WALLET_CONNECTION_POLL_INTERVAL,
+  WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
@@ -61,14 +64,22 @@ export class SetupNotCalledError extends Error {
   message: string;
 }
 
-export const registerWalletAccountsSubscriber = (
-  callback: (accounts: AccountState[]) => void,
-): Subscription => {
+export class ConnectionTimeoutError extends Error {
+  message: string;
+}
+
+const validateWalletComponentsAreSetup = (): void => {
   if (!walletSelectorComponents.selector) {
     throw new SetupNotCalledError(
       WALLET_SETUP_NOT_CALLED_ERROR,
     );
   }
+};
+
+export const registerWalletAccountsSubscriber = (
+  callback: (accounts: AccountState[]) => void,
+): Subscription => {
+  validateWalletComponentsAreSetup();
 
   return walletSelectorComponents
     .selector
@@ -78,12 +89,61 @@ export const registerWalletAccountsSubscriber = (
     .subscribe(callback);
 };
 
+// scoped to module and cleared since pollForWalletConnection might
+// get called repeatedly in react enviroments
+let timerReference = null;
+
+export const pollForWalletConnection = async (): Promise<AccountState[]> => {
+  validateWalletComponentsAreSetup();
+  // clear any existing timers
+  clearTimeout(timerReference);
+
+  const tryToResolveAccountsFromState = (
+    resolve: (value: AccountState[]) => void,
+    reject: (err: ConnectionTimeoutError) => void,
+    elapsed = 0,
+  ): void => {
+    const { accounts } = walletSelectorComponents
+      .selector
+      .store
+      .getState() || {};
+
+    // accounts present in state
+    if (accounts) {
+      resolve(accounts);
+    }
+
+    // timed out
+    if (elapsed > WALLET_CONNECTION_TIMEOUT) {
+      reject(new ConnectionTimeoutError(WALLET_CONNECTION_NOT_FOUND));
+    }
+
+    // try again
+    clearTimeout(timerReference);
+    timerReference = setTimeout(() =>
+      tryToResolveAccountsFromState(
+        resolve,
+        reject,
+        elapsed + WALLET_CONNECTION_POLL_INTERVAL,
+      ), WALLET_CONNECTION_POLL_INTERVAL);
+
+  };
+
+  return new Promise(
+    (resolve, reject) => tryToResolveAccountsFromState(resolve, reject),
+  );
+};
+
+export const getWallet = async (): Promise<Wallet> => {
+  validateWalletComponentsAreSetup();
+
+  return await walletSelectorComponents
+    .selector
+    .wallet();
+};
+
 export const connectWalletSelector = (): void => {
-  if (!walletSelectorComponents.selector) {
-    throw new SetupNotCalledError(
-      WALLET_SETUP_NOT_CALLED_ERROR,
-    );
-  }
+  validateWalletComponentsAreSetup();
 
   walletSelectorComponents
     .modal
@@ -91,15 +151,10 @@ export const connectWalletSelector = (): void => {
 };
 
 export const disconnectFromWalletSelector = async(): Promise<void> => {
-  if (!walletSelectorComponents.selector) {
-    throw new SetupNotCalledError(
-      WALLET_SETUP_NOT_CALLED_ERROR,
-    );
-  }
+  validateWalletComponentsAreSetup();
 
   const wallet = await walletSelectorComponents
     .selector
     .wallet();
   wallet.signOut();
 };
-

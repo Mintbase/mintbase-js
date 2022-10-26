@@ -19,6 +19,7 @@
 
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/no-use-before-define": "off",
     "comma-dangle": ["error", "always-multiline"],
     "consistent-return": "error",
     "eol-last": ["error", "always"],
@@ -33,6 +34,7 @@
     "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "always"],
+    "keyword-spacing": ["error",  { "before": true, "after": true }],
     "quotes": ["error", "single"],
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off"

@@ -4,9 +4,11 @@ import {
   setupWalletSelectorComponents,
   connectWalletSelector,
   disconnectFromWalletSelector,
+  getWallet,
+  pollForWalletConnection,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
-import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
+import { WalletSelector, AccountState, Wallet } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
 // This is heavily based on
@@ -15,10 +17,13 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 export type WalletContext = {
   selector: WalletSelector;
   modal: WalletSelectorModal;
+  wallet: Wallet;
   accounts: AccountState[];
   activeAccountId: string | null;
-  error: string | null;
-  connect: () => void;
+  isConnected: boolean;
+  isWaitingForConnection: boolean;
+  errorMessage: string;
+  connect: () => Promise<void>;
   disconnect: () => Promise<void>;
 }
 
@@ -32,19 +37,26 @@ export const WalletContext = createContext<WalletContext | null>(null);
 export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   { children },
 ) => {
-  const [error, setError] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
+  const [wallet, setWallet] = useState<Wallet | null>(null);
   const [accounts, setAccounts] = useState<AccountState[]>([]);
+  const [isWaitingForConnection, setIsWaitingForConnection] = useState<boolean>(false);
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents();
     setComponents(components);
+    try {
+      const wallet = await getWallet();
+      setWallet(wallet);
+    // eslint-disable-next-line no-empty
+    } finally { }
   }, []);
 
   // call setup on wallet selector
   useEffect(() => {
     setup().catch((err: unknown) => {
-      setError(err.toString());
+      setErrorMessage((err as Error).message || err as string);
     });
   }, [setup]);
 
@@ -53,7 +65,6 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     if (!components) {
       return;
     }
-
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
         setAccounts(accounts);
@@ -70,21 +81,38 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     modal,
   } = components || {};
 
-  const connect = (): void =>
+  const connect = async (): Promise<void> => {
+    setIsWaitingForConnection(true);
+    setErrorMessage(null);
     connectWalletSelector();
+
+    try {
+      const accounts = await pollForWalletConnection();
+      const wallet = await getWallet();
+      setIsWaitingForConnection(false);
+      setAccounts(accounts);
+      setWallet(wallet);
+    } catch (err: unknown) {
+      setErrorMessage((err as Error).message || err as string);
+    }
+  };
 
   const disconnect = async(): Promise<void> => {
     await disconnectFromWalletSelector();
+    setIsWaitingForConnection(false);
   };
 
   return (
     <WalletContext.Provider value={{
       selector,
       modal,
+      wallet,
       accounts,
       activeAccountId: accounts
         .find((account) => account.active)?.accountId || null,
-      error,
+      isConnected: accounts && accounts.length > 0,
+      isWaitingForConnection,
+      errorMessage,
       connect,
       disconnect,
     }}>

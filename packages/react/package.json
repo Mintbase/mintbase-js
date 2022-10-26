@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
-    "dev": "tsc-watch & jest --watch --coverage",
+    "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts --ext tsx",
     "test": "jest --coverage"
   },
@@ -20,6 +20,10 @@
     "@testing-library/user-event": "^14.4.3"
   },
   "dependencies": {
-    "@mintbase-js/auth": "^0.0.1"
+    "@mintbase-js/auth": "^0.0.1",
+    "@mintbase-js/sdk": "^0.0.1",
+    "@near-wallet-selector/core": "^7.0.3",
+    "@near-wallet-selector/modal-ui": "^7.0.3",
+    "near-api-js": "^0.44.2"
   }
 }
