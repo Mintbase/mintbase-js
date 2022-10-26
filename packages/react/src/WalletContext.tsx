@@ -6,6 +6,7 @@ import {
   disconnectFromWalletSelector,
   getWallet,
   pollForWalletConnection,
+  signMessage,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import { WalletSelector, AccountState, Wallet } from '@near-wallet-selector/core';
@@ -25,6 +26,7 @@ export type WalletContext = {
   errorMessage: string;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
+  signMessage: (message: string) => Promise<string>;
 }
 
 export type WalletSetupComponents = {
@@ -101,6 +103,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     await disconnectFromWalletSelector();
     setIsWaitingForConnection(false);
   };
+ 
 
   return (
     <WalletContext.Provider value={{
@@ -115,6 +118,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
       errorMessage,
       connect,
       disconnect,
+      signMessage,
     }}>
       {children}
     </WalletContext.Provider>
