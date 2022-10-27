@@ -4,8 +4,6 @@ import { GraphqlFetchingError } from '../fetch';
 
 jest.mock('graphql-request');
 
-const METADATA_ID_FOR_TEST = 'run.mintbase1.near:7517c09a546d39cdbbd12e07a8c1de8f';
-
 describe('tokenListingCountsByMetaId', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => {
@@ -19,7 +17,7 @@ describe('tokenListingCountsByMetaId', () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<TokenListingQueryResults> => Promise.reject(errMessage),
     }));
-    await expect(tokenListingCountsByMetaId(METADATA_ID_FOR_TEST))
+    await expect(tokenListingCountsByMetaId('test.id'))
       .rejects
       .toThrow(exploded);
   });
@@ -39,7 +37,7 @@ describe('tokenListingCountsByMetaId', () => {
       }),
     }));
 
-    const result = await tokenListingCountsByMetaId(METADATA_ID_FOR_TEST);
+    const result = await tokenListingCountsByMetaId('test.id');
     expect(result.displayTotalListings).toBe(1);
 
   });
