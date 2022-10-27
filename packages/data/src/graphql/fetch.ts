@@ -14,17 +14,18 @@ export type GqlFetchResult<T> = {
   error?: GraphqlFetchingError;
 }
 
-export const fetchGraphQl= async <T>({
+export const fetchGraphQl= async <T, V = Record<string, unknown>>({
   query,
   variables,
 }: {
   query: DocumentNode | string;
-  variables?: Record<string, unknown>;
+  variables?: V;
 }): Promise<GqlFetchResult<T>> => {
   try {
     const client = new GraphQLClient(GRAPHQL_ENDPOINT);
-    const data = await client.request<T>(query, variables);
-    return { data };
+    return {
+      data: await client.request<T>(query, variables),
+    };
 
   } catch (error) {
     return {
