@@ -1,9 +1,10 @@
 
 import type { CodegenConfig } from '@graphql-codegen/cli';
+import { GRAPHQL_ENDPOINT } from '../../constants';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: 'https://interop-mainnet.hasura.app/v1/graphql',
+  schema: GRAPHQL_ENDPOINT,
   // documents: 'src/**/*.tsx',
   generates: {
     'src/graphql/codegen/': {
@@ -24,7 +25,6 @@ const config: CodegenConfig = {
             .replace('-', '')
             .replace('_', ''),
         );
-        console.log('working?', str, `${replaced.charAt(0).toUpperCase()}${replaced.slice(1)}`);
         return `${replaced.charAt(0).toUpperCase()}${replaced.slice(1)}`;
       },
     },
