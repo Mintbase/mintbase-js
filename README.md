@@ -27,6 +27,17 @@ The SDK is currently in active development. The following modules/functionality 
 
 <br>
 
+# Environment Variables
+
+```
+# default testnet
+NEAR_WALLET_ENV = mainnet | testnet
+
+# default sandbox
+NEAR_DATA_ENV = mainnet | testnet | sandbox
+```
+
+
 # Developing Locally
 
 This repo is using lerna (now powered by nx) under the hood.
