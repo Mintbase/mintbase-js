@@ -161,13 +161,13 @@ describe('wallet', () => {
     await setupWithMockComponents();
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await getVerifiedOwner('testMessage');
+    await getVerifiedOwner({ message: 'testMessage' });
     expect(mockWallet.verifyOwner).toHaveBeenCalled();
   });
 
   test('getVerifiedOwner throws when components are not setup', async () => {
     await setupWithNullComponents();
-    expect(getVerifiedOwner('testMessage'))
+    expect(getVerifiedOwner({ message: 'testMessage' }))
       .rejects
       .toThrow(SetupNotCalledError);
   });
@@ -176,13 +176,13 @@ describe('wallet', () => {
     await setupWithMockComponents();
 
     // eslint-disable-next-line @typescript-eslint/no-empty-function
-    await signMessage('testMessage');
+    await signMessage({ message: 'testMessage' });
     expect(mockWallet.verifyOwner).toHaveBeenCalled();
   });
 
   test('signMessage throws when components are not setup', async () => {
     await setupWithNullComponents();
-    expect(signMessage('testMessage'))
+    expect(signMessage({ message: 'testMessage' }))
       .rejects
       .toThrow(SetupNotCalledError);
   });
