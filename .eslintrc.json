@@ -15,7 +15,9 @@
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended"
   ],
-  "ignorePatterns": ["jest.config.js", "lib/**", "src-v2/**"],
+  "ignorePatterns": [
+    "jest.config.js", "lib/**", "src-v2/**", "packages/data/src/graphql/codegen/**"
+  ],
 
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",

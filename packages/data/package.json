@@ -1,0 +1,27 @@
+{
+  "name": "@mintbase-js/data",
+  "version": "0.0.1",
+  "description": "Query wrappers for  Mintbase JS SDK",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "codegen": "graphql-codegen --config ./src/graphql/codegen/config.ts",
+    "watch": "tsc && tsc --watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-request": "^5.0.0"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.13.7",
+    "@graphql-codegen/client-preset": "1.1.1",
+    "@graphql-codegen/introspection": "2.2.1"
+  }
+}
