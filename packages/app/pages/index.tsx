@@ -16,7 +16,11 @@ const Home: NextPage = () => {
 
 
   const signMessageTest = async (): Promise<void> => {
-    const signature = await signMessage({ message: 'hey' });
+    await signMessage({
+      message: 'hey',
+      callbackUrl: `${window.location.origin}/wallet-callback`,
+      meta:JSON.stringify({ type: 'signature' }),
+    });
   };
 
   const callTransferTest = async (): Promise<void> => {
