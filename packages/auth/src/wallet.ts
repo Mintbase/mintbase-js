@@ -1,4 +1,4 @@
-import { setupWalletSelector, Wallet } from '@near-wallet-selector/core';
+import { setupWalletSelector, VerifiedOwner, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
@@ -158,3 +158,42 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
     .wallet();
   wallet.signOut();
 };
+
+export const getVerifiedOwner = async (message: string): Promise<VerifiedOwner | undefined> => {
+  validateWalletComponentsAreSetup();
+
+  const wallet = await walletSelectorComponents
+    .selector
+    .wallet();
+
+  const owner = await wallet.verifyOwner({
+    message: message,
+  }) as VerifiedOwner;
+
+  return owner;
+};
+
+
+// returns a signature of message
+export const signMessage = async (message: string): Promise<VerifiedOwner> => {
+  const owner = await getVerifiedOwner(message);
+
+  return owner;
+};
+  
+  
+export const verifyMessage = async (signature: string): Promise<boolean> => {
+
+  // const owner = await getVerifiedOwner(signature);
+  
+  // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
+
+  // const createdPublicKey = utils.PublicKey.from(publicKeyString);
+
+  // const stringified = JSON.stringify(owner);
+
+  // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
+
+  return false;
+};
+  

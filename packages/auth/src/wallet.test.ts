@@ -8,6 +8,8 @@ import {
   disconnectFromWalletSelector,
   getWallet,
   ConnectionTimeoutError,
+  getVerifiedOwner,
+  signMessage,
 } from './wallet';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
@@ -30,6 +32,7 @@ describe('wallet', () => {
   };
   const mockWallet = {
     signOut: jest.fn(),
+    verifyOwner: jest.fn(),
     id: 'im.a.test.wallet',
   };
   const mockGetState = jest.fn();
@@ -150,6 +153,36 @@ describe('wallet', () => {
   test('disconnectFromWalletSelector throws when components are not setup', async () => {
     await setupWithNullComponents();
     expect(disconnectFromWalletSelector())
+      .rejects
+      .toThrow(SetupNotCalledError);
+  });
+
+  test('getVerifiedOwner calls verifiedOwner on wallet', async () => {
+    await setupWithMockComponents();
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    await getVerifiedOwner('testMessage');
+    expect(mockWallet.verifyOwner).toHaveBeenCalled();
+  });
+
+  test('getVerifiedOwner throws when components are not setup', async () => {
+    await setupWithNullComponents();
+    expect(getVerifiedOwner('testMessage'))
+      .rejects
+      .toThrow(SetupNotCalledError);
+  });
+
+  test('signMessage calls verifiedOwner on wallet', async () => {
+    await setupWithMockComponents();
+
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    await signMessage('testMessage');
+    expect(mockWallet.verifyOwner).toHaveBeenCalled();
+  });
+
+  test('signMessage throws when components are not setup', async () => {
+    await setupWithNullComponents();
+    expect(signMessage('testMessage'))
       .rejects
       .toThrow(SetupNotCalledError);
   });
