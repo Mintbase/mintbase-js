@@ -181,7 +181,10 @@ export const signMessage = async (message: string): Promise<VerifiedOwner> => {
   return owner;
 };
   
-  
+
+//  https://www.npmjs.com/package/bs58
+// https://github.com/feross/buffer
+// https://github.com/near/wallet-selector/issues/434
 export const verifyMessage = async (signature: string): Promise<boolean> => {
 
   // const owner = await getVerifiedOwner(signature);
