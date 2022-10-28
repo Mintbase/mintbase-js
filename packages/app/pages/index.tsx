@@ -16,10 +16,7 @@ const Home: NextPage = () => {
 
 
   const signMessageTest = async (): Promise<void> => {
-
-    const signature = await signMessage('HEY');
-
-    console.log(signature);
+    const signature = await signMessage({ message: 'hey' });
   };
 
   const callTransferTest = async (): Promise<void> => {

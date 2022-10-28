@@ -1,4 +1,4 @@
-import { setupWalletSelector, VerifiedOwner, Wallet } from '@near-wallet-selector/core';
+import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
@@ -159,24 +159,29 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
   wallet.signOut();
 };
 
-export const getVerifiedOwner = async (message: string): Promise<VerifiedOwner | undefined> => {
-  validateWalletComponentsAreSetup();
+export const getVerifiedOwner = 
+  async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
+    validateWalletComponentsAreSetup();
 
-  const wallet = await walletSelectorComponents
-    .selector
-    .wallet();
+    const { message, callbackUrl, meta } = params; 
 
-  const owner = await wallet.verifyOwner({
-    message: message,
-  }) as VerifiedOwner;
+    const wallet = await walletSelectorComponents
+      .selector
+      .wallet();
 
-  return owner;
-};
+    const owner = await wallet.verifyOwner({
+      message: message,
+      callbackUrl: callbackUrl,
+      meta: meta,
+    }) as VerifiedOwner;
+
+    return owner;
+  };
 
 
 // returns a signature of message
-export const signMessage = async (message: string): Promise<VerifiedOwner> => {
-  const owner = await getVerifiedOwner(message);
+export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
+  const owner = await getVerifiedOwner(params);
 
   return owner;
 };
