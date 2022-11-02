@@ -1,0 +1,22 @@
+{
+  "name": "@mintbase-js/storage",
+  "version": "0.0.1",
+  "description": "Storage functions for  Mintbase JS SDK",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc && tsc --watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "near-api-js": "^0.44.2",
+    "@bundlr-network/client": "^0.7.7"
+  }
+}
