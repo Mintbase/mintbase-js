@@ -1,14 +1,23 @@
-export enum MB_CALLS {
+export enum METHOD_NAMES {
   'TRANSFER' = 'nft_transfer',
   'BATCH_TRANSFER' = 'nft_batch_transfer',
   'BATCH_BURN' = 'nft_batch_burn',
   'DEPLOY_TOKEN_CONTRACT' = 'create_store',
+  'TRANSFER_TOKEN_CONTRACT_OWNERSHIP' = 'transfer_store_ownership',
+  'MINT' = 'nft_batch_mint',
+  'ADD_MINTER' = 'grant_minter',
+  'REMOVE_MINTER' = 'revoke_minter',
+  'BATCH_CHANGE_MINTERS' = 'batch_change_minters',
+  'TOKEN_ACCOUNT_REVOKE' = 'nft_revoke',
+  'TOKEN_ACCOUNT_REVOKE_ALL' = 'nft_revoke_all'
 }
 
 export enum Network {
   'MAINNET' = 'mainnet',
   'TESTNET' = 'testnet',
 }
+
+const DEFAULT_ROYALTY_PERCENTAGE = 1000;
 
 export const MB_MAINNET_TOKEN_FACTORY = 'mintbase1.near';
 export const MB_TESTNET_TOKEN_FACTORY = 'mintspace2.testnet';

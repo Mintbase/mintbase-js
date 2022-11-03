@@ -1,5 +1,5 @@
-import { MB_CALLS } from './constants';
-import { burn, transfer } from './token';
+import { METHOD_NAMES } from './constants';
+import { burn, transfer, deployContract, revoke } from './token';
 
 describe('token method calls', () => {
   const nftContractId = 'test.nft.contract';
@@ -15,7 +15,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: MB_CALLS.TRANSFER,
+      methodName: METHOD_NAMES.TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         receiver_id: receiverId,
@@ -36,7 +36,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: MB_CALLS.BATCH_TRANSFER,
+      methodName: METHOD_NAMES.BATCH_TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [
@@ -55,7 +55,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: MB_CALLS.BATCH_BURN,
+      methodName: METHOD_NAMES.BATCH_BURN,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [tokenId1],
@@ -71,10 +71,91 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: MB_CALLS.BATCH_BURN,
+      methodName: METHOD_NAMES.BATCH_BURN,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [tokenId1, tokenId2],
+      },
+    });
+  });
+
+  test('revoke token one account', () => {
+    const args = revoke({
+      nftContractId: nftContractId,
+      tokenId: tokenId1,
+      accountToRevokeId: receiverId,
+    });
+
+    expect(args).toEqual({
+      contractAddress: nftContractId,
+      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
+      args: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        token_id: tokenId1,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        account_id: receiverId,
+      },
+    });
+  });
+
+  test('revoke token all accounts', () => {
+    const args = revoke({
+      nftContractId: nftContractId,
+      tokenId: tokenId1,
+    });
+
+    expect(args).toEqual({
+      contractAddress: nftContractId,
+      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
+      args: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        token_id: tokenId1,
+      },
+    });
+  });
+
+  test('deploy contract set all values', () => {
+    const factoryContractId = 'test.factory';
+    const name = 'test';
+    const symbol = 'TST';
+    const icon = 'test';
+    const baseUri = 'test';
+    const reference = 'test';
+    const referenceHash = 'test';
+    const ownerId = 'test';
+
+    const inp = {
+      name: name,
+      factoryContractId: factoryContractId,
+      ownerId: ownerId,
+      metadata: {
+        symbol: symbol,
+        icon: icon,
+        baseUri: baseUri,
+        reference: reference,
+        referenceHash: referenceHash,
+      },
+    };
+
+    const args = deployContract(inp);
+
+    expect(args).toEqual({
+      contractAddress: factoryContractId,
+      methodName: METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
+      args: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        owner_id: ownerId,
+        metadata: {
+          spec: 'nft-1.0.0',
+          name: name,
+          symbol: 'tst',
+          icon: icon,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          base_uri: baseUri,
+          reference: reference,
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          reference_hash: referenceHash,
+        },
       },
     });
   });

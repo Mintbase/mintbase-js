@@ -21,7 +21,7 @@ export type BurnArgs = {
 };
 
 export type DeployTokenContractArgs = TokenArgs & {
-  nftContractId: AccountId;
+  name: string;
   factoryContractId?: AccountId;
   ownerId: AccountId;
   metadata: {
@@ -40,3 +40,38 @@ export type TransferTokenContractOwnership = TokenArgs & {
     keepMinters: boolean;
   };
 };
+
+export type Splits = Record<AccountId, number>;
+
+export type MintArgs = TokenArgs & {
+  nftContractId: AccountId;
+  metadata: {
+    reference: string;
+  };
+  options?: {
+    royalties?: Splits;
+    splits?: Splits;
+    extra?: string;
+    ownerId?: AccountId;
+    amount?: number;
+    royaltyPercentage?: number;
+    metadataId: string;
+  };
+};
+
+export type AddRemoveMinterArgs = TokenArgs & {
+  minterId: AccountId;
+  nftContractId: AccountId;
+}
+
+export type BatchChangeMinters = TokenArgs & {
+  addMinters: AccountId[];
+  removeMinters: AccountId[];
+  nftContractId: AccountId;
+}
+
+export type RevokeAccountArgs = TokenArgs & {
+  nftContractId: AccountId;
+  tokenId: TokenId;
+  accountToRevokeId?: AccountId;
+}

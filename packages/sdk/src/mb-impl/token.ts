@@ -3,7 +3,7 @@
 import { TransactionArgs } from '../calls';
 import {
   DEFAULT_MB_LOGO,
-  MB_CALLS,
+  METHOD_NAMES,
   MB_MAINNET_TOKEN_FACTORY,
   MB_TESTNET_TOKEN_FACTORY,
   Network,
@@ -15,6 +15,10 @@ import {
   DeployTokenContractArgs,
   AccountId,
   TransferTokenContractOwnership,
+  MintArgs,
+  AddRemoveMinterArgs,
+  BatchChangeMinters,
+  RevokeAccountArgs,
 } from './token.types';
 
 const getFactoryContract = (network: string): AccountId => {
@@ -36,7 +40,7 @@ export const transfer = (args: TransferArgs): TransactionArgs => {
 
     return {
       contractAddress: nftContractId,
-      methodName: MB_CALLS.BATCH_TRANSFER,
+      methodName: METHOD_NAMES.BATCH_TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: ids,
@@ -48,7 +52,7 @@ export const transfer = (args: TransferArgs): TransactionArgs => {
 
     return {
       contractAddress: nftContractId,
-      methodName: MB_CALLS.TRANSFER,
+      methodName: METHOD_NAMES.TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         receiver_id: receiverId,
@@ -64,7 +68,7 @@ export const burn = (args: BurnArgs): TransactionArgs => {
 
   return {
     contractAddress: nftContractId,
-    methodName: MB_CALLS.BATCH_BURN,
+    methodName: METHOD_NAMES.BATCH_BURN,
     args: {
       // eslint-disable-next-line @typescript-eslint/camelcase
       token_ids: tokenIds,
@@ -76,7 +80,7 @@ export const deployContract = (
   args: DeployTokenContractArgs,
 ): TransactionArgs => {
   const {
-    nftContractId,
+    name,
     factoryContractId,
     network = Network.TESTNET,
     ownerId,
@@ -90,7 +94,7 @@ export const deployContract = (
     owner_id: ownerId,
     metadata: {
       spec: 'nft-1.0.0',
-      name: nftContractId.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
+      name: name.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
       symbol: symbol.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
       icon: icon ?? DEFAULT_MB_LOGO,
       // eslint-disable-next-line @typescript-eslint/camelcase
@@ -103,42 +107,108 @@ export const deployContract = (
 
   return {
     contractAddress: factoryContractId || getFactoryContract(network),
-    methodName: MB_CALLS.DEPLOY_TOKEN_CONTRACT,
-    args: { data },
+    methodName: METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
+    args: data,
   };
 };
 
 export const transferContractOwnership = (
   args: TransferTokenContractOwnership,
 ): TransactionArgs => {
-  return;
+  const { nftContractId, nextOwner, options } = args;
+
+  const { keepMinters = true } = options;
+
+  return {
+    contractAddress: nftContractId,
+    args: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      new_owner: nextOwner,
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      keep_old_minters: keepMinters,
+    },
+    methodName: METHOD_NAMES.TRANSFER_TOKEN_CONTRACT_OWNERSHIP,
+  };
 };
 
-export const mint = (): void => {
-  return;
+export const mint = (args: MintArgs): TransactionArgs => {
+  const { nftContractId, options } = args;
+
+  return {
+    contractAddress: nftContractId,
+    args: {},
+    methodName: METHOD_NAMES.MINT,
+  };
 };
 
+// TODO: do we want this method? How can we reuse `mint` instead of having an extra method
 export const mintMore = (): void => {
   return;
 };
 
-export const addMinter = (): void => {
-  return;
+export const addMinter = (args: AddRemoveMinterArgs): TransactionArgs => {
+  const { minterId, nftContractId } = args;
+
+  return {
+    contractAddress: nftContractId,
+    args: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      account_id: minterId,
+    },
+    methodName: METHOD_NAMES.ADD_MINTER,
+  };
 };
 
-export const removeMinter = (): void => {
-  return;
+export const removeMinter = (args: AddRemoveMinterArgs): TransactionArgs => {
+  const { minterId, nftContractId } = args;
+
+  return {
+    contractAddress: nftContractId,
+    args: {
+      // eslint-disable-next-line @typescript-eslint/camelcase
+      account_id: minterId,
+    },
+    methodName: METHOD_NAMES.REMOVE_MINTER,
+  };
 };
 
-export const batchChangeMinters = (): void => {
-  return;
+export const batchChangeMinters = (
+  args: BatchChangeMinters,
+): TransactionArgs => {
+  const { addMinters, removeMinters, nftContractId } = args;
+
+  return {
+    contractAddress: nftContractId,
+    args: {
+      grant: addMinters.length > 0 ? addMinters : undefined,
+      revoke: removeMinters.length > 0 ? removeMinters : undefined,
+    },
+    methodName: METHOD_NAMES.BATCH_CHANGE_MINTERS,
+  };
 };
 
-export const revoke = (args: SingleTokenArgs): void => {
-  const { nftContractId, tokenId } = args;
-  return;
-};
-export const revokeAll = (args: SingleTokenArgs): void => {
-  const { nftContractId, tokenId } = args;
-  return;
+export const revoke = (args: RevokeAccountArgs): TransactionArgs => {
+  const { nftContractId, tokenId, accountToRevokeId } = args;
+
+  if (accountToRevokeId) {
+    return {
+      contractAddress: nftContractId,
+      args: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        token_id: tokenId,
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        account_id: accountToRevokeId,
+      },
+      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
+    };
+  } else {
+    return {
+      contractAddress: nftContractId,
+      args: {
+        // eslint-disable-next-line @typescript-eslint/camelcase
+        token_id: tokenId,
+      },
+      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
+    };
+  }
 };
