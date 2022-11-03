@@ -21,6 +21,7 @@ import {
   RevokeAccountArgs,
 } from './token.types';
 
+// TODO: how to deal with this differently?
 const getFactoryContract = (network: string): AccountId => {
   if (network === Network.MAINNET) return MB_MAINNET_TOKEN_FACTORY;
   else return MB_TESTNET_TOKEN_FACTORY;
@@ -116,7 +117,6 @@ export const transferContractOwnership = (
   args: TransferTokenContractOwnership,
 ): TransactionArgs => {
   const { nftContractId, nextOwner, options } = args;
-
   const { keepMinters = true } = options;
 
   return {
