@@ -3,11 +3,14 @@ import type { Wallet, Account, FinalExecutionOutcome, Optional, Transaction } fr
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers } from 'near-api-js';
 
-export type NearContractCall = {
-  signerId: string;
+export type TransactionArgs = {
   contractAddress: string;
   methodName: string;
   args: object;
+}
+
+export type NearContractCall = TransactionArgs & {
+  signerId: string;
   gas: string;
   deposit: string;
   callbackUrl?: string;
@@ -67,6 +70,7 @@ export const executeMultipleCalls = async (
   // eslint-disable-next-line consistent-return
   return;
 };
+
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
