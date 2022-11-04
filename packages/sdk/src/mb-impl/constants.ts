@@ -9,7 +9,22 @@ export enum METHOD_NAMES {
   'REMOVE_MINTER' = 'revoke_minter',
   'BATCH_CHANGE_MINTERS' = 'batch_change_minters',
   'TOKEN_ACCOUNT_REVOKE' = 'nft_revoke',
-  'TOKEN_ACCOUNT_REVOKE_ALL' = 'nft_revoke_all'
+  'TOKEN_ACCOUNT_REVOKE_ALL' = 'nft_revoke_all',
+}
+
+export enum MARKET_METHOD_NAMES {
+  'LIST' = 'nft_approve',
+  'DEPOSIT_STORAGE' = 'deposit_storage',
+  'BUY' = 'buy',
+}
+
+export enum GAS_CONSTANTS {
+  'MAX_GAS' = '225000000000000',
+}
+
+export enum DEPOSIT_CONSTANTS {
+  'ONE_YOCTO' = '1',
+  'ZERO_YOCTO' = '0',
 }
 
 export enum Network {

@@ -7,14 +7,18 @@ export type TransactionArgs = {
   contractAddress: string;
   methodName: string;
   args: object;
-}
+};
 
-export type NearContractCall = TransactionArgs & {
-  signerId: string;
+export type TransactionAttachments = {
   gas: string;
   deposit: string;
-  callbackUrl?: string;
-}
+};
+
+export type NearContractCall = TransactionArgs &
+  TransactionAttachments & {
+    signerId: string;
+    callbackUrl?: string;
+  };
 
 export type NearCallSigningOptions = {
   wallet?: Wallet;

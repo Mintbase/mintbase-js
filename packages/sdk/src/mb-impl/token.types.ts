@@ -62,16 +62,22 @@ export type MintArgs = TokenArgs & {
 export type AddRemoveMinterArgs = TokenArgs & {
   minterId: AccountId;
   nftContractId: AccountId;
-}
+};
 
 export type BatchChangeMinters = TokenArgs & {
   addMinters: AccountId[];
   removeMinters: AccountId[];
   nftContractId: AccountId;
-}
+};
 
 export type RevokeAccountArgs = TokenArgs & {
   nftContractId: AccountId;
   tokenId: TokenId;
   accountToRevokeId?: AccountId;
-}
+};
+
+export type ApproveArgs = TokenArgs & {
+  tokenId: TokenId;
+  nftContractId: AccountId;
+  approvedAccountId: AccountId;
+};
