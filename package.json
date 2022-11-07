@@ -41,7 +41,6 @@
     "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
-    "@mintbase-js/auth": "file:packages/auth",
     "@near-wallet-selector/core": "^7.0.3",
     "@near-wallet-selector/default-wallets": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
