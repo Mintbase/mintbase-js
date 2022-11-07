@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 14.x
 
-      - run: npx lerna bootstrap --force-local
+      - run: npx lerna bootstrap --force-local --hoist
       - run: npm run lint
       - run: ls -la ./node_modules
       - run: ls -la ./node_modules/@mintbase-js
