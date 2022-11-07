@@ -4,6 +4,9 @@
   "useWorkspaces": true,
   "version": "0.0.1",
   "packages": [
-    "packages/*"
+    "packages/auth",
+    "packages/data",
+    "packages/react",
+    "packages/sdk"
   ]
 }
