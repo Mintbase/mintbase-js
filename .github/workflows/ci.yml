@@ -15,8 +15,9 @@ jobs:
       - run: npm i
       - run: npm run bootstrap
       - run: npm run lint
-      - run: ls -la ./node_modules/@mintbase-js
-      - run: ls -la ./node_modules/@mintbase-js/sdk
+      # - run: ls -la ./node_modules/@mintbase-js
+      # - run: ls -la ./node_modules/@mintbase-js/sdk
+      - run: ls -la ./packages/react/node_modules
       - run: npm run build
       - run: npm run test
 
