@@ -1,7 +1,7 @@
 import { useWallet } from '../WalletContext';
 import { callContractMethod, MAX_GAS, mint } from '@mintbase-js/sdk';
 import { useState } from 'react';
-import { MintArgs } from '@mintbase-js/sdk/lib/mb-impl/token.types';
+import type { MintArgs } from '@mintbase-js/sdk';
 
 export type MinterHookReturn = {
   loading: boolean;
@@ -23,7 +23,7 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
 
     // TODO: use @mintbase/storage to get a reference
     const reference = '';
-    
+
     await callContractMethod(
       {
         ...mint({
