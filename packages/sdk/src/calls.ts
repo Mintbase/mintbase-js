@@ -39,6 +39,29 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
   }
 };
 
+export const execute = (
+  call: NearContractCall | NearContractCall[],
+  signingOptions: NearCallSigningOptions,
+): Promise<void | providers.FinalExecutionOutcome> => {
+  validateSigningOptions(signingOptions);
+
+  if (signingOptions.wallet) {
+    if (call instanceof Array && call.length > 0){
+      return executeMultipleCalls(call, signingOptions);
+    }
+    else {
+      return callContractMethodWithWallet(
+        call as NearContractCall,
+        signingOptions.wallet,
+      );
+    }
+  }
+  // need to disable consistent return
+  // browser redirects for signing will never contain the execution outcome.
+  // eslint-disable-next-line consistent-return
+  return;
+};
+
 export const callContractMethod = async (
   call: NearContractCall,
   signingOptions: NearCallSigningOptions,

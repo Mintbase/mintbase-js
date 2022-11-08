@@ -1,5 +1,10 @@
 import { useWallet } from '../WalletContext';
-import { callContractMethod, MAX_GAS, mint } from '@mintbase-js/sdk';
+import {
+  mint,
+  DEPOSIT_CONSTANTS,
+  GAS_CONSTANTS,
+  execute,
+} from '@mintbase-js/sdk';
 import { useState } from 'react';
 import type { MintArgs } from '@mintbase-js/sdk';
 
@@ -24,7 +29,7 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
     // TODO: use @mintbase/storage to get a reference
     const reference = '';
 
-    await callContractMethod(
+    await execute(
       {
         ...mint({
           nftContractId,
@@ -33,8 +38,8 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
           },
           options,
         }),
-        gas: MAX_GAS,
-        deposit: '0',
+        gas: GAS_CONSTANTS.OPTIMAL_GAS,
+        deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
         signerId: activeAccountId,
       },
       { wallet },

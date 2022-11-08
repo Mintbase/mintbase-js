@@ -1,4 +1,4 @@
-import { METHOD_NAMES } from './constants';
+import { TOKEN_METHOD_NAMES } from './constants';
 import { burn, transfer, deployContract, revoke } from './token';
 
 describe('token method calls', () => {
@@ -15,7 +15,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.TRANSFER,
+      methodName: TOKEN_METHOD_NAMES.TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         receiver_id: receiverId,
@@ -36,7 +36,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.BATCH_TRANSFER,
+      methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [
@@ -55,7 +55,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.BATCH_BURN,
+      methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [tokenId1],
@@ -71,7 +71,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.BATCH_BURN,
+      methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [tokenId1, tokenId2],
@@ -88,7 +88,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
+      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
@@ -106,7 +106,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
+      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
@@ -141,7 +141,7 @@ describe('token method calls', () => {
 
     expect(args).toEqual({
       contractAddress: factoryContractId,
-      methodName: METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
+      methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         owner_id: ownerId,

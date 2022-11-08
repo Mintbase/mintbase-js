@@ -1,36 +1,38 @@
-export enum METHOD_NAMES {
-  'TRANSFER' = 'nft_transfer',
-  'BATCH_TRANSFER' = 'nft_batch_transfer',
-  'BATCH_BURN' = 'nft_batch_burn',
-  'DEPLOY_TOKEN_CONTRACT' = 'create_store',
-  'TRANSFER_TOKEN_CONTRACT_OWNERSHIP' = 'transfer_store_ownership',
-  'MINT' = 'nft_batch_mint',
-  'ADD_MINTER' = 'grant_minter',
-  'REMOVE_MINTER' = 'revoke_minter',
-  'BATCH_CHANGE_MINTERS' = 'batch_change_minters',
-  'TOKEN_ACCOUNT_REVOKE' = 'nft_revoke',
-  'TOKEN_ACCOUNT_REVOKE_ALL' = 'nft_revoke_all',
-}
+export const TOKEN_METHOD_NAMES = {
+  TRANSFER: 'nft_transfer',
+  BATCH_TRANSFER: 'nft_batch_transfer',
+  BATCH_BURN: 'nft_batch_burn',
+  DEPLOY_TOKEN_CONTRACT: 'create_store',
+  TRANSFER_TOKEN_CONTRACT_OWNERSHIP: 'transfer_store_ownership',
+  MINT: 'nft_batch_mint',
+  ADD_MINTER: 'grant_minter',
+  REMOVE_MINTER: 'revoke_minter',
+  BATCH_CHANGE_MINTERS: 'batch_change_minters',
+  TOKEN_ACCOUNT_REVOKE: 'nft_revoke',
+  TOKEN_ACCOUNT_REVOKE_ALL: 'nft_revoke_all',
+};
 
-export enum MARKET_METHOD_NAMES {
-  'LIST' = 'nft_approve',
-  'DEPOSIT_STORAGE' = 'deposit_storage',
-  'BUY' = 'buy',
-}
+export const MARKET_METHOD_NAMES = {
+  LIST: 'nft_approve',
+  DEPOSIT_STORAGE: 'deposit_storage',
+  BUY: 'buy',
+};
 
-export enum GAS_CONSTANTS {
-  'MAX_GAS' = '225000000000000',
-}
+export const GAS_CONSTANTS = {
+  DEFAULT_GAS: '200000000000000',
+  OPTIMAL_GAS: '225000000000000',
+  MAX_GAS: '300000000000000',
+};
 
-export enum DEPOSIT_CONSTANTS {
-  'ONE_YOCTO' = '1',
-  'ZERO_YOCTO' = '0',
-}
+export const DEPOSIT_CONSTANTS = {
+  ONE_YOCTO: '1',
+  ZERO_YOCTO: '0',
+};
 
-export enum Network {
-  'MAINNET' = 'mainnet',
-  'TESTNET' = 'testnet',
-}
+export const Network = {
+  MAINNET: 'mainnet',
+  TESTNET: 'testnet',
+};
 
 const DEFAULT_ROYALTY_PERCENTAGE = 1000;
 

@@ -24,7 +24,7 @@ export const buy = (
       referrer_id: referrerId,
     },
     methodName: MARKET_METHOD_NAMES.BUY,
-    gas: GAS_CONSTANTS.MAX_GAS,
+    gas: GAS_CONSTANTS.DEFAULT_GAS,
     deposit: price.amount,
   };
 };
@@ -47,7 +47,7 @@ export const list = (
     },
     methodName: MARKET_METHOD_NAMES.LIST,
     deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-    gas: GAS_CONSTANTS.MAX_GAS,
+    gas: GAS_CONSTANTS.DEFAULT_GAS,
   };
 };
 
@@ -62,6 +62,6 @@ export const depositStorage = (
     args: {},
     methodName: MARKET_METHOD_NAMES.DEPOSIT_STORAGE,
     deposit: utils.format.parseNearAmount(deposit),
-    gas: GAS_CONSTANTS.MAX_GAS,
+    gas: GAS_CONSTANTS.DEFAULT_GAS,
   };
 };
