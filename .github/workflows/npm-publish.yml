@@ -38,7 +38,7 @@ jobs:
       - run: git config --global user.name "mintbaseteam"
       - run: git config --global user.email "eng@mintbase.io"
 
-      - run: npm version ${{ github.event.release.tag_name }}
+      - run: lerna version ${{ github.event.release.tag_name }}
 
       - run: npm run build
 
