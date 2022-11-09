@@ -13,9 +13,14 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: Dump it out
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event.release) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.branch }}
+          ref: ${{ github.event.release.branch_name }}
 
       - name: Use Node.js 14
         uses: actions/setup-node@v1
