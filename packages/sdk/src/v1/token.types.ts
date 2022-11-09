@@ -1,18 +1,13 @@
 export type AccountId = string;
 export type TokenId = string;
 
-export type SingleTokenArgs = {
-  nftContractId: AccountId;
-  tokenId: TokenId;
-};
-
 export type TokenArgs = {
   network?: string;
 };
 
 export type TransferArgs = TokenArgs & {
   nftContractId: AccountId;
-  transfer: { receiverId: AccountId; tokenId: TokenId }[];
+  recipients: { receiverId: AccountId; tokenId: TokenId }[];
 };
 
 export type BurnArgs = {

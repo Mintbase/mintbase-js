@@ -10,7 +10,6 @@ import {
 import {
   TransferArgs,
   BurnArgs,
-  SingleTokenArgs,
   DeployTokenContractArgs,
   AccountId,
   TransferTokenContractOwnership,
@@ -22,12 +21,12 @@ import {
 
 // TODO: figure out a way to generate gas and deposit for each
 export const transfer = (args: TransferArgs): TransactionArgs => {
-  const { nftContractId, transfer } = args;
+  const { nftContractId, recipients } = args;
 
   const isBatchTransfer = transfer.length > 1;
 
   if (isBatchTransfer) {
-    const ids = transfer.map((transferElm) => {
+    const ids = recipients.map((transferElm) => {
       return [transferElm.receiverId, transferElm.tokenId];
     });
 
