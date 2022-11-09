@@ -1,3 +1,4 @@
+import { GAS_CONSTANTS } from './constants';
 import { buy, depositStorage, list } from './market';
 
 describe('token method calls', () => {
@@ -18,7 +19,7 @@ describe('token method calls', () => {
       methodName: 'deposit_storage',
       args: {},
       deposit: '10000000000000000000000',
-      gas: '225000000000000',
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
     });
   });
 
@@ -33,7 +34,7 @@ describe('token method calls', () => {
       methodName: 'deposit_storage',
       args: {},
       deposit: '20000000000000000000000',
-      gas: '225000000000000',
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
     });
   });
 
@@ -48,7 +49,7 @@ describe('token method calls', () => {
       methodName: 'deposit_storage',
       args: {},
       deposit: '100000000000000000000000',
-      gas: '225000000000000',
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
     });
   });
 
@@ -75,7 +76,7 @@ describe('token method calls', () => {
         referrer_id: receiverId,
       },
       deposit: '1',
-      gas: '225000000000000',
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
     });
   });
 
@@ -102,7 +103,7 @@ describe('token method calls', () => {
         }),
       },
       deposit: '1',
-      gas: '225000000000000',
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
     });
   });
 

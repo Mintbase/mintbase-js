@@ -3,7 +3,7 @@
 import { TransactionArgs } from '../calls';
 import {
   DEFAULT_MB_LOGO,
-  METHOD_NAMES,
+  TOKEN_METHOD_NAMES,
   MB_MAINNET_TOKEN_FACTORY,
   MB_TESTNET_TOKEN_FACTORY,
   Network,
@@ -41,7 +41,7 @@ export const transfer = (args: TransferArgs): TransactionArgs => {
 
     return {
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.BATCH_TRANSFER,
+      methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: ids,
@@ -53,7 +53,7 @@ export const transfer = (args: TransferArgs): TransactionArgs => {
 
     return {
       contractAddress: nftContractId,
-      methodName: METHOD_NAMES.TRANSFER,
+      methodName: TOKEN_METHOD_NAMES.TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         receiver_id: receiverId,
@@ -69,7 +69,7 @@ export const burn = (args: BurnArgs): TransactionArgs => {
 
   return {
     contractAddress: nftContractId,
-    methodName: METHOD_NAMES.BATCH_BURN,
+    methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
     args: {
       // eslint-disable-next-line @typescript-eslint/camelcase
       token_ids: tokenIds,
@@ -108,7 +108,7 @@ export const deployContract = (
 
   return {
     contractAddress: factoryContractId || getFactoryContract(network),
-    methodName: METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
+    methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: data,
   };
 };
@@ -127,7 +127,7 @@ export const transferContractOwnership = (
       // eslint-disable-next-line @typescript-eslint/camelcase
       keep_old_minters: keepMinters,
     },
-    methodName: METHOD_NAMES.TRANSFER_TOKEN_CONTRACT_OWNERSHIP,
+    methodName: TOKEN_METHOD_NAMES.TRANSFER_TOKEN_CONTRACT_OWNERSHIP,
   };
 };
 
@@ -137,7 +137,7 @@ export const mint = (args: MintArgs): TransactionArgs => {
   return {
     contractAddress: nftContractId,
     args: {},
-    methodName: METHOD_NAMES.MINT,
+    methodName: TOKEN_METHOD_NAMES.MINT,
   };
 };
 
@@ -155,7 +155,7 @@ export const addMinter = (args: AddRemoveMinterArgs): TransactionArgs => {
       // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: minterId,
     },
-    methodName: METHOD_NAMES.ADD_MINTER,
+    methodName: TOKEN_METHOD_NAMES.ADD_MINTER,
   };
 };
 
@@ -168,7 +168,7 @@ export const removeMinter = (args: AddRemoveMinterArgs): TransactionArgs => {
       // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: minterId,
     },
-    methodName: METHOD_NAMES.REMOVE_MINTER,
+    methodName: TOKEN_METHOD_NAMES.REMOVE_MINTER,
   };
 };
 
@@ -183,7 +183,7 @@ export const batchChangeMinters = (
       grant: addMinters.length > 0 ? addMinters : undefined,
       revoke: removeMinters.length > 0 ? removeMinters : undefined,
     },
-    methodName: METHOD_NAMES.BATCH_CHANGE_MINTERS,
+    methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
   };
 };
 
@@ -199,7 +199,7 @@ export const revoke = (args: RevokeAccountArgs): TransactionArgs => {
         // eslint-disable-next-line @typescript-eslint/camelcase
         account_id: accountToRevokeId,
       },
-      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
+      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
     };
   } else {
     return {
@@ -208,7 +208,7 @@ export const revoke = (args: RevokeAccountArgs): TransactionArgs => {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId,
       },
-      methodName: METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
+      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
     };
   }
 };
