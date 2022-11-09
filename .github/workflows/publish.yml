@@ -1,4 +1,4 @@
-name: npm-publish-rc
+name: Publish Packages to NPM
 
 #on:
 #  push:
