@@ -6,7 +6,14 @@ describe('token method calls', () => {
   const nftContractId = 'test.nft.contract';
   const receiverId = 'test.account';
   const tokenId1 = '1';
-  const tokenId2 = '2';
+
+  Object.defineProperty(global, 'localStorage', {
+    value: {
+      getItem: jest.fn(),
+      setItem: jest.fn(),
+      removeItem: jest.fn(),
+    },
+  });
 
   test('deposit storage for one listing', () => {
     const args = depositStorage({

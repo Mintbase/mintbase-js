@@ -34,10 +34,8 @@ export const Network = {
   TESTNET: 'testnet',
 };
 
-const DEFAULT_ROYALTY_PERCENTAGE = 1000;
-
 export const NEAR_NETWORK =
-  process.env.NEAR_NETWORK || localStorage?.get('NEAR_NETWORK');
+  process.env.NEAR_NETWORK || global.localStorage?.get('NEAR_NETWORK');
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
 export const MB_TESTNET_TOKEN_FACTORY_ADDRESS = 'mintspace2.testnet';

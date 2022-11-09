@@ -20,13 +20,10 @@ import {
 } from './token.types';
 
 // TODO: figure out a way to generate gas and deposit for each
-export const transfer = (args: TransferArgs): TransactionArgs => {
-  const { nftContractId, recipients } = args;
 
-  const isBatchTransfer = transfer.length > 1;
-
-  if (isBatchTransfer) {
-    const ids = recipients.map((transferElm) => {
+export const transfer = ({ nftContractId, transfers }: TransferArgs): TransactionArgs => {
+  if (transfers.length > 1) {
+    const ids = transfers.map((transferElm) => {
       return [transferElm.receiverId, transferElm.tokenId];
     });
 
@@ -39,8 +36,7 @@ export const transfer = (args: TransferArgs): TransactionArgs => {
       },
     };
   } else {
-    const receiverId = transfer[0].receiverId;
-    const tokenId = transfer[0].tokenId;
+    const { receiverId, tokenId } = transfers.pop();
 
     return {
       contractAddress: nftContractId,

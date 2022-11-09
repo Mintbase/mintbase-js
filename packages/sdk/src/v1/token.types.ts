@@ -5,9 +5,10 @@ export type TokenArgs = {
   network?: string;
 };
 
+
 export type TransferArgs = TokenArgs & {
   nftContractId: AccountId;
-  recipients: { receiverId: AccountId; tokenId: TokenId }[];
+  transfers: { receiverId: AccountId; tokenId: TokenId }[];
 };
 
 export type BurnArgs = {

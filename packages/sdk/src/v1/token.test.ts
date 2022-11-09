@@ -10,7 +10,7 @@ describe('token method calls', () => {
   test('transfer one token', () => {
     const args = transfer({
       nftContractId: nftContractId,
-      transfer: [{ receiverId: receiverId, tokenId: tokenId1 }],
+      transfers: [{ receiverId: receiverId, tokenId: tokenId1 }],
     });
 
     expect(args).toEqual({
@@ -28,7 +28,7 @@ describe('token method calls', () => {
   test('transfer two tokens', () => {
     const args = transfer({
       nftContractId: nftContractId,
-      transfer: [
+      transfers: [
         { receiverId: receiverId, tokenId: tokenId1 },
         { receiverId: receiverId, tokenId: tokenId2 },
       ],
