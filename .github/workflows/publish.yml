@@ -15,7 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.tag }}
+          ref: ${{ github.event.release.branch }}
 
       - name: Use Node.js 14
         uses: actions/setup-node@v1
