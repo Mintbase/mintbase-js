@@ -34,16 +34,10 @@ jobs:
           npm run build
           npm run test
 
-      - name: Bump Version & Commit
+      - name: Publish Prereleased
+        if: ${{ github.even.release.type.prereleased }}
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lerna version ${{ github.event.release.tag_name }} --yes
-          git push
-
-      - name: Publish Pre Released
-        if: ${{ github.even.release.type.prereleased }}
-        run: |
-          lerna publish --dist-tag rc --yes
-
+          lerna publish ${{ github.event.release.tag_name }} --yes
 
