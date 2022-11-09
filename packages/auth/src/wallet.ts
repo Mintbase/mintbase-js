@@ -159,11 +159,11 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
   wallet.signOut();
 };
 
-export const getVerifiedOwner = 
+export const getVerifiedOwner =
   async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
     validateWalletComponentsAreSetup();
 
-    const { message, callbackUrl, meta } = params; 
+    const { message, callbackUrl, meta } = params;
 
     const wallet = await walletSelectorComponents
       .selector
@@ -185,7 +185,7 @@ export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOw
 
   return owner;
 };
-  
+
 
 //  https://www.npmjs.com/package/bs58
 // https://github.com/feross/buffer
@@ -193,7 +193,7 @@ export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOw
 export const verifyMessage = async (signature: string): Promise<boolean> => {
 
   // const owner = await getVerifiedOwner(signature);
-  
+
   // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
 
   // const createdPublicKey = utils.PublicKey.from(publicKeyString);
@@ -204,4 +204,4 @@ export const verifyMessage = async (signature: string): Promise<boolean> => {
 
   return false;
 };
-  
+

@@ -3,15 +3,22 @@ import type { Wallet, Account, FinalExecutionOutcome, Optional, Transaction } fr
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers } from 'near-api-js';
 
-export type NearContractCall = {
-  signerId: string;
+export type TransactionArgs = {
   contractAddress: string;
   methodName: string;
   args: object;
+};
+
+export type TransactionAttachments = {
   gas: string;
   deposit: string;
-  callbackUrl?: string;
-}
+};
+
+export type NearContractCall = TransactionArgs &
+  TransactionAttachments & {
+    signerId: string;
+    callbackUrl?: string;
+  };
 
 export type NearCallSigningOptions = {
   wallet?: Wallet;
@@ -30,6 +37,29 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
   if (!wallet && !account) {
     throw NoSigningMethodPassedError;
   }
+};
+
+export const execute = (
+  call: NearContractCall | NearContractCall[],
+  signingOptions: NearCallSigningOptions,
+): Promise<void | providers.FinalExecutionOutcome> => {
+  validateSigningOptions(signingOptions);
+
+  if (signingOptions.wallet) {
+    if (call instanceof Array && call.length > 0){
+      return executeMultipleCalls(call, signingOptions);
+    }
+    else {
+      return callContractMethodWithWallet(
+        call as NearContractCall,
+        signingOptions.wallet,
+      );
+    }
+  }
+  // need to disable consistent return
+  // browser redirects for signing will never contain the execution outcome.
+  // eslint-disable-next-line consistent-return
+  return;
 };
 
 export const callContractMethod = async (
@@ -67,6 +97,7 @@ export const executeMultipleCalls = async (
   // eslint-disable-next-line consistent-return
   return;
 };
+
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
