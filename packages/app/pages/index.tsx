@@ -11,8 +11,17 @@ const Home: NextPage = () => {
     activeAccountId,
     isConnected,
     isWaitingForConnection,
+    signMessage,
   } = useWallet();
 
+
+  const signMessageTest = async (): Promise<void> => {
+    await signMessage({
+      message: 'hey',
+      callbackUrl: `${window.location.origin}/wallet-callback`,
+      meta:JSON.stringify({ type: 'signature' }),
+    });
+  };
 
   const callTransferTest = async (): Promise<void> => {
     const result = await callContractMethod({
@@ -70,6 +79,10 @@ const Home: NextPage = () => {
             </button>
           </div>
         }
+
+        {activeAccountId && <button className={styles.button} onClick={signMessageTest}>
+          SIGN MESSAGE
+        </button>}
 
       </main>
 

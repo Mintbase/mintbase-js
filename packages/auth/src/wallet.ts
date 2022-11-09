@@ -1,4 +1,4 @@
-import { setupWalletSelector, Wallet } from '@near-wallet-selector/core';
+import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
@@ -158,3 +158,50 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
     .wallet();
   wallet.signOut();
 };
+
+export const getVerifiedOwner = 
+  async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
+    validateWalletComponentsAreSetup();
+
+    const { message, callbackUrl, meta } = params; 
+
+    const wallet = await walletSelectorComponents
+      .selector
+      .wallet();
+
+    const owner = await wallet.verifyOwner({
+      message: message,
+      callbackUrl: callbackUrl,
+      meta: meta,
+    }) as VerifiedOwner;
+
+    return owner;
+  };
+
+
+// returns a signature of message
+export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
+  const owner = await getVerifiedOwner(params);
+
+  return owner;
+};
+  
+
+//  https://www.npmjs.com/package/bs58
+// https://github.com/feross/buffer
+// https://github.com/near/wallet-selector/issues/434
+export const verifyMessage = async (signature: string): Promise<boolean> => {
+
+  // const owner = await getVerifiedOwner(signature);
+  
+  // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
+
+  // const createdPublicKey = utils.PublicKey.from(publicKeyString);
+
+  // const stringified = JSON.stringify(owner);
+
+  // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
+
+  return false;
+};
+  
