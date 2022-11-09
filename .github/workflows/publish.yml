@@ -1,10 +1,5 @@
 name: Publish Packages to NPM
 
-#on:
-#  push:
-#    branches:
-#      - main # Change this to your default branch
-
 on:
   release:
     types: [released, prereleased]
@@ -22,7 +17,7 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Configure git and npm Credentials
+      - name: Configure git and npm creds
         run: |
           git config --global user.name "mintbaseteam"
           git config --global user.email "eng@mintbase.io"
@@ -35,8 +30,12 @@ jobs:
           npm run build
           npm run test
 
-      - name: Publish
+      - name: Version, Publish and Push
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lerna publish ${{ github.event.release.tag_name }} --yes
+          lerna version ${{ github.event.release.tag_name }} --yes --skip-git
+          git add --all
+          git commit -m "Release ${{ github.event.release.tag_name }}"
+          lerna publish from-package --yes
+          git push
