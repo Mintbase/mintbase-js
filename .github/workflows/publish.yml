@@ -30,7 +30,8 @@ jobs:
 
       - name: Build & Test
         run: |
-          npm install
+          npm ci
+          npm run bootstrap
           npm run build
           npm run test
 
