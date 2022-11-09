@@ -57,3 +57,16 @@ npm run dev
 This will watch for changes, compile typescript to `/lib` in each package as well as run Jest tests with coverage.
 
 The NextJS/React test suite can be run with `npm run dev` inside of packages/app.
+
+# Adding New Packages
+
+When adding new packages, Lerna tends to struggle with versions that have not already been published, especially if they will become dependencies of other packages in this repo.
+
+When adding a new package, the easiest way is to copy the data package and change appropriate values in `package.json`.
+
+Add the **package itself to the root project devDependencies** for example:
+```
+"@mintbase-js/<new-package>": "file:packages/<new-package>",
+```
+
+Finally, publish out the current locked version as all the other packages from the local command line using `npm publish`.
