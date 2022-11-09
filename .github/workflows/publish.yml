@@ -36,6 +36,6 @@ jobs:
         run: |
           lerna version ${{ github.event.release.tag_name }} --yes --skip-git
           git add --all
-          git commit -m "Release ${{ github.event.release.tag_name }}"
+          git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
           lerna publish from-package --yes
           git push
