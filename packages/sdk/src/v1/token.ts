@@ -4,9 +4,8 @@ import { TransactionArgs } from '../calls';
 import {
   DEFAULT_MB_LOGO,
   TOKEN_METHOD_NAMES,
-  MB_MAINNET_TOKEN_FACTORY,
-  MB_TESTNET_TOKEN_FACTORY,
   Network,
+  MB_TOKEN_FACTORY_ADDRESS,
 } from './constants';
 import {
   TransferArgs,
@@ -21,14 +20,7 @@ import {
   RevokeAccountArgs,
 } from './token.types';
 
-// TODO: how to deal with this differently?
-const getFactoryContract = (network: string): AccountId => {
-  if (network === Network.MAINNET) return MB_MAINNET_TOKEN_FACTORY;
-  else return MB_TESTNET_TOKEN_FACTORY;
-};
-
 // TODO: figure out a way to generate gas and deposit for each
-
 export const transfer = (args: TransferArgs): TransactionArgs => {
   const { nftContractId, transfer } = args;
 
@@ -107,7 +99,7 @@ export const deployContract = (
   };
 
   return {
-    contractAddress: factoryContractId || getFactoryContract(network),
+    contractAddress: factoryContractId || MB_TOKEN_FACTORY_ADDRESS,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: data,
   };
