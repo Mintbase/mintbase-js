@@ -9,7 +9,7 @@ const Home: NextPage = () => {
     disconnect,
     activeAccountId,
     selector,
-    isConnected,
+    // isConnected,
     isWaitingForConnection,
     signMessage,
   } = useWallet();
