@@ -22,7 +22,7 @@ export type WalletContext = {
   activeAccountId: string | null;
   isConnected: boolean;
   isWaitingForConnection: boolean;
-  errorMessage: string;
+  errorMessage: string | null;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
