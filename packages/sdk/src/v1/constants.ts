@@ -35,7 +35,9 @@ export const Network = {
 };
 
 export const NEAR_NETWORK =
-  process.env.NEAR_NETWORK || global.localStorage?.get('NEAR_NETWORK');
+  process.env.NEAR_NETWORK ||
+  globalThis?.localStorage?.get('NEAR_NETWORK') ||
+  Network.MAINNET;
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
 export const MB_TESTNET_TOKEN_FACTORY_ADDRESS = 'mintspace2.testnet';
