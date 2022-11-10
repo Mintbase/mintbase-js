@@ -36,7 +36,7 @@ export const Network = {
 
 export const NEAR_NETWORK =
   process.env.NEAR_NETWORK ||
-  globalThis?.localStorage?.get('NEAR_NETWORK') ||
+  globalThis?.localStorage?.getItem('NEAR_NETWORK') ||
   Network.MAINNET;
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
