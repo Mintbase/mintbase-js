@@ -1,13 +1,21 @@
 {
   "name": "mintbase-next-test-suite",
+<<<<<<< HEAD
   "version": "0.0.4-rc14",
+=======
+  "version": "0.0.4-rc13",
+>>>>>>> 13ef051b74169585474db2d02e62b324acf823ec
   "private": true,
   "scripts": {
     "dev": "next dev",
     "lint": "eslint . --fix --ext ts --ext tsx"
   },
   "dependencies": {
+<<<<<<< HEAD
     "@mintbase-js/sdk": "^0.0.4-rc14",
+=======
+    "@mintbase-js/sdk": "^0.0.4-rc13",
+>>>>>>> 13ef051b74169585474db2d02e62b324acf823ec
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

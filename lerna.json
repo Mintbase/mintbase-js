@@ -2,7 +2,11 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
   "useWorkspaces": true,
+<<<<<<< HEAD
   "version": "0.0.4-rc14",
+=======
+  "version": "0.0.4-rc13",
+>>>>>>> 13ef051b74169585474db2d02e62b324acf823ec
   "packages": [
     "packages/*"
   ]
