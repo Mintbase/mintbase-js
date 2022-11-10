@@ -8,6 +8,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      - name: dump it out
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github.event) }}
+        run: echo "$GITHUB_CONTEXT"
+
       - uses: actions/checkout@v3
         with:
           ref: ${{ github.event.release.target_commitish }}
@@ -33,9 +38,10 @@ jobs:
       - name: Version, Publish and Push
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          DIST_TAG: ${{ github.event.type == 'prereleased' && 'prerelease' || 'latest'}}
         run: |
           lerna version ${{ github.event.release.tag_name }} --yes --skip-git
           git add --all
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
-          lerna publish from-package --yes
+          lerna publish from-package --yes --dist-tag $DIST_TAG
           git push
