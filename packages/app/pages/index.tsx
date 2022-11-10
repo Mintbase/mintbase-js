@@ -7,8 +7,8 @@ const Home: NextPage = () => {
   const {
     connect,
     disconnect,
-    wallet,
     activeAccountId,
+    selector,
     isConnected,
     isWaitingForConnection,
     signMessage,
@@ -34,7 +34,7 @@ const Home: NextPage = () => {
       },
       gas: MAX_GAS,
       deposit: ONE_YOCTO,
-    }, { wallet });
+    }, { wallet: await selector.wallet() });
     console.log('got result!', result);
   };
 
@@ -63,7 +63,6 @@ const Home: NextPage = () => {
         {activeAccountId ?
           <div className={styles.description}>
             <h2>You are logged in as {activeAccountId}</h2>
-            <pre>{JSON.stringify(wallet)}</pre>
             <button className={styles.button} onClick={callTransferTest}>
                 TRANSFER CALL
             </button>
