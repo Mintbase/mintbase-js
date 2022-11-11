@@ -1,9 +1,8 @@
 import {
   BrowserWalletSignAndSendTransactionParams,
 } from '@near-wallet-selector/core/lib/wallet';
-import { Account } from 'near-api-js';
 import { FunctionCallOptions } from 'near-api-js/lib/account';
-import { execute, NearContractCall, NoSigningMethodPassedError } from './calls';
+import { execute, NearContractCall, NoSigningMethodPassedError } from './execute';
 import { MAX_GAS, ONE_YOCTO } from './constants';
 
 describe('contract method calls (execute)', () => {

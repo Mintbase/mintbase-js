@@ -1,7 +1,7 @@
 // Mintbase marketplace contract JS implementation
 
 import { utils } from 'near-api-js';
-import { TransactionArgs, TransactionAttachments } from '../calls';
+import { TransactionArgs, TransactionAttachments } from '../execute';
 import {
   DEPOSIT_CONSTANTS,
   GAS_CONSTANTS,

@@ -1,6 +1,6 @@
 // Mintbase token contract JS implementation
 
-import { TransactionArgs } from '../calls';
+import { TransactionArgs } from '../execute';
 import {
   DEFAULT_MB_LOGO,
   TOKEN_METHOD_NAMES,
