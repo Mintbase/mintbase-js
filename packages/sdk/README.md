@@ -1,6 +1,6 @@
 # @mintbase-js/sdk
 
-This module provides a set of convenience wrappers around invocation of Mintbase smart contract methods, but also exposes a low- level isomorphic [execute](#execute) method that can be passed raw `NearContractCall` information.
+This module provides a set of convenience wrappers around invocation of Mintbase smart contract methods, but also exposes a low-level isomorphic [execute](#execute) method that can be passed raw `NearContractCall` information.
 
 Finish implementations and documentation for:
 
@@ -9,6 +9,9 @@ Finish implementations and documentation for:
 - [ ] List Token
 - [ ] Rest of the methods...
 
+Other TODOs:
+- [ ] Analytics via Opt in
+- [ ] Compute NEAR [gas fees](https://github.com/near/near-api-js/blob/master/packages/cookbook/utils/calculate-gas.js) and report consumption analytics
 
 # execute(callOptions, signingOptions)
 
