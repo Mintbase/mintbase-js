@@ -1,10 +1,12 @@
 import {
   BrowserWalletSignAndSendTransactionParams,
 } from '@near-wallet-selector/core/lib/wallet';
-import { callContractMethod, executeMultipleCalls, NearContractCall, NoSigningMethodPassed, NoSigningMethodPassedError } from './calls';
+import { Account } from 'near-api-js';
+import { FunctionCallOptions } from 'near-api-js/lib/account';
+import { execute, NearContractCall, NoSigningMethodPassedError } from './calls';
 import { MAX_GAS, ONE_YOCTO } from './constants';
 
-describe('contract method calls', () => {
+describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
   const testContract = 'mb_store.mintspace2.testnet';
   const testMethod = 'nft_transfer';
@@ -30,14 +32,24 @@ describe('contract method calls', () => {
     signAndSendTransactions: jest.fn(),
   };
 
-  test('callContractMethod should throw without a valid signing method ', () => {
-    expect(callContractMethod(testContractCall, {}))
+  const mockNearAccount = {
+    functionCall: jest.fn(),
+  };
+
+  beforeAll(() => {
+    jest.spyOn(global.console, 'error').mockImplementation(() => null);
+  });
+
+  afterEach(() => jest.resetAllMocks());
+
+  test('execute should throw without a valid signing method ', () => {
+    expect(execute(testContractCall, {}))
       .rejects
       .toThrow(NoSigningMethodPassedError);
   });
 
-  test('callContractMethod calls through to browser wallet selector method', async () => {
-    await callContractMethod(
+  test('execute calls through to browser wallet selector method', async () => {
+    await execute(
       testContractCall,
       {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -45,7 +57,7 @@ describe('contract method calls', () => {
       },
     );
 
-    const expectedCallSignature: BrowserWalletSignAndSendTransactionParams = {
+    const expectedCallArgs: BrowserWalletSignAndSendTransactionParams = {
       signerId: testSigner,
       receiverId: testContract,
       callbackUrl: testCallbackUrl,
@@ -60,19 +72,11 @@ describe('contract method calls', () => {
       }],
     };
     expect(mockNearSelectorWallet.signAndSendTransaction)
-      .toHaveBeenCalledWith(expectedCallSignature);
-
+      .toHaveBeenCalledWith(expectedCallArgs);
   });
 
-
-  test('executeMultipleCalls should throw without a valid signing method ', async () => {
-    expect(executeMultipleCalls([testContractCall], {}))
-      .rejects
-      .toThrow(NoSigningMethodPassedError);
-  });
-
-  test('executeMultipleCalls calls through with multiple transactions', async () => {
-    await executeMultipleCalls(
+  test('passing multiple calls invokes batch execute', async () => {
+    await execute(
       [testContractCall, testContractCall],
       {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -88,12 +92,48 @@ describe('contract method calls', () => {
         .transactions
         .length,
     ).toBe(2);
+  });
 
+  test('execute calls through to account (near api) method', async () => {
+    await execute(
+      testContractCall,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      { account: mockNearAccount as any },
+    );
 
+    const expectedCallArgs: FunctionCallOptions = {
+      contractId: testContract,
+      methodName: testMethod,
+      args: testArgs,
+      gas: MAX_GAS,
+      attachedDeposit: ONE_YOCTO,
+
+    };
+    expect(mockNearAccount.functionCall)
+      .toHaveBeenCalledWith(expectedCallArgs);
+  });
+
+  test('multiple calls batch executes with account', async () => {
+    await execute(
+      [testContractCall, testContractCall],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      { account: mockNearAccount as any },
+    );
+
+    expect(mockNearAccount.functionCall).toBeCalledTimes(2);
+  });
+
+  test('should warn in multiple call failure situation', async () => {
+    mockNearAccount.functionCall.mockRejectedValue('thud');
+    await execute(
+      [testContractCall, testContractCall],
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      { account: mockNearAccount as any },
+    );
+    expect(console.error).toBeCalledTimes(2);
   });
 
   // TODO:
-  //  - pass direct near Account as signing option
   //  - more signing options?
   //  - inversion of control to passed method?
 

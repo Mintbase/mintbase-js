@@ -1,7 +1,7 @@
 
-import type { Wallet, Account, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
+import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
-import type { providers } from 'near-api-js';
+import type { providers, Account } from 'near-api-js';
 
 export type TransactionArgs = {
   contractAddress: string;
@@ -30,7 +30,7 @@ export class NoSigningMethodPassed extends Error {
 }
 
 export const NoSigningMethodPassedError = new NoSigningMethodPassed(
-  'A near-api-js Account or near/wallet-selector Wallet is required to sign transactions',
+  'No signing method passed. Account or near/wallet-selector Wallet is required to sign transactions',
 );
 
 const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): void => {
@@ -39,63 +39,28 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
   }
 };
 
-export const execute = (
+export const execute = async (
   call: NearContractCall | NearContractCall[],
-  signingOptions: NearCallSigningOptions,
+  { wallet, account }: NearCallSigningOptions,
 ): Promise<void | providers.FinalExecutionOutcome> => {
-  validateSigningOptions(signingOptions);
+  validateSigningOptions({ wallet, account });
 
-  if (signingOptions.wallet) {
-    if (call instanceof Array && call.length > 0){
-      return executeMultipleCalls(call, signingOptions);
-    }
-    else {
-      return callContractMethodWithWallet(
+  if (wallet) {
+    if (call instanceof Array && call.length > 0) {
+      return await batchExecuteWithBrowserWallet(call, wallet);
+    } else {
+      return await executeWithBrowserWallet(
         call as NearContractCall,
-        signingOptions.wallet,
+        wallet,
       );
     }
   }
-  // need to disable consistent return
-  // browser redirects for signing will never contain the execution outcome.
-  // eslint-disable-next-line consistent-return
-  return;
-};
 
-export const callContractMethod = async (
-  call: NearContractCall,
-  signingOptions: NearCallSigningOptions,
-): Promise<void | providers.FinalExecutionOutcome> => {
-  validateSigningOptions(signingOptions);
-
-  if (signingOptions.wallet) {
-    return callContractMethodWithWallet(
-      call,
-      signingOptions.wallet,
-    );
+  if (call instanceof Array && call.length > 0) {
+    return batchExecuteWithNearAccount(call, account);
   }
-  // need to disable consistent return
-  // browser redirects for signing will never contain the execution outcome.
-  // eslint-disable-next-line consistent-return
-  return;
-};
 
-export const executeMultipleCalls = async (
-  calls: NearContractCall[],
-  signingOptions: NearCallSigningOptions,
-): Promise<void | providers.FinalExecutionOutcome> => {
-  validateSigningOptions(signingOptions);
-
-  if (signingOptions.wallet) {
-    return executeMultipleCallsWithWallet(
-      calls,
-      signingOptions.wallet,
-    );
-  }
-  // need to disable consistent return
-  // browser redirects for signing will never contain the execution outcome.
-  // eslint-disable-next-line consistent-return
-  return;
+  return await executeWithNearAccount(call as NearContractCall, account);
 };
 
 
@@ -119,17 +84,50 @@ const convertGenericCallToWalletCall = (
 });
 
 // wallet call translation wrappers
-const callContractMethodWithWallet = async (
+const executeWithBrowserWallet = async (
   call: NearContractCall,
   wallet: Wallet,
 ): Promise<void | providers.FinalExecutionOutcome> =>
   wallet.signAndSendTransaction(convertGenericCallToWalletCall(call));
 
-const executeMultipleCallsWithWallet = async (
+const batchExecuteWithBrowserWallet = async (
   calls: NearContractCall[],
   wallet: Wallet,
 ): Promise<void> => {
   wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
   });
+};
+
+// account call translation wrapper
+const executeWithNearAccount = async (
+  call: NearContractCall,
+  account: Account,
+): Promise<void | providers.FinalExecutionOutcome> => account.functionCall({
+  contractId: call.contractAddress,
+  methodName: call.methodName,
+  args: call.args,
+  gas: call.gas,
+  attachedDeposit: call.deposit,
+});
+
+const batchExecuteWithNearAccount = async (
+  calls: NearContractCall[],
+  account: Account,
+): Promise<void> => {
+  for (const call of calls) {
+    try {
+      await account.functionCall({
+        contractId: call.contractAddress,
+        methodName: call.methodName,
+        args: call.args,
+        gas: call.gas,
+        attachedDeposit: call.deposit,
+      });
+    } catch (err: unknown) {
+      console.error(
+        `${call.contractAddress}:${call.methodName} in batch failed: ${err}`,
+      );
+    }
+  }
 };
