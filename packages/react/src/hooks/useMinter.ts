@@ -18,7 +18,7 @@ export type MinterHookReturn = {
 export type MinterHookArgs = MintArgs;
 
 export const useMinter = (args: MintArgs): MinterHookReturn => {
-  const { wallet, activeAccountId } = useWallet();
+  const { selector, activeAccountId } = useWallet();
   const { nftContractId, options } = args;
 
   const [loading, setLoading] = useState(false);
@@ -42,7 +42,7 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
         deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
         signerId: activeAccountId,
       },
-      { wallet },
+      { wallet: await selector.wallet() },
     );
 
     setLoading(false);
