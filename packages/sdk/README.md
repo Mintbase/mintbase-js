@@ -1,14 +1,13 @@
-# @mintbase-js/SDK
+# @mintbase-js/sdk
 
-This module contains methods used for executing methods on Mintbase smart contracts.
+This module provides a set of convenience wrappers around invocation of Mintbase smart contract methods, but also exposes a low- level isomorphic [execute](#execute) method that can be passed raw `NearContractCall` information.
 
-A set of convenience wrappers around various token and market contract methods, however [execute](#execute) method.
-
-Finish implementation and documentation:
+Finish implementations and documentation for:
 
 - [ ] Transfer Token
 - [ ] Buy Token
-- [ ] More...
+- [ ] List Token
+- [ ] Rest of the methods...
 
 
 # execute(callOptions, signingOptions)
