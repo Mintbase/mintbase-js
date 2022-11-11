@@ -39,6 +39,13 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
   }
 };
 
+/**
+ * Base method for executing contract calls.
+ *
+ * @param call an array or single instance of {@link NearContractCall} to execute
+ * @param signingOptions object containing either near wallet selector wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
+ * @returns a result for single transactions of {@link FinalExecutionOutcome}, or void for batches
+ */
 export const execute = async (
   call: NearContractCall | NearContractCall[],
   { wallet, account }: NearCallSigningOptions,
@@ -62,7 +69,6 @@ export const execute = async (
 
   return await executeWithNearAccount(call as NearContractCall, account);
 };
-
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 

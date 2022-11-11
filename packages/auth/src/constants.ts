@@ -5,6 +5,7 @@ export const NEAR_WALLET_ENV = (
   process.env.NEAR_WALLET_ENV || 'testnet'
 ) as NetworkId;
 
+// FIXME: these should probably live in sdk module
 export const DEFAULT_MINTBASE_CONTRACT_TESTNET = 'mintspace2.testnet';
 export const DEFAULT_MINTBASE_CONTRACT_MAINNET = 'mintbase1.near';
 
