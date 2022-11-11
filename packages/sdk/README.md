@@ -13,5 +13,5 @@ Finish implementation and documentation:
 
 # execute(callOptions, signingOptions)
 
-`execute` is the Core method used to invoke smart contract methods via browser wallet or an authenticated NEAR Account via [functionCall](https://docs.near.org/tools/near-api-js/reference/classes/account.Account#functioncall) method.
+`execute` is the Core method used to invoke smart contract methods via browser [wallet](https://github.com/near/wallet-selector) or an authenticated NEAR Account via [functionCall](https://docs.near.org/tools/near-api-js/reference/classes/account.Account#functioncall) method.
 
