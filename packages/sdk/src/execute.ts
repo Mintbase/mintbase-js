@@ -2,6 +2,7 @@
 import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
+import { NoSigningMethodPassedError } from './errors';
 
 export type TransactionArgs = {
   contractAddress: string;
@@ -24,14 +25,6 @@ export type NearCallSigningOptions = {
   wallet?: Wallet;
   account?: Account;
 };
-
-export class NoSigningMethodPassed extends Error {
-  message: string;
-}
-
-export const NoSigningMethodPassedError = new NoSigningMethodPassed(
-  'No signing method passed. Account or near/wallet-selector Wallet is required to sign transactions',
-);
 
 const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): void => {
   if (!wallet && !account) {
