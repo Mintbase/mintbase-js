@@ -31,7 +31,7 @@ The SDK is currently in active development. The following modules/functionality 
 
 ```
 # default testnet
-NEAR_WALLET_ENV = mainnet | testnet
+NEAR_ENV = mainnet | testnet
 
 # default sandbox
 NEAR_DATA_ENV = mainnet | testnet | sandbox

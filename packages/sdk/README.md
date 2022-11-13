@@ -9,7 +9,7 @@ Finish implementations and documentation for:
 - [ ] List Token
 - [ ] Rest of the methods...
 
-Other TODOs:
+Later TODOs:
 - [ ] Analytics via Opt in
 - [ ] Compute NEAR [gas fees](https://github.com/near/near-api-js/blob/master/packages/cookbook/utils/calculate-gas.js) and report consumption analytics
 
