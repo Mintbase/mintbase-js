@@ -1,9 +1,10 @@
 /* eslint-disable max-len */
-import type { NetworkId } from '@near-wallet-selector/core';
+
+export type NearNetwork = 'mainnet' | 'testnet';
 
 export const NEAR_ENV = (
   process.env.NEAR_ENV || 'testnet'
-) as NetworkId;
+) as NearNetwork;
 
 // FIXME: these should probably live in sdk module
 export const DEFAULT_MINTBASE_CONTRACT_TESTNET = 'mintspace2.testnet';

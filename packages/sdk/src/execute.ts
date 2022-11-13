@@ -36,7 +36,8 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
  * Base method for executing contract calls.
  *
  * @param call an array or single instance of {@link NearContractCall} to execute
- * @param signingOptions object containing either near wallet selector wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
+ * @param signing object containing either near wallet selector
+ *  wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
  * @returns a result for single transactions of {@link FinalExecutionOutcome}, or void for batches
  */
 export const execute = async (
@@ -99,6 +100,11 @@ const batchExecuteWithBrowserWallet = async (
 };
 
 // account call translation wrapper
+// TODO: newer version? of near-api-js seem to indicate they support the same
+// signature as the wallet selector sendAndSignTransaction
+// https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
+// looked into this more, and unfortunately the method is marked private causing
+// difficult to debug typescript errors
 const executeWithNearAccount = async (
   call: NearContractCall,
   account: Account,
