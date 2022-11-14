@@ -7,7 +7,7 @@
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
-    "test": "jest --coverage --roots ./tests"
+    "test": "NEAR_DATA_ENV=testnet jest --coverage --roots ./tests"
   },
   "files": [
     "lib"
@@ -19,7 +19,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "graphql-request": "^5.0.0"
+    "@google-cloud/secret-manager": "^4.1.4",
+    "graphql-request": "^5.0.0",
+    "near-api-js": "^1.1.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.7",

@@ -3,8 +3,5 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   coveragePathIgnorePatterns: ['lib/', 'constants.ts'],
-  modulePathIgnorePatterns: ['lib/'],
-  moduleNameMapper: {
-    "@mintbase-js/auth": "<rootDir>/packages/auth/src/"
-  }
+  modulePathIgnorePatterns: ['lib/']
 };
