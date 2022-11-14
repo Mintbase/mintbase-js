@@ -1232,10 +1232,11 @@ export class Wallet {
         extra: memo,
       },
       num_to_mint: amount,
-      royalty_args: {
-        split_between: royaltys,
-        percentage: royaltyPercent,
-      },
+      royalty_args: royaltys
+        ? {
+          split_between: royaltys,
+          percentage: royaltyPercent,
+        } : null,
       split_owners: thing.splits,
     }
 
