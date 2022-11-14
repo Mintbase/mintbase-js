@@ -36,4 +36,8 @@ test('transfer token between two accounts', async () => {
   ) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();
+  // TODO: inspect this more...
+  // we can learn how much gas was used to do these operations,
+  // this might be a good thing to store and run on a regular basis
+  // during releases, development cycles etc.
 });
