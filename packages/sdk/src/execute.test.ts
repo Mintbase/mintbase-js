@@ -34,6 +34,7 @@ describe('contract method calls (execute)', () => {
   };
 
   const mockNearAccount = {
+    signAndSendTransaction: jest.fn(),
     functionCall: jest.fn(),
   };
 
@@ -49,6 +50,21 @@ describe('contract method calls (execute)', () => {
       .toThrow(NoSigningMethodPassedError);
   });
 
+  const transformedSignAndSendCallArgs = {
+    signerId: testSigner,
+    receiverId: testContract,
+    callbackUrl: testCallbackUrl,
+    actions:[{
+      type: 'FunctionCall',
+      params: {
+        methodName: testMethod,
+        args: testArgs,
+        gas: MAX_GAS,
+        deposit: ONE_YOCTO,
+      },
+    }],
+  };
+
   test('execute calls through to browser wallet selector method', async () => {
     await execute(
       testContractCall,
@@ -58,22 +74,8 @@ describe('contract method calls (execute)', () => {
       },
     );
 
-    const expectedCallArgs: BrowserWalletSignAndSendTransactionParams = {
-      signerId: testSigner,
-      receiverId: testContract,
-      callbackUrl: testCallbackUrl,
-      actions:[{
-        type: 'FunctionCall',
-        params: {
-          methodName: testMethod,
-          args: testArgs,
-          gas: MAX_GAS,
-          deposit: ONE_YOCTO,
-        },
-      }],
-    };
     expect(mockNearSelectorWallet.signAndSendTransaction)
-      .toHaveBeenCalledWith(expectedCallArgs);
+      .toHaveBeenCalledWith(transformedSignAndSendCallArgs);
   });
 
   test('passing multiple calls invokes batch execute', async () => {
@@ -102,16 +104,8 @@ describe('contract method calls (execute)', () => {
       { account: mockNearAccount as any },
     );
 
-    const expectedCallArgs: FunctionCallOptions = {
-      contractId: testContract,
-      methodName: testMethod,
-      args: testArgs,
-      gas: MAX_GAS,
-      attachedDeposit: ONE_YOCTO,
-
-    };
-    expect(mockNearAccount.functionCall)
-      .toHaveBeenCalledWith(expectedCallArgs);
+    expect(mockNearAccount.signAndSendTransaction)
+      .toHaveBeenCalledWith(transformedSignAndSendCallArgs);
   });
 
   test('multiple calls batch executes with account', async () => {
@@ -137,5 +131,4 @@ describe('contract method calls (execute)', () => {
   // TODO:
   //  - more signing options?
   //  - inversion of control to passed method?
-
 });

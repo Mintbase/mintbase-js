@@ -50,7 +50,7 @@ export const execute = async (
     if (call instanceof Array && call.length > 0) {
       return await batchExecuteWithBrowserWallet(call, wallet);
     } else {
-      return await executeWithBrowserWallet(
+      return await executeTransaction(
         call as NearContractCall,
         wallet,
       );
@@ -61,7 +61,7 @@ export const execute = async (
     return batchExecuteWithNearAccount(call, account);
   }
 
-  return await executeWithNearAccount(call as NearContractCall, account);
+  return await executeTransaction(call as NearContractCall, account);
 };
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
@@ -84,11 +84,13 @@ const convertGenericCallToWalletCall = (
 });
 
 // wallet call translation wrappers
-const executeWithBrowserWallet = async (
+const executeTransaction = async (
   call: NearContractCall,
-  wallet: Wallet,
+  signer: Wallet | Account,
 ): Promise<void | providers.FinalExecutionOutcome> =>
-  wallet.signAndSendTransaction(convertGenericCallToWalletCall(call));
+  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+  // @ts-ignore
+  signer.signAndSendTransaction(convertGenericCallToWalletCall(call));
 
 const batchExecuteWithBrowserWallet = async (
   calls: NearContractCall[],
@@ -98,23 +100,6 @@ const batchExecuteWithBrowserWallet = async (
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
   });
 };
-
-// account call translation wrapper
-// TODO: newer version? of near-api-js seem to indicate they support the same
-// signature as the wallet selector sendAndSignTransaction
-// https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
-// looked into this more, and unfortunately the method is marked private causing
-// difficult to debug typescript errors
-const executeWithNearAccount = async (
-  call: NearContractCall,
-  account: Account,
-): Promise<void | providers.FinalExecutionOutcome> => account.functionCall({
-  contractId: call.contractAddress,
-  methodName: call.methodName,
-  args: call.args,
-  gas: call.gas,
-  attachedDeposit: call.deposit,
-});
 
 const batchExecuteWithNearAccount = async (
   calls: NearContractCall[],
