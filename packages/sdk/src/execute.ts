@@ -101,6 +101,10 @@ const batchExecuteWithBrowserWallet = async (
   });
 };
 
+// TODO: investigate ways to re-use batch actions with transaction signature for batching with NAJ accounts.
+// Possible limitation, the signature requires a single receiverId (contract).
+// Do we want to support full batching using multiple calls? Note - this would be server side only.
+// Testing lib will help with this, and to report results
 const batchExecuteWithNearAccount = async (
   calls: NearContractCall[],
   account: Account,
