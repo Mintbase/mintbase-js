@@ -7,7 +7,7 @@
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
-    "test": "NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --coverage --roots ./tests --testTimeout 60000"
+    "test": "NEAR_NO_LOGS=1 NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --coverage --roots ./tests --testTimeout 60000"
   },
   "files": [
     "lib"
