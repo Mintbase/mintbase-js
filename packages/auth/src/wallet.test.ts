@@ -20,11 +20,11 @@ import { Observable } from 'rxjs';
 jest.mock('@near-wallet-selector/core');
 jest.mock('@near-wallet-selector/modal-ui');
 jest.mock('./constants', () => ({
-  WALLET_CONNECTION_TIMEOUT: 10,
+  WALLET_CONNECTION_TIMEOUT: -1,
   WALLET_CONNECTION_POLL_INTERVAL: 100,
 }));
 
-jest.useFakeTimers();
+// jest.useFakeTimers();
 
 describe('wallet', () => {
   const mockModal = {
@@ -45,7 +45,7 @@ describe('wallet', () => {
     },
   };
   beforeAll(() => {
-
+    jest.resetAllMocks();
     Object.defineProperty(global, 'localStorage', {
       value: {
         getItem: jest.fn(),
