@@ -50,7 +50,7 @@ export const execute = async (
     if (call instanceof Array && call.length > 0) {
       return await batchExecuteWithBrowserWallet(call, wallet);
     } else {
-      return await executeTransaction(
+      return await executeWithBrowserWallet(
         call as NearContractCall,
         wallet,
       );
@@ -61,7 +61,7 @@ export const execute = async (
     return batchExecuteWithNearAccount(call, account);
   }
 
-  return await executeTransaction(call as NearContractCall, account);
+  return await executeWithNearAccount(call as NearContractCall, account);
 };
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
@@ -84,13 +84,11 @@ const convertGenericCallToWalletCall = (
 });
 
 // wallet call translation wrappers
-const executeTransaction = async (
+const executeWithBrowserWallet = async (
   call: NearContractCall,
-  signer: Wallet | Account,
+  wallet: Wallet,
 ): Promise<void | providers.FinalExecutionOutcome> =>
-  // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-  // @ts-ignore
-  signer.signAndSendTransaction(convertGenericCallToWalletCall(call));
+  wallet.signAndSendTransaction(convertGenericCallToWalletCall(call));
 
 const batchExecuteWithBrowserWallet = async (
   calls: NearContractCall[],
@@ -101,10 +99,25 @@ const batchExecuteWithBrowserWallet = async (
   });
 };
 
-// TODO: investigate ways to re-use batch actions with transaction signature for batching with NAJ accounts.
-// Possible limitation, the signature requires a single receiverId (contract).
-// Do we want to support full batching using multiple calls? Note - this would be server side only.
-// Testing lib will help with this, and to report results
+// account call translation wrappers
+// TODO: newer version? of near-api-js seem to indicate they support the same
+// signature as the wallet selector sendAndSignTransaction
+// https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
+// looked into this more, and unfortunately the method is marked private causing
+// difficult to debug typescript errors but on main branch it appears they have removed the protected annotation but the release tag still has it
+// This will all work fine for now, but would be good to eventually share the same call signature
+// that could assist with batch optimizations.
+const executeWithNearAccount = async (
+  call: NearContractCall,
+  account: Account,
+): Promise<void | providers.FinalExecutionOutcome> => account.functionCall({
+  contractId: call.contractAddress,
+  methodName: call.methodName,
+  args: call.args,
+  gas: call.gas,
+  attachedDeposit: call.deposit,
+});
+
 const batchExecuteWithNearAccount = async (
   calls: NearContractCall[],
   account: Account,
