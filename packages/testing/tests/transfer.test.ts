@@ -35,6 +35,5 @@ test('transfer token between two accounts', async () => {
   { account: signingAccount },
   ) as FinalExecutionOutcome;
 
-  console.log(result);
   expect(result.receipts_outcome).not.toBeUndefined();
 });
