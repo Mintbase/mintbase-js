@@ -17,7 +17,7 @@ export type TransactionAttachments = {
 
 export type NearContractCall = TransactionArgs &
   TransactionAttachments & {
-    signerId: string;
+    signerId?: string;
     callbackUrl?: string;
   };
 

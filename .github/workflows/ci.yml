@@ -12,7 +12,7 @@ jobs:
         with:
           node-version: 14.x
 
-      - run: npm i
+      - run: npm ci
       - run: npm run bootstrap
       - run: npm run lint
       - run: npm run build

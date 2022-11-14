@@ -95,7 +95,7 @@ let timerReference = null;
 
 export const pollForWalletConnection = async (): Promise<AccountState[]> => {
   validateWalletComponentsAreSetup();
-  // clear any existing timers
+  // clear any existing timer
   clearTimeout(timerReference);
 
   const tryToResolveAccountsFromState = (
@@ -190,18 +190,18 @@ export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOw
 //  https://www.npmjs.com/package/bs58
 // https://github.com/feross/buffer
 // https://github.com/near/wallet-selector/issues/434
-export const verifyMessage = async (signature: string): Promise<boolean> => {
+// export const verifyMessage = async (signature: string): Promise<boolean> => {
 
-  // const owner = await getVerifiedOwner(signature);
+//   // const owner = await getVerifiedOwner(signature);
 
-  // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
+//   // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
 
-  // const createdPublicKey = utils.PublicKey.from(publicKeyString);
+//   // const createdPublicKey = utils.PublicKey.from(publicKeyString);
 
-  // const stringified = JSON.stringify(owner);
+//   // const stringified = JSON.stringify(owner);
 
-  // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
+//   // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
 
-  return false;
-};
+//   return false;
+// };
 

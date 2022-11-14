@@ -8,7 +8,8 @@
     "clean": "rm -rf **/node_modules && rm -rf **/lib && rm -rf **/coverage",
     "dev": "lerna run watch --stream & cd packages/app && npm run dev",
     "lint": "lerna run lint",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream --ignore @mintbase-js/testing",
+    "test:integration": "lerna run test --stream --scope @mintbase-js/testing"
   },
   "nodemonConfig": {
     "watch": [
@@ -45,6 +46,7 @@
     "@mintbase-js/data": "file:packages/data",
     "@mintbase-js/react": "file:packages/react",
     "@mintbase-js/sdk": "file:packages/sdk",
+    "@mintbase-js/testing": "file:packages/testing",
     "@near-wallet-selector/core": "^7.0.3",
     "@near-wallet-selector/default-wallets": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
