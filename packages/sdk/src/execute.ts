@@ -99,12 +99,14 @@ const batchExecuteWithBrowserWallet = async (
   });
 };
 
-// account call translation wrapper
+// account call translation wrappers
 // TODO: newer version? of near-api-js seem to indicate they support the same
 // signature as the wallet selector sendAndSignTransaction
 // https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
 // looked into this more, and unfortunately the method is marked private causing
-// difficult to debug typescript errors
+// difficult to debug typescript errors but on main branch it appears they have removed the protected annotation but the release tag still has it
+// This will all work fine for now, but would be good to eventually share the same call signature
+// that could assist with batch optimizations.
 const executeWithNearAccount = async (
   call: NearContractCall,
   account: Account,
