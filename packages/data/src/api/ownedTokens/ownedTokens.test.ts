@@ -1,5 +1,5 @@
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../graphql/fetch';
+import { GraphqlFetchingError } from '../../graphql/fetch';
 import { ownedTokens, OwnedTokensQueryResult } from './ownedTokens';
 
 jest.mock('graphql-request');

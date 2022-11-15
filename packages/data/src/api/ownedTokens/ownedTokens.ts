@@ -1,5 +1,5 @@
-import { Pagination } from '../types';
-import { fetchGraphQl } from '../graphql/fetch';
+import { Pagination } from '../../types';
+import { fetchGraphQl } from '../../graphql/fetch';
 import { ownedTokensQuery } from './ownedTokens.query';
 
 export type OwnedTokens = {
