@@ -9,7 +9,6 @@ A series of scoped `@mintbase-js` modules for interacting with Mintbase, NEAR, A
 
 Breaking changes may be introduced at anytime.
 
-<br>
 
 ## Join us in building the future
 
@@ -17,7 +16,6 @@ Feedback on Mintbase SDKs? Reach out on [Telegram](https://t.me/mintdev) public 
 
 Building something cool? Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).
 
-<br>
 
 # SDK Road Map
 
@@ -44,7 +42,6 @@ The SDK is currently in active development. The following modules/functionality 
 ### [@mintbase-js/testing]($DOCS_PATH/packages/testing)
   - Testing utilities and integration test suites for running mintbase-js against deployed contracts.
 
-<br>
 
 # Environment Variables
 

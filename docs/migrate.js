@@ -10,10 +10,12 @@ console.log('GIT_PATH:', process.env.GIT_PATH);
 
 // copy root markdown
 const rootMarkdown = readFileSync(resolve(__dirname + '/../README.md'));
-writeFileSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/docs.md'), rootMarkdown);
+writeFileSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/README.md'), rootMarkdown);
 
 // keep track of pages under root
 const pages = [];
+
+const trimDir = (path) => path.replace('packages/', '').replace('src/', '').replace('api/', '')
 
 // recursively add all the other markdowns
 const addMarkdownToDocsRepo = (dir) => {
@@ -32,10 +34,7 @@ const addMarkdownToDocsRepo = (dir) => {
     // if it's markdown... copy/overwrite into git
     if (item.split('.').pop() === 'md') {
 
-      const itemWritePath = resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/' + itemRelativePath)
-        .replace('packages/', '')
-        .replace('src/', '');
-
+      const itemWritePath = trimDir(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/' + itemRelativePath));
       const writeDirectory = itemWritePath.split('/').slice(0, -1).join('/')
       console.log('Copying', itemAbsolutePath, 'to', itemWritePath);
 
@@ -48,7 +47,7 @@ const addMarkdownToDocsRepo = (dir) => {
       writeFileSync(itemWritePath, content);
 
       // add to pages map
-      const trimmedPath = 'mintbase-sdk-ref/' + itemRelativePath.replace('packages/', '').replace('src/', '');
+      const trimmedPath = 'mintbase-sdk-ref/' + trimDir(itemRelativePath);
       pages.push({
         path: trimmedPath,
         // TODO: parse title from comment or something
@@ -90,10 +89,11 @@ for (const line of lines) {
 
     // when we arrive at the developer section and to the SDK root marker
     if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') > -1 && !hasInjectedContent) {
+      console.log('ugh', pages);
       // inject all the content
       currentSection.items.push('* [📚 SDK Reference](mintbase-sdk-ref/README.md)');
       for (const page of pages) {
-        const tab = page.path.split('/').map((_) => '  ').join('');
+        const tab = page.path.split('/').slice(0,-2).map((_) => '  ').join('');
         currentSection.items.push(`${tab}* [${page.title}](${page.path})`);
       }
 
