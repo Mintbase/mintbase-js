@@ -1,33 +1,54 @@
 ![Licence](https://img.shields.io/badge/license-MIT-blue.svg) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=add-wallet-selector)](https://coveralls.io/github/Mintbase/mintbase-js?branch=add-wallet-selector)
 
-# Mintbase SDK
+# Mintbase SDK (Beta)
 
-A series of scoped modules `@mintbase-js` for interacting with Mintbase, NEAR, Arweave and other decentralized web applications.
+A series of scoped `@mintbase-js` modules for interacting with Mintbase, NEAR, Arweave (Bundlr network) and other decentralized web services and applications.
 
-## Roadmap
 
-The SDK is currently in active development. The following modules/functionality are outlined here:
+## ⚠️ The SDKs are currently in Beta.
 
-### @mintbase-js/sdk
+Breaking changes may be introduced at anytime.
+
+<br>
+
+## Join us in building the future
+
+Feedback on Mintbase SDKs? Reach out on [Telegram](https://t.me/mintdev) public developer channel!
+
+Building something cool? Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).
+
+<br>
+
+# SDK Road Map
+
+The SDK is currently in active development. The following modules/functionality are outlined here along with links to documentation supporting each:
+
+### [@mintbase-js/sdk]($DOCS_PATH/packages/sdk)
 
  - Core NEAR smart contract method call util (single and multiple transactions)
  - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
 
-### @mintbase-js/auth
+### [@mintbase-js/auth]($DOCS_PATH/packages/auth)
 
  - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
- - **TODO:** message singing and verification utils, nodejs account loading, key management etc.
+ - [near-api-js](https://github.com/near/near-api-js) convenience wrappers
+ - **IN PROGRESS:** message singing and verification utils, nodejs account loading, key management etc.
 
-### @mintbase-js/react
+### [@mintbase-js/react]($DOCS_PATH/packages/react)
+  - **IN PROGRESS:** message singing and verification utils, nodejs account loading, key management etc.
   - WalletContext provider for @mintbase-js/auth to react appliactions
 
-### @mintbase-js/data
-  - **TODO:** Indexer query convenience wrappers for common calls
-  - **TODO:** RPC wrappers for view methods on mintbase/market contracts
+### [@mintbase-js/data]($DOCS_PATH/packages/data)
+  - Convenience wrapper methods for common use-case GraphQL calls
+
+### [@mintbase-js/testing]($DOCS_PATH/packages/testing)
+  - Testing utilities and integration test suites for running mintbase-js against deployed contracts.
 
 <br>
 
 # Environment Variables
+
+In order to use mintbase JS functions environment variables will need to be supplied via `process.env`, [dotenv](https://www.npmjs.com/package/dotenv) etc.
 
 ```
 # default testnet
@@ -45,10 +66,10 @@ This repo is using lerna (now powered by nx) under the hood.
 Symlink packages via
 
 ```
-npm run bootsrap
+npm run bootstrap
 ```
 
-Watch all the typescript modules as well as run the app (nextjs sdk test) server:
+Watch the typescript modules via `npm run dev`. This will watch for changes, compile typescript and run tests on changed code.
 
 ```
 npm run dev
@@ -60,13 +81,15 @@ The NextJS/React test suite can be run with `npm run dev` inside of packages/app
 
 # Adding New Packages
 
-When adding new packages, Lerna tends to struggle with versions that have not already been published, especially if they will become dependencies of other packages in this repo.
+Lerna struggles with versions that have not already been published, especially if they will become dependencies of other packages in this repo.
 
-When adding a new package, the easiest way is to copy the data package and change appropriate values in `package.json`.
+When adding a new package, the fastest way is to:
 
-Add the **package itself to the root project devDependencies** for example:
+1. copy the data package and change appropriate values in `package.json`.
+
+2. Add the **package itself to the root project devDependencies** for example:
 ```
 "@mintbase-js/<new-package>": "file:packages/<new-package>",
 ```
 
-Finally, publish out the current locked version as all the other packages from the local command line using `npm publish`.
+3. Publish out the current locked version as all the other packages from the local command line using `npm publish`.

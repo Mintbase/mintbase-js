@@ -16,7 +16,7 @@
     "plugin:react/recommended"
   ],
   "ignorePatterns": [
-    "jest.config.js", "lib/**", "src-v2/**", "packages/data/src/graphql/codegen/**"
+    "jest.config.js", "lib/**", "src-v2/**", "packages/data/src/graphql/codegen/**", "*.js"
   ],
 
   "rules": {
