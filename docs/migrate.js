@@ -89,7 +89,7 @@ for (const line of lines) {
 
     // when we arrive at the developer section and to the SDK root marker
     if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') > -1 && !hasInjectedContent) {
-      console.log('ugh', pages);
+      console.log('Adding pages:', pages);
       // inject all the content
       currentSection.items.push('* [📚 SDK Reference](mintbase-sdk-ref/README.md)');
       for (const page of pages) {
