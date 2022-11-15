@@ -4,10 +4,10 @@
 
 A series of scoped `@mintbase-js` modules for interacting with Mintbase, NEAR, Arweave (Bundlr network) and other decentralized web services and applications.
 
-
-## ⚠️ The SDKs are currently in Beta.
-
+{% hint style="warning" %}
+## The SDKs are currently in Beta.
 Breaking changes may be introduced at anytime.
+{% endhint %}
 
 
 ## Join us in building the future
@@ -21,25 +21,25 @@ Building something cool? Consider [applying for a grant](https://github.com/Mint
 
 The SDK is currently in active development. The following modules/functionality are outlined here along with links to documentation supporting each:
 
-### [@mintbase-js/sdk]($DOCS_PATH/packages/sdk)
+### [@mintbase-js/sdk]($DOCS_BASE_URL/mintbase-sdk-ref//sdk)
 
  - Core NEAR smart contract method call util (single and multiple transactions)
  - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
 
-### [@mintbase-js/auth]($DOCS_PATH/packages/auth)
+### [@mintbase-js/auth]($DOCS_BASE_URL/mintbase-sdk-ref//auth)
 
  - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
  - [near-api-js](https://github.com/near/near-api-js) convenience wrappers
  - **IN PROGRESS:** message singing and verification utils, nodejs account loading, key management etc.
 
-### [@mintbase-js/react]($DOCS_PATH/packages/react)
+### [@mintbase-js/react]($DOCS_BASE_URL/mintbase-sdk-ref//react)
   - **IN PROGRESS:** message singing and verification utils, nodejs account loading, key management etc.
   - WalletContext provider for @mintbase-js/auth to react appliactions
 
-### [@mintbase-js/data]($DOCS_PATH/packages/data)
+### [@mintbase-js/data]($DOCS_BASE_URL/mintbase-sdk-ref//data)
   - Convenience wrapper methods for common use-case GraphQL calls
 
-### [@mintbase-js/testing]($DOCS_PATH/packages/testing)
+### [@mintbase-js/testing]($DOCS_BASE_URL/mintbase-sdk-ref//testing)
   - Testing utilities and integration test suites for running mintbase-js against deployed contracts.
 
 

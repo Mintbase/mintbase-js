@@ -1,3 +1,4 @@
+[//]: # `{ "title": "@mintbase-js/sdk", "order": 0 }`
 # @mintbase-js/sdk
 
 This module provides a set of convenience wrappers around invocation of Mintbase smart contract methods, but also exposes a low-level isomorphic [execute](#execute) method that can be passed raw `NearContractCall` information.

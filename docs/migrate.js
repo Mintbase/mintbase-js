@@ -5,8 +5,11 @@ const { resolve } = require('path');
 console.log('Finding all the markdown...');
 
 // TODO: replace links inside docs with these paths
-console.log('DOCS_PATH:', process.env.DOCS_PATH);
-console.log('GIT_PATH:', process.env.GIT_PATH);
+console.log('DOCS_BASE_URL:', process.env.DOCS_BASE_URL);
+console.log('GIT_BASE_URL:', process.env.GIT_BASE_URL);
+
+// re-create directory
+mkdirSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref'), { recursive:true });
 
 // copy root markdown
 const rootMarkdown = readFileSync(resolve(__dirname + '/../README.md'));
@@ -15,7 +18,7 @@ writeFileSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/README.md'), r
 // keep track of pages under root
 const pages = [];
 
-const trimDir = (path) => path.replace('packages/', '').replace('src/', '').replace('api/', '')
+const trimDir = (path) => path.replace('packages/', '').replace('src/', '');
 
 // recursively add all the other markdowns
 const addMarkdownToDocsRepo = (dir) => {
@@ -24,6 +27,7 @@ const addMarkdownToDocsRepo = (dir) => {
     .filter(item =>
       item.indexOf('.') !== 0 &&
       item !== 'docs' &&
+      item !== 'app' &&
       item !== 'node_modules'
     );
 
@@ -42,16 +46,27 @@ const addMarkdownToDocsRepo = (dir) => {
       mkdirSync(writeDirectory, { recursive: true });
 
       const content = readFileSync(itemAbsolutePath);
+      const splitContent = content.toString().split('\n')
+      const jsonProps = splitContent[0].match(/\`(.*)\`/)
+      const props = jsonProps
+        ? JSON.parse(jsonProps[1])
+        : {}
+
+      // trim off comment since gitbook displays it :/
+      const commentLessContent = jsonProps
+        ? splitContent.slice(1).join('\n')
+        : content;
 
       // TODO: replace links within with path env vars (see above)
-      writeFileSync(itemWritePath, content);
+      writeFileSync(itemWritePath, commentLessContent);
 
       // add to pages map
       const trimmedPath = 'mintbase-sdk-ref/' + trimDir(itemRelativePath);
       pages.push({
         path: trimmedPath,
         // TODO: parse title from comment or something
-        title: trimmedPath.replace('/README.md', '').split('/').pop()
+        title: trimmedPath.replace('/README.md', '').split('/').pop(),
+        ...props
       });
     }
 
@@ -89,9 +104,16 @@ for (const line of lines) {
 
     // when we arrive at the developer section and to the SDK root marker
     if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') > -1 && !hasInjectedContent) {
-      console.log('Adding pages:', pages);
+
       // inject all the content
       currentSection.items.push('* [📚 SDK Reference](mintbase-sdk-ref/README.md)');
+
+      // sort pages
+      pages.sort((a, b) => {
+        if (Number(a.order) > Number(b.order)) return 1;
+        return -1;
+      });
+      console.log('Adding pages:', pages);
       for (const page of pages) {
         const tab = page.path.split('/').slice(0,-2).map((_) => '  ').join('');
         currentSection.items.push(`${tab}* [${page.title}](${page.path})`);

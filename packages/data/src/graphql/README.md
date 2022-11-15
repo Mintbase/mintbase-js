@@ -1,4 +1,4 @@
-[//]: # "title: Using GraphQL"
+[//]: # `{ "title": "Using Graphql", "order": 2 }`
 # Using GraphQL
 
 Currently there are two schemas published to our GraphQL schemas:
