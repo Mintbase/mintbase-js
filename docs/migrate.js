@@ -48,7 +48,7 @@ const addMarkdownToDocsRepo = (dir) => {
       writeFileSync(itemWritePath, content);
 
       // add to pages map
-      const trimmedPath = itemRelativePath.replace('packages/', '').replace('src/', '');
+      const trimmedPath = 'mintbase-sdk-ref/' + itemRelativePath.replace('packages/', '').replace('src/', '');
       pages.push({
         path: trimmedPath,
         // TODO: parse title from comment or something
@@ -67,9 +67,6 @@ const addMarkdownToDocsRepo = (dir) => {
 addMarkdownToDocsRepo('packages');
 
 // FIXME: this is not amazing, but works for now
-// inject the pages map to SUMMARY.md
-console.log('pages:', pages);
-
 const summaryFilePath = resolve(__dirname + '/gitbook-docs/SUMMARY.md');
 const content = readFileSync(summaryFilePath).toString();
 const lines = content.split('\n');
@@ -101,7 +98,7 @@ for (const line of lines) {
       }
 
       hasInjectedContent = true;
-    } else {
+    } else if (line.indexOf('mintbase-sdk-ref') == -1) {
       // carry on...
       currentSection.items.push(line)
     }
