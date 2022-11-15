@@ -1,5 +1,4 @@
 // copies/overwrites documentation in side of the existing repo.
-const { CursorOrdering } = require('@mintbase-js/data/lib/graphql/codegen/graphql');
 const { readdirSync, lstatSync, readFileSync, writeFileSync, mkdirSync } = require('fs');
 const { resolve } = require('path');
 
@@ -8,8 +7,6 @@ console.log('Finding all the markdown...');
 // TODO: replace links inside docs with these paths
 console.log('DOCS_PATH:', process.env.DOCS_PATH);
 console.log('GIT_PATH:', process.env.GIT_PATH);
-
-
 
 // copy root markdown
 const rootMarkdown = readFileSync(resolve(__dirname + '/../README.md'));
@@ -54,8 +51,8 @@ const addMarkdownToDocsRepo = (dir) => {
       const trimmedPath = itemRelativePath.replace('packages/', '').replace('src/', '');
       pages.push({
         path: trimmedPath,
-        item,
         // TODO: parse title from comment or something
+        title: trimmedPath.replace('/README.md', '').split('/').pop()
       });
     }
 
@@ -73,7 +70,8 @@ addMarkdownToDocsRepo('packages');
 // inject the pages map to SUMMARY.md
 console.log('pages:', pages);
 
-const content = readFileSync(resolve(__dirname + '/gitbook-docs/SUMMARY.md')).toString();
+const summaryFilePath = resolve(__dirname + '/gitbook-docs/SUMMARY.md');
+const content = readFileSync(summaryFilePath).toString();
 const lines = content.split('\n');
 
 const sections = [];
@@ -94,12 +92,13 @@ for (const line of lines) {
   if (line.indexOf('*') > -1 && currentSection) {
 
     // when we arrive at the developer section and to the SDK root marker
-    if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') < -1 && !hasInjectedContent) {
+    if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') > -1 && !hasInjectedContent) {
       // inject all the content
-      currentSection.items.push(['* [📚 SDK Reference](mintbase-sdk-ref/README.md)']);
-      // Object.entries.map(([key, value]) => {
-      //   const shortPath =
-      // })
+      currentSection.items.push('* [📚 SDK Reference](mintbase-sdk-ref/README.md)');
+      for (const page of pages) {
+        const tab = page.path.split('/').map((_) => '  ').join('');
+        currentSection.items.push(`${tab}* [${page.title}](${page.path})`);
+      }
 
       hasInjectedContent = true;
     } else {
@@ -110,4 +109,14 @@ for (const line of lines) {
   }
 }
 
-console.log(sections);
+// add all the sections back together to new SUMMARY.md
+const write = []
+for (const section of sections) {
+  write.push(section.name)
+  write.push('\n');
+  for (const item of section.items) {
+    write.push(item);
+  }
+  write.push('\n');
+}
+writeFileSync(summaryFilePath, write.join('\n'));

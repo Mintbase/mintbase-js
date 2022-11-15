@@ -1,5 +1,5 @@
 import { gql } from 'graphql-request';
-import { QUERY_OPS_PREFIX } from '../../constants';
+import { QUERY_OPS_PREFIX } from '../constants';
 
 export const ownedTokensQuery = gql`
 query ${QUERY_OPS_PREFIX}_getOwnedTokens(

@@ -1,6 +1,6 @@
 import { tokenListingCountsByMetaId, TokenListingQueryResults } from './tokenListingCountsByMetaId';
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../fetch';
+import { GraphqlFetchingError } from '../graphql/fetch';
 
 jest.mock('graphql-request');
 

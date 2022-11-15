@@ -1,6 +1,6 @@
 
-import { NftTokensAggregate } from '../codegen/graphql';
-import { fetchGraphQl } from '../fetch';
+import { NftTokensAggregate } from '../graphql/codegen/graphql';
+import { fetchGraphQl } from '../graphql/fetch';
 import { tokenListingCountsByMetaIdQuery } from './tokenListingCountsByMetaId.query';
 
 export type TokenListingCounts = {

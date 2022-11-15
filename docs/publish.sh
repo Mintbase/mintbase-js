@@ -13,8 +13,6 @@ cd ..
 
 node migrate.js
 
-
-
 git add --all
 git commit -m "📒 🤖 Mintbase SDK automated doc sync"
-git push
+git push origin HEAD
