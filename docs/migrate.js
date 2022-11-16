@@ -4,9 +4,6 @@ const { resolve } = require('path');
 
 console.log('Finding all the markdown...');
 
-// TODO: replace links inside docs with these paths
-console.log('DOCS_BASE_URL:', process.env.DOCS_BASE_URL);
-console.log('GIT_BASE_URL:', process.env.GIT_BASE_URL);
 
 // re-create directory
 mkdirSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref'), { recursive:true });
@@ -18,7 +15,7 @@ writeFileSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/README.md'), r
 // keep track of pages under root
 const pages = [];
 
-const trimDir = (path) => path.replace('packages/', '').replace('src/', '');
+const trimDir = (path) => path.replace('packages/', '').replace('src/', '').replace('v1/', '');
 
 // recursively add all the other markdowns
 const addMarkdownToDocsRepo = (dir) => {
@@ -57,7 +54,7 @@ const addMarkdownToDocsRepo = (dir) => {
         ? splitContent.slice(1).join('\n')
         : content;
 
-      // TODO: replace links within with path env vars (see above)
+      // TODO: replace links with the trimmed version..
       writeFileSync(itemWritePath, commentLessContent);
 
       // add to pages map
