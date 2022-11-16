@@ -8,7 +8,7 @@ cd gitbook-docs
 rm -rf mintbase-sdk-ref/
 
 # use temp working branch for now (eventually, just push to main)
-if [ USE_MAIN -ne 'true']; then
+if [ USE_MAIN -ne "true"]; then
   git checkout -b docs-$GIT_TAG
 fi
 
