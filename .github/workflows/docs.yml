@@ -26,7 +26,7 @@ jobs:
         with:
           repository: 'Mintbase/gitbook-docs'
           ref: 'include-api-docs'
-          dest: 'docs/gitbook-docs'
+          path: 'docs/gitbook-docs'
           token: ${{ secrets.GITHUB_TOKEN }}
           persist-credentials: true
 
