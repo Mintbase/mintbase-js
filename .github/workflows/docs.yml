@@ -1,9 +1,9 @@
-name: Build and Deploy Docs
+name: Build and Publish Docs
 
 on:
   release:
     types: [released]
-  
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -16,13 +16,12 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Install and Build 
+      - name: Configure git
         run: |
-          npm install
-          npm run doc
+          git config --global user.name "mintbaseteam"
+          git config --global user.email "eng@mintbase.io"
 
-      - name: Publishing on Github Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+      - name: Publish Docs
+        env:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run docs
