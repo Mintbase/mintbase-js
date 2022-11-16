@@ -22,4 +22,5 @@ jobs:
           format: markdown
           message: |
             [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/): ✅[APPROVED] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was approved by ${{ github.actor }} 
+
             

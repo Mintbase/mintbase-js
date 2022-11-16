@@ -317,6 +317,7 @@ export class Wallet {
 
     const { data: accessKey } = await this.viewAccessKey(accountId, publicKey)
 
+
     const allowance = utils?.format?.formatNearAmount(
       accessKey?.permission?.FunctionCall?.allowance ?? DEFAULT_ALLOWANCE
     )

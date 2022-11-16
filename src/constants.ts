@@ -20,6 +20,8 @@ export const DEFAULT_ALLOWANCE = 250000000000000000000000;
 
 export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 
+export const DEFAULT_ALLOWANCE = '0.25'
+
 // TODO: pull this from somewhere else?
 export const FACTORY_CONTRACT_NAME =
   process.env.MINTBASEJS_FACTORY_CONTRACT_NAME || 'mintspace2.testnet'

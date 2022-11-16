@@ -23,4 +23,3 @@ jobs:
           message: |
             [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) : ♻️ [REQUESTED CHANGES] by ${{ github.actor }} 
                on [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})
-            
