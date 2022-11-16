@@ -21,25 +21,25 @@ Building something cool? Consider [applying for a grant](https://github.com/Mint
 
 The SDK is currently in active development. The following modules/functionality are outlined here along with links to documentation supporting each:
 
-### [@mintbase-js/sdk]($DOCS_BASE_URL/mintbase-sdk-ref//sdk)
+### [@mintbase-js/sdk](packages/sdk)
 
  - Core NEAR smart contract method call util (single and multiple transactions)
  - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
 
-### [@mintbase-js/auth]($DOCS_BASE_URL/mintbase-sdk-ref//auth)
+### [@mintbase-js/auth](packages/auth/)
 
  - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
  - [near-api-js](https://github.com/near/near-api-js) convenience wrappers
  - **IN PROGRESS:** message singing and verification utils, nodejs account loading, key management etc.
 
-### [@mintbase-js/react]($DOCS_BASE_URL/mintbase-sdk-ref//react)
+### [@mintbase-js/react](packages/react)
   - **IN PROGRESS:** message singing and verification utils, nodejs account loading, key management etc.
   - WalletContext provider for @mintbase-js/auth to react appliactions
 
-### [@mintbase-js/data]($DOCS_BASE_URL/mintbase-sdk-ref//data)
+### [@mintbase-js/data](packages/data)
   - Convenience wrapper methods for common use-case GraphQL calls
 
-### [@mintbase-js/testing]($DOCS_BASE_URL/mintbase-sdk-ref//testing)
+### [@mintbase-js/testing](packages/testing)
   - Testing utilities and integration test suites for running mintbase-js against deployed contracts.
 
 
@@ -63,18 +63,16 @@ This repo is using lerna (now powered by nx) under the hood.
 Symlink packages via
 
 ```
+npm i
 npm run bootstrap
 ```
 
-Watch the typescript modules via `npm run dev`. This will watch for changes, compile typescript and run tests on changed code.
+Watch the typescript modules via `npm run dev` from root, which lerna runs `npm run watch` in each.
 
-```
-npm run dev
-```
 
-This will watch for changes, compile typescript to `/lib` in each package as well as run Jest tests with coverage.
+This will watch for changes, compile typescript to `/lib` in each package as well as run Jest tests with coverage metrics for any changed code.
 
-The NextJS/React test suite can be run with `npm run dev` inside of packages/app.
+The NextJS browser test suite located in `packages/app` can be run with `npm run dev`.
 
 # Adding New Packages
 
