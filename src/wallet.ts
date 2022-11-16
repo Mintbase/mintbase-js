@@ -1,4 +1,4 @@
-import 'isomorphic-unfetch'
+import 'whatwg-fetch'
 import { isBrowser, isNode } from 'browser-or-node'
 import {
   keyStores,
@@ -47,6 +47,7 @@ import {
   TWENTY_FOUR,
   MINTBASE_32x32_BASE64_DARK_LOGO,
   ERROR_MESSAGES,
+  DEFAULT_ALLOWANCE,
 } from './constants'
 import { Minter } from './minter'
 
@@ -316,8 +317,8 @@ export class Wallet {
 
     const { data: accessKey } = await this.viewAccessKey(accountId, publicKey)
 
-    const allowance = utils.format.formatNearAmount(
-      accessKey.permission.FunctionCall.allowance
+    const allowance = utils?.format?.formatNearAmount(
+      accessKey?.permission?.FunctionCall?.allowance ?? DEFAULT_ALLOWANCE
     )
 
     const contractName = this.activeNearConnection?.config.contractName
@@ -1200,12 +1201,11 @@ export class Wallet {
           royaltys: selectedThing.royalties,
         },
       ],
-      splits: splits || selectedThing.splitsFromTokenData || null
+      splits: splits || selectedThing.splitsFromTokenData || null,
     }
 
     if (thing.tokens.length === 0)
       return formatResponse({ error: 'Thing does not have tokens.' })
-
 
     const contractName = thing.storeId
     const memo = thing.memo
@@ -1234,9 +1234,10 @@ export class Wallet {
       num_to_mint: amount,
       royalty_args: royaltys
         ? {
-          split_between: royaltys,
-          percentage: royaltyPercent,
-        } : null,
+            split_between: royaltys,
+            percentage: royaltyPercent,
+          }
+        : null,
       split_owners: thing.splits,
     }
 

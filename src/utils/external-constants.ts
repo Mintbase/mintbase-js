@@ -1,4 +1,4 @@
-import 'isomorphic-unfetch'
+import 'whatwg-fetch'
 import { Constants, Network } from 'src/types'
 import { CLOUD_URI, API_VERSION } from '../constants'
 import { retryFetch } from './retryFetch'

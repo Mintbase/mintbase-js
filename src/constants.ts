@@ -15,6 +15,9 @@ export const API_BASE_NEAR_TESTNET =
 export const BASE_ARWEAVE_URI = 'https://arweave.net'
 
 export const DEFAULT_APP_NAME = 'Mintbase.js'
+
+export const DEFAULT_ALLOWANCE = 250000000000000000000000;
+
 export const NEAR_LOCAL_STORAGE_KEY_SUFFIX = '_wallet_auth_key'
 
 // TODO: pull this from somewhere else?

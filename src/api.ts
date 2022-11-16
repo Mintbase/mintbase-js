@@ -1,4 +1,4 @@
-import 'isomorphic-unfetch'
+import 'whatwg-fetch'
 import { request } from 'graphql-request'
 import urlcat from 'urlcat'
 
