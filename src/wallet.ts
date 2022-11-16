@@ -47,6 +47,7 @@ import {
   TWENTY_FOUR,
   MINTBASE_32x32_BASE64_DARK_LOGO,
   ERROR_MESSAGES,
+  DEFAULT_ALLOWANCE,
 } from './constants'
 import { Minter } from './minter'
 
@@ -321,7 +322,8 @@ export class Wallet {
     )
 
     if (typeof allowance == 'undefined') {
-      allowance = '0.25'
+      allowance = DEFAULT_ALLOWANCE
+
     }
 
     const contractName = this.activeNearConnection?.config.contractName
