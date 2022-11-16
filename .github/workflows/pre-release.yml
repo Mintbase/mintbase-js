@@ -1,0 +1,31 @@
+name: Telegram pre-release notification
+
+#on:
+#  push:
+#    branches:
+#      - main # Change this to your default branch
+
+on:
+  release:
+    types: [prereleased]
+
+jobs:
+  # This workflow contains a single job called "build"
+  telegram-msg:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Runs the telegram notify action to send a notification
+      - name: Telegram Notify
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            mintbase.js New Release: [${{ github.event.release.tag_name}}](${{ github.event.release.html_url }})
