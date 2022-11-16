@@ -316,16 +316,20 @@ export class Wallet {
 
     const { data: accessKey } = await this.viewAccessKey(accountId, publicKey)
 
-    const allowance = utils.format.formatNearAmount(
+    let allowance = utils.format.formatNearAmount(
       accessKey.permission.FunctionCall.allowance
     )
+
+    if (typeof allowance == 'undefined') {
+      allowance = '0.25'
+    }
 
     const contractName = this.activeNearConnection?.config.contractName
 
     const data = {
       accountId: accountId,
       balance: utils.format.formatNearAmount(balance?.total, 2),
-      allowance: allowance,
+      allowance: allowance ,
       contractName: contractName,
     }
 
