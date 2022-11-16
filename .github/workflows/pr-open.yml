@@ -1,4 +1,4 @@
-name: Telegram P/R Merged notification
+name: Telegram P/R Open notification
 
 on:
   pull_request:

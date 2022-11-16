@@ -21,6 +21,10 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
+<<<<<<< HEAD
             [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) : ♻️ [REQUESTED CHANGES] by ${{ github.actor }} 
                on [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})
+=======
+            [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) P/R: Changes Requested by ${{ github.actor }} on [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})
+>>>>>>> main
             
