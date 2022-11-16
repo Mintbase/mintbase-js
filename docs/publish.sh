@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
+# Note: This is only used for local testing. Didn't work in GH actions.
 
 rm -rf gitbook-docs/
 
-git clone $GIT_DOCS
+git clone git@github.com:Mintbase/gitbook-docs.git
 
 cd gitbook-docs
 rm -rf mintbase-sdk-ref/
 
 # use temp working branch for now (eventually, just push to main)
-if [ USE_MAIN -ne "true"]; then
-  git checkout -b docs-$GIT_TAG
-fi
+git checkout -b include-api-docs
 
 node ../migrate.js
 

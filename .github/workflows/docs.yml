@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2.3.1
+        uses: actions/checkout@v3
 
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
@@ -21,10 +21,20 @@ jobs:
           git config --global user.name "mintbaseteam"
           git config --global user.email "eng@mintbase.io"
 
-      - name: Publish Docs
-        env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          GIT_DOCS: https://github.com/Mintbase/gitbook-docs.git
-          GIT_TAG: ${{ github.event.release.tag_name }}
-          USE_MAIN: ${{ github.event.action == 'released' && 'true' || 'false'}}
-        run: npm run docs
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: 'Mintbase/gitbook-docs'
+          ref: 'include-api-docs'
+          dest: 'docs/gitbook-docs'
+          token: ${{ secrets.GITHUB_TOKEN }}
+          persist-credentials: true
+
+      - name: Copy and Publish Docs
+        working-directory: 'docs/gitbook-docs'
+        run: |
+          rm -rf mintbase-sdk-ref/
+          node ../migrate.js
+          git add --all
+          git commit -m "📒 🤖 Mintbase SDK automated doc sync"
+          git push origin HEAD
