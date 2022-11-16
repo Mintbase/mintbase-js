@@ -27,4 +27,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-             [b]mintbase.js[/b] P/R: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) is opened by ${{ github.actor }}
+             [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) P/R: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) is opened by ${{ github.actor }}
