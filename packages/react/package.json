@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.0.4-rc16",
+  "version": "0.0.4-rc17",
   "description": "React app tools for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
