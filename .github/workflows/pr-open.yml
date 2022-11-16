@@ -23,5 +23,4 @@ jobs:
           format: markdown
           message: |
             [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) ➡️ [OPEN] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) by ${{ github.actor }} 
-            🔗 [https://omni-site-git-${{github.head_ref}}-mintbase.vercel.app](testnet environment) 
 
