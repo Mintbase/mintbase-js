@@ -23,6 +23,7 @@ jobs:
           ref: 'include-api-docs'
           path: 'docs/gitbook-docs'
           token: ${{ secrets.GITHUB_TOKEN }}
+          ssh-key: ${{ secrets.TEAM_ACCOUNT_KEY }}
           persist-credentials: true
 
       - name: Copy and Publish Docs
