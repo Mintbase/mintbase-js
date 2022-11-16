@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/auth",
-  "version": "0.0.4-rc21",
+  "version": "0.0.4-rc16",
   "description": "Wallet and auth functions for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -19,12 +19,25 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "^0.0.4-rc21",
+    "@mintbase-js/sdk": "^0.0.4-rc16",
+    "@near-wallet-selector/coin98-wallet": "^7.2.0",
     "@near-wallet-selector/core": "^7.1.0",
-    "@near-wallet-selector/default-wallets": "^7.1.0",
+    "@near-wallet-selector/default-wallets": "^7.2.0",
+    "@near-wallet-selector/here-wallet": "^7.2.0",
+    "@near-wallet-selector/ledger": "^7.2.0",
+    "@near-wallet-selector/math-wallet": "^7.2.0",
+    "@near-wallet-selector/meteor-wallet": "^7.2.0",
     "@near-wallet-selector/modal-ui": "^7.1.0",
-    "@near-wallet-selector/near-wallet": "^7.1.0",
-    "@near-wallet-selector/sender": "^7.1.0",
+    "@near-wallet-selector/my-near-wallet": "^7.2.0",
+    "@near-wallet-selector/near-wallet": "^7.2.0",
+    "@near-wallet-selector/nearfi": "^7.2.0",
+    "@near-wallet-selector/neth": "^7.2.0",
+    "@near-wallet-selector/nightly": "^7.2.0",
+    "@near-wallet-selector/nightly-connect": "^7.2.0",
+    "@near-wallet-selector/opto-wallet": "^7.2.0",
+    "@near-wallet-selector/sender": "^7.2.0",
+    "@near-wallet-selector/wallet-connect": "^7.2.0",
+    "@near-wallet-selector/welldone-wallet": "^7.2.0",
     "rxjs": "^7.5.7"
   },
   "devDependencies": {
