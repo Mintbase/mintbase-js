@@ -10,7 +10,9 @@ cd gitbook-docs
 rm -rf mintbase-sdk-ref/
 
 # use temp working branch for now (eventually, just push to main)
-git checkout include-api-docs
+if [ USE_MAIN -ne 'true']; then
+  git checkout -b docs-$GIT_TAG
+fi
 
 node ../migrate.js
 

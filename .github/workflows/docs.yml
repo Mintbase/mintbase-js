@@ -2,7 +2,7 @@ name: Build and Publish Docs
 
 on:
   release:
-    types: [released]
+    types: [released, prereleased]
 
 jobs:
   build-and-deploy:
@@ -24,4 +24,6 @@ jobs:
       - name: Publish Docs
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          GIT_TAG: ${{ github.event.release.tag_name }}
+          USE_MAIN: ${{ github.event.action == 'released' && 'true' || 'false'}}
         run: npm run docs
