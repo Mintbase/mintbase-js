@@ -8,6 +8,7 @@ import {
   fetchMarketplaceReplyMock,
 } from '../../src/mocks'
 
+
 describe('api', () => {
   const constants: Constants = {}
   const api = new API({ constants })

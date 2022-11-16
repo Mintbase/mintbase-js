@@ -1,4 +1,4 @@
-import 'whatwg-fetch'
+import 'isomorphic-unfetch'
 import { isBrowser, isNode } from 'browser-or-node'
 import {
   keyStores,

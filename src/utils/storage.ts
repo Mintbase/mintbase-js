@@ -1,4 +1,4 @@
-import 'whatwg-fetch'
+import 'isomorphic-unfetch'
 import firebase from 'firebase/app'
 import 'firebase/storage'
 import { isNode } from 'browser-or-node'
