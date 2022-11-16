@@ -323,7 +323,6 @@ export class Wallet {
 
     if (typeof allowance == 'undefined') {
       allowance = DEFAULT_ALLOWANCE
-
     }
 
     const contractName = this.activeNearConnection?.config.contractName
@@ -331,7 +330,7 @@ export class Wallet {
     const data = {
       accountId: accountId,
       balance: utils.format.formatNearAmount(balance?.total, 2),
-      allowance: allowance ,
+      allowance: allowance,
       contractName: contractName,
     }
 
@@ -1206,12 +1205,11 @@ export class Wallet {
           royaltys: selectedThing.royalties,
         },
       ],
-      splits: splits || selectedThing.splitsFromTokenData || null
+      splits: splits || selectedThing.splitsFromTokenData || null,
     }
 
     if (thing.tokens.length === 0)
       return formatResponse({ error: 'Thing does not have tokens.' })
-
 
     const contractName = thing.storeId
     const memo = thing.memo
@@ -1240,9 +1238,10 @@ export class Wallet {
       num_to_mint: amount,
       royalty_args: royaltys
         ? {
-          split_between: royaltys,
-          percentage: royaltyPercent,
-        } : null,
+            split_between: royaltys,
+            percentage: royaltyPercent,
+          }
+        : null,
       split_owners: thing.splits,
     }
 
