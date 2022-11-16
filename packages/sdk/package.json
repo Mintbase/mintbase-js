@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/sdk",
-  "version": "0.0.4-rc15",
+  "version": "0.0.4-rc16",
   "description": "Core functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
