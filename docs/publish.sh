@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-GIT_DOCS=git@github.com:Mintbase/gitbook-docs.git
-
 rm -rf gitbook-docs/
 
 git clone $GIT_DOCS

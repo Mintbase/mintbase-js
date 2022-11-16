@@ -24,6 +24,7 @@ jobs:
       - name: Publish Docs
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
+          GIT_DOCS: https://github.com/Mintbase/gitbook-docs.git
           GIT_TAG: ${{ github.event.release.tag_name }}
           USE_MAIN: ${{ github.event.action == 'released' && 'true' || 'false'}}
         run: npm run docs
