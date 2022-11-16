@@ -16,11 +16,6 @@ jobs:
         with:
           node-version: 14.x
 
-      - name: Configure git
-        run: |
-          git config --global user.name "mintbaseteam"
-          git config --global user.email "eng@mintbase.io"
-
       - name: Checkout
         uses: actions/checkout@v3
         with:
@@ -32,9 +27,13 @@ jobs:
 
       - name: Copy and Publish Docs
         working-directory: 'docs/gitbook-docs'
+        env:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           rm -rf mintbase-sdk-ref/
           node ../migrate.js
+          git config --global user.name "mintbaseteam"
+          git config --global user.email "eng@mintbase.io"
           git add --all
           git commit -m "📒 🤖 Mintbase SDK automated doc sync"
           git push origin HEAD
