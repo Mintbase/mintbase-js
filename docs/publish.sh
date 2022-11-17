@@ -14,5 +14,6 @@ git checkout -b include-api-docs
 node ../migrate.js
 
 git add --all
+git pull origin include-api-docs
 git commit -m "📒 🤖 Mintbase SDK automated doc sync"
 git push origin HEAD
