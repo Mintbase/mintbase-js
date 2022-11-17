@@ -3,6 +3,8 @@ name: Build and Publish Docs
 on:
   release:
     types: [released, prereleased]
+  # Remove me: Going rapid fire today on full docs improvement, running each time.
+  push:
 
 jobs:
   build-and-deploy:
