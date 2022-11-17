@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-publish-on-push.4",
+  "version": "0.0.4-publish-on-push.5",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
