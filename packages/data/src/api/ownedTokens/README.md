@@ -7,7 +7,7 @@ Returns tokens owned by `ownerId` with limit and offset pagination.
 
 Example:
 
-{% code title="Get owned tokens" overflow="wrap" lineNumbers="true" %}
+{% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
 import { ownedTokens, OwnedTokens } from '@mintbase/data'
 

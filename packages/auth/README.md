@@ -15,7 +15,7 @@ This module can be used as a framework agnostic wrapper using framework specific
 
 *Check back soon for documentation on specific methods and well as some examples of using this with other frameworks in the near future.*
 
-# account.ts
+# account.ts <div id="account"></div>
 
 Convenience methods for connection to near accounts for NodeJS layer.
 
@@ -24,12 +24,12 @@ Convenience methods for connection to near accounts for NodeJS layer.
 Connects to a near account of `accountId` with credentials in keystore.
 
 Example usage:
-{% code title="Get owned tokens" overflow="wrap" lineNumbers="true" %}
+{% code title="loadAccount.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
 import { connect } from '@mintbase-js/auth';
 import { KeyPair, InMemoryKeyStore, KeyStore  } from '@mintbase-js/sdk';
 
-const loadAuthenticatedNearAccountInNodeJS = async () => {
+const loadAuthenticatedNearAccountInNodeJS = async (accountId: string) => {
   const privateKey: string = await <your-super-secure-key-method>();
   const keyStore: KeyStore = new InMemoryKeyStore();
 
@@ -39,7 +39,7 @@ const loadAuthenticatedNearAccountInNodeJS = async () => {
     KeyPair.fromString(privateKey),
   );
 
-  return await connect('mynearaccount.testnet', keyStore);
+  return await connect(accountId, keyStore);
 }
 ```
 {% endcode %}
