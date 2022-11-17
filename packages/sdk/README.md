@@ -11,8 +11,8 @@ In order to invoke a smart contract method, the transaction has to be signed usi
 
 There are two options, both provided from the [@mintbase-js/auth](../auth/) module:
 
-  1. Sign with a browser wallet
-  2. Sign with an authenticated account.
+  1. Sign with a [browser wallet](../auth/#wallet)
+  2. Sign with an [authenticated account](../auth/#account).
 
 ## Using API Methods <div name="api"></div>
 
@@ -26,11 +26,13 @@ This is a work in progress, please reach out to us on [Telegram](https://t.me/mi
 
 Check back soon for details. Individual methods and documentation will start to be available as we implement in the gitbook documentation menu.
 
-## Using `execute` <div name="execute"></div>
+<div name="execute"></div>
 
-You are always free to use the core execute method without the API methods, which will allow you to specify all options of the contract call.
+## Using `execute`
 
-The method will accept a single `NearContractCall` object or an array of calls and determine how batch based on `NearCallSigningOptions` (browser wallet, or near-api-js Account).
+The `excecute` method can be used without apis helpers, however you will need to specify all `NearContractCall` properties.
+
+The method accepts a single "call" object or an array, in which case it will determine the best way to batch process each one *(see [batching](#batching) below)*.
 
 ```
 execute(
@@ -38,11 +40,10 @@ execute(
   signingOptions: NearCallSigningOptions
 ): Promise<void | providers.FinalExecutionOutcome>
 ```
+Here is an example using the execute function call:
+## NearContractCall
 
-Here is an example using the raw function call
-# NearContractCall
-
-The `NearContractCall` type specifies the properties that our contract calls must specify:
+This type specifies properties of a contract calls:
 
 {% code title="executeContractMethod.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
@@ -98,7 +99,7 @@ makeSmartContractCall()
 ```
 {% endcode %}
 
-## Batching Transactions
+## Batching Transactions <div name="batching"></div>
 
 The reason for the optional `Promise<void>` return type in the execute method, is that batch methods in some [near/wallet-selector] implementations do not return transactions execution outcomes.
 

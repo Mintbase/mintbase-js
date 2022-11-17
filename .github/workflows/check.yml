@@ -1,5 +1,5 @@
-name: CI Pipeline
-on: [push, pull_request]
+name: Merge Check
+on: [push]
 
 jobs:
   build:

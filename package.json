@@ -1,6 +1,6 @@
 {
   "name": "mintbase",
-  "version": "0.8.0",
+  "version": "0.0.0-alpha.0",
   "description": "Mintbase Typescript SDK. A library for interacting with smart contracts on the NEAR Blockchain",
   "scripts": {
     "bootstrap": "lerna bootstrap --force-local",
@@ -10,7 +10,8 @@
     "docs": "cd docs && ./publish.sh",
     "lint": "lerna run lint",
     "test": "lerna run test --stream --ignore @mintbase-js/testing",
-    "test:integration": "lerna run test --stream --scope @mintbase-js/testing"
+    "test:integration": "lerna run test --stream --scope @mintbase-js/testing",
+    "unlock": "find . -name \"package-lock.json\" -exec rm -rf '{}' +"
   },
   "nodemonConfig": {
     "watch": [
