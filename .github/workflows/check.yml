@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Merge Check
 on: [push, pull_request]
 
 jobs:
