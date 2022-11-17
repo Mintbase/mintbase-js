@@ -3,6 +3,7 @@ name: Publish Packages to NPM
 on:
   release:
     types: [released, prereleased]
+  push:
 
 jobs:
   build:
@@ -30,13 +31,22 @@ jobs:
           npm run build
           npm run test
 
-      - name: Version, Publish and Push
+      - name: Publish Release
+        if: ${{ github.event.head_commit.message }}
+        run: |
+          lerna version --conventional-commits --yes --skip-git --preid=${{ github.ref_name }}
+          git add --all
+          git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
+          lerna publish from-package --yes --dist-tag $DIST_TAG
+          git push
+
+      - name: Publish Github Release
+        if: ${{ github.event.release.tag_name }}
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          DIST_TAG: ${{ github.event.action == 'released' && 'released' || 'prerelease'}}
         run: |
           lerna version ${{ github.event.release.tag_name }} --yes --skip-git
           git add --all
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
-          lerna publish from-package --yes --dist-tag $DIST_TAG
+          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'released' || 'prerelease'}}
           git push
