@@ -18,7 +18,7 @@ There are two options, both provided from the [@mintbase-js/auth](../auth/) modu
 
 The easiest way to call mintbase token and market contracts are with the convenience methods.
 
-Details such as the method name, arguments **will be supplied for you**.
+Details such as the method name, arguments, gas supplied, deposits and some other less than convenient aspects of blockchain development **will be abstracted away for you**, or at least well documented in each example.
 
 {% hint style="warning" %}
 This is a work in progress, please reach out to us on [Telegram](https://t.me/mintdev) for support.
@@ -59,14 +59,19 @@ const call: NearContractCall = {
   // the smart contract address for which we will call
   // most of the time, this will be supplied as an environment variable
   contractAddress: 'mytokencontract.mintbase1.near',
+
   // the smart contract method
   methodName: 'transfer',
+
   // the arguments supplied to the method
   args: { receiver_id: 'bob.near', token_id: '123' },
+
   // how much gas you would like to send
   // you will be refunded unused gas so MAX_GAS is always a safe bet
   gas: MAX_GAS,
-  // in some cases such as by, the deposit amount
+
+  // most methods require the min amount of deposit (ONE_YOCTO) to be accepted.
+  // in some cases deposit amount is the amount of currency to be transfer,
   deposit: ONE_YOCTO,
 }
 
