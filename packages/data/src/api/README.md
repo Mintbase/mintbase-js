@@ -7,10 +7,8 @@
 
 {% endhint %}
 
-### The most performant and future proof way to retrieve token data from our indexers is through our data API methods.
+### Coming soon! The most performant and future proof way to retrieve data from our indexers.
 
-As we build out this feature and finalize API design, each method will be documented here.
+As we build this out and finalize our API design, each method will be documented here.
 
 For now, `ownedTokens` is a stand alone method that to serve as a working example.
-
-

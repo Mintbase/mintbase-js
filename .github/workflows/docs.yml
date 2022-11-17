@@ -38,5 +38,5 @@ jobs:
           git config --global user.name "mintbaseteam"
           git config --global user.email "eng@mintbase.io"
           git add --all
-          git commit -m "📒 🤖 Mintbase SDK automated doc sync"
+          git commit -m "📒 🤖 ${{ github.event.head_commit.message || github.event.release.tag_name }} docs sync"
           git push origin HEAD
