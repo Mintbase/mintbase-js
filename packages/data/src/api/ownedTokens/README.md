@@ -6,7 +6,7 @@
 This is a work in progress, please reach out to us on [Telegram](https://t.me/mintdev) for support.
 For the most reliable data, reference our [existing graphql docs](https://docs.mintbase.io/dev/read-data/mintbase-graph).
 
-{% endhint }
+{% endhint %}
 
 
 Returns tokens owned by `ownerId` with limit and offset pagination.

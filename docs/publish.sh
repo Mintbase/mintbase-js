@@ -10,9 +10,11 @@ rm -rf mintbase-sdk-ref/
 
 # use temp working branch for now (eventually, just push to main)
 git checkout -b include-api-docs
+git reset --hard origin/include-api-docs
 
 node ../migrate.js
 
+git status
 git add --all
 git pull origin include-api-docs
 git commit -m "📒 🤖 Mintbase SDK automated doc sync"
