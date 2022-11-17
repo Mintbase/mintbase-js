@@ -38,5 +38,5 @@ jobs:
           git config --global user.name "mintbaseteam"
           git config --global user.email "eng@mintbase.io"
           git add --all
-          git diff-index --quiet HEAD ||commit -m "📒 🤖 ${{ github.event.head_commit.message || github.event.release.tag_name }} docs sync"
+          git commit -m "📒 🤖 [mintbase-js] ${{ github.event.head_commit.message || github.event.release.tag_name }}" || true
           git push origin HEAD
