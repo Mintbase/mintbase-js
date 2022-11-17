@@ -1,11 +1,11 @@
 [//]: # `{ "title": "@mintbase-js/auth", "order": 10 }`
-# @mintbase-js/auth
+# Working with Web3 Accounts
 
-This module abstracts authentication functions away from the Mintbase core SDK.
+This package abstracts login, auth and signing functionality away from `@mintbase-js/sdk` core.
 
-As more complex use cases grow with credentials verification, signing, zero knowledge etc., having a stand alone library and documentation around these features seemed appropriate.
+As more complex use cases grow with more complex credential verification (ZK), message signing and whatever the future of web3 may hold, having standalone methods and documentation around these features seemed appropriate.
 
-# Wallet
+# Wallet <div name="wallet"></div>
 
 A stateful module that wraps the core features found in [near/wallet-selector](https://github.com/near/wallet-selector/).
 
@@ -13,9 +13,9 @@ This module can be used as a framework agnostic wrapper using framework specific
 
   * [React: WalletContext](../react#walletcontext)
 
-*Check back soon for documentation on specific wallet wrapper methods and example usage with other frameworks in the near future.*
+*Check back soon for documentation on wallet selector wrapper methods and example usage with other frameworks in the near future.*
 
-# Account <div id="account"></div>
+# Account <div name="account"></div>
 
 The primary method used for loading a NEAR account into your Node programs is via the `connect` method
 

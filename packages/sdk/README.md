@@ -11,8 +11,8 @@ In order to invoke a smart contract method, the transaction has to be signed usi
 
 There are two options, both provided from the [@mintbase-js/auth](../auth/) module:
 
-  1. Sign with a browser wallet
-  2. Sign with an authenticated account.
+  1. Sign with a [browser wallet](../auth/#wallet)
+  2. Sign with an [authenticated account](../auth/#account).
 
 ## Using API Methods <div name="api"></div>
 
