@@ -30,10 +30,13 @@ Check back soon for details. Individual methods and documentation will start to 
 
 You are always free to use the core execute method without the API methods, which will allow you to specify all options of the contract call.
 
-The method will accept a single call, or an array of calls and figure out how to batch this depending on the `signingMethod`
+The method will accept a single `NearContractCall` object or an array of calls and determine how batch based on `NearCallSigningOptions` (browser wallet, or near-api-js Account).
 
 ```
-execute(calls: NearContractCall | NearContractCall[], signingOptions): Promise<void | providers.FinalExecutionOutcome>
+execute(
+  calls: NearContractCall | NearContractCall[],
+  signingOptions: NearCallSigningOptions
+): Promise<void | providers.FinalExecutionOutcome>
 ```
 
 Here is an example using the raw function call
@@ -45,7 +48,11 @@ The `NearContractCall` type specifies the properties that our contract calls mus
 ```typescript
 import { execute, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
 import { getWallet } from '@mintbase-js/auth';
-import type { NearContractCall, FinalExecutionOutcome } from '@mintbase-js/sdk';
+import type {
+  NearContractCall,
+  NearCallSigningOptions,
+  FinalExecutionOutcome
+} from '@mintbase-js/sdk';
 
 
 const call: NearContractCall = {

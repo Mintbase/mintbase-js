@@ -1,6 +1,6 @@
 ![Licence](https://img.shields.io/badge/license-MIT-blue.svg) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=add-wallet-selector)](https://coveralls.io/github/Mintbase/mintbase-js?branch=add-wallet-selector)
 
-# Mintbase SDK (Alpha)
+# Mintbase SDK
 
 A series of scoped `@mintbase-js` modules for interacting with Mintbase, NEAR, Arweave (Bundlr network) and other decentralized web services and applications.
 
@@ -11,15 +11,11 @@ Breaking changes can and will be introduced on a regular basis until this reache
 {% endhint %}
 
 
-## Join us in building the future
+## Join us in Building the Future
 
-Feedback on Mintbase SDKs? Need a hand?
+Have feedback on Mintbase SDKs? Need a hand? **Reach out on our [Telegram](https://t.me/mintdev) public developer support channel.**
 
-**Reach out on our [Telegram](https://t.me/mintdev) public developer support channel.**
-
-Building something cool?
-
-Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).
+Building something cool? **Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).**
 
 # SDK Road Map
 
