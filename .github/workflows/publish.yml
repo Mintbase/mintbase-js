@@ -36,7 +36,7 @@ jobs:
         run: |
           lerna version --conventional-commits --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
-          git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
+          git commit -m "🤖 Release commit for last push"
           lerna publish from-package --yes --dist-tag prerelease
           git push
 
