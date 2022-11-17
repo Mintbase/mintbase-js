@@ -15,7 +15,8 @@ writeFileSync(resolve(__dirname + '/gitbook-docs/mintbase-sdk-ref/README.md'), r
 // keep track of pages under root
 const pages = [];
 
-const trimDir = (path) => path.replace('packages/', '').replace('src/', '').replace('v1/', '');
+// since titles are friendly now, we likely don't need to do this
+const trimDir = (path) => path; //.replace('packages/', '').replace('src/', '').replace('v1/', '');
 
 // recursively add all the other markdowns
 const addMarkdownToDocsRepo = (dir) => {

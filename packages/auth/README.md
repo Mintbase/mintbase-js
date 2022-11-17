@@ -34,7 +34,7 @@ This method uses `near-api-js` to load account `accountId` with credentials in t
 To use the near account signing method with the SDK contract api, you will need to implement a form of key management.
 You will want to read up on using `KeyStore` in the [NEAR Documentation](https://docs.near.org/tools/near-api-js/quick-reference#key-store)
 
- { %endhint %}
+{% endhint %}
 
 
 Example usage:
