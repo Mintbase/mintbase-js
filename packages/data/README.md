@@ -1,6 +1,8 @@
 [//]: # `{ "title": "@mintbase-js/data", "order": 1 }`
-# @mintbase-js/data
+# Fetching Data From the Indexer
 
-This is your one stop shop for all things data. We've got it all! Graphql? no problem. Blazing fast wrappers? You betcha.
+For as long as we have had an indexer, we have relied on GraphQL to provide builders with a flexible and efficient way to query data any way they like.
 
-Check back soon for even more great documentation right here.
+While we will continue to provide public and tailored schema objects, we will begin to introduce helper methods here that can be used to query data **without having to write any graphql**.
+
+For now, be sure to reference our [existing graphql docs](https://docs.mintbase.io/dev/read-data/mintbase-graph) and be sure to check back here soon.
