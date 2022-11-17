@@ -8,12 +8,7 @@ jobs:
   approved:
     if: github.event.review.state == 'approved'
     runs-on: ubuntu-latest
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      # Runs the telegram notify action to send a notification
       - name: Telegram Notify
         uses: appleboy/telegram-action@master
         with:
@@ -21,5 +16,5 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) P/R: [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was approved by ${{ github.actor }} 
+            [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/): ✅[APPROVED] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) was approved by ${{ github.actor }} 
             

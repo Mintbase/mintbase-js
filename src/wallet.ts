@@ -317,13 +317,9 @@ export class Wallet {
 
     const { data: accessKey } = await this.viewAccessKey(accountId, publicKey)
 
-    let allowance = utils.format.formatNearAmount(
-      accessKey.permission.FunctionCall.allowance
+    const allowance = utils?.format?.formatNearAmount(
+      accessKey?.permission?.FunctionCall?.allowance ?? DEFAULT_ALLOWANCE
     )
-
-    if (typeof allowance == 'undefined') {
-      allowance = DEFAULT_ALLOWANCE
-    }
 
     const contractName = this.activeNearConnection?.config.contractName
 
