@@ -1,19 +1,111 @@
-# @mintbase-js/sdk
+[//]: # `{ "title": "@mintbase-js/sdk", "order": 0 }`
+## SDK Core Javascript Modules
 
-This module provides a set of convenience wrappers around invocation of Mintbase smart contract methods, but also exposes a low-level isomorphic [execute](#execute) method that can be passed raw `NearContractCall` information.
+The core `@mintbase-js/sdk` is a set of convenience wrappers around invocation of Mintbase smart contract methods.
 
-Finish implementations and documentation for:
+It also exposes a low-level isomorphic [execute](#execute) method that can be passed raw `NearContractCall` information.
 
-- [ ] Transfer Token
-- [ ] Buy Token
-- [ ] List Token
-- [ ] Rest of the methods...
+## Calling Smart Contract Methods
 
-Later TODOs:
-- [ ] Analytics via Opt in
-- [ ] Compute NEAR [gas fees](https://github.com/near/near-api-js/blob/master/packages/cookbook/utils/calculate-gas.js) and report consumption analytics
+In order to invoke a smart contract method, the transaction has to be signed using a public/private key pair.
 
-# execute(callOptions, signingOptions)
+There are two options, both provided from the [@mintbase-js/auth](../auth/) module:
 
-`execute` is the Core method used to invoke smart contract methods via browser [wallet](https://github.com/near/wallet-selector) or an authenticated NEAR Account via [functionCall](https://docs.near.org/tools/near-api-js/reference/classes/account.Account#functioncall) method.
+  1. Sign with a browser wallet
+  2. Sign with an authenticated account.
 
+## Using API Methods <div name="api"></div>
+
+The easiest way to call mintbase token and market contracts are with the convenience methods.
+
+Details such as the method name, arguments, gas supplied, deposits and some other less than convenient aspects of blockchain development **will be abstracted away for you**, or at least well documented in each example.
+
+{% hint style="warning" %}
+This is a work in progress, please reach out to us on [Telegram](https://t.me/mintdev) for support.
+{% endhint }
+
+Check back soon for details. Individual methods and documentation will start to be available as we implement in the gitbook documentation menu.
+
+## Using `execute` <div name="execute"></div>
+
+You are always free to use the core execute method without the API methods, which will allow you to specify all options of the contract call.
+
+The method will accept a single `NearContractCall` object or an array of calls and determine how batch based on `NearCallSigningOptions` (browser wallet, or near-api-js Account).
+
+```
+execute(
+  calls: NearContractCall | NearContractCall[],
+  signingOptions: NearCallSigningOptions
+): Promise<void | providers.FinalExecutionOutcome>
+```
+
+Here is an example using the raw function call
+# NearContractCall
+
+The `NearContractCall` type specifies the properties that our contract calls must specify:
+
+{% code title="executeContractMethod.ts" overflow="wrap" lineNumbers="true" %}
+```typescript
+import { execute, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
+import { getWallet } from '@mintbase-js/auth';
+import type {
+  NearContractCall,
+  NearCallSigningOptions,
+  FinalExecutionOutcome
+} from '@mintbase-js/sdk';
+
+
+const call: NearContractCall = {
+  // the smart contract address for which we will call
+  // most of the time, this will be supplied as an environment variable
+  contractAddress: 'mytokencontract.mintbase1.near',
+
+  // the smart contract method
+  methodName: 'transfer',
+
+  // the arguments supplied to the method
+  args: { receiver_id: 'bob.near', token_id: '123' },
+
+  // how much gas you would like to send
+  // you will be refunded unused gas so MAX_GAS is always a safe bet
+  gas: MAX_GAS,
+
+  // most methods require the min amount of deposit (ONE_YOCTO) to be accepted.
+  // in some cases deposit amount is the amount of currency to be transfer,
+  deposit: ONE_YOCTO,
+}
+
+const makeSmartContractCall = async (): Promise<FinalExecutionOutcome> => {
+
+  // to better understand signing options, read the auth module docs
+  // to use an account directly, you have to implement this method
+  // const account = await authenticateAccount('mynearaccount.near');
+
+  // before the getWallet can be called, you will need to setup the components in the browser, it will throw othwerise
+  const wallet = await getWallet();
+
+  const sign: NearCallSigningOptions = {
+    // account
+    wallet,
+  }
+  return await execute(call, sign);
+}
+
+makeSmartContractCall()
+  .then((res: FinalExecutionOutcome) => console.log('got transaction result:', res))
+  .catch((err) => console.error('things went wrong', err));
+
+```
+{% endcode %}
+
+## Batching Transactions
+
+The reason for the optional `Promise<void>` return type in the execute method, is that batch methods in some [near/wallet-selector] implementations do not return transactions execution outcomes.
+
+## Further
+
+{% hint style="warning" %}
+
+Should you encounter this [known issue](ttps://docs.near.org/tools/near-api-js/faq#class-x-is-missing-in-schema-publickey) make sure you are not importing modules directly from `near-api-js`, import them from `@mintbase-js/sdk` instead to avoid the duplicate import.
+
+{% endhint %}

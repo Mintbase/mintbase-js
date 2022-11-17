@@ -44,6 +44,10 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
   modal: null,
 };
 
+/**
+* Set up wallet selector components. Returns the modal
+* See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
+*/
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
     network: NEAR_ENV,
