@@ -41,7 +41,7 @@ Here is an example using the raw function call
 
 The `NearContractCall` type specifies the properties that our contract calls must specify:
 
-{% code title="loadAccount.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="executeContractMethod.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
 import { execute, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
 import { getWallet } from '@mintbase-js/auth';
