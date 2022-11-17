@@ -34,7 +34,6 @@ jobs:
       - name: Publish Release
         if: ${{ github.event.head_commit.message }}
         run: |
-          npm run unlock
           lerna version --conventional-commits --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
@@ -46,7 +45,6 @@ jobs:
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          npm run unlock
           lerna version ${{ github.event.release.tag_name }} --yes --skip-git
           git add --all
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
