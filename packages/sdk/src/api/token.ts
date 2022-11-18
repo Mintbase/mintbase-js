@@ -6,12 +6,10 @@ import {
   TOKEN_METHOD_NAMES,
   Network,
   MB_TOKEN_FACTORY_ADDRESS,
-} from './constants';
+} from '../constants';
 import {
-  TransferArgs,
   BurnArgs,
   DeployTokenContractArgs,
-  AccountId,
   TransferTokenContractOwnership,
   MintArgs,
   AddRemoveMinterArgs,
@@ -21,35 +19,6 @@ import {
 
 // TODO: figure out a way to generate gas and deposit for each
 
-export const transfer = ({ nftContractId, transfers }: TransferArgs): TransactionArgs => {
-  if (transfers.length > 1) {
-    const ids = transfers.map((transferElm) => {
-      return [transferElm.receiverId, transferElm.tokenId];
-    });
-
-    return {
-      contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_ids: ids,
-      },
-    };
-  } else {
-    const { receiverId, tokenId } = transfers.pop();
-
-    return {
-      contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.TRANSFER,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        receiver_id: receiverId,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_id: tokenId,
-      },
-    };
-  }
-};
 
 export const burn = (args: BurnArgs): TransactionArgs => {
   const { nftContractId, tokenIds } = args;
