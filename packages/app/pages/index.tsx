@@ -7,12 +7,21 @@ const Home: NextPage = () => {
   const {
     connect,
     disconnect,
-    wallet,
     activeAccountId,
-    isConnected,
+    selector,
+    // isConnected,
     isWaitingForConnection,
+    signMessage,
   } = useWallet();
 
+
+  const signMessageTest = async (): Promise<void> => {
+    await signMessage({
+      message: 'hey',
+      callbackUrl: `${window.location.origin}/wallet-callback`,
+      meta:JSON.stringify({ type: 'signature' }),
+    });
+  };
 
   const callTransferTest = async (): Promise<void> => {
     const result = await callContractMethod({
@@ -25,7 +34,7 @@ const Home: NextPage = () => {
       },
       gas: MAX_GAS,
       deposit: ONE_YOCTO,
-    }, { wallet });
+    }, { wallet: await selector.wallet() });
     console.log('got result!', result);
   };
 
@@ -54,7 +63,6 @@ const Home: NextPage = () => {
         {activeAccountId ?
           <div className={styles.description}>
             <h2>You are logged in as {activeAccountId}</h2>
-            <pre>{JSON.stringify(wallet)}</pre>
             <button className={styles.button} onClick={callTransferTest}>
                 TRANSFER CALL
             </button>
@@ -70,6 +78,10 @@ const Home: NextPage = () => {
             </button>
           </div>
         }
+
+        {activeAccountId && <button className={styles.button} onClick={signMessageTest}>
+          SIGN MESSAGE
+        </button>}
 
       </main>
 

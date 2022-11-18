@@ -1,11 +1,21 @@
-import { setupWalletSelector, Wallet } from '@near-wallet-selector/core';
+import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupNearWallet } from '@near-wallet-selector/near-wallet';
+import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupSender } from '@near-wallet-selector/sender';
+import { setupHereWallet } from '@near-wallet-selector/here-wallet';
+import { setupMathWallet } from '@near-wallet-selector/math-wallet';
+import { setupNightly } from '@near-wallet-selector/nightly';
+import { setupWelldoneWallet } from '@near-wallet-selector/welldone-wallet';
+import { setupLedger } from '@near-wallet-selector/ledger';
+import { setupNearFi } from '@near-wallet-selector/nearfi';
+import { setupCoin98Wallet } from '@near-wallet-selector/coin98-wallet';
+import { setupOptoWallet } from '@near-wallet-selector/opto-wallet';
+import { setupNeth } from '@near-wallet-selector/neth';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 import {
-  NEAR_WALLET_ENV,
+  NEAR_ENV,
   NEAR_LOGIN_CONTRACT_ID,
   NEAR_WALLET_SELECTOR_DEBUG,
   DEFAULT_MINTBASE_CONTRACT_MAINNET,
@@ -34,18 +44,28 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
   modal: null,
 };
 
+/**
+* Set up wallet selector components. Returns the modal
+* See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
+*/
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
-    network: NEAR_WALLET_ENV,
+    network: NEAR_ENV,
     debug: NEAR_WALLET_SELECTOR_DEBUG,
     modules: [
       ...(await setupDefaultWallets()),
       setupNearWallet(),
+      setupMeteorWallet(),
       setupSender(),
+      setupHereWallet(),
+      setupMathWallet(),
+      setupNightly(),
+      setupWelldoneWallet(),
+      setupLedger(),
     ],
   });
 
-  const defaultMintbaseContract = NEAR_WALLET_ENV === 'testnet'
+  const defaultMintbaseContract = NEAR_ENV === 'testnet'
     ? DEFAULT_MINTBASE_CONTRACT_TESTNET
     : DEFAULT_MINTBASE_CONTRACT_MAINNET;
 
@@ -95,7 +115,7 @@ let timerReference = null;
 
 export const pollForWalletConnection = async (): Promise<AccountState[]> => {
   validateWalletComponentsAreSetup();
-  // clear any existing timers
+  // clear any existing timer
   clearTimeout(timerReference);
 
   const tryToResolveAccountsFromState = (
@@ -158,3 +178,50 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
     .wallet();
   wallet.signOut();
 };
+
+export const getVerifiedOwner =
+  async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
+    validateWalletComponentsAreSetup();
+
+    const { message, callbackUrl, meta } = params;
+
+    const wallet = await walletSelectorComponents
+      .selector
+      .wallet();
+
+    const owner = await wallet.verifyOwner({
+      message: message,
+      callbackUrl: callbackUrl,
+      meta: meta,
+    }) as VerifiedOwner;
+
+    return owner;
+  };
+
+
+// returns a signature of message
+export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
+  const owner = await getVerifiedOwner(params);
+
+  return owner;
+};
+
+
+//  https://www.npmjs.com/package/bs58
+// https://github.com/feross/buffer
+// https://github.com/near/wallet-selector/issues/434
+// export const verifyMessage = async (signature: string): Promise<boolean> => {
+
+//   // const owner = await getVerifiedOwner(signature);
+
+//   // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
+
+//   // const createdPublicKey = utils.PublicKey.from(publicKeyString);
+
+//   // const stringified = JSON.stringify(owner);
+
+//   // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
+
+//   return false;
+// };
+

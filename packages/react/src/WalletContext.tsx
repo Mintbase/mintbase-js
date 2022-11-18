@@ -6,9 +6,10 @@ import {
   disconnectFromWalletSelector,
   getWallet,
   pollForWalletConnection,
+  signMessage,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
-import { WalletSelector, AccountState, Wallet } from '@near-wallet-selector/core';
+import { WalletSelector, AccountState, Wallet, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
 // This is heavily based on
@@ -17,14 +18,14 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 export type WalletContext = {
   selector: WalletSelector;
   modal: WalletSelectorModal;
-  wallet: Wallet;
   accounts: AccountState[];
   activeAccountId: string | null;
   isConnected: boolean;
   isWaitingForConnection: boolean;
-  errorMessage: string;
+  errorMessage: string | null;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
+  signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
 }
 
 export type WalletSetupComponents = {
@@ -39,18 +40,12 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 ) => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
-  const [wallet, setWallet] = useState<Wallet | null>(null);
   const [accounts, setAccounts] = useState<AccountState[]>([]);
   const [isWaitingForConnection, setIsWaitingForConnection] = useState<boolean>(false);
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents();
     setComponents(components);
-    try {
-      const wallet = await getWallet();
-      setWallet(wallet);
-    // eslint-disable-next-line no-empty
-    } finally { }
   }, []);
 
   // call setup on wallet selector
@@ -88,10 +83,8 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
     try {
       const accounts = await pollForWalletConnection();
-      const wallet = await getWallet();
       setIsWaitingForConnection(false);
       setAccounts(accounts);
-      setWallet(wallet);
     } catch (err: unknown) {
       setErrorMessage((err as Error).message || err as string);
     }
@@ -102,11 +95,11 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     setIsWaitingForConnection(false);
   };
 
+
   return (
     <WalletContext.Provider value={{
       selector,
       modal,
-      wallet,
       accounts,
       activeAccountId: accounts
         .find((account) => account.active)?.accountId || null,
@@ -115,6 +108,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
       errorMessage,
       connect,
       disconnect,
+      signMessage,
     }}>
       {children}
     </WalletContext.Provider>

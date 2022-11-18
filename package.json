@@ -4,10 +4,13 @@
   "description": "Mintbase Typescript SDK. A library for interacting with smart contracts on the NEAR Blockchain",
   "scripts": {
     "bootstrap": "lerna bootstrap --force-local",
-    "build": "lerna run build",
+    "build": "lerna run build --sort",
+    "clean": "rm -rf **/node_modules && rm -rf **/lib && rm -rf **/coverage",
     "dev": "lerna run watch --stream & cd packages/app && npm run dev",
+    "docs": "cd docs && ./publish.sh",
     "lint": "lerna run lint",
-    "test": "lerna run test --stream"
+    "test": "lerna run test --stream --ignore @mintbase-js/testing",
+    "test:integration": "lerna run test --stream --scope @mintbase-js/testing"
   },
   "nodemonConfig": {
     "watch": [
@@ -41,6 +44,10 @@
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
     "@mintbase-js/auth": "file:packages/auth",
+    "@mintbase-js/data": "file:packages/data",
+    "@mintbase-js/react": "file:packages/react",
+    "@mintbase-js/sdk": "file:packages/sdk",
+    "@mintbase-js/testing": "file:packages/testing",
     "@near-wallet-selector/core": "^7.0.3",
     "@near-wallet-selector/default-wallets": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
@@ -67,7 +74,8 @@
     "near-api-js": "^0.44.2",
     "serve": "^14.0.1",
     "ts-jest": "^29.0.3",
-    "typescript": "^4.8.4"
+    "typescript": "^4.8.4",
+    "zod": "^3.19.1"
   },
   "workspaces": [
     "packages/*"

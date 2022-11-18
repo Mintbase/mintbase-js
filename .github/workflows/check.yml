@@ -1,4 +1,4 @@
-name: CI Pipeline
+name: Merge Check
 on: [push, pull_request]
 
 jobs:
@@ -12,7 +12,8 @@ jobs:
         with:
           node-version: 14.x
 
-      - run: npx lerna bootstrap --no-ci --force-local
+      - run: npm ci
+      - run: npm run bootstrap
       - run: npm run lint
       - run: npm run build
       - run: npm run test

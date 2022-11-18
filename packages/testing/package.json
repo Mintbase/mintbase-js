@@ -1,0 +1,31 @@
+{
+  "name": "@mintbase-js/testing",
+  "version": "0.0.4-rc23",
+  "description": "Integration test suite and testing utils",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc && tsc --watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "NEAR_NO_LOGS=1 NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --coverage --roots ./tests --testTimeout 60000"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/secret-manager": "^4.1.4",
+    "graphql-request": "^5.0.0",
+    "near-api-js": "^0.44.2"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^2.13.7",
+    "@graphql-codegen/client-preset": "1.1.1",
+    "@graphql-codegen/introspection": "2.2.1"
+  }
+}

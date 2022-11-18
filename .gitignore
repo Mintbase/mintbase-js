@@ -8,3 +8,5 @@ lib/
 lerna-debug.log
 npm-debug.log
 .idea
+
+docs/gitbook-docs/

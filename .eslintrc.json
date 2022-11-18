@@ -16,12 +16,13 @@
     "plugin:react/recommended"
   ],
   "ignorePatterns": [
-    "jest.config.js", "lib/**", "src-v2/**", "packages/data/src/graphql/codegen/**"
+    "jest.config.js", "lib/**", "src-v2/**", "packages/data/src/graphql/codegen/**", "*.js"
   ],
 
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-use-before-define": "off",
+    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "comma-dangle": ["error", "always-multiline"],
     "consistent-return": "error",
     "eol-last": ["error", "always"],
@@ -36,6 +37,7 @@
     "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
     "object-curly-spacing": ["error", "always"],
     "semi": ["error", "always"],
+    "space-before-blocks": ["error", "always"],
     "keyword-spacing": ["error",  { "before": true, "after": true }],
     "quotes": ["error", "single"],
     "react/prop-types": "off",

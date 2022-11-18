@@ -5,6 +5,6 @@ module.exports = {
   coveragePathIgnorePatterns: ['lib/', 'constants.ts'],
   modulePathIgnorePatterns: ['lib/'],
   moduleNameMapper: {
-    "@mintbase-js/auth": "<rootDir>/packages/auth/src/"
+    '@near-wallet-selector/meteor-wallet': '<rootDir>/jest.stub.js'
   }
 };
