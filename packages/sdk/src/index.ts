@@ -1,10 +1,10 @@
 export * from './execute';
 export * from './constants';
-export * from './api/transfer/transfer';
-export * from './api/token';
-export * from './api/token.types';
-export * from './api/market';
-export * from './api/market.types';
+export * from './transfer/transfer';
+export * from './v1/token';
+export * from './v1/token.types';
+export * from './v1/market';
+export * from './v1/market.types';
 
 // this is done to avoid importing near-api-js more than once
 // which leads to a strange, but known issue

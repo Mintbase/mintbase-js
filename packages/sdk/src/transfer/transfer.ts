@@ -1,5 +1,5 @@
-import { ONE_YOCTO, GAS, TOKEN_METHOD_NAMES } from '../../constants';
-import { NearContractCall } from '../../execute';
+import { ONE_YOCTO, GAS, TOKEN_METHOD_NAMES } from '../constants';
+import { NearContractCall } from '../execute';
 
 export type TransferArgs = {
   transfers: {
