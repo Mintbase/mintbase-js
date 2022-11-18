@@ -1,5 +1,5 @@
 import { transfer, DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER, DEFAULT_CONTRACT_ADDRESS } from './transfer';
-import { TOKEN_METHOD_NAMES } from '../../constants';
+import { TOKEN_METHOD_NAMES } from '../constants';
 
 describe('transfer token unit tests', () => {
   const nftContractId = 'test.nft.contract';

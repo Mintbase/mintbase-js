@@ -78,6 +78,7 @@ const Home: NextPage = () => {
           : null
         }
 
+        <h2>Test Components</h2>
         {activeAccountId ?
           <TransferTest />
           : null
