@@ -2,7 +2,9 @@
 
 # Transfer Tokens
 
-Transfers one or more tokens from the transaction signer to the recipients specified.
+Transfers one or more tokens from the transaction signer to the recipient(s) specified.
+
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
 
 ## transfer(args: TransferArgs): NearContractCall
 
@@ -49,11 +51,9 @@ const TransferUI = ({ tokenId, contractId }) => {
 
   return (
     <div>
-      {is}
       <button onClick={() => handleTransfer()}>
         Transfer {tokenId} of {contractId} from {activeAccountId} to Carol
       </button>
-
     </div>
   );
 }
