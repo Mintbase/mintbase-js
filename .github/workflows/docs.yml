@@ -1,9 +1,9 @@
-name: Build and Publish Docs
+name: SDK Gitbook Sync
 
 on:
   release:
     types: [released, prereleased]
-  # Remove me: Going rapid fire today on full docs improvement, running each time.
+  # Remove me: Going rapid fire on full docs improvement until we launch
   push:
 
 jobs:

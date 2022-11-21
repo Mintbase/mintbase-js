@@ -22,6 +22,7 @@ export type WalletContext = {
   activeAccountId: string | null;
   isConnected: boolean;
   isWaitingForConnection: boolean;
+  isWalletSelectorSetup: boolean;
   errorMessage: string | null;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
@@ -42,9 +43,11 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
   const [accounts, setAccounts] = useState<AccountState[]>([]);
   const [isWaitingForConnection, setIsWaitingForConnection] = useState<boolean>(false);
+  const [isWalletSelectorSetup, setIsWalletSelectorSetup] = useState<boolean>(false);
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents();
+    setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
 
@@ -105,6 +108,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
         .find((account) => account.active)?.accountId || null,
       isConnected: accounts && accounts.length > 0,
       isWaitingForConnection,
+      isWalletSelectorSetup,
       errorMessage,
       connect,
       disconnect,
