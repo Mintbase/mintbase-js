@@ -2576,9 +2576,9 @@ export type MbViewsNftTokens = {
   last_transfer_receipt_id?: Maybe<Scalars['String']>;
   last_transfer_timestamp?: Maybe<Scalars['timestamp']>;
   /** An array relationship */
-  listings: Array<NftListings>;
+  listings?: Array<NftListings>;
   /** An aggregate relationship */
-  listings_aggregate: NftListingsAggregate;
+  listings_aggregate?: NftListingsAggregate;
   media?: Maybe<Scalars['String']>;
   media_hash?: Maybe<Scalars['String']>;
   metadata_id?: Maybe<Scalars['String']>;
