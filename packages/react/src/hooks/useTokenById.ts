@@ -1,44 +1,41 @@
-import { useEffect, useReducer, useState } from "react";
-import { tokenById } from "@mintbase-js/data";
-import { ActionTypes, reducer } from "../utils/reducer";
+import { useEffect, useState } from 'react';
+import { tokenById } from '@mintbase-js/data';
+import { TokenByIdResults } from '@mintbase-js/data/lib/api/tokenById/tokenById.types';
 
-export const useTokenById = (tokenId: string, contractAddress: string) => {
-  const initialState = {
-    isLoading: true,
-    data: null,
-    error: null,
-  };
+interface TokenByIdHookResult {
+  data: TokenByIdResults | undefined;
+  error: string | null;
+  loading: boolean;
+}
 
-  const [state, dispatch] = useReducer(reducer, initialState);
+export const useTokenById = (tokenId: string, contractAddress: string): TokenByIdHookResult => {
+  const [loading, setLoading] = useState<boolean>(true);
+  const [res, setData] = useState<TokenByIdResults | undefined>(undefined);
+  const [errorMsg, setError] = useState<string | null>(null);
 
   useEffect(() => {
     let isCancelled = false;
 
-    if (state.isLoading) {
-      (async () => {
-        dispatch({ data: null, type: ActionTypes.REQUEST_STARTED });
-
+    if (loading) {
+      (async (): Promise<void> => {
         const { data, error } = await tokenById(tokenId, contractAddress);
 
         if (error) {
-          dispatch({ error: error, type: ActionTypes.REQUEST_FAILED });
+          setError(error as string);
+          setLoading(false);
         } else {
           if (data) {
-            dispatch({
-              data: data,
-              type: ActionTypes.REQUEST_SUCCESSFUL,
-            });
+            setData(res);
+            setLoading(false);
           }
         }
       })();
-
-      return () => {
-        isCancelled = true;
-      };
     }
-  }, []);
 
-  const { data, isLoading, error } = state;
+    return (): void => {
+      isCancelled = true;
+    };
+  }, [tokenId, contractAddress]);
 
-  return { data, isLoading, error };
+  return { data: res, loading: loading, error: errorMsg };
 };
