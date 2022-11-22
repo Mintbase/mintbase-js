@@ -24,8 +24,8 @@
   },
   "dependencies": {
     "@mintbase-js/auth": "*",
-    "@mintbase-js/sdk": "*",
     "@mintbase-js/data": "*",
+    "@mintbase-js/sdk": "*",
     "@near-wallet-selector/core": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "near-api-js": "^0.44.2"
