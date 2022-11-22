@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-transfer-as-example.3",
+  "version": "0.0.4-query-token-by-id.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
