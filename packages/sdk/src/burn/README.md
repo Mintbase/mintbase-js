@@ -28,26 +28,23 @@ Example usage of burn method in a hypothetical React component:
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
 import { execute, burn } from '@mintbase-js/sdk';
-const BurnUI = ({ tokenIds, contractId }) => {
+
+
+export const BurnUI = ({ tokenIds, contractId }:any) => {
   const { selector } = useWallet();
   const handleBurn = async (): Promise<void> => {
     const wallet = await selector.wallet();
-    await execute(
-      burn({
-        nftContractId: contractId,
-        tokenIds: tokenIds
-        }],
-      }),
-      { wallet },
-    );
+    burn({
+      nftContractId: contractId,
+      tokenIds: tokenIds });
   };
   return (
     <div>
       <button onClick={() => handleBurn()}>
-        Burn {tokenIds} of {contractId}
+        Burn provided token array from {contractId}
       </button>
     </div>
   );
-}
+};
 ```
 {% endcode %}
