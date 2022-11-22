@@ -1,13 +1,13 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-publish-on-push.6",
+  "version": "0.0.4-transfer-as-example.3",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
-    "test": "NEAR_NO_LOGS=1 NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --coverage --roots ./tests --testTimeout 60000"
+    "test": "NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000"
   },
   "files": [
     "lib"
