@@ -26,6 +26,7 @@ describe('getTokensFromMetaId', () => {
     const burnedTokensMock = getNodeObjectFromTokenIds(['29']);
     const listedTokensMock = getNodeObjectFromTokenIds(['27', '28']);
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       request: (): Promise<any> =>
         Promise.resolve({
           listedTokens: listedTokensMock,
@@ -46,6 +47,5 @@ function getNodeObjectFromTokenIds(tokenIds: string[]): { nodes: { token_id: str
   tokenIds.forEach((token: string) => {
     arr.push({ token_id: token });
   });
-  console.log(arr, tokenIds);
   return { nodes: arr };
 }

@@ -23,8 +23,6 @@ export const tokensByStatus = async (metadataId: string, ownedBy?: string): Prom
     },
   });
 
-  console.log(data);
-
   if (error) {
     console.error('Error fetching token listing by status', error.message);
     throw error;

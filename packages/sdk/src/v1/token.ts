@@ -10,7 +10,6 @@ import {
   DEPOSIT_CONSTANTS,
 } from '../constants';
 import {
-  BurnArgs,
   DeployTokenContractArgs,
   TransferTokenContractOwnership,
   MintArgs,
@@ -19,7 +18,7 @@ import {
   RevokeAccountArgs,
 } from './token.types';
 
-export const deployContract = (args: DeployTokenContractArgs): TransactionArgs => {
+export const deployContract = (args: DeployTokenContractArgs): TransactionArgs & TransactionAttachments=> {
   const { name, factoryContractId = Network.TESTNET, ownerId, metadata } = args;
 
   const { symbol, icon, baseUri, reference, referenceHash } = metadata;
@@ -72,7 +71,7 @@ export const transferContractOwnership = (
 export const mint = (
   args: MintArgs,
 ): TransactionArgs & TransactionAttachments => {
-  const { nftContractId, options } = args;
+  const { nftContractId  } = args;
 
   return {
     contractAddress: nftContractId,

@@ -5,7 +5,6 @@ describe('token method calls', () => {
   const nftContractId = 'test.nft.contract';
   const receiverId = 'test.account';
   const tokenId1 = '1';
-  const tokenId2 = '2';
 
   test('revoke token one account', () => {
     const args = revoke({
