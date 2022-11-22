@@ -1,4 +1,4 @@
-[//]: # `{ "title": "Burn", "order": 1 }`
+[//]: # `{ "title": "burn", "order": 1.2 }`
 
 # Burn Tokens
 
@@ -34,10 +34,9 @@ export const BurnUI = ({ tokenIds, contractId }:any) => {
   const { selector } = useWallet();
   const handleBurn = async (): Promise<void> => {
     const wallet = await selector.wallet();
-    burn({
-      nftContractId: contractId,
-      tokenIds: tokenIds });
-  };
+    await execute(
+      burn({ nftContractId: contractId, tokenIds: tokenIds })
+    );
   return (
     <div>
       <button onClick={() => handleBurn()}>
