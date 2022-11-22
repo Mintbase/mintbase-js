@@ -1,17 +1,10 @@
 // Mintbase token contract JS implementation
 
 import { TransactionArgs } from '../execute';
-import {
-  DEFAULT_MB_LOGO,
-  TOKEN_METHOD_NAMES,
-  Network,
-  MB_TOKEN_FACTORY_ADDRESS,
-} from './constants';
+import { DEFAULT_MB_LOGO, TOKEN_METHOD_NAMES, Network, MB_TOKEN_FACTORY_ADDRESS } from '../constants';
 import {
   TransferArgs,
-  BurnArgs,
   DeployTokenContractArgs,
-  AccountId,
   TransferTokenContractOwnership,
   MintArgs,
   AddRemoveMinterArgs,
@@ -51,29 +44,8 @@ export const transfer = ({ nftContractId, transfers }: TransferArgs): Transactio
   }
 };
 
-export const burn = (args: BurnArgs): TransactionArgs => {
-  const { nftContractId, tokenIds } = args;
-
-  return {
-    contractAddress: nftContractId,
-    methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
-    args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      token_ids: tokenIds,
-    },
-  };
-};
-
-export const deployContract = (
-  args: DeployTokenContractArgs,
-): TransactionArgs => {
-  const {
-    name,
-    factoryContractId,
-    network = Network.TESTNET,
-    ownerId,
-    metadata,
-  } = args;
+export const deployContract = (args: DeployTokenContractArgs): TransactionArgs => {
+  const { name, factoryContractId, network = Network.TESTNET, ownerId, metadata } = args;
 
   const { symbol, icon, baseUri, reference, referenceHash } = metadata;
 
@@ -100,9 +72,7 @@ export const deployContract = (
   };
 };
 
-export const transferContractOwnership = (
-  args: TransferTokenContractOwnership,
-): TransactionArgs => {
+export const transferContractOwnership = (args: TransferTokenContractOwnership): TransactionArgs => {
   const { nftContractId, nextOwner, options } = args;
   const { keepMinters = true } = options;
 
@@ -159,9 +129,7 @@ export const removeMinter = (args: AddRemoveMinterArgs): TransactionArgs => {
   };
 };
 
-export const batchChangeMinters = (
-  args: BatchChangeMinters,
-): TransactionArgs => {
+export const batchChangeMinters = (args: BatchChangeMinters): TransactionArgs => {
   const { addMinters, removeMinters, nftContractId } = args;
 
   return {
