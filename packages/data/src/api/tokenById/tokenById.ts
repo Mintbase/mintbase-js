@@ -1,8 +1,7 @@
 import { fetchGraphQl, GraphqlFetchingError } from '../../graphql/fetch';
+
 import { errorContractAddress, errorToken } from './tokenById.errors';
-
 import { tokenByIdQuery } from './tokenbyId.query';
-
 import { TokenByIdResults } from './tokenById.types';
 
 interface TokenByIdData {
