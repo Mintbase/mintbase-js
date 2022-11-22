@@ -1,4 +1,4 @@
-import { TOKEN_METHOD_NAMES } from '../constants';
+import { DEPOSIT_CONSTANTS, GAS_CONSTANTS, TOKEN_METHOD_NAMES } from '../constants';
 import { deployContract, revoke } from './token';
 
 describe('token method calls', () => {
@@ -23,6 +23,8 @@ describe('token method calls', () => {
         // eslint-disable-next-line @typescript-eslint/camelcase
         account_id: receiverId,
       },
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
+      deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
     });
   });
 
@@ -39,6 +41,8 @@ describe('token method calls', () => {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
       },
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
+      deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
     });
   });
 
@@ -85,6 +89,8 @@ describe('token method calls', () => {
           reference_hash: referenceHash,
         },
       },
+      gas: GAS_CONSTANTS.DEFAULT_GAS,
+      deposit: '6500000000000000000000000',
     });
   });
 });
