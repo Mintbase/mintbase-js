@@ -26,8 +26,6 @@ export const tokenById = async (
   const validArgs = validTokenId() && validContractAddress;
 
   if (!validArgs) {
-    console.log(validArgs, validContractAddress, 'validContractAddress');
-
     if (!validContractAddress) {
       console.error(errorContractAddress.message);
 

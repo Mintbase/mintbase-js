@@ -27,7 +27,7 @@ export const useTokenById = (
           setError(error as string);
           setLoading(false);
         } else if (data) {
-          setData(res);
+          setData(data);
           setLoading(false);
         }
       })();
