@@ -2,7 +2,7 @@
 export type Pagination = {
   limit: number;
   offset?: number;
-};
+}
 
 export type Token = {
   lastTransferredAt: string;
@@ -15,4 +15,4 @@ export type Token = {
   media: string;
   document: string;
   animationUrl: string;
-};
+}

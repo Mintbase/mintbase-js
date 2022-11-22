@@ -1,51 +1,21 @@
 // Mintbase token contract JS implementation
 
 import { TransactionArgs } from '../execute';
-import { DEFAULT_MB_LOGO, TOKEN_METHOD_NAMES, Network, MB_TOKEN_FACTORY_ADDRESS } from '../constants';
 import {
-  TransferArgs,
+  DEFAULT_MB_LOGO,
+  TOKEN_METHOD_NAMES,
+  Network,
+  MB_TOKEN_FACTORY_ADDRESS,
+} from '../constants';
+import {
   DeployTokenContractArgs,
+  AccountId,
   TransferTokenContractOwnership,
   MintArgs,
   AddRemoveMinterArgs,
   BatchChangeMinters,
   RevokeAccountArgs,
 } from './token.types';
-
-// TODO: figure out a way to generate gas and deposit for each
-
-export const transfer = ({ nftContractId, transfers }: TransferArgs): TransactionArgs => {
-  if (transfers.length > 1) {
-    const ids = transfers.map((transferElm) => {
-      return [transferElm.receiverId, transferElm.tokenId];
-    });
-
-    return {
-      contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_ids: ids,
-      },
-    };
-  } else {
-    const { receiverId, tokenId } = transfers.pop();
-
-    return {
-      contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.TRANSFER,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        receiver_id: receiverId,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_id: tokenId,
-      },
-    };
-  }
-};
-
-export const deployContract = (args: DeployTokenContractArgs): TransactionArgs => {
-  const { name, factoryContractId, network = Network.TESTNET, ownerId, metadata } = args;
 
   const { symbol, icon, baseUri, reference, referenceHash } = metadata;
 
@@ -72,7 +42,9 @@ export const deployContract = (args: DeployTokenContractArgs): TransactionArgs =
   };
 };
 
-export const transferContractOwnership = (args: TransferTokenContractOwnership): TransactionArgs => {
+export const transferContractOwnership = (
+  args: TransferTokenContractOwnership,
+): TransactionArgs => {
   const { nftContractId, nextOwner, options } = args;
   const { keepMinters = true } = options;
 
@@ -129,7 +101,9 @@ export const removeMinter = (args: AddRemoveMinterArgs): TransactionArgs => {
   };
 };
 
-export const batchChangeMinters = (args: BatchChangeMinters): TransactionArgs => {
+export const batchChangeMinters = (
+  args: BatchChangeMinters,
+): TransactionArgs => {
   const { addMinters, removeMinters, nftContractId } = args;
 
   return {

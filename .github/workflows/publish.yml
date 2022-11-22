@@ -1,4 +1,4 @@
-name: Publish Packages to NPM
+name: SDK Check & Publish
 
 on:
   release:
@@ -28,8 +28,25 @@ jobs:
         run: |
           npm ci
           npm run bootstrap
+          npm run lint
           npm run build
           npm run test
+
+      - name: Aggregate LCOV results
+        uses: RauliL/lerna-lcov-aggregate-action@master
+
+      - name: Coveralls
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Deployment Status
+        uses: altinukshini/deployment-action@releases/v1
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          environment: production
 
       - name: Publish Push Prerelease
         if: ${{ github.event.head_commit.message }}
@@ -50,3 +67,21 @@ jobs:
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'released' || 'prerelease'}}
           git push
+
+      - name: Update deployment status (success)
+        if: success()
+        uses: altinukshini/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          state: "success"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Update deployment status (failure)
+        if: failure()
+        uses: altinukshini/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}

@@ -24,3 +24,8 @@ a {
     background: black;
   }
 }
+
+button {
+  padding: 10px 50px;
+  margin: 10px 10px 0 0;
+}
