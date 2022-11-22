@@ -8,7 +8,10 @@ interface TokenByIdHookResult {
   loading: boolean;
 }
 
-export const useTokenById = (tokenId: string, contractAddress: string): TokenByIdHookResult => {
+export const useTokenById = (
+  tokenId: string,
+  contractAddress: string,
+): TokenByIdHookResult => {
   const [loading, setLoading] = useState<boolean>(true);
   const [res, setData] = useState<TokenByIdResults | undefined>(undefined);
   const [errorMsg, setError] = useState<string | null>(null);
@@ -23,11 +26,9 @@ export const useTokenById = (tokenId: string, contractAddress: string): TokenByI
         if (error) {
           setError(error as string);
           setLoading(false);
-        } else {
-          if (data) {
-            setData(res);
-            setLoading(false);
-          }
+        } else if (data) {
+          setData(res);
+          setLoading(false);
         }
       })();
     }
