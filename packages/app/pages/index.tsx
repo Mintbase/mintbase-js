@@ -76,9 +76,7 @@ const Home: NextPage = () => {
         <h2>Test Components</h2>
         {activeAccountId ? <TransferTest /> : null}
 
-        {data?.mb_views_nft_tokens[0] ? (
-          <TokenExample data={data.mb_views_nft_tokens[0]} />
-        ) : null}
+        <TokenExample />
       </main>
 
       <footer className={styles.footer}>
