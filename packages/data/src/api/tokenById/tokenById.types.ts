@@ -45,9 +45,6 @@ export interface TokenByIdResults {
   mb_views_active_listings_aggregate: { aggregate: { count: number } };
 }
 
-
-  
-
 export interface Extra {
   trait_type: string;
   display_type?: string;
