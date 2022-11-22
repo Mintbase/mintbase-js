@@ -1,26 +1,46 @@
-import { fetchGraphQl } from "../../graphql/fetch";
-import { errorContractAddress, errorToken } from "./tokenById.mock";
-import { tokenByIdQuery } from "./tokenbyId.query";
+import { fetchGraphQl, GraphqlFetchingError } from '../../graphql/fetch';
+import { errorContractAddress, errorToken } from './tokenById.errors';
 
-import { TokenByIdResults } from "./tokenById.types";
+import { tokenByIdQuery } from './tokenbyId.query';
 
-export const checkParams = (tokenId: string, contractAddress: string) => {
-  if (typeof tokenId !== "string") {
-    return errorToken;
-  } else if (typeof contractAddress !== "string") {
-    return errorContractAddress;
-  } else {
-    return { valid: true, message: "" };
-  }
-};
+import { TokenByIdResults } from './tokenById.types';
+
+interface TokenByIdData {
+  data?: TokenByIdResults | null;
+  error: string | GraphqlFetchingError;
+}
 
 export const tokenById = async (
-  tokenId: string,
-  contractAddress: string
-): Promise<TokenByIdResults> => {
-  const { valid, message } = checkParams(tokenId, contractAddress);
+  tokenId: string | number,
+  contractAddress: string,
+): Promise<TokenByIdData> => {
+  // check if contract address is part of Near
+  const validContractAddress =
+    contractAddress.endsWith('.near') || contractAddress.endsWith('.testnet');
 
-  if (valid) {
+  // check if tokenId is a valid positive number
+  const validTokenId = (): boolean =>
+    typeof tokenId === 'string'
+      ? /^\d+$/.test(tokenId)
+      : /^\d+$/.test(tokenId.toString());
+
+  const validArgs = validTokenId() && validContractAddress;
+
+  if (!validArgs) {
+    if (!validContractAddress) {
+      console.error(errorContractAddress);
+
+      return { data: undefined, error: errorContractAddress.message };
+    }
+
+    if (!validTokenId) {
+      console.error(errorToken);
+
+      return { data: undefined, error: errorToken.message };
+    }
+  }
+
+  const fetchData = async (): Promise<TokenByIdData> => {
     const { data, error } = await fetchGraphQl<TokenByIdResults>({
       query: tokenByIdQuery,
       variables: {
@@ -29,19 +49,15 @@ export const tokenById = async (
       },
     });
 
-    // log and rethrow for now...
-    // question: do we want to use the same { error, data } pattern in these
-    // methods as well?
     if (error) {
-      console.error("Error fetching token listing counts", error.message);
+      console.error('Error fetching token listing counts', error.message);
       throw error;
     }
 
-    if (data) {
-      return data;
-    }
-  } else {
-    console.error(message);
-    return null;
-  }
+    return { data, error };
+  };
+
+  const res = await fetchData();
+
+  return { data: res.data, error: res.error };
 };
