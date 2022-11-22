@@ -27,14 +27,16 @@ export const tokenById = async (
   const validArgs = validTokenId() && validContractAddress;
 
   if (!validArgs) {
+    console.log(validArgs, validContractAddress, 'validContractAddress');
+
     if (!validContractAddress) {
-      console.error(errorContractAddress);
+      console.error(errorContractAddress.message);
 
       return { data: undefined, error: errorContractAddress.message };
     }
 
-    if (!validTokenId) {
-      console.error(errorToken);
+    if (!validTokenId()) {
+      console.error(errorToken.message);
 
       return { data: undefined, error: errorToken.message };
     }
