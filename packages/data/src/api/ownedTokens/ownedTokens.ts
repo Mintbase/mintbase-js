@@ -1,4 +1,4 @@
-import { Pagination } from '../../types';
+import { Pagination, Token } from '../../types';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ownedTokensQuery } from './ownedTokens.query';
 

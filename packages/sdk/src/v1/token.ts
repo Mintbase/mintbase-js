@@ -9,13 +9,15 @@ import {
 } from '../constants';
 import {
   DeployTokenContractArgs,
-  AccountId,
   TransferTokenContractOwnership,
   MintArgs,
   AddRemoveMinterArgs,
   BatchChangeMinters,
   RevokeAccountArgs,
 } from './token.types';
+
+export const deployContract = (args: DeployTokenContractArgs): TransactionArgs => {
+  const { name, factoryContractId = Network.TESTNET, ownerId, metadata } = args;
 
   const { symbol, icon, baseUri, reference, referenceHash } = metadata;
 
