@@ -51,7 +51,7 @@ jobs:
       - name: Publish Push Prerelease
         if: ${{ github.event.head_commit.message }}
         run: |
-          lerna version --conventional-commits --yes --skip-git --preid ${{ github.ref_name }}
+          lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
           git commit -m "🤖 npm publish version $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')"
           lerna publish from-package --yes --dist-tag prerelease

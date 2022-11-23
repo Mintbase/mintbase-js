@@ -16,30 +16,75 @@
     "plugin:react/recommended"
   ],
   "ignorePatterns": [
-    "jest.config.js", "lib/**", "src-v2/**", "packages/data/src/graphql/codegen/**", "*.js"
+    "jest.config.js",
+    "lib/**",
+    "src-v2/**",
+    "packages/data/src/graphql/codegen/**",
+    "*.js"
   ],
-
   "rules": {
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-use-before-define": "off",
-    "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
-    "comma-dangle": ["error", "always-multiline"],
+    "brace-style": [
+      "error",
+      "1tbs",
+      {
+        "allowSingleLine": true
+      }
+    ],
+    "comma-dangle": [
+      "error",
+      "always-multiline"
+    ],
     "consistent-return": "error",
-    "eol-last": ["error", "always"],
-    "indent": ["error", 2],
-    "max-len": ["error", {
-      "code": 100,
-      "tabWidth": 4,
-      "ignoreStrings": true,
-      "ignoreComments": true,
-      "ignoreUrls": true
-    }],
-    "no-multiple-empty-lines": ["error", { "max": 2, "maxBOF": 1 }],
-    "object-curly-spacing": ["error", "always"],
-    "semi": ["error", "always"],
-    "space-before-blocks": ["error", "always"],
-    "keyword-spacing": ["error",  { "before": true, "after": true }],
-    "quotes": ["error", "single"],
+    "eol-last": [
+      "error",
+      "always"
+    ],
+    "indent": [
+      "error",
+      2
+    ],
+    "max-len": [
+      "error",
+      {
+        "code": 200,
+        "tabWidth": 4,
+        "ignoreStrings": true,
+        "ignoreComments": true,
+        "ignoreUrls": true
+      }
+    ],
+    "no-multiple-empty-lines": [
+      "error",
+      {
+        "max": 2,
+        "maxBOF": 1
+      }
+    ],
+    "object-curly-spacing": [
+      "error",
+      "always"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "space-before-blocks": [
+      "error",
+      "always"
+    ],
+    "keyword-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off"
   },

@@ -5,11 +5,6 @@ export type TokenArgs = {
   network?: string;
 };
 
-export type BurnArgs = {
-  nftContractId: AccountId;
-  tokenIds: TokenId[];
-};
-
 export type DeployTokenContractArgs = TokenArgs & {
   name: string;
   factoryContractId?: AccountId;

@@ -23,6 +23,7 @@ describe('tokenListingCountsByMetaId', () => {
   });
 
   it('should use the upper bound of token counts for display', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const makeAggregate = (val: string): any => ({
       aggregate: {
         count: val,

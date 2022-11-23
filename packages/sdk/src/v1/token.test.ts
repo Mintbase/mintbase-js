@@ -1,47 +1,10 @@
 import { DEPOSIT_CONSTANTS, GAS_CONSTANTS, TOKEN_METHOD_NAMES } from '../constants';
-import { burn, deployContract, revoke } from './token';
+import { deployContract, revoke } from './token';
 
 describe('token method calls', () => {
   const nftContractId = 'test.nft.contract';
   const receiverId = 'test.account';
   const tokenId1 = '1';
-  const tokenId2 = '2';
-
-  test('burn one token', () => {
-    const args = burn({
-      nftContractId: nftContractId,
-      tokenIds: [tokenId1],
-    });
-
-    expect(args).toEqual({
-      contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_ids: [tokenId1],
-      },
-      gas: GAS_CONSTANTS.DEFAULT_GAS,
-      deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-    });
-  });
-
-  test('burn two tokens', () => {
-    const args = burn({
-      nftContractId: nftContractId,
-      tokenIds: [tokenId1, tokenId2],
-    });
-
-    expect(args).toEqual({
-      contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_ids: [tokenId1, tokenId2],
-      },
-      gas: GAS_CONSTANTS.DEFAULT_GAS,
-      deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-    });
-  });
 
   test('revoke token one account', () => {
     const args = revoke({

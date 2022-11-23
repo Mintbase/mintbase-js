@@ -1,5 +1,6 @@
 export * from './execute';
 export * from './constants';
+export * from './burn/burn';
 export * from './transfer/transfer';
 export * from './v1/token';
 export * from './v1/token.types';

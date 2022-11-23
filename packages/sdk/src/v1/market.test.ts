@@ -1,4 +1,4 @@
-import { GAS_CONSTANTS } from './constants';
+import { GAS_CONSTANTS } from '../constants';
 import { buy, depositStorage, list } from './market';
 
 describe('token method calls', () => {
@@ -113,5 +113,4 @@ describe('token method calls', () => {
       gas: GAS_CONSTANTS.DEFAULT_GAS,
     });
   });
-
 });
