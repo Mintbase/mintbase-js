@@ -1,0 +1,20 @@
+name: Telegram P/R Open notification
+
+on:
+  pull_request:
+   branches: [ main ]
+
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Telegram Notify
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          format: markdown
+          message: |
+            [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) ➡️ [OPEN] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) by ${{ github.actor }} 
