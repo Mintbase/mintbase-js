@@ -5,8 +5,10 @@ import { ownedTokens } from '@mintbase-js/data';
 import { TEST_TOKEN_CONTRACT } from '../src/constants';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 
+// FIXME: this test does not pass every time, especially when run in fast succession.
 test('transfer token between two accounts', async () => {
-  // to keep from exhausting tokens, alice or bob are selected at random
+  // to keep from exhausting tokens,
+  // alice or bob is selected at random
   // as transferer and recipient
   const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
   const transferToIndex = Math.random() > 0.5 ? 1 : 0;
@@ -22,18 +24,17 @@ test('transfer token between two accounts', async () => {
     throw `${accountFrom} ran out of tokens to transfer! Mint some more...`;
   }
 
-  const result = await execute({
-    ...transfer({
-      nftContractId: TEST_TOKEN_CONTRACT,
-      transfers: [
-        { receiverId: accountTo, tokenId: token.tokenId },
-      ],
-    }),
-    gas: MAX_GAS,
-    deposit: ONE_YOCTO,
-  },
-  { account: signingAccount },
-  ) as FinalExecutionOutcome;
+  const result = (await execute(
+    {
+      ...transfer({
+        nftContractId: TEST_TOKEN_CONTRACT,
+        transfers: [{ receiverId: accountTo, tokenId: token.tokenId }],
+      }),
+      gas: MAX_GAS,
+      deposit: ONE_YOCTO,
+    },
+    { account: signingAccount },
+  )) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();
   // TODO: inspect this more...
