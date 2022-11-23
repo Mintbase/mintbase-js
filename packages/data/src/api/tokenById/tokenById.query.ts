@@ -6,7 +6,7 @@ query ${QUERY_OPS_PREFIX}_tokenById(
     $tokenId: String!
     $contractAddress: String!
   ) {
-    mb_views_nft_tokens(
+    tokenData: mb_views_nft_tokens(
       where: {
         nft_contract_id: { _eq: $contractAddress }
         token_id: { _eq: $tokenId }
@@ -14,37 +14,37 @@ query ${QUERY_OPS_PREFIX}_tokenById(
       limit: 1
     ) {
       baseUri: base_uri
-      burned_receipt_id
-      burned_timestamp
+      burnedReceiptId: burned_receipt_id
+      burnedTimestamp: burned_timestamp
       copies
       description
-      expires_at
-      issued_at
-      last_transfer_receipt_id
-      last_transfer_timestamp
+      expiresAt: expires_at
+      issuedAt: issued_at
+      lastTransferReceiptId: last_transfer_receipt_id
+      lastTransferTimeStamp: last_transfer_timestamp
       media
       minter
-      media_hash
-      mint_memo
-      nft_contract_is_mintbase
-      minted_receipt_id
-      minted_timestamp
-      metadata_id
+      mediaHash: media_hash
+      mintMemo: mint_memo
+      isMintbaseContract: nft_contract_is_mintbase
+      mintedReceiptId: minted_receipt_id
+      mintedTimestamp: minted_timestamp
+      metadataId: metadata_id
       document: reference_blob(path: "$.document")
       animationUrl: reference_blob(path: "$.animation_url")
       extra: reference_blob(path: "$.extra")
       reference
-      reference_hash
-      starts_at
+      referenceHash: reference_hash
+      startsAt: starts_at
       title
-      updated_at
+      updatedAt: updated_at
       owner
       royalties
-      royalties_percent
-      token_id
+      royaltiesPercent: royalties_percent
+      tokenId: token_id
     }
 
-    mb_views_active_listings_aggregate(
+    tokenListingsAggregate: mb_views_active_listings_aggregate(
       where: {
         token_id: { _eq: $tokenId }
         kind: { _eq: "auction" }

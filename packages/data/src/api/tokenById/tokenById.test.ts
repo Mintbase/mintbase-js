@@ -25,8 +25,8 @@ describe('tokenById', () => {
 
     const result = await tokenById('1', 'test.mintbase1.near');
 
-    expect(result?.data?.mb_views_nft_tokens[0].media).toBe(
-      tokenByIdMock.mb_views_nft_tokens[0].media,
+    expect(result?.data?.tokenData[0].media).toBe(
+      tokenByIdMock.tokenData[0].media,
     );
   });
 

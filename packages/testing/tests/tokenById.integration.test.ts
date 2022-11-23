@@ -12,9 +12,9 @@ afterEach(() => {
 test('tokenById should return on testnet', async () => {
   const result = await tokenById('2', 'rastamanvibration.mintspace2.testnet');
 
-  expect(result.data?.mb_views_nft_tokens).toHaveLength(1);
+  expect(result.data?.tokenData).toHaveLength(1);
   expect(
-    result.data?.mb_views_active_listings_aggregate?.aggregate?.count,
+    result.data?.tokenListingsAggregate?.aggregate?.count,
   ).toBe(1);
   expect(result.error).toBeUndefined();
   expect(result).not.toBeUndefined();
