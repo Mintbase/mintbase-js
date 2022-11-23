@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.1.0-modular-refactor.0",
+  "version": "0.0.4-query-token-by-id.3",
   "description": "React app tools for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@mintbase-js/auth": "*",
+    "@mintbase-js/data": "*",
     "@mintbase-js/sdk": "*",
     "@near-wallet-selector/core": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
