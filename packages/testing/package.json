@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.1.0-modular-refactor.0",
+  "version": "0.1.0-burn-and-tokens-by-status.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
