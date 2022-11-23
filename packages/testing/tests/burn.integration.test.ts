@@ -16,7 +16,7 @@ test('burn token', async () => {
   const token = await ownedTokens(accountToBurnFrom, { limit: 1 });
   
   if (!token) {
-    throw `${accountToBurnFrom} ran out of tokens to transfer! Mint some more...`;
+    throw `${accountToBurnFrom} ran out of owned tokens to burn! Mint some more...`;
   }
   const { listedTokens, unlistedTokens } = await tokensByStatus(
     token[0].metadataId,

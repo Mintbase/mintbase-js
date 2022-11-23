@@ -8,7 +8,7 @@ export type BurnArgs = {
 
 export const DEPOSIT_FOR_BURN = ONE_YOCTO;
 export const GAS_FOR_BURN = GAS;
-export const DEFAULT_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT || null;
+const DEFAULT_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT || null;
 
 /**
  * Burns one or more tokens from a given contract.
