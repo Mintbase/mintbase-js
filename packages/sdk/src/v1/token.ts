@@ -10,7 +10,6 @@ import {
   DEPOSIT_CONSTANTS,
 } from '../constants';
 import {
-  BurnArgs,
   DeployTokenContractArgs,
   TransferTokenContractOwnership,
   MintArgs,
@@ -19,35 +18,8 @@ import {
   RevokeAccountArgs,
 } from './token.types';
 
-// TODO: figure out a way to generate gas and deposit for each
-
-export const burn = (
-  args: BurnArgs,
-): TransactionArgs & TransactionAttachments => {
-  const { nftContractId, tokenIds } = args;
-
-  return {
-    contractAddress: nftContractId,
-    methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
-    args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      token_ids: tokenIds,
-    },
-    gas: GAS_CONSTANTS.DEFAULT_GAS,
-    deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-  };
-};
-
-export const deployContract = (
-  args: DeployTokenContractArgs,
-): TransactionArgs & TransactionAttachments => {
-  const {
-    name,
-    factoryContractId,
-    network = Network.TESTNET,
-    ownerId,
-    metadata,
-  } = args;
+export const deployContract = (args: DeployTokenContractArgs): TransactionArgs & TransactionAttachments=> {
+  const { name, factoryContractId = Network.TESTNET, ownerId, metadata } = args;
 
   const { symbol, icon, baseUri, reference, referenceHash } = metadata;
 
@@ -99,7 +71,7 @@ export const transferContractOwnership = (
 export const mint = (
   args: MintArgs,
 ): TransactionArgs & TransactionAttachments => {
-  const { nftContractId, options } = args;
+  const { nftContractId  } = args;
 
   return {
     contractAddress: nftContractId,

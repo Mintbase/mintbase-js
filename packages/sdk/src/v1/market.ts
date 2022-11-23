@@ -2,16 +2,10 @@
 
 import { utils } from 'near-api-js';
 import { TransactionArgs, TransactionAttachments } from '../execute';
-import {
-  DEPOSIT_CONSTANTS,
-  GAS_CONSTANTS,
-  MARKET_METHOD_NAMES,
-} from './constants';
+import { DEPOSIT_CONSTANTS, GAS_CONSTANTS, MARKET_METHOD_NAMES } from '../constants';
 import { BuyArgs, DepositStorageArgs, ListArgs } from './market.types';
 
-export const buy = (
-  args: BuyArgs,
-): TransactionArgs & TransactionAttachments => {
+export const buy = (args: BuyArgs): TransactionArgs & TransactionAttachments => {
   const { nftContractId, tokenId, referrerId, marketAddress, price } = args;
   return {
     contractAddress: marketAddress,
@@ -29,9 +23,7 @@ export const buy = (
   };
 };
 
-export const list = (
-  args: ListArgs,
-): TransactionArgs & TransactionAttachments => {
+export const list = (args: ListArgs): TransactionArgs & TransactionAttachments => {
   const { nftContractId, tokenId, approvedAccountId, price } = args;
 
   return {
@@ -51,9 +43,7 @@ export const list = (
   };
 };
 
-export const depositStorage = (
-  args: DepositStorageArgs,
-): TransactionArgs & TransactionAttachments => {
+export const depositStorage = (args: DepositStorageArgs): TransactionArgs & TransactionAttachments => {
   const { marketAddress, listAmount = 1 } = args;
 
   const deposit = (0.01 * listAmount).toString();

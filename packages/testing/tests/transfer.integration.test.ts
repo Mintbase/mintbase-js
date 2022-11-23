@@ -24,18 +24,17 @@ test('transfer token between two accounts', async () => {
     throw `${accountFrom} ran out of tokens to transfer! Mint some more...`;
   }
 
-  const result = await execute({
-    ...transfer({
-      nftContractId: TEST_TOKEN_CONTRACT,
-      transfers: [
-        { receiverId: accountTo, tokenId: token.tokenId },
-      ],
-    }),
-    gas: MAX_GAS,
-    deposit: ONE_YOCTO,
-  },
-  { account: signingAccount },
-  ) as FinalExecutionOutcome;
+  const result = (await execute(
+    {
+      ...transfer({
+        nftContractId: TEST_TOKEN_CONTRACT,
+        transfers: [{ receiverId: accountTo, tokenId: token.tokenId }],
+      }),
+      gas: MAX_GAS,
+      deposit: ONE_YOCTO,
+    },
+    { account: signingAccount },
+  )) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();
   // TODO: inspect this more...
