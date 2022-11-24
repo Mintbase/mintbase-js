@@ -17,7 +17,6 @@
   "license": "MIT",
   "dependencies": {
     "@bundlr-network/client": "^0.7.7",
-    "form-data": "^4.0.0",
     "near-api-js": "^0.44.2",
     "superagent": "^8.0.3"
   }
