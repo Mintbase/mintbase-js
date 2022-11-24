@@ -1,3 +1,5 @@
+export const ARWEAVE_SERVICE_HOST = 'https://ar.mintbase.io';
+
 export const nodes = {
   bundlr: {
     node1: {

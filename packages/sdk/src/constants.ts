@@ -38,6 +38,13 @@ export const Network = {
   TESTNET: 'testnet',
 };
 
+export const MINTBASE_API_KEY_HEADER = 'mb-api-key';
+export const MINTBASE_API_ANON_USER = 'anon';
+export const MINTBASE_API_KEY =
+  process.env.MINTBASE_API_KEY ||
+  globalThis?.localStorage?.getItem('MINTBASE_API_KEY') ||
+  MINTBASE_API_ANON_USER;
+
 export const NEAR_NETWORK =
   process.env.NEAR_NETWORK || globalThis?.localStorage?.getItem('NEAR_NETWORK') || Network.MAINNET;
 
