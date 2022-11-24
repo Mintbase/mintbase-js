@@ -1,10 +1,10 @@
-import { TEST_TOKEN_CONTRACT } from '../src/constants';
+import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 import { burn, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
 import { connect } from '@mintbase-js/auth';
-import { authenticatedKeyStore } from '../src/utils';
+import { authenticatedKeyStore } from '../../src/utils';
 import { ownedTokens } from '@mintbase-js/data/lib/api/ownedTokens/ownedTokens';
 
 test('burn token', async () => {
