@@ -1,0 +1,1 @@
+process.env.MINTBASE_API_KEY=e886efa80e627f165ebbc7b4d942c172

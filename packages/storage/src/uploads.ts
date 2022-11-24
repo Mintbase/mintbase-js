@@ -1,4 +1,4 @@
-import { MINTBASE_API_KEY_HEADER, MINTBASE_API_KEY } from '@mintbase-js/sdk';
+import { MINTBASE_API_KEY_HEADER, MINTBASE_API_KEY, MINTBASE_API_ANON_USER } from '@mintbase-js/sdk';
 import { ARWEAVE_SERVICE_HOST, supportedStorageServices } from './constants';
 import { setup } from './services';
 import FormData from 'form-data';
@@ -25,6 +25,9 @@ export const uploadFileToArweave = async (
   file: File | Buffer | unknown,
   name: string,
 ): Promise<ArweaveResponse> => {
+  if (MINTBASE_API_KEY == MINTBASE_API_ANON_USER) {
+    console.warn('Warning: you are using the anonymous mintbase api key. You may want to specify yours.');
+  }
   try {
     const { body } = await superagent
       .post(ARWEAVE_SERVICE_HOST)
