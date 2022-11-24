@@ -13,30 +13,29 @@ jest.mock('superagent', () => ({
 
 describe('upload tests', () => {
   beforeAll(() => {
-    // jest.spyOn(console, 'error').mockImplementation(() => null);
-    writeFileSync(fakeFileName, '{"hello":"storage"}');
+    jest.spyOn(console, 'error').mockImplementation(() => null);
+    jest.spyOn(console, 'warn').mockImplementation(() => null);
 
   });
-  afterAll(() => {
-    unlinkSync(fakeFileName);
-  });
-
   test('uploads to arweave service', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     (superagent.attach as jest.Mock).mockResolvedValueOnce({
       body: {
         id: 'new-upload-hash',
       },
     });
-    const file = createReadStream(fakeFileName);
-    const upload = await uploadFileToArweave(file as unknown as File, 'test.json');
+    const upload = await uploadFileToArweave(Buffer.from('{"word":"up"}'), 'test.json');
     expect(upload.id).toBeDefined();
   });
 
   test('should fail with anon header', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
     (superagent.attach as jest.Mock).mockRejectedValueOnce({
       code: 403,
     });
-    expect(uploadFileToArweave(createReadStream(fakeFileName) as unknown as File, 'test.json'))
+    expect(uploadFileToArweave(Buffer.from('{"word":"up"}'), 'test.json'))
       .rejects
       .toThrow();
   });

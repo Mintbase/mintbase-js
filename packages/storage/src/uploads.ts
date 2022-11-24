@@ -45,17 +45,17 @@ export const uploadFileToArweave = async (
   }
 };
 
-export const uploadBuffer = async (
-  buffer: Buffer,
-  contentType: string,
-): Promise<string> => {
-  const bundlr = setup(supportedStorageServices.arweave.bundlr);
+// export const uploadBuffer = async (
+//   buffer: Buffer,
+//   contentType: string,
+// ): Promise<string> => {
+//   const bundlr = setup(supportedStorageServices.arweave.bundlr);
 
-  const uploadResult = await bundlr.uploader.upload(buffer, [
-    { name: 'Content-Type', value: contentType },
-  ]);
+//   const uploadResult = await bundlr.uploader.upload(buffer, [
+//     { name: 'Content-Type', value: contentType },
+//   ]);
 
-  const { data } = uploadResult;
+//   const { data } = uploadResult;
 
-  return data.id;
-};
+//   return data.id;
+// };
