@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.4-rpc-get-txn-status.3",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -21,7 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^16.0.0",
-    "@types/superagent": "^4.1.15",
-    "superagent": "^8.0.3"
+    "isomorphic-unfetch": "^3.1.0"
   }
 }
