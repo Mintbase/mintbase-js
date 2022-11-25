@@ -13,10 +13,9 @@ jobs:
         with:
           ref: ${{ github.event.release.target_commitish }}
 
-      - name: Use Node.js 14
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v3
         with:
-          node-version: 14.x
+          node-version: 16
 
       - name: Configure git and npm creds
         run: |
@@ -26,7 +25,7 @@ jobs:
 
       - name: Build & Test
         run: |
-          npm ci
+          npm i
           npm run bootstrap
           npm run lint
           npm run build
