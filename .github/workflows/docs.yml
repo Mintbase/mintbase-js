@@ -13,23 +13,23 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node.js 14.x
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16
 
       - name: Checkout
         uses: actions/checkout@v3
         with:
-          repository: 'Mintbase/gitbook-docs'
-          ref: 'include-api-docs'
-          path: 'docs/gitbook-docs'
+          repository: "Mintbase/gitbook-docs"
+          ref: "include-api-docs"
+          path: "docs/gitbook-docs"
           token: ${{ secrets.GITHUB_TOKEN }}
           ssh-key: ${{ secrets.TEAM_ACCOUNT_KEY }}
           persist-credentials: true
 
       - name: Copy and Publish Docs
-        working-directory: 'docs/gitbook-docs'
+        working-directory: "docs/gitbook-docs"
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
