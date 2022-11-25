@@ -1,6 +1,8 @@
 export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
 export const ONE_YOCTO = '1';
+export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
+export const CONTRACT_DEPOSIT = '6500000000000000000000000';
 
 export const TOKEN_METHOD_NAMES = {
   TRANSFER: 'nft_transfer',
