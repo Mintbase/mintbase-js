@@ -1,8 +1,8 @@
 import { connect } from '@mintbase-js/auth';
-import { authenticatedKeyStore } from '../src/utils';
+import { authenticatedKeyStore } from '../../src/utils';
 import { transfer, execute, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
 import { ownedTokens } from '@mintbase-js/data';
-import { TEST_TOKEN_CONTRACT } from '../src/constants';
+import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 
 // FIXME: this test does not pass every time, especially when run in fast succession.
