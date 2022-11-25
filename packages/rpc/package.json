@@ -21,7 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^16.0.0",
-    "@types/superagent": "^4.1.15",
-    "superagent": "^8.0.3"
+    "isomorphic-unfetch": "^3.1.0"
   }
 }
