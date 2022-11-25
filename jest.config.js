@@ -1,5 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
-require('dotenv').config();
+
+process.env.NEAR_DATA_ENV='testnet'
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',

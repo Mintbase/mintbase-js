@@ -78,6 +78,8 @@ The NextJS browser test suite located in `packages/app` can be run with `npm run
 
 # Adding New Packages
 
+Sometimes issues arise with new packages that have not already been published.
+
 When adding a new package, the best way is to follow these steps:
 
 1. copy the data package and change appropriate values in `package.json`.
@@ -87,6 +89,4 @@ When adding a new package, the best way is to follow these steps:
 "@mintbase-js/<new-package>": "file:packages/<new-package>",
 ```
 
-3. Publish out the current locked version as all the other packages from the local command line using `npm publish --access public`.
-
-The last step is necessary, because npm will assume that scoped packages are private.
+3. Publish out the current locked version as all the other packages from the local command line using `npm publish`.

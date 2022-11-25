@@ -1,13 +1,13 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.4-rpc-get-block-height.1",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
-    "test": "MINTBASE_API_KEY=e886efa80e627f165ebbc7b4d942c172 NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000 --setupFiles dotenv/config"
+    "test": "NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000"
   },
   "files": [
     "lib"
@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/secret-manager": "^4.1.4",
+    "@mintbase-js/sdk": "*",
     "graphql-request": "^5.0.0",
     "near-api-js": "^0.44.2"
   },
