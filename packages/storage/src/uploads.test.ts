@@ -1,9 +1,7 @@
 
-import { writeFileSync, unlinkSync, createReadStream } from 'fs';
-import { uploadFileToArweave } from './uploads';
+import { uploadFileToArweave, MAX_UPLOAD_BYTES } from './uploads';
 import superagent from 'superagent';
-
-const fakeFileName = './uploadTest.json';
+import { MAX_UPLOAD_ERROR_MSG } from './constants';
 
 jest.mock('superagent', () => ({
   post: jest.fn().mockReturnThis(),
@@ -13,7 +11,7 @@ jest.mock('superagent', () => ({
 
 describe('upload tests', () => {
   beforeAll(() => {
-    jest.spyOn(console, 'error').mockImplementation(() => null);
+    //jest.spyOn(console, 'error').mockImplementation(() => null);
     jest.spyOn(console, 'warn').mockImplementation(() => null);
 
   });
@@ -35,8 +33,22 @@ describe('upload tests', () => {
     (superagent.attach as jest.Mock).mockRejectedValueOnce({
       code: 403,
     });
-    expect(uploadFileToArweave(Buffer.from('{"word":"up"}'), 'test.json'))
+    await expect(uploadFileToArweave(Buffer.from('{"word":"up"}'), 'test.json'))
       .rejects
       .toThrow();
+  });
+
+  test('throws with big file', async () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    (superagent.attach as jest.Mock).mockResolvedValueOnce({
+      body: {
+        id: 'new-upload-hash',
+      },
+    });
+    const bigBuffer = Buffer.from(new Array(MAX_UPLOAD_BYTES + 100).fill(0).map(() => 'a'));
+    await expect(uploadFileToArweave(bigBuffer, 'test.json'))
+      .rejects
+      .toThrow(MAX_UPLOAD_ERROR_MSG);
   });
 });

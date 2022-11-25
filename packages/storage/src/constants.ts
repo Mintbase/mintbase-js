@@ -18,3 +18,5 @@ export const supportedStorageServices = {
     bundlr: 'bundlr',
   },
 };
+
+export const MAX_UPLOAD_ERROR_MSG = 'The max file size supported is currently is 30MB. Please contact Mintbase support regarding use cases for large files.';

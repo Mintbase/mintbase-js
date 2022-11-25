@@ -45,6 +45,8 @@ export const MINTBASE_API_KEY =
   globalThis?.localStorage?.getItem('MINTBASE_API_KEY') ||
   MINTBASE_API_ANON_USER;
 
+export const ANON_USER_WARNING = 'Warning: you are using the anonymous mintbase api key. You may want to specify yours.';
+
 export const NEAR_NETWORK =
   process.env.NEAR_NETWORK || globalThis?.localStorage?.getItem('NEAR_NETWORK') || Network.MAINNET;
 
