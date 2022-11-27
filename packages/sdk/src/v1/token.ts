@@ -87,40 +87,6 @@ export const mintMore = (): void => {
   return;
 };
 
-export const addMinter = (
-  args: AddRemoveMinterArgs,
-): TransactionArgs & TransactionAttachments => {
-  const { minterId, nftContractId } = args;
-
-  return {
-    contractAddress: nftContractId,
-    args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      account_id: minterId,
-    },
-    methodName: TOKEN_METHOD_NAMES.ADD_MINTER,
-    gas: GAS_CONSTANTS.DEFAULT_GAS,
-    deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-  };
-};
-
-export const removeMinter = (
-  args: AddRemoveMinterArgs,
-): TransactionArgs & TransactionAttachments => {
-  const { minterId, nftContractId } = args;
-
-  return {
-    contractAddress: nftContractId,
-    args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      account_id: minterId,
-    },
-    methodName: TOKEN_METHOD_NAMES.REMOVE_MINTER,
-    gas: GAS_CONSTANTS.DEFAULT_GAS,
-    deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-  };
-};
-
 export const batchChangeMinters = (
   args: BatchChangeMinters,
 ): TransactionArgs & TransactionAttachments => {
