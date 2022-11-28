@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-transfer-contract-ownership.0",
+  "version": "0.0.4-transfer-contract-ownership.1",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {

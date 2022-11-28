@@ -8,7 +8,8 @@ export const getBlockHeight = async (): Promise<number> => {
     params: [],
   });
   const blockHeight = res?.result?.sync_info?.latest_block_height;
-  if (!blockHeight)
+  if (!blockHeight) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
+  }
   return blockHeight;
 };
