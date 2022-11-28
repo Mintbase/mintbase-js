@@ -10,6 +10,7 @@ interface OwnedNftsByStoreHookResult {
 
 export const useOwnedNftsByStore = (
   ownerId: string,
+  contractAddress: string,
   pagination: { limit: number; offset?: number},
 ): OwnedNftsByStoreHookResult => {
   const [loading, setLoading] = useState<boolean>(true);
@@ -21,7 +22,7 @@ export const useOwnedNftsByStore = (
 
     if (loading) {
       (async (): Promise<void> => {
-        const { data, error } = await ownedNftsByStore(ownerId, pagination);
+        const { data, error } = await ownedNftsByStore(ownerId,contractAddress, pagination);
 
         if (error) {
           setError(error as string);
