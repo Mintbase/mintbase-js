@@ -26,6 +26,8 @@
     "camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-use-before-define": "off",
+    // we need this rule to check invalid types and inputs
+    "@typescript-eslint/ban-ts-ignore": "off",
     "brace-style": [
       "error",
       "1tbs",
