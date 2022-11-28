@@ -13,6 +13,7 @@
     "sourceMap": true,
     "lib": [
       "es6",
+      "dom",
     ]
   },
   "exclude": [

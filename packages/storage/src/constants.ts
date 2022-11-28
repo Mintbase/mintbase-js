@@ -1,4 +1,5 @@
 export const ARWEAVE_SERVICE_HOST = 'https://ar.mintbase.io';
+export const MAX_UPLOAD_ERROR_MSG = 'The max file size supported is currently is 30MB. Please contact Mintbase support regarding use cases for large files.';
 
 export const nodes = {
   bundlr: {
@@ -19,4 +20,3 @@ export const supportedStorageServices = {
   },
 };
 
-export const MAX_UPLOAD_ERROR_MSG = 'The max file size supported is currently is 30MB. Please contact Mintbase support regarding use cases for large files.';

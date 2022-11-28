@@ -16,7 +16,6 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@bundlr-network/client": "^0.7.7",
     "@mintbase-js/sdk": "*",
     "near-api-js": "^0.44.2",
     "superagent": "^8.0.3"
