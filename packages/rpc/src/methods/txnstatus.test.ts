@@ -5,6 +5,7 @@ jest.mock('isomorphic-unfetch');
 
 describe('getTxnStatus', () => {
 
+  // eslint-disable-next-line @typescript-eslint/camelcase
   const mockResponseWithReceipts = (receipts_outcome: object): void => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       json: jest.fn().mockResolvedValueOnce({
