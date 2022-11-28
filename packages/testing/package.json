@@ -1,13 +1,13 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-alpha.0",
+  "version": "0.0.4-storage-module.1",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
-    "test": "NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000"
+    "test": "MINTBASE_API_KEY=e886efa80e627f165ebbc7b4d942c172 NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000 --setupFiles dotenv/config"
   },
   "files": [
     "lib"

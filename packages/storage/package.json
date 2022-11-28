@@ -1,9 +1,8 @@
 {
-  "name": "@mintbase-js/sdk",
+  "name": "@mintbase-js/storage",
   "version": "0.0.4-storage-module.1",
-  "description": "Core functions for  Mintbase JS SDK",
+  "description": "Storage functions for  Mintbase JS SDK",
   "main": "lib/index.js",
-  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
@@ -13,13 +12,15 @@
   "files": [
     "lib"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "near-api-js": "^0.44.2"
+    "@mintbase-js/sdk": "*",
+    "near-api-js": "^0.44.2",
+    "superagent": "^8.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.11.9"
   }
 }
