@@ -30,12 +30,16 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, batchChangeMinters } from '@mintbase-js/sdk';
 
 
-export const BatchChangeMintersUI = ({ contractId, addMinters, removeMinters }:any) => {
+export const BatchChangeMintersUI = ({ contractId, addMinters, removeMinters }: any) => {
   const { selector } = useWallet();
   const handleBatchChangeMinters = async (): Promise<void> => {
     const wallet = await selector.wallet();
     await execute(
-      batchChangeMinters({ nftContractId: contractId, addMinters: addMinters, removeMinters: removeMinters })
+      batchChangeMinters({ 
+          nftContractId: contractId,
+          addMinters: addMinters, 
+          removeMinters: removeMinters 
+          })
     );
   return (
     <div>
