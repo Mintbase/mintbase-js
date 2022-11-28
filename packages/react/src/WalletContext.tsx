@@ -4,12 +4,11 @@ import {
   setupWalletSelectorComponents,
   connectWalletSelector,
   disconnectFromWalletSelector,
-  getWallet,
   pollForWalletConnection,
   signMessage,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
-import { WalletSelector, AccountState, Wallet, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
+import { WalletSelector, AccountState, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
 // This is heavily based on
