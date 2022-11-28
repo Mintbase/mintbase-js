@@ -1,5 +1,6 @@
+import { deployContract } from '../deployContract/deployContract';
 import { DEPOSIT_CONSTANTS, GAS_CONSTANTS, TOKEN_METHOD_NAMES } from '../constants';
-import { deployContract, revoke } from './token';
+import { revoke } from './token';
 
 describe('token method calls', () => {
   const nftContractId = 'test.nft.contract';
