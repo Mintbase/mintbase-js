@@ -22,7 +22,7 @@ describe('tokenById', () => {
       request: (): Promise<OwnedNftsData> => Promise.resolve(ownedNftsByStoreMock),
     }));
 
-    const result = await ownedNftsByStore('test.mintbase1.near',{ limit: 12, offset: 0 });
+    const result = await ownedNftsByStore('test.testnet','test.mintbase1.near',{ limit: 12, offset: 0 });
 
     expect(result?.data?.token[0].metadataId).toBe(
       ownedNftsByStoreMock.token[0].metadataId,
@@ -39,7 +39,7 @@ describe('tokenById', () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<OwnedNftsData> => Promise.reject(exploded),
     }));
-    await expect(ownedNftsByStore('test.mintbase1.near',{ limit: 12, offset: 0 })).rejects.toThrow(
+    await expect(ownedNftsByStore('test.testnet','test.mintbase1.near',{ limit: 12, offset: 0 })).rejects.toThrow(
       exploded,
     );
   });

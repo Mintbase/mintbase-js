@@ -5,6 +5,7 @@ import { NftsByStoreData, OwnedNftsData } from './ownedNftsByStore.types';
 
 export const ownedNftsByStore = async (
   ownerId: string,
+  contractAddress: string,
   pagination: { limit: number; offset?: number},
 ): Promise<NftsByStoreData> => {
 
@@ -20,6 +21,7 @@ export const ownedNftsByStore = async (
     query: ownedNftsByStoreQuery,
     variables: {
       ownerId,
+      contractAddress,
       limit: pagination.limit,
       offset: pagination?.offset ?? 0,
     },
