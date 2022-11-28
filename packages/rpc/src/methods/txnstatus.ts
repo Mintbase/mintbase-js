@@ -12,19 +12,31 @@ export const getTxnStatus = async (
     method: 'tx',
     params: [txnHash, senderId],
   });
-  if (res?.error) throw res.error;
+  if (res?.error) {
+    throw res.error;
+  }
 
   let failure = false;
   let pending = false;
-  if (!(res.result?.receipts_outcome instanceof Array))
+  if (!(res.result?.receipts_outcome instanceof Array)) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
+  }
   res.result?.receipts_outcome?.forEach((outcome: any) => {
-    if (!outcome?.outcome?.status)
+    if (!outcome?.outcome?.status) {
       throw new Error(`Malformed response: ${JSON.stringify(res)}`);
-    if (outcome.outcome.status.Unknown) pending = true;
-    if (outcome.outcome.status.Failure) failure = true;
+    }
+    if (outcome.outcome.status.Unknown) {
+      pending = true;
+    }
+    if (outcome.outcome.status.Failure) {
+      failure = true;
+    }
   });
-  if (failure) return 'failure';
-  if (pending) return 'pending';
+  if (failure) {
+    return 'failure';
+  }
+  if (pending) {
+    return 'pending';
+  }
   return 'success';
 };

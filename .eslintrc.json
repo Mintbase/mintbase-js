@@ -32,7 +32,7 @@
       "error",
       "1tbs",
       {
-        "allowSingleLine": true
+        "allowSingleLine": false
       }
     ],
     "comma-dangle": [
@@ -40,6 +40,7 @@
       "always-multiline"
     ],
     "consistent-return": "error",
+    "curly": "error",
     "eol-last": [
       "error",
       "always"

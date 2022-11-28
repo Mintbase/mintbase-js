@@ -2,71 +2,15 @@
 
 import { TransactionArgs, TransactionAttachments } from '../execute';
 import {
-  DEFAULT_MB_LOGO,
   TOKEN_METHOD_NAMES,
-  Network,
-  MB_TOKEN_FACTORY_ADDRESS,
   GAS_CONSTANTS,
   DEPOSIT_CONSTANTS,
 } from '../constants';
 import {
-  DeployTokenContractArgs,
-  TransferTokenContractOwnership,
   MintArgs,
-  AddRemoveMinterArgs,
-  BatchChangeMinters,
   RevokeAccountArgs,
 } from './token.types';
 
-export const deployContract = (args: DeployTokenContractArgs): TransactionArgs & TransactionAttachments=> {
-  const { name, factoryContractId = Network.TESTNET, ownerId, metadata } = args;
-
-  const { symbol, icon, baseUri, reference, referenceHash } = metadata;
-
-  const data = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
-    owner_id: ownerId,
-    metadata: {
-      spec: 'nft-1.0.0',
-      name: name.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
-      symbol: symbol.replace(/[^a-z0-9]+/gim, '').toLowerCase(),
-      icon: icon ?? DEFAULT_MB_LOGO,
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      base_uri: baseUri ?? null,
-      reference: reference ?? null,
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      reference_hash: referenceHash ?? null,
-    },
-  };
-
-  return {
-    contractAddress: factoryContractId || MB_TOKEN_FACTORY_ADDRESS,
-    methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
-    args: data,
-    gas: GAS_CONSTANTS.DEFAULT_GAS,
-    deposit: '6500000000000000000000000',
-  };
-};
-
-export const transferContractOwnership = (
-  args: TransferTokenContractOwnership,
-): TransactionArgs & TransactionAttachments => {
-  const { nftContractId, nextOwner, options } = args;
-  const { keepMinters = true } = options;
-
-  return {
-    contractAddress: nftContractId,
-    args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      new_owner: nextOwner,
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      keep_old_minters: keepMinters,
-    },
-    methodName: TOKEN_METHOD_NAMES.TRANSFER_TOKEN_CONTRACT_OWNERSHIP,
-    gas: GAS_CONSTANTS.DEFAULT_GAS,
-    deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-  };
-};
 
 export const mint = (
   args: MintArgs,
@@ -87,22 +31,6 @@ export const mintMore = (): void => {
   return;
 };
 
-export const batchChangeMinters = (
-  args: BatchChangeMinters,
-): TransactionArgs & TransactionAttachments => {
-  const { addMinters, removeMinters, nftContractId } = args;
-
-  return {
-    contractAddress: nftContractId,
-    args: {
-      grant: addMinters.length > 0 ? addMinters : undefined,
-      revoke: removeMinters.length > 0 ? removeMinters : undefined,
-    },
-    methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
-    gas: GAS_CONSTANTS.DEFAULT_GAS,
-    deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-  };
-};
 
 export const revoke = (
   args: RevokeAccountArgs,
