@@ -1,25 +1,24 @@
-import { addMinter } from '@mintbase-js/sdk/src/addMinter/addMinter';
-import { removeMinter } from '@mintbase-js/sdk/src/removeMinter/removeMinter';
+import { batchChangeMinters } from '../../../sdk/src/batchChangeMinters/batchChangeMinters';
 import { execute } from '@mintbase-js/sdk/src';
 import { connect } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 
-test('add and remove minter integration test', async () => {
-  const minterId = 'mb_bob.testnet';
+test('batch change minters integration test', async () => {
+  const minterIds = ['mb_bob.testnet', 'mb_alice.testnet'];
   const owner = 'mb_alice.testnet';
   const nftContractId = 'mb_store.mintspace2.testnet';
   const keyStore = await authenticatedKeyStore([owner]);
   const signingAccount = await connect(owner, keyStore);
 
 
-  const add = addMinter({
+  const add = batchChangeMinters({
     nftContractId: nftContractId,
-    minterId: minterId,
+    addMinters: minterIds,
   });
 
-  const remove = removeMinter({
+  const remove = batchChangeMinters({
     nftContractId: nftContractId,
-    minterId: minterId,
+    removeMinters: minterIds,
   });
 
   await execute(
@@ -27,4 +26,3 @@ test('add and remove minter integration test', async () => {
     { account: signingAccount },
   );
 });
-
