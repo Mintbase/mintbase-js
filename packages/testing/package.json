@@ -20,6 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/secret-manager": "^4.1.4",
+    "@mintbase-js/sdk": "*",
     "graphql-request": "^5.0.0",
     "near-api-js": "^0.44.2"
   },

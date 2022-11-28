@@ -23,13 +23,14 @@
     "*.js"
   ],
   "rules": {
+    "camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "brace-style": [
       "error",
       "1tbs",
       {
-        "allowSingleLine": true
+        "allowSingleLine": false
       }
     ],
     "comma-dangle": [
@@ -37,6 +38,7 @@
       "always-multiline"
     ],
     "consistent-return": "error",
+    "curly": "error",
     "eol-last": [
       "error",
       "always"

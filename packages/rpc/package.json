@@ -1,0 +1,26 @@
+{
+  "name": "@mintbase-js/rpc",
+  "version": "0.0.4-alpha.0",
+  "description": "NEAR RPC interactions for  Mintbase JS SDK",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "codegen": "graphql-codegen --config ./src/graphql/codegen/config.ts",
+    "watch": "tsc && tsc --watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^16.0.0",
+    "isomorphic-unfetch": "^3.1.0"
+  }
+}
