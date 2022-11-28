@@ -20,7 +20,7 @@ export const revoke = (
       ...(accountToRevokeId) && { account_id: accountToRevokeId },
       token_id: tokenId,
     },
-    methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
+    methodName: accountToRevokeId? TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE :TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
     gas: GAS,
     deposit: ONE_YOCTO,
   };
