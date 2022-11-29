@@ -25,7 +25,7 @@ describe('getTxnStatus', () => {
     ]);
     let txnHash = '9Nieji1G1d9iUmkMindAAdwz7mcESG2NFxredjv9cWrZ';
     let senderId = 'reginanogueira.near';
-    if (process.env.NEAR_ENV === 'testnet') {
+    if (process.env.NEAR_NETWORK === 'testnet') {
       txnHash = '6zgh2u9DqHHiXzdy9ouTP7oGky2T4nugqzqt9wJZwNFm';
       senderId = 'sender.testnet';
     }
@@ -39,7 +39,7 @@ describe('getTxnStatus', () => {
     ]);
     let txnHash = 'DfePCY1bRdCn8BsBjod4kP3sW6Uc1VYV4yJxnFNy5Vui';
     let senderId = 'yoneru.near';
-    if (process.env.NEAR_ENV === 'testnet') {
+    if (process.env.NEAR_NETWORK === 'testnet') {
       txnHash = '35jBJFY566f4Jk5JzwTnoyJoFCdfRgPuCaJLtrNrFamE';
       senderId = 'yadda.testnet';
     }
@@ -53,7 +53,7 @@ describe('getTxnStatus', () => {
     ]);
     let txnHash = 'test.txn.hash';
     let senderId = 'foo.near';
-    if (process.env.NEAR_ENV === 'testnet') {
+    if (process.env.NEAR_NETWORK === 'testnet') {
       txnHash = 'not.a.real.txn';
       senderId = 'bar.testnet';
     }
