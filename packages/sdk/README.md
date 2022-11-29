@@ -107,6 +107,6 @@ The reason for the optional `Promise<void>` return type in the execute method, i
 
 {% hint style="warning" %}
 
-Should you encounter this [known issue](ttps://docs.near.org/tools/near-api-js/faq#class-x-is-missing-in-schema-publickey) make sure you are not importing modules directly from `near-api-js`, import them from `@mintbase-js/sdk` instead to avoid the duplicate import.
+Should you encounter this [known issue](https://docs.near.org/tools/near-api-js/faq#class-x-is-missing-in-schema-publickey) `Class PublicKey is missing in schema: publicKey` make sure you are not importing modules directly from `near-api-js`, import them from `@mintbase-js/sdk` instead to avoid the duplicate import.
 
 {% endhint %}
