@@ -1,7 +1,7 @@
 
 import { connectToNear, Account } from '@mintbase-js/sdk';
 import { KeyStore } from 'near-api-js/lib/key_stores';
-import { NearNetwork, NEAR_ENV, NEAR_RPC_URL } from './constants';
+import { NearNetwork, NEAR_NETWORK, NEAR_RPC_URL } from './constants';
 
 /**
  * Connect to a NEAR account `accountId` with credentials in `keyStore` {@link KeyStore}
@@ -14,7 +14,7 @@ import { NearNetwork, NEAR_ENV, NEAR_RPC_URL } from './constants';
 export const connect = async (
   accountId: string,
   keyStore: KeyStore,
-  network: NearNetwork = NEAR_ENV,
+  network: NearNetwork = NEAR_NETWORK,
 ): Promise<Account> => {
   const near = await connectToNear({
     keyStore,

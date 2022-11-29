@@ -52,7 +52,7 @@ In order to use mintbase JS functions, often environment variables will need to 
 
 ```
 # default testnet
-NEAR_ENV = mainnet | testnet
+NEAR_NETWORK = mainnet | testnet
 
 # default sandbox
 NEAR_DATA_ENV = mainnet | testnet | sandbox

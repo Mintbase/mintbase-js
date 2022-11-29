@@ -2,15 +2,27 @@
 
 export type NearNetwork = 'mainnet' | 'testnet';
 
-export const NEAR_ENV = (
-  process.env.NEAR_ENV || 'testnet'
+export const Network = {
+  MAINNET: 'mainnet',
+  TESTNET: 'testnet',
+};
+
+export const HOST_BASED_NETWORK_DEFAULT =
+  globalThis?.window?.location.host.includes('testnet')
+    ? Network.TESTNET
+    : Network.MAINNET;
+
+export const NEAR_NETWORK = (
+  process.env.NEAR_NETWORK ||
+  globalThis?.localStorage?.getItem('NEAR_NETWORK') ||
+  HOST_BASED_NETWORK_DEFAULT
 ) as NearNetwork;
 
 // FIXME: these should probably live in sdk module
 export const DEFAULT_MINTBASE_CONTRACT_TESTNET = 'mintspace2.testnet';
 export const DEFAULT_MINTBASE_CONTRACT_MAINNET = 'mintbase1.near';
 
-export const NEAR_WALLET_SELECTOR_DEBUG = NEAR_ENV === 'testnet';
+export const NEAR_WALLET_SELECTOR_DEBUG = NEAR_NETWORK === 'testnet';
 
 export const NEAR_LOGIN_CONTRACT_ID = process.env.NEAR_LOGIN_CONTRACT_ID;
 
