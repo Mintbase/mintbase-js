@@ -21,8 +21,8 @@ export const ownedNftsByStore = async (
     query: ownedNftsByStoreQuery,
     variables: {
       accountId: ownerId,
-      contractAddress,
-      limit: pagination.limit,
+      contractAddress: contractAddress,
+      limit: pagination?.limit ?? 12,
       offset: pagination?.offset ?? 0,
     },
   });
