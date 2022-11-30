@@ -2,14 +2,14 @@
 import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
 import { NearContractCall } from '../execute';
 
-type RevokeArgs = {
+type RevokeApprovalArgs = {
     nftContractId: string;
     tokenId: string;
     accountToRevokeId?: string;
 }
 
-export const revoke = (
-  args: RevokeArgs,
+export const revokeApproval = (
+  args: RevokeApprovalArgs,
 ): NearContractCall => {
   const { nftContractId, tokenId, accountToRevokeId } = args;
 
