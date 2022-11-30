@@ -1,11 +1,10 @@
 import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 import { burn, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
-import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
-import { connect } from '@mintbase-js/auth';
+import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
-import { ownedTokens } from '@mintbase-js/data/lib/api/ownedTokens/ownedTokens';
+import { ownedTokens } from '@mintbase-js/data';
 
 test('burn token', async () => {
   const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
@@ -14,7 +13,7 @@ test('burn token', async () => {
   const keyStore = await authenticatedKeyStore([accountToBurnFrom]);
   const signingAccount = await connect(accountToBurnFrom, keyStore);
   const token = await ownedTokens(accountToBurnFrom, { limit: 1 });
-  
+
   if (!token) {
     throw `${accountToBurnFrom} ran out of owned tokens to burn! Mint some more...`;
   }
