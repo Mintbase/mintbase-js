@@ -1,4 +1,4 @@
-import { KeyPair, InMemoryKeyStore, KeyStore  } from '@mintbase-js/sdk';
+import { KeyPair, InMemoryKeyStore, KeyStore  } from '@mintbase-js/auth';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import { SECRETS_REPO_PATH } from './constants';
 
