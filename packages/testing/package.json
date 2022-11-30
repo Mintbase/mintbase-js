@@ -7,7 +7,7 @@
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts",
-    "test": "MINTBASE_API_KEY=e886efa80e627f165ebbc7b4d942c172 NEAR_ENV=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000 --setupFiles dotenv/config"
+    "test": "MINTBASE_API_KEY=e886efa80e627f165ebbc7b4d942c172 NEAR_NETWORK=testnet NEAR_DATA_ENV=testnet jest --roots ./tests --testTimeout 60000 --setupFiles dotenv/config"
   },
   "files": [
     "lib"
@@ -20,9 +20,9 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/secret-manager": "^4.1.4",
+    "@mintbase-js/auth": "*",
     "@mintbase-js/sdk": "*",
-    "graphql-request": "^5.0.0",
-    "near-api-js": "^0.44.2"
+    "graphql-request": "^5.0.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.7",

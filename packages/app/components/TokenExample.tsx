@@ -2,9 +2,8 @@ import Image from 'next/image';
 import { useTokenById } from '@mintbase-js/react';
 
 export const TokenExample = (): JSX.Element => {
-  const { data, error, loading } = useTokenById('1', 'grants.mintbase1.near');
-
-  const { animationUrl, media, title, minter } = data?.tokenData[0];
+  const { data } = useTokenById('1', 'grants.mintbase1.near');
+  const { animationUrl, media, title, minter } = data?.tokenData[0] || {};
 
   return (
     <>

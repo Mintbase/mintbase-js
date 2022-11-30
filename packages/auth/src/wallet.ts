@@ -15,7 +15,7 @@ import { setupNeth } from '@near-wallet-selector/neth';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 import {
-  NEAR_ENV,
+  NEAR_NETWORK,
   NEAR_LOGIN_CONTRACT_ID,
   NEAR_WALLET_SELECTOR_DEBUG,
   DEFAULT_MINTBASE_CONTRACT_MAINNET,
@@ -50,7 +50,7 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
-    network: NEAR_ENV,
+    network: NEAR_NETWORK,
     debug: NEAR_WALLET_SELECTOR_DEBUG,
     modules: [
       ...(await setupDefaultWallets()),
@@ -65,7 +65,7 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
     ],
   });
 
-  const defaultMintbaseContract = NEAR_ENV === 'testnet'
+  const defaultMintbaseContract = NEAR_NETWORK === 'testnet'
     ? DEFAULT_MINTBASE_CONTRACT_TESTNET
     : DEFAULT_MINTBASE_CONTRACT_MAINNET;
 
