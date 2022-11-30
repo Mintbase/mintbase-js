@@ -49,7 +49,7 @@ export const MINTBASE_API_KEY =
 
 export const ANON_USER_WARNING = 'Warning: you are using the anonymous mintbase api key. You may want to specify yours.';
 
-export const HOST_BASED_NETWORK_DEFAULT = () =>
+export const HOST_BASED_NETWORK_DEFAULT : Network = () =>
   globalThis?.window?.location.host.includes('testnet')
     ? Network.TESTNET
     : Network.MAINNET;
