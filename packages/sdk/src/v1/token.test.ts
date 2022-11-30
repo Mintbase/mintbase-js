@@ -1,3 +1,4 @@
+import { deployContract } from '../deployContract/deployContract';
 import { DEPOSIT_CONSTANTS, GAS_CONSTANTS, TOKEN_METHOD_NAMES } from '../constants';
 import { revoke } from './token';
 
