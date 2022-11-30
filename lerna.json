@@ -2,7 +2,7 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
   "useWorkspaces": true,
-  "version": "0.0.4-move-near-js-exports-to-auth.0",
+  "version": "0.0.4-alpha.0",
   "packages": [
     "packages/*"
   ]
