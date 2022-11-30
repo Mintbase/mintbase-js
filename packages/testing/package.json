@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-microchipgnu-test-near-network.0",
+  "version": "0.0.4-alpha.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
