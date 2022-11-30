@@ -1,4 +1,4 @@
-[//]: # `{ "title": "deployContract", "order": 0.3 }`
+[//]: # `{ "title": "deployContract", "order": 0.4 }`
 
 # Deploy Contract
 
