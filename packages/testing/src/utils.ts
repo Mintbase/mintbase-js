@@ -2,7 +2,7 @@ import { KeyPair, InMemoryKeyStore, KeyStore  } from '@mintbase-js/sdk';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
 import { SECRETS_REPO_PATH } from './constants';
 
-const NEAR_ENV = process.env.NEAR_ENV || 'testnet';
+const NEAR_NETWORK = process.env.NEAR_NETWORK || 'testnet';
 
 export const authenticatedKeyStore = async (
   accountsToAuthenticate: string[],
@@ -17,7 +17,7 @@ export const authenticatedKeyStore = async (
     const gcpPK = JSON.parse(payload).private_key;
 
     await keyStore.setKey(
-      NEAR_ENV,
+      NEAR_NETWORK,
       account,
       KeyPair.fromString(gcpPK),
     );
