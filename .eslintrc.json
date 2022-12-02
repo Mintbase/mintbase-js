@@ -23,11 +23,9 @@
     "*.js"
   ],
   "rules": {
-    "camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-use-before-define": "off",
-    // we need this rule to check invalid types and inputs
-    "@typescript-eslint/ban-ts-ignore": "off",
+    "@typescript-eslint/camelcase": "off",
     "brace-style": [
       "error",
       "1tbs",
@@ -35,6 +33,7 @@
         "allowSingleLine": false
       }
     ],
+    "camelcase": "off",
     "comma-dangle": [
       "error",
       "always-multiline"
