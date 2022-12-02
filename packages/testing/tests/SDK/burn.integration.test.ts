@@ -34,15 +34,11 @@ test('burn token', async () => {
     return;
   }
 
-  const result = (await execute(
-    {
-      ...burn({
-        nftContractId: TEST_TOKEN_CONTRACT,
-        tokenIds: tokenToBurn,
-      }),
-      gas: MAX_GAS,
-      deposit: ONE_YOCTO,
-    },
+  const result = (await execute(  
+    burn({
+      nftContractId: TEST_TOKEN_CONTRACT,
+      tokenIds: tokenToBurn,
+    }),
     { account: signingAccount },
   )) as FinalExecutionOutcome;
 
