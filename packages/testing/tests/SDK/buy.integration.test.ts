@@ -6,7 +6,7 @@ import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 import { ownedTokens } from '@mintbase-js/data';
 
-test('list a token', async () => {
+test('buy a token', async () => {
   const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
   const buyFromIndex = Math.random() > 0.5 ? 1 : 0;
   const buyIndex = buyFromIndex == 1? 0 : 1;
@@ -23,8 +23,8 @@ test('list a token', async () => {
     'mb_store.mintspace2.testnet:285633c53dbad8e3493a39849f29092d',
     accountToBuyFrom,
   );
-  if (listedTokens.length < 0) {
-    console.error('No unlisted tokens for buy integration test');
+  if (listedTokens.length == 0) {
+    console.error('No listed tokens for buy integration test');
     return;
   }
   const tokenToBuy: string = listedTokens[0];
@@ -35,7 +35,6 @@ test('list a token', async () => {
       nftContractId: TEST_TOKEN_CONTRACT,
       price: '1',
       tokenId: tokenToBuy,
-      referrerId: accountToBuyFrom,
     }),
     { account: signingAccount },
   )) as FinalExecutionOutcome;

@@ -7,6 +7,12 @@ export type DepositStorageArgs = {
     marketAddress?: string;
   };
 
+
+/**
+ * Deposits 0.01 * listAmount of near to the market contract to be consumed for listing purposes
+ * @param depositStorageArguments {@link DepositStorageArgs}
+ * @returns contract call to be passed to @mintbase-js/sdk execute method
+ */
 export const depositStorage = (args: DepositStorageArgs): NearContractCall => {
     
   const { marketAddress = MB_TESTNET_MARKET_CONTRACT_ADDRESS, listAmount = 1 } = args;

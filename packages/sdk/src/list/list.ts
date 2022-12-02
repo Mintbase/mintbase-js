@@ -4,20 +4,24 @@ import { NearContractCall } from '../execute';
 
 export type ListArgs = {
     nftContractId: string;
-    marketContractId?: string;
+    marketAddress?: string;
     price: string;
     tokenId: string;
   }
 
-
+/**
+ * Lists a token on mintbase market contract 
+ * @param listArguments {@link ListArgs}
+ * @returns contract call to be passed to @mintbase-js/sdk execute method
+ */
 export const list = (args: ListArgs): NearContractCall => {
-  const { nftContractId, tokenId, marketContractId = MB_TESTNET_MARKET_CONTRACT_ADDRESS, price } = args;
+  const { nftContractId, tokenId, marketAddress = MB_TESTNET_MARKET_CONTRACT_ADDRESS, price } = args;
   
   return {
     contractAddress: nftContractId,
     args: {
       token_id: tokenId,
-      account_id: marketContractId,
+      account_id: marketAddress,
       msg: JSON.stringify({
         price: price,
       }),

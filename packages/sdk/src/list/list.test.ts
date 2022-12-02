@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GAS, LISTING_DEPOSIT, MARKET_METHOD_NAMES, ONE_YOCTO } from '../constants';
+import { GAS, LISTING_DEPOSIT, MARKET_METHOD_NAMES } from '../constants';
 import { list } from './list';
 
 test('list a token', () => {
   const nftContractId = 'contract';
   const tokenId = 'token';
-  const marketContractId = 'account';
+  const marketAddress = 'account';
   const price = '1';
   const args = list({
     nftContractId: nftContractId,
     tokenId: tokenId,
-    marketContractId: marketContractId,
+    marketAddress: marketAddress,
     price: price,
   });
 
@@ -19,7 +19,7 @@ test('list a token', () => {
     methodName: MARKET_METHOD_NAMES.LIST,
     args: {
       token_id: tokenId,
-      account_id: marketContractId,
+      account_id: marketAddress,
       msg: JSON.stringify({
         price: price,
       }),
