@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.4-alpha.1",
+  "version": "0.0.4-market-method-restructure.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
