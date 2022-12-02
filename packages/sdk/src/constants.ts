@@ -3,6 +3,7 @@ export const MAX_GAS = '300000000000000';
 export const ONE_YOCTO = '1';
 export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
 export const CONTRACT_DEPOSIT = '6500000000000000000000000';
+export const LISTING_DEPOSIT = '800000000000000000000';
 
 export const TOKEN_METHOD_NAMES = {
   TRANSFER: 'nft_transfer',
@@ -61,6 +62,7 @@ export const NEAR_NETWORK =
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
 export const MB_TESTNET_TOKEN_FACTORY_ADDRESS = 'mintspace2.testnet';
+export const MB_TESTNET_MARKET_CONTRACT_ADDRESS = 'market-v2-beta.mintspace2.testnet';
 
 export const MB_TOKEN_FACTORY_ADDRESS =
   NEAR_NETWORK === Network.MAINNET ? MB_MAINNET_TOKEN_FACTORY_ADDRESS : MB_TESTNET_TOKEN_FACTORY_ADDRESS;
