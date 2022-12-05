@@ -1,4 +1,4 @@
-[//]: # `{ "title": "addMinter", "order": 0.5 }`
+[//]: # `{ "title": "addMinter", "order": 0.6 }`
 
 # Add Minter
 

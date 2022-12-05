@@ -1,14 +1,17 @@
+/* eslint-disable @typescript-eslint/camelcase */
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import { TEST_TOKEN_CONTRACT } from '../src/constants';
-import { execute, burn, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk/src';
+import { execute, mint, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk/src';
 import { uploadFileToArweave } from '@mintbase-js/storage';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 
 import { connect } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../src/utils';
 
+
 // NOTE: you will need to inject a MINTBASE_API_KEY into the env to run this test.
+//TODO FIX THIS
 test('upload media and mint tokens', async () => {
 
   const keyStore = await authenticatedKeyStore(['mb_alice.testnet']);
@@ -23,9 +26,7 @@ test('upload media and mint tokens', async () => {
 
   const metadata = {
     media: `https://arweave.net/${mediaId}`,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     media_type: mimeType,
-    // eslint-disable-next-line @typescript-eslint/camelcase
     media_size: media.length,
   };
 
@@ -36,18 +37,18 @@ test('upload media and mint tokens', async () => {
   );
   console.log('got a reference!', referenceId);
 
-  // TODO: execute a mint!
-  // const result = (await execute(
-  //   {
-  //     ...burn({
-  //       nftContractId: TEST_TOKEN_CONTRACT,
-  //       tokenIds: tokenToBurn,
-  //     }),
-  //     gas: MAX_GAS,
-  //     deposit: ONE_YOCTO,
-  //   },
-  //   { account: signingAccount },
-  // )) as FinalExecutionOutcome;
+  const result = (await execute(
+    {
+      ...mint({
+        nftContractId: TEST_TOKEN_CONTRACT,
+        ownerId: 'mb_bob.testnet',
+        reference: metadata.media,
+      }),
+      gas: MAX_GAS,
+      deposit: ONE_YOCTO,
+    },
+    { account: signingAccount },
+  )) as FinalExecutionOutcome;
 
-  // expect(result.receipts_outcome).not.toBeUndefined();
+  expect(result.receipts_outcome).not.toBeUndefined();
 });

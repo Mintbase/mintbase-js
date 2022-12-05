@@ -50,7 +50,7 @@ export const MINTBASE_API_KEY =
 
 export const ANON_USER_WARNING = 'Warning: you are using the anonymous mintbase api key. You may want to specify yours.';
 
-export const HOST_BASED_NETWORK_DEFAULT =
+export const HOST_BASED_NETWORK_DEFAULT= (): string =>
   globalThis?.window?.location.host.includes('testnet')
     ? Network.TESTNET
     : Network.MAINNET;
@@ -58,7 +58,7 @@ export const HOST_BASED_NETWORK_DEFAULT =
 export const NEAR_NETWORK =
   process.env.NEAR_NETWORK ||
   globalThis?.localStorage?.getItem('NEAR_NETWORK') ||
-  HOST_BASED_NETWORK_DEFAULT;
+  HOST_BASED_NETWORK_DEFAULT();
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
 export const MB_TESTNET_TOKEN_FACTORY_ADDRESS = 'mintspace2.testnet';
