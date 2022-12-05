@@ -1,4 +1,4 @@
-[//]: # `{ "title": "depositStorage, "order": 0.12 }`
+[//]: # `{ "title": "depositStorage", "order": 0.12 }`
 
 # Deposit Storage
 
