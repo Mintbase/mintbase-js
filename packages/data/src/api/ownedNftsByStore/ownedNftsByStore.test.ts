@@ -50,6 +50,7 @@ describe('tokenById', () => {
 
     const errorMessage = 'Error fetching nfts from undefined, please check the arguments provided';
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const call = await ownedNftsByStore();
 
@@ -65,6 +66,7 @@ describe('tokenById', () => {
 
     const errorMessage = 'Error fetching nfts from test1.mintbase.near, please check the arguments provided';
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const call = await ownedNftsByStore('test1.mintbase.near');
 
@@ -80,6 +82,7 @@ describe('tokenById', () => {
 
     const errorMessage = 'Error fetching nfts from test1.mintbase.near, please check the arguments provided';
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const call = await ownedNftsByStore('test1.mintbase.near', { offset: 0 });
 
