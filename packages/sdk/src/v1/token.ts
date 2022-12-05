@@ -17,34 +17,3 @@ export const mintMore = (): void => {
 };
 
 
-export const revoke = (
-  args: RevokeAccountArgs,
-): TransactionArgs & TransactionAttachments => {
-  const { nftContractId, tokenId, accountToRevokeId } = args;
-
-  if (accountToRevokeId) {
-    return {
-      contractAddress: nftContractId,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_id: tokenId,
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        account_id: accountToRevokeId,
-      },
-      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
-      gas: GAS_CONSTANTS.DEFAULT_GAS,
-      deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-    };
-  } else {
-    return {
-      contractAddress: nftContractId,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
-        token_id: tokenId,
-      },
-      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
-      gas: GAS_CONSTANTS.DEFAULT_GAS,
-      deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
-    };
-  }
-};

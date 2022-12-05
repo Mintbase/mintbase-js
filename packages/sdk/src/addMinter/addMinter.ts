@@ -7,6 +7,11 @@ export type AddMinterArgs =  {
     nftContractId: string;
   };
 
+/**
+ * Add minting access for one id to a contract you own.
+ * @param addMinterArgs {@link AddMinterArgs}
+ * @returns contract call to be passed to @mintbase-js/sdk execute method
+ */  
 export const addMinter = (
   args: AddMinterArgs,
 ): NearContractCall=> {

@@ -8,6 +8,11 @@ export type BatchChangeMintersArgs =  {
   };
 
 
+/**
+ * Add or remove minting access of various ids of a contract you own.
+ * @param batchChangeMintersArgs {@link BatchChangeMintersArgs}
+ * @returns contract call to be passed to @mintbase-js/sdk execute method
+ */    
 export const batchChangeMinters = (
   args: BatchChangeMintersArgs,
 ): NearContractCall => {
