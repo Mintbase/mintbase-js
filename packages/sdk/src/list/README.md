@@ -1,4 +1,4 @@
-[//]: # `{ "title": "list, "order": 0.11 }`
+[//]: # `{ "title": "list", "order": 0.11 }`
 
 # List
 
@@ -20,6 +20,6 @@ export type ListArgs = {
     //mintbase market address where the token will be listed
     marketAdress: string;
     //price to be listed for
-    price: string;    
+    price: string;
   }
 ```
