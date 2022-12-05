@@ -5,6 +5,7 @@ export * from './addMinter/addMinter';
 export * from './removeMinter/removeMinter';
 export * from './transfer/transfer';
 export * from './batchChangeMinters/batchChangeMinters';
+export * from './mint/mint';
 export * from './revoke/revoke';
 export * from './deployContract/deployContract';
 export * from './transferContractOwnership/transferContractOwnership';

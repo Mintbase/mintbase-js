@@ -1,4 +1,4 @@
-[//]: # `{ "title": "transferContractOwnership", "order": 0.4 }`
+[//]: # `{ "title": "transferContractOwnership", "order": 0.5 }`
 
 # Transfer Contract Ownership
 

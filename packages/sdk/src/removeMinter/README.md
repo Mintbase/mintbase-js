@@ -1,4 +1,4 @@
-[//]: # `{ "title": "removeMinter", "order": 0.6 }`
+[//]: # `{ "title": "removeMinter", "order": 0.7 }`
 
 # Remove Minter
 

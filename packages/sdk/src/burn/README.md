@@ -1,4 +1,4 @@
-[//]: # `{ "title": "burn", "order": 0.1 }`
+[//]: # `{ "title": "burn", "order": 0.2 }`
 
 # Burn Tokens
 

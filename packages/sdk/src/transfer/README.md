@@ -1,4 +1,4 @@
-[//]: # `{ "title": "transfer", "order": 0.2 }`
+[//]: # `{ "title": "transfer", "order": 0.3 }`
 
 # Transfer Tokens
 

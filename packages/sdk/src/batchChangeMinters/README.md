@@ -1,4 +1,4 @@
-[//]: # `{ "title": "batchChangeMinters", "order": 0.7 }`
+[//]: # `{ "title": "batchChangeMinters", "order": 0.8 }`
 
 # Batch change minters
 

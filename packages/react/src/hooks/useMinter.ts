@@ -33,13 +33,10 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
       {
         ...mint({
           nftContractId,
-          metadata: {
-            reference: reference,
-          },
+          reference: reference,
+          ownerId: activeAccountId,
           options,
         }),
-        gas: GAS_CONSTANTS.OPTIMAL_GAS,
-        deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
         signerId: activeAccountId,
       },
       { wallet: await selector.wallet() },
