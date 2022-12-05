@@ -23,9 +23,9 @@
     "*.js"
   ],
   "rules": {
-    "camelcase": "off",
     "@typescript-eslint/explicit-function-return-type": "error",
     "@typescript-eslint/no-use-before-define": "off",
+    "@typescript-eslint/camelcase": "off",
     "brace-style": [
       "error",
       "1tbs",
@@ -33,6 +33,7 @@
         "allowSingleLine": false
       }
     ],
+    "camelcase": "off",
     "comma-dangle": [
       "error",
       "always-multiline"
