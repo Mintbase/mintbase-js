@@ -57,11 +57,25 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     });
   }, [setup]);
 
+  const onCloseModal = (): void => {
+    setIsWaitingForConnection(false);
+  };
+
+  if (typeof window !== 'undefined') {
+    const closeButton = document?.getElementsByClassName('close-button')[0];
+    if (!closeButton) {
+      console.warn('Attempting to bind handler to non-existent className .close-button');
+    } else {
+      closeButton?.addEventListener('click', onCloseModal);
+    }
+  }
+
   // subscribe to account state changes
   useEffect(() => {
     if (!components) {
       return;
     }
+
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
         setAccounts(accounts);
@@ -77,6 +91,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     selector,
     modal,
   } = components || {};
+
 
   const connect = async (): Promise<void> => {
     setIsWaitingForConnection(true);
