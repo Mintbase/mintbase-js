@@ -17,7 +17,7 @@ describe('revoke account', () => {
 
     expect(args).toEqual({
       contractAddress: nftContractId,
-      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE_ALL,
+      methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
         token_id: tokenId,
         account_id: accountToRevokeId,
@@ -26,8 +26,8 @@ describe('revoke account', () => {
       gas: GAS,
     });
   });
-  
-  test('revoke without accountToRevokeId', () =>{
+
+  test('revoke without accountToRevokeId uses all method', () =>{
     const args = revokeApproval({
       nftContractId: nftContractId,
       tokenId: tokenId,
