@@ -71,9 +71,6 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     if (!components) {
       return;
     }
-
-    console.log(components, 'comp');
-
  
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
