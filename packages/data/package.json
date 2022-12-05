@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.0.4-alpha-fix-close-modal.0",
+  "version": "0.0.4-alpha.0",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
