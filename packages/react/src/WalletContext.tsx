@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import {
   registerWalletAccountsSubscriber,
   setupWalletSelectorComponents,
@@ -57,11 +57,24 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     });
   }, [setup]);
 
+  const onCloseModal = (): void => {
+    setIsWaitingForConnection(false);
+  };
+
+  if (typeof window !== 'undefined') {
+    const closeButton = document?.getElementsByClassName('close-button')[0];
+    closeButton && closeButton?.addEventListener('click', onCloseModal);
+  }
+
   // subscribe to account state changes
   useEffect(() => {
     if (!components) {
       return;
     }
+
+    console.log(components, 'comp');
+
+ 
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
         setAccounts(accounts);
@@ -77,6 +90,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     selector,
     modal,
   } = components || {};
+
 
   const connect = async (): Promise<void> => {
     setIsWaitingForConnection(true);
