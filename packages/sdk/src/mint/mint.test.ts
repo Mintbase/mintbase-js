@@ -7,19 +7,19 @@ describe('mint method tests', () => {
   const reference = 'test';
   const ownerId = 'test';
   const options = {
-    splits: { 'test': 2 },
+    splits: { test: 0.5, test2: 0.5 },
     amount: 2,
     royaltyPercentage: 0.5,
   };
 
   const optionsWithInvalidPercentage = {
-    splits: { 'test': 2 },
+    splits: { test: 2 },
     amount: 2,
     royaltyPercentage: 1,
   };
 
   const optionsWithInvalidAmount = {
-    splits: { 'test': 2 },
+    splits: { test: 2 },
     amount: 300,
     royaltyPercentage: 0.5,
   };
@@ -127,11 +127,13 @@ describe('mint method tests', () => {
         royalty_args: {
           percentage: 5000,
           split_between: {
-            test: 2,
+            test: 5000,
+            test2: 5000,
           },
         },
         split_owners: {
-          test: 2,
+          test: 5000,
+          test2: 5000,
         },
       },
       deposit: ONE_YOCTO,
@@ -140,39 +142,34 @@ describe('mint method tests', () => {
   });
 
   test('mint with invalid percentage', () => {
-    jest.spyOn(global.console, 'error');
-    console.log(mint({
+    expect(()=> mint({
       nftContractId: nftContractId,
       reference: reference,
       ownerId: ownerId,
       options: optionsWithInvalidPercentage,
-    }));
-    expect(console.error).toBeCalled();
-
+    })).toThrow();
 
   });
 
   test('mint with invalid amount', () => {
-    jest.spyOn(global.console, 'error');
-    console.log(mint({
+    
+    expect(()=> mint({
       nftContractId: nftContractId,
       reference: reference,
       ownerId: ownerId,
       options: optionsWithInvalidAmount,
-    }));
-    expect(console.error).toBeCalled();
+    })).toThrow();
 
 
   });
 
   test('mint with invalid splits', () => {
-    jest.spyOn(global.console, 'error');
-    console.log(mint({
+ 
+    expect((() => mint({
       nftContractId: nftContractId,
       reference: reference,
       ownerId: ownerId,
       options: optionsWithInvalidSplits,
-    }));
-    expect(console.error).toBeCalled();
+    }))).toThrow();
   });
 });

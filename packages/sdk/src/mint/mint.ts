@@ -29,23 +29,26 @@ export const mint = (
   const { nftContractId, reference, ownerId, options = {}  } = args;
 
   const { splits, amount, royaltyPercentage } = options;
-  //0.5 -> 5000
-  adjustSplitsForContract(splits);
+  
+  if (splits) {
+    //0.5 -> 5000
+    adjustSplitsForContract(splits);
+  }
 
   if (splits && Object.keys(splits).length > 50) {
-    console.error('Splits cannnot have more than 50 entries');
+    throw ('Splits cannnot have more than 50 entries');
   }
 
   if (splits && Object.keys(splits).length < 2) {
-    console.error('There must be at least 2 accounts in splits');
+    throw ('There must be at least 2 accounts in splits');
   }
 
   if (amount && amount > 99) {
-    console.error('It is not possible to mint more than 99 copies of this token using this method');
+    throw ('It is not possible to mint more than 99 copies of this token using this method');
   }
 
   if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
-    console.error('Invalid royalty percentage');
+    throw ('Invalid royalty percentage');
   }
   
   return {
@@ -67,12 +70,13 @@ export const mint = (
 };
 
 function adjustSplitsForContract(splits: Record<string, number> ): void {
-  let counter: number;
+  let counter = 0;
   Object.keys(splits).forEach(key => {
     counter += splits[key];
+    console.log(counter);
     splits[key] *= 10000;
   });
   if (counter != 1) {
-    console.error('Splits percentages must add up to 1');
+    throw ('Splits percentages must add up to 1');
   }
 }
