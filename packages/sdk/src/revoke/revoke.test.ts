@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
-import { revoke } from './revoke';
+import { revokeApproval } from './revoke';
 
 describe('revoke account', () => {
 
@@ -9,7 +9,7 @@ describe('revoke account', () => {
   const accountToRevokeId = 'test';
 
   test('revoke with all args', () =>{
-    const args = revoke({
+    const args = revokeApproval({
       nftContractId: nftContractId,
       tokenId: tokenId,
       accountToRevokeId: accountToRevokeId,
@@ -28,7 +28,7 @@ describe('revoke account', () => {
   });
   
   test('revoke without accountToRevokeId', () =>{
-    const args = revoke({
+    const args = revokeApproval({
       nftContractId: nftContractId,
       tokenId: tokenId,
     });

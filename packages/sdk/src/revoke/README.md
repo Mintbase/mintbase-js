@@ -1,17 +1,18 @@
-[//]: # `{ "title": "revoke", "order": 0.8 }`
+[//]: # `{ "title": "revokeApproval", "order": 0.9 }`
 
 # Revoke Approval
 
-Revoke approval for a token from all or a single account
+Revoke approval for a token from a single account or all accounts
+This means that marketplaces won't be able to list your token for sale because they won't be able to transfer it once its sold.
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
 
-## revoke(args: RevokeArgs): NearContractCall
+## revokeApproval(args: RevokeApprovalArgs): NearContractCall
 
-`revoke` takes a single argument of type `RevokeArgs`
+`revokeApproval` takes a single argument of type `RevokeApprovalArgs`
 
 ```typescript
-type RevokeArgs = {
+type RevokeApprovalArgs = {
     // contract from which to revoke approval for a token
     nftContractId: string;
     // id of the token for which the approval will be revoked
