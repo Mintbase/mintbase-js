@@ -1,8 +1,6 @@
 import { useWallet } from '../WalletContext';
 import {
   mint,
-  DEPOSIT_CONSTANTS,
-  GAS_CONSTANTS,
   execute,
 } from '@mintbase-js/sdk';
 import { useState } from 'react';
@@ -33,8 +31,9 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
       {
         ...mint({
           nftContractId,
-          reference: reference,
-          ownerId: activeAccountId,
+          metadata: {
+            reference: reference,
+          },
           options,
         }),
         signerId: activeAccountId,

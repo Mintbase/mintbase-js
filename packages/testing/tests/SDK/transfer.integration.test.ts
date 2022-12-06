@@ -25,14 +25,10 @@ test('transfer token between two accounts', async () => {
   }
 
   const result = (await execute(
-    {
-      ...transfer({
-        nftContractId: TEST_TOKEN_CONTRACT,
-        transfers: [{ receiverId: accountTo, tokenId: token.tokenId }],
-      }),
-      gas: MAX_GAS,
-      deposit: ONE_YOCTO,
-    },
+    transfer({
+      nftContractId: TEST_TOKEN_CONTRACT,
+      transfers: [{ receiverId: accountTo, tokenId: token.tokenId }],
+    }),
     { account: signingAccount },
   )) as FinalExecutionOutcome;
 
