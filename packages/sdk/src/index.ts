@@ -11,7 +11,7 @@ export * from './constants';
 // export * from './buy/buy';
 // export * from './depositStorage/depositStorage';
 // export * from './mint/mint';
-// export * from './revoke/revoke';
+// export * from './unlist/unlist';
 export * from './v1/token';
 export * from './v1/token.types';
 export * from './v1/market';

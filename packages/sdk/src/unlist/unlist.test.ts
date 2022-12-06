@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
-import { revokeApproval } from './revoke';
+import { unlist } from './unlist';
 
-describe('revoke account', () => {
+describe('unlist account', () => {
 
   const nftContractId = 'test';
   const tokenId= 'test';
-  const accountToRevokeId = 'test';
+  const marketAddress = 'test';
 
-  test('revoke with all args', () =>{
-    const args = revokeApproval({
+  test('unlist with all args', () =>{
+    const args = unlist({
       nftContractId: nftContractId,
       tokenId: tokenId,
-      accountToRevokeId: accountToRevokeId,
+      marketAddress: marketAddress,
     });
 
     expect(args).toEqual({
@@ -20,15 +20,15 @@ describe('revoke account', () => {
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
         token_id: tokenId,
-        account_id: accountToRevokeId,
+        account_id: marketAddress,
       },
       deposit: ONE_YOCTO,
       gas: GAS,
     });
   });
 
-  test('revoke without accountToRevokeId uses all method', () =>{
-    const args = revokeApproval({
+  test('unlist without marketAddress uses all method', () =>{
+    const args = unlist({
       nftContractId: nftContractId,
       tokenId: tokenId,
     });

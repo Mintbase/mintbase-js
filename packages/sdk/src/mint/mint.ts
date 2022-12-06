@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { DEFAULT_CONTRACT_ADDRESS, GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
 import { NearContractCall } from '../execute';
 
 
 export type MintArgs =  {
-  nftContractId: string;
+  nftContractId?: string;
   reference: string;
   ownerId: string;
   options?: MintOptions;
@@ -26,10 +26,14 @@ export type Splits = Record<string, number>;
 export const mint = (
   args: MintArgs,
 ): NearContractCall => {
-  const { nftContractId, reference, ownerId, options = {}  } = args;
+  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, reference, ownerId, options = {}  } = args;
 
   const { splits, amount, royaltyPercentage } = options;
   
+  if (nftContractId == null) {
+    throw ('You must provide a nftContractId or define a TOKEN_CONTRACT enviroment variable to default to');
+  }
+
   if (splits) {
     //0.5 -> 5000
     adjustSplitsForContract(splits);

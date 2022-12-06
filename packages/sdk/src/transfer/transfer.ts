@@ -1,4 +1,4 @@
-import { ONE_YOCTO, GAS, TOKEN_METHOD_NAMES } from '../constants';
+import { ONE_YOCTO, GAS, TOKEN_METHOD_NAMES, DEFAULT_CONTRACT_ADDRESS } from '../constants';
 import { NearContractCall } from '../execute';
 
 export type TransferArgs = {
@@ -9,10 +9,11 @@ export type TransferArgs = {
   nftContractId?: string;
 };
 
-export const DEFAULT_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT || null;
+
 export const DEPOSIT_FOR_TRANSFER = ONE_YOCTO;
 // TODO: make this more accurate someday.
 export const GAS_FOR_TRANSFER = GAS;
+
 
 /**
  * Transfers one or more tokens to specified recipients.
@@ -23,6 +24,14 @@ export const transfer = ({
   transfers,
   nftContractId = DEFAULT_CONTRACT_ADDRESS,
 }: TransferArgs): NearContractCall => {
+  if (nftContractId == null) {
+    throw ('You must provide a nftContractId or define a TOKEN_CONTRACT env to default to');
+  }
+
+  if (transfer.length == 0) {
+    throw ('You must transfer at least one token');
+  }
+
   if (transfers.length > 1) {
     const ids = transfers.map((transferElm) => {
       return [transferElm.receiverId, transferElm.tokenId];
@@ -31,8 +40,7 @@ export const transfer = ({
     return {
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+      args: {     
         token_ids: ids,
       },
       deposit: DEPOSIT_FOR_TRANSFER,
@@ -44,10 +52,8 @@ export const transfer = ({
     return {
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.TRANSFER,
-      args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
+      args: {   
         receiver_id: receiverId,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId,
       },
       deposit: DEPOSIT_FOR_TRANSFER,

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { DEFAULT_CONTRACT_ADDRESS, GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
 import { NearContractCall } from '../execute';
 
 export type AddMinterArgs =  {
     minterId: string;
-    nftContractId: string;
+    nftContractId?: string;
   };
 
 /**
@@ -15,7 +15,11 @@ export type AddMinterArgs =  {
 export const addMinter = (
   args: AddMinterArgs,
 ): NearContractCall=> {
-  const { minterId, nftContractId } = args;
+  const { minterId, nftContractId = DEFAULT_CONTRACT_ADDRESS } = args;
+
+  if (nftContractId == null) {
+    throw ('You must provide a nftContractId or define a TOKEN_CONTRACT enviroment variable to default to');
+  }
   
   return {
     contractAddress: nftContractId,
