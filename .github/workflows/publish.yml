@@ -25,7 +25,6 @@ jobs:
 
       - name: Build & Test
         run: |
-          touch .env
           echo NEAR_NETWORK=testnet >> .env
           echo TOKEN_CONTRACT=default_contract >> .env
           npm i
