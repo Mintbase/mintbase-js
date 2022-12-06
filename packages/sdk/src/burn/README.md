@@ -4,6 +4,10 @@
 
 Burn one or more tokens for a given smart contract id.
 
+You must own a token to be able to burn it.
+
+The nftContactId can be supplied as an argument or through the ```TOKEN_CONTRACT``` enviroment variable.
+
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
 
 ## burn(args: BurnArgs): NearContractCall
@@ -14,7 +18,8 @@ Burn one or more tokens for a given smart contract id.
 type BurnArgs = {
   burn: {
     //the contract from which to burn tokens
-    nftContractId: string;
+    //as an argument or through TOKEN_CONTRACT env
+    nftContractId?: string;
     //the array of token ids to burn
     tokenIds: string[];
   }[];
