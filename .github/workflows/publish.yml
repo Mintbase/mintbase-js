@@ -25,6 +25,8 @@ jobs:
 
       - name: Build & Test
         run: |
+          touch .env
+          echo NEAR_NETWORK=testnet >> .env
           npm i
           npm run bootstrap
           npm run lint
