@@ -27,6 +27,7 @@ jobs:
         run: |
           touch .env
           echo NEAR_NETWORK=testnet >> .env
+          echo TOKEN_CONTRACT=default_contract >> .env
           npm i
           npm run bootstrap
           npm run lint
