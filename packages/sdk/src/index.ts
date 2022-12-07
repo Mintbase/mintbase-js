@@ -12,6 +12,5 @@ export * from './buy/buy';
 export * from './depositStorage/depositStorage';
 export * from './mint/mint';
 export * from './revoke/revoke';
-export *  as v1 from './v1';
 
 
