@@ -1,10 +1,9 @@
 import { useWallet } from '../WalletContext';
 import {
-  mint,
   execute,
 } from '@mintbase-js/sdk';
 import { useState } from 'react';
-import type { MintArgs } from '@mintbase-js/sdk';
+import { mint, MintArgs } from '@mintbase-js/sdk/lib/v1';
 
 export type MinterHookReturn = {
   loading: boolean;
