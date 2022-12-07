@@ -4,7 +4,7 @@
 
 Deposits `0.01 * listAmount` of near to the market contract to be consumed for each listing.
 
-This might need to be called again if the the deposit runs out.
+If the amount of active listings becomes larger than the corresponding deposits called by an account another deposit will need to be made to make listing possible.
 
 Market address default values depend on the NEAR_NETWORK enviroment variable. If you set it to mainnet you will get the `mainnet` address `simple.market.mintbase1.near` otherwise it will default to the `testnet` value `market-v2-beta.mintspace2.testnet`.
 
