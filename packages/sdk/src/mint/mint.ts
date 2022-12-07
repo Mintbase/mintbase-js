@@ -31,7 +31,7 @@ export const mint = (
   const { splits, amount, royaltyPercentage } = options;
   
   if (nftContractId == null) {
-    throw ('You must provide a nftContractId or define a TOKEN_CONTRACT enviroment variable to default to');
+    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
   }
 
   if (splits) {

@@ -18,7 +18,7 @@ export const addMinter = (
   const { minterId, nftContractId = DEFAULT_CONTRACT_ADDRESS } = args;
 
   if (nftContractId == null) {
-    throw ('You must provide a nftContractId or define a TOKEN_CONTRACT enviroment variable to default to');
+    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
   }
   
   return {

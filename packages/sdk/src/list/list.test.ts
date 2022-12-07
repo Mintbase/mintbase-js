@@ -5,12 +5,12 @@ import { list } from './list';
 test('list a token', () => {
   const nftContractId = 'contract';
   const tokenId = 'token';
-  const marketAddress = 'account';
+  const marketId = 'account';
   const price = '1';
   const args = list({
     nftContractId: nftContractId,
     tokenId: tokenId,
-    marketAddress: marketAddress,
+    marketId: marketId,
     price: price,
   });
 
@@ -19,7 +19,7 @@ test('list a token', () => {
     methodName: MARKET_METHOD_NAMES.LIST,
     args: {
       token_id: tokenId,
-      account_id: marketAddress,
+      account_id: marketId,
       msg: JSON.stringify({
         price: price,
       }),

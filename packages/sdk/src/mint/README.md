@@ -4,13 +4,13 @@
 
 Mint a token for a specified reference material on a contract of your choice. You need to have been given minting permission.
 
-The reference material is typically uploaded to ipfs or arweave and can be easily done through our ```uploadFileToArweave``` method found in the storage module.
+The reference material is typically uploaded to ipfs or arweave and can be easily done through our ``uploadFileToArweave`` method found in the storage module.
 
 Royalties and splits can be configured to provide a customized flow of funds to up to 50 people as explained below.
 
-It is possible to configure the amount of copies you want to mint through the ```amount```field but currently they will all share the same reference material.
+It is possible to configure the amount of copies you want to mint through the ``amount``field but currently they will all share the same reference material.
 
-The nftContactId can be supplied as an argument or through the ```TOKEN_CONTRACT``` enviroment variable.
+The nftContactId can be supplied as an argument or through the ``TOKEN_CONTRACT`` environment variable.
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
 
@@ -21,7 +21,7 @@ The nftContactId can be supplied as an argument or through the ```TOKEN_CONTRACT
 ```typescript
 export type MintArgs =  {
   //the contractId from which you want to mint
-  //can be specified through TOKEN_CONTRACT enviroment var
+  //can be specified through NFT_CONTRACT_ID enviroment var
   nftContractId?: string;
   //url of reference material used to mint, this is typically a arweave or ipfs link
   //you can upload to arweave easily using our storage module 'uploadFileToArweave' method
@@ -42,7 +42,7 @@ export type MintOptions = {
     //splits must not have more than 50 entries
     //the splits percentage amounts must total to 1 meaning 100% of royaltyPercentage 
     //i.e royaltyPercentage = 0.3 splits = {test1: 0.5, test2: 0.5}
-    //1=100% corresponds to 0.3=30% of total
+    //in this case test1 and test2 will receive 0.15 of the total gains (0.5*0.3)
     splits?: Splits;
     //the amount of copies of specified token to be minted
     //this amount cannot be larger than 99

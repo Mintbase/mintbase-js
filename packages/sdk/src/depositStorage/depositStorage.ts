@@ -4,7 +4,7 @@ import { NearContractCall } from '../execute';
 
 export type DepositStorageArgs = {
     listAmount?: number;
-    marketAddress?: string;
+    marketId?: string;
   };
 
 
@@ -15,11 +15,11 @@ export type DepositStorageArgs = {
  */
 export const depositStorage = (args: DepositStorageArgs): NearContractCall => {
     
-  const { marketAddress = MB_MARKET_ADDRESS, listAmount = 1 } = args;
+  const { marketId = MB_MARKET_ADDRESS, listAmount = 1 } = args;
   
   const deposit = (0.01 * listAmount).toString();
   return {
-    contractAddress: marketAddress,
+    contractAddress: marketId,
     args: {},
     methodName: MARKET_METHOD_NAMES.DEPOSIT_STORAGE,
     deposit: utils.format.parseNearAmount(deposit),

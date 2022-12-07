@@ -20,7 +20,7 @@ type TransferArgs = {
     tokenId: string;
   }[];
   // nftContractId is the token contract capable of doing the transfer
-  // if omitted, transfer method will attempt to use process.env.TOKEN_CONTRACT
+  // if omitted, transfer method will attempt to use process.env.NFT_CONTRACT_ID
   nftContractId?: string;
 };
 ```

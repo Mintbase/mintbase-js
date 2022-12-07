@@ -26,7 +26,7 @@ jobs:
       - name: Build & Test
         run: |
           echo NEAR_NETWORK=testnet >> .env
-          echo TOKEN_CONTRACT=default_contract >> .env
+          echo NFT_CONTRACT_ID=default_contract >> .env
           npm i
           npm run bootstrap
           npm run lint

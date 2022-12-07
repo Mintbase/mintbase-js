@@ -1,18 +1,18 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
-import { unlist } from './unlist';
+import { delist } from './delist';
 
-describe('unlist account', () => {
+describe('delist account', () => {
 
   const nftContractId = 'test';
   const tokenId= 'test';
-  const marketAddress = 'test';
+  const marketId = 'test';
 
-  test('unlist with all args', () =>{
-    const args = unlist({
+  test('delist with all args', () =>{
+    const args = delist({
       nftContractId: nftContractId,
       tokenId: tokenId,
-      marketAddress: marketAddress,
+      marketId: marketId,
     });
 
     expect(args).toEqual({
@@ -20,15 +20,15 @@ describe('unlist account', () => {
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
         token_id: tokenId,
-        account_id: marketAddress,
+        account_id: marketId,
       },
       deposit: ONE_YOCTO,
       gas: GAS,
     });
   });
 
-  test('unlist without marketAddress uses all method', () =>{
-    const args = unlist({
+  test('delist without marketId uses all method', () =>{
+    const args = delist({
       nftContractId: nftContractId,
       tokenId: tokenId,
     });

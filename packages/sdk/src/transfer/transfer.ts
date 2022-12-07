@@ -25,11 +25,11 @@ export const transfer = ({
   nftContractId = DEFAULT_CONTRACT_ADDRESS,
 }: TransferArgs): NearContractCall => {
   if (nftContractId == null) {
-    throw ('You must provide a nftContractId or define a TOKEN_CONTRACT env to default to');
+    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID env to default to');
   }
 
   if (transfer.length == 0) {
-    throw ('You must transfer at least one token');
+    throw new Error('You must transfer at least one token');
   }
 
   if (transfers.length > 1) {

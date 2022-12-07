@@ -64,7 +64,7 @@ export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
 export const MB_TESTNET_TOKEN_FACTORY_ADDRESS = 'mintspace2.testnet';
 export const MB_TESTNET_MARKET_CONTRACT_ADDRESS = 'market-v2-beta.mintspace2.testnet';
 export const MB_MAINNET_MARKET_CONTRACT_ADDRESS = 'simple.market.mintbase1.near';
-export const DEFAULT_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT || null;
+export const DEFAULT_CONTRACT_ADDRESS = process.env.NFT_CONTRACT_ID || null;
 export const MB_TOKEN_FACTORY_ADDRESS =
   NEAR_NETWORK === Network.MAINNET ? MB_MAINNET_TOKEN_FACTORY_ADDRESS : MB_TESTNET_TOKEN_FACTORY_ADDRESS;
 

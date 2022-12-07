@@ -15,7 +15,7 @@ AccountIds in the ```removeMinters``` array will lose minting permission for the
 ```typescript
 type BatchChangeMintersArgs = {
     //the contract you own for which you wish to grant or revoke minting access
-    //as an argument or through TOKEN_CONTRACT env
+    //as an argument or through NFT_CONTRACT_ID env
     nftContractId?: string;
     //an array of ids that will be added as minters for the given contractId, if nothing is provided no minters will be added
     addMinters: string[];
