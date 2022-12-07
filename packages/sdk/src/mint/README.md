@@ -4,15 +4,15 @@
 
 Mint a token for a specified reference material on a contract of your choice. You need to have been given minting permission.
 
-The reference material is typically uploaded to ipfs or arweave and can be easily done through our ``uploadFileToArweave`` method found in the storage module.
+The reference material is typically uploaded to ipfs or arweave and can be easily done through our `uploadFileToArweave` method found in the storage module.
 
 Royalties and splits can be configured to provide a customized flow of funds to up to 50 people as explained below.
 
-It is possible to configure the amount of copies you want to mint through the ``amount``field but currently they will all share the same reference material.
+It is possible to configure the amount of copies you want to mint through the `amount`field but currently they will all share the same reference material.
 
-The nftContactId can be supplied as an argument or through the ``TOKEN_CONTRACT`` environment variable.
+The nftContactId can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## mint(args: MintArgs): NearContractCall
 

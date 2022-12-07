@@ -4,7 +4,7 @@
 
 Deploys a new contract from a given factoryContractId
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## deployContract(args: DeployContractArgs): NearContractCall
 

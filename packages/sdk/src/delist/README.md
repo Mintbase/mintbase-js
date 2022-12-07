@@ -14,8 +14,8 @@ If no marketAddress is provided approval is removed from all markets/accounts
 
 If you wish to remove a listing specifically on the mintbase market addresses are:
 
-testnet: ``market-v2-beta.mintspace2.testnet``
-mainnet: ``simple.market.mintbase1.near``
+testnet: `market-v2-beta.mintspace2.testnet`
+mainnet: `simple.market.mintbase1.near`
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
 

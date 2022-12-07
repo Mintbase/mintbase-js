@@ -2,13 +2,13 @@
 
 # Deposit Storage
 
-Deposits ``0.01 * listAmount`` of near to the market contract to be consumed for each listing.
+Deposits `0.01 * listAmount` of near to the market contract to be consumed for each listing.
 
 This might need to be called again if the the deposit runs out.
 
-Market address default values depend on the NEAR_NETWORK enviroment variable. If you set it to mainnet you will get the ``mainnet`` address ``simple.market.mintbase1.near`` otherwise it will default to the ``testnet`` value ``market-v2-beta.mintspace2.testnet``.
+Market address default values depend on the NEAR_NETWORK enviroment variable. If you set it to mainnet you will get the `mainnet` address `simple.market.mintbase1.near` otherwise it will default to the `testnet` value `market-v2-beta.mintspace2.testnet`.
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## depositStorage(args: DepositStorageArgs): NearContractCall
 
@@ -18,7 +18,7 @@ Market address default values depend on the NEAR_NETWORK enviroment variable. If
 export type DepositStorageArgs = {
     //the deposit corresponding roughly to the the amounts of listings you will be doing
     listAmount?: number;
-    //market address of the mintbase market, this defaults to the correct value depending on the NEAR_NETWORK enviroment variable
+    //market address of the mintbase market, this defaults to the correct value depending on the NEAR_NETWORK environment variable
     marketId?: string;
   };
 ```
