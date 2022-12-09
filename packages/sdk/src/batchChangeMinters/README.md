@@ -2,9 +2,9 @@
 
 # Batch change minters
 
-Change minting permissions for your contract by removing or adding multiple accountIds in one call.
+Change minting permissions for your smart contract by removing or adding multiple accountIds in one call.
 
-AccountIds in the `removeMinters` array will lose minting permission for the specified contract. Ids in the `addMinters` array get granted that permission.
+Account IDs in the `removeMinters` array will lose minting permission for the specified contract. Ids in the `addMinters` array get granted that permission.
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 

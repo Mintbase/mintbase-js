@@ -2,7 +2,7 @@
 
 # Burn Tokens
 
-Burn one or more tokens for a given smart contract id.
+Tries to buy one or more tokens for a given smart contract id.
 
 You must own a token to be able to burn it.
 

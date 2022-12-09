@@ -27,7 +27,7 @@ describe('delist account', () => {
     });
   });
 
-  test('delist without marketId uses all method', () =>{
+  test('delisting without marketId (uses revokeAll method)', () =>{
     const args = delist({
       nftContractId: nftContractId,
       tokenId: tokenId,

@@ -23,7 +23,7 @@ export const batchChangeMinters = (
   }
 
   if (addMinters.length === 0 && removeMinters.length === 0) {
-    throw new Error('There are no minters being provided to the batchChangeMinters method to be changed');
+    throw new Error('There are no minters being provided to the batchChangeMinters method to be changed, try adding account Ids to at least one of the minter fields)');
   }
   
   return {
