@@ -21,6 +21,10 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^16.0.0",
+    "bn.js": "^5.2.1",
     "isomorphic-unfetch": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.1"
   }
 }
