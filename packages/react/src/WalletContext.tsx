@@ -63,11 +63,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   if (typeof window !== 'undefined') {
     const closeButton = document?.getElementsByClassName('close-button')[0];
-    if (!closeButton) {
-      console.warn('Attempting to bind handler to non-existent className .close-button');
-    } else {
-      closeButton?.addEventListener('click', onCloseModal);
-    }
+    closeButton?.addEventListener('click', onCloseModal);
   }
 
   // subscribe to account state changes
