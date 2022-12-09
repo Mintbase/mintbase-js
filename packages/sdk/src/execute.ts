@@ -94,7 +94,7 @@ const batchExecuteWithBrowserWallet = async (
   calls: NearContractCall[],
   wallet: Wallet,
 ): Promise<void> => {
-  wallet.signAndSendTransactions({
+  await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
   });
 };
