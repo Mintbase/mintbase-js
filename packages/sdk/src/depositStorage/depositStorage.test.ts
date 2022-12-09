@@ -3,17 +3,17 @@ import { depositStorage } from './depositStorage';
 
 
 describe('deposit unit tests', () => {
-  const marketAddress = 'test';  
+  const marketId = 'test';  
   const methodName = 'deposit_storage';
   test('deposit storage for one listing', () => {
     
     const args = depositStorage({
       listAmount: 1,
-      marketAddress: marketAddress,
+      marketId: marketId,
     });
       
     expect(args).toEqual({
-      contractAddress: marketAddress,
+      contractAddress: marketId,
       methodName: methodName,
       args: {},
       deposit: '10000000000000000000000',
@@ -24,11 +24,11 @@ describe('deposit unit tests', () => {
   test('deposit storage for two listings', () => {
     const args = depositStorage({
       listAmount: 2,
-      marketAddress: marketAddress,
+      marketId: marketId,
     });
       
     expect(args).toEqual({
-      contractAddress: marketAddress,
+      contractAddress: marketId,
       methodName: methodName,
       args: {},
       deposit: '20000000000000000000000',
@@ -39,11 +39,11 @@ describe('deposit unit tests', () => {
   test('deposit storage for ten listings', () => {
     const args = depositStorage({
       listAmount: 10,
-      marketAddress: marketAddress,
+      marketId: marketId,
     });
       
     expect(args).toEqual({
-      contractAddress: marketAddress,
+      contractAddress: marketId,
       methodName: methodName,
       args: {},
       deposit: '100000000000000000000000',

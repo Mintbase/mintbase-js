@@ -2,9 +2,11 @@
 
 # Batch change minters
 
-Batch change minters for a smart contract you own by providing an array of the ids of the minters you would like to add and/or remove
+Change minting permissions for your smart contract by removing or adding multiple accountIds in one call.
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
+Account IDs in the `removeMinters` array will lose minting permission for the specified contract. Ids in the `addMinters` array get granted that permission.
+
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## batchChangeMinters(args: addMinterArgs): NearContractCall
 
@@ -13,9 +15,10 @@ Batch change minters for a smart contract you own by providing an array of the i
 ```typescript
 type BatchChangeMintersArgs = {
     //the contract you own for which you wish to grant or revoke minting access
-    nftContractId: string;
+    //as an argument or through NFT_CONTRACT_ID env
+    nftContractId?: string;
     //an array of ids that will be added as minters for the given contractId, if nothing is provided no minters will be added
-    addMinters: string;
+    addMinters: string[];
     //an array of ids that will be removed as minters for the given contractId, if nothing is provided no minters will be added
     removeMinters: string[];
 };
