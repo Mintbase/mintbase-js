@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GAS, MARKET_METHOD_NAMES, MB_TESTNET_MARKET_CONTRACT_ADDRESS } from '../constants';
+import { DEFAULT_CONTRACT_ADDRESS, GAS, MARKET_METHOD_NAMES, MB_MARKET_ADDRESS } from '../constants';
 import { NearContractCall } from '../execute';
 
 export type BuyArgs = {
     price: string;
-    nftContractId: string;
+    nftContractId?: string;
     tokenId: string;
     referrerId?: string;
-    marketAddress?: string;
+    marketId?: string;
   };
 
 //todo make a buy at listed price method
@@ -18,9 +18,14 @@ export type BuyArgs = {
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */  
 export const buy = (args: BuyArgs): NearContractCall => {
-  const { nftContractId, tokenId, referrerId = null, marketAddress = MB_TESTNET_MARKET_CONTRACT_ADDRESS, price } = args;
+  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, tokenId, referrerId = null, marketId = MB_MARKET_ADDRESS, price } = args;
+
+  if (nftContractId == null) {
+    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
+  }
+  
   return {
-    contractAddress: marketAddress,
+    contractAddress: marketId,
     args: {
       nft_contract_id: nftContractId,
       token_id: tokenId,

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, MB_TESTNET_TOKEN_FACTORY_ADDRESS, TOKEN_CONTRACT_SPEC, TOKEN_METHOD_NAMES } from '../constants';
+import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, MB_TOKEN_FACTORY_ADDRESS, TOKEN_CONTRACT_SPEC, TOKEN_METHOD_NAMES } from '../constants';
 import { NearContractCall } from '../execute';
 
 
@@ -22,7 +22,7 @@ export type DeployContractArgs = {
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
 export const deployContract = (args: DeployContractArgs): NearContractCall=> {
-  const { name, factoryContractId = MB_TESTNET_TOKEN_FACTORY_ADDRESS, ownerId, metadata } = args;
+  const { name, factoryContractId = MB_TOKEN_FACTORY_ADDRESS, ownerId, metadata } = args;
   
   const { symbol, icon = DEFAULT_MB_LOGO, baseUri = null, reference = null, referenceHash = null } = metadata;
   

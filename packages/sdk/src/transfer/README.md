@@ -4,7 +4,8 @@
 
 Transfers one or more tokens from the transaction signer to the recipient(s) specified.
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
+
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## transfer(args: TransferArgs): NearContractCall
 
@@ -19,7 +20,7 @@ type TransferArgs = {
     tokenId: string;
   }[];
   // nftContractId is the token contract capable of doing the transfer
-  // if omitted, transfer method will attempt to use process.env.TOKEN_CONTRACT
+  // if omitted, transfer method will attempt to use process.env.NFT_CONTRACT_ID
   nftContractId?: string;
 };
 ```
