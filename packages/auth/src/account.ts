@@ -1,5 +1,5 @@
 
-import { connectToNear, Account, KeyStore } from '@mintbase-js/sdk';
+import { connectToNear, Account, KeyStore } from '.';
 import { NearNetwork, NEAR_NETWORK, NEAR_RPC_URL } from './constants';
 
 /**
