@@ -1,10 +1,10 @@
-[//]: # `{ "title": "transferContractOwnership", "order": 0.4 }`
+[//]: # `{ "title": "transferContractOwnership", "order": 0.5 }`
 
 # Transfer Contract Ownership
 
 Transfers ownership of a given contractId to an intended ownerId, must be called by current owner
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## transferContractOwnership(args: TransferContractOwnershipArgs): NearContractCall
 

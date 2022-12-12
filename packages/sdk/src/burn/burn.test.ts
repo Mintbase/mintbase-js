@@ -43,12 +43,10 @@ describe('burn method calls', () => {
   });
 
   test('burn empty array of tokens', () => {
-    jest.spyOn(global.console, 'error');
-    burn({
+
+    expect(() => burn({
       nftContractId: nftContractId,
       tokenIds: [],
-    });
-
-    expect(console.error).toBeCalled();
+    })).toThrow;
   });
 });

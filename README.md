@@ -1,12 +1,12 @@
 ![Licence](https://img.shields.io/badge/license-MIT-blue.svg) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=add-wallet-selector)](https://coveralls.io/github/Mintbase/mintbase-js?branch=add-wallet-selector)
 
-# Mintbase SDK
+# Mintbase JS
 
 A library for interacting with Mintbase, NEAR, Arweave (Bundlr network) and other decentralized web services and applications.
 
 {% hint style="danger" %}
-## The SDKs are currently in Alpha.
-Breaking changes can and will be introduced on a regular basis until this reaches beta by Q1 2023.
+## All packages are currently in Alpha.
+Breaking changes can and will be introduced on a regular basis until this reaches beta sometime during Q1 2023.
 
 {% endhint %}
 
@@ -21,26 +21,26 @@ Building something cool?
 
 **Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).**
 
-# SDK Road Map
+# Road Map
 
-The SDK currently consists of the following packages and features:
+The new library currently consists of the following packages and features:
 
 ### [@mintbase-js/sdk](packages/sdk)
  - Core NEAR smart contract method call util (single and multiple transactions)
- - **[IN PROGRESS]** Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
+ - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
 
 ### [@mintbase-js/data](packages/data)
-  - **[IN PROGRESS]** Convenience wrapper methods for common use-case GraphQL calls
+  - Convenience wrapper methods for common use-case GraphQL calls
 
 ### [@mintbase-js/auth](packages/auth/)
 
  - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
  - [near-api-js](https://github.com/near/near-api-js) convenience wrappers for loading accounts and managing keys
- - **[IN PROGRESS]** Message singing and verification utils.
+ - Message singing and verification utils.
 
 ### [@mintbase-js/react](packages/react)
   - WalletContext provider for auth connecting accounts to react applications
-  - **[IN PROGRESS]** Helpers for data fetching via hooks.
+  - Helpers for data fetching via hooks.
 
 ### [@mintbase-js/testing](packages/testing)
   - Testing utilities and integration test suites for running mintbase-js against deployed contracts.

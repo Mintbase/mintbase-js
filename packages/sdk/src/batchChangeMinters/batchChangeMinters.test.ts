@@ -82,12 +82,11 @@ describe('batch change minters tests', () => {
     });
   });
 
-  test('batch add and remove multiple minters', () => {
-    console.warn = jest.fn();
-    batchChangeMinters({
+  test('expect throw', () => {
+
+    expect(()=> batchChangeMinters({
       nftContractId: nftContractId,
-    });
-    expect(console.warn).toBeCalled();
+    })).toThrow();
   });
 
 });

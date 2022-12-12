@@ -41,14 +41,10 @@ test('transfer contract ownership', async () => {
   } else {
 
     const bobToAlice = (await execute(
-      {
-        ...transferContractOwnership({
-          contractId: 'qrq9m4sfaf.mintspace2.testnet',
-          nextOwner: alice,
-        }),
-        gas: GAS,
-        deposit: ONE_YOCTO,
-      },
+      transferContractOwnership({
+        contractId: 'qrq9m4sfaf.mintspace2.testnet',
+        nextOwner: alice,
+      }),  
       { account: bobAccount },
     )) as FinalExecutionOutcome;
 

@@ -26,7 +26,8 @@ const addMarkdownToDocsRepo = (dir) => {
       item.indexOf('.') !== 0 &&
       item !== 'docs' &&
       item !== 'app' &&
-      item !== 'node_modules'
+      item !== 'node_modules' &&
+      item !== 'CHANGELOG.md'
     );
 
   for (const item of contents) {
@@ -48,7 +49,14 @@ const addMarkdownToDocsRepo = (dir) => {
       const jsonProps = splitContent[0].match(/\`(.*)\`/)
       const props = jsonProps
         ? JSON.parse(jsonProps[1])
-        : {}
+        : null
+
+      if (!props) {
+        throw new Error(`
+          Did you forget to add comment props to: ${itemAbsolutePath}?
+          HINT: The comment must be the FIRST line of the README
+        `);
+      }
 
       // trim off comment since gitbook displays it :/
       const commentLessContent = jsonProps
@@ -104,11 +112,14 @@ for (const line of lines) {
     if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') > -1 && !hasInjectedContent) {
 
       // inject all the content
-      currentSection.items.push('* [📚 SDK Reference](mintbase-sdk-ref/README.md)');
+      currentSection.items.push('* [📚 MintbaseJS Reference](mintbase-sdk-ref/README.md)');
 
       // sort pages
       pages.sort((a, b) => {
-        if (Number(a.order) > Number(b.order)) return 1;
+        if (!a.order) {
+          console.log('wtf!', a);
+        }
+        if (a.order.toString() > b.order.toString()) return 1;
         return -1;
       });
       console.log('Adding pages:', pages);

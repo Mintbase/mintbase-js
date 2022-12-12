@@ -1,12 +1,9 @@
 import { useWallet } from '../WalletContext';
 import {
-  mint,
-  DEPOSIT_CONSTANTS,
-  GAS_CONSTANTS,
   execute,
 } from '@mintbase-js/sdk';
 import { useState } from 'react';
-import type { MintArgs } from '@mintbase-js/sdk';
+import { mint, MintArgs } from '@mintbase-js/sdk/lib/v1';
 
 export type MinterHookReturn = {
   loading: boolean;
@@ -38,8 +35,6 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
           },
           options,
         }),
-        gas: GAS_CONSTANTS.OPTIMAL_GAS,
-        deposit: DEPOSIT_CONSTANTS.ONE_YOCTO,
         signerId: activeAccountId,
       },
       { wallet: await selector.wallet() },

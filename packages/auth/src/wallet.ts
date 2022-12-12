@@ -57,11 +57,11 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
       setupNearWallet(),
       setupMeteorWallet(),
       setupSender(),
-      setupHereWallet(),
-      setupMathWallet(),
-      setupNightly(),
-      setupWelldoneWallet(),
-      setupLedger(),
+      // setupHereWallet(),
+      // setupMathWallet(),
+      // setupNightly(),
+      // setupWelldoneWallet(),
+      // setupLedger(),
     ],
   });
 

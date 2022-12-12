@@ -1,5 +1,4 @@
 import { deployContract } from '@mintbase-js/sdk/src/deployContract/deployContract';
-import { CONTRACT_DEPOSIT, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { connect } from '@mintbase-js/auth';
@@ -12,17 +11,13 @@ test('deploy contract', async () => {
 
 
   const result = (await execute(
-    {
-      ...deployContract({
-        name: makeRandomString(10),
-        ownerId: account,
-        metadata: {
-          symbol: 'test',
-        },
-      }),
-      gas: MAX_GAS,
-      deposit: CONTRACT_DEPOSIT,
-    },
+    deployContract({
+      name: makeRandomString(10),
+      ownerId: account,
+      metadata: {
+        symbol: 'test',
+      },
+    }),
     { account: signingAccount },
   )) as FinalExecutionOutcome;
 
