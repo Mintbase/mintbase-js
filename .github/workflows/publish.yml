@@ -1,4 +1,4 @@
-name: SDK Check & Publish
+name: Check & Publish
 
 on:
   release:

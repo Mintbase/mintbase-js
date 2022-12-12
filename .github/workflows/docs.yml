@@ -1,4 +1,4 @@
-name: SDK Gitbook Sync
+name: Gitbook Sync
 
 on:
   release:

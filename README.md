@@ -1,11 +1,11 @@
 ![Licence](https://img.shields.io/badge/license-MIT-blue.svg) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=add-wallet-selector)](https://coveralls.io/github/Mintbase/mintbase-js?branch=add-wallet-selector)
 
-# Mintbase SDK
+# Mintbase JS
 
 A library for interacting with Mintbase, NEAR, Arweave (Bundlr network) and other decentralized web services and applications.
 
 {% hint style="danger" %}
-## The SDKs are currently in Alpha.
+## All packages are currently in Alpha.
 Breaking changes can and will be introduced on a regular basis until this reaches beta sometime during Q1 2023.
 
 {% endhint %}
@@ -21,9 +21,9 @@ Building something cool?
 
 **Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).**
 
-# SDK Road Map
+# Road Map
 
-The SDK currently consists of the following packages and features:
+The new library currently consists of the following packages and features:
 
 ### [@mintbase-js/sdk](packages/sdk)
  - Core NEAR smart contract method call util (single and multiple transactions)

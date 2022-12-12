@@ -1,5 +1,5 @@
 [//]: # `{ "title": "@mintbase-js/sdk", "order": "0" }`
-## SDK Core Javascript Modules
+## Core Features
 
 The core `@mintbase-js/sdk` is a set of convenience wrappers around invocation of Mintbase smart contract methods.
 
