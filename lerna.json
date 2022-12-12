@@ -2,7 +2,7 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
   "useWorkspaces": true,
-  "version": "0.0.5-reorder-docs.4",
+  "version": "0.0.5-alpha.0",
   "packages": [
     "packages/*"
   ]
