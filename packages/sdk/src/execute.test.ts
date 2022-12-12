@@ -102,7 +102,7 @@ describe('contract method calls (execute)', () => {
       { account: mockNearAccount as any },
     );
 
-    const expectedCallArgs: FunctionCallOptions = {
+    const expectedCallArgs = {
       contractId: testContract,
       methodName: testMethod,
       args: testArgs,
