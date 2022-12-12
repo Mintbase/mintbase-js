@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.0.5-fix-import-from-sdk.0",
+  "version": "0.0.5-rpc-balance.0",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
