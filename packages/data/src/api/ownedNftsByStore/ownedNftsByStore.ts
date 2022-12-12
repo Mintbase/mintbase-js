@@ -20,9 +20,9 @@ export const ownedNftsByStore = async (
   const { data, error } = await fetchGraphQl<OwnedNftsData>({
     query: ownedNftsByStoreQuery,
     variables: {
-      ownerId,
-      contractAddress,
-      limit: pagination.limit,
+      accountId: ownerId,
+      contractAddress: contractAddress,
+      limit: pagination?.limit ?? 12,
       offset: pagination?.offset ?? 0,
     },
   });
