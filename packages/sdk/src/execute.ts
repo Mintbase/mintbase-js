@@ -3,6 +3,7 @@ import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
+import BN from 'bn.js';
 
 export type TransactionArgs = {
   contractAddress: string;
@@ -11,8 +12,8 @@ export type TransactionArgs = {
 };
 
 export type TransactionAttachments = {
-  gas: string;
-  deposit: string;
+  gas: BN | string;
+  deposit: BN | string;
 };
 
 export type NearContractCall = TransactionArgs &
@@ -77,8 +78,8 @@ const convertGenericCallToWalletCall = (
     params: {
       methodName: call.methodName,
       args: call.args,
-      gas: call.gas,
-      deposit: call.deposit,
+      gas: call.gas as string,
+      deposit: call.deposit as string,
     },
   }],
 });
@@ -114,8 +115,8 @@ const executeWithNearAccount = async (
   contractId: call.contractAddress,
   methodName: call.methodName,
   args: call.args,
-  gas: call.gas,
-  attachedDeposit: call.deposit,
+  gas: call.gas as BN,
+  attachedDeposit: call.deposit as BN,
 });
 
 const batchExecuteWithNearAccount = async (
@@ -128,8 +129,8 @@ const batchExecuteWithNearAccount = async (
         contractId: call.contractAddress,
         methodName: call.methodName,
         args: call.args,
-        gas: call.gas,
-        attachedDeposit: call.deposit,
+        gas: call.gas as BN,
+        attachedDeposit: call.deposit as BN,
       });
     } catch (err: unknown) {
       console.error(
