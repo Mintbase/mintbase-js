@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.5-reorder-docs.0",
+  "version": "0.0.5-reorder-docs.1",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
