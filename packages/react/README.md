@@ -1,5 +1,4 @@
-
-[//]: # `{ "title": "@mintbase-js/react", "order": 4 }`
+[//]: # `{ "title": "@mintbase-js/react", "order": "4" }`
 
 # @mintbase-js/react
 

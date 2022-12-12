@@ -1,5 +1,4 @@
-
-[//]: # `{ "title": "ownedTokens", "order": 2.0.5 }`
+[//]: # `{ "title": "ownedTokens", "order": "2.0.5" }`
 
 # tokenByStatus
 

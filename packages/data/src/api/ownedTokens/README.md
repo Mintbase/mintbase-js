@@ -1,4 +1,4 @@
-[//]: # `{ "title": "ownedTokens", "order": 2.0.2 }`
+[//]: # `{ "title": "ownedTokens", "order": "2.0.2" }`
 # ownedTokens
 
 {% hint style="warning" %}

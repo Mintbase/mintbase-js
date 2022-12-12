@@ -1,4 +1,4 @@
-[//]: # `{ "title": "@mintbase-js/data", "order": 2 }`
+[//]: # `{ "title": "@mintbase-js/data", "order": "2" }`
 
 # @mintbase-js/data
 
