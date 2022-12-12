@@ -1,8 +1,6 @@
-name: Check & Publish
+name: Push & Publish
 
 on:
-  release:
-    types: [released, prereleased]
   push:
 
 jobs:
@@ -49,28 +47,13 @@ jobs:
           target_url: https://www.npmjs.com/settings/mintbase-js/packages
           environment: production
 
-      - name: Get tag
-        id: tag
-        uses: dawidd6/action-get-tag@v1
-
-      - name: Publish Push Commit Preview
-        if: ${{ github.event.head_commit.message && !steps.tag.outputs.tag }}
+      - name: Publish Push Preview Release
+        if: ${{ github.event.head_commit.message }}
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
           git commit -m "🤖 npm publish version $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')"
           lerna publish from-package --yes --dist-tag prerelease
-          git push
-
-      - name: Publish Github Pre/Release
-        if: ${{ steps.tag.outputs.tag }}
-        env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          lerna version ${{ steps.tag.outputs.tag }} --yes --skip-git
-          git add --all
-          git commit -m "🤖 Release ${{ steps.tag.outputs.tag }}"
-          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'released' || 'prerelease'}}
           git push
 
       - name: Update deployment status (success)
