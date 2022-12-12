@@ -1,9 +1,8 @@
 
-[//]: # `{ "title": "@mintbase-js/react", "order": 50 }`
+[//]: # `{ "title": "@mintbase-js/react", "order": 4 }`
 
 # @mintbase-js/react
 
-  
 
 This package contains React helpers for interacting with Mintbase SDKs.
 
@@ -19,22 +18,22 @@ This package contains React helpers for interacting with Mintbase SDKs.
 
 # WalletContext
 
-  
+
 
 The WalletContext provides methods for:
 
-  
+
 
 1. Connecting NEAR accounts to your applications via [near-wallet-selector](https://github.com/near/wallet-selector/)
 
 2. Interacting with @mintbase-js/sdk
 
-  
-  
+
+
 
 The following props are provided to consumers of the `WalletContext.Provider`:
 
-  
+
 
 ```ts
 
@@ -82,23 +81,23 @@ signMessage: (params: VerifyOwnerParams) =>  Promise<VerifiedOwner>;
 
 }
 
-  
+
 
 ```
 
-  
+
 
 Example usage:
 
-  
+
 
 ```tsx
 
-  
+
 
 import { useWallet } from  '@mintbase-js/react'
 
-  
+
 
 const  NearWalletConnector = () => {
 
@@ -118,7 +117,7 @@ errorMessage,
 
 } = useWallet();
 
-  
+
 
 const  signTxn = async () => {
 
@@ -128,7 +127,7 @@ const  wallet = await  selector.wallet();
 
 }
 
-  
+
 
 if (errorMessage) {
 
@@ -146,8 +145,8 @@ return (
 
 }
 
-  
-  
+
+
 
 if (!isConnected) {
 
@@ -155,7 +154,7 @@ return  <button  onClick={connect}>Connect To NEAR</button>
 
 }
 
-  
+
 
 return (
 
@@ -173,6 +172,6 @@ return (
 
 }
 
-  
+
 
 ```
