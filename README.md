@@ -6,7 +6,7 @@ A library for interacting with Mintbase, NEAR, Arweave (Bundlr network) and othe
 
 {% hint style="danger" %}
 ## The SDKs are currently in Alpha.
-Breaking changes can and will be introduced on a regular basis until this reaches beta by Q1 2023.
+Breaking changes can and will be introduced on a regular basis until this reaches beta sometime during Q1 2023.
 
 {% endhint %}
 

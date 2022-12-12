@@ -1,4 +1,4 @@
-[//]: # `{ "title": "@mintbase-js/rpc", "order": 7 }`
+[//]: # `{ "title": "@mintbase-js/rpc", "order": 5 }`
 
 # Interacting with the NEAR RPC
 

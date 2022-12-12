@@ -1,4 +1,4 @@
-[//]: # `{ "title": "Testing Library", "order": 100 }`
+[//]: # `{ "title": "Testing Library", "order": 10 }`
 # Testing Library
 
 The mintbase testing library contains utility methods as well as integration tests that allow us to perform calls on our deployed smart contracts as common workflows e.g. [transfer](src/tests/transfer.ts).
