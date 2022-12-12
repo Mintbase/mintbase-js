@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.0.5-rpc-balance.0",
+  "version": "0.0.5-alpha.0",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
