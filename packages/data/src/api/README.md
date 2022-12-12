@@ -1,4 +1,4 @@
-[//]: # `{ "title": "(NEW!) Indexer API", "order": 3 }`
+[//]: # `{ "title": "(NEW!) Indexer API", "order": "2.0" }`
 # Using Data APIs
 
 {% hint style="warning" %}
