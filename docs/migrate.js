@@ -116,9 +116,6 @@ for (const line of lines) {
 
       // sort pages
       pages.sort((a, b) => {
-        if (!a.order) {
-          console.log('wtf!', a);
-        }
         if (a.order.toString() > b.order.toString()) return 1;
         return -1;
       });
