@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.0.5-alpha.1",
+  "version": "0.0.5-fix-add-legacy-listing-deposit.0",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
