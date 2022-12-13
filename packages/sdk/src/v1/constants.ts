@@ -1,3 +1,5 @@
+import { utils } from 'near-api-js';
+
 export const TOKEN_METHOD_NAMES = {
   TRANSFER: 'nft_transfer',
   BATCH_TRANSFER: 'nft_batch_transfer',
@@ -27,7 +29,10 @@ export const GAS_CONSTANTS = {
 export const DEPOSIT_CONSTANTS = {
   ONE_YOCTO: '1',
   ZERO_YOCTO: '0',
+  LEGACY_LISTING: '0.0044',
 };
+
+export const multipleTokensLegacyListing = (tokenLength: number): string => utils.format.parseNearAmount(String(tokenLength * Number(DEPOSIT_CONSTANTS.LEGACY_LISTING)));
 
 export const Network = {
   MAINNET: 'mainnet',
