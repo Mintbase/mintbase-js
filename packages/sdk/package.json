@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/sdk",
-  "version": "0.0.5-fix-mul-token-auction.1",
+  "version": "0.0.5-alpha.0",
   "description": "Core functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
