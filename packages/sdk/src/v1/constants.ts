@@ -32,7 +32,7 @@ export const DEPOSIT_CONSTANTS = {
   LEGACY_LISTING: '4400000000000000000000',
 };
 
-export const multipleTokensLegacyListing = (tokenLength: number): string => new BN(DEPOSIT_CONSTANTS.LEGACY_LISTING).mul(tokenLength).toString();
+export const multipleTokensLegacyListing = (tokenLength: number): string => new BN(DEPOSIT_CONSTANTS.LEGACY_LISTING).mul(new BN(tokenLength)).toString();
 
 export const Network = {
   MAINNET: 'mainnet',
