@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/storage",
-  "version": "0.0.5-fix-git-ci-tagging-issue.0",
+  "version": "0.0.5-alpha.0",
   "description": "Storage functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
