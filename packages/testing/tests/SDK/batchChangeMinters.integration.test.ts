@@ -1,6 +1,6 @@
 import { batchChangeMinters } from '../../../sdk/src/batchChangeMinters/batchChangeMinters';
 import { execute } from '@mintbase-js/sdk/src';
-import { connect } from '@mintbase-js/auth';
+import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 
 test('batch change minters integration test', async () => {
@@ -21,8 +21,11 @@ test('batch change minters integration test', async () => {
     removeMinters: minterIds,
   });
 
-  await execute(
+  const result = await execute(
     { account: signingAccount },
     add, remove,
-  );
+  ) as FinalExecutionOutcome[];
+
+  expect(result[0].receipts_outcome).not.toBeUndefined();
+  expect(result[1].receipts_outcome).not.toBeUndefined();
 });

@@ -40,6 +40,8 @@ test('burn token', async () => {
       nftContractId: TEST_TOKEN_CONTRACT,
       tokenIds: tokenToBurn,
     }),
-  ));
+  )) as FinalExecutionOutcome;
+
+  expect(result.receipts_outcome).not.toBeUndefined();
 
 });

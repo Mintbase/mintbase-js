@@ -1,7 +1,7 @@
 import { addMinter } from '@mintbase-js/sdk/src/addMinter/addMinter';
 import { removeMinter } from '@mintbase-js/sdk/src/removeMinter/removeMinter';
 import { execute } from '@mintbase-js/sdk/src';
-import { connect } from '@mintbase-js/auth';
+import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 
 test('add and remove minter integration test', async () => {
@@ -22,9 +22,12 @@ test('add and remove minter integration test', async () => {
     minterId: minterId,
   });
 
-  await execute(
+  const result = await execute(
     { account: signingAccount },
     add, remove,
-  );
+  ) as FinalExecutionOutcome[];
+
+  expect(result[0].receipts_outcome).not.toBeUndefined();
+  expect(result[1].receipts_outcome).not.toBeUndefined();
 });
 
