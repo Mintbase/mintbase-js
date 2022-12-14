@@ -23,8 +23,8 @@ test('add and remove minter integration test', async () => {
   });
 
   await execute(
-    [add, remove],
     { account: signingAccount },
+    add, remove,
   );
 });
 

@@ -15,11 +15,13 @@ export type TransactionAttachments = {
   deposit: string;
 };
 
-export type NearContractCall = TransactionArgs &
+export type ContractCall = TransactionArgs &
   TransactionAttachments & {
     signerId?: string;
     callbackUrl?: string;
   };
+
+export type NearContractCall = ContractCall | ContractCall[]
 
 export type NearCallSigningOptions = {
   wallet?: Wallet;
@@ -41,74 +43,44 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
  * @returns a result for single transactions of {@link FinalExecutionOutcome}, or void for batches
  */
 export const execute = async (
-  call: NearContractCall | NearContractCall[],
   { wallet, account }: NearCallSigningOptions,
+  ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome> => {
   validateSigningOptions({ wallet, account });
 
-  if (wallet) {
+  for (const call of calls) {
     if (call instanceof Array && call.length > 0) {
-      return await batchExecuteWithBrowserWallet(call, wallet);
-    } else {
-      return await executeWithBrowserWallet(
-        call as NearContractCall,
-        wallet,
-      );
+      await genericBatchExecute(call as ContractCall[], wallet, account);
     }
+    await genericExecute(call as ContractCall, wallet, account);
   }
 
-  if (call instanceof Array && call.length > 0) {
-    return batchExecuteWithNearAccount(call, account);
+};
+
+const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account): Promise<void | providers.FinalExecutionOutcome> =>{
+  if (wallet) {
+    return batchExecuteWithBrowserWallet(call, wallet);
   }
-
-  return await executeWithNearAccount(call as NearContractCall, account);
+  return batchExecuteWithNearAccount(call, account);
+ 
 };
 
-declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
-
-const convertGenericCallToWalletCall = (
-  call: NearContractCall,
-): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => ({
-  signerId: call.signerId,
-  receiverId: call.contractAddress,
-  callbackUrl: call.callbackUrl,
-  actions:[{
-    type: 'FunctionCall',
-    params: {
-      methodName: call.methodName,
-      args: call.args,
-      gas: call.gas,
-      deposit: call.deposit,
-    },
-  }],
-});
-
-// wallet call translation wrappers
-const executeWithBrowserWallet = async (
-  call: NearContractCall,
-  wallet: Wallet,
-): Promise<void | providers.FinalExecutionOutcome> =>
-  wallet.signAndSendTransaction(convertGenericCallToWalletCall(call));
-
-const batchExecuteWithBrowserWallet = async (
-  calls: NearContractCall[],
-  wallet: Wallet,
-): Promise<void> => {
-  await wallet.signAndSendTransactions({
-    transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
-  });
+const genericExecute = async (call: ContractCall, wallet: Wallet, account: Account): Promise<void | providers.FinalExecutionOutcome> =>{
+  if (wallet) {
+    return executeWithBrowserWallet(call, wallet);
+  }
+  return executeWithNearAccount(call, account);
 };
+
+
+////////////  NEAR ACCOUNT METHODS ////////////
 
 // account call translation wrappers
-// TODO: newer version? of near-api-js seem to indicate they support the same
-// signature as the wallet selector sendAndSignTransaction
+// TODO: share batch signature with wallet selector sendAndSignTransaction when method becomes public
 // https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
-// looked into this more, and unfortunately the method is marked private causing
-// difficult to debug typescript errors but on main branch it appears they have removed the protected annotation but the release tag still has it
-// This will all work fine for now, but would be good to eventually share the same call signature
-// that could assist with batch optimizations.
+
 const executeWithNearAccount = async (
-  call: NearContractCall,
+  call: ContractCall,
   account: Account,
 ): Promise<void | providers.FinalExecutionOutcome> => account.functionCall({
   contractId: call.contractAddress,
@@ -118,8 +90,9 @@ const executeWithNearAccount = async (
   attachedDeposit: call.deposit,
 });
 
+
 const batchExecuteWithNearAccount = async (
-  calls: NearContractCall[],
+  calls: ContractCall[],
   account: Account,
 ): Promise<void> => {
   for (const call of calls) {
@@ -138,3 +111,44 @@ const batchExecuteWithNearAccount = async (
     }
   }
 };
+
+
+////////////  BROWSER WALLET METHODS ////////////
+
+const executeWithBrowserWallet = async (
+  call: ContractCall,
+  wallet: Wallet,
+): Promise<void | providers.FinalExecutionOutcome> =>
+  wallet.signAndSendTransaction(convertGenericCallToWalletCall(call));
+
+const batchExecuteWithBrowserWallet = async (
+  calls: ContractCall[],
+  wallet: Wallet,
+): Promise<void> => {
+  await wallet.signAndSendTransactions({
+    transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
+  });
+};
+
+//////////// UTILS ////////////
+
+declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
+
+const convertGenericCallToWalletCall = (
+  call: ContractCall,
+): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => ({
+  signerId: call.signerId,
+  receiverId: call.contractAddress,
+  callbackUrl: call.callbackUrl,
+  actions:[{
+    type: 'FunctionCall',
+    params: {
+      methodName: call.methodName,
+      args: call.args,
+      gas: call.gas,
+      deposit: call.deposit,
+    },
+  }],
+});
+
+

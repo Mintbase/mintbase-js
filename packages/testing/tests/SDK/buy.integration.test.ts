@@ -31,12 +31,12 @@ test('buy a token', async () => {
  
 
   const result = (await execute(
+    { account: signingAccount },
     buy({
       nftContractId: TEST_TOKEN_CONTRACT,
       price: '1',
       tokenId: tokenToBuy,
     }),
-    { account: signingAccount },
   )) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();

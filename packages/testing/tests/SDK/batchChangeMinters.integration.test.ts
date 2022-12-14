@@ -22,7 +22,7 @@ test('batch change minters integration test', async () => {
   });
 
   await execute(
-    [add, remove],
     { account: signingAccount },
+    add, remove,
   );
 });

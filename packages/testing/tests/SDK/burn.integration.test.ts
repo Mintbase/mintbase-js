@@ -35,12 +35,11 @@ test('burn token', async () => {
   }
 
   const result = (await execute(  
+    { account: signingAccount },
     burn({
       nftContractId: TEST_TOKEN_CONTRACT,
       tokenIds: tokenToBurn,
     }),
-    { account: signingAccount },
-  )) as FinalExecutionOutcome;
+  ));
 
-  expect(result.receipts_outcome).not.toBeUndefined();
 });

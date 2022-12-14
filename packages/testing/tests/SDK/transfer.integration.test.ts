@@ -25,11 +25,11 @@ test('transfer token between two accounts', async () => {
   }
 
   const result = (await execute(
+    { account: signingAccount },
     transfer({
       nftContractId: TEST_TOKEN_CONTRACT,
       transfers: [{ receiverId: accountTo, tokenId: token.tokenId }],
     }),
-    { account: signingAccount },
   )) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();

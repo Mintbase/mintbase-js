@@ -27,25 +27,21 @@ test('transfer contract ownership', async () => {
   
   if (data.nft_contracts[0].owner_id == 'mb_alice.testnet') {
     const aliceToBob = (await execute(
-      {
-        ...transferContractOwnership({
-          contractId: 'qrq9m4sfaf.mintspace2.testnet',
-          nextOwner: bob,
-        }),
-        gas: GAS,
-        deposit: ONE_YOCTO,
-      },
       { account: aliceAccount },
+      transferContractOwnership({
+        contractId: 'qrq9m4sfaf.mintspace2.testnet',
+        nextOwner: bob,
+      }),
     ))  as FinalExecutionOutcome;
     expect(aliceToBob.receipts_outcome).not.toBeUndefined();
   } else {
 
     const bobToAlice = (await execute(
+      { account: bobAccount },
       transferContractOwnership({
         contractId: 'qrq9m4sfaf.mintspace2.testnet',
         nextOwner: alice,
       }),  
-      { account: bobAccount },
     )) as FinalExecutionOutcome;
 
     expect(bobToAlice.receipts_outcome).not.toBeUndefined();

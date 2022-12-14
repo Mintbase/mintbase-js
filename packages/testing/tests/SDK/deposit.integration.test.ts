@@ -11,10 +11,9 @@ test('deposit storage for current account', async () => {
   const signingAccount = await connect(accountToDepositFrom, keyStore);
 
   const result = (await execute(
-    {
-      ...depositStorage({}),
-    },
+  
     { account: signingAccount },
+    depositStorage({}),
   )) as FinalExecutionOutcome; 
 
 
