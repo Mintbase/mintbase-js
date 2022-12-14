@@ -29,7 +29,6 @@ describe('contract method calls (execute)', () => {
   };
 
   const mockNearSelectorWallet = {
-    signAndSendTransaction: jest.fn(),
     signAndSendTransactions: jest.fn(),
   };
 
@@ -59,25 +58,28 @@ describe('contract method calls (execute)', () => {
       testContractCall,
     );
 
-    const expectedCallArgs: BrowserWalletSignAndSendTransactionParams = {
-      signerId: testSigner,
-      receiverId: testContract,
-      callbackUrl: testCallbackUrl,
+
+    const transactions = { 'transactions' : [{
       actions:[{
-        type: 'FunctionCall',
         params: {
-          methodName: testMethod,
           args: testArgs,
+          methodName: testMethod,         
           gas: MAX_GAS,
           deposit: ONE_YOCTO,
         },
+        type: 'FunctionCall',
       }],
-    };
-    expect(mockNearSelectorWallet.signAndSendTransaction)
-      .toHaveBeenCalledWith(expectedCallArgs);
+      callbackUrl: testCallbackUrl,
+      receiverId: testContract,
+      signerId: testSigner,
+    }] };
+
+    expect(mockNearSelectorWallet.signAndSendTransactions)
+      .toHaveBeenCalledWith(transactions);
+
   });
 
-  test('passing multiple calls invokes batch execute', async () => {
+  test('passing multiple calls and composition works', async () => {
     await execute(
       {
         wallet: mockNearSelectorWallet as any,
@@ -92,7 +94,7 @@ describe('contract method calls (execute)', () => {
         .calls[0][0]
         .transactions
         .length,
-    ).toBe(2);
+    ).toBe(3);
   });
 
   test('execute calls through to account (near api) method', async () => {
@@ -124,18 +126,14 @@ describe('contract method calls (execute)', () => {
     expect(mockNearAccount.functionCall).toBeCalledTimes(5);
   });
 
-  // test('should warn in multiple call failure situation', async () => {
-  //   mockNearAccount.functionCall.mockRejectedValue('thud');
-  //   await execute(
-  //     { account: mockNearAccount as any },
-  //     [testContractCall, testContractCall], testContractCall,
+  test('should warn in multiple call failure situation', async () => {
+    mockNearAccount.functionCall.mockRejectedValue('thud');
+    await execute(
+      { account: mockNearAccount as any },
+      [testContractCall, testContractCall], testContractCall,
       
-  //   );
-  //   expect(console.error).toBeCalledTimes(3);
-  // });
-
-  // TODO:
-  //  - more signing options?
-  //  - inversion of control to passed method?
+    );
+    expect(console.error).toBeCalledTimes(3);
+  });
 
 });
