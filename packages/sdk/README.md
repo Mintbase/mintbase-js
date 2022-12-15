@@ -30,15 +30,15 @@ Check back soon for details. Individual methods and documentation will start to 
 
 ## Using `execute`
 
-The `excecute` method can be used without apis helpers, however you will need to specify all `NearContractCall` properties.
+The `excecute` method can be used without api helpers, however you will need to specify all `NearContractCall` properties.
 
-The method accepts a single "call" object or an array, in which case it will determine the best way to batch process each one *(see [batching](#batching) below)*.
+The method accepts any number of contract call objects returned by the sdk
 
 ```
 execute(
-  calls: NearContractCall | NearContractCall[],
   signingOptions: NearCallSigningOptions
-): Promise<void | providers.FinalExecutionOutcome>
+  calls: NearContractCall[],
+): Promise<providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]>
 ```
 Here is an example using the execute function call:
 ## NearContractCall
@@ -47,7 +47,7 @@ This type specifies properties of a contract calls:
 
 {% code title="executeContractMethod.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
-import { execute, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
+import { execute, MAX_GAS, ONE_YOCTO, transfer } from '@mintbase-js/sdk';
 import { getWallet } from '@mintbase-js/auth';
 import type {
   NearContractCall,
@@ -55,26 +55,14 @@ import type {
   FinalExecutionOutcome
 } from '@mintbase-js/sdk';
 
-
-const call: NearContractCall = {
-  // the smart contract address for which we will call
-  // most of the time, this will be supplied as an environment variable
-  contractAddress: 'mytokencontract.mintbase1.near',
-
-  // the smart contract method
-  methodName: 'transfer',
-
-  // the arguments supplied to the method
-  args: { receiver_id: 'bob.near', token_id: '123' },
-
-  // how much gas you would like to send
-  // you will be refunded unused gas so MAX_GAS is always a safe bet
-  gas: MAX_GAS,
-
-  // most methods require the min amount of deposit (ONE_YOCTO) to be accepted.
-  // in some cases deposit amount is the amount of currency to be transfer,
-  deposit: ONE_YOCTO,
-}
+//this creates a `NearContractCall` object for specific method 
+const transferCall = transfer({
+        nftContractId: 'mytokencontract.mintbase1.near',
+        transfers: [{
+          receiverId: 'bob.near',
+          tokenId: '123',
+        }],
+      })
 
 const makeSmartContractCall = async (): Promise<FinalExecutionOutcome> => {
 
@@ -89,7 +77,7 @@ const makeSmartContractCall = async (): Promise<FinalExecutionOutcome> => {
     // account
     wallet,
   }
-  return await execute(call, sign);
+  return await execute(sign, transfer);
 }
 
 makeSmartContractCall()
@@ -101,7 +89,28 @@ makeSmartContractCall()
 
 ## Batching Transactions <div name="batching"></div>
 
-The reason for the optional `Promise<void>` return type in the execute method, is that batch methods in some [near/wallet-selector] implementations do not return transactions execution outcomes.
+When calling more than one method with execute the returned value will be a promise with an array of results `Promise<FinalExecutionOutcome[]>`
+To use execute with batching all you need to do is supply as many calls as intended through arguments `execute(sign, mint, transfer, mint, burn )` in this manner executions will happen in order.
+
+## Composition of Calls <div name="composition"></div>
+
+Some api wrappers might be a composition of various contract calls that are often executed in succession like `depositStorage`+ `list` or `revoke`+ `unlist`.
+The only difference is that in this case although you are technically calling execute with one method `execute(sign, delist)` you will receive 2 outcome objects in the resulting promise.
+
+If you would like to create a composition yourself you can do so like this.
+
+```typescript
+const mintCall = mint({
+      nftContractId: 'placeholder',
+      ownerId: 'placeholder',
+      reference: 'placeholder',
+    });
+    
+    const composed: NearContractCall  = [mintCall, mintCall] as ContractCall[];
+
+    const result = execute(sign, composed) as FinalExecutionOutcome[];
+
+```
 
 ## Further
 

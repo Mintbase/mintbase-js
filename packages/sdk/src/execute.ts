@@ -29,11 +29,10 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
 
 /**
  * Base method for executing contract calls.
- *
- * @param call an array or single instance of {@link NearContractCall} to execute
  * @param signing object containing either near wallet selector
+ * @param calls  {@link NearContractCall[]} any number of of single calls or compositions
  *  wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
- * @returns a result for single transactions of {@link FinalExecutionOutcome}, or void for batches
+ * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
   { wallet, account }: NearCallSigningOptions,
