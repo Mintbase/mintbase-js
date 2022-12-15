@@ -71,8 +71,8 @@ const batchExecuteWithNearAccount = async (
         contractId: call.contractAddress,
         methodName: call.methodName,
         args: call.args,
-        gas: call.gas,
-        attachedDeposit: call.deposit,
+        gas: call.gas as string,
+        attachedDeposit: call.deposit as string,
       }));
     } catch (err: unknown) {
       console.error(
