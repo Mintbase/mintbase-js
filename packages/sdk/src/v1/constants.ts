@@ -1,3 +1,5 @@
+import BN from 'bn.js';
+
 export const TOKEN_METHOD_NAMES = {
   TRANSFER: 'nft_transfer',
   BATCH_TRANSFER: 'nft_batch_transfer',
@@ -27,7 +29,10 @@ export const GAS_CONSTANTS = {
 export const DEPOSIT_CONSTANTS = {
   ONE_YOCTO: '1',
   ZERO_YOCTO: '0',
+  LEGACY_LISTING: '4400000000000000000000',
 };
+
+export const multipleTokensLegacyListing = (tokenLength: number): string => new BN(DEPOSIT_CONSTANTS.LEGACY_LISTING).mul(new BN(tokenLength)).toString();
 
 export const Network = {
   MAINNET: 'mainnet',

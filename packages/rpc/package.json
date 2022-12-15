@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.0.5-alpha.1",
+  "version": "0.0.5-alpha.0",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -21,6 +21,10 @@
   "license": "MIT",
   "dependencies": {
     "@types/node": "^16.0.0",
+    "bn.js": "^5.2.1",
     "isomorphic-unfetch": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.1.1"
   }
 }

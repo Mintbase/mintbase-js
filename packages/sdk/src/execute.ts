@@ -3,13 +3,14 @@ import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
+import BN from 'bn.js';
 
 export type ContractCall = {
   contractAddress: string;
   methodName: string;
   args: object;
-  gas: string;
-  deposit: string;
+  gas: string | BN;
+  deposit: string | BN;
   signerId?: string;
   callbackUrl?: string;
   };
@@ -106,8 +107,8 @@ const convertGenericCallToWalletCall = (
     params: {
       methodName: call.methodName,
       args: call.args,
-      gas: call.gas,
-      deposit: call.deposit,
+      gas: call.gas as string,
+      deposit: call.deposit as string,
     },
   }],
 });

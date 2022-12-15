@@ -104,7 +104,7 @@ describe('contract method calls (execute)', () => {
       
     );
 
-    const expectedCallArgs: FunctionCallOptions = {
+    const expectedCallArgs = {
       contractId: testContract,
       methodName: testMethod,
       args: testArgs,
