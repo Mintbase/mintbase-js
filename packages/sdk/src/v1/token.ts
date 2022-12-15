@@ -1,6 +1,5 @@
 // Mintbase token contract JS implementation
 
-import { TransactionArgs, TransactionAttachments } from '../execute';
 import {
   DEFAULT_MB_LOGO,
   TOKEN_METHOD_NAMES,
@@ -9,6 +8,7 @@ import {
   GAS_CONSTANTS,
   DEPOSIT_CONSTANTS,
 } from '../constants';
+import { NearContractCall } from '../execute';
 import {
   BurnArgs,
   DeployTokenContractArgs,
@@ -23,7 +23,7 @@ import {
 
 export const burn = (
   args: BurnArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { nftContractId, tokenIds } = args;
 
   return {
@@ -40,7 +40,7 @@ export const burn = (
 
 export const deployContract = (
   args: DeployTokenContractArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const {
     name,
     factoryContractId,
@@ -78,7 +78,7 @@ export const deployContract = (
 
 export const transferContractOwnership = (
   args: TransferTokenContractOwnership,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { nftContractId, nextOwner, options } = args;
   const { keepMinters = true } = options;
 
@@ -98,7 +98,7 @@ export const transferContractOwnership = (
 
 export const mint = (
   args: MintArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { nftContractId, options } = args;
 
   return {
@@ -117,7 +117,7 @@ export const mintMore = (): void => {
 
 export const addMinter = (
   args: AddRemoveMinterArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { minterId, nftContractId } = args;
 
   return {
@@ -134,7 +134,7 @@ export const addMinter = (
 
 export const removeMinter = (
   args: AddRemoveMinterArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { minterId, nftContractId } = args;
 
   return {
@@ -151,7 +151,7 @@ export const removeMinter = (
 
 export const batchChangeMinters = (
   args: BatchChangeMinters,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { addMinters, removeMinters, nftContractId } = args;
 
   return {
@@ -168,7 +168,7 @@ export const batchChangeMinters = (
 
 export const revoke = (
   args: RevokeAccountArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { nftContractId, tokenId, accountToRevokeId } = args;
 
   if (accountToRevokeId) {
