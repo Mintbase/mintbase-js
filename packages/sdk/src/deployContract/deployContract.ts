@@ -12,7 +12,7 @@ export type DeployContractArgs = {
       icon?: string;
       baseUri?: string;
       reference?: string;
-      referenceHash?: string; 
+      referenceHash?: string;
     };
   };
 
@@ -23,9 +23,9 @@ export type DeployContractArgs = {
  */
 export const deployContract = (args: DeployContractArgs): NearContractCall=> {
   const { name, factoryContractId = MB_TOKEN_FACTORY_ADDRESS, ownerId, metadata } = args;
-  
+
   const { symbol, icon = DEFAULT_MB_LOGO, baseUri = null, reference = null, referenceHash = null } = metadata;
-  
+
   return {
     contractAddress: factoryContractId,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,

@@ -1,5 +1,7 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 require('dotenv').config();
+process.env.NFT_CONTRACT_ID = 'foo.near';
+// FIXME: dotenv seems to load for the jest debugger, but not when running npm test
 module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',

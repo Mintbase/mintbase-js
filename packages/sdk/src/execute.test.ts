@@ -1,11 +1,7 @@
-import {
-  BrowserWalletSignAndSendTransactionParams,
-} from '@near-wallet-selector/core/lib/wallet';
-import { FunctionCallOptions } from 'near-api-js/lib/account';
 import { execute, NearContractCall } from './execute';
-
 import { MAX_GAS, ONE_YOCTO } from './constants';
 import { NoSigningMethodPassedError } from './errors';
+import BN from 'bn.js';
 
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
@@ -13,9 +9,9 @@ describe('contract method calls (execute)', () => {
   const testMethod = 'nft_transfer';
   const testCallbackUrl = 'ftp://mintbase.testnet';
   const testArgs = {
-    // eslint-disable-next-line @typescript-eslint/camelcase
+
     token_id: 'fake.token.id',
-    // eslint-disable-next-line @typescript-eslint/camelcase
+
     receiver_id: 'mb_bob.testnet',
   };
   const testContractCall: NearContractCall = {
@@ -29,7 +25,6 @@ describe('contract method calls (execute)', () => {
   };
 
   const mockNearSelectorWallet = {
-    signAndSendTransaction: jest.fn(),
     signAndSendTransactions: jest.fn(),
   };
 
@@ -38,51 +33,54 @@ describe('contract method calls (execute)', () => {
   };
 
   beforeAll(() => {
-    jest.spyOn(global.console, 'error').mockImplementation(() => null);
+    jest.spyOn(global.console, 'error');
   });
 
-  afterEach(() => jest.resetAllMocks());
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
 
   test('execute should throw without a valid signing method ', () => {
-    expect(execute(testContractCall, {}))
+    expect(execute({}, testContractCall ))
       .rejects
       .toThrow(NoSigningMethodPassedError);
   });
 
   test('execute calls through to browser wallet selector method', async () => {
     await execute(
-      testContractCall,
       {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         wallet: mockNearSelectorWallet as any,
       },
+      testContractCall,
     );
 
-    const expectedCallArgs: BrowserWalletSignAndSendTransactionParams = {
-      signerId: testSigner,
-      receiverId: testContract,
-      callbackUrl: testCallbackUrl,
+
+    const transactions = { 'transactions' : [{
       actions:[{
-        type: 'FunctionCall',
         params: {
-          methodName: testMethod,
           args: testArgs,
+          methodName: testMethod,
           gas: MAX_GAS,
           deposit: ONE_YOCTO,
         },
+        type: 'FunctionCall',
       }],
-    };
-    expect(mockNearSelectorWallet.signAndSendTransaction)
-      .toHaveBeenCalledWith(expectedCallArgs);
+      callbackUrl: testCallbackUrl,
+      receiverId: testContract,
+      signerId: testSigner,
+    }] };
+
+    expect(mockNearSelectorWallet.signAndSendTransactions)
+      .toHaveBeenCalledWith(transactions);
+
   });
 
-  test('passing multiple calls invokes batch execute', async () => {
+  test('passing multiple calls and composition works', async () => {
     await execute(
-      [testContractCall, testContractCall],
       {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         wallet: mockNearSelectorWallet as any,
       },
+      [testContractCall, testContractCall], testContractCall,
     );
 
     expect(
@@ -92,22 +90,22 @@ describe('contract method calls (execute)', () => {
         .calls[0][0]
         .transactions
         .length,
-    ).toBe(2);
+    ).toBe(3);
   });
 
   test('execute calls through to account (near api) method', async () => {
     await execute(
-      testContractCall,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { account: mockNearAccount as any },
+      testContractCall,
+
     );
 
     const expectedCallArgs = {
       contractId: testContract,
       methodName: testMethod,
       args: testArgs,
-      gas: MAX_GAS,
-      attachedDeposit: ONE_YOCTO,
+      gas: new BN(MAX_GAS),
+      attachedDeposit: new BN(ONE_YOCTO),
 
     };
     expect(mockNearAccount.functionCall)
@@ -116,26 +114,22 @@ describe('contract method calls (execute)', () => {
 
   test('multiple calls batch executes with account', async () => {
     await execute(
-      [testContractCall, testContractCall],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { account: mockNearAccount as any },
+      testContractCall, testContractCall, [testContractCall], [testContractCall, testContractCall],
+
     );
 
-    expect(mockNearAccount.functionCall).toBeCalledTimes(2);
+    expect(mockNearAccount.functionCall).toBeCalledTimes(5);
   });
 
   test('should warn in multiple call failure situation', async () => {
     mockNearAccount.functionCall.mockRejectedValue('thud');
     await execute(
-      [testContractCall, testContractCall],
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       { account: mockNearAccount as any },
-    );
-    expect(console.error).toBeCalledTimes(2);
-  });
+      [testContractCall, testContractCall], testContractCall,
 
-  // TODO:
-  //  - more signing options?
-  //  - inversion of control to passed method?
+    );
+    expect(console.error).toBeCalledTimes(3);
+  });
 
 });

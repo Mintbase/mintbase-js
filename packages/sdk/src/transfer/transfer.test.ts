@@ -1,5 +1,6 @@
 import { transfer, DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from './transfer';
 import { DEFAULT_CONTRACT_ADDRESS, TOKEN_METHOD_NAMES } from '../constants';
+import { ContractCall } from '../execute';
 
 describe('transfer token unit tests', () => {
   const nftContractId = 'test.nft.contract';
@@ -30,7 +31,7 @@ describe('transfer token unit tests', () => {
   test('uses contract from env', () => {
     const transferCall = transfer({
       transfers: [{ receiverId: receiverId, tokenId: tokenId1 }],
-    });
+    }) as ContractCall;
     expect(transferCall.contractAddress).toBe(DEFAULT_CONTRACT_ADDRESS);
   });
 

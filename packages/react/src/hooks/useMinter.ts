@@ -26,18 +26,14 @@ export const useMinter = (args: MintArgs): MinterHookReturn => {
     // TODO: use @mintbase/storage to get a reference
     const reference = '';
 
-    await execute(
-      {
-        ...mint({
-          nftContractId,
-          metadata: {
-            reference: reference,
-          },
-          options,
-        }),
-        signerId: activeAccountId,
-      },
-      { wallet: await selector.wallet() },
+    await execute({ wallet: await selector.wallet() },
+      mint({
+        nftContractId,
+        metadata: {
+          reference: reference,
+        },
+        options,
+      }),
     );
 
     setLoading(false);

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, MB_TESTNET_TOKEN_FACTORY_ADDRESS, TOKEN_METHOD_NAMES } from '../constants';
+import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, MB_TOKEN_FACTORY_ADDRESS, TOKEN_METHOD_NAMES } from '../constants';
 import { deployContract } from './deployContract';
 
 test('deploy contract set all values', () => {
@@ -77,7 +77,7 @@ test('deploy contract standardizing name and symbol to remove unwanted character
     gas: GAS_CONSTANTS.DEFAULT_GAS,
     deposit: CONTRACT_DEPOSIT,
   });
-    
+
 
 });
 
@@ -92,11 +92,11 @@ test('deploy contract uses default values', () => {
     ownerId: 'test',
     metadata: mockMetadata,
   };
-  
+
   const result = deployContract(mockData);
-  
+
   expect(result).toEqual({
-    contractAddress: MB_TESTNET_TOKEN_FACTORY_ADDRESS,
+    contractAddress: MB_TOKEN_FACTORY_ADDRESS,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: {
       owner_id: mockData.ownerId,
@@ -113,6 +113,6 @@ test('deploy contract uses default values', () => {
     gas: GAS_CONSTANTS.DEFAULT_GAS,
     deposit: CONTRACT_DEPOSIT,
   });
-      
-  
+
+
 });

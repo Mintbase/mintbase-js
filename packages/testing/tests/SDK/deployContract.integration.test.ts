@@ -11,6 +11,7 @@ test('deploy contract', async () => {
 
 
   const result = (await execute(
+    { account: signingAccount },
     deployContract({
       name: makeRandomString(10),
       ownerId: account,
@@ -18,7 +19,6 @@ test('deploy contract', async () => {
         symbol: 'test',
       },
     }),
-    { account: signingAccount },
   )) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();

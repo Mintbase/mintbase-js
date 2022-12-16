@@ -1,7 +1,7 @@
 // Mintbase marketplace contract JS implementation
 
 import { utils } from 'near-api-js';
-import { TransactionArgs, TransactionAttachments } from '../execute';
+import { NearContractCall } from '../execute';
 import {
   DEPOSIT_CONSTANTS,
   GAS_CONSTANTS,
@@ -11,7 +11,7 @@ import { BuyArgs, DepositStorageArgs, ListArgs } from './market.types';
 
 export const buy = (
   args: BuyArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { nftContractId, tokenId, referrerId, marketAddress, price } = args;
   return {
     contractAddress: marketAddress,
@@ -31,7 +31,7 @@ export const buy = (
 
 export const list = (
   args: ListArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { nftContractId, tokenId, approvedAccountId, price } = args;
 
   return {
@@ -53,7 +53,7 @@ export const list = (
 
 export const depositStorage = (
   args: DepositStorageArgs,
-): TransactionArgs & TransactionAttachments => {
+): NearContractCall => {
   const { marketAddress, listAmount = 1 } = args;
 
   const deposit = (0.01 * listAmount).toString();
