@@ -24,8 +24,8 @@ export const transfer = ({
   transfers,
   nftContractId = DEFAULT_CONTRACT_ADDRESS,
 }: TransferArgs): NearContractCall => {
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID env to default to');
+  if (nftContractId === null) {
+    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID env as default');
   }
 
   if (transfer.length == 0) {
@@ -40,7 +40,7 @@ export const transfer = ({
     return {
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
-      args: {     
+      args: {
         token_ids: ids,
       },
       deposit: DEPOSIT_FOR_TRANSFER,
@@ -52,7 +52,7 @@ export const transfer = ({
     return {
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.TRANSFER,
-      args: {   
+      args: {
         receiver_id: receiverId,
         token_id: tokenId,
       },

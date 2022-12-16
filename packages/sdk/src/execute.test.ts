@@ -1,11 +1,7 @@
-import {
-  BrowserWalletSignAndSendTransactionParams,
-} from '@near-wallet-selector/core/lib/wallet';
-import { FunctionCallOptions } from 'near-api-js/lib/account';
 import { execute, NearContractCall } from './execute';
-
 import { MAX_GAS, ONE_YOCTO } from './constants';
 import { NoSigningMethodPassedError } from './errors';
+import BN from 'bn.js';
 
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
@@ -63,7 +59,7 @@ describe('contract method calls (execute)', () => {
       actions:[{
         params: {
           args: testArgs,
-          methodName: testMethod,         
+          methodName: testMethod,
           gas: MAX_GAS,
           deposit: ONE_YOCTO,
         },
@@ -101,15 +97,15 @@ describe('contract method calls (execute)', () => {
     await execute(
       { account: mockNearAccount as any },
       testContractCall,
-      
+
     );
 
     const expectedCallArgs = {
       contractId: testContract,
       methodName: testMethod,
       args: testArgs,
-      gas: MAX_GAS,
-      attachedDeposit: ONE_YOCTO,
+      gas: new BN(MAX_GAS),
+      attachedDeposit: new BN(ONE_YOCTO),
 
     };
     expect(mockNearAccount.functionCall)
@@ -120,7 +116,7 @@ describe('contract method calls (execute)', () => {
     await execute(
       { account: mockNearAccount as any },
       testContractCall, testContractCall, [testContractCall], [testContractCall, testContractCall],
-      
+
     );
 
     expect(mockNearAccount.functionCall).toBeCalledTimes(5);
@@ -131,7 +127,7 @@ describe('contract method calls (execute)', () => {
     await execute(
       { account: mockNearAccount as any },
       [testContractCall, testContractCall], testContractCall,
-      
+
     );
     expect(console.error).toBeCalledTimes(3);
   });
