@@ -55,4 +55,4 @@ jobs:
           git checkout -b ${{ github.ref_name }}
           git add --all
           git commit -m "📒 🤖 [mintbase-js] ${{ github.event.head_commit.message }}" || true
-          git push origin HEAD
+          git push origin HEAD --force
