@@ -40,10 +40,10 @@ export const execute = async (
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
   validateSigningOptions({ wallet, account });
-  
+
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account);
   if (outcomes && outcomes.length == 1) {
-    return outcomes[0];    
+    return outcomes[0];
   }
   return outcomes;
 
@@ -54,7 +54,7 @@ const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account
     return batchExecuteWithBrowserWallet(call, wallet);
   }
   return batchExecuteWithNearAccount(call, account);
- 
+
 };
 
 // account call translation wrappers https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
@@ -71,8 +71,8 @@ const batchExecuteWithNearAccount = async (
         contractId: call.contractAddress,
         methodName: call.methodName,
         args: call.args,
-        gas: call.gas as string,
-        attachedDeposit: call.deposit as string,
+        gas: new BN(call.gas),
+        attachedDeposit: new BN(call.deposit),
       }));
     } catch (err: unknown) {
       console.error(
