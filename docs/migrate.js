@@ -112,13 +112,10 @@ for (const line of lines) {
     if (currentSection.name.indexOf('Developer') > -1 && line.indexOf('mintbase-sdk-ref') > -1 && !hasInjectedContent) {
 
       // inject all the content
-      currentSection.items.push('* [📚 MintbaseJS Reference](mintbase-sdk-ref/README.md)');
+      currentSection.items.push('* [📚 Mintbase JS](mintbase-sdk-ref/README.md)');
 
       // sort pages
       pages.sort((a, b) => {
-        if (!a.order) {
-          console.log('wtf!', a);
-        }
         if (a.order.toString() > b.order.toString()) return 1;
         return -1;
       });

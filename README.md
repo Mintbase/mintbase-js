@@ -51,11 +51,15 @@ The new library currently consists of the following packages and features:
 In order to use mintbase JS functions, often environment variables will need to be supplied via `process.env`, [dotenv](https://www.npmjs.com/package/dotenv) etc.
 
 ```
+# api key
+MINTBASE_API_KEY=<your-api-key>
+
 # default testnet
 NEAR_NETWORK = mainnet | testnet
 
 # default sandbox
 NEAR_DATA_ENV = mainnet | testnet | sandbox
+
 ```
 
 
