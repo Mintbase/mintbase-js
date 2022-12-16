@@ -3,7 +3,7 @@
 # @mintbase-js/react
 
 
-This package contains React helpers for interacting with Mintbase SDKs.
+This package contains React helpers for interacting with Mintbase JS.
 
 # Hooks
 
@@ -25,14 +25,11 @@ The WalletContext provides methods for:
 2. Interacting with @mintbase-js/sdk
 
 
-
-
 The following props are provided to consumers of the `WalletContext.Provider`:
 
 
-
-```ts
-
+{% code title="NearWalletConnector.ts" overflow="wrap" lineNumbers="true" %}
+```typescript
 export  type  WalletContext = {
 
 // a reference to the near wallet selector
@@ -68,15 +65,13 @@ signMessage: (params: VerifyOwnerParams) =>  Promise<VerifiedOwner>;
 }
 
 ```
+{% endcode %}
 
-Example usage:
+Example usage in React components:
 
-
-
-```tsx
+{% code title="NearWalletConnector.ts" overflow="wrap" lineNumbers="true" %}
+```typescript
 import { useWallet } from  '@mintbase-js/react'
-
-
 
 const  NearWalletConnector = () => {
   const {
@@ -88,25 +83,23 @@ const  NearWalletConnector = () => {
     errorMessage,
   } = useWallet();
 
-const  signTxn = async () => {
-const  wallet = await selector.wallet();
-  // ... call mintbase SDK methods with wallet as signingOption arg
-}
+  const  signTxn = async () => {
+  const  wallet = await selector.wallet();
+    // ... call mintbase SDK methods with wallet as signingOption arg
+  }
 
+  if (errorMessage) {
+    return (
+      <div>
+        <p>Major bummer! Could not connect to NEAR {errorMessage}</p>
+        <button  onClick={connect}>Try Again</button>
+      </div>
+    )
+  }
 
-
-if (errorMessage) {
-  return (
-    <div>
-      <p>Major bummer! Could not connect to NEAR {errorMessage}</p>
-      <button  onClick={connect}>Try Again</button>
-    </div>
-  )
-}
-
-if (!isConnected) {
-  return <button  onClick={connect}>Connect To NEAR</button>
-}
+  if (!isConnected) {
+    return <button  onClick={connect}>Connect To NEAR</button>
+  }
 
   return (
     <div>
@@ -118,3 +111,4 @@ if (!isConnected) {
 }
 
 ```
+{% endcode %}

@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "sdk",
     "doc",
+    "docs",
     "react"
   ]
 }
