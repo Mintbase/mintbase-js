@@ -33,20 +33,20 @@ export type MintArgs =  {
 
 export type MintOptions = {
     // 0 < royaltyPercentage < 0.5
-    //total percentage that will be allocated to royalties. 
+    //total percentage that will be allocated to royalties.
     //the maximum amount that can be allocated to royalties is 0.5 (50%)
-    //this value cant be negative   
+    //this value cant be negative
     royaltyPercentage?: number;
     //key value pairs of ids and the relative percentage of the allocated royalties amount
     //splits must have at least 2 entries
     //splits must not have more than 50 entries
-    //the splits percentage amounts must total to 1 meaning 100% of royaltyPercentage 
+    //the splits percentage amounts must total to 1 meaning 100% of royaltyPercentage
     //i.e royaltyPercentage = 0.3 splits = {test1: 0.5, test2: 0.5}
     //in this case test1 and test2 will receive 0.15 of the total gains (0.5*0.3)
     splits?: Splits;
     //the amount of copies of specified token to be minted
     //this amount cannot be larger than 99
-    amount?: number;    
+    amount?: number;
 }
 ```
 
