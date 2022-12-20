@@ -57,8 +57,8 @@ describe('upload tests in browser', () => {
       json: () => Promise.resolve({
         id: '123',
         block: 'abc',
-        name: 'test.txt',
-        mimeType: 'text/plain',
+        name: 'empty.bin',
+        mimeType: 'application/octet-stream',
       }),
     } as Response);
 
