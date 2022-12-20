@@ -73,9 +73,11 @@ export const uploadFile = async (
   if (MINTBASE_API_KEY == MINTBASE_API_ANON_USER) {
     console.warn(ANON_USER_WARNING);
   }
+  
 
-  const headers = new Headers();
-  headers.append('mb-api-key', MINTBASE_API_KEY);
+  if (file.size > MAX_UPLOAD_BYTES) {
+    throw new Error(MAX_UPLOAD_ERROR_MSG);
+  }
 
   const formdata = new FormData();
   formdata.append('up', file, 'name');
@@ -83,7 +85,9 @@ export const uploadFile = async (
   try {
     const request = await fetch(ARWEAVE_SERVICE_HOST, {
       method: 'POST',
-      headers: headers,
+      headers: {
+        'mb-api-key': MINTBASE_API_KEY,
+      },
       body: formdata,
       redirect: 'follow',
     });
