@@ -64,12 +64,7 @@ export const uploadBuffer = async (
  */
 export const uploadFile = async (
   file: File,
-): Promise<{
-  id: string;
-  block: string;
-  name: string;
-  mimeType: string;
-}> => {
+): Promise<ArweaveResponse> => {
   if (MINTBASE_API_KEY == MINTBASE_API_ANON_USER) {
     console.warn(ANON_USER_WARNING);
   }
