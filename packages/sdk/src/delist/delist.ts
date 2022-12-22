@@ -2,7 +2,7 @@ import { DEFAULT_CONTRACT_ADDRESS, GAS, MB_MARKET_ADDRESS, ONE_YOCTO, TOKEN_METH
 import { ContractCall, NearContractCall } from '../execute';
 
 type DelistArgs = {
-    nftContractId?: string;
+    nftContractId: string;
     tokenIds: string[];
     marketId?: string;
     oldMarket?: boolean;
@@ -46,11 +46,11 @@ export const delist = (
   result.push( {
     contractAddress: marketId,
     methodName: oldMarket? MARKET_METHOD_NAMES.UNLIST_OLD_MARKET: MARKET_METHOD_NAMES.UNLIST ,
-    gas: GAS,
     args: {
-      token_ids: [tokenIds],
+      token_ids: tokenIds,
       nft_contract_id: nftContractId,
     },
+    gas: GAS,
     deposit: ONE_YOCTO,
   } as ContractCall);
 
