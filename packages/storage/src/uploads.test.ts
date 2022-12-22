@@ -1,5 +1,4 @@
-
-import { uploadFileToArweave, MAX_UPLOAD_BYTES } from './uploads';
+import { uploadBuffer, MAX_UPLOAD_BYTES } from './uploads';
 import superagent from 'superagent';
 import { MAX_UPLOAD_ERROR_MSG } from './constants';
 
@@ -9,11 +8,10 @@ jest.mock('superagent', () => ({
   attach: jest.fn().mockReturnThis(),
 }));
 
-describe('upload tests', () => {
+describe('upload tests in node', () => {
   beforeAll(() => {
     //jest.spyOn(console, 'error').mockImplementation(() => null);
     jest.spyOn(console, 'warn').mockImplementation(() => null);
-
   });
   test('uploads to arweave service', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
@@ -23,7 +21,10 @@ describe('upload tests', () => {
         id: 'new-upload-hash',
       },
     });
-    const upload = await uploadFileToArweave(Buffer.from('{"word":"up"}'), 'test.json');
+    const upload = await uploadBuffer(
+      Buffer.from('{"word":"up"}'),
+      'test.json',
+    );
     expect(upload.id).toBeDefined();
   });
 
@@ -33,9 +34,9 @@ describe('upload tests', () => {
     (superagent.attach as jest.Mock).mockRejectedValueOnce({
       code: 403,
     });
-    await expect(uploadFileToArweave(Buffer.from('{"word":"up"}'), 'test.json'))
-      .rejects
-      .toThrow();
+    await expect(
+      uploadBuffer(Buffer.from('{"word":"up"}'), 'test.json'),
+    ).rejects.toThrow();
   });
 
   test('throws with big file', async () => {
@@ -46,11 +47,19 @@ describe('upload tests', () => {
         id: 'new-upload-hash',
       },
     });
+
+    const size = MAX_UPLOAD_BYTES + 10;
+    const fileContents = new Uint8Array(size);
+    for (let i = 0; i < size; i++) {
+      fileContents[i] = 0;
+    }
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    const bigBuffer = Buffer.from(new Array(MAX_UPLOAD_BYTES + 100).fill(0).map(() => 'a'));
-    await expect(uploadFileToArweave(bigBuffer, 'test.json'))
-      .rejects
-      .toThrow(MAX_UPLOAD_ERROR_MSG);
+    const bigBuffer = Buffer.from(
+      fileContents,
+    );
+    await expect(uploadBuffer(bigBuffer, 'test.json')).rejects.toThrow(
+      MAX_UPLOAD_ERROR_MSG,
+    );
   });
 });
