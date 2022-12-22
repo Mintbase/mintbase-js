@@ -14,29 +14,20 @@ test('list a token', async () => {
   const signingAccount = await connect(accountToListFrom, keyStore);
   const token = await ownedTokens(accountToListFrom, { limit: 1 });
 
-  //   const deposit = (await execute(
-  //     {
-  //       ...depositStorage({
-  //         marketAddress: MB_TESTNET_MARKET_CONTRACT_ADDRESS,
-  //       }),
-  //     },
-  //     { account: signingAccount },
-  //   )) as FinalExecutionOutcome; 
-
   if (!token) {
     throw `${accountToListFrom} ran out of owned tokens to list! Mint some more...`;
   }
-  const {  unlistedTokens } = await tokensByStatus(
-    'mb_store.mintspace2.testnet:285633c53dbad8e3493a39849f29092d',
+  const { unlistedTokens } = await tokensByStatus(
+    token[0].metadataId,
     accountToListFrom,
   );
 
-  const tokenToList: string = unlistedTokens[0];
-
-  if (tokenToList.length < 0) {
+  if (unlistedTokens.length <= 0) {
     console.error('No unlisted tokens for list integration test');
     return;
   }
+
+  const tokenToList: string = unlistedTokens[0];
 
   const result = (await execute(
     { account: signingAccount },
