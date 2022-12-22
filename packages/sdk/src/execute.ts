@@ -71,6 +71,7 @@ const batchExecuteWithNearAccount = async (
         contractId: call.contractAddress,
         methodName: call.methodName,
         args: call.args,
+        walletCallbackUrl: call.callbackUrl,
         gas: new BN(call.gas),
         attachedDeposit: new BN(call.deposit),
       }));
