@@ -4,7 +4,7 @@ import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 
 test('batch change minters integration test', async () => {
-  const minterIds = ['mb_bob.testnet', 'mb_alice.testnet'];
+  const minter = ['mb_bob.testnet'];
   const owner = 'mb_alice.testnet';
   const nftContractId = 'mb_store.mintspace2.testnet';
   const keyStore = await authenticatedKeyStore([owner]);
@@ -13,12 +13,12 @@ test('batch change minters integration test', async () => {
 
   const add = batchChangeMinters({
     nftContractId: nftContractId,
-    addMinters: minterIds,
+    addMinters: minter,
   });
 
   const remove = batchChangeMinters({
     nftContractId: nftContractId,
-    removeMinters: minterIds,
+    removeMinters: minter,
   });
 
   const result = await execute(

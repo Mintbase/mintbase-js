@@ -25,6 +25,8 @@ export const MARKET_METHOD_NAMES = {
   LIST: 'nft_approve',
   DEPOSIT_STORAGE: 'deposit_storage',
   BUY: 'buy',
+  UNLIST_OLD_MARKET: 'delist',
+  UNLIST: 'unlist',
 };
 
 export const GAS_CONSTANTS = {

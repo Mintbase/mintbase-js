@@ -2,7 +2,7 @@
 
 # Mintbase JS
 
-A library for interacting with Mintbase, NEAR, Arweave (Bundlr network) and other decentralized web services and applications.
+A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
 
 {% hint style="danger" %}
 ## All packages are currently in Alpha.
@@ -11,7 +11,47 @@ Breaking changes can and will be introduced on a regular basis until this reache
 {% endhint %}
 
 
-## Join us in Building the Future
+# Getting started
+Visit any of the below links to access the documentation and usage examples for the different packages
+
+## Deploy or interact with smart contracts and mintbase market 
+
+### [@mintbase-js/sdk docs](packages/sdk)
+  
+ - Core NEAR smart contract method call util (single and multiple transactions)
+ - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
+
+
+ ## Add and manage wallet connection on your react dapp out of the box
+
+ ### [@mintbase-js/react docs](packages/react)
+  - WalletContext provider for auth connecting accounts to react applications
+  - Helpers for data fetching via hooks.
+
+
+ ## Get blockchain data in a few lines of code 
+
+### [@mintbase-js/data docs](packages/data)
+  - Convenience wrapper methods for common use-case GraphQL calls
+
+  ## Upload metadata to permanent storage
+
+### [@mintbase-js/storage docs](packages/auth/)
+
+ - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
+ - [near-api-js](https://github.com/near/near-api-js) convenience wrappers for loading accounts and managing keys
+ - Message singing and verification utils.
+
+## Manage wallet connection manually
+### [@mintbase-js/auth docs](packages/auth/)
+
+ - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
+ - [near-api-js](https://github.com/near/near-api-js) convenience wrappers for loading accounts and managing keys
+ - Message singing and verification utils.
+
+
+
+# Join us in Building the Future
 
 Have feedback or perhaps need a hand?
 
@@ -21,29 +61,6 @@ Building something cool?
 
 **Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).**
 
-# Road Map
-
-The new library currently consists of the following packages and features:
-
-### [@mintbase-js/sdk](packages/sdk)
- - Core NEAR smart contract method call util (single and multiple transactions)
- - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
-
-### [@mintbase-js/data](packages/data)
-  - Convenience wrapper methods for common use-case GraphQL calls
-
-### [@mintbase-js/auth](packages/auth/)
-
- - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
- - [near-api-js](https://github.com/near/near-api-js) convenience wrappers for loading accounts and managing keys
- - Message singing and verification utils.
-
-### [@mintbase-js/react](packages/react)
-  - WalletContext provider for auth connecting accounts to react applications
-  - Helpers for data fetching via hooks.
-
-### [@mintbase-js/testing](packages/testing)
-  - Testing utilities and integration test suites for running mintbase-js against deployed contracts.
 
 
 # Environment Variables
@@ -63,34 +80,4 @@ NEAR_DATA_ENV = mainnet | testnet | sandbox
 ```
 
 
-# Developing Locally
 
-This repo is using lerna (now powered by nx) under the hood.
-
-Symlink packages via
-
-```
-npm i
-npm run bootstrap
-```
-
-Watch all packages for changes via `npm run dev` from root, which runs `npm run watch` in each package.
-
-This will watch for changes, compile typescript to `/lib` in each package as well as run Jest tests with coverage metrics for any changed code.
-
-The NextJS browser test suite located in `packages/app` can be run with `npm run dev`.
-
-# Adding New Packages
-
-When adding a new package, the best way is to follow these steps:
-
-1. copy the data package and change appropriate values in `package.json`.
-
-2. Add the **package itself to the root project devDependencies** for example:
-```
-"@mintbase-js/<new-package>": "file:packages/<new-package>",
-```
-
-3. Publish out the current locked version as all the other packages from the local command line using `npm publish --access public`.
-
-The last step is necessary, because npm will assume that scoped packages are private.

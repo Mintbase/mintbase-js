@@ -1,12 +1,12 @@
-import { TEST_TOKEN_CONTRACT } from '../../src/constants';
-import { list } from '@mintbase-js/sdk/src';
+import { delist } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
 import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 import { ownedTokens } from '@mintbase-js/data';
+import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 
-test('list a token', async () => {
+test('delist a token', async () => {
   const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
   const listFromIndex = Math.random() > 0.5 ? 1 : 0;
   const accountToListFrom = accounts[listFromIndex];
@@ -17,27 +17,26 @@ test('list a token', async () => {
   if (!token) {
     throw `${accountToListFrom} ran out of owned tokens to list! Mint some more...`;
   }
-  const { unlistedTokens } = await tokensByStatus(
+
+  const { listedTokens } = await tokensByStatus(
     token[0].metadataId,
     accountToListFrom,
   );
 
-  if (unlistedTokens.length <= 0) {
-    console.error('No unlisted tokens for list integration test');
+  if (listedTokens.length <= 0) {
+    console.error('No listed tokens for list integration test');
     return;
   }
 
-  const tokenToList: string = unlistedTokens[0];
-
   const result = (await execute(
     { account: signingAccount },
-    list({
+    delist({
+      tokenIds: [listedTokens[0]],
       nftContractId: TEST_TOKEN_CONTRACT,
-      tokenId: tokenToList,
-      price: '1',
     }),
-  )) as FinalExecutionOutcome;
+  )) as FinalExecutionOutcome[];
 
-  expect(result.receipts_outcome).not.toBeUndefined();
+  expect(result[0].receipts_outcome).not.toBeUndefined();
+  expect(result[1].receipts_outcome).not.toBeUndefined();
 
 });
