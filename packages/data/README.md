@@ -1,12 +1,10 @@
-[//]: # `{ "title": "@mintbase-js/data", "order": "2" }`
+[//]: # `{ "title": "@mintbase-js/data", "order": "1" }`
 
 # @mintbase-js/data
 
 Built-in methods to help fetch data from our indexer.
-
-## For now, use our GraphQL schemas
-
-For as long as we have had an indexer, we have relied on GraphQL to provide Mintbase Builders with a flexible and efficient way to query data any way they like.
+These methods aim to make it as easy as possible to get blockchain data.
+If the data you want to get is more specific or isn't covered in any of these methods check out our GraphQl Indexer where you can get as specific as you need!
 
 # methods
 

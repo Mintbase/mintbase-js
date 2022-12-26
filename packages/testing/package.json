@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.5-delist-composition.0",
+  "version": "0.0.5-doc-improvements.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {

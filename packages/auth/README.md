@@ -1,4 +1,4 @@
-[//]: # `{ "title": "@mintbase-js/auth", "order": "1" }`
+[//]: # `{ "title": "@mintbase-js/auth", "order": "4" }`
 # Working with Web3 Accounts
 
 This package abstracts login, auth and signing functionality away from `@mintbase-js/sdk` core.
