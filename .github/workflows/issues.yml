@@ -17,4 +17,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_ISSUE_TOKEN }}
           format: markdown
           message: |
-            [mintbase.js](https://github.com/Mintbase/mintbase-js/issues/) ➡️ [OPEN] [${{ github.event.issue.title }}](${{ github.event.pull_request.html_url }}) by ${{ github.actor }}
+            [mintbase.js](https://github.com/Mintbase/mintbase-js/issues/) ❗ [ISSUE] [${{ github.event.issue.title }}](${{ github.event.issue.html_url }}) by ${{ github.actor }}
