@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.5-add-issues-gh-action.1",
+  "version": "0.0.5-add-issues-gh-action.2",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
