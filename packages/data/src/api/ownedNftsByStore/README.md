@@ -1,4 +1,4 @@
-[//]: # `{ "title": "ownedNftsByStore", "order": "2.0.1" }`
+[//]: # `{ "title": "ownedNftsByStore", "order": "1.0.1" }`
 # ownedNftsByStore
 
 
