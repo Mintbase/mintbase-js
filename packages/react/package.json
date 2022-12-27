@@ -1,6 +1,10 @@
 {
   "name": "@mintbase-js/react",
+<<<<<<< HEAD
   "version": "0.0.5-add-issues-gh-action.1",
+=======
+  "version": "0.0.5-add-issues-gh-action.0",
+>>>>>>> c0beb36 (add issues github actions script (#229))
   "description": "React app tools for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {

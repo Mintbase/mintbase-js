@@ -13,8 +13,8 @@ jobs:
       - name: Telegram Notify
         uses: appleboy/telegram-action@master
         with:
-          to: ${{ secrets.TELEGRAM_ISSUE_CHAT }}
-          token: ${{ secrets.TELEGRAM_ISSUE_TOKEN }}
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
             [mintbase.js](https://github.com/Mintbase/mintbase-js/issues/) ❗ [ISSUE] [${{ github.event.issue.title }}](${{ github.event.issue.html_url }}) by ${{ github.actor }}

@@ -1,6 +1,10 @@
 {
   "name": "@mintbase-js/rpc",
+<<<<<<< HEAD
   "version": "0.0.5-add-issues-gh-action.1",
+=======
+  "version": "0.0.5-add-issues-gh-action.0",
+>>>>>>> c0beb36 (add issues github actions script (#229))
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
