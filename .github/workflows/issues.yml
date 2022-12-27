@@ -1,4 +1,4 @@
-name: Telegram P/R Open notification
+name: Telegram Issue notification
 
 on:
   issues:
