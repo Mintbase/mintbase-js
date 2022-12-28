@@ -2,8 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { MINTBASE_API_KEY } from '@mintbase-js/sdk';
-import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG } from './constants';
+import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE_API_KEY } from './constants';
 import { MAX_UPLOAD_BYTES, uploadFile } from './uploads';
 
 const fetchMock = jest.spyOn(global, 'fetch');
