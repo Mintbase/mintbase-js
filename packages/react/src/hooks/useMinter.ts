@@ -3,46 +3,50 @@ import {
   execute,
 } from '@mintbase-js/sdk';
 import { useState } from 'react';
-import { mint, MintArgs } from '@mintbase-js/sdk/lib/v1';
+import { mint, MintArgs } from '@mintbase-js/sdk';
+import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 
-export type MinterHookReturn = {
+export type UseMinterReturn = {
   loading: boolean;
-  error: any;
-  data: any;
-  methods: any;
+  error: null;
+  data: void | FinalExecutionOutcome | FinalExecutionOutcome[] | null;
+  methods: {
+    mint: () => Promise<void>;
+  };
 };
 
 export type MinterHookArgs = MintArgs;
 
-export const useMinter = (args: MintArgs): MinterHookReturn => {
-  const { selector, activeAccountId } = useWallet();
-  const { nftContractId, options } = args;
+export const useMinter = (args: MintArgs): UseMinterReturn => {
+  const { selector } = useWallet();
+  const { nftContractId, options, reference, ownerId } = args;
 
   const [loading, setLoading] = useState(false);
+  const [receipt, setReceipt] = useState<void | FinalExecutionOutcome | FinalExecutionOutcome[] | null>(null);
+
 
   const handleMint = async (): Promise<void> => {
     setLoading(true);
 
-    // TODO: use @mintbase/storage to get a reference
-    const reference = '';
+    const wallet = await selector.wallet();
 
-    await execute({ wallet: await selector.wallet() },
+    const receipt = await execute({ wallet },
       mint({
         nftContractId,
-        metadata: {
-          reference: reference,
-        },
+        reference: reference,
+        ownerId: ownerId,
         options,
       }),
     );
-
+    
+    setReceipt(receipt);
     setLoading(false);
   };
 
   return {
     loading: loading,
     error: null,
-    data: null,
+    data: receipt,
     methods: {
       mint: handleMint,
     },
