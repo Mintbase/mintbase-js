@@ -1,14 +1,14 @@
 {
   "name": "mintbase-next-test-suite",
-  "version": "0.0.5-fix-react-package-docs-and-hook.0",
+  "version": "0.0.5-fix-react-package-docs-and-hook.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "lint": "eslint . --fix --ext ts --ext tsx"
   },
   "dependencies": {
-    "@mintbase-js/react": "^0.0.5-fix-react-package-docs-and-hook.0",
-    "@mintbase-js/sdk": "^0.0.5-fix-react-package-docs-and-hook.0",
+    "@mintbase-js/react": "^0.0.5-fix-react-package-docs-and-hook.1",
+    "@mintbase-js/sdk": "^0.0.5-fix-react-package-docs-and-hook.1",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "next": "12.3.1",
     "react": "18.2.0",
