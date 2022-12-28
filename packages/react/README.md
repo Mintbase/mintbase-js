@@ -27,31 +27,28 @@ yarn add @mintbase-js/react
 pnpm add @mintbase-js/react
 ```
 
-
 # WalletContextProvider
-WalletContextProvider is the provider you should wrap on your regular app.tsx/app.jsx file so that your application can work with our Wallet Selector:
+  WalletContextProvider is the provider you should wrap on your regular app.tsx/app.jsx file so that your application can work with our Wallet Selector:
 
+  Example usage in React Apps:
 
-Example usage in React Apps:
+  - Its important to install ```@near-wallet-selector/modal-ui```
 
-- Its important to install ```@near-wallet-selector/modal-ui```
-
-- Next.js example:
+  - Next.js example:
 
 {% code title="app.tsx" overflow="wrap" lineNumbers="true" %}
 ```typescript
-      import type { AppProps } from 'next/app';
-      import { WalletContextProvider } from '@mintbase-js/react';
-      import '@near-wallet-selector/modal-ui/styles.css';
+    import type { AppProps } from 'next/app';
+    import { WalletContextProvider } from '@mintbase-js/react';
+    import '@near-wallet-selector/modal-ui/styles.css';
 
-
-      function MyApp({ Component, pageProps }: AppProps): JSX.Element {
-        return (
-          <WalletContextProvider>
+    function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+      return (
+         <WalletContextProvider>
             <Component {...pageProps} />
-          </WalletContextProvider>
-        );
-      }
+        </WalletContextProvider>
+      );
+    }
 ```
 {% endcode %}
 
@@ -69,39 +66,37 @@ The following props are provided to consumers of the `WalletContext.Provider`:
 
 {% code title="NearWalletConnector.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
-export  type  WalletContext = {
+  export type WalletContext = {
+    // a reference to the near wallet selector
+    selector: WalletSelector;
 
-// a reference to the near wallet selector
-selector: WalletSelector;
+    // the modal window that can be opened and closed
+    modal: WalletSelectorModal;
 
-// the modal window that can be opened and closed
-modal: WalletSelectorModal;
+    // an array of connected accounts
+    accounts: AccountState[];
 
-// an array of connected accounts
-accounts: AccountState[];
+    // the current active account e.g. cooluser5.near
+    activeAccountId: string | null;
 
-// the current active account e.g. cooluser5.near
-activeAccountId: string | null;
+    // wether or not a wallet is connected, can be derived from presense of activeAccountId
+    isConnected: boolean;
 
-// wether or not a wallet is connected, can be derived from presense of activeAccountId
-isConnected: boolean;
+    // true when the wallet selector modal is opened via connect() method
+    isWaitingForConnection: boolean;
 
-// true when the wallet selector modal is opened via connect() method
-isWaitingForConnection: boolean;
+    // null when no error present, contains error messages from wallet selector otherwise
+    errorMessage: string | null;
 
-// null when no error present, contains error messages from wallet selector otherwise
-errorMessage: string | null;
+    // used to open the modal and connect to a NEAR account
+    connect: () =>  Promise<void>;
 
-// used to open the modal and connect to a NEAR account
-connect: () =>  Promise<void>;
+    // disconnect entirely from NEAR account
+    disconnect: () =>  Promise<void>;
 
-// disconnect entirely from NEAR account
-disconnect: () =>  Promise<void>;
-
-// can be used to sign messages used to verify wallet ownership
-signMessage: (params: VerifyOwnerParams) =>  Promise<VerifiedOwner>;
-
-}
+    // can be used to sign messages used to verify wallet ownership
+    signMessage: (params: VerifyOwnerParams) =>  Promise<VerifiedOwner>;
+  }
 
 ```
 {% endcode %}
@@ -110,9 +105,9 @@ Example usage in React components:
 
 {% code title="NearWalletConnector.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
-import { useWallet } from  '@mintbase-js/react'
+import { useWallet } from '@mintbase-js/react'
 
-const  NearWalletConnector = () => {
+const NearWalletConnector = () => {
   const {
     connect,
     disconnect,
@@ -122,8 +117,8 @@ const  NearWalletConnector = () => {
     errorMessage,
   } = useWallet();
 
-  const  signTxn = async () => {
-  const  wallet = await selector.wallet();
+  const signTxn = async () => {
+  const wallet = await selector.wallet();
     // ... call mintbase SDK methods with wallet as signingOption arg
   }
 
@@ -137,14 +132,14 @@ const  NearWalletConnector = () => {
   }
 
   if (!isConnected) {
-    return <button  onClick={connect}>Connect To NEAR</button>
+    return <button onClick={connect}>Connect To NEAR</button>
   }
 
   return (
     <div>
       <p>You are connected as {activeAccountId}</p>
-      <button  onClick={signTxn}>Transaction</button>
-      <button  onClick={disconnect}>Disconnect</button>
+      <button onClick={signTxn}>Transaction</button>
+      <button onClick={disconnect}>Disconnect</button>
     </div>
   )
 }
