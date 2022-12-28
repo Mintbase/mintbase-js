@@ -10,7 +10,9 @@ import {
   pollForWalletConnection,
 } from '@mintbase-js/auth';
 
+
 jest.mock('@mintbase-js/auth');
+
 
 describe('WalletContext', () => {
   test('should provide error message when setup goes wrong', async () => {
