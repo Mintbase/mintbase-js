@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.0.5-add-issues-gh-action.3",
+  "version": "0.0.5-add-styling-2-wallet-context.0",
   "description": "React app tools for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
