@@ -10,7 +10,6 @@ import {
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import { WalletSelector, AccountState, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import '@near-wallet-selector/modal-ui/styles.css';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
