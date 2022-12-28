@@ -8,6 +8,8 @@
   },
   "dependencies": {
     "@mintbase-js/sdk": "^0.0.5-add-styling-2-wallet-context.2",
+    "@mintbase-js/react": "0.0.5-add-styling-2-wallet-context.2",
+    "@near-wallet-selector/modal-ui": "^7.0.3",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"
