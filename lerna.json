@@ -2,7 +2,7 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
   "useWorkspaces": true,
-  "version": "0.0.5-fix-react-package-docs-and-hook.2",
+  "version": "0.0.5-fix-storage-tests.0",
   "packages": [
     "packages/*"
   ]

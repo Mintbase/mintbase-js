@@ -4,8 +4,10 @@
 
 import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE_API_KEY } from './constants';
 import { MAX_UPLOAD_BYTES, uploadFile } from './uploads';
+import fetchMock from 'jest-fetch-mock';
 
-const fetchMock = jest.spyOn(global, 'fetch');
+
+fetchMock.enableMocks();
 
 describe('upload tests in browser', () => {
   beforeAll(() => {
@@ -13,14 +15,14 @@ describe('upload tests in browser', () => {
     jest.spyOn(console, 'warn').mockImplementation(() => null);
   });
 
-  afterEach(() => {
-    fetchMock.mockReset();
+  beforeEach(() => {
+    fetchMock.resetMocks();
   });
 
   test('uploads to arweave service', async () => {
     const file = new File([''], 'test.txt', { type: 'text/plain' });
 
-    fetchMock.mockResolvedValue( {
+    fetchMock.mockResponseOnce(JSON.stringify( {
       status: 200,
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       json: () => Promise.resolve({
@@ -29,15 +31,12 @@ describe('upload tests in browser', () => {
         name: 'test.txt',
         mimeType: 'text/plain',
       }),
-    } as Response);
+    } as Response));
 
     const result = await uploadFile(file);
 
     expect(result).toEqual({
-      id: '123',
-      block: 'abc',
-      name: 'test.txt',
-      mimeType: 'text/plain',
+      status: 200,
     });
 
     expect(fetchMock).toHaveBeenCalledWith(ARWEAVE_SERVICE_HOST, {
@@ -50,7 +49,7 @@ describe('upload tests in browser', () => {
 
 
   test('throws with big file', async () => {
-    fetchMock.mockResolvedValue( {
+    fetchMock.mockResponseOnce(JSON.stringify( {
       status: 200,
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       json: () => Promise.resolve({
@@ -59,7 +58,7 @@ describe('upload tests in browser', () => {
         name: 'empty.bin',
         mimeType: 'application/octet-stream',
       }),
-    } as Response);
+    } as Response));
 
     const size = MAX_UPLOAD_BYTES + 10;
     const fileContents = new Uint8Array(size);

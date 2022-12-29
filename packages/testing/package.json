@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.5-fix-react-package-docs-and-hook.2",
+  "version": "0.0.5-fix-storage-tests.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
