@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.0.5-fix-storage-tests.0",
+  "version": "0.0.5-fix-sdk-react-examples.0",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
