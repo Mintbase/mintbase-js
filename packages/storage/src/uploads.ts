@@ -59,8 +59,9 @@ export const uploadBuffer = async (
 export const uploadFile = async (
   file: File,
 ): Promise<ArweaveResponse> => {
+
   if (MINTBASE_API_KEY == MINTBASE_API_ANON_USER) {
-    console.warn('Warning: you are using the anonymous mintbase api key. You need to specify yours in order to upload a file.');
+    console.warn(ANON_USER_WARNING);
   }
   
 
