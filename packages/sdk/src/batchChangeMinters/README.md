@@ -31,7 +31,7 @@ Example usage of batchChangeMinters method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, batchChangeMinters } from '@mintbase-js/sdk';
+import { execute, batchChangeMinters, BatchChangeMintersArgs } from '@mintbase-js/sdk';
 
 
 export const BatchChangeMintersComponent = ({ contractId, addMinters, removeMinters }: BatchChangeMintersArgs): JSX.Element => {

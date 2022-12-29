@@ -42,7 +42,7 @@ Example usage of deployContract method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, deployContract } from '@mintbase-js/sdk';
+import { execute, deployContract , DeployContractArgs } from '@mintbase-js/sdk';
 
 
 export const DeployContractComponent = ({ name, owner, contractId, symbol }:DeployContractArgs):JSX.Element => {
@@ -51,7 +51,7 @@ export const DeployContractComponent = ({ name, owner, contractId, symbol }:Depl
 
   const handleDeployContract = async (): Promise<void> => {
     const wallet = await selector.wallet();
-    
+
     await execute(
         //because no contract factory id is provided it defaults to 'mintspace2.testnet'
         {wallet},

@@ -44,7 +44,7 @@ Example usage of buy method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, burn, DelistArgs } from '@mintbase-js/sdk';
+import { execute, delist, DelistArgs } from '@mintbase-js/sdk';
 
 
 export const DelistComponent = ({ nftContractId, tokenId, marketId }:DelistArgs): JSX.Element => {
@@ -59,7 +59,7 @@ export const DelistComponent = ({ nftContractId, tokenId, marketId }:DelistArgs)
 
     await execute(
       {wallet},
-      buy(delistArgs)
+      delist(delistArgs)
     );
 
   }

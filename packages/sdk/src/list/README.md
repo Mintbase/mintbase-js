@@ -40,7 +40,7 @@ Example usage of deployContract method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, depositStorage, ListArgs } from '@mintbase-js/sdk';
+import { execute, list, ListArgs } from '@mintbase-js/sdk';
 
 
 export const ListComponent = ({ nftContractId, marketId , tokenId, price }:ListArgs):JSX.Element => {

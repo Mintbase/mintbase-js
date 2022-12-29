@@ -58,7 +58,7 @@ Example usage of mint method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, mint } from '@mintbase-js/sdk';
+import { execute, mint, MintArgs } from '@mintbase-js/sdk';
 
 
 export const MintComponent = ({ reference, contractId, owner }:MintArgs): JSX.Element => {
