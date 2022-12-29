@@ -50,8 +50,10 @@ export type MintOptions = {
 }
 ```
 
+## React example
+
 Example usage of mint method in a hypothetical React component:
-{% code title="MintUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="MintComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
@@ -59,16 +61,23 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, mint } from '@mintbase-js/sdk';
 
 
-export const MintUI = ({ reference, contractId, owner }:any) => {
+export const MintComponent = ({ reference, contractId, owner }:MintArgs): JSX.Element => {
+ 
   const { selector } = useWallet();
+
   const handleMint = async (): Promise<void> => {
+    
     const wallet = await selector.wallet();
+    
     await execute(
       mint({ nftContractId: contractId, reference: reference, ownerId: owner })
     );
+
+  }
+
   return (
     <div>
-      <button onClick={() => handleMint()}>
+      <button onClick={handleMint}>
         Mint
       </button>
     </div>

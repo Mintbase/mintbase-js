@@ -26,33 +26,36 @@ type TransferArgs = {
 ```
 
 Example usage of transfer method in a hypothetical React component:
-{% code title="TransferUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="TransferComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, transfer } from '@mintbase-js/sdk';
+import { execute, transfer, TransferArgs } from '@mintbase-js/sdk';
 
-const TransferUI = ({ tokenId, contractId }) => {
+const TransferComponent = ({ tokenId, contractId }: TransferArgs): JSX.Element => {
   const { selector, activeAccountId } = useWallet();
 
   const handleTransfer = async (): Promise<void> => {
     const wallet = await selector.wallet();
-    await execute(
-      transfer({
+
+    const transferArgs: TransferArgs = {
         nftContractId: contractId,
         transfers: [{
           receiverId: 'mb_carol.testnet',
           tokenId: token.tokenId,
         }],
-      }),
+      }
+
+    await execute(
       { wallet },
+      transfer(transferArgs),
     );
   };
 
   return (
     <div>
-      <button onClick={() => handleTransfer()}>
+      <button onClick={handleTransfer}>
         Transfer {tokenId} of {contractId} from {activeAccountId} to Carol
       </button>
     </div>

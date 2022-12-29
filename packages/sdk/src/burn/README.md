@@ -26,25 +26,35 @@ type BurnArgs = {
 };
 ```
 
+## React example
+
 Example usage of burn method in a hypothetical React component:
-{% code title="BurnUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="BurnComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, burn } from '@mintbase-js/sdk';
+import { execute, burn, BurnArgs } from '@mintbase-js/sdk';
 
 
-export const BurnUI = ({ tokenIds, contractId }:any) => {
+export const BurnComponent = ({ tokenIds, contractId }:BurnArgs): JSX.Element => {
+  
   const { selector } = useWallet();
+  
   const handleBurn = async (): Promise<void> => {
+    
     const wallet = await selector.wallet();
+
     await execute(
+      {wallet},
       burn({ nftContractId: contractId, tokenIds: tokenIds })
     );
+
+  }
+
   return (
     <div>
-      <button onClick={() => handleBurn()}>
+      <button onClick={handleBurn}>
         Burn provided token array from {contractId}
       </button>
     </div>

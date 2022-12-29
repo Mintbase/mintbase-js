@@ -33,8 +33,11 @@ export type DeployContractArgs = {
   };
 ```
 
+## React example
+
+
 Example usage of deployContract method in a hypothetical React component:
-{% code title="DeployContractUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="DeployContractComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
@@ -42,21 +45,26 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, deployContract } from '@mintbase-js/sdk';
 
 
-export const DeployContractUI = ({ name, owner, contractId, symbol }:any) => {
+export const DeployContractComponent = ({ name, owner, contractId, symbol }:DeployContractArgs):JSX.Element => {
+  
   const { selector } = useWallet();
+
   const handleDeployContract = async (): Promise<void> => {
     const wallet = await selector.wallet();
+    
     await execute(
         //because no contract factory id is provided it defaults to 'mintspace2.testnet'
+        {wallet},
         deployContract({
           name: name,
           ownerId: owner,
           metadata: {
             symbol: symbol
           }
-        }),
-        {wallet})
-  };
+        })
+      )
+  }
+
   return (
     <div>
       <button onClick={() => handleDeployContract()}>

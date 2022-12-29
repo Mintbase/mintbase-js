@@ -23,9 +23,10 @@ type BatchChangeMintersArgs = {
     removeMinters: string[];
 };
 ```
+## React example
 
 Example usage of batchChangeMinters method in a hypothetical React component:
-{% code title="BatchChangeMintersUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="BatchChangeMintersComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
@@ -33,20 +34,27 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, batchChangeMinters } from '@mintbase-js/sdk';
 
 
-export const BatchChangeMintersUI = ({ contractId, addMinters, removeMinters }: any) => {
+export const BatchChangeMintersComponent = ({ contractId, addMinters, removeMinters }: BatchChangeMintersArgs): JSX.Element => {
+  
   const { selector } = useWallet();
+  
   const handleBatchChangeMinters = async (): Promise<void> => {
+
     const wallet = await selector.wallet();
+    
     await execute(
+      {wallet},
       batchChangeMinters({ 
           nftContractId: contractId,
           addMinters: addMinters, 
           removeMinters: removeMinters 
           })
     );
+  }
+
   return (
     <div>
-      <button onClick={() => handleBatchChangeMinters()}>
+      <button onClick={handleBatchChangeMinters}>
         batchChangeMinters for contractId : {contractId}
       </button>
     </div>
