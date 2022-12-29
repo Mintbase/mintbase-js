@@ -19,10 +19,7 @@ export const supportedStorageServices = {
     bundlr: 'bundlr',
   },
 };
-export const MINTBASE_API_KEY =
-  process.env.MINTBASE_API_KEY ||
-  globalThis?.localStorage?.getItem('MINTBASE_API_KEY') ||
-  MINTBASE_API_ANON_USER;
+export const MINTBASE_API_KEY = 'anon';
 export declare const MINTBASE_API_KEY_HEADER = 'mb-api-key';
 export declare const MINTBASE_API_ANON_USER = 'anon';
 export const ANON_USER_WARNING = 'Warning: you are using the anonymous mintbase api key. You need to specify yours in order to upload a file. In the future this will be mandatory';
