@@ -48,8 +48,7 @@ export const TransferTest = (): ReactElement => {
       }
       {isTransferring
         ? <p>Transferring...</p>
-        // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-        : <button onClick={() => handleTransfer()}>
+        : <button onClick={handleTransfer}>
             Transfer {token.tokenId} of {token.contractId} to mb_carol.testnet
         </button>
       }

@@ -24,7 +24,6 @@ const nextConfig = {
       },
     ],
   },
-  // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
   webpack: (config) =>{
     config.resolve.fallback = { fs: false };
 

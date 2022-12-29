@@ -69,7 +69,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   // subscribe to account state changes
   useEffect(() => {
     if (!components) {
-      return;
+      return undefined;
     }
 
     const subscription = registerWalletAccountsSubscriber(
@@ -77,10 +77,9 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
         setAccounts(accounts);
       });
 
-    // eslint-disable-next-line consistent-return
-    return (): void =>
+    return (): void => {
       subscription.unsubscribe();
-
+    }; 
   }, [components]);
 
   const {
@@ -129,6 +128,5 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   );
 };
 
-// FIXME: add return type
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-export const useWallet = () => useContext(WalletContext);
+
+export const useWallet = (): WalletContext => useContext(WalletContext);

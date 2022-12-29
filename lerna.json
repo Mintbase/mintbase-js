@@ -2,7 +2,7 @@
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
   "useWorkspaces": true,
-  "version": "0.0.5-add-issues-gh-action.3",
+  "version": "0.0.5-fix-react-package-docs-and-hook.2",
   "packages": [
     "packages/*"
   ]
