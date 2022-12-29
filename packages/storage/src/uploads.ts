@@ -1,10 +1,4 @@
-import {
-  MINTBASE_API_KEY_HEADER,
-  MINTBASE_API_KEY,
-  MINTBASE_API_ANON_USER,
-} from '@mintbase-js/sdk';
-import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG } from './constants';
-import { ANON_USER_WARNING } from '@mintbase-js/sdk';
+import { ANON_USER_WARNING, ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE_API_ANON_USER, MINTBASE_API_KEY, MINTBASE_API_KEY_HEADER } from './constants';
 import superagent from 'superagent';
 
 export const MAX_UPLOAD_BYTES = 31_457_280;
@@ -65,6 +59,7 @@ export const uploadBuffer = async (
 export const uploadFile = async (
   file: File,
 ): Promise<ArweaveResponse> => {
+
   if (MINTBASE_API_KEY == MINTBASE_API_ANON_USER) {
     console.warn(ANON_USER_WARNING);
   }
@@ -106,18 +101,3 @@ export const uploadFile = async (
     throw error;
   }
 };
-
-// export const uploadBuffer = async (
-//   buffer: Buffer,
-//   contentType: string,
-// ): Promise<string> => {
-//   const bundlr = setup(supportedStorageServices.arweave.bundlr);
-
-//   const uploadResult = await bundlr.uploader.upload(buffer, [
-//     { name: 'Content-Type', value: contentType },
-//   ]);
-
-//   const { data } = uploadResult;
-
-//   return data.id;
-// };
