@@ -1,4 +1,5 @@
 import { fetchGraphQl } from '../../graphql/fetch';
+import { parseData } from '../../utils';
 import { ownedNftsByStoreQuery } from './ownedNftsByStore.query';
 import { NftsByStoreData, OwnedNftsData } from './ownedNftsByStore.types';
 
@@ -6,7 +7,7 @@ import { NftsByStoreData, OwnedNftsData } from './ownedNftsByStore.types';
 export const ownedNftsByStore = async (
   ownerId: string,
   contractAddress: string,
-  pagination: { limit: number; offset?: number},
+  pagination: { limit: number; offset?: number },
 ): Promise<NftsByStoreData> => {
 
 
@@ -17,7 +18,7 @@ export const ownedNftsByStore = async (
     return null;
   }
 
-  const { data, error } = await fetchGraphQl<OwnedNftsData>({
+  const { data, error } = await fetchGraphQl<OwnedNftsData[]>({
     query: ownedNftsByStoreQuery,
     variables: {
       accountId: ownerId,
@@ -27,10 +28,9 @@ export const ownedNftsByStore = async (
     },
   });
 
-  if (error) {
-    console.error(`Error fetching nfts from ${ownerId}`, error.message);
-    throw error;
-  }
 
-  return { data: data , error:error };
+  const errorMsg = `Error fetching nfts from ${ownerId}, ${error.message}`;
+
+  return parseData<OwnedNftsData[]>(data,error,errorMsg);
+
 };

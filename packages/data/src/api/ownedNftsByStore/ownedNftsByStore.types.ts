@@ -1,3 +1,4 @@
+import { Token } from 'graphql';
 import { GraphqlFetchingError } from '../../graphql/fetch';
 
 export interface OwnedNftsData {
@@ -24,6 +25,12 @@ export interface OwnedNftsData {
 
 
 export interface NftsByStoreData {
-    data?: OwnedNftsData | null;
-    error: string | GraphqlFetchingError;
+    data?: OwnedNftsData[] | null;
+    error: null | GraphqlFetchingError;
+  }
+
+
+export interface OwnedTokensData {
+    data?: Token[] | null;
+    error: null | GraphqlFetchingError;
   }

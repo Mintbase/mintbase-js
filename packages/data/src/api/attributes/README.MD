@@ -30,7 +30,7 @@ Example:
 ```typescript
 import { attributesByMetaId, Attributes } from  '@mintbase/data'
 
-const  attributes: Attribute[] = attributesByMetaId('test');
+const attributes: Attribute[] = attributesByMetaId('test');
 
 ```
 

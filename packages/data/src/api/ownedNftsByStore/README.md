@@ -35,7 +35,7 @@ Example:
 ```typescript
 import { ownedNftsByStore, OwnedNftsData } from  '@mintbase/data'
 
-const  ownedNfts: OwnedNftsData[] = ownedTokens('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit:  20 , offset: -});
+const ownedNfts: OwnedNftsData[] = ownedTokens('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit:  20 , offset: -});
 
 console.log(ownedNfts.token[0]) // => 1st token of the list.
 
