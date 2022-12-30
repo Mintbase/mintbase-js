@@ -1,5 +1,3 @@
-import { GraphqlFetchingError } from '../../graphql/fetch';
-
 export interface NftTokenData {
   animationUrl: string | null;
   document: string | null;
@@ -55,5 +53,5 @@ export interface Extra {
 
 export interface TokenByIdData {
   data?: TokenByIdResults | null;
-  error: string | GraphqlFetchingError;
+  error: string | null;
 }

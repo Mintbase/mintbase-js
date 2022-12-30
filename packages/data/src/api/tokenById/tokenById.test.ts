@@ -3,7 +3,6 @@ import { TokenByIdResults } from './tokenById.types';
 
 import { tokenByIdMock } from './tokenById.mock';
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../../graphql/fetch';
 import { errorContractAddress, errorToken } from './tokenById.errors';
 
 jest.mock('graphql-request');
@@ -31,19 +30,17 @@ describe('tokenById', () => {
   });
 
   it('should handle errors', async () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {
-      // console.log('Suppressed console error.');
-    });
-
     const errMessage = 'exploded';
-    const exploded = new GraphqlFetchingError(errMessage);
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokenByIdResults> => Promise.reject(exploded),
+      request: (): Promise<TokenByIdResults> => Promise.reject(new Error(errMessage)),
     }));
-    await expect(tokenById('123', 'test.mintbase1.near')).rejects.toThrow(
-      exploded,
-    );
+
+    const call = await tokenById('123', 'address.near');
+
+    expect(call).toStrictEqual({ error: errMessage });
+
   });
+
 
   it('should throw error if tokenId type is wrong', async () => {
     const tokenId = '1aa';

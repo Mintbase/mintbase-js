@@ -11,6 +11,7 @@ export const ownedTokens = async (
   ownerId: string,
   { limit, offset = 0 }: Pagination,
 ): Promise<ParsedDataReturn<Token[]>> => {
+  
   const { data, error } = await fetchGraphQl<OwnedTokensQueryResult>({
     query: ownedTokensQuery,
     variables: {
@@ -20,8 +21,7 @@ export const ownedTokens = async (
     },
   });
 
-
-  const errorMsg = `Error fetching token listing counts, ${error.message}`;
+  const errorMsg = error? `Error fetching token listing counts, ${error}`: '';
 
   return parseData<Token[]>(data?.tokens,error,errorMsg);
 

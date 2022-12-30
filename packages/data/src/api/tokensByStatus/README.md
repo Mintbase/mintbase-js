@@ -35,17 +35,15 @@ Example:
 
 ```typescript
 
-import { tokensByStatus, TokenByStatusQueryResults } from  '@mintbase/data'
+import { tokensByStatus } from  '@mintbase/data'
 
 
 
-const data: TokenListingQueryResults = tokensByStatus('dogeflower.mintbase1.near%3A5ef2d9b0651172d90dc173af0726b5fc', 'maxknivets.near');
+const { data, error } = await tokensByStatus('dogeflower.mintbase1.near%3A5ef2d9b0651172d90dc173af0726b5fc', 'maxknivets.near');
 
-
+if (error) {console.log('error', error)}
 
 console.log(data.listedTokens) // => 1
-
-
 
 ```
 

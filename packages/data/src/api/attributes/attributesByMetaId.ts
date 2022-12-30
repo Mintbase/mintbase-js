@@ -8,7 +8,6 @@ export const attributesByMetaId = async (
   nft_metadata_id: string,
 ): Promise<ParsedDataReturn<Attribute[]>> => {
 
-
   const { data, error } = await fetchGraphQl<NftAttributesQueryResult>({
     query: attributesByMetaIdQuery,
     variables: {
@@ -16,11 +15,9 @@ export const attributesByMetaId = async (
     },
   });
 
+  const errorMsg = error ? `Error fetching attributes for nft_metadata_id, ${error}` : '';
 
-  const errorMsg = error ?  `Error fetching attributes for nft_metadata_id, ${error}`: '';
-
-
-  return parseData<Attribute[]>(data?.nft_attributes,error,errorMsg);
+  return parseData<Attribute[]>(data?.nft_attributes, error, errorMsg);
 
 };
 

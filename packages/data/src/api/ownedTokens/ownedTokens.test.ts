@@ -1,5 +1,4 @@
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../../graphql/fetch';
 import { ownedTokens, OwnedTokensQueryResult } from './ownedTokens';
 
 jest.mock('graphql-request');
@@ -21,17 +20,19 @@ describe('tokenListingCountsByMetaId', () => {
       }),
     }));
     const result = await ownedTokens('test.id', { limit: 1 });
-    expect(result.length).toBeGreaterThan(0);
+    expect(result?.data?.length).toBeGreaterThan(0);
   });
 
   it('should handle errors', async () => {
     const errMessage = 'exploded';
-    const exploded = new GraphqlFetchingError(errMessage);
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<OwnedTokensQueryResult> => Promise.reject(errMessage),
+      request: (): Promise<OwnedTokensQueryResult> => Promise.reject(new Error(errMessage)),
     }));
-    await expect(ownedTokens('test.id', { limit: 1 }))
-      .rejects
-      .toThrow(exploded);
+
+    const call = await ownedTokens('test.id', { limit: 1 });
+
+    expect(call).toStrictEqual({ error: errMessage });
+
   });
+
 });

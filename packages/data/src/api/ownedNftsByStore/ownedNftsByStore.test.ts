@@ -3,7 +3,6 @@ import { ownedNftsByStore } from './ownedNftsByStore';
 
 import { ownedNftsByStoreMock } from './ownedNftsByStore.mock';
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../../graphql/fetch';
 
 jest.mock('graphql-request');
 
@@ -30,19 +29,17 @@ describe('tokenById', () => {
   });
 
   it('should handle errors', async () => {
-    jest.spyOn(console, 'error').mockImplementation(() => {
-      // console.log('Suppressed console error.');
-    });
-
     const errMessage = 'exploded';
-    const exploded = new GraphqlFetchingError(errMessage);
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<OwnedNftsData> => Promise.reject(exploded),
+      request: (): Promise<OwnedNftsData> => Promise.reject(new Error(errMessage)),
     }));
-    await expect(ownedNftsByStore('test.testnet','test.mintbase1.near',{ limit: 12, offset: 0 })).rejects.toThrow(
-      exploded,
-    );
+
+    const call = await ownedNftsByStore('test.testnet','test.mintbase1.near',{ limit: 12, offset: 0 });
+
+    expect(call).toStrictEqual({ error: errMessage });
+
   });
+
 
   it('should throw error if all params are wrong', async () => {
 

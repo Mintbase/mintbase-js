@@ -45,8 +45,7 @@ export const tokenById = async (
     },
   });
 
-  const errorMsg = `Error fetching token listing counts, ${error.message}`;
-
+  const errorMsg = error ? `Error fetching token listing counts, ${error}` : '';
 
   return parseData(data, error, errorMsg);
 

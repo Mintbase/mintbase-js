@@ -9,8 +9,7 @@ export const ownedNftsByStore = async (
   ownerId: string,
   contractAddress: string,
   pagination: { limit: number; offset?: number },
-): Promise<ParsedDataReturn<OwnedNftsData[]>> => {
-
+): Promise<ParsedDataReturn<OwnedNftsData>> => {
 
   const wrongParams = typeof pagination?.limit === 'undefined' || typeof ownerId === 'undefined' || pagination?.limit < 1;
 
@@ -19,7 +18,7 @@ export const ownedNftsByStore = async (
     return null;
   }
 
-  const { data, error } = await fetchGraphQl<OwnedNftsData[]>({
+  const { data, error } = await fetchGraphQl<OwnedNftsData>({
     query: ownedNftsByStoreQuery,
     variables: {
       accountId: ownerId,
@@ -29,9 +28,8 @@ export const ownedNftsByStore = async (
     },
   });
 
+  const errorMsg = error? `Error fetching nfts from ${ownerId}, ${error}`: '';
 
-  const errorMsg = `Error fetching nfts from ${ownerId}, ${error.message}`;
-
-  return parseData<OwnedNftsData[]>(data,error,errorMsg);
+  return parseData<OwnedNftsData>(data,error,errorMsg);
 
 };

@@ -39,17 +39,16 @@ Example:
 
 ```typescript
 
-import { tokenById, TokenByIdResults } from  '@mintbase/data'
+import { tokenById } from  '@mintbase/data'
 
 
 
-const data: TokenByIdResults = tokenById( '1','rub3n.testnet');
+const { data, error } = await tokenById( '1','rub3n.testnet');
 
+if (error) {console.log('error', error)}
 
 
 console.log(data.tokenData[0]) // => token metadata
-
-
 
 ```
 
