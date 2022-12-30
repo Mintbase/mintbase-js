@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../../graphql/fetch';
-import { Attribute, attributesByMetaId, NftAttributesQueryResult } from './attributesByMetaId';
+import { Attribute, NftAttributesQueryResult } from '../../types';
+import {  attributesByMetaId  } from './attributesByMetaId';
 
 jest.mock('graphql-request');
 
@@ -12,16 +12,21 @@ describe('attributesByMetaId', () => {
     });
   });
 
-  test('should handle errors', async () => {
-    const errMessage = 'exploded';
-    const exploded = new GraphqlFetchingError(errMessage);
-    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<Attribute[]> => Promise.reject(errMessage),
-    }));
-    await expect(attributesByMetaId('test.id')).rejects.toThrow(exploded);
-  });
 
-  test('should get attributes', async () => {
+  it('should handle errors', async () => {
+    const errMessage = 'exploded';
+    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
+      request: (): Promise<Attribute[]> => Promise.reject(new Error(errMessage)),
+    }));
+
+    const call = await attributesByMetaId('test.id');
+
+    expect(call).toStrictEqual({ error: errMessage });
+
+  });
+ 
+
+  it('should get attributes', async () => {
     const attributes: Attribute[] =  [{
       'attribute_display_type': 'BidText',
       'attribute_value': 'Glowing metal near Submarine',
@@ -49,7 +54,7 @@ describe('attributesByMetaId', () => {
         }),
     }));
     const result = await attributesByMetaId('test.id');
-    await expect(result).toStrictEqual(attributes);
+    await expect(result?.data).toStrictEqual(attributes);
   });
 
 });

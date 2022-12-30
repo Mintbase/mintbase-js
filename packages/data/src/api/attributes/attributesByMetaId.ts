@@ -16,7 +16,9 @@ export const attributesByMetaId = async (
     },
   });
 
-  const errorMsg = `Error fetching attributes for nft_metadata_id, ${error?.message}`;
+
+  const errorMsg = error ?  `Error fetching attributes for nft_metadata_id, ${error}`: '';
+
 
   return parseData<Attribute[]>(data?.nft_attributes,error,errorMsg);
 
