@@ -22,24 +22,24 @@ describe('tokenListingCountsByMetaId', () => {
 
   });
 
-  // it('should use the upper bound of token counts for display', async () => {
-  //   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  //   const makeAggregate = (val: string): any => ({
-  //     aggregate: {
-  //       count: val,
-  //     },
-  //   });
+  it('should use the upper bound of token counts for display', async () => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const makeAggregate = (val: string): any => ({
+      aggregate: {
+        count: val,
+      },
+    });
 
-  //   (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-  //     request: (): Promise<TokenListingQueryResults> => Promise.resolve({
-  //       tokensCount: makeAggregate('1'),
-  //       simpleListingsCount: makeAggregate('1'),
-  //       auctionListingsCount: makeAggregate('1'),
-  //     }),
-  //   }));
+    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
+      request: (): Promise<TokenListingQueryResults> => Promise.resolve({
+        tokensCount: makeAggregate('1'),
+        simpleListingsCount: makeAggregate('1'),
+        auctionListingsCount: makeAggregate('1'),
+      }),
+    }));
 
-  //   const result = await tokenListingCountsByMetaId('test.id');
-  //   expect(result.displayTotalListings).toBe(1);
+    const result = await tokenListingCountsByMetaId('test.id');
+    expect(result?.data?.displayTotalListings).toBe(1);
 
-  // });
+  });
 });
