@@ -18,6 +18,7 @@ export const depositStorage = (args: DepositStorageArgs): NearContractCall => {
   const { marketId = MB_MARKET_ADDRESS, listAmount = 1 } = args;
   
   const deposit = (0.01 * listAmount).toString();
+  
   return {
     contractAddress: marketId,
     args: {},

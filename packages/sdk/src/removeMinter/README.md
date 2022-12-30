@@ -19,26 +19,31 @@ type AddMinterArgs = {
     minterId: string;
 };
 ```
+## React example
 
 Example usage of removeMinter method in a hypothetical React component:
-{% code title="RemoveMinterUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="RemoveMinterComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, removeMinter } from '@mintbase-js/sdk';
+import { execute, removeMinter, RemoveMinterArgs } from '@mintbase-js/sdk';
 
 
-export const AddMinterUI = ({ contractId, minterId }:any) => {
+export const RemoveMinterComponent = ({ contractId, minterId }: RemoveMinterArgs) : JSX.Element => {
+  
   const { selector } = useWallet();
-  const handleAddMinter = async (): Promise<void> => {
+  
+  const handleRemoveMinter = async (): Promise<void> => {
     const wallet = await selector.wallet();
     await execute(
       removeMinter({ nftContractId: contractId, minterId: minterId })
     );
+  }
+
   return (
     <div>
-      <button onClick={() => handleAddMinter()}>
+      <button onClick={handleRemoveMinter}>
         removeMinter from contract you own
       </button>
     </div>

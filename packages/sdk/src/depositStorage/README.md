@@ -22,3 +22,43 @@ export type DepositStorageArgs = {
     marketId?: string;
   };
 ```
+
+
+## React example
+
+
+Example usage of deployContract method in a hypothetical React component:
+{% code title="DepositStorageComponent.ts" overflow="wrap" lineNumbers="true" %}
+
+```typescript
+import { useState } from 'react';
+import { useWallet } from '@mintbase-js/react';
+import { execute, depositStorage, DepositStorageArgs } from '@mintbase-js/sdk';
+
+
+export const DepositStorageComponent = ({ listAmount, marketId }:DepositStorageArgs):JSX.Element => {
+  
+  const { selector } = useWallet();
+
+  const handleDepositStorage = async (): Promise<void> => {
+    const wallet = await selector.wallet();
+    
+    await execute(
+        {wallet},
+        depositStorage({
+          listAmount: listAmount, 
+          marketId: marketId
+        })
+      )
+  }
+
+  return (
+    <div>
+      <button onClick={handleDepositStorage}>
+        DeployContract with name= {name} and owner= {owner}
+      </button>
+    </div>
+  );
+};
+```
+{% endcode %}
