@@ -1,18 +1,16 @@
-import { fetchGraphQl, GraphqlFetchingError } from '../../graphql/fetch';
+import { fetchGraphQl } from '../../graphql/fetch';
+import { ParsedDataReturn } from '../../types';
+import { parseData } from '../../utils';
 
 import { errorContractAddress, errorToken } from './tokenById.errors';
 import { tokenByIdQuery } from './tokenById.query';
 import { TokenByIdResults } from './tokenById.types';
 
-interface TokenByIdData {
-  data?: TokenByIdResults | null;
-  error: string | GraphqlFetchingError;
-}
 
 export const tokenById = async (
   tokenId: string | number,
   contractAddress: string,
-): Promise<TokenByIdData> => {
+): Promise<ParsedDataReturn<TokenByIdResults>> => {
   // check if contract address is part of Near
   const validContractAddress =
     contractAddress.endsWith('.near') || contractAddress.endsWith('.testnet');
@@ -29,34 +27,27 @@ export const tokenById = async (
     if (!validContractAddress) {
       console.error(errorContractAddress.message);
 
-      return { data: undefined, error: errorContractAddress.message };
+      return { error: errorContractAddress.message };
     }
 
     if (!validTokenId()) {
       console.error(errorToken.message);
 
-      return { data: undefined, error: errorToken.message };
+      return { error: errorToken.message };
     }
   }
 
-  const fetchData = async (): Promise<TokenByIdData> => {
-    const { data, error } = await fetchGraphQl<TokenByIdResults>({
-      query: tokenByIdQuery,
-      variables: {
-        tokenId,
-        contractAddress,
-      },
-    });
+  const { data, error } = await fetchGraphQl<TokenByIdResults>({
+    query: tokenByIdQuery,
+    variables: {
+      tokenId,
+      contractAddress,
+    },
+  });
 
-    if (error) {
-      console.error('Error fetching token listing counts', error.message);
-      throw error;
-    }
+  const errorMsg = `Error fetching token listing counts, ${error.message}`;
 
-    return { data, error };
-  };
 
-  const res = await fetchData();
+  return parseData(data, error, errorMsg);
 
-  return { data: res.data, error: res.error };
 };

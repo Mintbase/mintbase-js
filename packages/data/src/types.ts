@@ -20,8 +20,8 @@ export type Token = {
 }
 
 export interface ParsedDataReturn<T> {
-  error: null | GraphqlFetchingError;
-  data: T | null;
+  error?: null | GraphqlFetchingError | string;
+  data?: T | null;
 }
 
 
@@ -34,3 +34,4 @@ export type Attribute = {
   attribute_value?: string | null;
   attribute_type?: string | null;
 }
+

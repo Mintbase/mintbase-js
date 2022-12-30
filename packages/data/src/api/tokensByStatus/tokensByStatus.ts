@@ -1,5 +1,7 @@
 import { NftTokensAggregate } from '../../graphql/codegen/graphql';
 import { fetchGraphQl } from '../../graphql/fetch';
+import { ParsedDataReturn } from '../../types';
+import { parseData } from '../../utils';
 import { tokensByStatusQuery } from './tokensByStatusQuery';
 
 export type TokensByStatus = {
@@ -14,7 +16,7 @@ export type TokenByStatusQueryResults = {
   unburnedTokens: NftTokensAggregate;
 };
 
-export const tokensByStatus = async (metadataId: string, ownedBy?: string): Promise<TokensByStatus> => {
+export const tokensByStatus = async (metadataId: string, ownedBy?: string): Promise<ParsedDataReturn<TokensByStatus>> => {
   const { data, error } = await fetchGraphQl<TokenByStatusQueryResults>({
     query: tokensByStatusQuery,
     variables: {
@@ -23,20 +25,20 @@ export const tokensByStatus = async (metadataId: string, ownedBy?: string): Prom
     },
   });
 
-  if (error) {
-    console.error('Error fetching token listing by status', error.message);
-    throw error;
-  }
-  const listedTokens = getTokenArrayFromNodes(data.listedTokens.nodes);
-  const burnedTokens = getTokenArrayFromNodes(data.burnedTokens.nodes);
+  const errorMsg = `Error fetching token listing by status', ${error.message}`;
   const unburnedTokens = getTokenArrayFromNodes(data.unburnedTokens.nodes);
-  const unlistedTokens = unburnedTokens.filter((el: string) => !listedTokens.includes(el));
+  const listedTokens =  getTokenArrayFromNodes(data.listedTokens.nodes);
 
-  return {
-    listedTokens,
-    burnedTokens,
-    unlistedTokens,
+  const finalData = {
+  
+    listedTokens: getTokenArrayFromNodes(data.listedTokens.nodes),
+    burnedTokens: getTokenArrayFromNodes(data.burnedTokens.nodes),
+    unlistedTokens: unburnedTokens.filter((el: string) => !listedTokens.includes(el)),
+  
   };
+
+  return parseData(finalData, error, errorMsg);
+  
 };
 
 function getTokenArrayFromNodes(nodes: { token_id: string }[]): string[] {
