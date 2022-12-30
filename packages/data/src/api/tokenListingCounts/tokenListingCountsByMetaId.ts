@@ -29,14 +29,13 @@ export const tokenListingCountsByMetaId = async (
     },
   });
 
-
-  const errorMsg = `Error fetching token listing counts, ${error.message}`;
+  const errorMsg = error ? `Error fetching token listing counts, ${error}`: '';
 
   // it is possible for more listings than tokens to exist due to
   // multiple markets, add a display total that is capped at total tokens
-  const totalTokensCount = Number(data.tokensCount.aggregate.count);
-  const simpleListingCount = Number(data.simpleListingsCount.aggregate.count);
-  const auctionListingsCount = Number(data.auctionListingsCount.aggregate.count);
+  const totalTokensCount = Number(data?.tokensCount?.aggregate?.count);
+  const simpleListingCount = Number(data?.simpleListingsCount?.aggregate?.count);
+  const auctionListingsCount = Number(data?.auctionListingsCount?.aggregate?.count);
   const totalListingsCount = simpleListingCount + auctionListingsCount;
   const displayTotalListings = totalListingsCount > totalTokensCount
     ?  totalTokensCount

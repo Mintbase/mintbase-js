@@ -9,7 +9,7 @@ type FakeData = {
 
 const fakeQuery = gql`query data(){}`;
 
-describe.skip('graphql/fetch', () => {
+describe('graphql/fetch', () => {
   it('returns data prop of type T when things go well', async () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<FakeData> => Promise.resolve({ foo: 'bar' }),
@@ -28,6 +28,6 @@ describe.skip('graphql/fetch', () => {
     const { data, error } = await fetchGraphQl<FakeData>({ query: fakeQuery });
     expect(data).not.toBeDefined();
     expect(error).toBeDefined();
-    expect(error?.message).toBe(boom);
+    expect(error).toBe(boom);
   });
 });
