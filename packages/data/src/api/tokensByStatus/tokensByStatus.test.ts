@@ -13,16 +13,6 @@ describe('getTokensFromMetaId', () => {
     });
   });
 
-  // it('should handle errors', async () => {
-  //   const errMessage = 'exploded';
-  //   const exploded = new GraphqlFetchingError(errMessage);
-  //   (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-  //     request: (): Promise<TokensByStatus> => Promise.reject(errMessage),
-  //   }));
-  //   await expect(tokensByStatus('test.id')).rejects.toThrow(exploded);
-  // });
-
-
   it('should handle errors', async () => {
     const errMessage = 'exploded';
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
