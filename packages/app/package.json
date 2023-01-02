@@ -1,14 +1,14 @@
 {
   "name": "mintbase-next-test-suite",
-  "version": "0.0.5-fix-error-handling.5",
+  "version": "0.0.5-fix-error-handling.6",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "lint": "eslint . --fix --ext ts --ext tsx"
   },
   "dependencies": {
-    "@mintbase-js/react": "^0.0.5-fix-error-handling.5",
-    "@mintbase-js/sdk": "^0.0.5-fix-error-handling.5",
+    "@mintbase-js/react": "^0.0.5-fix-error-handling.6",
+    "@mintbase-js/sdk": "^0.0.5-fix-error-handling.6",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "next": "12.3.1",
     "react": "18.2.0",
