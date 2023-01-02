@@ -31,3 +31,43 @@ export type ListArgs = {
 ```
 
 
+## React example
+
+
+Example usage of deployContract method in a hypothetical React component:
+{% code title="ListComponent.ts" overflow="wrap" lineNumbers="true" %}
+
+```typescript
+import { useState } from 'react';
+import { useWallet } from '@mintbase-js/react';
+import { execute, list, ListArgs } from '@mintbase-js/sdk';
+
+
+export const ListComponent = ({ nftContractId, marketId , tokenId, price }:ListArgs):JSX.Element => {
+  
+  const { selector } = useWallet();
+
+  const handleList = async (): Promise<void> => {
+    const wallet = await selector.wallet();
+    
+    await execute(
+        {wallet},
+        list({
+         nftContractId: nftContractId, 
+         marketId: marketId, 
+         tokenId: tokenId, 
+         price: price
+        })
+      )
+  }
+
+  return (
+    <div>
+      <button onClick={handleList}>
+        DeployContract with name= {name} and owner= {owner}
+      </button>
+    </div>
+  );
+};
+```
+{% endcode %}

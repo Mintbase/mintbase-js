@@ -1,6 +1,10 @@
 {
   "name": "@mintbase-js/rpc",
+<<<<<<< HEAD
   "version": "0.0.5-fix-error-handling.7",
+=======
+  "version": "0.0.5-fix-sdk-react-examples.1",
+>>>>>>> e441c3e (fix sdk react examples (#238))
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {

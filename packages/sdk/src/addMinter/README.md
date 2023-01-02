@@ -19,26 +19,32 @@ type AddMinterArgs = {
     minterId: string;
 };
 ```
+## React example
 
 Example usage of addMinter method in a hypothetical React component:
-{% code title="AddMinterUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="AddMinterComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, addMinter } from '@mintbase-js/sdk';
+import { execute, addMinter, AddMinterArgs } from '@mintbase-js/sdk';
 
 
-export const AddMinterUI = ({ contractId, minterId }:any) => {
+export const AddMinterComponent = ({ contractId, minterId }:AddMinterArgs): JSX.Element => {
   const { selector } = useWallet();
+ 
   const handleAddMinter = async (): Promise<void> => {
     const wallet = await selector.wallet();
+    
     await execute(
+      {wallet},
       addMinter({ nftContractId: contractId, minterId: minterId })
     );
+  }
+
   return (
     <div>
-      <button onClick={() => handleAddMinter()}>
+      <button onClick={handleAddMinter}>
         addMinter to contract you own
       </button>
     </div>

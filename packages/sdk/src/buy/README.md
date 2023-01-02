@@ -33,3 +33,42 @@ export type BuyArgs = {
     marketId?: string;
   };
 ```
+
+## React example
+
+Example usage of buy method in a hypothetical React component:
+{% code title="BuyComponent.ts" overflow="wrap" lineNumbers="true" %}
+
+```typescript
+import { useState } from 'react';
+import { useWallet } from '@mintbase-js/react';
+import { execute, burn, BuyArgs } from '@mintbase-js/sdk';
+
+
+export const BuyComponent = ({ nftContractId, price, tokenId, referrerId, marketId }:BuyArgs): JSX.Element => {
+  
+  const { selector } = useWallet();
+  
+  const handleBuy = async (): Promise<void> => {
+    
+    const wallet = await selector.wallet();
+
+    const buyArgs = {nftContractId: nftContractId, tokenId:tokenId, referrerId:referrerId , marketId:marketId, price:price }
+
+    await execute(
+      {wallet},
+      buy(buyArgs)
+    );
+
+  }
+
+  return (
+    <div>
+      <button onClick={handleBuy}>
+        Burn provided token array from {contractId}
+      </button>
+    </div>
+  );
+};
+```
+{% endcode %}

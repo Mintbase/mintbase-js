@@ -34,3 +34,43 @@ type DelistArgs = {
     marketId?: string;
 }
 ```
+
+
+## React example
+
+Example usage of buy method in a hypothetical React component:
+{% code title="DelistComponent.ts" overflow="wrap" lineNumbers="true" %}
+
+```typescript
+import { useState } from 'react';
+import { useWallet } from '@mintbase-js/react';
+import { execute, delist, DelistArgs } from '@mintbase-js/sdk';
+
+
+export const DelistComponent = ({ nftContractId, tokenId, marketId }:DelistArgs): JSX.Element => {
+  
+  const { selector } = useWallet();
+  
+  const handleDelist = async (): Promise<void> => {
+    
+    const wallet = await selector.wallet();
+
+    const delistArgs = {nftContractId: nftContractId, tokenId:tokenId, marketId:marketId}
+
+    await execute(
+      {wallet},
+      delist(delistArgs)
+    );
+
+  }
+
+  return (
+    <div>
+      <button onClick={handleDelist}>
+        Burn provided token array from {contractId}
+      </button>
+    </div>
+  );
+};
+```
+{% endcode %}

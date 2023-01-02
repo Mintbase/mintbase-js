@@ -24,28 +24,29 @@ export type TransferContractOwnershipArgs = {
 ```
 
 Example usage of ```transferContractOwnership``` method in a hypothetical React component:
-{% code title="transferContractOwnershipUI.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="TransferContractOwnershipComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, transferContractOwnership } from '@mintbase-js/sdk';
+import { execute, transferContractOwnership, TransferContractOwnershipArgs } from '@mintbase-js/sdk';
 
 
-export const transferContractOwnershipUI = ({ nextOwner, contractId }: any) => {
+export const TransferContractOwnershipComponent = ({ nextOwner, contractId }: TransferContractOwnershipArgs): JSX.Element => {
   const { selector } = useWallet();
   const handletransferContractOwnership = async (): Promise<void> => {
     const wallet = await selector.wallet();
     await execute(
+      {wallet},
         transferContractOwnership({
           contractId: contractId;
           nextOwner: nextOwner;
         }),
-        {wallet})
+      )
   };
   return (
     <div>
-      <button onClick={() => handletransferContractOwnership()}>
+      <button onClick={handletransferContractOwnership}>
         transferContractOwnership for {contractId} to {nextOwner}
       </button>
     </div>
