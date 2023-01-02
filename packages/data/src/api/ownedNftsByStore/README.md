@@ -33,9 +33,11 @@ Example:
 {% code title="queryNftsByStore.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { ownedNftsByStore, OwnedNftsData } from  '@mintbase/data'
+import { ownedNftsByStore } from  '@mintbase/data'
 
-const  ownedNfts: OwnedNftsData[] = ownedTokens('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit:  20 , offset: -});
+const {data, error} = await ownedTokens('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit:  20 , offset: -});
+
+if (error) {console.log('error', error)}
 
 console.log(ownedNfts.token[0]) // => 1st token of the list.
 

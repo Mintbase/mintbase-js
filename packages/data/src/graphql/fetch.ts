@@ -1,20 +1,15 @@
 import { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import { GRAPHQL_ENDPOINT } from '../constants';
+import { getErrorMessage } from '../errorHandling';
 
-export class GraphqlFetchingError extends Error {
-  constructor(msg: string) {
-    super();
-    this.message = msg;
-  }
-}
 
 export type GqlFetchResult<T> = {
   data?: T;
-  error?: GraphqlFetchingError;
+  error?: string;
 }
 
-export const fetchGraphQl= async <T, V = Record<string, unknown>>({
+export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   query,
   variables,
 }: {
@@ -27,9 +22,9 @@ export const fetchGraphQl= async <T, V = Record<string, unknown>>({
       data: await client.request<T>(query, variables),
     };
 
-  } catch (error) {
+  } catch (error:unknown) {
     return {
-      error: new GraphqlFetchingError(error?.message || error),
+      error: getErrorMessage(error),
     };
   }
 };

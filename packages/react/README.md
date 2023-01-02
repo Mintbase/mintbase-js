@@ -152,6 +152,5 @@ const NearWalletConnector = () => {
  a variety of hooks to make data fetching and transactions from our SDK/Data modules super easy in your React apps.
  |hook name| description  | params
 |--|--|--|
-|useMinter  | hook with function to mint | |
 |useOwnedNftsByStore  | hook to fetch owned nfts by store (contractAddress)  | `ownerId: string,contractAddress: string,pagination: { limit: number; offset?: number}` |
 |useTokenById  | hook to fetch token by Id  | `tokenId: string,contractAddress: string` |

@@ -16,3 +16,20 @@ export type Token = {
   document: string;
   animationUrl: string;
 }
+
+export interface ParsedDataReturn<T> {
+  error?: null | string;
+  data?: T | null;
+}
+
+
+export type NftAttributesQueryResult = {
+  nft_attributes: Attribute[];
+}
+
+export type Attribute = {
+  attribute_display_type?: string | null;
+  attribute_value?: string | null;
+  attribute_type?: string | null;
+}
+

@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../../graphql/fetch';
-import { TokensByStatus, tokensByStatus } from './tokensByStatus';
+import { tokensByStatus } from './tokensByStatus';
+import { TOKEN_RESULT_MOCK }  from './tokenByStatus.mock';
+import { TokenByStatusQueryResults, TokensByStatus } from './tokenByStatus.types';
 
 jest.mock('graphql-request');
 
@@ -14,38 +15,30 @@ describe('getTokensFromMetaId', () => {
 
   it('should handle errors', async () => {
     const errMessage = 'exploded';
-    const exploded = new GraphqlFetchingError(errMessage);
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokensByStatus> => Promise.reject(errMessage),
+      request: (): Promise<TokensByStatus> => Promise.reject(new Error(errMessage)),
     }));
-    await expect(tokensByStatus('test.id')).rejects.toThrow(exploded);
+
+    const call = await tokensByStatus('test.id');
+
+    expect(call).toStrictEqual({ error: errMessage });
+
   });
 
   it('should show correct values for each type', async () => {
-    const unburnedTokensMock = getNodeObjectFromTokenIds(['27', '28', '30']);
-    const burnedTokensMock = getNodeObjectFromTokenIds(['29']);
-    const listedTokensMock = getNodeObjectFromTokenIds(['27', '28']);
+  
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      request: (): Promise<any> =>
-        Promise.resolve({
-          listedTokens: listedTokensMock,
-          burnedTokens: burnedTokensMock,
-          unburnedTokens: unburnedTokensMock,
-        }),
+      request: (): Promise<TokenByStatusQueryResults> =>
+        Promise.resolve(TOKEN_RESULT_MOCK),
     }));
 
-    const { listedTokens, burnedTokens, unlistedTokens } = await tokensByStatus('test.id');
-    expect(listedTokens).toStrictEqual(['27', '28']);
-    expect(burnedTokens).toStrictEqual(['29']);
-    expect(unlistedTokens).toStrictEqual(['30']);
+    const { data } = await tokensByStatus('test.id');
+
+    const { listedTokens, burnedTokens, unlistedTokens } = data as TokensByStatus;
+
+    expect(listedTokens).toStrictEqual([TOKEN_RESULT_MOCK.listedTokens.nodes[0].token_id]);
+    expect(burnedTokens).toStrictEqual([TOKEN_RESULT_MOCK.burnedTokens.nodes[0].token_id]);
+    expect(unlistedTokens).toStrictEqual([TOKEN_RESULT_MOCK.unburnedTokens.nodes[0].token_id, TOKEN_RESULT_MOCK.unburnedTokens.nodes[1].token_id]);
   });
 });
-
-function getNodeObjectFromTokenIds(tokenIds: string[]): { nodes: { token_id: string }[] } {
-  const arr: { token_id: string }[] = [];
-  tokenIds.forEach((token: string) => {
-    arr.push({ token_id: token });
-  });
-  return { nodes: arr };
-}

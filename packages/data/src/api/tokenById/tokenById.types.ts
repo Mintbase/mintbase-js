@@ -50,3 +50,8 @@ export interface Extra {
   display_type?: string;
   value: string | number | string[] | { [key: string]: string | number };
 }
+
+export interface TokenByIdData {
+  data?: TokenByIdResults | null;
+  error: string | null;
+}

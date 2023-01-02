@@ -1,6 +1,5 @@
 import { tokenListingCountsByMetaId, TokenListingQueryResults } from './tokenListingCountsByMetaId';
 import { GraphQLClient } from 'graphql-request';
-import { GraphqlFetchingError } from '../../graphql/fetch';
 
 jest.mock('graphql-request');
 
@@ -13,13 +12,14 @@ describe('tokenListingCountsByMetaId', () => {
 
   it('should handle errors', async () => {
     const errMessage = 'exploded';
-    const exploded = new GraphqlFetchingError(errMessage);
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokenListingQueryResults> => Promise.reject(errMessage),
+      request: (): Promise<TokenListingQueryResults> => Promise.reject(new Error(errMessage)),
     }));
-    await expect(tokenListingCountsByMetaId('test.id'))
-      .rejects
-      .toThrow(exploded);
+
+    const call = await tokenListingCountsByMetaId('test.id');
+
+    expect(call).toStrictEqual({ error: errMessage });
+
   });
 
   it('should use the upper bound of token counts for display', async () => {
@@ -39,7 +39,7 @@ describe('tokenListingCountsByMetaId', () => {
     }));
 
     const result = await tokenListingCountsByMetaId('test.id');
-    expect(result.displayTotalListings).toBe(1);
+    expect(result?.data?.displayTotalListings).toBe(1);
 
   });
 });

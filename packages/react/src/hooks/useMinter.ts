@@ -17,7 +17,7 @@ export type UseMinterReturn = {
 
 export type MinterHookArgs = MintArgs;
 
-export const useMinter = (args: MintArgs): UseMinterReturn => {
+const useMinter = (args: MintArgs): UseMinterReturn => {
   const { selector } = useWallet();
   const { nftContractId, options, reference, ownerId } = args;
 

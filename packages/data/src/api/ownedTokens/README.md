@@ -20,9 +20,11 @@ Example:
 
 {% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
-import { ownedTokens, OwnedTokens } from '@mintbase/data'
+import { ownedTokens } from '@mintbase/data'
 
-const ownedTokens: OwnedTokens[] = ownedTokens('mb_alice.near', { limit: 20 });
+const {data,error} = await ownedTokens('mb_alice.near', { limit: 20 });
+
+if(error) {console.log('error', error)}
 
 console.log(ownedTokens.length) // => 2
 

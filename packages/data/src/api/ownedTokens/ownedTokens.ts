@@ -1,6 +1,7 @@
-import { Pagination, Token } from '../../types';
+import { Pagination, ParsedDataReturn, Token } from '../../types';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ownedTokensQuery } from './ownedTokens.query';
+import { parseData } from '../../utils';
 
 export type OwnedTokensQueryResult = {
   tokens: Token[];
@@ -9,7 +10,8 @@ export type OwnedTokensQueryResult = {
 export const ownedTokens = async (
   ownerId: string,
   { limit, offset = 0 }: Pagination,
-): Promise<Token[]> => {
+): Promise<ParsedDataReturn<Token[]>> => {
+  
   const { data, error } = await fetchGraphQl<OwnedTokensQueryResult>({
     query: ownedTokensQuery,
     variables: {
@@ -19,10 +21,8 @@ export const ownedTokens = async (
     },
   });
 
-  if (error) {
-    console.error('Error fetching token listing counts', error.message);
-    throw error;
-  }
+  const errorMsg = error? `Error fetching token listing counts, ${error}`: '';
 
-  return data.tokens;
+  return parseData<Token[]>(data?.tokens,error,errorMsg);
+
 };

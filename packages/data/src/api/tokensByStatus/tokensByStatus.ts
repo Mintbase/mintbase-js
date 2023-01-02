@@ -1,20 +1,11 @@
-import { NftTokensAggregate } from '../../graphql/codegen/graphql';
 import { fetchGraphQl } from '../../graphql/fetch';
-import { tokensByStatusQuery } from './tokensByStatusQuery';
+import { ParsedDataReturn } from '../../types';
+import { parseData, getTokenArrayFromNodes } from '../../utils';
+import { TokenByStatusQueryResults, TokensByStatus } from './tokenByStatus.types';
+import { tokensByStatusQuery } from './tokensByStatus.query';
 
-export type TokensByStatus = {
-  listedTokens: string[];
-  burnedTokens: string[];
-  unlistedTokens: string[];
-};
 
-export type TokenByStatusQueryResults = {
-  listedTokens: NftTokensAggregate;
-  burnedTokens: NftTokensAggregate;
-  unburnedTokens: NftTokensAggregate;
-};
-
-export const tokensByStatus = async (metadataId: string, ownedBy?: string): Promise<TokensByStatus> => {
+export const tokensByStatus = async (metadataId: string, ownedBy?: string): Promise<ParsedDataReturn<TokensByStatus>> => {
   const { data, error } = await fetchGraphQl<TokenByStatusQueryResults>({
     query: tokensByStatusQuery,
     variables: {
@@ -23,26 +14,16 @@ export const tokensByStatus = async (metadataId: string, ownedBy?: string): Prom
     },
   });
 
-  if (error) {
-    console.error('Error fetching token listing by status', error.message);
-    throw error;
-  }
-  const listedTokens = getTokenArrayFromNodes(data.listedTokens.nodes);
-  const burnedTokens = getTokenArrayFromNodes(data.burnedTokens.nodes);
-  const unburnedTokens = getTokenArrayFromNodes(data.unburnedTokens.nodes);
-  const unlistedTokens = unburnedTokens.filter((el: string) => !listedTokens.includes(el));
+  const errorMsg = error? `Error fetching token listing by status', ${error}`: '';
+  const unburnedTokens = getTokenArrayFromNodes(data?.unburnedTokens?.nodes);
+  const listedTokens =  getTokenArrayFromNodes(data?.listedTokens?.nodes);
 
-  return {
-    listedTokens,
-    burnedTokens,
-    unlistedTokens,
+  const finalData = {
+    listedTokens: getTokenArrayFromNodes(data?.listedTokens?.nodes),
+    burnedTokens: getTokenArrayFromNodes(data?.burnedTokens?.nodes),
+    unlistedTokens: unburnedTokens?.filter((el: string) => !listedTokens.includes(el)),
   };
-};
 
-function getTokenArrayFromNodes(nodes: { token_id: string }[]): string[] {
-  const arr: string[] = [];
-  nodes.forEach((token: { token_id: string }) => {
-    arr.push(token.token_id);
-  });
-  return arr;
-}
+  return parseData(finalData, error, errorMsg);
+  
+};
