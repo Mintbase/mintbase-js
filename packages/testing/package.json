@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.5-fix-error-handling.6",
+  "version": "0.0.5-fix-error-handling.7",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
