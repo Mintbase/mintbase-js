@@ -1,10 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-<<<<<<< HEAD
   "version": "0.0.5-fix-error-handling.7",
-=======
-  "version": "0.0.5-fix-sdk-react-examples.1",
->>>>>>> e441c3e (fix sdk react examples (#238))
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
