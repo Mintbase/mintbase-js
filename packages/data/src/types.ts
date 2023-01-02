@@ -1,5 +1,3 @@
-import { GraphqlFetchingError } from './graphql/fetch';
-
 // shared by data libs and not in graphql.
 export type Pagination = {
   limit: number;
@@ -20,7 +18,7 @@ export type Token = {
 }
 
 export interface ParsedDataReturn<T> {
-  error?: null | GraphqlFetchingError | string;
+  error?: null | string;
   data?: T | null;
 }
 
