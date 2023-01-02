@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.0.5-fix-error-handling.10",
+  "version": "0.0.5-fix-docs-data-package.0",
   "description": "React app tools for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@mintbase-js/auth": "*",
-    "@mintbase-js/data": "^0.0.5-fix-error-handling.10",
+    "@mintbase-js/data": "^0.0.5-fix-docs-data-package.0",
     "@mintbase-js/react": "^0.0.5-fix-storage-tests.0",
-    "@mintbase-js/sdk": "^0.0.5-fix-error-handling.10",
+    "@mintbase-js/sdk": "^0.0.5-fix-docs-data-package.0",
     "@near-wallet-selector/core": "^7.0.3",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "near-api-js": "^0.44.2"
