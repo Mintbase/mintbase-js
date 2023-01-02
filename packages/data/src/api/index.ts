@@ -3,4 +3,4 @@ export * from './ownedTokens/ownedTokens';
 export * from './tokenById/tokenById';
 export * from './tokensByStatus/tokensByStatus';
 export * from './ownedNftsByStore/ownedNftsByStore';
-export * from './attributes/attributesByMetaId';
+export * from './attributesByMetaId/attributesByMetaId';
