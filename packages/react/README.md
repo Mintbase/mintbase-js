@@ -7,8 +7,8 @@ This package contains React helpers for interacting with Mintbase JS.
 ## Summary
 
 - [Installing](#Installing)
-- [WalletContextProvider](#WalletContextProvider) : the provider that will wrap the wallets to make it work in your application
-- [WalletContext](#WalletContext): helper with methods to use the power of near-wallet-selector
+- [WalletContextProvider](#walletcontextprovider) : the provider that will wrap the wallets to make it work in your application
+- [WalletContext](#walletcontext): helper with methods to use the power of near-wallet-selector
 - [Hooks](#Hooks): a variety of hooks to make data fetching and transactions from our SDK/Data modules super easy in your React apps.
 
 # Installing
