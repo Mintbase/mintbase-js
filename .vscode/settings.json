@@ -3,6 +3,7 @@
     "sdk",
     "doc",
     "docs",
-    "react"
+    "react",
+    "auth"
   ]
 }

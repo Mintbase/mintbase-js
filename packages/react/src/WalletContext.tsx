@@ -6,8 +6,8 @@ import {
   disconnectFromWalletSelector,
   pollForWalletConnection,
   signMessage,
-} from '@mintbase-js/auth';
-import type { WalletSelectorComponents } from '@mintbase-js/auth';
+} from '@mintbase-js/auth/lib/wallet';
+import type { WalletSelectorComponents } from '@mintbase-js/auth/lib/wallet';
 import { WalletSelector, AccountState, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
@@ -79,7 +79,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
     return (): void => {
       subscription.unsubscribe();
-    }; 
+    };
   }, [components]);
 
   const {

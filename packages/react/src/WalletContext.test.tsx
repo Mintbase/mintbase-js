@@ -8,10 +8,10 @@ import {
   disconnectFromWalletSelector,
   connectWalletSelector,
   pollForWalletConnection,
-} from '@mintbase-js/auth';
+} from '@mintbase-js/auth/lib/wallet';
 
 
-jest.mock('@mintbase-js/auth');
+jest.mock('@mintbase-js/auth/lib/wallet');
 
 
 describe('WalletContext', () => {
