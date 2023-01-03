@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.0.5-fix-wallet-context-import.0",
+  "version": "0.0.5-fix-push-post-release.0",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
