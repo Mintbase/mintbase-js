@@ -5,7 +5,7 @@ on:
     types: [released, prereleased]
 
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -40,5 +40,5 @@ jobs:
           lerna version ${{ github.event.release.tag_name }} --yes --skip-git
           git add --all
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
-          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'released' || 'prerelease'}}
+          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
           git push
