@@ -98,12 +98,13 @@ const batchExecuteWithBrowserWallet = async (
   callback: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
 
-  console.log(wallet, 'wallet ');
+  console.log(wallet, 'wallet  batchExecuteWithBrowserWallet');
+  console.log(callback, 'callback  batchExecuteWithBrowserWallet');
 
 
   return await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
-    callbackUrl: calls[0].callbackUrl,
+    callbackUrl: callback,
     
   });
 };
