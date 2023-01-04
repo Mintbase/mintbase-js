@@ -28,7 +28,7 @@ if (error) {
   console.log("error", error);
 }
 
-console.log(tokenOwner); // => "nate.near"
+console.log(data); // => "nate.near"
 ```
 
 {% endcode %}
