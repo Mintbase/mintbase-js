@@ -9,13 +9,13 @@ export type TokenOwnerQueryResult = {
 
 export const tokenOwner = async (
   tokenId: string,
-  contractId: string
+  contractAddress: string
 ): Promise<ParsedDataReturn<TokenOwner[]>> => {
   const { data, error } = await fetchGraphQl<TokenOwnerQueryResult>({
     query: tokenOwnerQuery,
     variables: {
       tokenId,
-      contractId,
+      contractAddress,
     },
   });
 
