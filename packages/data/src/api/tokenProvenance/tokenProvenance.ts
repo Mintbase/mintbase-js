@@ -1,6 +1,6 @@
 import { fetchGraphQl } from '../../graphql/fetch';
 import { Pagination, ParsedDataReturn } from '../../types';
-import { parseData } from '../../utils';
+import { parseData, validContractAddress, validTokenId } from '../../utils';
 import { errorContractAddress, errorToken } from './tokenProvenance.errors';
 import { getTokenProvenance } from './tokenProvenance.query';
 import { TokenProvenanceData } from './tokenProvenance.types';
@@ -11,26 +11,17 @@ export const tokenProvenance = async (
   pagination?: Pagination,
 ): Promise<ParsedDataReturn<TokenProvenanceData>> => {
 
-  // check if contract address is part of Near
-  const validContractAddress =
-    contractAddress.endsWith('.near') || contractAddress.endsWith('.testnet');
+  const isValidTokenId =  validTokenId(tokenId);
+  const isValidContractAddress = validContractAddress(contractAddress);
 
-  // check if tokenId is a valid positive number
-  const validTokenId = (): boolean =>
-    typeof tokenId === 'string'
-      ? /^\d+$/.test(tokenId)
-      : /^\d+$/.test(tokenId.toString());
-
-  const validArgs = validTokenId() && validContractAddress;
-
-  if (!validArgs) {
-    if (!validContractAddress) {
+  if (!(isValidTokenId && isValidContractAddress)) {
+    if (!isValidContractAddress) {
       console.error(errorContractAddress.message);
 
       return { error: errorContractAddress.message };
     }
 
-    if (!validTokenId()) {
+    if (!isValidTokenId) {
       console.error(errorToken.message);
 
       return { error: errorToken.message };
