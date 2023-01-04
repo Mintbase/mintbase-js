@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.0.5-fix-package-versions.0",
+  "version": "0.0.5-fix-callback-test.0",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
