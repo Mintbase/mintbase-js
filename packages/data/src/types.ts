@@ -22,7 +22,6 @@ export interface ParsedDataReturn<T> {
   data?: T | null;
 }
 
-
 export type NftAttributesQueryResult = {
   nft_attributes: Attribute[];
 }
@@ -32,4 +31,3 @@ export type Attribute = {
   attribute_value?: string | null;
   attribute_type?: string | null;
 }
-
