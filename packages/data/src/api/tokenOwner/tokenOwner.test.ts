@@ -14,7 +14,7 @@ describe("getWokenOwnerByTokenIdAndContractId", () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<TokenOwnerQueryResult> =>
         Promise.resolve({
-          tokens: [
+          mb_views_nft_tokens: [
             {
               tokenId: "foo",
               contractId: "foo",

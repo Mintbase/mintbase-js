@@ -4,13 +4,13 @@ import { parseData } from "../../utils";
 import { tokenOwnerQuery } from "./tokenOwner.query";
 
 export type TokenOwnerQueryResult = {
-  tokens: TokenOwner[];
+  mb_views_nft_tokens: TokenOwner[];
 };
 
 export const tokenOwner = async (
   tokenId: string,
   contractAddress: string
-): Promise<ParsedDataReturn<TokenOwner[]>> => {
+): Promise<ParsedDataReturn<string>> => {
   const { data, error } = await fetchGraphQl<TokenOwnerQueryResult>({
     query: tokenOwnerQuery,
     variables: {
@@ -21,5 +21,5 @@ export const tokenOwner = async (
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}` : "";
 
-  return parseData<TokenOwner[]>(data?.tokens, error, errorMsg);
+  return parseData<string>(data?.mb_views_nft_tokens[0].owner, error, errorMsg);
 };
