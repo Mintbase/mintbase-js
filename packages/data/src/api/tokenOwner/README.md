@@ -9,9 +9,9 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 {% endhint %}
 
-Returns token owner by `tokenId` and `contractId`.
+Returns token owner by `tokenId` and `contractAddress`.
 
-### tokenOwner(tokenId: string, contractId: string)
+### tokenOwner(tokenId: string, contractAddress: string)
 
 This is an example of a data api method.
 
