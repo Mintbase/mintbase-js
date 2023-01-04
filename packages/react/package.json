@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.0.5-fix-callback-test.16",
+  "version": "0.0.5-data-token-owner.4",
   "description": "React app tools for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
