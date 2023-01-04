@@ -20,6 +20,8 @@ export type NearContractCall = ContractCall | ContractCall[]
 export type NearCallSigningOptions = {
   wallet?: Wallet;
   account?: Account;
+  callbackUrl?: string;
+
 };
 
 const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): void => {
@@ -36,12 +38,16 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
-  { wallet, account }: NearCallSigningOptions,
+  { wallet, account, callbackUrl }: NearCallSigningOptions,
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
   validateSigningOptions({ wallet, account });
 
-  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account);
+  console.log(callbackUrl, 'callbackUrl');
+
+  console.log('wallet', wallet);
+
+  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
   if (outcomes && outcomes.length == 1) {
     return outcomes[0];
   }
@@ -49,9 +55,9 @@ export const execute = async (
 
 };
 
-const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account): Promise<void | providers.FinalExecutionOutcome[]> =>{
+const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
   if (wallet) {
-    return batchExecuteWithBrowserWallet(call, wallet);
+    return batchExecuteWithBrowserWallet(call, wallet, callbackUrl);
   }
   return batchExecuteWithNearAccount(call, account);
 
@@ -89,9 +95,16 @@ const batchExecuteWithNearAccount = async (
 const batchExecuteWithBrowserWallet = async (
   calls: ContractCall[],
   wallet: Wallet,
+  callback: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
+
+  console.log(wallet, 'wallet ');
+
+
   return await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
+    callbackUrl: calls[0].callbackUrl,
+    
   });
 };
 
