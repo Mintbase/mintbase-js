@@ -81,4 +81,4 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            [mintbase.js] - [ ${{ github.ref_name }} ] - 🆕  [PRE-RELEASE] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})    
+            [mintbase.js] - [ $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g') ] - 🆕  [PRE-RELEASE]
