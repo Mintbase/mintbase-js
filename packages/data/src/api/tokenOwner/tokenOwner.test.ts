@@ -3,7 +3,7 @@ import { tokenOwner, TokenOwnerQueryResult } from "./tokenOwner";
 
 jest.mock("graphql-request");
 
-describe("tokenListingCountsByMetaId", () => {
+describe("getWokenOwnerByTokenIdAndContractId", () => {
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {
       // console.log('Suppressed console error.');
