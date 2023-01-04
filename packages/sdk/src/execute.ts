@@ -64,8 +64,11 @@ const batchExecuteWithNearAccount = async (
   calls: ContractCall[],
   account: Account,
 ): Promise<FinalExecutionOutcome[]> => {
-  const outcomes: FinalExecutionOutcome[] =[];
+  const outcomes: any[] =[];
   for (const call of calls) {
+    console.log(call , 'batchExecuteWithNearAccountbatchExecuteWithNearAccount call');
+    console.log(call.callbackUrl , 'batchExecuteWithNearAccount callbackUrl');
+
     try {
       outcomes.push(await account.functionCall({
         contractId: call.contractAddress,
@@ -98,20 +101,26 @@ declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
 const convertGenericCallToWalletCall = (
   call: ContractCall,
-): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => ({
-  signerId: call.signerId,
-  receiverId: call.contractAddress,
-  callbackUrl: call.callbackUrl,
-  actions:[{
-    type: 'FunctionCall',
-    params: {
-      methodName: call.methodName,
-      args: call.args,
-      gas: call.gas as string,
-      deposit: call.deposit as string,
-    },
-  }],
-});
+): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
+
+  console.log(call , 'convertGenericCallToWalletCall call');
+  console.log(call.callbackUrl , 'convertGenericCallToWalletCall callbackUrl');
+
+  return {
+    signerId: call.signerId,
+    receiverId: call.contractAddress,
+    callbackUrl: call.callbackUrl,
+    actions:[{
+      type: 'FunctionCall',
+      params: {
+        methodName: call.methodName,
+        args: call.args,
+        gas: call.gas as string,
+        deposit: call.deposit as string,
+      },
+    }],
+  };
+};
 
 function flattenArgs(calls: NearContractCall[]): ContractCall[] {
   const contractCalls: ContractCall[] =[];
