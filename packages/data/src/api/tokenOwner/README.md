@@ -20,7 +20,7 @@ Example:
 {% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { tokenOwner } from "@mintbase/data";
+import { tokenOwner } from "@mintbase-js/data";
 
 const { data, error } = await tokenOwner("1", "mintbase.mintbase1.near");
 
