@@ -1,11 +1,8 @@
 import { fetchGraphQl } from '../../graphql/fetch';
-import { ParsedDataReturn, TokenOwner } from '../../types';
+import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { tokenOwnerQuery } from './tokenOwner.query';
-
-export type TokenOwnerQueryResult = {
-  mb_views_nft_tokens: TokenOwner[];
-};
+import { TokenOwnerQueryResult } from './tokenOwner.types';
 
 export const tokenOwner = async (
   tokenId: string,

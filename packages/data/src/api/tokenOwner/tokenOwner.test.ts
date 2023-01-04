@@ -1,6 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
-import { tokenOwner, TokenOwnerQueryResult } from './tokenOwner';
+import { tokenOwner } from './tokenOwner';
 import { tokenOwnerMock } from './tokenOwner.mock';
+import { TokenOwnerQueryResult } from './tokenOwner.types';
 
 jest.mock('graphql-request');
 

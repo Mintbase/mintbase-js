@@ -17,10 +17,6 @@ export type Token = {
   animationUrl: string;
 }
 
-export type TokenOwner = {
-  owner: string;
-}
-
 export interface ParsedDataReturn<T> {
   error?: null | string;
   data?: T | null;
