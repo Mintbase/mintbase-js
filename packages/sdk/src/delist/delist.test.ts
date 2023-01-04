@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GAS, MARKET_METHOD_NAMES, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { GAS, MARKET_METHOD_NAMES, MB_MARKET_ADDRESS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
 import { delist } from './delist';
 
 describe('delist account', () => {
@@ -48,7 +48,7 @@ describe('delist account', () => {
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
-        account_id: 'market-v2-beta.mintspace2.testnet',
+        account_id: MB_MARKET_ADDRESS,
         token_id: tokenId,
       },
       deposit: ONE_YOCTO,
