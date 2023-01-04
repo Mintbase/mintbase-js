@@ -1,5 +1,5 @@
-[//]: # `{ "title": "ownedTokens", "order": "1.0.2" }`
-# ownedTokens
+[//]: # `{ "title": "tokenProvenance", "order": "1.0.7" }`
+# tokenProvenance
 
 {% hint style="warning" %}
 
@@ -9,9 +9,9 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 {% endhint %}
 
 
-Returns tokens owned by `ownerId` with limit and offset pagination.
+Returns token provenance by `tokenId` in a particular `contractAddress` with limit and offset pagination.
 
-### ownedTokens(ownerId: string, { limit, offset }: Pagination)
+### tokenProvenance(tokenId: string | number, contractAddress: string, pagination?: Pagination)
 
 This is an example of a data api method.
 
@@ -20,13 +20,13 @@ Example:
 
 {% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
-import { ownedTokens } from '@mintbase/data'
+import { tokenProvenance } from '@mintbase-js/data'
 
-const {data,error} = await ownedTokens('mb_alice.near', { limit: 20 });
+const {data,error} = await tokenProvenance('mb_alice.near', { limit: 20 });
 
 if(error) {console.log('error', error)}
 
-console.log(ownedTokens.length) // => 2
+console.log(tokenProvenance.length) // => 2
 
 ```
 {% endcode %}
