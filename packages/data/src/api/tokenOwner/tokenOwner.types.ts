@@ -1,7 +1,7 @@
-export type TokenOwnerQueryResult = {
+export interface TokenOwnerQueryResult  {
     mb_views_nft_tokens: TokenOwner[];
 }
 
-export type TokenOwner = {
+export interface TokenOwner  {
     owner: string;
 }
