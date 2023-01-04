@@ -1,9 +1,10 @@
 import { GraphQLClient } from "graphql-request";
 import { tokenOwner, TokenOwnerQueryResult } from "./tokenOwner";
+import { tokenOwnerMock } from "./tokenOwner.mock";
 
 jest.mock("graphql-request");
 
-describe("getWokenOwnerByTokenIdAndContractId", () => {
+describe("getTokenOwnerByTokenIdAndContractId", () => {
   beforeEach(() => {
     jest.spyOn(console, "error").mockImplementation(() => {
       // console.log('Suppressed console error.');
@@ -13,18 +14,10 @@ describe("getWokenOwnerByTokenIdAndContractId", () => {
   it("returns data", async () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<TokenOwnerQueryResult> =>
-        Promise.resolve({
-          mb_views_nft_tokens: [
-            {
-              tokenId: "foo",
-              contractId: "foo",
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            } as any,
-          ],
-        }),
+        Promise.resolve(tokenOwnerMock),
     }));
     const result = await tokenOwner("test.id", "contract.id");
-    expect(result?.data?.length).toBeGreaterThan(0);
+    expect(result?.data).toStrictEqual("test.near");
   });
 
   it("should handle errors", async () => {

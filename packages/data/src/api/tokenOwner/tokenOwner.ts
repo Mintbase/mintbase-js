@@ -21,5 +21,9 @@ export const tokenOwner = async (
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}` : "";
 
-  return parseData<string>(data?.mb_views_nft_tokens[0].owner, error, errorMsg);
+  return parseData<string>(
+    data?.mb_views_nft_tokens[0]?.owner,
+    error,
+    errorMsg
+  );
 };
