@@ -38,8 +38,7 @@ const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void =
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
-  { wallet, account }: NearExecuteOptions,
-  callbackUrl,
+  { wallet, account,   callbackUrl }: NearExecuteOptions,
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
   validateSigningOptions({ wallet, account });
