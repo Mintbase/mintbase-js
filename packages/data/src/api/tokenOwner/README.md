@@ -1,4 +1,4 @@
-[//]: # `{ "title": "tokenOwner", "order": "1.0.2" }`
+[//]: # `{ "title": "tokenOwner", "order": "1.0.6" }`
 
 # tokenOwner
 
