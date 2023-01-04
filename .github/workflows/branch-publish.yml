@@ -73,13 +73,3 @@ jobs:
           target_url: https://www.npmjs.com/settings/mintbase-js/packages
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-      
-      - name: Telegram Notify
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          format: markdown
-          message: |
-            [mintbase.js] - [  ${{ github.event.push.commits[0].message }}  ] - 🆕  [PRE-RELEASE] with [changes](${{ github.event.push.commits[0].url }}):
-            ${{ github.event.push.commits }}  by ${{ github.event.push.pusher }}
