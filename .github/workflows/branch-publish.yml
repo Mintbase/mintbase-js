@@ -12,6 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
+          token: ${{ secrets.TEAM_PAT }}
           ref: ${{ github.event.release.target_commitish }}
 
       - uses: actions/setup-node@v3
@@ -43,8 +44,6 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Publish
-        env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
