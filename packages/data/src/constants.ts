@@ -24,7 +24,7 @@ if (globalThis?.window?.location.host.includes(DataNetwork.SANDBOX)) {
 // console.log(mbjs, mbjs.envs, mbjs.envs.network, NEAR_DATA_ENV,  'data package mbjs import test');
 
 
-// export const GRAPHQL_ENDPOINT = `https://interop-${mbjs.envs.network}.hasura.app/v1/graphql`;
+export const GRAPHQL_ENDPOINT = `https://interop-${mbjs.envs.network}.hasura.app/v1/graphql`;
 
 // console.log(GRAPHQL_ENDPOINT, 'graphql endpoint');
 
