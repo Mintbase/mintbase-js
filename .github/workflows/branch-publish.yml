@@ -48,4 +48,4 @@ jobs:
           git add --all
           git commit -m "🤖 npm publish version $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')"
           lerna publish from-package --yes --dist-tag prerelease
-          git push
+          git push --force
