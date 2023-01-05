@@ -1,9 +1,9 @@
 {
   "conventionalCommits.scopes": [
     "sdk",
-    "doc",
     "docs",
     "react",
-    "auth"
+    "auth",
+    "all"
   ]
 }
