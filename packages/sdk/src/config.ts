@@ -4,6 +4,11 @@
 
 import { MBJS_CONFIG_OBJ, NEAR_NETWORK } from './configObj';
 
+declare global {
+  interface Window { mintbase: any }
+}
+
+
 const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
   network: 'testnet' as NEAR_NETWORK,
   graphql_url: '',
@@ -16,6 +21,9 @@ export const mbjs = {
     CONFIG_OBJ.graphql_url = `https://interop-${configObj.network}.hasura.app/v1/graphql`;
     CONFIG_OBJ.callbackUrl = configObj.callbackUrl;
     CONFIG_OBJ.isSet = true;
+
+    window.mintbase = CONFIG_OBJ;
+
     return null;
   },
 

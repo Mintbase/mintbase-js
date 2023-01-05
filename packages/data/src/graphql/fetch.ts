@@ -23,7 +23,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   env?: string;
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  env.length > 0; 
+  const endpointReady =  env?.length > 0; 
 
   console.log(endpointReady, 'endpointReady');
 
