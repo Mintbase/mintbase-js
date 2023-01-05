@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.0.5-data-token-provenance.2",
+  "version": "0.0.5-data-token-provenance.3",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
