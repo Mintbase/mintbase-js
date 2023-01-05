@@ -6,3 +6,4 @@ export * from './ownedNftsByStore/ownedNftsByStore';
 export * from './attributesByMetaId/attributesByMetaId';
 export * from './tokenOwner/tokenOwner';
 export * from './tokenProvenance/tokenProvenance';
+export * from './tokenOwnersByMetadataId/tokenOwnersByMetadataId';

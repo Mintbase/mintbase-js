@@ -1,7 +1,7 @@
 import { GraphQLClient } from 'graphql-request';
-import { tokenOwner } from './tokenOwnersByMetadataId';
-import { tokenOwnerMock } from './tokenOwnersByMetadataId.mock';
-import { TokenOwnerQueryResult } from './tokenOwner.types';
+import { tokenOwnersByMetadataId } from './tokenOwnersByMetadataId';
+import { tokenOwnersByMetadataIdMock } from './tokenOwnersByMetadataId.mock';
+import { TokenOwnersByMetadataIdQueryResult } from './tokenOwnersByMetadataId.types';
 
 jest.mock('graphql-request');
 
@@ -14,21 +14,21 @@ describe('getTokenOwnersByMetadataId', () => {
 
   it('returns data', async () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokenOwnerQueryResult> =>
-        Promise.resolve(tokenOwnerMock),
+      request: (): Promise<TokenOwnersByMetadataIdQueryResult> =>
+        Promise.resolve(tokenOwnersByMetadataIdMock),
     }));
-    const result = await tokenOwner('test.id', 'contract.id');
-    expect(result?.data).toStrictEqual('test.near');
+    const result = await tokenOwnersByMetadataId('teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc', { limit: 2 } );
+    expect(result?.data).toStrictEqual(tokenOwnersByMetadataIdMock);
   });
 
   it('should handle errors', async () => {
     const errMessage = 'exploded';
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokenOwnerQueryResult> =>
+      request: (): Promise<TokenOwnersByMetadataIdQueryResult> =>
         Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await tokenOwner('test.id', 'contract.id');
+    const call = await tokenOwnersByMetadataId('test');
 
     expect(call).toStrictEqual({ error: errMessage });
   });

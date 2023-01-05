@@ -1,18 +1,19 @@
 import { fetchGraphQl } from '../../graphql/fetch';
-import { ParsedDataReturn } from '../../types';
+import { Pagination, ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { tokenOwnersByMetadataIdQuery } from './tokenOwnersByMetadataId.query';
 import { TokenOwnersByMetadataIdQueryResult } from './tokenOwnersByMetadataId.types';
 
 export const tokenOwnersByMetadataId = async (
-  tokenId: string,
-  contractAddress: string,
+  metadataId: string,
+  pagination?: Pagination,
 ): Promise<ParsedDataReturn<TokenOwnersByMetadataIdQueryResult>> => {
   const { data, error } = await fetchGraphQl<TokenOwnersByMetadataIdQueryResult>({
     query: tokenOwnersByMetadataIdQuery,
     variables: {
-      tokenId,
-      contractAddress,
+      metadataId,
+      limit: pagination?.limit ?? 12,
+      offset: pagination?.offset ?? 0,
     },
   });
 

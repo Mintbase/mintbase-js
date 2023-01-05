@@ -1,6 +1,6 @@
-[//]: # `{ "title": "tokenOwner", "order": "1.0.6" }`
+[//]: # `{ "title": "tokenOwnersByMetadataId", "order": "1.0.8" }`
 
-# tokenOwner
+# tokenOwnersByMetadataId
 
 {% hint style="warning" %}
 
@@ -9,9 +9,9 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 {% endhint %}
 
-Returns token owner by `tokenId` and `contractAddress`.
+Returns token owners by `metadataId` with limit and offset pagination..
 
-### tokenOwner(tokenId: string, contractAddress: string)
+### tokenOwnersByMetadataId(metadataId: string, pagination?: Pagination)
 
 This is an example of a data api method.
 
@@ -20,15 +20,17 @@ Example:
 {% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { tokenOwner } from "@mintbase-js/data";
+import { tokenOwnersByMetadataId } from "@mintbase-js/data";
 
-const { data, error } = await tokenOwner("1", "mintbase.mintbase1.near");
+const { data, error } = await tokenOwnersByMetadataId("teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc");
 
 if (error) {
   console.log("error", error);
 }
 
-console.log(data); // => "nate.near"
+console.log(data.mb_views_nft_tokens) // => token data with token_id and owner
+console.log(data.mb_views_nft_tokens_aggregate.aggregate.count) // => token counter
+
 ```
 
 {% endcode %}

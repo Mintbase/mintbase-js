@@ -1,4 +1,4 @@
-export const tokenOwnerMock = {
+export const tokenOwnersByMetadataIdMock = {
   mb_views_nft_tokens: [
     {
       token_id: '99',
