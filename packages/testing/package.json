@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.1.0-alpha.22",
+  "version": "0.1.0-alpha.23",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
