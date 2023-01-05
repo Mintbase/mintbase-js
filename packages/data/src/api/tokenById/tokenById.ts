@@ -10,6 +10,7 @@ import { TokenByIdResults } from './tokenById.types';
 export const tokenById = async (
   tokenId: string | number,
   contractAddress: string,
+  env?: string,
 ): Promise<ParsedDataReturn<TokenByIdResults>> => {
   // check if contract address is part of Near
   const validContractAddress =
@@ -43,6 +44,7 @@ export const tokenById = async (
       tokenId,
       contractAddress,
     },
+    env: env ?? '',
   });
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}` : '';

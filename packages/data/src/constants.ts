@@ -1,4 +1,5 @@
-import { mbjs } from '@mintbase-js/sdk';
+// import { mbjs } from '@mintbase-js/sdk';
+
 export type NearDataEnv = 'mainnet' | 'testnet' | 'sandbox';
 
 export const DataNetwork = {
@@ -18,13 +19,13 @@ if (globalThis?.window?.location.host.includes(DataNetwork.SANDBOX)) {
 }
 
 
-export const NEAR_DATA_ENV = mbjs.envs.network ||  hostBasedNetworkDefault;
+// export const NEAR_DATA_ENV = mbjs.envs.network ||  hostBasedNetworkDefault;
 
-console.log(mbjs, mbjs.envs, mbjs.envs.network, NEAR_DATA_ENV,  'data package mbjs import test');
+// console.log(mbjs, mbjs.envs, mbjs.envs.network, NEAR_DATA_ENV,  'data package mbjs import test');
 
 
-export const GRAPHQL_ENDPOINT = `https://interop-${mbjs.envs.network }.hasura.app/v1/graphql`;
+// export const GRAPHQL_ENDPOINT = `https://interop-${mbjs.envs.network}.hasura.app/v1/graphql`;
 
-console.log(GRAPHQL_ENDPOINT, 'graphql endpoint');
+// console.log(GRAPHQL_ENDPOINT, 'graphql endpoint');
 
 export const QUERY_OPS_PREFIX = 'mintbase_js_data_';
