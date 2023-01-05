@@ -17,9 +17,14 @@ if (globalThis?.window?.location.host.includes(DataNetwork.SANDBOX)) {
   hostBasedNetworkDefault = DataNetwork.SANDBOX;
 }
 
-console.log(mbjs, mbjs.envs, 'data package mbjs import test');
 
 export const NEAR_DATA_ENV = mbjs.envs.network ||  hostBasedNetworkDefault;
 
-export const GRAPHQL_ENDPOINT = `https://interop-${NEAR_DATA_ENV}.hasura.app/v1/graphql`;
+console.log(mbjs, mbjs.envs, mbjs.envs.network, NEAR_DATA_ENV,  'data package mbjs import test');
+
+
+export const GRAPHQL_ENDPOINT = `https://interop-${mbjs.envs.network }.hasura.app/v1/graphql`;
+
+console.log(GRAPHQL_ENDPOINT, 'graphql endpoint');
+
 export const QUERY_OPS_PREFIX = 'mintbase_js_data_';
