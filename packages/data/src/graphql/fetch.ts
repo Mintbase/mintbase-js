@@ -23,11 +23,11 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   env?: string;
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  mbjs?.env?.isSet || env?.length > 0; 
+  const endpointReady =  window.mintbase.isSet || env?.length > 0; 
 
-  console.log(endpointReady, mbjs.env, window.mintbase , 'endpointReady');
+  console.log(endpointReady, mbjs?.env, window.mintbase , 'endpointReady');
 
-  let graphqlEndpoint = mbjs.env?.graphql_url ?? '';
+  let graphqlEndpoint = window.mintbase.graphql_url ?? '';
 
   if (env && env.length > 0) {
     graphqlEndpoint = `https://interop-${env}.hasura.app/v1/graphql`;

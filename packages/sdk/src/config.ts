@@ -25,5 +25,5 @@ export const mbjs = {
     }
 
   },
-  env: CONFIG_OBJ || globalThis?.window?.mintbase,
+  env: globalThis?.window?.mintbase,
 };
