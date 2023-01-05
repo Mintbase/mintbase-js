@@ -18,3 +18,15 @@ export function getTokenArrayFromNodes(nodes: { token_id: string }[]): string[] 
   });
   return arr;
 }
+
+export const validContractAddress= (contractAddress: string): boolean => {
+  return contractAddress.endsWith('.near') || contractAddress.endsWith('.testnet');
+
+};
+
+export const validTokenId = (tokenId: string | number): boolean => {
+  return     typeof tokenId === 'string'
+    ? /^\d+$/.test(tokenId)
+    : /^\d+$/.test(tokenId.toString());
+};
+

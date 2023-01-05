@@ -2,6 +2,8 @@ name: Push & Publish
 
 on:
   push:
+    branches:
+      - "alpha"
 
 jobs:
   build:
@@ -39,14 +41,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Deployment Status
-        uses: altinukshini/deployment-action@releases/v1
-        id: deployment
-        with:
-          token: "${{ github.token }}"
-          target_url: https://www.npmjs.com/settings/mintbase-js/packages
-          environment: production
-
       - name: Publish Push Preview Release
         if: ${{ github.event.head_commit.message }}
         run: |
@@ -54,22 +48,4 @@ jobs:
           git add --all
           git commit -m "🤖 npm publish version $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')"
           lerna publish from-package --yes --dist-tag prerelease
-          git push
-
-      - name: Update deployment status (success)
-        if: success()
-        uses: altinukshini/deployment-status@releases/v1
-        with:
-          token: "${{ github.token }}"
-          target_url: https://www.npmjs.com/settings/mintbase-js/packages
-          state: "success"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
-
-      - name: Update deployment status (failure)
-        if: failure()
-        uses: altinukshini/deployment-status@releases/v1
-        with:
-          token: "${{ github.token }}"
-          target_url: https://www.npmjs.com/settings/mintbase-js/packages
-          state: "failure"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          git push --force
