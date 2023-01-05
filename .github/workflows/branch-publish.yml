@@ -46,9 +46,9 @@ jobs:
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lerna version prereleased --yes --skip-git ${{ github.ref_name }}
+          lerna version prerelease --yes --skip-git ${{ github.ref_name }}
           git add --all
-          git commit -m "🤖 npm prereleased ${{ github.ref_name }}"
+          git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
           git config --list
           git push --force
