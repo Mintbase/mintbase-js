@@ -23,7 +23,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   env?: string;
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  env?.length > 0; 
+  const endpointReady =  mbjs?.env?.isSet || env?.length > 0; 
 
   console.log(endpointReady, 'endpointReady');
 
@@ -33,22 +33,21 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
     graphqlEndpoint = `https://interop-${env}.hasura.app/v1/graphql`;
   }
 
-  // if (endpointReady) {
-  
-  // }
-
-
-  try {
-    const client = new GraphQLClient(graphqlEndpoint);
-    return {
-      data: await client.request<T>(query, variables),
-    };
-  
-  } catch (error:unknown) {
-    return {
-      error: getErrorMessage(error),
-    };
+  if (endpointReady) {
+    try {
+      const client = new GraphQLClient(graphqlEndpoint);
+      return {
+        data: await client.request<T>(query, variables),
+      };
+    
+    } catch (error:unknown) {
+      return {
+        error: getErrorMessage(error),
+      };
+    }
   }
+
+  return { data: null, error: null };
   
 
 };
