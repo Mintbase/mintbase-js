@@ -3,6 +3,7 @@
   "version": "0.0.5-fix-callback-test.12",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
     "codegen": "graphql-codegen --config ./src/graphql/codegen/config.ts",
@@ -26,6 +27,6 @@
     "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
-    "@mintbase-js/sdk": "^0.0.5-fix-callback-test.12"
+    "@mintbase-js/sdk": "*"
   }
 }

@@ -27,7 +27,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   console.log(endpointReady, 'endpointReady');
 
-  let graphqlEndpoint = mbjs.envs?.graphql_url ?? '';
+  let graphqlEndpoint = mbjs.env?.graphql_url ?? '';
 
   if (env && env.length > 0) {
     graphqlEndpoint = `https://interop-${env}.hasura.app/v1/graphql`;

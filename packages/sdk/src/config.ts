@@ -8,23 +8,18 @@ declare global {
   interface Window { mintbase: any }
 }
 
-
-const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
-  network: 'testnet' as NEAR_NETWORK,
-  graphql_url: '',
-  isSet: false,
-};
+let CONFIG_OBJ: any;
 
 export const mbjs = {
-  config: (configObj: MBJS_CONFIG_OBJ): MBJS_CONFIG_OBJ => {
-    CONFIG_OBJ.network = configObj.network;
-    CONFIG_OBJ.graphql_url = `https://interop-${configObj.network}.hasura.app/v1/graphql`;
-    CONFIG_OBJ.callbackUrl = configObj.callbackUrl;
-    CONFIG_OBJ.isSet = true;
-
-    window.mintbase = CONFIG_OBJ;
-
-    return null;
+  config: (configObj: MBJS_CONFIG_OBJ): any => { 
+    const globalConfig = {
+      network: configObj.network || 'testnet',
+      graphql_url: `https://interop-${configObj.network}.hasura.app/v1/graphql` || '',
+      callbackUrl: configObj.callbackUrl || '',
+      isSet: true,
+    }; 
+    CONFIG_OBJ = globalConfig;
+    window.mintbase = globalConfig;
   },
-
+  env: CONFIG_OBJ || globalThis?.window?.mintbase,
 };
