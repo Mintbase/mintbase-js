@@ -32,7 +32,7 @@ jobs:
           npm run build
           npm run test
 
-      - name: Publish Github Release
+      - name: Publish Release
         if: ${{ github.event.release.tag_name }}
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
