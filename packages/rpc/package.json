@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.0.5-data-token-provenance.5",
+  "version": "0.1.0-alpha-10",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {

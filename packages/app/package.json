@@ -1,6 +1,6 @@
 {
   "name": "mintbase-next-test-suite",
-  "version": "0.0.5-data-token-provenance.5",
+  "version": "0.1.0-alpha-10",
   "private": true,
   "scripts": {
     "dev": "next dev",
