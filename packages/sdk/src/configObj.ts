@@ -5,6 +5,7 @@ export type MBJS_CONFIG_OBJ = {
   network: NEAR_NETWORK;
   graphql_url?: string;
   callbackUrl?: string;
+  isSet: boolean;
 }
 
 export const CONFIG_OBJ: MBJS_CONFIG_OBJ = {

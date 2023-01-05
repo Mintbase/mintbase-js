@@ -3,11 +3,11 @@
 // mbjs.config({envvars ... })
 
 import { MBJS_CONFIG_OBJ, NEAR_NETWORK } from './configObj';
-import { execute } from './execute';
 
 const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
   network: 'testnet' as NEAR_NETWORK,
   graphql_url: '',
+  isSet: false,
 };
 
 export const mbjs = {
@@ -15,9 +15,8 @@ export const mbjs = {
     CONFIG_OBJ.network = configObj.network;
     CONFIG_OBJ.graphql_url = `https://interop-${configObj.network}.hasura.app/v1/graphql`;
     CONFIG_OBJ.callbackUrl = configObj.callbackUrl;
-    console.log(CONFIG_OBJ, 'CONFIG_OBJ');
+    CONFIG_OBJ.isSet = true;
     return null;
   },
-  envs: CONFIG_OBJ,
-  execute: execute,
+
 };
