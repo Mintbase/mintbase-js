@@ -42,14 +42,13 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish Push Preview Release
-        if: ${{ github.event.head_commit.message }}
+      - name: Publish
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lerna version prerelease --yes --skip-git --preid alpha
-          git config --list
+          lerna version prereleased --yes --skip-git ${{ github.ref_name }}
           git add --all
-          git commit -m "🤖 npm publish version $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')"
-          lerna publish from-package --yes --dist-tag prerelease
+          git commit -m "🤖 npm prereleased ${{ github.ref_name }}"
+          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
+          git config --list
           git push --force
