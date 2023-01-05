@@ -7,6 +7,7 @@ on:
 
 jobs:
   build:
+    name: 'Build Test & Lerna Publish'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -45,6 +46,7 @@ jobs:
         if: ${{ github.event.head_commit.message }}
         run: |
           lerna version prerelease --yes --skip-git --preid alpha
+          git config --list
           git add --all
           git commit -m "🤖 npm publish version $(cat ./lerna.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')"
           lerna publish from-package --yes --dist-tag prerelease
