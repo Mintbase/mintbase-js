@@ -1,4 +1,4 @@
-![Licence](https://img.shields.io/badge/license-MIT-blue.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=add-wallet-selector)](https://coveralls.io/github/Mintbase/mintbase-js?branch=add-wallet-selector)
+![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=alpha)](https://coveralls.io/github/Mintbase/mintbase-js?branch=alpha)
 
 # Mintbase JS
 
@@ -14,10 +14,10 @@ Breaking changes can and will be introduced on a regular basis until this reache
 # Getting started
 Visit any of the below links to access the documentation and usage examples for the different packages
 
-## Deploy or interact with smart contracts and mintbase market 
+## Deploy or interact with smart contracts and mintbase market
 
 ### [@mintbase-js/sdk docs](packages/sdk)
-  
+
  - Core NEAR smart contract method call util (single and multiple transactions)
  - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
 
@@ -29,7 +29,7 @@ Visit any of the below links to access the documentation and usage examples for 
   - Helpers for data fetching via hooks.
 
 
- ## Get blockchain data in a few lines of code 
+ ## Get blockchain data in a few lines of code
 
 ### [@mintbase-js/data docs](packages/data)
   - Convenience wrapper methods for common use-case GraphQL calls
@@ -60,24 +60,3 @@ Have feedback or perhaps need a hand?
 Building something cool?
 
 **Consider [applying for a grant](https://github.com/Mintbase/Grants-Program).**
-
-
-
-# Environment Variables
-
-In order to use mintbase JS functions, often environment variables will need to be supplied via `process.env`, [dotenv](https://www.npmjs.com/package/dotenv) etc.
-
-```
-# api key
-MINTBASE_API_KEY=<your-api-key>
-
-# default testnet
-NEAR_NETWORK = mainnet | testnet
-
-# default sandbox
-NEAR_DATA_ENV = mainnet | testnet | sandbox
-
-```
-
-
-

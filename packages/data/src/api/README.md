@@ -12,4 +12,4 @@
 | [tokenListingCountsByMetaId](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenListingCountsByMetaId/README.md) | `metadataId: string` | get token listings from metadata id |
 | [tokensByStatus](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokensByStatus/README.md) | `metadataId: string, ownedBy: string` |get token by status on metadataId, and owner|
 | [tokenOwner](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenOwner/README.md) | `tokenId: string, contractAddress: string` |get token owner by token id and certain contract|
-
+| [tokenProvenance](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenProvenance/README.md) | `tokenId: string, contractAddress: string, pagination?: {limit: number, offset:number}` |get token provenance by token id and certain contract|
