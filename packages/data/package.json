@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.0.5-fix-callback-test.9",
+  "version": "0.0.5-fix-callback-test.10",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -26,6 +26,6 @@
     "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
-    "@mintbase-js/sdk": "^0.0.5-fix-callback-test.9"
+    "@mintbase-js/sdk": "^0.0.5-fix-callback-test.10"
   }
 }

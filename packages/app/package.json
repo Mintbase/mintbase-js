@@ -1,6 +1,6 @@
 {
   "name": "mintbase-next-test-suite",
-  "version": "0.0.5-fix-callback-test.9",
+  "version": "0.0.5-fix-callback-test.10",
   "private": true,
   "scripts": {
     "dev": "next dev",
