@@ -22,11 +22,12 @@ Example:
 ```typescript
 import { tokenProvenance } from '@mintbase-js/data'
 
-const {data,error} = await tokenProvenance('mb_alice.near', { limit: 20 });
+const {data,error} = await tokenProvenance('104', 'teammintbase.mintbase1.near');
 
 if(error) {console.log('error', error)}
 
-console.log(tokenProvenance.length) // => 2
+console.log(data.nft_activities) // => token provenance data
+console.log(data.nft_activities_aggregate.aggregate.count) // => token provenance counter
 
 ```
 {% endcode %}
