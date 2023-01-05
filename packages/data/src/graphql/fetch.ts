@@ -33,9 +33,9 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
     graphqlEndpoint = `https://interop-${env}.hasura.app/v1/graphql`;
   }
 
-  if (endpointReady) {
+  // if (endpointReady) {
   
-  }
+  // }
 
 
   try {

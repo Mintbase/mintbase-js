@@ -7,9 +7,3 @@ export type MBJS_CONFIG_OBJ = {
   callbackUrl?: string;
   isSet: boolean;
 }
-
-export const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
-  network: 'testnet',
-  graphql_url: '',
-  callbackUrl: '',
-};

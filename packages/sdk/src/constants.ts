@@ -64,7 +64,6 @@ export const HOST_BASED_NETWORK_DEFAULT= (): string =>
     : Network.MAINNET;
 
 export const NEAR_NETWORK =
-  mbjs.envs.network || 
   HOST_BASED_NETWORK_DEFAULT();
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';
