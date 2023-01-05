@@ -19,7 +19,11 @@ export const mbjs = {
       isSet: true,
     }; 
     CONFIG_OBJ = globalConfig;
-    window.mintbase = globalConfig;
+
+    if (globalThis?.window) {
+      window.mintbase = globalConfig;
+    }
+
   },
   env: CONFIG_OBJ || globalThis?.window?.mintbase,
 };
