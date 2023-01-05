@@ -9,8 +9,7 @@ const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
   network: 'testnet' as NEAR_NETWORK,
 };
 
-
-const mbjs = {
+export const mbjs = {
   config: (configObj: MBJS_CONFIG_OBJ): MBJS_CONFIG_OBJ => {
     CONFIG_OBJ.network = configObj.network;
     console.log(CONFIG_OBJ, 'CONFIG_OBJ');
@@ -19,6 +18,3 @@ const mbjs = {
   envs: CONFIG_OBJ,
   execute: execute,
 };
-
-
-export default mbjs;

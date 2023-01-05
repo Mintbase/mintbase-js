@@ -1,4 +1,5 @@
 import BN from 'bn.js';
+import { mbjs } from './config';
 
 export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
@@ -63,8 +64,7 @@ export const HOST_BASED_NETWORK_DEFAULT= (): string =>
     : Network.MAINNET;
 
 export const NEAR_NETWORK =
-  process.env.NEAR_NETWORK ||
-  globalThis?.localStorage?.getItem('NEAR_NETWORK') ||
+  mbjs.envs.network || 
   HOST_BASED_NETWORK_DEFAULT();
 
 export const MB_MAINNET_TOKEN_FACTORY_ADDRESS = 'mintbase1.near';

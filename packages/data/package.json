@@ -25,6 +25,7 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/client-preset": "1.1.1",
-    "@graphql-codegen/introspection": "2.2.1"
+    "@graphql-codegen/introspection": "2.2.1",
+    "@mintbase-js/sdk": "^0.0.5-fix-callback-test.8"
   }
 }
