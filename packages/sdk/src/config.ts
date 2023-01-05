@@ -5,7 +5,7 @@
 import { MBJS_CONFIG_OBJ, NEAR_NETWORK } from './configObj';
 import { execute } from './execute';
 
-export const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
+const CONFIG_OBJ: MBJS_CONFIG_OBJ = {
   network: 'testnet' as NEAR_NETWORK,
 };
 
