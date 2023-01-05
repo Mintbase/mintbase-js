@@ -44,6 +44,8 @@ jobs:
 
       - name: Publish Push Preview Release
         if: ${{ github.event.head_commit.message }}
+        env:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           lerna version prerelease --yes --skip-git --preid alpha
           git config --list
