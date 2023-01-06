@@ -17,5 +17,5 @@ module.exports = {
       location: {host: 'testnet.mintbase.io'}
     }
   },
-  setupFilesAfterEnv: ['./jest.setup.tsx'],
+  setupFilesAfterEnv: ['../../jest.setup.tsx'],
 };
