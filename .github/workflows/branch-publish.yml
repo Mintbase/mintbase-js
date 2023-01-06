@@ -7,6 +7,8 @@ jobs:
   build:
     name: 'Build Test & Lerna Publish'
     runs-on: ubuntu-latest
+    # dont run this when the actor is mintbase team (automatic push from this script)
+    if: ${{ github.actor != 'mintbaseteam' }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -45,7 +47,7 @@ jobs:
         # only publish and push
         if: ${{ github.ref_name == 'alpha'}}
         run: |
-          lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
+          lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
           git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
@@ -64,7 +66,7 @@ jobs:
       - name: Publish Preview Version
         # if: ${{ github.ref_name != 'alpha'}}
         run: |
-          lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
+          lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
           git add --all
           git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
