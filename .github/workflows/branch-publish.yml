@@ -1,17 +1,12 @@
 name: Push & Publish
 
 on:
-  pull_request:
-    types:
-      - closed
-    branches:
-      - alpha
+  push
 
 jobs:
   build:
     name: 'Build Test & Lerna Publish'
     runs-on: ubuntu-latest
-    if: ${{ github.event.pull_request.merged }}
     steps:
       - uses: actions/checkout@v3
         with:
@@ -46,11 +41,47 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish
+      - name: Publish, Version & Push
+        # only publish and push
+        if: ${{ github.ref_name == 'alpha'}}
+        run: |
+          lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
+          git add --all
+          git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
+          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
+          git push --force
+          exit_with_success
+
+      - name: Deployment Status
+        # if: ${{ github.ref_name != 'alpha'}}
+        uses: altinukshini/deployment-action@releases/v1
+        id: deployment
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          environment: production
+
+      - name: Publish Preview Version
+        # if: ${{ github.ref_name != 'alpha'}}
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
           git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
-          git config --list
-          git push --force
+
+      - name: Update deployment status (success)
+        # if: success() && ${{ github.ref_name != 'alpha'}}
+        uses: altinukshini/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          state: "success"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+
+      - name: Update deployment status (failure)
+        if: failure() && ${{ github.ref_name != 'alpha'}}
+        uses: altinukshini/deployment-status@releases/v1
+        with:
+          token: "${{ github.token }}"
+          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          state: "failure"
