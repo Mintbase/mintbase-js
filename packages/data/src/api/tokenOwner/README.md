@@ -28,7 +28,7 @@ if (error) {
   console.log("error", error);
 }
 
-console.log(data); // => "nate.near"
+console.log(data.mb_views_nft_tokens) // => token metadata
 ```
 
 {% endcode %}

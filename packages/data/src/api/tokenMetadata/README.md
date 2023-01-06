@@ -1,6 +1,6 @@
-[//]: # `{ "title": "tokenOwner", "order": "1.0.6" }`
+[//]: # `{ "title": "tokenMetadata", "order": "1.0.9" }`
 
-# tokenOwner
+# tokenMetadata
 
 {% hint style="warning" %}
 
@@ -9,9 +9,9 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 {% endhint %}
 
-Returns token owner by `tokenId` and `contractAddress`.
+Returns token metadata by `tokenId` and `contractAddress`.
 
-### tokenOwner(tokenId: string, contractAddress: string)
+### tokenMetadata(tokenId: string, contractAddress: string)
 
 This is an example of a data api method.
 
@@ -20,9 +20,9 @@ Example:
 {% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { tokenOwner } from "@mintbase-js/data";
+import { tokenMetadata } from "@mintbase-js/data";
 
-const { data, error } = await tokenOwner("1", "mintbase.mintbase1.near");
+const { data, error } = await tokenMetadata("1", "mintbase.mintbase1.near");
 
 if (error) {
   console.log("error", error);
