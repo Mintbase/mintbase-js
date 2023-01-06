@@ -54,14 +54,14 @@ jobs:
           git push --force
           exit_with_success
 
-      - name: Deployment Status
-        # if: ${{ github.ref_name != 'alpha'}}
-        uses: altinukshini/deployment-action@releases/v1
+      - uses: chrnorm/deployment-action@v2
+        name: Create GitHub deployment
         id: deployment
         with:
-          token: "${{ github.token }}"
-          target_url: https://www.npmjs.com/settings/mintbase-js/packages
+          token: '${{ github.token }}'
+          environment-url: https://www.npmjs.com/settings/mintbase-js/packages
           environment: production
+
 
       - name: Publish Preview Version (non default branch)
         run: |
@@ -72,18 +72,18 @@ jobs:
 
       - name: Update deployment status (success)
         if: success()
-        uses: altinukshini/deployment-status@releases/v1
+        uses: chrnorm/deployment-status@v2
         with:
-          token: "${{ github.token }}"
-          target_url: https://www.npmjs.com/settings/mintbase-js/packages
-          state: "success"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          token: '${{ github.token }}'
+          environment-url: https://www.npmjs.com/settings/mintbase-js/packages
+          state: 'success'
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
         if: failure()
-        uses: altinukshini/deployment-status@releases/v1
+        uses: chrnorm/deployment-status@v2
         with:
-          token: "${{ github.token }}"
-          target_url: https://www.npmjs.com/settings/mintbase-js/packages
-          state: "failure"
-          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
+          token: '${{ github.token }}'
+          environment-url: https://www.npmjs.com/settings/mintbase-js/packages
+          state: 'failure'
+          deployment-id: ${{ steps.deployment.outputs.deployment_id }}
