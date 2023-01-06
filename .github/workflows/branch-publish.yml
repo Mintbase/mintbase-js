@@ -63,16 +63,15 @@ jobs:
           target_url: https://www.npmjs.com/settings/mintbase-js/packages
           environment: production
 
-      - name: Publish Preview Version
-        # if: ${{ github.ref_name != 'alpha'}}
+      - name: Publish Preview Version (non default branch)
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
           git add --all
           git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
-          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
+          lerna publish from-package --yes --dist-tag prerelease
 
       - name: Update deployment status (success)
-        # if: success() && ${{ github.ref_name != 'alpha'}}
+        if: success()
         uses: altinukshini/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
@@ -81,9 +80,10 @@ jobs:
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
-        if: failure() && ${{ github.ref_name != 'alpha'}}
+        if: failure()
         uses: altinukshini/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
           target_url: https://www.npmjs.com/settings/mintbase-js/packages
           state: "failure"
+          deployment_id: ${{ steps.deployment.outputs.deployment_id }}
