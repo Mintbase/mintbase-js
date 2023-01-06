@@ -23,9 +23,9 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   env?: string;
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  mbjs?.keys?.isSet || window.mintbase.isSet || env?.length > 0; 
+  const endpointReady =  mbjs?.keys?.isSet || env?.length > 0; 
 
-  console.log(endpointReady, mbjs?.keys, window.mintbase , 'endpointReady');
+  console.log(endpointReady, mbjs?.keys, 'endpointReady');
 
   let graphqlEndpoint = mbjs?.keys.graphqlUrl ?? '';
 
