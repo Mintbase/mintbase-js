@@ -34,7 +34,7 @@ export const tokenProvenance = async (
       tokenId,
       contractAddress,
       limit: pagination?.limit ?? 12,
-      offset: pagination?.offset ?? 12,
+      offset: pagination?.offset ?? 0,
     },
   });
 
