@@ -1,15 +1,6 @@
 import { GraphQLClient, gql } from 'graphql-request';
 import { fetchGraphQl } from './fetch';
 
-jest.mock('graphql-request');
-
-jest.mock('@mintbase-js/sdk', () => ({
-  mbjs: {
-    keys: {
-      isSet: true,
-    },
-  },
-}));
 
 type FakeData = {
   foo: string;
