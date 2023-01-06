@@ -5,6 +5,7 @@ export type MBJS_CONFIG_OBJ = {
   network: NEAR_NETWORK | '';
   graphqlUrl?: string;
   callbackUrl?: string;
+  contractAddress?: string;
 }
 
 export interface MbJsKeysObject extends MBJS_CONFIG_OBJ  {

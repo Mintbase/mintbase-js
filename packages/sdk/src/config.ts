@@ -12,6 +12,7 @@ const CONFIG_KEYS: MbJsKeysObject = {
   network: '',
   graphqlUrl:  '',
   callbackUrl: '',
+  contractAddress: '',
   isSet: false,
 }; 
 
