@@ -19,7 +19,7 @@ export function getTokenArrayFromNodes(nodes: { token_id: string }[]): string[] 
   return arr;
 }
 
-export const validContractAddress= (contractAddress: string): boolean => {
+export const validContractAddress = (contractAddress: string): boolean => {
   return contractAddress.endsWith('.near') || contractAddress.endsWith('.testnet');
 
 };

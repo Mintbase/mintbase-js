@@ -25,7 +25,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   const endpointReady =  window.mintbase.isSet || env?.length > 0; 
 
-  console.log(endpointReady, mbjs?.env, window.mintbase , 'endpointReady');
+  console.log(endpointReady, mbjs?.keys, window.mintbase , 'endpointReady');
 
   let graphqlEndpoint = window.mintbase.graphql_url ?? '';
 

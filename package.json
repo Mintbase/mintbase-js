@@ -45,7 +45,7 @@
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
     "@mintbase-js/auth": "file:packages/auth",
-    "@mintbase-js/data": "^0.0.5-fix-callback-test.12",
+    "@mintbase-js/data": "file:packages/react",
     "@mintbase-js/react": "file:packages/react",
     "@mintbase-js/rpc": "file:packages/rpc",
     "@mintbase-js/sdk": "file:packages/sdk",
