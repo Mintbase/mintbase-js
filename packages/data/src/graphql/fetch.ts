@@ -27,7 +27,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   console.log(endpointReady, mbjs?.keys, window.mintbase , 'endpointReady');
 
-  let graphqlEndpoint = window.mintbase.graphql_url ?? '';
+  let graphqlEndpoint = mbjs?.keys.graphqlUrl ?? '';
 
   if (env && env.length > 0) {
     graphqlEndpoint = `https://interop-${env}.hasura.app/v1/graphql`;
@@ -50,6 +50,5 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   }
 
   return { data: null, error: null };
-  
 
 };

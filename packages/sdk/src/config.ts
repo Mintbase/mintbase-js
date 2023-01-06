@@ -10,7 +10,7 @@ declare global {
 
 const CONFIG_KEYS: MbJsKeysObject = { 
   network: '',
-  graphql_url:  '',
+  graphqlUrl:  '',
   callbackUrl: '',
   isSet: false,
 }; 
@@ -25,7 +25,7 @@ export const mbjs = {
     }; 
 
     CONFIG_KEYS.network = globalConfig.network;
-    CONFIG_KEYS.graphql_url = globalConfig.graphqlUrl;
+    CONFIG_KEYS.graphqlUrl = globalConfig.graphqlUrl;
     CONFIG_KEYS.callbackUrl = globalConfig.callbackUrl;
     CONFIG_KEYS.isSet = globalConfig.isSet;
 
