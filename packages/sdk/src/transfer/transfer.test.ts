@@ -2,6 +2,16 @@ import { transfer, DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from './transfer';
 import { DEFAULT_CONTRACT_ADDRESS, TOKEN_METHOD_NAMES } from '../constants';
 import { ContractCall } from '../execute';
 
+jest.mock('../config', () => ({
+  mbjs: {
+    keys: {
+      isSet: true,
+      contractAddress: 'buddha.mintspace2.testnet',
+    },
+  },
+}));
+
+
 describe('transfer token unit tests', () => {
   const nftContractId = 'test.nft.contract';
   const receiverId = 'test.account';

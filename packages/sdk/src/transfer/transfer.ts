@@ -1,3 +1,4 @@
+import { mbjs } from '../config';
 import { ONE_YOCTO, GAS, TOKEN_METHOD_NAMES, DEFAULT_CONTRACT_ADDRESS } from '../constants';
 import { NearContractCall } from '../execute';
 
@@ -22,8 +23,11 @@ export const GAS_FOR_TRANSFER = GAS;
  */
 export const transfer = ({
   transfers,
-  nftContractId = DEFAULT_CONTRACT_ADDRESS,
+  nftContractId = mbjs.keys.contractAddress,
 }: TransferArgs): NearContractCall => {
+
+  console.log(DEFAULT_CONTRACT_ADDRESS, mbjs.keys, 'DEFAULT_CONTRACT_ADDRESS');
+
   if (nftContractId === null) {
     throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID env as default');
   }
