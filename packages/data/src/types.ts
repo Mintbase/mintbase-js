@@ -31,3 +31,24 @@ export type Attribute = {
   attribute_value?: string | null;
   attribute_type?: string | null;
 }
+
+export interface Extra {
+  trait_type: string;
+  display_type?: DisplayType;
+  value: string | number | string[] | { [key: string]: string | number };
+}
+
+export enum DisplayType {
+  boostNumber = 'boost_number',
+  boostPercentage = 'boost_percentage',
+  number = 'number',
+  date = 'date',
+  location = 'location',
+  website = 'website',
+  zoom = 'zoom',
+  placeId = 'place_id',
+  rarity = 'rarity',
+  youtubeUrl = 'youtube_url',
+  latitude = 'latitude',
+  longitude = 'longitude',
+}
