@@ -23,7 +23,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   env?: string;
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  window.mintbase.isSet || env?.length > 0; 
+  const endpointReady =  mbjs?.keys?.isSet || window.mintbase.isSet || env?.length > 0; 
 
   console.log(endpointReady, mbjs?.keys, window.mintbase , 'endpointReady');
 
@@ -34,6 +34,8 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   }
 
   if (endpointReady) {
+
+    console.log('here', graphqlEndpoint , 'graphQLeNDPOINT');
     try {
       const client = new GraphQLClient(graphqlEndpoint);
       return {
