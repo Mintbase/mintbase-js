@@ -25,7 +25,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   const endpointReady =  mbjs?.keys?.isSet || env?.length > 0; 
 
-  console.log(endpointReady, mbjs?.keys, 'endpointReady');
+  console.log(endpointReady, mbjs?.keys , 'endpointReady');
 
   let graphqlEndpoint = mbjs?.keys.graphqlUrl ?? '';
 
