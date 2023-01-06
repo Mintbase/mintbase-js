@@ -6,6 +6,7 @@ import { NearContractCall } from '../execute';
 export type MintArgs =  {
   nftContractId?: string;
   reference: string;
+  media: string;
   ownerId: string;
   options?: MintOptions;
 };
@@ -26,7 +27,7 @@ export type Splits = Record<string, number>;
 export const mint = (
   args: MintArgs,
 ): NearContractCall => {
-  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, reference, ownerId, options = {}  } = args;
+  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, reference, media, ownerId, options = {}  } = args;
 
   const { splits, amount, royaltyPercentage } = options;
   
@@ -61,6 +62,7 @@ export const mint = (
       owner_id: ownerId,
       metadata: {
         reference: reference,
+        media: media,
       },
       num_to_mint: amount || 1,
       // 10000 = 100%
