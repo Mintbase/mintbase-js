@@ -2,7 +2,7 @@
 
 // mbjs.config({envvars ... })
 
-import { MBJS_CONFIG_OBJ, MbJsKeysObject } from './configObj';
+import { MBJS_CONFIG_OBJ, MbJsKeysObject, NEAR_NETWORK } from './configObj';
 
 declare global {
   interface Window { mintbase: MbJsKeysObject }
@@ -18,24 +18,37 @@ const CONFIG_KEYS: MbJsKeysObject = {
 
 export const mbjs = {
   config: (configObj: MBJS_CONFIG_OBJ): null => { 
-    const globalConfig = {
-      network: configObj.network || 'testnet',
-      graphqlUrl: `https://interop-${configObj.network}.hasura.app/v1/graphql` || '',
-      callbackUrl: configObj.callbackUrl || '',
-      isSet: true,
-    }; 
-
-    CONFIG_KEYS.network = globalConfig.network;
-    CONFIG_KEYS.graphqlUrl = globalConfig.graphqlUrl;
-    CONFIG_KEYS.callbackUrl = globalConfig.callbackUrl;
-    CONFIG_KEYS.isSet = globalConfig.isSet;
 
 
-    console.log(globalConfig, CONFIG_KEYS, 'keys');
+    // adding support to proccess.env
+    if (process?.env.NEAR_NETWORK) {
+      const globalConfig = {
+        network: process.env.NEAR_NETWORK || 'testnet',
+        graphqlUrl: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql` || '',
+        callbackUrl: process?.env?.CALLBACK_URL || configObj.callbackUrl || '',
+        isSet: true,
+      }; 
 
-    if (globalThis?.window) {
-      window.mintbase = globalConfig;
+      CONFIG_KEYS.network = process.env.NEAR_NETWORK as NEAR_NETWORK;
+      CONFIG_KEYS.graphqlUrl = globalConfig.graphqlUrl;
+      CONFIG_KEYS.callbackUrl = globalConfig.callbackUrl;
+      CONFIG_KEYS.isSet = globalConfig.isSet;
+      
+    } else {
+
+      const globalConfig = {
+        network: configObj.network || 'testnet',
+        graphqlUrl: `https://interop-${configObj.network}.hasura.app/v1/graphql` || '',
+        callbackUrl: configObj.callbackUrl || '',
+        isSet: true,
+      }; 
+
+      CONFIG_KEYS.network = globalConfig.network;
+      CONFIG_KEYS.graphqlUrl = globalConfig.graphqlUrl;
+      CONFIG_KEYS.callbackUrl = globalConfig.callbackUrl;
+      CONFIG_KEYS.isSet = globalConfig.isSet;
     }
+
 
     return null;
   },
