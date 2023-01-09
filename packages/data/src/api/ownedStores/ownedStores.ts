@@ -8,8 +8,6 @@ import { OwnedStoresData } from './ownedStores.types';
 export const ownedStores = async (
   ownerId: string,
 ): Promise<ParsedDataReturn<OwnedStoresData>> => {
-
-
   const { data, error } = await fetchGraphQl<OwnedStoresData>({
     query: ownedStoresQuery,
     variables: {
