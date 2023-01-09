@@ -21,7 +21,7 @@ export const mbjs = {
 
 
     // adding support to proccess.env
-    if (process?.env.NEAR_NETWORK) {
+    if (typeof window == 'undefined' && process?.env.NEAR_NETWORK) {
       const globalConfig = {
         network: process.env.NEAR_NETWORK || 'testnet',
         graphqlUrl: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql` || '',
