@@ -18,6 +18,7 @@ If the data you want to get is more specific or isn't covered in any of these me
 | [tokenOwner](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenOwner/README.md) | `tokenId: string, contractAddress: string` |get token owner by token id and certain contract|
 | [tokenProvenance](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenProvenance/README.md) | `tokenId: string, contractAddress: string, pagination?: {limit: number, offset:number}` |get token provenance by token id and certain contract|
 | [tokenOwnersByMetadataId](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenOwnersByMetadataId/README.md) | `metadataId: string, pagination?: {limit: number, offset:number}` |get token owners by metadata id|
+| [ownedStores](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/ownedStores/README.md) | `ownerId: string` |get stores owned by owner id|
 
 
 
