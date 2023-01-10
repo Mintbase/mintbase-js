@@ -1,6 +1,6 @@
-[//]: # `{ "title": "tokenOwner", "order": "1.0.6" }`
+[//]: # `{ "title": "nearPrice", "order": "1.0.11" }`
 
-# tokenOwner
+# nearPrice
 
 {% hint style="warning" %}
 
@@ -9,26 +9,23 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 {% endhint %}
 
-Returns token owner by `tokenId` and `contractAddress`.
+Returns near price in usd.
 
-### tokenOwner(tokenId: string, contractAddress: string)
+### nearPrice()
 
 This is an example of a data api method.
 
 Example:
 
-{% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="nearPrice.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { tokenOwner } from "@mintbase-js/data";
+import { nearPrice } from "@mintbase-js/data";
 
-const { data, error } = await tokenOwner("1", "mintbase.mintbase1.near");
+const { data } = await nearPrice();
 
-if (error) {
-  console.log("error", error);
-}
 
-console.log(data); // => "nate.near"
+console.log(data); // => "1.49000"
 ```
 
 {% endcode %}
