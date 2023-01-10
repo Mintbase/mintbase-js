@@ -1,25 +1,25 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { GAS, LISTING_DEPOSIT, MARKET_METHOD_NAMES } from '../constants';
+import { GAS, LISTING_DEPOSIT } from '../constants';
+import { MARKET_METHOD_NAMES } from '../types';
 import { list } from './list';
 
 test('list a token', () => {
-  const nftContractId = 'contract';
+  const contractAddress = 'contract';
   const tokenId = 'token';
-  const marketId = 'account';
+  const marketAddress = 'account';
   const price = '1';
   const args = list({
-    nftContractId: nftContractId,
+    contractAddress: contractAddress,
     tokenId: tokenId,
-    marketId: marketId,
+    marketAddress: marketAddress,
     price: price,
   });
 
   expect(args).toEqual({
-    contractAddress: nftContractId,
+    contractAddress: contractAddress,
     methodName: MARKET_METHOD_NAMES.LIST,
     args: {
       token_id: tokenId,
-      account_id: marketId,
+      account_id: marketAddress,
       msg: JSON.stringify({
         price: price,
       }),

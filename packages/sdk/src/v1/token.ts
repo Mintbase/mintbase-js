@@ -1,10 +1,9 @@
 // Mintbase token contract JS implementation
 
+import { mbjs } from '../config';
+import { NEAR_NETWORKS, TOKEN_METHOD_NAMES } from '../types';
 import {
   DEFAULT_MB_LOGO,
-  TOKEN_METHOD_NAMES,
-  Network,
-  MB_TOKEN_FACTORY_ADDRESS,
   GAS_CONSTANTS,
   DEPOSIT_CONSTANTS,
 } from '../constants';
@@ -44,7 +43,7 @@ export const deployContract = (
   const {
     name,
     factoryContractId,
-    network = Network.TESTNET,
+    network = NEAR_NETWORKS.TESTNET,
     ownerId,
     metadata,
   } = args;
@@ -68,7 +67,7 @@ export const deployContract = (
   };
 
   return {
-    contractAddress: factoryContractId || MB_TOKEN_FACTORY_ADDRESS,
+    contractAddress: factoryContractId || mbjs.keys.tokenAddress,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: data,
     gas: GAS_CONSTANTS.DEFAULT_GAS,
@@ -83,7 +82,7 @@ export const transferContractOwnership = (
   const { keepMinters = true } = options;
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: nftContractId || mbjs.keys.contractAddress,
     args: {
       // eslint-disable-next-line @typescript-eslint/camelcase
       new_owner: nextOwner,
@@ -102,7 +101,7 @@ export const mint = (
   const { nftContractId, options } = args;
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: nftContractId || mbjs.keys.contractAddress,
     args: {},
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS_CONSTANTS.DEFAULT_GAS,
@@ -121,7 +120,7 @@ export const addMinter = (
   const { minterId, nftContractId } = args;
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: nftContractId || mbjs.keys.contractAddress,
     args: {
       // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: minterId,
@@ -138,7 +137,7 @@ export const removeMinter = (
   const { minterId, nftContractId } = args;
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: nftContractId || mbjs.keys.contractAddress,
     args: {
       // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: minterId,
@@ -155,7 +154,7 @@ export const batchChangeMinters = (
   const { addMinters, removeMinters, nftContractId } = args;
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: nftContractId || mbjs.keys.contractAddress,
     args: {
       grant: addMinters.length > 0 ? addMinters : undefined,
       revoke: removeMinters.length > 0 ? removeMinters : undefined,
@@ -173,7 +172,7 @@ export const revoke = (
 
   if (accountToRevokeId) {
     return {
-      contractAddress: nftContractId,
+      contractAddress: nftContractId || mbjs.keys.contractAddress,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId,

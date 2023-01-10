@@ -1,4 +1,5 @@
-import { DEPOSIT_CONSTANTS, GAS_CONSTANTS, TOKEN_METHOD_NAMES } from '../constants';
+import { DEPOSIT_CONSTANTS, GAS_CONSTANTS } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { burn, deployContract, revoke } from './token';
 
 describe('token method calls', () => {

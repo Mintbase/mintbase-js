@@ -1,36 +1,26 @@
 import { transfer, DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from './transfer';
-import { DEFAULT_CONTRACT_ADDRESS, TOKEN_METHOD_NAMES } from '../constants';
 import { ContractCall } from '../execute';
-
-jest.mock('../config', () => ({
-  mbjs: {
-    keys: {
-      isSet: true,
-      contractAddress: 'buddha.mintspace2.testnet',
-    },
-  },
-}));
+import { TOKEN_METHOD_NAMES } from '../types';
+import { mbjs } from '../config';
 
 
 describe('transfer token unit tests', () => {
-  const nftContractId = 'test.nft.contract';
+  const contractAddress = 'test.nft.contract';
   const receiverId = 'test.account';
   const tokenId1 = '1';
   const tokenId2 = '2';
 
   test('transfer one token', () => {
     const args = transfer({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       transfers: [{ receiverId: receiverId, tokenId: tokenId1 }],
     });
 
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.TRANSFER,
       args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         receiver_id: receiverId,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
       },
       deposit: DEPOSIT_FOR_TRANSFER,
@@ -42,12 +32,12 @@ describe('transfer token unit tests', () => {
     const transferCall = transfer({
       transfers: [{ receiverId: receiverId, tokenId: tokenId1 }],
     }) as ContractCall;
-    expect(transferCall.contractAddress).toBe(DEFAULT_CONTRACT_ADDRESS);
+    expect(transferCall.contractAddress).toBe(mbjs.keys.contractAddress);
   });
 
   test('transfer two tokens', () => {
     const args = transfer({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       transfers: [
         { receiverId: receiverId, tokenId: tokenId1 },
         { receiverId: receiverId, tokenId: tokenId2 },
@@ -55,7 +45,7 @@ describe('transfer token unit tests', () => {
     });
 
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase

@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { DEFAULT_CONTRACT_ADDRESS, GAS, LISTING_DEPOSIT, MARKET_METHOD_NAMES, MB_MARKET_ADDRESS } from '../constants';
+import { mbjs } from '../config';
+import { GAS, LISTING_DEPOSIT } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';
+import { MARKET_METHOD_NAMES } from '../types';
 
 export type ListArgs = {
-    nftContractId?: string;
-    marketId?: string;
+    contractAddress?: string;
+    marketAddress?: string;
     price: string;
     tokenId: string;
   }
@@ -15,17 +18,17 @@ export type ListArgs = {
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
 export const list = (args: ListArgs): NearContractCall => {
-  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, tokenId, marketId = MB_MARKET_ADDRESS, price } = args;
+  const { contractAddress = mbjs.keys.contractAddress, tokenId, marketAddress = mbjs.keys.marketAddress, price } = args;
   
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
   
   return {
-    contractAddress: nftContractId,
+    contractAddress: contractAddress || mbjs.keys.contractAddress,
     args: {
       token_id: tokenId,
-      account_id: marketId,
+      account_id: marketAddress,
       msg: JSON.stringify({
         price: price,
       }),

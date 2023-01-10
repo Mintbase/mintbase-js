@@ -1,10 +1,12 @@
 import { utils } from 'near-api-js';
-import { GAS, MARKET_METHOD_NAMES, MB_MARKET_ADDRESS, MB_TESTNET_MARKET_CONTRACT_ADDRESS } from '../constants';
+import { mbjs } from '../config';
+import { GAS } from '../constants';
 import { NearContractCall } from '../execute';
+import { MARKET_METHOD_NAMES } from '../types';
 
 export type DepositStorageArgs = {
     listAmount?: number;
-    marketId?: string;
+    marketAddress?: string;
   };
 
 
@@ -15,12 +17,12 @@ export type DepositStorageArgs = {
  */
 export const depositStorage = (args: DepositStorageArgs): NearContractCall => {
     
-  const { marketId = MB_MARKET_ADDRESS, listAmount = 1 } = args;
+  const { marketAddress = mbjs.keys.marketAddress, listAmount = 1 } = args;
   
   const deposit = (0.01 * listAmount).toString();
   
   return {
-    contractAddress: marketId,
+    contractAddress: marketAddress,
     args: {},
     methodName: MARKET_METHOD_NAMES.DEPOSIT_STORAGE,
     deposit: utils.format.parseNearAmount(deposit),

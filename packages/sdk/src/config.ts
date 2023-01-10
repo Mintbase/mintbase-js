@@ -2,17 +2,16 @@
 
 // mbjs.config({envvars ... })
 
-import { MBJS_CONFIG_OBJ, MbJsKeysObject, NEAR_NETWORK } from './configObj';
+import { MBJS_CONFIG_OBJ, MbJsKeysObject, NEAR_NETWORK, MARKET_CONTRACT_ADDRESS, TOKEN_FACTORY_ADDRESS } from './types';
 
-declare global {
-  interface Window { mintbase: MbJsKeysObject }
-}
 
 const CONFIG_KEYS: MbJsKeysObject = { 
   network: '',
   graphqlUrl:  '',
   callbackUrl: '',
   contractAddress: '',
+  marketAddress: '',
+  tokenAddress: '',
   isSet: false,
 }; 
 
@@ -22,10 +21,18 @@ export const mbjs = {
 
     // adding support to proccess.env
     if (typeof window == 'undefined' && process?.env.NEAR_NETWORK) {
+
+      const MB_MARKET_ADDRESS = MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK];
+      const MB_TOKEN_ADDRESS = TOKEN_FACTORY_ADDRESS[process.env.NEAR_NETWORK];
+
+
       const globalConfig = {
         network: process.env.NEAR_NETWORK || 'testnet',
         graphqlUrl: `https://interop-${process.env.NEAR_NETWORK}.hasura.app/v1/graphql` || '',
         callbackUrl: process?.env?.CALLBACK_URL || configObj.callbackUrl || '',
+        contractAddress: process?.env?.CONTRACT_ADDRESS || configObj.contractAddress || '',
+        marketAddress: MB_MARKET_ADDRESS,
+        tokenAddress:MB_TOKEN_ADDRESS,
         isSet: true,
       }; 
 
@@ -36,10 +43,16 @@ export const mbjs = {
       
     } else {
 
+      const MB_MARKET_ADDRESS = MARKET_CONTRACT_ADDRESS[configObj.network];
+      const MB_TOKEN_ADDRESS = TOKEN_FACTORY_ADDRESS[configObj.network];
+
       const globalConfig = {
         network: configObj.network || 'testnet',
         graphqlUrl: `https://interop-${configObj.network}.hasura.app/v1/graphql` || '',
         callbackUrl: configObj.callbackUrl || '',
+        contractAddress: configObj.contractAddress || '',
+        marketAddress: MB_MARKET_ADDRESS,
+        tokenAddress:MB_TOKEN_ADDRESS,
         isSet: true,
       }; 
 

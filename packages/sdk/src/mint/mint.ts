@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { DEFAULT_CONTRACT_ADDRESS, GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { mbjs } from '../config';
+import {  GAS, ONE_YOCTO } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';
+import { TOKEN_METHOD_NAMES } from '../types';
 
 
 export type MintArgs =  {
-  nftContractId?: string;
+  contractAddress?: string;
   reference: string;
   ownerId: string;
   options?: MintOptions;
@@ -26,12 +28,12 @@ export type Splits = Record<string, number>;
 export const mint = (
   args: MintArgs,
 ): NearContractCall => {
-  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, reference, ownerId, options = {}  } = args;
+  const { contractAddress = mbjs.keys.contractAddress, reference, ownerId, options = {}  } = args;
 
   const { splits, amount, royaltyPercentage } = options;
   
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID environment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (splits) {
@@ -40,23 +42,23 @@ export const mint = (
   }
 
   if (splits && Object.keys(splits).length > 50) {
-    throw ('Splits cannnot have more than 50 entries');
+    throw new Error(ERROR_MESSAGES.MAX_SPLITS);
   }
 
   if (splits && Object.keys(splits).length < 2) {
-    throw ('There must be at least 2 accounts in splits');
+    throw new Error(ERROR_MESSAGES.SPLITS);
   }
 
   if (amount && amount > 99) {
-    throw ('It is not possible to mint more than 99 copies of this token using this method');
+    throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
   }
 
   if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
-    throw ('Invalid royalty percentage');
+    throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
   }
   
   return {
-    contractAddress: nftContractId,
+    contractAddress: contractAddress || mbjs.keys.contractAddress,
     args: {
       owner_id: ownerId,
       metadata: {
@@ -81,6 +83,6 @@ function adjustSplitsForContract(splits: Record<string, number> ): void {
     splits[key] *= 10000;
   });
   if (counter != 1) {
-    throw ('Splits percentages must add up to 1');
+    throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
   }
 }

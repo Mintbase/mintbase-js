@@ -20,7 +20,7 @@ type TransferArgs = {
     tokenId: string;
   }[];
   // nftContractId is the token contract capable of doing the transfer
-  // if omitted, transfer method will attempt to use process.env.NFT_CONTRACT_ID
+  // if omitted, transfer method will attempt to use process.env.CONTRACT_ADDRESS
   nftContractId?: string;
 };
 ```
@@ -33,14 +33,14 @@ import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
 import { execute, transfer, TransferArgs } from '@mintbase-js/sdk';
 
-const TransferComponent = ({ tokenId, contractId }: TransferArgs): JSX.Element => {
+const TransferComponent = ({ tokenId, contractAddress }: TransferArgs): JSX.Element => {
   const { selector, activeAccountId } = useWallet();
 
   const handleTransfer = async (): Promise<void> => {
     const wallet = await selector.wallet();
 
     const transferArgs: TransferArgs = {
-        nftContractId: contractId,
+        contractAddress: contractAddress,
         transfers: [{
           receiverId: 'mb_carol.testnet',
           tokenId: token.tokenId,
@@ -56,7 +56,7 @@ const TransferComponent = ({ tokenId, contractId }: TransferArgs): JSX.Element =
   return (
     <div>
       <button onClick={handleTransfer}>
-        Transfer {tokenId} of {contractId} from {activeAccountId} to Carol
+        Transfer {tokenId} of {contractAddress} from {activeAccountId} to Carol
       </button>
     </div>
   );

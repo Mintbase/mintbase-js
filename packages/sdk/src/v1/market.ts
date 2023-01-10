@@ -1,11 +1,12 @@
 // Mintbase marketplace contract JS implementation
 
 import { utils } from 'near-api-js';
+import { mbjs } from '../config';
 import { NearContractCall } from '../execute';
+import { MARKET_METHOD_NAMES } from '../types';
 import {
   DEPOSIT_CONSTANTS,
   GAS_CONSTANTS,
-  MARKET_METHOD_NAMES,
 } from './constants';
 import { BuyArgs, DepositStorageArgs, ListArgs } from './market.types';
 
@@ -14,13 +15,10 @@ export const buy = (
 ): NearContractCall => {
   const { nftContractId, tokenId, referrerId, marketAddress, price } = args;
   return {
-    contractAddress: marketAddress,
+    contractAddress: marketAddress || mbjs.keys.marketAddress,
     args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
-      nft_contract_id: nftContractId,
-      // eslint-disable-next-line @typescript-eslint/camelcase
+      CONTRACT_ADDRESS: nftContractId || mbjs.keys.contractAddress,
       token_id: tokenId,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       referrer_id: referrerId,
     },
     methodName: MARKET_METHOD_NAMES.BUY,
@@ -35,11 +33,9 @@ export const list = (
   const { nftContractId, tokenId, approvedAccountId, price } = args;
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: nftContractId || mbjs.keys.contractAddress,
     args: {
-      // eslint-disable-next-line @typescript-eslint/camelcase
       token_id: tokenId,
-      // eslint-disable-next-line @typescript-eslint/camelcase
       account_id: approvedAccountId,
       msg: JSON.stringify({
         price: price.amount,
@@ -58,7 +54,7 @@ export const depositStorage = (
 
   const deposit = (0.01 * listAmount).toString();
   return {
-    contractAddress: marketAddress,
+    contractAddress: marketAddress || mbjs.keys.contractAddress,
     args: {},
     methodName: MARKET_METHOD_NAMES.DEPOSIT_STORAGE,
     deposit: utils.format.parseNearAmount(deposit),

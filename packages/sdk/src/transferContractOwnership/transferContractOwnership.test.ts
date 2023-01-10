@@ -1,11 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { transferContractOwnership } from './transferContractOwnership';
 
 test('transfer contract token ownership set all values', () => {
 
   const mockData = {
-    contractId: 'test',
+    contractAddress: 'test',
     nextOwner: 'test',
     options: {
       keepMinters: false,
@@ -16,7 +17,7 @@ test('transfer contract token ownership set all values', () => {
   const result = transferContractOwnership(mockData);
 
   expect(result).toEqual({
-    contractAddress: mockData.contractId,
+    contractAddress: mockData.contractAddress,
     args: {
       new_owner: mockData.nextOwner,
       keep_old_minters: false,
@@ -31,14 +32,14 @@ test('transfer contract token ownership set all values', () => {
 test('transfer contract token ownership default values if possible', () => {
 
   const mockData = {
-    contractId: 'test',
+    contractAddress: 'test',
     nextOwner: 'test',
   };
   
   const result = transferContractOwnership(mockData);
   
   expect(result).toEqual({
-    contractAddress: mockData.contractId,
+    contractAddress: mockData.contractAddress,
     args: {
       new_owner: mockData.nextOwner,
       keep_old_minters: true,
