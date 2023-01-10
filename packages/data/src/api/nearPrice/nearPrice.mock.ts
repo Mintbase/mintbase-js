@@ -1,1 +1,3 @@
-export const nearPriceMock = '1490000';
+import { NearPriceData } from './nearPrice.types';
+
+export const nearPriceMock: NearPriceData = { nearPrice: '1490000' };

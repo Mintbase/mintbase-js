@@ -1,37 +1,60 @@
-/**
- * @jest-environment jsdom
- */
-
-
-import fetchMock from 'fetch-mock';
-import { BINANCE_API } from '../../constants';
-import { nearPrice } from './nearPrice';
+import * as methods from './nearPrice';
 import { nearPriceMock } from './nearPrice.mock';
 
-describe('getNearPrice', () => {
-  beforeAll(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => null);
+
+describe('nearPrice Test', () => {
+  test('getNearPrice by Binance', async () => {
+
+    const mockFetch = Promise.resolve({ json: () => Promise.resolve({ price: '1490000' }) });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    global.fetch = jest.fn().mockImplementation(() => mockFetch);
+    jest.spyOn(methods, 'nearPriceFallback');
+
+    expect(methods.nearPriceFallback).not.toHaveBeenCalled();
+
+    const args = await methods.nearPrice();
+
+    expect(args).toEqual(nearPriceMock);
   });
 
-  beforeEach(() => {
-    fetchMock.reset();
+
+  test('getNearPrice by GECKO_API', async () => {
+
+    const mockFetch = Promise.resolve({ json: () => Promise.resolve({ price: null }) });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    global.fetch = jest.fn().mockImplementation(() => mockFetch);
+
+    jest.spyOn(methods, 'nearPriceFallback');
+
+
+    await methods.nearPrice();
+
+    expect(methods.nearPriceFallback).toHaveBeenCalled();
+
+  
   });
 
-  test('returns data', async () => {
-    fetchMock.mock(BINANCE_API, JSON.stringify({ price: nearPriceMock }));
 
-    const result = await nearPrice();
+  test('error', async () => {
+    
 
-    expect(result).toEqual(nearPriceMock);
+    const mockFetch = Promise.reject(undefined);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore
+    global.fetch = jest.fn().mockImplementation(() => mockFetch);
+
+    jest.spyOn(methods, 'nearPriceFallback');
+    jest.spyOn(methods, 'nearPrice');
+
+
+    const nearPriceData =  await methods.nearPrice();
+
+    expect(methods.nearPrice).toHaveBeenCalled();
+    expect(methods.nearPriceFallback).toHaveBeenCalled();
+
+    expect(nearPriceData).toEqual({ error: 'Error fetching NEAR price' });
   });
 
-
-  test('should handle errors', async () => {
-    const errorMsg = 'Error fetching NEAR price';
-    fetchMock.mock(BINANCE_API, JSON.stringify({}));
-
-    const call = await nearPrice();
-    expect(call).toStrictEqual(errorMsg);
-
-  });
 });
