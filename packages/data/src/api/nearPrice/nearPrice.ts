@@ -19,13 +19,17 @@ export const nearPrice = async (): Promise<string> => {
     const priceData = await fetch(
       BINANCE_API,
     );
-    const final = await priceData.json();
 
-    if (!Object.keys(final).length)     {
+    console.log(priceData);
+    
+    const res = await priceData.json();
+
+    const final = (res as BinanceNearPriceData).price;
+
+    if (!final) {
       return 'Error fetching NEAR price';
     }
-
-    return (final as BinanceNearPriceData).price;
+    return final;
   } catch (error) {
     return 'Error fetching NEAR price';
   }

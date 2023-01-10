@@ -3,11 +3,10 @@
  */
 
 
-import fetchMock from 'jest-fetch-mock';
-import { nearPriceMock } from './nearPrice.mock';
+import fetchMock from 'fetch-mock';
+import { BINANCE_API } from '../../constants';
 import { nearPrice } from './nearPrice';
-
-fetchMock.enableMocks();
+import { nearPriceMock } from './nearPrice.mock';
 
 describe('getNearPrice', () => {
   beforeAll(() => {
@@ -15,13 +14,11 @@ describe('getNearPrice', () => {
   });
 
   beforeEach(() => {
-    fetchMock.resetMocks();
+    fetchMock.reset();
   });
 
   test('returns data', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify( {
-      json: () => Promise.resolve(nearPriceMock),
-    } as Response));
+    fetchMock.mock(BINANCE_API, JSON.stringify({ price: nearPriceMock }));
 
     const result = await nearPrice();
 
@@ -31,9 +28,7 @@ describe('getNearPrice', () => {
 
   test('should handle errors', async () => {
     const errorMsg = 'Error fetching NEAR price';
-    fetchMock.mockResponseOnce(JSON.stringify( {
-      json: () => Promise.reject(new Error(errorMsg)),
-    } as Response));
+    fetchMock.mock(BINANCE_API, JSON.stringify({}));
 
     const call = await nearPrice();
     expect(call).toStrictEqual(errorMsg);
