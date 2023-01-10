@@ -15,15 +15,18 @@ export const nearPrice = async (): Promise<string> => {
   //   return (finalPrice as CoinGeckoNearPriceData)?.near?.usd;
   // }));
 
-  const res =  await fetch(
-    BINANCE_API);
+  try {
+    const priceData = await fetch(
+      BINANCE_API,
+    );
+    const final = await priceData.json();
 
-  const price = await res?.json();
-  console.log(price);
+    if (!Object.keys(final).length)     {
+      return 'Error fetching NEAR price';
+    }
 
-  if (!price) {
+    return (final as BinanceNearPriceData).price;
+  } catch (error) {
     return 'Error fetching NEAR price';
   }
-
-  return (price as BinanceNearPriceData).price;
 };
