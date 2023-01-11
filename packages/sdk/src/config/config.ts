@@ -20,7 +20,7 @@ const CONFIG_KEYS: MbJsKeysObject = {
 };
 
 
-const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network): null => {
+const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network, callbackUrl, contractAddress): null => {
   const MB_MARKET_ADDRESS = MARKET_CONTRACT_ADDRESS[network];
   const MB_TOKEN_ADDRESS = TOKEN_FACTORY_ADDRESS[network];
 
@@ -29,8 +29,8 @@ const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network): null => 
     network: network as Network,
     graphqlUrl: GRAPHQL_ENDPOINTS[network] || '',
     nearRpcUrl: RPC_ENDPOINTS[network],
-    callbackUrl: process?.env?.CALLBACK_URL || configObj.callbackUrl || '',
-    contractAddress: process?.env?.CONTRACT_ADDRESS || configObj.contractAddress || '',
+    callbackUrl: callbackUrl|| configObj.callbackUrl || '',
+    contractAddress: contractAddress || configObj.contractAddress || '',
     marketAddress: MB_MARKET_ADDRESS,
     tokenAddress: MB_TOKEN_ADDRESS,
     debugMode: network == NEAR_NETWORKS.TESTNET,
@@ -38,7 +38,7 @@ const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network): null => 
     isSet: true,
   };
 
-  CONFIG_KEYS.network = process.env.NEAR_NETWORK as Network;
+  CONFIG_KEYS.network = globalConfig.network;
   CONFIG_KEYS.graphqlUrl = globalConfig.graphqlUrl;
   CONFIG_KEYS.callbackUrl = globalConfig.callbackUrl;
   CONFIG_KEYS.contractAddress = globalConfig.contractAddress;
@@ -56,10 +56,23 @@ const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network): null => 
 const mbjsConfig = (configObj: MBJS_CONFIG_PARAMS = CONFIG_KEYS): null => {
   // adding support to proccess.env
   if (typeof window == 'undefined' && process?.env.NEAR_NETWORK) {
-    setGlobalEnv(configObj, process.env.NEAR_NETWORK as Network);
+
+    let callbackUrl = '';
+    let contractAddress = '';
+
+    if (process?.env.CALLBACK_URL) {
+      callbackUrl = process?.env.CALLBACK_URL;
+    }
+
+    if (process?.env.CONTRACT_ADDRESS) {
+      contractAddress = process?.env.CONTRACT_ADDRESS;
+    }
+
+
+    setGlobalEnv(configObj, process.env.NEAR_NETWORK as Network , callbackUrl, contractAddress);
     return null;
   } else {
-    setGlobalEnv(configObj, configObj.network);
+    setGlobalEnv(configObj, configObj.network,  configObj.callbackUrl, configObj.contractAddress);
     return null;
   }
 };
