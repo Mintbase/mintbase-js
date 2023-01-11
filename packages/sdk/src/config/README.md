@@ -29,13 +29,13 @@ You can set them in three ways:
       import { mbjs } from '@mintbase-js/sdk';
 
       const config = {
-        network: 'testnet'
-        callbackUrl: 'https://mintbase.xyz/success'
+        network: 'testnet',
+        callbackUrl: 'https://mintbase.xyz/success',
         contractAddress: 'buddha.mintspace2.testnet'
       }
 
       mbjs.config(config)
 
-      //can retrieve the keys in any part of your application.
-      console.log(mbjs.keys , 'global keys of all mintbase-js packages')
+   //can retrieve the keys in any part of your application.
+   console.log(mbjs.keys , 'global keys of all mintbase-js packages')
 ```
