@@ -1,7 +1,7 @@
 import { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import { getErrorMessage } from '../errorHandling';
-import { mbjs, Network } from '@mintbase-js/sdk';
+import { GRAPHQL_ENDPOINTS, mbjs, Network } from '@mintbase-js/sdk';
 
 
 export type GqlFetchResult<T> = {
@@ -24,7 +24,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   let graphqlEndpoint = mbjs?.keys.graphqlUrl ?? '';
 
   if (network && network.length > 0) {
-    graphqlEndpoint = `https://interop-${network}.hasura.app/v1/graphql`;
+    graphqlEndpoint = GRAPHQL_ENDPOINTS[network];
   }
 
   if (endpointReady) {
