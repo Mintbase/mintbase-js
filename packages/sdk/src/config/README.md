@@ -38,5 +38,4 @@ You can set them in three ways:
 
       //can retrieve the keys in any part of your application.
       console.log(mbjs.keys , 'global keys of all mintbase-js packages')
-
 ```

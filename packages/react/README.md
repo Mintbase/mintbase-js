@@ -28,7 +28,7 @@ yarn add @mintbase-js/react
 pnpm add @mintbase-js/react
 ```
 
-# Config consts
+# config vars
 
 You can set and NEED to set the Near Network you gonna use on your app in three ways:
 
