@@ -1,33 +1,20 @@
 import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
-import { setupNearWallet } from '@near-wallet-selector/near-wallet';
-import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
-import { setupSender } from '@near-wallet-selector/sender';
-import { setupHereWallet } from '@near-wallet-selector/here-wallet';
-import { setupMathWallet } from '@near-wallet-selector/math-wallet';
-import { setupNightly } from '@near-wallet-selector/nightly';
-import { setupWelldoneWallet } from '@near-wallet-selector/welldone-wallet';
-import { setupLedger } from '@near-wallet-selector/ledger';
-import { setupNearFi } from '@near-wallet-selector/nearfi';
-import { setupCoin98Wallet } from '@near-wallet-selector/coin98-wallet';
-import { setupOptoWallet } from '@near-wallet-selector/opto-wallet';
-import { setupNeth } from '@near-wallet-selector/neth';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
+
+import { mbjs, NEAR_NETWORKS } from '@mintbase-js/sdk';
+
 import {
-  NEAR_NETWORK,
   NEAR_LOGIN_CONTRACT_ID,
-  NEAR_WALLET_SELECTOR_DEBUG,
-  DEFAULT_MINTBASE_CONTRACT_MAINNET,
-  DEFAULT_MINTBASE_CONTRACT_TESTNET,
-  WALLET_SETUP_NOT_CALLED_ERROR,
-  WALLET_CONNECTION_NOT_FOUND,
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
+import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
+import { ERROR_MESSAGES } from './errorMessages';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -50,27 +37,17 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
-    network: NEAR_NETWORK,
-    debug: NEAR_WALLET_SELECTOR_DEBUG,
+    network: mbjs.keys.network,
+    debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
-      setupNearWallet(),
-      setupMeteorWallet(),
-      setupSender(),
-      // setupHereWallet(),
-      // setupMathWallet(),
-      // setupNightly(),
-      // setupWelldoneWallet(),
-      // setupLedger(),
+      ...SUPPORTED_NEAR_WALLETS,
     ],
   });
 
-  const defaultMintbaseContract = NEAR_NETWORK === 'testnet'
-    ? DEFAULT_MINTBASE_CONTRACT_TESTNET
-    : DEFAULT_MINTBASE_CONTRACT_MAINNET;
 
   const modal = setupModal(selector, {
-    contractId: NEAR_LOGIN_CONTRACT_ID || defaultMintbaseContract,
+    contractId: NEAR_LOGIN_CONTRACT_ID || mbjs.keys.mbContract,
   });
 
   walletSelectorComponents = {
@@ -91,7 +68,7 @@ export class ConnectionTimeoutError extends Error {
 const validateWalletComponentsAreSetup = (): void => {
   if (!walletSelectorComponents.selector) {
     throw new SetupNotCalledError(
-      WALLET_SETUP_NOT_CALLED_ERROR,
+      ERROR_MESSAGES.WALLET_SETUP_NOT_CALLED_ERROR,
     );
   }
 };
@@ -135,7 +112,7 @@ export const pollForWalletConnection = async (): Promise<AccountState[]> => {
 
     // timed out
     if (elapsed > WALLET_CONNECTION_TIMEOUT) {
-      reject(new ConnectionTimeoutError(WALLET_CONNECTION_NOT_FOUND));
+      reject(new ConnectionTimeoutError(ERROR_MESSAGES.WALLET_CONNECTION_NOT_FOUND));
     }
 
     // try again

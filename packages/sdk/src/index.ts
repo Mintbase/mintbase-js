@@ -13,3 +13,4 @@ export * from './depositStorage/depositStorage';
 export * from './mint/mint';
 export * from './delist/delist';
 export * from './config';
+export * from './types';

@@ -7,6 +7,7 @@ This package contains React helpers for interacting with Mintbase JS.
 ## Summary
 
 - [Installing](#Installing)
+- [Config consts](#config) : Config the network and global variables on mintbase-js packages
 - [WalletContextProvider](#walletcontextprovider) : the provider that will wrap the wallets to make it work in your application
 - [WalletContext](#walletcontext): helper with methods to use the power of near-wallet-selector
 - [Hooks](#Hooks): a variety of hooks to make data fetching and transactions from our SDK/Data modules super easy in your React apps.
@@ -27,6 +28,47 @@ yarn add @mintbase-js/react
 pnpm add @mintbase-js/react
 ```
 
+# Config consts
+
+You can set and NEED to set the Near Network you gonna use on your app in three ways:
+
+ - adding the param straight on the methods that accepts it. ex:
+    
+    ```
+    connect(
+        accountId: string,
+        keyStore: Keystore,
+        network: NearNetwork = 'testnet'
+      ): Promise<Account>
+    ```
+ - if your project is built on a node.js env you can set as an .env variable:
+   ```
+    NEAR_NETWORK = TESTNET
+
+    ````
+
+ - On a global config method on your main file ex:
+  ```
+   import {mbjs} from `@mintbase-js/sdk
+
+   const config = {
+    network: 'testnet'
+   }
+
+   mbjs.config(config)
+
+   ```  
+
+You will be able to get the global keys:
+
+  ```
+   import {mbjs} from `@mintbase-js/sdk
+
+   console.log(mbjs.keys, 'my global mintbase-js keys')
+
+  ```
+
+read more on config global variables on : [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
 # WalletContextProvider
   WalletContextProvider is the provider you should wrap on your regular app.tsx/app.jsx file so that your application can work with our Wallet Selector:
 

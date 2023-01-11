@@ -13,7 +13,6 @@ module.exports = {
   },
   globals: {
     "window": {
-      mintbase: { isSet: true },
       location: {host: 'testnet.mintbase.io'}
     }
   },

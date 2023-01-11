@@ -15,6 +15,48 @@ This module can be used as a framework agnostic wrapper using framework specific
 
 *Check back soon for documentation on wallet selector wrapper methods and example usage with other frameworks in the near future.*
 
+
+# config vars
+
+You can set and NEED to set the Near Network you gonna use on your app in three ways:
+
+ - adding the param straight on the methods that accepts it. ex:
+    
+    ```
+    connect(
+        accountId: string,
+        keyStore: Keystore,
+        network: NearNetwork = 'testnet'
+      ): Promise<Account>
+    ```
+ - if your project is built on a node.js env you can set as an .env variable:
+   ```
+    NEAR_NETWORK = TESTNET
+
+    ````
+
+ - On a global config method on your main file ex:
+  ```
+   import {mbjs} from `@mintbase-js/sdk
+
+   const config = {
+    network: 'testnet'
+   }
+
+   mbjs.config(config)
+
+   ```  
+
+You will be able to get the global keys:
+
+  ```
+   import {mbjs} from `@mintbase-js/sdk
+
+   console.log(mbjs.keys, 'my global mintbase-js keys')
+
+  ```
+read more on config global variables on : [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
 # Account <div name="account"></div>
 
 The primary method used for loading a NEAR account into your Node programs is via the `connect` method

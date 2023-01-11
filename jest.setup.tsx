@@ -5,6 +5,7 @@ jest.mock('@mintbase-js/sdk', () => ({
     keys: {
       isSet: true,
       contractAddress: 'buddha.mintspace2.testnet',
+      network: 'testnet',
     },
   },
 }));

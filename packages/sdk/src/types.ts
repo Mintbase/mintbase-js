@@ -22,6 +22,9 @@ export enum MARKET_METHOD_NAMES {
 
 export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
 
+// due to wallet selector types had to do this one:
+export type Network = 'testnet' | 'mainnet'
+
 export enum NEAR_NETWORKS {
   MAINNET = 'mainnet',
   TESTNET =  'testnet',
@@ -37,15 +40,26 @@ export enum MARKET_CONTRACT_ADDRESS {
   TESTNET =  'market-v2-beta.mintspace2.testnet',
 }
 
-export type MBJS_CONFIG_OBJ = {
-  network: NEAR_NETWORK | '';
-  graphqlUrl?: string;
-  callbackUrl?: string;
-  contractAddress?: string;
-  marketAddress?: MARKET_CONTRACT_ADDRESS | '';
-  tokenAddress?: TOKEN_FACTORY_ADDRESS | '';
+export enum MINTBASE_CONTRACTS {
+  MAINNET = 'mintspace2.testnet',
+  TESTNET ='mintbase1.near'
 }
 
-export interface MbJsKeysObject extends MBJS_CONFIG_OBJ  {
+export type MBJS_CONFIG_PARAMS = {
+  network: Network;
+  contractAddress?: string;
+  callbackUrl?: string;
+}
+
+export interface MbJsConfigObj extends MBJS_CONFIG_PARAMS {
+  graphqlUrl?: string;
+  marketAddress?: MARKET_CONTRACT_ADDRESS | '';
+  tokenAddress?: TOKEN_FACTORY_ADDRESS | '';
+  mbContract?: MINTBASE_CONTRACTS | '';
+  nearRpcUrl: string | '';
+  debugMode?: boolean;
+}
+
+export interface MbJsKeysObject extends MbJsConfigObj  {
  isSet: boolean;
 }
