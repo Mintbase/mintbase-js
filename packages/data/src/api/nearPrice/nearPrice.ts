@@ -1,5 +1,5 @@
 import { BINANCE_API, COIN_GECKO_API } from '../../constants';
-import { BinanceNearPriceData, CoinGeckoNearPriceData, NearPriceData, NearPriceError } from './nearPrice.types';
+import { BinanceNearPriceData, CoinGeckoNearPriceData, NearPriceError } from './nearPrice.types';
 
 
 export const nearPriceFallback = async (): Promise<CoinGeckoNearPriceData> => {
@@ -11,7 +11,7 @@ export const nearPriceFallback = async (): Promise<CoinGeckoNearPriceData> => {
 };
 
 
-const nearPriceData = async (): Promise<NearPriceData | NearPriceError> => {
+const nearPriceData = async (): Promise<string | NearPriceError> => {
 
   try {
     const req = await fetch(
@@ -22,10 +22,10 @@ const nearPriceData = async (): Promise<NearPriceData | NearPriceError> => {
 
     if (!res.price) {
       const price = await nearPriceFallback();
-      return { nearPrice: price.near.usd };
+      return price.near.usd;
     }
 
-    return { nearPrice: res.price };
+    return res.price ;
 
   } catch (error) {
     return { error: 'Error fetching NEAR price' };
@@ -33,7 +33,7 @@ const nearPriceData = async (): Promise<NearPriceData | NearPriceError> => {
 
 };
 
-export const nearPrice = async (): Promise<NearPriceData | NearPriceError> => {
+export const nearPrice = async (): Promise<string | NearPriceError> => {
 
   const price = await nearPriceData();
 
