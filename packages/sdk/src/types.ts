@@ -25,30 +25,30 @@ export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
 // due to wallet selector types had to do this one:
 export type Network = 'testnet' | 'mainnet'
 
-export const NEAR_NETWORKS = {
-  MAINNET: 'mainnet',
-  TESTNET:  'testnet',
-};
+export enum NEAR_NETWORKS  {
+  MAINNET =  'mainnet',
+  TESTNET =  'testnet',
+}
 
-export const MARKET_CONTRACT_ADDRESS = {
-  mainnet: 'simple.market.mintbase1.near',
-  testnet:  'market-v2-beta.mintspace2.testnet',
-};
+export enum MARKET_CONTRACT_ADDRESS {
+  mainnet = 'simple.market.mintbase1.near',
+  testnet =  'market-v2-beta.mintspace2.testnet',
+}
 
-export const MINTBASE_CONTRACTS = {
-  mainnet: 'mintspace2.testnet',
-  testnet: 'mintbase1.near',
-};
+export enum MINTBASE_CONTRACTS {
+  mainnet =  'mintspace2.testnet',
+  testnet = 'mintbase1.near',
+}
 
-export const GRAPHQL_ENDPOINTS = { 
-  mainnet:  'https://interop-mainnet.hasura.app/v1/graphql',
-  testnet: 'https://interop-testnet.hasura.app/v1/graphql',
-};
+export enum GRAPHQL_ENDPOINTS  { 
+  mainnet =  'https://interop-mainnet.hasura.app/v1/graphql',
+  testnet = 'https://interop-testnet.hasura.app/v1/graphql',
+}
 
-export const RPC_ENDPOINTS = { 
-  mainnet: 'https://rpc.mainnet.near.org',
-  testnet: 'https://rpc.testnet.near.org',
-};
+export enum RPC_ENDPOINTS  { 
+  mainnet = 'https://rpc.mainnet.near.org',
+  testnet = 'https://rpc.testnet.near.org',
+}
 
 
 export type MBJS_CONFIG_PARAMS = {
@@ -58,10 +58,10 @@ export type MBJS_CONFIG_PARAMS = {
 }
 
 export interface MbJsConfigObj extends MBJS_CONFIG_PARAMS {
-  graphqlUrl?: string;
-  marketAddress?: string;
-  mbContract?: string;
-  nearRpcUrl: string;
+  graphqlUrl?: GRAPHQL_ENDPOINTS | '';
+  marketAddress?: MARKET_CONTRACT_ADDRESS | '';
+  mbContract?: MINTBASE_CONTRACTS;
+  nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
 }
 
