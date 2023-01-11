@@ -3,7 +3,7 @@
  */
 
 
-import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, TOKEN_FACTORY_ADDRESS, Network, MINTBASE_CONTRACTS, NEAR_NETWORKS, MBJS_CONFIG_PARAMS, GRAPHQL_ENDPOINTS, RPC_ENDPOINTS } from '../types';
+import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, Network, MINTBASE_CONTRACTS, NEAR_NETWORKS, MBJS_CONFIG_PARAMS, GRAPHQL_ENDPOINTS, RPC_ENDPOINTS } from '../types';
 
 
 const CONFIG_KEYS: MbJsKeysObject = {
@@ -13,8 +13,7 @@ const CONFIG_KEYS: MbJsKeysObject = {
   callbackUrl: '',
   contractAddress: '',
   marketAddress: '',
-  tokenAddress: '',
-  mbContract: '',
+  mbContract: MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
   debugMode: false,
   isSet: false,
 };
@@ -22,7 +21,6 @@ const CONFIG_KEYS: MbJsKeysObject = {
 
 const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network, callbackUrl, contractAddress): null => {
   const MB_MARKET_ADDRESS = MARKET_CONTRACT_ADDRESS[network];
-  const MB_TOKEN_ADDRESS = TOKEN_FACTORY_ADDRESS[network];
 
 
   const globalConfig: MbJsKeysObject = {
@@ -32,7 +30,6 @@ const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network, callbackU
     callbackUrl: callbackUrl|| configObj.callbackUrl || '',
     contractAddress: contractAddress || configObj.contractAddress || '',
     marketAddress: MB_MARKET_ADDRESS,
-    tokenAddress: MB_TOKEN_ADDRESS,
     debugMode: network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[network],
     isSet: true,
@@ -43,7 +40,6 @@ const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS, network: Network, callbackU
   CONFIG_KEYS.callbackUrl = globalConfig.callbackUrl;
   CONFIG_KEYS.contractAddress = globalConfig.contractAddress;
   CONFIG_KEYS.marketAddress = globalConfig.marketAddress;
-  CONFIG_KEYS.tokenAddress = globalConfig.tokenAddress;
   CONFIG_KEYS.mbContract = globalConfig.mbContract;
   CONFIG_KEYS.debugMode = globalConfig.debugMode;
   CONFIG_KEYS.nearRpcUrl = globalConfig.nearRpcUrl;

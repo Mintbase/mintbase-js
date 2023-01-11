@@ -67,7 +67,7 @@ export const deployContract = (
   };
 
   return {
-    contractAddress: factoryContractId || mbjs.keys.tokenAddress,
+    contractAddress: factoryContractId || mbjs.keys.mbContract,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: data,
     gas: GAS_CONSTANTS.DEFAULT_GAS,

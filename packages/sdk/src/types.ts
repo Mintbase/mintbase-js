@@ -30,11 +30,6 @@ export enum NEAR_NETWORKS {
   TESTNET =  'testnet',
 }
 
-export enum TOKEN_FACTORY_ADDRESS {
-  mainnet = 'mintbase1.near',
-  testnet =  'mintspace2.testnet',
-}
-
 export enum MARKET_CONTRACT_ADDRESS {
   mainnet = 'simple.market.mintbase1.near',
   testnet =  'market-v2-beta.mintspace2.testnet',
@@ -47,14 +42,13 @@ export enum MINTBASE_CONTRACTS {
 
 export type MBJS_CONFIG_PARAMS = {
   network: Network;
-  contractAddress?: string;
+  contractAddress: string;
   callbackUrl?: string;
 }
 
 export interface MbJsConfigObj extends MBJS_CONFIG_PARAMS {
   graphqlUrl?: string;
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
-  tokenAddress?: TOKEN_FACTORY_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS | '';
   nearRpcUrl: string | '';
   debugMode?: boolean;

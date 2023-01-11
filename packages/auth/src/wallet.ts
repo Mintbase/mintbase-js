@@ -6,7 +6,6 @@ import { map, distinctUntilChanged, Subscription } from 'rxjs';
 import { mbjs, NEAR_NETWORKS } from '@mintbase-js/sdk';
 
 import {
-  NEAR_LOGIN_CONTRACT_ID,
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
@@ -47,7 +46,7 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
 
 
   const modal = setupModal(selector, {
-    contractId: NEAR_LOGIN_CONTRACT_ID || mbjs.keys.mbContract,
+    contractId: mbjs.keys.contractAddress ?? mbjs.keys.mbContract,
   });
 
   walletSelectorComponents = {

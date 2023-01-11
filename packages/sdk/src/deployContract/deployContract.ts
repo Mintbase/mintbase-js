@@ -24,12 +24,12 @@ export type DeployContractArgs = {
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
 export const deployContract = (args: DeployContractArgs): NearContractCall=> {
-  const { name, factoryContractId = mbjs.keys.tokenAddress, ownerId, metadata } = args;
+  const { name, factoryContractId = mbjs.keys.mbContract, ownerId, metadata } = args;
 
   const { symbol, icon = DEFAULT_MB_LOGO, baseUri = null, reference = null, referenceHash = null } = metadata;
 
   return {
-    contractAddress: factoryContractId || mbjs.keys.tokenAddress,
+    contractAddress: factoryContractId || mbjs.keys.mbContract,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: {
       owner_id: ownerId,
