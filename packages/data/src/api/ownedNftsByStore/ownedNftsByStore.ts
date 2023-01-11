@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
@@ -9,6 +10,7 @@ export const ownedNftsByStore = async (
   ownerId: string,
   contractAddress: string,
   pagination: { limit: number; offset?: number },
+  network?: Network,  
 ): Promise<ParsedDataReturn<OwnedNftsData>> => {
 
   const wrongParams = typeof pagination?.limit === 'undefined' || typeof ownerId === 'undefined' || pagination?.limit < 1;
@@ -26,6 +28,7 @@ export const ownedNftsByStore = async (
       limit: pagination?.limit ?? 12,
       offset: pagination?.offset ?? 0,
     },
+    network: network ?? '',
   });
 
   const errorMsg = error? `Error fetching nfts from ${ownerId}, ${error}`: '';

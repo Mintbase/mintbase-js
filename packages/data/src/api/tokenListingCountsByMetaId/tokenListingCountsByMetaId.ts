@@ -1,4 +1,5 @@
 
+import { Network } from '@mintbase-js/sdk';
 import { NftTokensAggregate } from '../../graphql/codegen/graphql';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
@@ -21,12 +22,14 @@ export type TokenListingQueryResults = {
 
 export const tokenListingCountsByMetaId = async (
   metadataId: string,
+  network?: Network,  
 ): Promise<ParsedDataReturn<TokenListingCounts>> => {
   const { data, error } = await fetchGraphQl<TokenListingQueryResults>({
     query: tokenListingCountsByMetaIdQuery,
     variables: {
       metadataId,
     },
+    network: network ?? '',
   });
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}`: '';

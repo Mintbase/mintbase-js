@@ -1,12 +1,8 @@
 import { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import { getErrorMessage } from '../errorHandling';
-import { mbjs } from '@mintbase-js/sdk';
+import { mbjs, Network } from '@mintbase-js/sdk';
 
-
-export interface NearNetwork { 
-  network: 'testnet' | 'mainnet';
-}
 
 export type GqlFetchResult<T> = {
   data?: T;
@@ -16,26 +12,23 @@ export type GqlFetchResult<T> = {
 export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   query,
   variables,
-  env,
+  network,
 }: {
   query: DocumentNode | string;
   variables?: V;
-  env?: string;
+  network?: Network | '';
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  mbjs?.keys?.isSet || env?.length > 0; 
-
-  console.log(endpointReady, mbjs?.keys , 'endpointReady');
+  const endpointReady =  mbjs?.keys?.isSet || network?.length > 0; 
 
   let graphqlEndpoint = mbjs?.keys.graphqlUrl ?? '';
 
-  if (env && env.length > 0) {
-    graphqlEndpoint = `https://interop-${env}.hasura.app/v1/graphql`;
+  if (network && network.length > 0) {
+    graphqlEndpoint = `https://interop-${network}.hasura.app/v1/graphql`;
   }
 
   if (endpointReady) {
 
-    console.log('here', graphqlEndpoint , 'graphQLeNDPOINT');
     try {
       const client = new GraphQLClient(graphqlEndpoint);
       return {

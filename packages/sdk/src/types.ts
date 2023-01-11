@@ -31,18 +31,18 @@ export enum NEAR_NETWORKS {
 }
 
 export enum TOKEN_FACTORY_ADDRESS {
-  MAINNET = 'mintbase1.near',
-  TESTNET =  'mintspace2.testnet',
+  mainnet = 'mintbase1.near',
+  testnet =  'mintspace2.testnet',
 }
 
 export enum MARKET_CONTRACT_ADDRESS {
-  MAINNET = 'simple.market.mintbase1.near',
-  TESTNET =  'market-v2-beta.mintspace2.testnet',
+  mainnet = 'simple.market.mintbase1.near',
+  testnet =  'market-v2-beta.mintspace2.testnet',
 }
 
 export enum MINTBASE_CONTRACTS {
-  MAINNET = 'mintspace2.testnet',
-  TESTNET ='mintbase1.near'
+  mainnet = 'mintspace2.testnet',
+  testnet = 'mintbase1.near'
 }
 
 export type MBJS_CONFIG_PARAMS = {
@@ -62,4 +62,15 @@ export interface MbJsConfigObj extends MBJS_CONFIG_PARAMS {
 
 export interface MbJsKeysObject extends MbJsConfigObj  {
  isSet: boolean;
+}
+
+export enum GRAPHQL_ENDPOINTS { 
+  mainnet =  'https://interop-mainnet.hasura.app/v1/graphql',
+  testnet = 'https://interop-testnet.hasura.app/v1/graphql'
+}
+
+export enum RPC_ENDPOINTS { 
+
+  mainnet = 'https://rpc.mainnet.near.org',
+  testnet = 'https://rpc.testnet.near.org'
 }

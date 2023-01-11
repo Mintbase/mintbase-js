@@ -1,12 +1,12 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { fetchGraphQl, NearNetwork } from '../../graphql/fetch';
+import { Network } from '@mintbase-js/sdk';
+import { fetchGraphQl } from '../../graphql/fetch';
 import { Attribute, NftAttributesQueryResult, ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { attributesByMetaIdQuery } from './attributesByMetaId.query';
 
 export const attributesByMetaId = async (
   nft_metadata_id: string,
-  env?: string,
+  network?: Network,
 ): Promise<ParsedDataReturn<Attribute[]>> => {
 
 
@@ -15,7 +15,7 @@ export const attributesByMetaId = async (
     variables: {
       nft_metadata_id,
     },
-    env: env ?? '',
+    network: network ?? '',
   });
 
   const errorMsg = error ? `Error fetching attributes for nft_metadata_id, ${error}` : '';

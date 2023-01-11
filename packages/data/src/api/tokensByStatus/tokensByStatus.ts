@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData, getTokenArrayFromNodes } from '../../utils';
@@ -5,13 +6,14 @@ import { TokenByStatusQueryResults, TokensByStatus } from './tokenByStatus.types
 import { tokensByStatusQuery } from './tokensByStatus.query';
 
 
-export const tokensByStatus = async (metadataId: string, ownedBy?: string): Promise<ParsedDataReturn<TokensByStatus>> => {
+export const tokensByStatus = async (metadataId: string, ownedBy?: string,network?: Network ): Promise<ParsedDataReturn<TokensByStatus>> => {
   const { data, error } = await fetchGraphQl<TokenByStatusQueryResults>({
     query: tokensByStatusQuery,
     variables: {
       metadataId,
       ownedBy,
     },
+    network: network ?? '',
   });
 
   const errorMsg = error? `Error fetching token listing by status', ${error}`: '';
