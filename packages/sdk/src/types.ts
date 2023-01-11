@@ -70,7 +70,6 @@ export enum GRAPHQL_ENDPOINTS {
 }
 
 export enum RPC_ENDPOINTS { 
-
   mainnet = 'https://rpc.mainnet.near.org',
   testnet = 'https://rpc.testnet.near.org'
 }
