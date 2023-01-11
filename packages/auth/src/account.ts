@@ -15,10 +15,11 @@ export const connect = async (
   keyStore: KeyStore,
   network: Network = mbjs.keys.network,
 ): Promise<Account> => {
+  
   const near = await connectToNear({
     keyStore,
     networkId: network || mbjs.keys.network,
-    nodeUrl:  RPC_ENDPOINTS[network] || mbjs.keys.nearRpcUrl,
+    nodeUrl: RPC_ENDPOINTS[network] ||  mbjs.keys.nearRpcUrl,
     headers: {},
   });
   return await near.account(accountId);
