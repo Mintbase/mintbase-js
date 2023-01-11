@@ -1,4 +1,4 @@
-import { Network } from '@near-wallet-selector/core';
+import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
