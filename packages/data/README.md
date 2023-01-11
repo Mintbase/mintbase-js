@@ -58,7 +58,9 @@ read more on config global variables on : [Config SDK method](https://docs.mintb
 | [tokenOwner](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenOwner/README.md) | `tokenId: string, contractAddress: string` |get token owner by token id and certain contract|
 | [tokenProvenance](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenProvenance/README.md) | `tokenId: string, contractAddress: string, pagination?: {limit: number, offset:number}` |get token provenance by token id and certain contract|
 | [tokenOwnersByMetadataId](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/tokenOwnersByMetadataId/README.md) | `metadataId: string, pagination?: {limit: number, offset:number}` |get token owners by metadata id|
-
+| [ownedStores](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/ownedStores/README.md) | `ownerId: string` |get stores owned by owner id|
+| [nearPrice](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/nearPrice/README.md) | - |get near price in usd|
+| [storeData](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeData/README.md) | - |get store data by certain contract or contracts|
 
 
 While we will continue to provide public and our new mb_views schema objects, we will also begin to introduce helper methods here that can be used to query data **without having to write any graphql**.
