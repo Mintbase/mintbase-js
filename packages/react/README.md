@@ -34,7 +34,7 @@ You can set and NEED to set the Near Network you gonna use on your app in three 
 
  - adding the param straight on the methods that accepts it. ex:
     
-    ```
+    ```typescript
     connect(
         accountId: string,
         keyStore: Keystore,
@@ -43,32 +43,30 @@ You can set and NEED to set the Near Network you gonna use on your app in three 
     ```
  - if your project is built on a node.js env you can set as an .env variable:
    ```
-    NEAR_NETWORK = TESTNET
-
+    NEAR_NETWORK=testnet
+    CALLBACK_URL=https://mintbase.xyz/success
+    CONTRACT_ADDRESS=buddha.mintspace2.testnet
     ````
 
  - On a global config method on your main file ex:
-  ```
-   import {mbjs} from `@mintbase-js/sdk
+  ```typescript
+   import { mbjs } from '@mintbase-js/sdk';
 
-   const config = {
-    network: 'testnet'
-   }
+      const config = {
+        network: 'testnet',
+        callbackUrl: 'https://mintbase.xyz/success',
+        contractAddress: 'buddha.mintspace2.testnet'
+      }
 
-   mbjs.config(config)
+      mbjs.config(config)
+
+   //can retrieve the keys in any part of your application.
+   console.log(mbjs.keys , 'global keys of all mintbase-js packages')
 
    ```  
 
-You will be able to get the global keys:
-
-  ```
-   import {mbjs} from `@mintbase-js/sdk
-
-   console.log(mbjs.keys, 'my global mintbase-js keys')
-
-  ```
-
 read more on config global variables on : [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
 # WalletContextProvider
   WalletContextProvider is the provider you should wrap on your regular app.tsx/app.jsx file so that your application can work with our Wallet Selector:
 
