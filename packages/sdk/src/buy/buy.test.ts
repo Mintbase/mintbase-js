@@ -1,4 +1,4 @@
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import { GAS } from '../constants';
 import { MARKET_METHOD_NAMES } from '../types';
 import { buy } from './buy';

@@ -1,6 +1,6 @@
 import { NearContractCall } from '../execute';
 import { GAS, ONE_YOCTO } from '../constants';
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { ERROR_MESSAGES } from '../errorMessages';
 

@@ -1,4 +1,4 @@
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { ContractCall, NearContractCall } from '../execute';

@@ -1,4 +1,4 @@
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO  } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { delist } from './delist';

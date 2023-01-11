@@ -1,7 +1,7 @@
 // Mintbase marketplace contract JS implementation
 
 import { utils } from 'near-api-js';
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import { NearContractCall } from '../execute';
 import { MARKET_METHOD_NAMES } from '../types';
 import {

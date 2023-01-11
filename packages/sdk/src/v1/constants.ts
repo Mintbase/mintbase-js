@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 
 
 export const GAS_CONSTANTS = {

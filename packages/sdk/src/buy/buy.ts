@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import { GAS  } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';

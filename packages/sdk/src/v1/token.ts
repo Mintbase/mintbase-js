@@ -1,6 +1,6 @@
 // Mintbase token contract JS implementation
 
-import { mbjs } from '../config';
+import { mbjs } from '../config/config';
 import { NEAR_NETWORKS, TOKEN_METHOD_NAMES } from '../types';
 import {
   DEFAULT_MB_LOGO,
