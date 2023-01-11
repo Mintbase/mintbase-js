@@ -98,7 +98,7 @@ test('deploy contract uses default values', () => {
   const result = deployContract(mockData);
 
   expect(result).toEqual({
-    contractAddress: mbjs.keys.contractAddress,
+    contractAddress: mbjs.keys.mbContract,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: {
       owner_id: mockData.ownerId,
