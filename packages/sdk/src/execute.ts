@@ -43,10 +43,6 @@ export const execute = async (
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
   validateSigningOptions({ wallet, account });
 
-  console.log(callbackUrl, 'callbackUrl');
-
-  console.log('wallet', wallet);
-
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
   if (outcomes && outcomes.length == 1) {
     return outcomes[0];
@@ -56,8 +52,6 @@ export const execute = async (
 };
 
 const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
-
-  console.log(callbackUrl, 'callbackUrl genericBatchExecute');
 
   if (wallet) {
     return batchExecuteWithBrowserWallet(call, wallet, callbackUrl);
@@ -76,8 +70,6 @@ const batchExecuteWithNearAccount = async (
 ): Promise<FinalExecutionOutcome[]> => {
   const outcomes: any[] =[];
   for (const call of calls) {
-    console.log(call , 'batchExecuteWithNearAccountbatchExecuteWithNearAccount call');
-    console.log(callbackUrl , 'batchExecuteWithNearAccount callbackUrl');
 
     try {
       outcomes.push(await account.functionCall({
@@ -103,10 +95,6 @@ const batchExecuteWithBrowserWallet = async (
   callback: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
 
-  console.log(wallet, 'wallet  batchExecuteWithBrowserWallet');
-  console.log(callback, 'callback  batchExecuteWithBrowserWallet');
-
-
   return await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     callbackUrl: callback,
@@ -120,9 +108,6 @@ declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 const convertGenericCallToWalletCall = (
   call: ContractCall,
 ): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
-
-  console.log(call , 'convertGenericCallToWalletCall call');
-  console.log(call.callbackUrl , 'convertGenericCallToWalletCall callbackUrl');
 
   return {
     signerId: call.signerId,
