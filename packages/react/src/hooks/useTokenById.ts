@@ -24,7 +24,7 @@ export const useTokenById = (
 
   useEffect(() => {
     let isCancelled = false;
-
+    
     if (loading && validParams) {
       (async (): Promise<void> => {
         const { data, error } = await tokenById(tokenId, contract);
