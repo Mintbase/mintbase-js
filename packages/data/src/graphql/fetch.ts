@@ -23,11 +23,9 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   let networkObj = network;
 
-
   if (!network) {
     networkObj = mbjs?.keys?.network;
   }
-
 
   if (networkObj && !isValidNetwork(networkObj)) {
     return { error: 'Please add a valid Network' };
@@ -39,8 +37,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   const endpointReady = isValidNetwork(networkObj) && networkObj;
 
-  const graphqlEndpoint = GRAPHQL_ENDPOINTS[networkObj]  ?? mbjs?.keys?.graphqlUrl;
-
+  const graphqlEndpoint = GRAPHQL_ENDPOINTS[networkObj] ?? mbjs?.keys?.graphqlUrl;
 
   if (endpointReady && graphqlEndpoint) {
 

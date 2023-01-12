@@ -1,15 +1,6 @@
 import { tokenListingCountsByMetaId, TokenListingQueryResults } from './tokenListingCountsByMetaId';
 import { GraphQLClient } from 'graphql-request';
 
-jest.mock('graphql-request');
-
-jest.mock('@mintbase-js/sdk', () => ({
-  mbjs: {
-    keys: {
-      isSet: true,
-    },
-  },
-}));
 
 describe('tokenListingCountsByMetaId', () => {
   beforeEach(() => {
