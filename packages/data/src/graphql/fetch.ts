@@ -21,23 +21,25 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   network?: Network | null | undefined;
 }): Promise<GqlFetchResult<T>> => {
 
-  const networkfromConfig =  mbjs?.keys?.isSet && mbjs?.keys?.network;
+  let networkObj = network;
 
-  if (network && !isValidNetwork(network)) {
+
+  if (!network) {
+    networkObj = mbjs?.keys?.network;
+  }
+
+
+  if (networkObj && !isValidNetwork(networkObj)) {
     return { error: 'Please add a valid Network' };
   }
 
-  if (!network && !networkfromConfig) {
+  if (!networkObj) {
     return { error: 'Please set a network.' };
   }
 
-  const endpointReady = isValidNetwork(network) && network || isValidNetwork(mbjs?.keys?.network) && networkfromConfig; 
+  const endpointReady = isValidNetwork(networkObj) && networkObj;
 
-  let graphqlEndpoint = mbjs?.keys?.graphqlUrl;
-
-  if (network && isValidNetwork(network)) {
-    graphqlEndpoint = GRAPHQL_ENDPOINTS[network];
-  }
+  const graphqlEndpoint = GRAPHQL_ENDPOINTS[networkObj]  ?? mbjs?.keys?.graphqlUrl;
 
 
   if (endpointReady && graphqlEndpoint) {
