@@ -36,7 +36,7 @@ export const tokenById = async (
       tokenId,
       contractAddress,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}` : '';

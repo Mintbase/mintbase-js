@@ -21,7 +21,7 @@ export const ownedTokens = async (
       limit,
       offset,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error? `Error fetching token listing counts, ${error}`: '';

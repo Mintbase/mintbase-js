@@ -2,6 +2,10 @@
 jest.mock('graphql-request');
 
 jest.mock('@mintbase-js/sdk', () => ({
+  NEAR_NETWORKS:{
+    MAINNET: 'mainnet',
+    TESTNET: 'testnet',
+  },
   RPC_ENDPOINTS:{
     mainnet: 'https://rpc.mainnet.near.org',
     testnet: 'https://rpc.testnet.near.org',

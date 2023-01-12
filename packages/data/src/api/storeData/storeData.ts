@@ -15,7 +15,7 @@ export const storeData = async (
     variables: {
       contractAddress,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching store data, ${error}` : '';

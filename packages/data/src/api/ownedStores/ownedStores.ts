@@ -15,7 +15,7 @@ export const ownedStores = async (
     variables: {
       ownerId,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error? `Error fetching stores from ${ownerId}, ${error}`: '';

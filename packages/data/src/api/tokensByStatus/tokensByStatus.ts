@@ -13,7 +13,7 @@ export const tokensByStatus = async (metadataId: string, ownedBy?: string,networ
       metadataId,
       ownedBy,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error? `Error fetching token listing by status', ${error}`: '';

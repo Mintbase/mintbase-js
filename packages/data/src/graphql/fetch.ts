@@ -1,7 +1,9 @@
 import { DocumentNode } from 'graphql';
 import { GraphQLClient } from 'graphql-request';
 import { getErrorMessage } from '../errorHandling';
-import { GRAPHQL_ENDPOINTS, mbjs, Network } from '@mintbase-js/sdk';
+import { GRAPHQL_ENDPOINTS, mbjs, NEAR_NETWORKS, Network } from '@mintbase-js/sdk';
+
+const isValidNetwork = (network: Network): boolean =>  network === NEAR_NETWORKS.MAINNET || network ===  NEAR_NETWORKS.TESTNET;
 
 
 export type GqlFetchResult<T> = {
@@ -16,18 +18,29 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 }: {
   query: DocumentNode | string;
   variables?: V;
-  network?: Network | '';
+  network?: Network | null | undefined;
 }): Promise<GqlFetchResult<T>> => {
 
-  const endpointReady =  mbjs?.keys?.isSet || network?.length > 0; 
+  const networkfromConfig =  mbjs?.keys?.isSet && mbjs?.keys?.network;
 
-  let graphqlEndpoint = mbjs?.keys.graphqlUrl ?? '';
+  if (network && !isValidNetwork(network)) {
+    return { error: 'Please add a valid Network' };
+  }
 
-  if (network && network.length > 0) {
+  if (!network && !networkfromConfig) {
+    return { error: 'Please set a network.' };
+  }
+
+  const endpointReady = isValidNetwork(network) && network || isValidNetwork(mbjs?.keys?.network) && networkfromConfig; 
+
+  let graphqlEndpoint = mbjs?.keys?.graphqlUrl;
+
+  if (network && isValidNetwork) {
     graphqlEndpoint = GRAPHQL_ENDPOINTS[network];
   }
 
-  if (endpointReady) {
+
+  if (endpointReady && graphqlEndpoint) {
 
     try {
       const client = new GraphQLClient(graphqlEndpoint);

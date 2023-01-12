@@ -29,7 +29,7 @@ export const tokenListingCountsByMetaId = async (
     variables: {
       metadataId,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}`: '';

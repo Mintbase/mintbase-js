@@ -38,7 +38,7 @@ export const tokenProvenance = async (
       limit: pagination?.limit ?? 12,
       offset: pagination?.offset ?? 0,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching token provenance from ${error}` : '';

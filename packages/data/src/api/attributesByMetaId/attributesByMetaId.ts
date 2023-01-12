@@ -15,7 +15,7 @@ export const attributesByMetaId = async (
     variables: {
       nft_metadata_id,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching attributes for nft_metadata_id, ${error}` : '';

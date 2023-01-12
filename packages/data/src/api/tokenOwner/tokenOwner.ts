@@ -16,7 +16,7 @@ export const tokenOwner = async (
       tokenId,
       contractAddress,
     },
-    network: network ?? '',
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching token owner, ${error}` : '';
