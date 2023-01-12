@@ -21,7 +21,7 @@ If the data you want to get is more specific or isn't covered in any of these me
 | [ownedStores](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/ownedStores/README.md) | `ownerId: string` |get stores owned by owner id|
 | [nearPrice](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/nearPrice/README.md) | - |get near price in usd|
 | [storeData](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeData/README.md) | - |get store data by certain contract or contracts|
-
+| [storeNfts](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeNfts/README.md) | - |get store nfts by certain contract|
 
 While we will continue to provide public and our new mb_views schema objects, we will also begin to introduce helper methods here that can be used to query data **without having to write any graphql**.
 
