@@ -17,3 +17,4 @@
 | [ownedStores](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/ownedStores/README.md) | `ownerId: string` |get stores owned by owner id|
 | [nearPrice](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/nearPrice/README.md) | - |get near price in usd|
 | [storeData](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeData/README.md) | - |get store data by certain contract or contracts|
+| [storeNfts](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeNfts/README.md) | - |get store nfts by certain contract|
