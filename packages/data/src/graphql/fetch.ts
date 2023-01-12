@@ -35,7 +35,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
 
   let graphqlEndpoint = mbjs?.keys?.graphqlUrl;
 
-  if (network && isValidNetwork) {
+  if (network && isValidNetwork(network)) {
     graphqlEndpoint = GRAPHQL_ENDPOINTS[network];
   }
 
