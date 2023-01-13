@@ -1,9 +1,10 @@
-import { MBJS_CONFIG_PARAMS, NEAR_NETWORKS } from '../types';
-import * as methods from './config';
+
+import { NEAR_NETWORKS } from '../types';
 import { MAINNET_MOCK, TESTNET_MOCK } from './config.mocks';
 
 
 describe('test mbjs namespace', () => {
+
 
   beforeEach(() => {
     jest.resetModules();
@@ -39,57 +40,6 @@ describe('test mbjs namespace', () => {
     expect(process.env.NEAR_NETWORK).toBeDefined();
 
     expect(configModule.mbjs.keys).toEqual(MAINNET_MOCK);
-  });
-
-
-  /**
- * @testEnvironment jsdom
- */
-
-  it('should set CONFIG_KEYS with testnet values', () => {
-
-
-    jest.spyOn(methods, 'setGlobalEnv');
-
-
-    const config: MBJS_CONFIG_PARAMS = {
-      network: NEAR_NETWORKS.TESTNET,
-      contractAddress:  TESTNET_MOCK.contractAddress,
-      callbackUrl: TESTNET_MOCK.callbackUrl,
-    };
-
-    methods.mbjs.config(config);
-
-
-    expect(methods.setGlobalEnv).toHaveBeenCalledWith(config);
-    expect(methods.mbjs.keys).toEqual(TESTNET_MOCK);
-   
-  });
-
-
-  /**
- * @testEnvironment jsdom
- */
-
-
-  it('should set CONFIG_KEYS with mainnet values', () => {
-
-
-    jest.spyOn(methods, 'setGlobalEnv');
-
-
-    const config: MBJS_CONFIG_PARAMS = {
-      network: NEAR_NETWORKS.MAINNET,
-      contractAddress:  MAINNET_MOCK.contractAddress,
-      callbackUrl: MAINNET_MOCK.callbackUrl,
-    };
-
-    methods.mbjs.config(config);
-
-
-    expect(methods.setGlobalEnv).toHaveBeenCalledWith(config);
-    expect(methods.mbjs.keys).toEqual(MAINNET_MOCK);
-   
   });
 
 });

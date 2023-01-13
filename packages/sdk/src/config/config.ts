@@ -10,6 +10,7 @@ import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, Network, MINTBASE_CONTRACTS, N
 
 export const isProcessEnv = Boolean(typeof window == 'undefined' && process?.env?.NEAR_NETWORK);
 
+
 export const CONFIG_KEYS: MbJsKeysObject = {
   network: typeof window == 'undefined' && process.env.NEAR_NETWORK ? process.env.NEAR_NETWORK : NEAR_NETWORKS.TESTNET,
   graphqlUrl: '',
@@ -21,7 +22,6 @@ export const CONFIG_KEYS: MbJsKeysObject = {
   debugMode: false,
   isSet: false,
 };
-
 
 export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
   const MB_MARKET_ADDRESS = MARKET_CONTRACT_ADDRESS[configObj.network];
