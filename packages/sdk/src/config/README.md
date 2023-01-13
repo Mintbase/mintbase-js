@@ -6,9 +6,7 @@ This is the method to setup the global variables object on all your mintbase-js 
 You can set them in three ways:
 
 
-- 1. if you want to setup on our config method, in the main file of your project. 
-
-This method will work on both server side and client side.
+- 1. if you want to setup on our config method, in the main file of your project.This method will work on both server side and client side.
 note: thats the most advisable way to work with global variables on the mb.js packages.
 
   ```typescript
