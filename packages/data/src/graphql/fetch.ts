@@ -24,7 +24,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   let networkObj = network;
 
   if (!network) {
-    networkObj = mbjs?.keys?.network;
+    networkObj = mbjs?.keys?.network as Network;
   }
 
   if (networkObj && !isValidNetwork(networkObj)) {

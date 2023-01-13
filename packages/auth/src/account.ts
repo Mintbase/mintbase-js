@@ -13,12 +13,12 @@ import { connectToNear, Account, KeyStore } from '.';
 export const connect = async (
   accountId: string,
   keyStore: KeyStore,
-  network: Network = mbjs.keys.network,
+  network: Network = mbjs.keys.network as Network,
 ): Promise<Account> => {
   
   const near = await connectToNear({
     keyStore,
-    networkId: network || mbjs.keys.network,
+    networkId: network || mbjs.keys.network as Network,
     nodeUrl: RPC_ENDPOINTS[network] ||  mbjs.keys.nearRpcUrl,
     headers: {},
   });
