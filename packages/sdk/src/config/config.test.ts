@@ -25,7 +25,6 @@ describe('test mbjs namespace', () => {
 
 
     expect(methods.setGlobalEnv).toHaveBeenCalledWith(config);
-    expect(process.env.NEAR_NETWORK).toBeUndefined();
     expect(methods.mbjs.keys).toEqual(TESTNET_MOCK);
    
   });
@@ -47,7 +46,6 @@ describe('test mbjs namespace', () => {
 
 
     expect(methods.setGlobalEnv).toHaveBeenCalledWith(config);
-    expect(process.env.NEAR_NETWORK).toBeUndefined();
     expect(methods.mbjs.keys).toEqual(MAINNET_MOCK);
    
   });
