@@ -53,7 +53,7 @@ export enum RPC_ENDPOINTS  {
 
 export type MBJS_CONFIG_PARAMS = {
   network: Network | string;
-  contractAddress: string;
+  contractAddress?: string;
   callbackUrl?: string;
 }
 
