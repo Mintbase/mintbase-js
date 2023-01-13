@@ -11,28 +11,28 @@ You can set them in three ways:
 This method will work on both server side and client side.
 note: thats the most advisable way to work with global variables on the mb.js packages.
 
-```typescript
+  ```typescript
     import { mbjs } from '@mintbase-js/sdk';
 
-    const config = {
-        network: 'testnet',
-        callbackUrl: 'https://mintbase.xyz/success',
-        contractAddress: 'buddha.mintspace2.testnet'
-    }
+     const config = {
+          network: 'testnet',
+          callbackUrl: 'https://mintbase.xyz/success',
+          contractAddress: 'buddha.mintspace2.testnet'
+      }
 
-   mbjs.config(config)
+    mbjs.config(config)
 
-   //can retrieve the keys in any part of your application.
-   console.log(mbjs.keys , 'global keys of all mintbase-js packages')
-```
+    //can retrieve the keys in any part of your application.
+    console.log(mbjs.keys , 'global keys of all mintbase-js packages')
+  ```
 
 
 - 2. straight on the method itself if it accepts the variable as an argument.
 
   ```typescript
-     import { tokenById } from '@mintbase-js/data';
+    import { tokenById } from '@mintbase-js/data';
 
-    const { data, error } = await tokenById( '5','logout.mintbase1.near', 'mainnet');
+    const { data, error } = await tokenById('5','logout.mintbase1.near', 'mainnet');
   ```
 
 - 3. if you running a node.js project (ex: Next.js, Remix, Express) , and have support for process.env you can set your variables straight on .env file
@@ -53,6 +53,12 @@ note: thats the most advisable way to work with global variables on the mb.js pa
 
 
   ```typescript
+    const MyComponent = ({keys}) => {
+      console.log('mbjs keys',  keys)
+      return <> </>
+    }
+
+
     export const getServerSideProps = async ({
       res,
       req,
