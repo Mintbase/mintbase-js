@@ -8,9 +8,9 @@ import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, Network, MINTBASE_CONTRACTS, N
 // to create a new key you have to specify here on the CONFIG_KEYS and MbJsKeysObject + add on the setGlobalEnv
 
 export const isProcessEnv = Boolean(typeof window == 'undefined' && process?.env?.NEAR_NETWORK);
-export const isDebugMode = Boolean(typeof window == 'undefined' && process.env.NEAR_NETWORK === NEAR_NETWORKS.TESTNET);
-export const hasContractAddress =  Boolean(typeof window == 'undefined' && process.env.CONTRACT_ADDRESS);
-export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process.env.CALLBACK_URL);
+export const isDebugMode = Boolean(typeof window == 'undefined' && process?.env?.NEAR_NETWORK === NEAR_NETWORKS.TESTNET);
+export const hasContractAddress =  Boolean(typeof window == 'undefined' && process?.env?.CONTRACT_ADDRESS);
+export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
 
 
 // if users set vars on process.env it will come by default setting up the config on the server.
@@ -19,9 +19,10 @@ export const CONFIG_KEYS: MbJsKeysObject = {
   graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.TESTNET],
   nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.TESTNET],
   callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '' ,
-  contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS :  '',
+  // will check for process.env.CONTRACT_ADDRESS if not will setup mintbase contract according to the network, if not will setup testnet contract
+  contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
-  mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET] ,
+  mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
   debugMode: isDebugMode ? true : false,
   isSet:  isProcessEnv ? true : false,
 };
@@ -33,7 +34,7 @@ export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
     graphqlUrl: GRAPHQL_ENDPOINTS[configObj.network],
     nearRpcUrl: RPC_ENDPOINTS[configObj.network],
     callbackUrl: configObj.callbackUrl,
-    contractAddress: configObj.contractAddress,
+    contractAddress: configObj.contractAddress ?? MINTBASE_CONTRACTS[configObj.network],
     marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
