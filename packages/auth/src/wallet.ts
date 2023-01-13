@@ -36,8 +36,6 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
 
-  console.log(mbjs.keys, 'wallet selector keys');
-
   const selector = await setupWalletSelector({
     network: mbjs.keys.network as Network,
     debug: mbjs.keys.debugMode,
