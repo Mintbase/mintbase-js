@@ -7,33 +7,34 @@ import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, Network, MINTBASE_CONTRACTS, N
 
 // to create a new key you have to specify here on the CONFIG_KEYS and MbJsKeysObject + add on the setGlobalEnv
 
-
 export const isProcessEnv = Boolean(typeof window == 'undefined' && process?.env?.NEAR_NETWORK);
+export const isDebugMode = Boolean(typeof window == 'undefined' && process.env.NEAR_NETWORK === NEAR_NETWORKS.TESTNET);
+export const hasContractAddress =  Boolean(typeof window == 'undefined' && process.env.CONTRACT_ADDRESS);
+export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process.env.CALLBACK_URL);
 
 
+// if users set vars on process.env it will come by default setting up the config on the server.
 export const CONFIG_KEYS: MbJsKeysObject = {
-  network: typeof window == 'undefined' && process.env.NEAR_NETWORK ? process.env.NEAR_NETWORK : NEAR_NETWORKS.TESTNET,
-  graphqlUrl: '',
-  nearRpcUrl: '',
-  callbackUrl:  typeof window == 'undefined' && process.env.CALLBACK_URL ? process.env.CALLBACK_URL : '' ,
-  contractAddress: typeof window == 'undefined' && process.env.CONTRACT_ADDRESS ? process.env.CONTRACT_ADDRESS :  '',
-  marketAddress: '',
-  mbContract: MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
-  debugMode: false,
-  isSet: false,
+  network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.TESTNET,
+  graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.TESTNET],
+  nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.TESTNET],
+  callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '' ,
+  contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS :  '',
+  marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
+  mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET] ,
+  debugMode: isDebugMode ? true : false,
+  isSet:  isProcessEnv ? true : false,
 };
 
 export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
-  const MB_MARKET_ADDRESS = MARKET_CONTRACT_ADDRESS[configObj.network];
-
 
   const globalConfig: MbJsKeysObject = {
     network: configObj.network as Network,
-    graphqlUrl: GRAPHQL_ENDPOINTS[configObj.network] || '',
+    graphqlUrl: GRAPHQL_ENDPOINTS[configObj.network],
     nearRpcUrl: RPC_ENDPOINTS[configObj.network],
-    callbackUrl:   configObj.callbackUrl || '',
-    contractAddress: configObj.contractAddress || '',
-    marketAddress: MB_MARKET_ADDRESS,
+    callbackUrl: configObj.callbackUrl,
+    contractAddress: configObj.contractAddress,
+    marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
     isSet: true,
@@ -53,28 +54,30 @@ export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
 };
  
 
-export const setConfigProcessEnv = (): MbJsKeysObject => {
-  let callbackUrl = '';
-  let contractAddress = '';
+// export const setConfigProcessEnv = (): MbJsKeysObject => {
+//   let callbackUrl = '';
+//   let contractAddress = '';
 
-  if (process?.env.CALLBACK_URL) {
-    callbackUrl = process?.env.CALLBACK_URL;
-  }
+//   if (process?.env.CALLBACK_URL) {
+//     callbackUrl = process?.env.CALLBACK_URL;
+//   }
 
-  if (process?.env.CONTRACT_ADDRESS) {
-    contractAddress = process?.env.CONTRACT_ADDRESS;
-  }
+//   if (process?.env.CONTRACT_ADDRESS) {
+//     contractAddress = process?.env.CONTRACT_ADDRESS;
+//   }
 
-  const configObjProcess = { network: process.env.NEAR_NETWORK as Network, callbackUrl: callbackUrl, contractAddress: contractAddress };
+//   const configObjProcess = { network: process.env.NEAR_NETWORK as Network, callbackUrl: callbackUrl, contractAddress: contractAddress };
    
-  return setGlobalEnv(configObjProcess);
-};
+//   return setGlobalEnv(configObjProcess);
+// };
 
+
+// client-side method
 const mbjsConfig = (configObj: MBJS_CONFIG_PARAMS = CONFIG_KEYS): MbJsKeysObject => {
   return setGlobalEnv(configObj);
 };
 
 export const mbjs = {
   config: mbjsConfig,
-  keys: isProcessEnv? setConfigProcessEnv() : CONFIG_KEYS,
+  keys:  CONFIG_KEYS,
 };
