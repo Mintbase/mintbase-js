@@ -12,42 +12,40 @@ This method will work on both server side and client side.
 note: thats the most advisable way to work with global variables on the mb.js packages.
 
 ```typescript
-      import { mbjs } from '@mintbase-js/sdk';
+    import { mbjs } from '@mintbase-js/sdk';
 
-      const config = {
+    const config = {
         network: 'testnet',
         callbackUrl: 'https://mintbase.xyz/success',
         contractAddress: 'buddha.mintspace2.testnet'
-      }
+    }
 
-      mbjs.config(config)
+   mbjs.config(config)
 
    //can retrieve the keys in any part of your application.
    console.log(mbjs.keys , 'global keys of all mintbase-js packages')
 ```
 
 
-- 1. straight on the method itself if it accepts the variable as an argument.
+- 2. straight on the method itself if it accepts the variable as an argument.
 
   ```typescript
-      connect(
-        accountId: string,
-        keyStore: Keystore,
-        network: NearNetwork = 'testnet'
-      ): Promise<Account>
+     import { tokenById } from '@mintbase-js/data';
+
+    const { data, error } = await tokenById( '5','logout.mintbase1.near', 'mainnet');
   ```
 
-- 2. if you running a node.js project (ex: Next.js, Remix, Express) , and have support for process.env you can set your variables straight on .env file
+- 3. if you running a node.js project (ex: Next.js, Remix, Express) , and have support for process.env you can set your variables straight on .env file
 
  
 
   ```
-  NEAR_NETWORK=testnet
-  CALLBACK_URL=https://mintbase.xyz/success
-  CONTRACT_ADDRESS=buddha.mintspace2.testnet
+    NEAR_NETWORK=testnet
+    CALLBACK_URL=https://mintbase.xyz/success
+    CONTRACT_ADDRESS=buddha.mintspace2.testnet
   ```
 
-  but those variables will work on server side only due to limitations on process.env on client-side.
+  but those variables will work on server side only due to limitations of process.env on client-side.
 
   If you want to retrieve the env keys client-side:
 
