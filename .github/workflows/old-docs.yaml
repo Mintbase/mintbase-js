@@ -2,7 +2,7 @@ name: Old TS Docs
 
 on:
   push:
-   branches: [ main ]
+   branches: [ main, alpha ]
 
 jobs:
   build-and-deploy:
