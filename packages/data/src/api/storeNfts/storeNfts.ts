@@ -5,7 +5,7 @@ import { storeNftsQuery } from './storeNfts.query';
 import { StoreNftsResult } from './storeNfts.types';
 
 export const storeNfts = async (
-  contractAddress: string,
+  contractAddress: string | string[],
   showOnlyListed?: boolean,
   pagination?: Pagination,
 ): Promise<ParsedDataReturn<StoreNftsResult>> => {
@@ -13,7 +13,7 @@ export const storeNfts = async (
     query: storeNftsQuery,
     variables: {
       condition: {
-        nft_contract_id: { _eq: contractAddress },
+        nft_contract_id: { _in: contractAddress },
         ...(showOnlyListed && { price: { _is_null: false } }),
       },
       limit: pagination?.limit ?? 12,
