@@ -8,3 +8,6 @@ export * from './tokenOwner/tokenOwner';
 export * from './tokenProvenance/tokenProvenance';
 export * from './tokenOwnersByMetadataId/tokenOwnersByMetadataId';
 export * from './ownedStores/ownedStores';
+export * from './storeNfts/storeNfts';
+export * from './nearPrice/nearPrice';
+export * from './storeData/storeData';
