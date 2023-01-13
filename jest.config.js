@@ -11,10 +11,5 @@ module.exports = {
   moduleNameMapper: {
     '@near-wallet-selector/meteor-wallet': '<rootDir>/jest.stub.js',
   },
-  globals: {
-    "window": {
-      location: {host: 'testnet.mintbase.io'}
-    }
-  },
   setupFilesAfterEnv: ['../../jest.setup.tsx'],
 };

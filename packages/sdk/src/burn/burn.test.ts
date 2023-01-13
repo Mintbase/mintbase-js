@@ -1,16 +1,6 @@
 import { TOKEN_METHOD_NAMES } from '../types';
 import { burn, DEPOSIT_FOR_BURN, GAS_FOR_BURN } from './burn';
 
-
-// jest.mock('../config', () => ({
-//   mbjs: {
-//     keys: {
-//       isSet: true,
-//       contractAddress: 'buddha.mintspace2.testnet',
-//     },
-//   },
-// }));
-
 describe('burn method calls', () => {
   const contractAddress = 'test.nft.contract';
   const tokenId1 = '1';

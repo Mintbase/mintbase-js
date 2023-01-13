@@ -36,8 +36,8 @@ export enum MARKET_CONTRACT_ADDRESS {
 }
 
 export enum MINTBASE_CONTRACTS {
-  mainnet =  'mintspace2.testnet',
-  testnet = 'mintbase1.near',
+  testnet =  'mintspace2.testnet',
+  mainnet = 'mintbase1.near',
 }
 
 export enum GRAPHQL_ENDPOINTS  { 
@@ -52,7 +52,7 @@ export enum RPC_ENDPOINTS  {
 
 
 export type MBJS_CONFIG_PARAMS = {
-  network: Network;
+  network: Network | string;
   contractAddress: string;
   callbackUrl?: string;
 }

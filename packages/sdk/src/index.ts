@@ -12,5 +12,5 @@ export * from './buy/buy';
 export * from './depositStorage/depositStorage';
 export * from './mint/mint';
 export * from './delist/delist';
-export * from './config/config';
+export { mbjs } from './config/config';
 export * from './types';
