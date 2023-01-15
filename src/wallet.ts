@@ -1046,6 +1046,7 @@ export class Wallet {
     options?: OptionalMethodArgs & {
       royaltyPercentage?: number
       metadataId?: string
+      owner?: string
     }
   ): Promise<ResponseData<boolean>> {
     const account = this.activeWallet?.account()
@@ -1106,7 +1107,7 @@ export class Wallet {
     const { base_uri } = data.nft_contracts[0]
 
     const obj = {
-      owner_id: accountId,
+      owner_id: options?.owner || accountId,
       metadata: {
         reference: base_uri ? metadataId : `${BASE_ARWEAVE_URI}/${metadataId}`,
         // TODO: check if category is lowercase
