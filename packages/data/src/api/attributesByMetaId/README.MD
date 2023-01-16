@@ -28,7 +28,7 @@ Example:
 {% code title="queryNftsByStore.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { attributesByMetaId } from '@mintbase/data'
+import { attributesByMetaId } from '@mintbase-js/data'
 
 const {data, error} = await attributesByMetaId('test');
 
