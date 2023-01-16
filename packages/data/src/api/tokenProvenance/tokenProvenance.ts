@@ -3,7 +3,7 @@ import { fetchGraphQl } from '../../graphql/fetch';
 import { Pagination, ParsedDataReturn } from '../../types';
 import { parseData, validContractAddress, validTokenId } from '../../utils';
 import { errorContractAddress, errorToken } from './tokenProvenance.errors';
-import { getTokenProvenance } from './tokenProvenance.query';
+import { getTokenProvenanceQuery } from './tokenProvenance.query';
 import { TokenProvenanceData } from './tokenProvenance.types';
 
 export const tokenProvenance = async (
@@ -31,7 +31,7 @@ export const tokenProvenance = async (
   }
 
   const { data, error } = await fetchGraphQl<TokenProvenanceData>({
-    query: getTokenProvenance,
+    query: getTokenProvenanceQuery,
     variables: {
       tokenId,
       contractAddress,
