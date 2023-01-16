@@ -41,8 +41,6 @@ Example:
 
 import { tokenById } from  '@mintbase/data'
 
-
-
 const { data, error } = await tokenById( '1','rub3n.testnet');
 
 if (error) {console.log('error', error)}

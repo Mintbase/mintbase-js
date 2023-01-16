@@ -41,8 +41,6 @@ Example:
 
 import { storeNfts } from  '@mintbase-js/data'
 
-
-
 const { data, error } = await storeNfts('teammintbase.mintbase1.near', true);
 
 if (error) {console.log('error', error)}
