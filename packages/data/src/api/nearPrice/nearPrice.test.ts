@@ -15,7 +15,7 @@ describe('nearPrice Test', () => {
 
     const args = await methods.nearPrice();
 
-    expect(args).toEqual(nearPriceMock);
+    expect(args?.data).toEqual(nearPriceMock);
   });
 
 
