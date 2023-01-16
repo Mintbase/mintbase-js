@@ -1,7 +1,7 @@
 import { gql } from 'graphql-request';
 import { QUERY_OPS_PREFIX } from '../../constants';
 
-export const getTokenProvenance = gql`
+export const getTokenProvenanceQuery = gql`
 query ${QUERY_OPS_PREFIX}_getTokenProvenance(
     $tokenId: String!
     $contractAddress: String!
