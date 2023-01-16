@@ -23,5 +23,7 @@ export const storeNfts = async (
 
   const errorMsg = error ? `Error fetching store nfts, ${error}` : '';
 
-  return parseData(data, error, errorMsg);
+  const loading = !data && !error;
+
+  return parseData(data, error, errorMsg, loading);
 };

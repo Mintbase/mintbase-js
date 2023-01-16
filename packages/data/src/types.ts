@@ -20,6 +20,7 @@ export type Token = {
 export interface ParsedDataReturn<T> {
   error?: null | string;
   data?: T | null;
+  loading?: boolean;
 }
 
 export type NftAttributesQueryResult = {

@@ -1,7 +1,12 @@
 import { ParsedDataReturn } from './types';
 
 
-export const parseData = <T>(data: T, error: null | string, errorMsg: string): ParsedDataReturn<T> => {
+export const parseData = <T>(data: T, error: null | string, errorMsg: string, loading?: boolean): ParsedDataReturn<T> => {
+  
+  if (loading) {
+    return { loading: loading };
+  }
+  
   if (error) {
     console.error(errorMsg);
     return { error: error };
