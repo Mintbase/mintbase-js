@@ -1,9 +1,11 @@
-[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] [![npm version](https://img.shields.io/npm/v/mintbase.svg?style=flat)](https://www.npmjs.com/package/mintbase) ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
+[![Licence](https://img.shields.io/badge/license-MIT-blue.svg)][5] ![example workflow](https://github.com/Mintbase/mintbase-js/actions/workflows/ci.yml/badge.svg)
 [![Downloads](https://img.shields.io/npm/dt/mintbase.svg)](https://www.npmjs.com/package/mintbase)
 
 ## Mintbase API
-
 General purpose Mintbase API for interacting with NEAR, Arweave and other supported blockchains and decentralized filestorage systems.
+
+# Deprecating Soon
+This version of mintbase JS will be deprecated later this year (2023). Please see the [new documentation](https://docs.mintbase.io/dev/mintbase-sdk-ref) for details. Assistance with migration paths will be made available well before this date. Please join us on [Telegram](https://t.me/mintdev) to keep up with update and get support.
 
 [See the types documentation][1]
 
