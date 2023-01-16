@@ -25,6 +25,7 @@
     "isomorphic-unfetch": "^3.1.0"
   },
   "devDependencies": {
-    "@types/bn.js": "^5.1.1"
+    "@types/bn.js": "^5.1.1",
+    "@mintbase-js/sdk": "*"
   }
 }

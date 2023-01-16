@@ -6,7 +6,7 @@ Buys a token that has been listed on the mintbase market as long as the price pr
 
 The token is specified via `tokenId` and the corresponding `nftContractId`.
 
-The nftContactId can be supplied as an argument or through the `NFT_CONTRACT_ID` environment variable.
+The nftContactId can be supplied as an argument or through the `CONTRACT_ADDRESS` environment variable.
 
 An affiliate kickback is also possible using the referrer field. This allows markets to specify an account to receive affiliante gains. This totals to 1.25% per purchase and works as a built in business model.
 
@@ -23,8 +23,8 @@ export type BuyArgs = {
     // the price you want to buy a token for, this must be greater than the amount its currently listed for
     price: string;
     // contract to which the token belongs, 
-    //as an argument or through NFT_CONTRACT_ID env
-    nftContractId?: string;
+    //as an argument or through CONTRACT_ADDRESS env
+    contractAddress?: string;
     // id of the token to be bought
     tokenId: string;
     // account that will receive the affiliate kick back (check affiliate documentation)
@@ -45,7 +45,7 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, burn, BuyArgs } from '@mintbase-js/sdk';
 
 
-export const BuyComponent = ({ nftContractId, price, tokenId, referrerId, marketId }:BuyArgs): JSX.Element => {
+export const BuyComponent = ({ contractAddress, price, tokenId, referrerId, marketId }:BuyArgs): JSX.Element => {
   
   const { selector } = useWallet();
   
@@ -53,7 +53,7 @@ export const BuyComponent = ({ nftContractId, price, tokenId, referrerId, market
     
     const wallet = await selector.wallet();
 
-    const buyArgs = {nftContractId: nftContractId, tokenId:tokenId, referrerId:referrerId , marketId:marketId, price:price }
+    const buyArgs = {contractAddress: contractAddress, tokenId:tokenId, referrerId:referrerId , marketId:marketId, price:price }
 
     await execute(
       {wallet},
@@ -65,7 +65,7 @@ export const BuyComponent = ({ nftContractId, price, tokenId, referrerId, market
   return (
     <div>
       <button onClick={handleBuy}>
-        Burn provided token array from {contractId}
+        Burn provided token array from {contractAddress}
       </button>
     </div>
   );

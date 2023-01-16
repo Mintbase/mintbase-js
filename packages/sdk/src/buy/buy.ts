@@ -1,10 +1,13 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { DEFAULT_CONTRACT_ADDRESS, GAS, MARKET_METHOD_NAMES, MB_MARKET_ADDRESS } from '../constants';
+import { mbjs } from '../config/config';
+import { GAS  } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';
+import { MARKET_METHOD_NAMES } from '../types';
 
 export type BuyArgs = {
     price: string;
-    nftContractId?: string;
+    contractAddress?: string;
     tokenId: string;
     referrerId?: string;
     marketId?: string;
@@ -18,16 +21,16 @@ export type BuyArgs = {
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
 export const buy = (args: BuyArgs): NearContractCall => {
-  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, tokenId, referrerId = null, marketId = MB_MARKET_ADDRESS, price } = args;
+  const { contractAddress = mbjs.keys.contractAddress, tokenId, referrerId = null, marketId = mbjs.keys.marketAddress, price } = args;
 
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID environment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   return {
-    contractAddress: marketId,
+    contractAddress: marketId || mbjs.keys.marketAddress,
     args: {
-      nft_contract_id: nftContractId,
+      CONTRACT_ADDRESS: contractAddress || mbjs.keys.contractAddress,
       token_id: tokenId,
       referrer_id: referrerId,
     },

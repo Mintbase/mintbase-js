@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData, validContractAddress, validTokenId } from '../../utils';
@@ -10,6 +11,7 @@ import { TokenByIdResults } from './tokenById.types';
 export const tokenById = async (
   tokenId: string | number,
   contractAddress: string,
+  network?: Network,  
 ): Promise<ParsedDataReturn<TokenByIdResults>> => {
   const isValidTokenId =  validTokenId(tokenId);
   const isValidContractAddress = validContractAddress(contractAddress);
@@ -34,6 +36,7 @@ export const tokenById = async (
       tokenId,
       contractAddress,
     },
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching token listing counts, ${error}` : '';

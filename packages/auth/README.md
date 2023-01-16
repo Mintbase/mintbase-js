@@ -15,6 +15,11 @@ This module can be used as a framework agnostic wrapper using framework specific
 
 *Check back soon for documentation on wallet selector wrapper methods and example usage with other frameworks in the near future.*
 
+
+# config vars
+
+read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
 # Account <div name="account"></div>
 
 The primary method used for loading a NEAR account into your Node programs is via the `connect` method

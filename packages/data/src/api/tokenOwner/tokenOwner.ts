@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
@@ -7,6 +8,7 @@ import { TokenOwnerQueryResult } from './tokenOwner.types';
 export const tokenOwner = async (
   tokenId: string,
   contractAddress: string,
+  network?: Network,  
 ): Promise<ParsedDataReturn<string>> => {
   const { data, error } = await fetchGraphQl<TokenOwnerQueryResult>({
     query: tokenOwnerQuery,
@@ -14,6 +16,7 @@ export const tokenOwner = async (
       tokenId,
       contractAddress,
     },
+    ...(network && { network:network }),
   });
 
   const errorMsg = error ? `Error fetching token owner, ${error}` : '';

@@ -6,6 +6,10 @@ Built-in methods to help fetch data from our indexer.
 These methods aim to make it as easy as possible to get blockchain data.
 If the data you want to get is more specific or isn't covered in any of these methods check out our GraphQl Indexer where you can get as specific as you need!
 
+# config vars
+
+read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
 # methods
 
 | method name | params | description |

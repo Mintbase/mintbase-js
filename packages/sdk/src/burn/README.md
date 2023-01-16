@@ -6,7 +6,7 @@ Tries to buy one or more tokens for a given smart contract id.
 
 You must own a token to be able to burn it.
 
-The nftContactId can be supplied as an argument or through the `NFT_CONTRACT_ID` environment variable.
+The nftContactId can be supplied as an argument or through the `CONTRACT_ADDRESS` environment variable.
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
@@ -18,8 +18,8 @@ The nftContactId can be supplied as an argument or through the `NFT_CONTRACT_ID`
 type BurnArgs = {
   burn: {
     //the contract from which to burn tokens
-    //as an argument or through NFT_CONTRACT_ID env
-    nftContractId?: string;
+    //as an argument or through CONTRACT_ADDRESS env
+    contractAddress?: string;
     //the array of token ids to burn
     tokenIds: string[];
   }[];
@@ -37,7 +37,7 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, burn, BurnArgs } from '@mintbase-js/sdk';
 
 
-export const BurnComponent = ({ tokenIds, contractId }:BurnArgs): JSX.Element => {
+export const BurnComponent = ({ tokenIds, contractAddress }:BurnArgs): JSX.Element => {
   
   const { selector } = useWallet();
   
@@ -47,7 +47,7 @@ export const BurnComponent = ({ tokenIds, contractId }:BurnArgs): JSX.Element =>
 
     await execute(
       {wallet},
-      burn({ nftContractId: contractId, tokenIds: tokenIds })
+      burn({ contractAddress: contractAddress, tokenIds: tokenIds })
     );
 
   }
@@ -55,7 +55,7 @@ export const BurnComponent = ({ tokenIds, contractId }:BurnArgs): JSX.Element =>
   return (
     <div>
       <button onClick={handleBurn}>
-        Burn provided token array from {contractId}
+        Burn provided token array from {contractAddress}
       </button>
     </div>
   );

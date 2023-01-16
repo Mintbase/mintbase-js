@@ -10,5 +10,6 @@ module.exports = {
   testTimeout: 60000,
   moduleNameMapper: {
     '@near-wallet-selector/meteor-wallet': '<rootDir>/jest.stub.js',
-  }
+  },
+  setupFilesAfterEnv: ['../../jest.setup.tsx'],
 };

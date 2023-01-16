@@ -1,12 +1,15 @@
-import { ONE_YOCTO, GAS, TOKEN_METHOD_NAMES, DEFAULT_CONTRACT_ADDRESS } from '../constants';
+import { mbjs } from '../config/config';
+import { ONE_YOCTO, GAS } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';
+import { TOKEN_METHOD_NAMES } from '../types';
 
 export type TransferArgs = {
   transfers: {
     receiverId: string;
     tokenId: string;
   }[];
-  nftContractId?: string;
+  contractAddress?: string;
 };
 
 
@@ -22,14 +25,16 @@ export const GAS_FOR_TRANSFER = GAS;
  */
 export const transfer = ({
   transfers,
-  nftContractId = DEFAULT_CONTRACT_ADDRESS,
+  contractAddress = mbjs.keys.contractAddress,
 }: TransferArgs): NearContractCall => {
-  if (nftContractId === null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID env as default');
+
+
+  if (contractAddress === null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (transfer.length == 0) {
-    throw new Error('You must transfer at least one token');
+    throw new Error(ERROR_MESSAGES.TRANSFER);
   }
 
   if (transfers.length > 1) {
@@ -38,7 +43,7 @@ export const transfer = ({
     });
 
     return {
-      contractAddress: nftContractId,
+      contractAddress: contractAddress || mbjs.keys.contractAddress,
       methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
       args: {
         token_ids: ids,
@@ -50,7 +55,7 @@ export const transfer = ({
     const { receiverId, tokenId } = transfers.pop();
 
     return {
-      contractAddress: nftContractId,
+      contractAddress: contractAddress || mbjs.keys.contractAddress,
       methodName: TOKEN_METHOD_NAMES.TRANSFER,
       args: {
         receiver_id: receiverId,

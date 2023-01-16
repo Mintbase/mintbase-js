@@ -17,12 +17,14 @@ export type ContractCall = {
 
 export type NearContractCall = ContractCall | ContractCall[]
 
-export type NearCallSigningOptions = {
+export type NearExecuteOptions = {
   wallet?: Wallet;
   account?: Account;
+  callbackUrl?: string;
+ 
 };
 
-const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): void => {
+const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
   if (!wallet && !account) {
     throw NoSigningMethodPassedError;
   }
@@ -31,17 +33,17 @@ const validateSigningOptions = ({ wallet, account }: NearCallSigningOptions): vo
 /**
  * Base method for executing contract calls.
  * @param signing object containing either near wallet selector
- * @param calls  {@link NearContractCall[]} any number of of single calls or compositions
+ * @param calls  {@link NearContractCall[]} any numberw of of single calls or compositions
  *  wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
-  { wallet, account }: NearCallSigningOptions,
+  { wallet, account,   callbackUrl }: NearExecuteOptions,
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
   validateSigningOptions({ wallet, account });
 
-  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account);
+  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
   if (outcomes && outcomes.length == 1) {
     return outcomes[0];
   }
@@ -49,11 +51,12 @@ export const execute = async (
 
 };
 
-const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account): Promise<void | providers.FinalExecutionOutcome[]> =>{
+const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
+
   if (wallet) {
-    return batchExecuteWithBrowserWallet(call, wallet);
+    return batchExecuteWithBrowserWallet(call, wallet, callbackUrl);
   }
-  return batchExecuteWithNearAccount(call, account);
+  return batchExecuteWithNearAccount(call, account, callbackUrl);
 
 };
 
@@ -63,9 +66,11 @@ const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account
 const batchExecuteWithNearAccount = async (
   calls: ContractCall[],
   account: Account,
+  callbackUrl: string,
 ): Promise<FinalExecutionOutcome[]> => {
-  const outcomes: FinalExecutionOutcome[] =[];
+  const outcomes: any[] =[];
   for (const call of calls) {
+
     try {
       outcomes.push(await account.functionCall({
         contractId: call.contractAddress,
@@ -73,6 +78,7 @@ const batchExecuteWithNearAccount = async (
         args: call.args,
         gas: new BN(call.gas),
         attachedDeposit: new BN(call.deposit),
+        walletCallbackUrl: callbackUrl,
       }));
     } catch (err: unknown) {
       console.error(
@@ -86,9 +92,12 @@ const batchExecuteWithNearAccount = async (
 const batchExecuteWithBrowserWallet = async (
   calls: ContractCall[],
   wallet: Wallet,
+  callback: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
+
   return await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
+    callbackUrl: callback,
   });
 };
 
@@ -98,20 +107,23 @@ declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
 const convertGenericCallToWalletCall = (
   call: ContractCall,
-): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => ({
-  signerId: call.signerId,
-  receiverId: call.contractAddress,
-  callbackUrl: call.callbackUrl,
-  actions:[{
-    type: 'FunctionCall',
-    params: {
-      methodName: call.methodName,
-      args: call.args,
-      gas: call.gas as string,
-      deposit: call.deposit as string,
-    },
-  }],
-});
+): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
+
+  return {
+    signerId: call.signerId,
+    receiverId: call.contractAddress,
+    callbackUrl: call.callbackUrl,
+    actions:[{
+      type: 'FunctionCall',
+      params: {
+        methodName: call.methodName,
+        args: call.args,
+        gas: call.gas as string,
+        deposit: call.deposit as string,
+      },
+    }],
+  };
+};
 
 function flattenArgs(calls: NearContractCall[]): ContractCall[] {
   const contractCalls: ContractCall[] =[];

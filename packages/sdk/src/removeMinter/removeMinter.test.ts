@@ -1,20 +1,21 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { removeMinter } from '../removeMinter/removeMinter';
-import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 
 describe('remove minter unit tests', () => {
-  const nftContractId = 'test.nft.contract';
+  const contractAddress = 'test.nft.contract';
   const minter = 'test';
 
 
   test('remove minter', () => {
     const args = removeMinter({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       minterId: minter,
     });
   
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.REMOVE_MINTER,
       args: {
         account_id: minter,

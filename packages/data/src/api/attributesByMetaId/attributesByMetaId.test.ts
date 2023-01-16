@@ -48,7 +48,7 @@ describe('attributesByMetaId', () => {
       'attribute_type': 'BidAmount',
     }];
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<NftAttributesQueryResult> =>
+      request: (env: 'testnet'): Promise<NftAttributesQueryResult> =>
         Promise.resolve({
           nft_attributes: attributes,
         }),

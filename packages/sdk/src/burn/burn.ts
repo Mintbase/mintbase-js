@@ -1,32 +1,34 @@
 import { NearContractCall } from '../execute';
-import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
+import { mbjs } from '../config/config';
+import { TOKEN_METHOD_NAMES } from '../types';
+import { ERROR_MESSAGES } from '../errorMessages';
 
 export type BurnArgs = {
-  nftContractId?: string;
+  contractAddress?: string;
   tokenIds: string[];
 };
 
 export const DEPOSIT_FOR_BURN = ONE_YOCTO;
 export const GAS_FOR_BURN = GAS;
-const DEFAULT_CONTRACT_ADDRESS = process.env.TOKEN_CONTRACT || null;
 
 /**
  * Burns one or more tokens from a given contract.
  * @param burnArguments {@link BurnArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const burn = ({ tokenIds, nftContractId = DEFAULT_CONTRACT_ADDRESS }: BurnArgs): NearContractCall => {
+export const burn = ({ tokenIds, contractAddress = mbjs.keys.contractAddress }: BurnArgs): NearContractCall => {
 
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (tokenIds.length === 0) {
-    throw new Error('Burn contract call should not have an empty array of tokens ids');
+    throw new Error(ERROR_MESSAGES.BURN_TOKEN_IDS);
   }
 
   return {
-    contractAddress: nftContractId,
+    contractAddress: contractAddress || mbjs.keys.contractAddress,
     methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
     args: {
       token_ids: tokenIds,

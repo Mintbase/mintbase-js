@@ -1,29 +1,32 @@
-import { DEFAULT_CONTRACT_ADDRESS, GAS, MB_MARKET_ADDRESS, ONE_YOCTO, TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES } from '../constants';
+import { mbjs } from '../config/config';
+import {  GAS, ONE_YOCTO } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { ContractCall, NearContractCall } from '../execute';
+import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES } from '../types';
 
 type DelistArgs = {
-    nftContractId: string;
+  contractAddress: string;
     tokenIds: string[];
-    marketId?: string;
+    marketAddress?: string;
     oldMarket?: boolean;
 }
 
 export const delist = (
   args: DelistArgs,
 ): NearContractCall => {
-  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, tokenIds, marketId = MB_MARKET_ADDRESS, oldMarket = false } = args;
+  const { contractAddress = mbjs.keys.contractAddress, tokenIds, marketAddress = mbjs.keys.marketAddress, oldMarket = false } = args;
 
   
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (!(tokenIds instanceof Array)) {
-    throw new Error('tokenIds must be an array');
+    throw new Error(ERROR_MESSAGES.TOKEN_NOT_ARRAY);
   }
 
   if (!(tokenIds.length >0)) {
-    throw new Error('tokenIds must have more than one element');
+    throw new Error(ERROR_MESSAGES.TOKEN_LENGTH);
   }
 
   const result: NearContractCall = [];
@@ -31,10 +34,10 @@ export const delist = (
   //revoke ownership for all tokens
   for (const tokenId of tokenIds) {
     result.push ({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress || mbjs.keys.marketAddress,
       args: {
         token_id: tokenId,
-        account_id: marketId,
+        account_id: marketAddress || mbjs.keys.marketAddress,
       },
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       gas: GAS,
@@ -44,11 +47,11 @@ export const delist = (
   
 
   result.push( {
-    contractAddress: marketId,
+    contractAddress: marketAddress || mbjs.keys.marketAddress,
     methodName: oldMarket? MARKET_METHOD_NAMES.UNLIST_OLD_MARKET: MARKET_METHOD_NAMES.UNLIST ,
     args: {
       token_ids: tokenIds,
-      nft_contract_id: nftContractId,
+      CONTRACT_ADDRESS: contractAddress || mbjs.keys.marketAddress,
     },
     gas: GAS,
     deposit: ONE_YOCTO,

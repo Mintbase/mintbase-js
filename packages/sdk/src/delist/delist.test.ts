@@ -1,37 +1,38 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { GAS, MARKET_METHOD_NAMES, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { mbjs } from '../config/config';
+import { GAS, ONE_YOCTO  } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { delist } from './delist';
 
 describe('delist account', () => {
 
-  const nftContractId = 'test';
+  const contractAddress = 'test';
   const tokenId= 'test';
-  const marketId = 'test';
+  const marketAddress = 'test';
 
   test('delist with all args', () =>{
     const args = delist({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       tokenIds: [tokenId],
-      marketId: marketId,
+      marketAddress: marketAddress,
     });
 
     expect(args[0]).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
         token_id: tokenId,
-        account_id: marketId,
+        account_id: marketAddress,
       },
       deposit: ONE_YOCTO,
       gas: GAS,
     });
 
     expect(args[1]).toEqual({
-      contractAddress: marketId,
+      contractAddress: marketAddress,
       methodName: 'unlist',
       args: {
         token_ids: [tokenId],
-        nft_contract_id: nftContractId,
+        CONTRACT_ADDRESS: contractAddress,
       },
       deposit: ONE_YOCTO,
       gas: GAS,
@@ -40,15 +41,15 @@ describe('delist account', () => {
 
   test('delisting without marketId (uses revokeAll method)', () =>{
     const args = delist({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       tokenIds: [tokenId],
     });
 
     expect(args[0]).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
-        account_id: 'market-v2-beta.mintspace2.testnet',
+        account_id: mbjs.keys.marketAddress,
         token_id: tokenId,
       },
       deposit: ONE_YOCTO,

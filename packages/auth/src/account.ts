@@ -1,6 +1,6 @@
 
+import { mbjs, Network, RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import { connectToNear, Account, KeyStore } from '.';
-import { NearNetwork, NEAR_NETWORK, NEAR_RPC_URL } from './constants';
 
 /**
  * Connect to a NEAR account `accountId` with credentials in `keyStore` {@link KeyStore}
@@ -13,14 +13,13 @@ import { NearNetwork, NEAR_NETWORK, NEAR_RPC_URL } from './constants';
 export const connect = async (
   accountId: string,
   keyStore: KeyStore,
-  network: NearNetwork = NEAR_NETWORK,
+  network: Network = mbjs.keys.network as Network,
 ): Promise<Account> => {
+  
   const near = await connectToNear({
     keyStore,
-    networkId: network,
-    nodeUrl: network === 'testnet'
-      ? NEAR_RPC_URL.TESTNET
-      : NEAR_RPC_URL.MAINNET,
+    networkId: network || mbjs.keys.network as Network,
+    nodeUrl: RPC_ENDPOINTS[network] ||  mbjs.keys.nearRpcUrl,
     headers: {},
   });
   return await near.account(accountId);

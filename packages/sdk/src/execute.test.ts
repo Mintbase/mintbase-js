@@ -50,6 +50,7 @@ describe('contract method calls (execute)', () => {
     await execute(
       {
         wallet: mockNearSelectorWallet as any,
+        callbackUrl: testCallbackUrl,
       },
       testContractCall,
     );
@@ -68,7 +69,7 @@ describe('contract method calls (execute)', () => {
       callbackUrl: testCallbackUrl,
       receiverId: testContract,
       signerId: testSigner,
-    }] };
+    }] , 'callbackUrl': testCallbackUrl };
 
     expect(mockNearSelectorWallet.signAndSendTransactions)
       .toHaveBeenCalledWith(transactions);

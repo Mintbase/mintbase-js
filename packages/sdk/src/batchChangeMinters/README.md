@@ -15,8 +15,8 @@ Account IDs in the `removeMinters` array will lose minting permission for the sp
 ```typescript
 type BatchChangeMintersArgs = {
     //the contract you own for which you wish to grant or revoke minting access
-    //as an argument or through NFT_CONTRACT_ID env
-    nftContractId?: string;
+    // as an argument or through CONTRACT_ADDRESS env
+    contractAddress?: string;
     //an array of ids that will be added as minters for the given contractId, if nothing is provided no minters will be added
     addMinters: string[];
     //an array of ids that will be removed as minters for the given contractId, if nothing is provided no minters will be added
@@ -34,7 +34,7 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, batchChangeMinters, BatchChangeMintersArgs } from '@mintbase-js/sdk';
 
 
-export const BatchChangeMintersComponent = ({ contractId, addMinters, removeMinters }: BatchChangeMintersArgs): JSX.Element => {
+export const BatchChangeMintersComponent = ({ contractAddress, addMinters, removeMinters }: BatchChangeMintersArgs): JSX.Element => {
   
   const { selector } = useWallet();
   
@@ -45,7 +45,7 @@ export const BatchChangeMintersComponent = ({ contractId, addMinters, removeMint
     await execute(
       {wallet},
       batchChangeMinters({ 
-          nftContractId: contractId,
+          contractAddress: contractAddress,
           addMinters: addMinters, 
           removeMinters: removeMinters 
           })
@@ -55,7 +55,7 @@ export const BatchChangeMintersComponent = ({ contractId, addMinters, removeMint
   return (
     <div>
       <button onClick={handleBatchChangeMinters}>
-        batchChangeMinters for contractId : {contractId}
+        batchChangeMinters for contractId : {contractAddress}
       </button>
     </div>
   );

@@ -1,10 +1,10 @@
 
 import type { CodegenConfig } from '@graphql-codegen/cli';
-import { GRAPHQL_ENDPOINT } from '../../constants';
+import {RPC_ENDPOINTS} from '@mintbase-js/sdk';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: GRAPHQL_ENDPOINT,
+  schema: RPC_ENDPOINTS.mainnet,
   // documents: 'src/**/*.tsx',
   generates: {
     'src/graphql/codegen/': {
