@@ -17,7 +17,7 @@ describe('getMetadataByMetadataId', () => {
       request: (): Promise<MetadataByMetadataIdQueryResult> =>
         Promise.resolve(metadataByMetadataIdMock),
     }));
-    const result = await metadataByMetadataId('test' );
+    const result = await metadataByMetadataId('test');
     expect(result?.data).toStrictEqual(metadataByMetadataIdMock);
   });
 
