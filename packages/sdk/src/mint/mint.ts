@@ -5,10 +5,27 @@ import { NearContractCall } from '../execute';
 
 export type MintArgs =  {
   nftContractId?: string;
-  reference: string;
   ownerId: string;
+  metadata: TokenMetadata;
   options?: MintOptions;
+  noMedia: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference: boolean; // explicit opt-in to NFT without reference
 };
+
+export type TokenMetadata = {
+  title: string | null,
+  description: string | null,
+  media: string | null,
+  media_hash: string | null,
+  copies: number | null,
+  issued_at: string | null,  // Stringified unix timestamp, according to
+  expires_at: string | null, // standards this is milliseconds since epoch, but
+  starts_at: string | null,  // since `env::block_timestamp` is in nanoseconds
+  updated_at: string | null, // most timestamps in the ecosystem are nanoseconds
+  extra: string | null,
+  reference: string | null,
+  reference_hash: string | null
+}
 
 export type MintOptions = {
     splits?: Splits;
@@ -26,12 +43,26 @@ export type Splits = Record<string, number>;
 export const mint = (
   args: MintArgs,
 ): NearContractCall => {
-  const { nftContractId = DEFAULT_CONTRACT_ADDRESS, reference, ownerId, options = {}  } = args;
+  const {
+    nftContractId = DEFAULT_CONTRACT_ADDRESS,
+    metadata,
+    ownerId,
+    options = {},
+    noMedia = false,
+    noReference = false,
+  } = args;
 
   const { splits, amount, royaltyPercentage } = options;
-  
-  if (nftContractId == null) {
+
+  if (nftContractId === null) {
     throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID environment variable to default to');
+  }
+
+  if (!noReference && !metadata.reference) {
+    throw new Error('You must provide reference in your metadata or explicitly opt out of using reference');
+  }
+  if (!noMedia && !metadata.media) {
+    throw new Error('You must provide media in your metadata or explicitly opt out of using media');
   }
 
   if (splits) {
@@ -47,24 +78,22 @@ export const mint = (
     throw ('There must be at least 2 accounts in splits');
   }
 
-  if (amount && amount > 99) {
+  if (amount && amount > 125) {
     throw ('It is not possible to mint more than 99 copies of this token using this method');
   }
 
   if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
     throw ('Invalid royalty percentage');
   }
-  
+
   return {
     contractAddress: nftContractId,
     args: {
       owner_id: ownerId,
-      metadata: {
-        reference: reference,
-      },
+      metadata: metadata,
       num_to_mint: amount || 1,
       // 10000 = 100%
-      royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10000 }, 
+      royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10000 },
       split_owners: splits || null,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
