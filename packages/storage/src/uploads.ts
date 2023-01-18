@@ -2,7 +2,7 @@ import { ANON_USER_WARNING, ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE
 import superagent from 'superagent';
 
 export const MAX_UPLOAD_BYTES = 31_457_280;
-
+export const OBJECT_IS_EMPTY_ERROR = 'Provided object is empty';
 export type ArweaveResponse = {
   id: string;
   block: string;
@@ -14,6 +14,24 @@ type HttpError = {
   status: number;
   response: Response;
 };
+
+type ReferenceObject = any & {
+  title?: string;
+  description?: string;
+  media?: File;
+  animation_url?: File;
+  attributes?: Trait[];
+  category?: string;
+  tags?: string[]; 
+  extra?: Trait[] | any;
+}
+
+type Trait = {
+  display_type: string;
+  trait_type: string;
+  value: number;
+}
+
 
 /**
  * (NodeJS) upload a file via POST to upload service
@@ -101,3 +119,39 @@ export const uploadFile = async (
     throw error;
   }
 };
+
+/**
+ * (Browser) upload a json reference object via POST to upload service
+ * @param ReferenceObject A json reference object to upload
+ */
+export const uploadReferenceObject = async (
+  referenceObject: ReferenceObject,
+): Promise<ArweaveResponse> => {
+
+  if (Object.keys(referenceObject).length == 0) {
+    throw new Error(OBJECT_IS_EMPTY_ERROR);
+  }
+
+  const { media, animation_url } = referenceObject;
+  const canUploadMedia = media?.size < MAX_UPLOAD_BYTES;
+  const canUploadAnimation = animation_url?.size < MAX_UPLOAD_BYTES;
+  
+  if (canUploadMedia) {
+    referenceObject[media] = (await uploadFile(media)).id;
+  }
+
+  if (canUploadAnimation) {
+    referenceObject[animation_url] = (await uploadFile(animation_url)).id;
+  }
+
+  const referenceObjectFile = getFileFromObject(referenceObject);
+
+  return uploadFile(referenceObjectFile);
+};
+
+export function getFileFromObject(referenceObject: unknown): File {
+  const str = JSON.stringify(referenceObject);
+  return new File([str], 'file', {
+    type: 'application/json;charset=utf-8',
+  });
+}
