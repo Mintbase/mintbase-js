@@ -21,7 +21,7 @@ test('buy a token', () => {
     contractAddress: mbjs.keys.marketAddress,
     methodName: MARKET_METHOD_NAMES.BUY,
     args: {
-      CONTRACT_ADDRESS: contractAddress,
+      nft_contract_id: contractAddress,
       token_id: tokenId,
       referrer_id: referrerId,
     },
