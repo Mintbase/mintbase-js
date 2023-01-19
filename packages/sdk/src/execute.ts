@@ -1,6 +1,7 @@
 
 import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
+import { DefaultStrategy } from '@here-wallet/core';
 import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
 import BN from 'bn.js';
@@ -21,7 +22,7 @@ export type NearExecuteOptions = {
   wallet?: Wallet;
   account?: Account;
   callbackUrl?: string;
- 
+
 };
 
 const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
@@ -95,9 +96,19 @@ const batchExecuteWithBrowserWallet = async (
   callback: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
 
+  // avoids popup blockers when async ops happen in same user call
+  let strategy: DefaultStrategy;
+  if (wallet.id === 'here-wallet') {
+    strategy = new DefaultStrategy();
+    strategy.onInitialized();
+  }
+
   return await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     callbackUrl: callback,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // @ts-ignore Only for HERE wallet
+    strategy,
   });
 };
 
