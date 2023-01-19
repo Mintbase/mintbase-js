@@ -98,7 +98,7 @@ const batchExecuteWithBrowserWallet = async (
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
-const convertGenericCallToWalletCall = (
+export const convertGenericCallToWalletCall = (
   call: ContractCall,
 ): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
 
