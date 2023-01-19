@@ -1,7 +1,6 @@
 
 import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
-import { DefaultStrategy } from '@here-wallet/core';
 import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
 import BN from 'bn.js';
@@ -53,7 +52,6 @@ export const execute = async (
 };
 
 const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
-
   if (wallet) {
     return batchExecuteWithBrowserWallet(call, wallet, callbackUrl);
   }
@@ -63,7 +61,6 @@ const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account
 
 // account call translation wrappers https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
 // TODO: share batch signature with wallet selector sendAndSignTransaction when method becomes public
-
 const batchExecuteWithNearAccount = async (
   calls: ContractCall[],
   account: Account,
@@ -94,25 +91,10 @@ const batchExecuteWithBrowserWallet = async (
   calls: ContractCall[],
   wallet: Wallet,
   callback: string,
-): Promise<void | FinalExecutionOutcome[]> => {
-
-  // avoids popup blockers when async ops happen in same user call
-  let strategy: DefaultStrategy;
-  if (wallet.id === 'here-wallet') {
-    strategy = new DefaultStrategy();
-    strategy.onInitialized();
-  }
-
-  return await wallet.signAndSendTransactions({
-    transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
-    callbackUrl: callback,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore Only for HERE wallet
-    strategy,
-  });
-};
-
-//////////// UTILS ////////////
+): Promise<void | FinalExecutionOutcome[]> => wallet.signAndSendTransactions({
+  transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
+  callbackUrl: callback,
+});
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
