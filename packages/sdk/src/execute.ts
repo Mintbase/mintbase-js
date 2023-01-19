@@ -1,8 +1,7 @@
 
 import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
-// FIXME: ideally we take this only from the strategy.js module @here-wallet/core/build/strategy'
-import { DefaultStrategy } from '@here-wallet/core';
+import { DefaultStrategy } from '@here-wallet/core/build/strategy';
 import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
 import BN from 'bn.js';
