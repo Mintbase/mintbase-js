@@ -38,20 +38,25 @@ const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void =
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
-  { wallet, account,   callbackUrl }: NearExecuteOptions,
+  { wallet, account, callbackUrl }: NearExecuteOptions,
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
   validateSigningOptions({ wallet, account });
 
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
   if (outcomes && outcomes.length == 1) {
+    console.log('first outcome', outcomes[0]);
     return outcomes[0];
   }
+  console.log('first outcome', outcomes);
+
   return outcomes;
 
 };
 
 const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
+
+  console.log(wallet);
 
   if (wallet) {
     return batchExecuteWithBrowserWallet(call, wallet, callbackUrl);
@@ -86,6 +91,9 @@ const batchExecuteWithNearAccount = async (
       );
     }
   }
+
+  console.log('outcomesoutcomesoutcomes', outcomes);
+
   return outcomes;
 };
 
@@ -95,10 +103,15 @@ const batchExecuteWithBrowserWallet = async (
   callback: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
 
-  return await wallet.signAndSendTransactions({
+  const res = await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     callbackUrl: callback,
   });
+
+  console.log('wallet call,', res);
+
+
+  return res;
 };
 
 //////////// UTILS ////////////
