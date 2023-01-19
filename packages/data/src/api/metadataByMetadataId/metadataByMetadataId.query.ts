@@ -75,12 +75,12 @@ export const metadataByMetadataIdQuery = gql`
     price
     market_id
     token {
-    id: token_id
-    minter
-    nft_contract_id
-    ownerId: owner
-    splits
-    royalties
+      token_id
+      minter
+      nft_contract_id
+      owner
+      splits
+      royalties
     }
   }
 }
