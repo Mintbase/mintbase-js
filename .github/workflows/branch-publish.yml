@@ -73,6 +73,10 @@ jobs:
           git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag prerelease
 
+      - name: WTF Deploy status
+        run: |
+          echo "what is the status, yo? tis... ${{ job.steps.publish.status }} ...?"
+
       - name: Update deployment status (success)
         if: success() && ${{ github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
