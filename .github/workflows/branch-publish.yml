@@ -75,7 +75,7 @@ jobs:
 
       - name: WTF Deploy status
         run: |
-          echo "what is the status, yo? tis... ${{ job.steps.publish.status }} ...?"
+          echo "what is the status, yo? tis... ${{ toJson(job.steps.publish) }} ...?"
 
       - name: Update deployment status (success)
         if: success() && ${{ github.ref_name != 'alpha'}}
