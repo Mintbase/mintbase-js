@@ -7,7 +7,7 @@ jobs:
   build:
     name: 'Build Test & Lerna Publish'
     runs-on: ubuntu-latest
-    # dont run this when the actor is mintbase team (automatic push from this script)
+    # don't run this when the actor is mintbase team (automatic push from this script)
     if: ${{ github.actor != 'mintbaseteam' }}
     steps:
       - uses: actions/checkout@v3
@@ -73,12 +73,8 @@ jobs:
           git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag prerelease
 
-      - name: WTF Deploy status
-        run: |
-          echo "what is the status, yo? tis... ${{ steps.publish.outcome }} ...?"
-
       - name: Update deployment status (success)
-        if: steps.publish.outcome  == 'success' && ${{ github.ref_name != 'alpha'}}
+        if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'
@@ -87,7 +83,7 @@ jobs:
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
-        if: steps.publish.outcome != 'success' && ${{ github.ref_name != 'alpha'}}
+        if: ${{ steps.publish.outcome != 'success' && github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'
