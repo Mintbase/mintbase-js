@@ -75,10 +75,10 @@ jobs:
 
       - name: WTF Deploy status
         run: |
-          echo "what is the status, yo? tis... ${{ toJson(job.steps.publish) }} ...?"
+          echo "what is the status, yo? tis... ${{ steps.publish.outcome }} ...?"
 
       - name: Update deployment status (success)
-        if: success() && ${{ github.ref_name != 'alpha'}}
+        if: steps.publish.outcome  == 'success' && ${{ github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'
@@ -87,7 +87,7 @@ jobs:
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
-        if: job.steps.publish.status != 'success' && ${{ github.ref_name != 'alpha'}}
+        if: steps.publish.outcome != 'success' && ${{ github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'
