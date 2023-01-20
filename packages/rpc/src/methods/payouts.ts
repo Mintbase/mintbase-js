@@ -1,4 +1,4 @@
-import { callViewMethod } from "../util";
+import { callViewMethod } from '../util';
 
 type Numerator = {
   numerator: number;
@@ -43,13 +43,13 @@ const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
 export const payouts = async ({ contractId, tokenId }): Promise<UiPayout> => {
   const payout = await callViewMethod<NepPayout>({
     contractId,
-    method: "nft_payout",
+    method: 'nft_payout',
     // FIXME: max_len_payout shouldn't be required, but it is for MB
     // FIXME: this should work with 10000, but currently does not
     // args: { token_id: tokenId, balance: "10000" },
     args: {
       token_id: tokenId,
-      balance: "10000000000000000",
+      balance: '10000000000000000',
       max_len_payout: 1000,
     },
   });

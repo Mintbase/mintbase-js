@@ -1,15 +1,15 @@
-import { payouts } from "./payouts";
-import fetch from "isomorphic-unfetch";
+import { payouts } from './payouts';
+import fetch from 'isomorphic-unfetch';
 
-jest.mock("isomorphic-unfetch");
+jest.mock('isomorphic-unfetch');
 
-describe("payouts rpc call", () => {
-  it("should return payouts for contract and token id", async () => {
+describe('payouts rpc call', () => {
+  it('should return payouts for contract and token id', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       json: jest.fn().mockResolvedValueOnce({
-        jsonrpc: "2.0",
+        jsonrpc: '2.0',
         result: {
-          block_hash: "GVQN7k6mWJEgUm4enccEH6NThFmrn8YPow52sbTwdtL8",
+          block_hash: 'GVQN7k6mWJEgUm4enccEH6NThFmrn8YPow52sbTwdtL8',
           block_height: 113548150,
           logs: [],
           result: [
@@ -21,17 +21,17 @@ describe("payouts rpc call", () => {
             48, 48, 48, 34, 125, 125,
           ],
         },
-        id: "dontcare",
+        id: 'dontcare',
       }),
     });
 
     const payout = await payouts({
-      contractId: "ticketingv2.mintspace2.testnet",
-      tokenId: "154",
+      contractId: 'ticketingv2.mintspace2.testnet',
+      tokenId: '154',
     });
 
-    expect(typeof payout.equalAccounts).toBe("boolean");
-    expect(typeof payout.tokenId).toBe("string");
+    expect(typeof payout.equalAccounts).toBe('boolean');
+    expect(typeof payout.tokenId).toBe('string');
     expect(isPercentFloat(payout.royaltyPercent)).toBe(true);
     expect(isPercentFloat(payout.splitPercent)).toBe(true);
 
@@ -45,13 +45,13 @@ describe("payouts rpc call", () => {
 });
 
 const isPercentFloat = (x: any): boolean => {
-  return typeof x === "number" && x >= 0 && x <= 100;
+  return typeof x === 'number' && x >= 0 && x <= 100;
 };
 
 const isAccountPercent = (x: any): boolean => {
-  return typeof x.account === "string" && isPercentInt(x.percent);
+  return typeof x.account === 'string' && isPercentInt(x.percent);
 };
 
 const isPercentInt = (x: any): boolean => {
-  return typeof x === "number" && x >= 0 && x <= 10000;
+  return typeof x === 'number' && x >= 0 && x <= 10000;
 };
