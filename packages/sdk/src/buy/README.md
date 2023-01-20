@@ -22,13 +22,13 @@ Market address default values depend on the `NEAR_NETWORK` environment variable.
 export type BuyArgs = {
     // the price you want to buy a token for, this must be greater than the amount its currently listed for
     price: string;
-    // contract to which the token belongs, 
+    // contract to which the token belongs,
     //as an argument or through CONTRACT_ADDRESS env
     contractAddress?: string;
     // id of the token to be bought
     tokenId: string;
     // account that will receive the affiliate kick back (check affiliate documentation)
-    referrerId?: string;
+    affiliateAccount?: string;
     //address of the mintbase market contract, this defaults to the correct values depending on the NEAR_NETWORK environment variable
     marketId?: string;
   };
@@ -46,11 +46,11 @@ import { execute, burn, BuyArgs } from '@mintbase-js/sdk';
 
 
 export const BuyComponent = ({ contractAddress, price, tokenId, referrerId, marketId }:BuyArgs): JSX.Element => {
-  
+
   const { selector } = useWallet();
-  
+
   const handleBuy = async (): Promise<void> => {
-    
+
     const wallet = await selector.wallet();
 
     const buyArgs = {contractAddress: contractAddress, tokenId:tokenId, referrerId:referrerId , marketId:marketId, price:price }

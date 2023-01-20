@@ -1,5 +1,7 @@
-[//]: # `{ "title": "(NEW!) Indexer API", "order": "1.0" }`
+[//]: # `{ "title": "API Methods", "order": "1.0" }`
 # Using Data APIs
+
+Currently, these wrappers are methods for the [GraphQL API](https://docs.mintbase.xyz/dev/mintbase-graph). They are still in alpha and may change at anytime.
 
 # methods
 
