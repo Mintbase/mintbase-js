@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.1.0-alpha.72",
+  "version": "0.1.0-alpha.73",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
