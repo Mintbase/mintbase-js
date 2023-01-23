@@ -28,8 +28,9 @@ jobs:
           ssh-key: ${{ secrets.TEAM_ACCOUNT_KEY }}
           persist-credentials: true
 
-      - name: Copy and Publish Docs (Release)
-        if: ${{ github.event.release.tag_name }}
+      - name: Copy and Publish Docs (Release or Alpha Merge)
+        # for now - roll out docs on merge to alpha
+        if: ${{ github.event.release.tag_name || github.event.ref_name == 'alpha' }}
         working-directory: "docs/gitbook-docs"
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -42,17 +43,18 @@ jobs:
           git commit -m "📒 🤖 [mintbase-js] ${{ github.event.release.tag_name }}" || true
           git push origin HEAD
 
-      - name: Copy and Publish Docs (Preview)
-        if: ${{ github.event.head_commit.message }}
-        working-directory: "docs/gitbook-docs"
-        env:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          rm -rf mintbase-sdk-ref/
-          node ../migrate.js
-          git config --global user.name "mintbaseteam"
-          git config --global user.email "eng@mintbase.io"
-          git checkout -b ${{ github.ref_name }}
-          git add --all
-          git commit -m "📒 🤖 [mintbase-js] ${{ github.event.head_commit.message }}" || true
-          git push origin HEAD --force
+      # This is causing too much branch pollution, not really necessary for now
+      # - name: Copy and Publish Docs (Preview)
+      #   if: ${{ github.event.head_commit.message || }}
+      #   working-directory: "docs/gitbook-docs"
+      #   env:
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #   run: |
+      #     rm -rf mintbase-sdk-ref/
+      #     node ../migrate.js
+      #     git config --global user.name "mintbaseteam"
+      #     git config --global user.email "eng@mintbase.io"
+      #     git checkout -b ${{ github.ref_name }}
+      #     git add --all
+      #     git commit -m "📒 🤖 [mintbase-js] ${{ github.event.head_commit.message }}" || true
+      #     git push origin HEAD --force
