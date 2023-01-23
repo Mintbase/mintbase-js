@@ -39,7 +39,7 @@ export const metadataByMetadataIdQuery = gql`
         metadata_id: {_eq: $metadataId }
       }
     ) {
-      account: minter
+      minter
     }
 
     rollingAuctionCount: mb_views_active_listings_aggregate (
