@@ -20,9 +20,10 @@ type ReferenceObject = any & {
   description?: string;
   media?: File;
   animation_url?: File;
+  document?: File;
   attributes?: Trait[];
   category?: string;
-  tags?: string[]; 
+  tags?: string[];
   extra?: Trait[] | any;
 }
 
@@ -59,7 +60,7 @@ export const uploadBuffer = async (
       .set({
         [MINTBASE_API_KEY_HEADER]: MINTBASE_API_KEY,
       })
-      .attach('up', file, name);
+      .attach('file', file, name);
     return body;
   } catch (err: unknown) {
     const httpError = err as HttpError;
@@ -88,7 +89,7 @@ export const uploadFile = async (
   }
 
   const formdata = new FormData();
-  formdata.append('up', file, 'name');
+  formdata.append('file', file, 'file');
 
   try {
     const request = await fetch(ARWEAVE_SERVICE_HOST, {
@@ -124,29 +125,53 @@ export const uploadFile = async (
  * (Browser) upload a json reference object via POST to upload service
  * @param ReferenceObject A json reference object to upload
  */
-export const uploadReferenceObject = async (
+export const uploadReference = async (
   referenceObject: ReferenceObject,
 ): Promise<ArweaveResponse> => {
 
   if (Object.keys(referenceObject).length == 0) {
     throw new Error(OBJECT_IS_EMPTY_ERROR);
   }
+  const { media, animation_url, document } = referenceObject;
+  const formdata = new FormData();
 
-  const { media, animation_url } = referenceObject;
-  const canUploadMedia = media?.size < MAX_UPLOAD_BYTES;
-  const canUploadAnimation = animation_url?.size < MAX_UPLOAD_BYTES;
-  
-  if (canUploadMedia) {
-    referenceObject[media] = (await uploadFile(media)).id;
+  Object.entries(referenceObject).forEach((key: any, value: any): void => {
+    if (key == (media || animation_url || document)) {
+      value?.size < MAX_UPLOAD_BYTES;
+      formdata.append(key, value);
+    } else {
+      formdata.append('field', key, value);
+    }
+  });
+
+  try {
+    const request = await fetch(`${ARWEAVE_SERVICE_HOST}/reference`, {
+      method: 'POST',
+      headers: {
+        'mb-api-key': MINTBASE_API_KEY,
+      },
+      body: formdata,
+      redirect: 'follow',
+    });
+
+    if (request.status !== 200) {
+      throw new Error(
+        `Error uploading via arweave service: ${await request.json()}`,
+      );
+    }
+
+    const result = (await request.json()) as {
+      id: string;
+      block: string;
+      name: string;
+      mimeType: string;
+    };
+
+    return result;
+  } catch (error: unknown) {
+    console.error('Uploading file to arweave failed');
+    throw error;
   }
-
-  if (canUploadAnimation) {
-    referenceObject[animation_url] = (await uploadFile(animation_url)).id;
-  }
-
-  const referenceObjectFile = getFileFromObject(referenceObject);
-
-  return uploadFile(referenceObjectFile);
 };
 
 export function getFileFromObject(referenceObject: unknown): File {
