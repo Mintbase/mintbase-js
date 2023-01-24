@@ -33,9 +33,9 @@ Example:
 {% code title="queryNftsByStore.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { ownedNftsByStore } from  '@mintbase/data'
+import { ownedNftsByStore } from '@mintbase-js/data'
 
-const {data, error} = await ownedTokens('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit:  20 , offset: -});
+const {data, error} = await ownedNftsByStore('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit: 20 , offset: 0});
 
 if (error) {console.log('error', error)}
 

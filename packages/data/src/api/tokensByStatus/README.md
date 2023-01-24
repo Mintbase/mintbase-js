@@ -35,9 +35,7 @@ Example:
 
 ```typescript
 
-import { tokensByStatus } from  '@mintbase/data'
-
-
+import { tokensByStatus } from  '@mintbase-js/data'
 
 const { data, error } = await tokensByStatus('dogeflower.mintbase1.near%3A5ef2d9b0651172d90dc173af0726b5fc', 'maxknivets.near');
 

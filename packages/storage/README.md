@@ -49,7 +49,7 @@ Example usage of storage method in a hypothetical React component:
 ```tsx
 
 import { useState } from 'react';
-import { uploadFile } from '@mintbase/storage';
+import { uploadFile } from '@mintbase-js/storage';
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
