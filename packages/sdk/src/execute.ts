@@ -133,7 +133,6 @@ const batchExecuteWithBrowserWallet = async (
 
   const res = await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
-    callbackUrl: callback,
   });
 
   console.log('wallet call,', res);
@@ -153,6 +152,7 @@ const convertGenericCallToWalletCall = (
   return {
     signerId: call.signerId,
     receiverId: call.contractAddress,
+    callbackUrl: call.callbackUrl,
     actions:[{
       type: 'FunctionCall',
       params: {
