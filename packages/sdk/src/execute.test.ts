@@ -66,7 +66,6 @@ describe('contract method calls (execute)', () => {
         },
         type: 'FunctionCall',
       }],
-      callbackUrl: testCallbackUrl,
       receiverId: testContract,
       signerId: testSigner,
     }] , 'callbackUrl': testCallbackUrl };
