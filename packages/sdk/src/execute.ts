@@ -52,11 +52,12 @@ export const execute = async (
   }
   console.log('first outcome', outcomes);
 
-
-  const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl.length > 0);
+  const browserWallets = ['my-near-wallet', 'near-wallet'];
+  const IsntBrowserWallets = !browserWallets.includes(wallet.id);
+  const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
   console.log(hasCallbackUrl, 'hasCallbackUrl');
 
-  if (hasCallbackUrl) {
+  if (hasCallbackUrl && IsntBrowserWallets) {
     console.log('hit window', hasCallbackUrl);
 
     const { transactionHash } = checkTransactionHash(outcomes);
