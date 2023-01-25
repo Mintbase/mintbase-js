@@ -82,7 +82,7 @@ export const uploadFile = async (
   if (MINTBASE_API_KEY == MINTBASE_API_ANON_USER) {
     console.warn(ANON_USER_WARNING);
   }
-  
+
 
   if (file.size > MAX_UPLOAD_BYTES) {
     throw new Error(MAX_UPLOAD_ERROR_MSG);
@@ -136,12 +136,12 @@ export const uploadReference = async (
   const formdata = new FormData();
 
   Object.entries(referenceObject).forEach((key: any, value: any): void => {
-    if (key == (media || animation_url || document)) {
-      value?.size < MAX_UPLOAD_BYTES;
+    if (!(key == (media || animation_url || document))) {
       formdata.append(key, value);
-    } else {
-      formdata.append('field', key, value);
+    } else if (value?.size < MAX_UPLOAD_BYTES) {
+      formdata.append(key, value);
     }
+
   });
 
   try {
