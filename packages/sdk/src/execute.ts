@@ -51,12 +51,15 @@ export const execute = async (
     return outcomes[0];
   }
   console.log('first outcome', outcomes);
+  console.log(typeof window !== 'undefined' && callbackUrl, 'typeof window !== undefined && callbackUrl');
+
 
   if (typeof window !== 'undefined' && callbackUrl) {
+    console.log('hit window');
+
     const { transactionHash } = checkTransactionHash(outcomes);
+    window.location.assign(`${callbackUrl}?transactionHash=${transactionHash}`);
 
-
-    window.location.href = `${callbackUrl}?transactionHash=${transactionHash}`;
   }
 
   return outcomes;
