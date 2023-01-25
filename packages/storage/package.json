@@ -16,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "*",
+    "@mintbase-js/sdk": "0.1.0-alpha.76",
     "near-api-js": "^0.44.2",
     "superagent": "^8.0.3"
   },
