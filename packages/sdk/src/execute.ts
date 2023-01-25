@@ -46,8 +46,6 @@ export const execute = async (
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
   if (outcomes && outcomes.length == 1) {
     console.log('first outcome', outcomes[0]);
-
- 
     return outcomes[0];
   }
   console.log('first outcome', outcomes);
@@ -155,7 +153,6 @@ const convertGenericCallToWalletCall = (
   return {
     signerId: call.signerId,
     receiverId: call.contractAddress,
-    callbackUrl: call.callbackUrl,
     actions:[{
       type: 'FunctionCall',
       params: {
