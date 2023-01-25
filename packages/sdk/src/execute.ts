@@ -58,7 +58,7 @@ export const execute = async (
     console.log('hit window');
 
     const { transactionHash } = checkTransactionHash(outcomes);
-    window.location.assign(`${callbackUrl}?transactionHash=${transactionHash}`);
+    return window.location.assign(`${callbackUrl}?transactionHash=${transactionHash}`);
 
   }
 
