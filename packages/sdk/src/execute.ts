@@ -46,12 +46,36 @@ export const execute = async (
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
   if (outcomes && outcomes.length == 1) {
     console.log('first outcome', outcomes[0]);
+
+ 
     return outcomes[0];
   }
   console.log('first outcome', outcomes);
 
+  if (typeof window !== 'undefined' && callbackUrl) {
+    const { transactionHash } = checkTransactionHash(outcomes);
+
+
+    window.location.href = `${callbackUrl}?transactionHash=${transactionHash}`;
+  }
+
   return outcomes;
 
+};
+
+const checkTransactionHash = (receipt): {transactionHash: string}  => {
+ 
+  let transactionHash = receipt?.transaction_outcome?.id;
+
+  if (receipt?.length == 1) {
+    transactionHash = receipt[0]?.transaction_outcome?.id;
+  }
+
+  if (receipt?.length > 1) {
+    transactionHash = receipt[1]?.transaction_outcome?.id;
+  }
+
+  return { transactionHash };
 };
 
 const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
