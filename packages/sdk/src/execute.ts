@@ -53,7 +53,7 @@ export const execute = async (
   console.log('first outcome', outcomes);
 
   const browserWallets = ['my-near-wallet', 'near-wallet'];
-  const IsntBrowserWallets = !browserWallets.includes(wallet.id);
+  const IsntBrowserWallets = !browserWallets.includes(wallet?.id);
   const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
   console.log(hasCallbackUrl, 'hasCallbackUrl');
 
