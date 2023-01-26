@@ -4,6 +4,7 @@ import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector
 import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
 import BN from 'bn.js';
+import { mbjs } from './config/config';
 
 export enum TransactionSuccessEnum {
   MINT = 'mint',
@@ -60,7 +61,7 @@ const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void =
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
-  { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
+  { wallet, account, callbackUrl = mbjs.keys.callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
 
@@ -80,13 +81,23 @@ export const execute = async (
 
   if (hasCallbackUrl && IsntBrowserWallets) {
     console.log('hit window', hasCallbackUrl);
+    console.log(mbjs.keys.callbackUrl, 'callbackUrl');
+
 
     const { transactionHash } = checkTransactionHash(outcomes);
     
     let finalUrl = `${callbackUrl}?transactionHash=${transactionHash}`;
 
     if (callbackArgs) {
-      finalUrl = `${callbackUrl}?transactionHash=${transactionHash}&signMeta=${callbackArgs}`;
+
+      const args = JSON.stringify({
+        type: callbackArgs?.type,
+        args: callbackArgs?.args,
+      });
+  
+      const signMeta = encodeURIComponent(args);
+
+      finalUrl = `${callbackUrl}?transactionHash=${transactionHash}&signMeta=${signMeta}`;
     }
 
 
