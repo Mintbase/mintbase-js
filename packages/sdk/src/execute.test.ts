@@ -107,7 +107,7 @@ describe('contract method calls (execute)', () => {
       args: testArgs,
       gas: new BN(MAX_GAS),
       attachedDeposit: new BN(ONE_YOCTO),
-
+      walletCallbackUrl: '',
     };
     expect(mockNearAccount.functionCall)
       .toHaveBeenCalledWith(expectedCallArgs);
