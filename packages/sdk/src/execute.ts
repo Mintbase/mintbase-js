@@ -69,21 +69,15 @@ export const execute = async (
 
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
   if (outcomes && outcomes.length == 1) {
-    console.log('first outcome', outcomes[0]);
     return outcomes[0];
   }
-  console.log('first outcome', outcomes);
-
+  
   const browserWallets = ['my-near-wallet', 'near-wallet'];
   const IsntBrowserWallets = !browserWallets.includes(wallet?.id);
   const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
-  console.log(hasCallbackUrl, 'hasCallbackUrl');
-
+  
   if (hasCallbackUrl && IsntBrowserWallets) {
-    console.log('hit window', hasCallbackUrl);
-    console.log(mbjs.keys.callbackUrl, 'callbackUrl');
-
-
+    
     const { transactionHash } = checkTransactionHash(outcomes);
     
     let finalUrl = `${callbackUrl}?transactionHash=${transactionHash}`;
@@ -94,16 +88,12 @@ export const execute = async (
         type: callbackArgs?.type,
         args: callbackArgs?.args,
       });
-  
-      const signMeta = encodeURIComponent(args);
 
+      const signMeta = encodeURIComponent(args);
+      
       finalUrl = `${callbackUrl}?transactionHash=${transactionHash}&signMeta=${signMeta}`;
     }
-
-
     return window.location.assign(finalUrl);
-
-
   }
 
   return outcomes;
@@ -111,7 +101,6 @@ export const execute = async (
 };
 
 const checkTransactionHash = (receipt): {transactionHash: string}  => {
- 
   let transactionHash = receipt?.transaction_outcome?.id;
 
   if (receipt?.length == 1) {
@@ -130,21 +119,14 @@ const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account
   let url = callbackUrl;
 
   if (callbackArgs?.type) {
-
     const args = JSON.stringify({
       type: callbackArgs?.type,
       args: callbackArgs?.args,
     });
 
     const signMeta = encodeURIComponent(args);
-
-      
     url = `${callbackUrl}/?signMeta=${signMeta}`;
   }
-
-  console.log(wallet);
-
-  console.log(callbackUrl, url, 'url');
 
   if (wallet) {
     return batchExecuteWithBrowserWallet(call, wallet, url);
