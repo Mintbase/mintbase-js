@@ -5,6 +5,27 @@ import type { providers, Account } from 'near-api-js';
 import { NoSigningMethodPassedError } from './errors';
 import BN from 'bn.js';
 
+export enum TransactionSuccessEnum {
+  MINT = 'mint',
+  TRANSFER = 'transfer',
+  BURN = 'burn',
+  DEPLOY_STORE = 'deploy-store',
+  MAKE_OFFER = 'make-offer',
+  REVOKE_MINTER = 'revoke-minter',
+  ADD_MINTER = 'add-minter',
+  TRANSFER_STORE_OWNERSHIP = 'transfer-store-ownership',
+  AUCTION_LIST = 'list',
+  SIMPLE_SALE_LIST = 'simple-sale-list',
+  UNLIST = 'unlist',
+  TAKE_OFFER = 'take-offer',
+  WITHDRAW_OFFER = 'withdraw-offer',
+}
+
+type CallBackArgs =  {
+  args: object;
+  type: TransactionSuccessEnum;
+}
+
 export type ContractCall = {
   contractAddress: string;
   methodName: string;
@@ -13,6 +34,7 @@ export type ContractCall = {
   deposit: string | BN;
   signerId?: string;
   callbackUrl?: string;
+  meta?: CallBackArgs;
   };
 
 export type NearContractCall = ContractCall | ContractCall[]
@@ -21,7 +43,7 @@ export type NearExecuteOptions = {
   wallet?: Wallet;
   account?: Account;
   callbackUrl?: string;
- 
+  callbackArgs?: CallBackArgs;  
 };
 
 const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
@@ -38,12 +60,13 @@ const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void =
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
  */
 export const execute = async (
-  { wallet, account, callbackUrl }: NearExecuteOptions,
+  { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: NearContractCall[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
+
   validateSigningOptions({ wallet, account });
 
-  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl);
+  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
   if (outcomes && outcomes.length == 1) {
     console.log('first outcome', outcomes[0]);
     return outcomes[0];
@@ -59,7 +82,16 @@ export const execute = async (
     console.log('hit window', hasCallbackUrl);
 
     const { transactionHash } = checkTransactionHash(outcomes);
-    return window.location.assign(`${callbackUrl}?transactionHash=${transactionHash}`);
+    
+    let finalUrl = `${callbackUrl}?transactionHash=${transactionHash}`;
+
+    if (callbackArgs) {
+      finalUrl = `${callbackUrl}?transactionHash=${transactionHash}&signMeta=${callbackArgs}`;
+    }
+
+
+    return window.location.assign(finalUrl);
+
 
   }
 
@@ -82,14 +114,31 @@ const checkTransactionHash = (receipt): {transactionHash: string}  => {
   return { transactionHash };
 };
 
-const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string): Promise<void | providers.FinalExecutionOutcome[]> =>{
+const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
+
+  let url = callbackUrl;
+
+  if (callbackArgs?.type) {
+
+    const args = JSON.stringify({
+      type: callbackArgs?.type,
+      args: callbackArgs?.args,
+    });
+
+    const signMeta = encodeURIComponent(args);
+
+      
+    url = `${callbackUrl}/?signMeta=${signMeta}`;
+  }
 
   console.log(wallet);
 
+  console.log(callbackUrl, url, 'url');
+
   if (wallet) {
-    return batchExecuteWithBrowserWallet(call, wallet, callbackUrl);
+    return batchExecuteWithBrowserWallet(call, wallet, url);
   }
-  return batchExecuteWithNearAccount(call, account, callbackUrl);
+  return batchExecuteWithNearAccount(call, account, url);
 
 };
 
