@@ -1,4 +1,4 @@
-import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
+import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
 import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions } from '../types';
