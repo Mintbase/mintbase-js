@@ -1,16 +1,8 @@
-import { NearContractCall } from '../execute';
-import { GAS, ONE_YOCTO } from '../constants';
+import { DEPOSIT_FOR_BURN, GAS_FOR_BURN } from '../constants';
 import { mbjs } from '../config/config';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { TOKEN_METHOD_NAMES, NearContractCall, BurnArgs } from '../types';
 import { ERROR_MESSAGES } from '../errorMessages';
 
-export type BurnArgs = {
-  contractAddress?: string;
-  tokenIds: string[];
-};
-
-export const DEPOSIT_FOR_BURN = ONE_YOCTO;
-export const GAS_FOR_BURN = GAS;
 
 /**
  * Burns one or more tokens from a given contract.

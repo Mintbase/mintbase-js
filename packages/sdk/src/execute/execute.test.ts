@@ -1,7 +1,8 @@
-import { execute, NearContractCall } from './execute';
+import { execute } from './execute';
 import { MAX_GAS, ONE_YOCTO } from './constants';
 import { NoSigningMethodPassedError } from './errors';
 import BN from 'bn.js';
+import { NearContractCall } from './types';
 
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
@@ -14,7 +15,7 @@ describe('contract method calls (execute)', () => {
 
     receiver_id: 'mb_bob.testnet',
   };
-  const testContractCall: NearContractCall = {
+  const testContractCall: NearContractCall= {
     signerId: testSigner,
     contractAddress: testContract,
     methodName: testMethod,

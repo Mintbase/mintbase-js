@@ -1,5 +1,6 @@
+import { DEPOSIT_FOR_BURN, GAS_FOR_BURN } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';
-import { burn, DEPOSIT_FOR_BURN, GAS_FOR_BURN } from './burn';
+import { burn  } from './burn';
 
 describe('burn method calls', () => {
   const contractAddress = 'test.nft.contract';

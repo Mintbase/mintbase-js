@@ -1,8 +1,7 @@
 import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { TOKEN_METHOD_NAMES, NearContractCall } from '../types';
 
 export type BatchChangeMintersArgs =  {
     addMinters?: string[];

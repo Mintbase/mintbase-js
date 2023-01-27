@@ -1,22 +1,9 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, TOKEN_CONTRACT_SPEC } from '../constants';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { DeployContractArgs, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { standardizeString } from '../utils';
 
-
-export type DeployContractArgs = {
-    factoryContractId?: string;
-    name: string;
-    ownerId: string;
-    metadata: {
-      symbol: string;
-      icon?: string;
-      baseUri?: string;
-      reference?: string;
-      referenceHash?: string;
-    };
-  };
 
 /**
  * Deploys a contract from a certain contractFactoryId
@@ -47,7 +34,3 @@ export const deployContract = (args: DeployContractArgs): NearContractCall=> {
     deposit: CONTRACT_DEPOSIT,
   };
 };
-
-function standardizeString(name: string): string {
-  return name.replace(/[^a-z0-9]+/gim, '').toLowerCase();
-}

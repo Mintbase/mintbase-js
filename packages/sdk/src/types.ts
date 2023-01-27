@@ -1,3 +1,7 @@
+import { Wallet } from '@near-wallet-selector/core';
+import BN from 'bn.js';
+import { Account } from 'near-api-js';
+
 export enum TOKEN_METHOD_NAMES {
   TRANSFER =  'nft_transfer',
   BATCH_TRANSFER = 'nft_batch_transfer',
@@ -69,3 +73,129 @@ export interface MbJsKeysObject extends MbJsConfigObj  {
  isSet: boolean;
 }
 
+export enum TransactionSuccessEnum {
+  MINT = 'mint',
+  TRANSFER = 'transfer',
+  BURN = 'burn',
+  DEPLOY_STORE = 'deploy-store',
+  MAKE_OFFER = 'make-offer',
+  REVOKE_MINTER = 'revoke-minter',
+  ADD_MINTER = 'add-minter',
+  TRANSFER_STORE_OWNERSHIP = 'transfer-store-ownership',
+  AUCTION_LIST = 'list',
+  SIMPLE_SALE_LIST = 'simple-sale-list',
+  UNLIST = 'unlist',
+  TAKE_OFFER = 'take-offer',
+  WITHDRAW_OFFER = 'withdraw-offer',
+}
+
+export type CallBackArgs =  {
+  args: object;
+  type: TransactionSuccessEnum;
+}
+
+export type ContractCall = {
+  contractAddress: string;
+  methodName: string;
+  args: object;
+  gas: string | BN;
+  deposit: string | BN;
+  signerId?: string;
+  callbackUrl?: string;
+  meta?: CallBackArgs;
+  };
+
+export type NearContractCall = ContractCall | ContractCall[]
+
+export type NearExecuteOptions = {
+  wallet?: Wallet;
+  account?: Account;
+  callbackUrl?: string;
+  callbackArgs?: CallBackArgs;  
+};
+
+export type BurnArgs = {
+  contractAddress?: string;
+  tokenIds: string[];
+};
+
+export type AddMinterArgs =  {
+  minterId: string;
+  contractAddress?: string;
+};
+
+export type BuyArgs = {
+  price: string;
+  contractAddress?: string;
+  tokenId: string;
+  referrerId?: string;
+  marketId?: string;
+};
+
+export type DelistArgs = {
+  contractAddress: string;
+    tokenIds: string[];
+    marketAddress?: string;
+    oldMarket?: boolean;
+}
+
+export type DeployContractArgs = {
+  factoryContractId?: string;
+  name: string;
+  ownerId: string;
+  metadata: {
+    symbol: string;
+    icon?: string;
+    baseUri?: string;
+    reference?: string;
+    referenceHash?: string;
+  };
+};
+
+export type DepositStorageArgs = {
+  listAmount?: number;
+  marketAddress?: string;
+};
+
+export type ListArgs = {
+  contractAddress?: string;
+  marketAddress?: string;
+  price: string;
+  tokenId: string;
+}
+
+export type MintArgs =  {
+  contractAddress?: string;
+  reference: string;
+  ownerId: string;
+  options?: MintOptions;
+};
+
+export type MintOptions = {
+    splits?: Splits;
+    amount?: number;
+    royaltyPercentage?: number;
+}
+
+export type Splits = Record<string, number>;
+
+export type RemoveMinterArgs =  {
+  minterId: string;
+  contractAddress?: string;
+};
+
+export type TransferArgs = {
+  transfers: {
+    receiverId: string;
+    tokenId: string;
+  }[];
+  contractAddress?: string;
+};
+
+export type TransferContractOwnershipArgs = {
+  contractAddress: string;
+  nextOwner: string;
+  options?: {
+    keepMinters: boolean;
+  };
+};

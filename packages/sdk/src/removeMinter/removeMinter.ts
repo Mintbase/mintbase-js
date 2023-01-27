@@ -1,13 +1,8 @@
 import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { NearContractCall, RemoveMinterArgs, TOKEN_METHOD_NAMES } from '../types';
 
-export type RemoveMinterArgs =  {
-    minterId: string;
-    contractAddress?: string;
-  };
 
 /**
  * Remove minting access of a provided id for a contract you own.
@@ -16,7 +11,7 @@ export type RemoveMinterArgs =  {
  */     
 export const removeMinter = (
   args: RemoveMinterArgs,
-): NearContractCall=> {
+): NearContractCall => {
   const { minterId, contractAddress = mbjs.keys.contractAddress } = args;
 
   if (contractAddress == null) {

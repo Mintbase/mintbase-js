@@ -1,77 +1,11 @@
-
 import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
-import { NoSigningMethodPassedError } from './errors';
+import { NearContractCall, CallBackArgs, ContractCall } from '../types';
 import BN from 'bn.js';
-import { mbjs } from './config/config';
 
-export enum TransactionSuccessEnum {
-  MINT = 'mint',
-  TRANSFER = 'transfer',
-  BURN = 'burn',
-  DEPLOY_STORE = 'deploy-store',
-  MAKE_OFFER = 'make-offer',
-  REVOKE_MINTER = 'revoke-minter',
-  ADD_MINTER = 'add-minter',
-  TRANSFER_STORE_OWNERSHIP = 'transfer-store-ownership',
-  AUCTION_LIST = 'list',
-  SIMPLE_SALE_LIST = 'simple-sale-list',
-  UNLIST = 'unlist',
-  TAKE_OFFER = 'take-offer',
-  WITHDRAW_OFFER = 'withdraw-offer',
-}
+export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): void | FinalExecutionOutcome[] => {
 
-type CallBackArgs =  {
-  args: object;
-  type: TransactionSuccessEnum;
-}
-
-export type ContractCall = {
-  contractAddress: string;
-  methodName: string;
-  args: object;
-  gas: string | BN;
-  deposit: string | BN;
-  signerId?: string;
-  callbackUrl?: string;
-  meta?: CallBackArgs;
-  };
-
-export type NearContractCall = ContractCall | ContractCall[]
-
-export type NearExecuteOptions = {
-  wallet?: Wallet;
-  account?: Account;
-  callbackUrl?: string;
-  callbackArgs?: CallBackArgs;  
-};
-
-const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
-  if (!wallet && !account) {
-    throw NoSigningMethodPassedError;
-  }
-};
-
-/**
- * Base method for executing contract calls.
- * @param signing object containing either near wallet selector
- * @param calls  {@link NearContractCall[]} any numberw of of single calls or compositions
- *  wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
- * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}
- */
-export const execute = async (
-  { wallet, account, callbackUrl = mbjs.keys.callbackUrl, callbackArgs }: NearExecuteOptions,
-  ...calls: NearContractCall[]
-): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
-
-  validateSigningOptions({ wallet, account });
-
-  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
-  if (outcomes && outcomes.length == 1) {
-    return outcomes[0];
-  }
-  
   const browserWallets = ['my-near-wallet', 'near-wallet'];
   const IsntBrowserWallets = !browserWallets.includes(wallet?.id);
   const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
@@ -131,16 +65,17 @@ export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBack
   return url;
 };
 
-const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
+export const genericBatchExecute 
+ = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
 
-  const url = callbackUrlFormatter(callbackUrl, callbackArgs);
+   const url = callbackUrlFormatter(callbackUrl, callbackArgs);
 
-  if (wallet) {
-    return batchExecuteWithBrowserWallet(call, wallet, url);
-  }
-  return batchExecuteWithNearAccount(call, account, url);
+   if (wallet) {
+     return batchExecuteWithBrowserWallet(call, wallet, url);
+   }
+   return batchExecuteWithNearAccount(call, account, url);
 
-};
+ };
 
 // account call translation wrappers https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
 // TODO: share batch signature with wallet selector sendAndSignTransaction when method becomes public
@@ -184,9 +119,6 @@ const batchExecuteWithBrowserWallet = async (
     callbackUrl: callback,
   });
 
-  console.log('wallet call,', res);
-
-
   return res;
 };
 
@@ -214,7 +146,7 @@ export const convertGenericCallToWalletCall = (
   };
 };
 
-function flattenArgs(calls: NearContractCall[]): ContractCall[] {
+export function flattenArgs(calls: NearContractCall[]): ContractCall[] {
   const contractCalls: ContractCall[] =[];
   for (const call of calls) {
     if (call instanceof Array && call.length > 0 && call as ContractCall[]) {

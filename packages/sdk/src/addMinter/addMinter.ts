@@ -1,13 +1,8 @@
 import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { TOKEN_METHOD_NAMES, NearContractCall, AddMinterArgs } from '../types';
 
-export type AddMinterArgs =  {
-    minterId: string;
-    contractAddress?: string;
-  };
 
 /**
  * Add minting access for one id to a contract you own.

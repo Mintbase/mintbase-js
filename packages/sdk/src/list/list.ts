@@ -2,15 +2,8 @@
 import { mbjs } from '../config/config';
 import { GAS, LISTING_DEPOSIT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { MARKET_METHOD_NAMES } from '../types';
+import { ListArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
-export type ListArgs = {
-    contractAddress?: string;
-    marketAddress?: string;
-    price: string;
-    tokenId: string;
-  }
 
 /**
  * Lists a token on mintbase market contract 

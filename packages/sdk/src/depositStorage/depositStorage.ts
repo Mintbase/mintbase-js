@@ -1,13 +1,7 @@
 import { utils } from 'near-api-js';
 import { mbjs } from '../config/config';
 import { GAS } from '../constants';
-import { NearContractCall } from '../execute';
-import { MARKET_METHOD_NAMES } from '../types';
-
-export type DepositStorageArgs = {
-    listAmount?: number;
-    marketAddress?: string;
-  };
+import { DepositStorageArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
 
 /**

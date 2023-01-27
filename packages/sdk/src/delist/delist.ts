@@ -1,15 +1,14 @@
 import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { ContractCall, NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES } from '../types';
+import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall, ContractCall, DelistArgs } from '../types';
 
-type DelistArgs = {
-  contractAddress: string;
-    tokenIds: string[];
-    marketAddress?: string;
-    oldMarket?: boolean;
-}
+
+/**
+ * Delist a token
+ * @param args {@link DelistArgs}
+ * @returns contract call to be passed to @mintbase-js/sdk execute method
+ */
 
 export const delist = (
   args: DelistArgs,
