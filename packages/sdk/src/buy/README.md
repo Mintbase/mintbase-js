@@ -45,7 +45,7 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, burn, BuyArgs } from '@mintbase-js/sdk';
 
 
-export const BuyComponent = ({ contractAddress, price, tokenId, referrerId, marketId }:BuyArgs): JSX.Element => {
+export const BuyComponent = ({ contractAddress, price, tokenId, affiliateAccount, marketId }:BuyArgs): JSX.Element => {
 
   const { selector } = useWallet();
 
@@ -53,7 +53,7 @@ export const BuyComponent = ({ contractAddress, price, tokenId, referrerId, mark
 
     const wallet = await selector.wallet();
 
-    const buyArgs = {contractAddress: contractAddress, tokenId:tokenId, referrerId:referrerId , marketId:marketId, price:price }
+    const buyArgs = {contractAddress: contractAddress, tokenId: tokenId, affiliateAccount: affiliateAccount , marketId:marketId, price:price }
 
     await execute(
       {wallet},
