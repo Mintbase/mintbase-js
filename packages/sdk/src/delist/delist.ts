@@ -50,7 +50,7 @@ export const delist = (
     methodName: oldMarket? MARKET_METHOD_NAMES.UNLIST_OLD_MARKET: MARKET_METHOD_NAMES.UNLIST ,
     args: {
       token_ids: tokenIds,
-      CONTRACT_ADDRESS: contractAddress || mbjs.keys.marketAddress,
+      nft_contract_id: contractAddress || mbjs.keys.marketAddress,
     },
     gas: GAS,
     deposit: ONE_YOCTO,

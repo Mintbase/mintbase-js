@@ -76,7 +76,7 @@ describe('token method calls', () => {
       methodName: 'buy',
       args: {
         // eslint-disable-next-line @typescript-eslint/camelcase
-        CONTRACT_ADDRESS: nftContractId,
+        nft_contract_id: nftContractId,
         // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
         // eslint-disable-next-line @typescript-eslint/camelcase
