@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.1.0-alpha.78",
+  "version": "0.1.0-alpha.79",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
@@ -20,8 +20,8 @@
   "license": "MIT",
   "dependencies": {
     "@google-cloud/secret-manager": "^4.1.4",
-    "@mintbase-js/auth": "^0.1.0-alpha.78",
-    "@mintbase-js/sdk": "^0.1.0-alpha.78",
+    "@mintbase-js/auth": "^0.1.0-alpha.79",
+    "@mintbase-js/sdk": "^0.1.0-alpha.79",
     "graphql-request": "^5.0.0"
   },
   "devDependencies": {
