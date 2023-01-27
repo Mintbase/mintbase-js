@@ -48,7 +48,7 @@
     "@mintbase-js/data": "file:packages/data",
     "@mintbase-js/react": "file:packages/react",
     "@mintbase-js/rpc": "file:packages/rpc",
-    "@mintbase-js/sdk": "^0.1.0-alpha.62",
+    "@mintbase-js/sdk": "file:packages/sdk",
     "@mintbase-js/storage": "file:packages/storage",
     "@mintbase-js/testing": "file:packages/testing",
     "@near-wallet-selector/core": "^7.0.3",

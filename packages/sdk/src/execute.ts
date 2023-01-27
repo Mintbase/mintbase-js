@@ -85,8 +85,8 @@ export const execute = async (
     if (callbackArgs) {
 
       const args = JSON.stringify({
-        type: callbackArgs?.type,
-        args: callbackArgs?.args,
+        type: callbackArgs?.type ?? '',
+        args: callbackArgs?.args ?? '',
       });
 
       const signMeta = encodeURIComponent(args);
@@ -114,8 +114,8 @@ const checkTransactionHash = (receipt): {transactionHash: string}  => {
   return { transactionHash };
 };
 
-const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
 
+export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBackArgs): string => {
   let url = callbackUrl;
 
   if (callbackArgs?.type) {
@@ -127,6 +127,13 @@ const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account
     const signMeta = encodeURIComponent(args);
     url = `${callbackUrl}/?signMeta=${signMeta}`;
   }
+
+  return url;
+};
+
+const genericBatchExecute = async (call: ContractCall[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
+
+  const url = callbackUrlFormatter(callbackUrl, callbackArgs);
 
   if (wallet) {
     return batchExecuteWithBrowserWallet(call, wallet, url);
@@ -162,7 +169,6 @@ const batchExecuteWithNearAccount = async (
     }
   }
 
-  console.log('outcomesoutcomesoutcomes', outcomes);
 
   return outcomes;
 };
@@ -188,7 +194,7 @@ const batchExecuteWithBrowserWallet = async (
 
 declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
-const convertGenericCallToWalletCall = (
+export const convertGenericCallToWalletCall = (
   call: ContractCall,
 ): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
 
