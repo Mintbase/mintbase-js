@@ -1,7 +1,7 @@
-import { transfer, DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from './transfer';
-import { ContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { transfer } from './transfer';
+import { ContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { mbjs } from '../config/config';
+import { DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from '../constants';
 
 
 describe('transfer token unit tests', () => {
