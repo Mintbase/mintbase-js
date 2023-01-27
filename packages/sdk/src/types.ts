@@ -96,10 +96,10 @@ export type CallBackArgs =  {
   type: TransactionSuccessEnum;
 }
 
-export type ContractCall = {
+export type ContractCall<T> = {
   contractAddress: string;
   methodName: string;
-  args: object;
+  args: T;
   gas: string | BN;
   deposit: string | BN;
   signerId?: string;
@@ -107,7 +107,7 @@ export type ContractCall = {
   meta?: CallBackArgs;
   };
 
-export type NearContractCall = ContractCall | ContractCall[]
+export type NearContractCall<T> = ContractCall<T> | ContractCall<T>[]
 
 export type NearExecuteOptions = {
   wallet?: Wallet;
@@ -197,9 +197,91 @@ export type TransferArgs = {
 export type TransferContractOwnershipArgs = {
   contractAddress: string;
   nextOwner: string;
+
   options?: {
     keepMinters: boolean;
   };
 };
 
+export interface OldTransferContractOwnershipArgs {
+  new_owner: string;
+  keep_old_minters?: boolean;
+}
+
 export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
+
+
+// NearContractCall Args
+
+
+export interface MinterArgs {
+  account_id: string;
+}
+
+export interface BatchChangeMinterArgs {
+  grant: string[] | undefined;
+  revoke: string[] | undefined;
+}
+
+export interface BurnReturnArgs {
+  token_ids: string[];
+}
+
+export interface BuyReturnArgs { 
+  nft_contract_id: string;
+  token_id: string;
+  referrer_id: string;
+}
+
+export interface DelistReturnArgs {
+  token_id: string;
+  account_id: string;
+  nft_contract_id: string;
+}
+export interface DelistMultipleReturnArgs extends DelistReturnArgs {
+  token_ids: string[];
+  nft_contract_id: string;
+}
+
+export interface DeployContractReturnArgs {
+  owner_id: string;
+  metadata: {
+    spec: string;
+    name: string;
+    symbol: string;
+    icon: string;
+    base_uri: string;
+    reference: string;
+    reference_hash: string;
+  };
+}
+
+export interface TransferReturnArgs {
+  receiver_id: string;
+  token_id: string;
+}
+
+export interface ListReturnArgs {
+  token_id: string;
+  account_id: string;
+  msg: string;
+}
+
+export interface MintReturnArgs {
+  owner_id: string;
+  metadata: {
+    reference: string;
+  };
+  num_to_mint:  number;
+  // 10000 = 100%
+  royalty_args: { split_between: Splits; percentage: number } | null; 
+  split_owners: Splits | null;
+}
+
+export interface TransferContractOwnershipReturnArgs {
+  new_owner: string;
+  keep_old_minters: boolean;
+}
+
+export type ExecuteReturnArgs = BatchChangeMinterArgs | TransferReturnArgs | ListReturnArgs | MintReturnArgs |
+MinterArgs | DeployContractReturnArgs | DelistMultipleReturnArgs | BuyReturnArgs | BurnReturnArgs | TransferContractOwnershipReturnArgs

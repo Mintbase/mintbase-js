@@ -2,7 +2,7 @@
 import { mbjs } from '../config/config';
 import { GAS, LISTING_DEPOSIT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { ListArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
+import { ListArgs, ListReturnArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
 
 /**
@@ -10,7 +10,7 @@ import { ListArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
  * @param listArguments {@link ListArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const list = (args: ListArgs): NearContractCall => {
+export const list = (args: ListArgs): NearContractCall<ListReturnArgs> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenId, marketAddress = mbjs.keys.marketAddress, price } = args;
   
   if (contractAddress == null) {

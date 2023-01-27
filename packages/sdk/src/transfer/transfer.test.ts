@@ -1,5 +1,5 @@
 import { transfer } from './transfer';
-import { ContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { ContractCall, TOKEN_METHOD_NAMES, TransferReturnArgs } from '../types';
 import { mbjs } from '../config/config';
 import { DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from '../constants';
 
@@ -31,7 +31,7 @@ describe('transfer token unit tests', () => {
   test('uses contract from env', () => {
     const transferCall = transfer({
       transfers: [{ receiverId: receiverId, tokenId: tokenId1 }],
-    }) as ContractCall;
+    }) as ContractCall<TransferReturnArgs>;
     expect(transferCall.contractAddress).toBe(mbjs.keys.contractAddress);
   });
 

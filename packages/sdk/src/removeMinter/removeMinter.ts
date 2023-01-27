@@ -11,7 +11,7 @@ import { NearContractCall, RemoveMinterArgs, TOKEN_METHOD_NAMES } from '../types
  */     
 export const removeMinter = (
   args: RemoveMinterArgs,
-): NearContractCall => {
+): NearContractCall<{account_id: string}> => {
   const { minterId, contractAddress = mbjs.keys.contractAddress } = args;
 
   if (contractAddress == null) {

@@ -9,7 +9,7 @@ import { DepositStorageArgs, MARKET_METHOD_NAMES, NearContractCall } from '../ty
  * @param depositStorageArguments {@link DepositStorageArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const depositStorage = (args: DepositStorageArgs): NearContractCall => {
+export const depositStorage = (args: DepositStorageArgs): NearContractCall<{}> => {
     
   const { marketAddress = mbjs.keys.marketAddress, listAmount = 1 } = args;
   

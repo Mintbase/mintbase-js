@@ -1,8 +1,7 @@
 import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { TOKEN_METHOD_NAMES, NearContractCall, AddMinterArgs } from '../types';
-
+import { TOKEN_METHOD_NAMES, NearContractCall, AddMinterArgs, MinterArgs } from '../types';
 
 /**
  * Add minting access for one id to a contract you own.
@@ -11,7 +10,7 @@ import { TOKEN_METHOD_NAMES, NearContractCall, AddMinterArgs } from '../types';
  */  
 export const addMinter = (
   args: AddMinterArgs,
-): NearContractCall=> {
+): NearContractCall<MinterArgs>=> {
   const { minterId, contractAddress = mbjs.keys.contractAddress } = args;
 
   if (contractAddress == null) {

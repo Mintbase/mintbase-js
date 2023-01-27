@@ -2,7 +2,7 @@
 import type { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import type { providers } from 'near-api-js';
 import { mbjs } from '../config/config';
-import { NearContractCall, NearExecuteOptions } from '../types';
+import { ExecuteReturnArgs, NearContractCall, NearExecuteOptions } from '../types';
 import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOptions } from './execute.utils';
 
 /**
@@ -15,7 +15,7 @@ import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOpti
 
 export const execute = async (
   { wallet, account, callbackUrl = mbjs.keys.callbackUrl, callbackArgs }: NearExecuteOptions,
-  ...calls: NearContractCall[]
+  ...calls: NearContractCall<ExecuteReturnArgs>[]
 ): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
 
   validateSigningOptions({ wallet, account });

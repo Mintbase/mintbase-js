@@ -1,7 +1,7 @@
 import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall, ContractCall, DelistArgs } from '../types';
+import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall, ContractCall, DelistArgs, DelistReturnArgs, DelistMultipleReturnArgs } from '../types';
 
 
 /**
@@ -12,7 +12,7 @@ import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall, ContractCall
 
 export const delist = (
   args: DelistArgs,
-): NearContractCall => {
+): NearContractCall<DelistReturnArgs> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenIds, marketAddress = mbjs.keys.marketAddress, oldMarket = false } = args;
 
   
@@ -28,7 +28,7 @@ export const delist = (
     throw new Error(ERROR_MESSAGES.TOKEN_LENGTH);
   }
 
-  const result: NearContractCall = [];
+  const result: NearContractCall<DelistReturnArgs> = [];
 
   //revoke ownership for all tokens
   for (const tokenId of tokenIds) {
@@ -41,7 +41,7 @@ export const delist = (
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       gas: GAS,
       deposit: ONE_YOCTO,
-    }as ContractCall) ;
+    }as ContractCall<DelistReturnArgs>) ;
   }
   
 
@@ -54,7 +54,7 @@ export const delist = (
     },
     gas: GAS,
     deposit: ONE_YOCTO,
-  } as ContractCall);
+  } as ContractCall<DelistMultipleReturnArgs>);
 
-  return result as NearContractCall; 
+  return result as NearContractCall<DelistReturnArgs>; 
 };

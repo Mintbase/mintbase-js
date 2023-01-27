@@ -2,7 +2,7 @@ import { execute } from './execute';
 import { MAX_GAS, ONE_YOCTO } from '../constants';
 import { NoSigningMethodPassedError } from '../errors';
 import BN from 'bn.js';
-import { NearContractCall } from '../types';
+import { ExecuteReturnArgs, NearContractCall } from '../types';
 
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
@@ -10,12 +10,10 @@ describe('contract method calls (execute)', () => {
   const testMethod = 'nft_transfer';
   const testCallbackUrl = 'ftp://mintbase.testnet';
   const testArgs = {
-
     token_id: 'fake.token.id',
-
     receiver_id: 'mb_bob.testnet',
   };
-  const testContractCall: NearContractCall= {
+  const testContractCall: NearContractCall<ExecuteReturnArgs>= {
     signerId: testSigner,
     contractAddress: testContract,
     methodName: testMethod,

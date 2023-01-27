@@ -1,7 +1,7 @@
 import { mbjs } from '../config/config';
 import { DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall, TOKEN_METHOD_NAMES, TransferArgs } from '../types';
+import { NearContractCall, TOKEN_METHOD_NAMES, TransferArgs, TransferReturnArgs } from '../types';
 
 
 /**
@@ -12,7 +12,7 @@ import { NearContractCall, TOKEN_METHOD_NAMES, TransferArgs } from '../types';
 export const transfer = ({
   transfers,
   contractAddress = mbjs.keys.contractAddress,
-}: TransferArgs): NearContractCall => {
+}: TransferArgs): NearContractCall<TransferReturnArgs | {token_ids: string[][]}> => {
 
 
   if (contractAddress === null) {

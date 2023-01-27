@@ -2,7 +2,7 @@
 import { mbjs } from '../config/config';
 import { GAS  } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { BuyArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
+import { BuyArgs, BuyReturnArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
 //todo make a buy at listed price method
 
@@ -11,7 +11,7 @@ import { BuyArgs, MARKET_METHOD_NAMES, NearContractCall } from '../types';
  * @param buyArguments {@link BuyArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const buy = (args: BuyArgs): NearContractCall=> {
+export const buy = (args: BuyArgs): NearContractCall<BuyReturnArgs>=> {
   const { contractAddress = mbjs.keys.contractAddress, tokenId, referrerId = null, marketId = mbjs.keys.marketAddress, price } = args;
 
   if (contractAddress == null) {
