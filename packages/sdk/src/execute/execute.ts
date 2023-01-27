@@ -21,10 +21,7 @@ export const execute = async (
   validateSigningOptions({ wallet, account });
 
   const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
-  if (outcomes && outcomes.length == 1) {
-    return outcomes[0];
-  }
-  
+
   return checkCallbackUrl(callbackUrl,callbackArgs,wallet,outcomes);
 
 };

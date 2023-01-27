@@ -5,11 +5,13 @@ import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, Near
 import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
 
-export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): void | FinalExecutionOutcome[] => {
+export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
 
   const browserWallets = ['my-near-wallet', 'near-wallet'];
   const IsntBrowserWallets = !browserWallets.includes(wallet?.id);
   const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
+
+  console.log(callbackUrl,hasCallbackUrl );
   
   if (hasCallbackUrl && IsntBrowserWallets) {
     
@@ -28,10 +30,14 @@ export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs
       
       finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}&signMeta=${signMeta}`;
     }
+
+    console.log('here');
+
     return window.location.assign(finalUrl);
   }
 
-  return outcomes;
+
+  return outcomes && outcomes.length == 1?  outcomes[0]: outcomes;
 
 };
 

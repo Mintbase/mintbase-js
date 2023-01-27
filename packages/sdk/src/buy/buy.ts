@@ -21,7 +21,7 @@ export const buy = (args: BuyArgs): NearContractCall=> {
   return {
     contractAddress: marketId || mbjs.keys.marketAddress,
     args: {
-      CONTRACT_ADDRESS: contractAddress || mbjs.keys.contractAddress,
+      nft_contract_id: contractAddress || mbjs.keys.contractAddress,
       token_id: tokenId,
       referrer_id: referrerId,
     },
