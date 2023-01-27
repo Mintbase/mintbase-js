@@ -15,7 +15,7 @@ export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs
     
     const { transactionHash } = checkTransactionHash(outcomes);
     
-    let finalUrl = `${callbackUrl}?transactionHash=${transactionHash}`;
+    let finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}`;
 
     if (callbackArgs) {
 
@@ -26,7 +26,7 @@ export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs
 
       const signMeta = encodeURIComponent(args);
       
-      finalUrl = `${callbackUrl}?transactionHash=${transactionHash}&signMeta=${signMeta}`;
+      finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}&signMeta=${signMeta}`;
     }
     return window.location.assign(finalUrl);
   }
