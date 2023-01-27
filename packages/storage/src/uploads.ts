@@ -134,14 +134,16 @@ export const uploadReference = async (
   }
   const { media, animation_url, document } = referenceObject;
   const formdata = new FormData();
+  Object.entries(referenceObject).forEach((entry) => {
+    const [key, value] = entry;
+    const notMedia = (!key == (media || !key == animation_url || !key == document) && typeof value == 'string');
+    const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES;
 
-  Object.entries(referenceObject).forEach((key: any, value: any): void => {
-    if (!(key == (media || animation_url || document))) {
+    if (notMedia) {
       formdata.append(key, value);
-    } else if (value?.size < MAX_UPLOAD_BYTES) {
+    } else if (canBeUploaded) {
       formdata.append(key, value);
     }
-
   });
 
   try {
