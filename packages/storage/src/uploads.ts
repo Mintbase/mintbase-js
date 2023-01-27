@@ -131,19 +131,9 @@ export const uploadReference = async (
   if (Object.keys(referenceObject).length == 0) {
     throw new Error(OBJECT_IS_EMPTY_ERROR);
   }
-  const { media, animation_url, document } = referenceObject;
-  const formdata = new FormData();
-  Object.entries(referenceObject).forEach((entry) => {
-    const [key, value] = entry;
-    const notMedia = ((key != "document" || "media" || "animation_url")) && typeof value == 'string' ;
-    const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES;
-
-    if (notMedia) {
-      formdata.append(key, value);
-    } else if (canBeUploaded) {
-      formdata.append(key, value);
-    }
-  });
+  
+  const formdata = getFormDataFromJson(referenceObject)
+  
 
   try {
     const request = await fetch(`${ARWEAVE_SERVICE_HOST}/reference`, {
@@ -180,4 +170,20 @@ export function getFileFromObject(referenceObject: unknown): File {
   return new File([str], 'file', {
     type: 'application/json;charset=utf-8',
   });
+}
+
+export function getFormDataFromJson(referenceObject: ReferenceObject): FormData{
+  const formdata = new FormData();
+  Object.entries(referenceObject).forEach((entry) => {
+    const [key, value] = entry;
+    const notMedia = ((key != ("document" || "media" || "animation_url"))) && typeof value == 'string' ;
+    const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES;
+
+    if (notMedia) {
+      formdata.append(key, value);
+    } else if (canBeUploaded) {
+      formdata.append(key, value);
+    }
+  });
+  return formdata
 }
