@@ -120,7 +120,6 @@ export const uploadFile = async (
     throw error;
   }
 };
-
 /**
  * (Browser) upload a json reference object via POST to upload service
  * @param ReferenceObject A json reference object to upload
@@ -136,7 +135,7 @@ export const uploadReference = async (
   const formdata = new FormData();
   Object.entries(referenceObject).forEach((entry) => {
     const [key, value] = entry;
-    const notMedia = (!key == (media || !key == animation_url || !key == document) && typeof value == 'string');
+    const notMedia = ((key != "document" || "media" || "animation_url")) && typeof value == 'string' ;
     const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES;
 
     if (notMedia) {
