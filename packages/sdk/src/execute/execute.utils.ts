@@ -1,8 +1,9 @@
 import type { Wallet, FinalExecutionOutcome, Optional, Transaction } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
-import { NearContractCall, CallBackArgs, ContractCall } from '../types';
+import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions } from '../types';
 import BN from 'bn.js';
+import { NoSigningMethodPassedError } from '../errors';
 
 export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): void | FinalExecutionOutcome[] => {
 
@@ -122,9 +123,6 @@ const batchExecuteWithBrowserWallet = async (
   return res;
 };
 
-//////////// UTILS ////////////
-
-declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
 export const convertGenericCallToWalletCall = (
   call: ContractCall,
@@ -159,3 +157,8 @@ export function flattenArgs(calls: NearContractCall[]): ContractCall[] {
 }
 
 
+export const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
+  if (!wallet && !account) {
+    throw NoSigningMethodPassedError;
+  }
+};

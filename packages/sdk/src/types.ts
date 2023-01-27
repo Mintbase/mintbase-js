@@ -1,6 +1,8 @@
 import { Wallet } from '@near-wallet-selector/core';
 import BN from 'bn.js';
 import { Account } from 'near-api-js';
+import type { Optional, Transaction } from '@near-wallet-selector/core';
+
 
 export enum TOKEN_METHOD_NAMES {
   TRANSFER =  'nft_transfer',
@@ -199,3 +201,5 @@ export type TransferContractOwnershipArgs = {
     keepMinters: boolean;
   };
 };
+
+export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;

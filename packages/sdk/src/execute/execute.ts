@@ -1,17 +1,9 @@
 
 import type { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import type { providers } from 'near-api-js';
-import { NoSigningMethodPassedError } from '../errors';
 import { mbjs } from '../config/config';
 import { NearContractCall, NearExecuteOptions } from '../types';
-import { checkCallbackUrl, flattenArgs, genericBatchExecute } from './execute.utils';
-
-
-const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
-  if (!wallet && !account) {
-    throw NoSigningMethodPassedError;
-  }
-};
+import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOptions } from './execute.utils';
 
 /**
  * Base method for executing contract calls.
