@@ -291,6 +291,7 @@ export interface TransferContractOwnershipReturnArgs {
 export interface ExecuteExtraArgs {
   token_key?: string[] | string;
   autotransfer?: boolean;
+  metadataId?: string;
 }
 
 export type ExecuteReturnArgs = BatchChangeMinterArgs | TransferReturnArgs | ListReturnArgs | MintReturnArgs |

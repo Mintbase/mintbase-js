@@ -20,7 +20,7 @@ describe('contract method calls (execute)', () => {
     args: testArgs,
     gas: MAX_GAS,
     deposit: ONE_YOCTO,
-    callbackUrl: testCallbackUrl,
+    // callbackUrl: testCallbackUrl,
   };
 
   const mockNearSelectorWallet = {
@@ -65,7 +65,7 @@ describe('contract method calls (execute)', () => {
         },
         type: 'FunctionCall',
       }],
-      callbackUrl: testCallbackUrl,
+      // callbackUrl: testCallbackUrl,
       receiverId: testContract,
       signerId: testSigner,
     }] , 'callbackUrl': testCallbackUrl };
@@ -74,6 +74,37 @@ describe('contract method calls (execute)', () => {
       .toHaveBeenCalledWith(transactions);
 
   });
+
+
+  test('execute calls through to browser wallet selector method without callback', async () => {
+    await execute(
+      {
+        wallet: mockNearSelectorWallet as any,
+      },
+      testContractCall,
+    );
+
+
+    const transactions = { 'transactions' : [{
+      actions:[{
+        params: {
+          args: testArgs,
+          methodName: testMethod,
+          gas: MAX_GAS,
+          deposit: ONE_YOCTO,
+        },
+        type: 'FunctionCall',
+      }],
+      // callbackUrl: testCallbackUrl,
+      receiverId: testContract,
+      signerId: testSigner,
+    }] };
+
+    expect(mockNearSelectorWallet.signAndSendTransactions)
+      .toHaveBeenCalledWith(transactions);
+
+  });
+
 
   test('passing multiple calls and composition works', async () => {
     await execute(

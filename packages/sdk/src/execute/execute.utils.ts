@@ -140,7 +140,6 @@ export const convertGenericCallToWalletCall = (
   return {
     signerId: call.signerId,
     receiverId: call.contractAddress,
-    callbackUrl: call.callbackUrl,
     actions:[{
       type: 'FunctionCall',
       params: {
