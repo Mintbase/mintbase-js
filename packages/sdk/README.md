@@ -73,11 +73,12 @@ const makeSmartContractCall = async (): Promise<FinalExecutionOutcome> => {
   // before the getWallet can be called, you will need to setup the components in the browser, it will throw othwerise
   const wallet = await getWallet();
 
-  const sign: NearCallSigningOptions = {
+  const sign: NearExecuteOptions = {
     // account
     wallet,
+    callbackUrl: 'https://www.yourwebsite.xyz/success'
   }
-  return await execute(sign, transfer);
+  return await execute(sign, transferCall);
 }
 
 makeSmartContractCall()
@@ -85,6 +86,10 @@ makeSmartContractCall()
   .catch((err) => console.error('things went wrong', err));
 
 ```
+
+- please read more detailed information about the execute method [here](/execute)
+
+
 {% endcode %}
 
 ## Batching Transactions <div name="batching"></div>
@@ -119,3 +124,4 @@ const mintCall = mint({
 Should you encounter this [known issue](https://docs.near.org/tools/near-api-js/faq#class-x-is-missing-in-schema-publickey) `Class PublicKey is missing in schema: publicKey` make sure you are not importing modules directly from `near-api-js`, import them from `@mintbase-js/sdk` instead to avoid the duplicate import.
 
 {% endhint %}
+

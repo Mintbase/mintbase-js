@@ -42,7 +42,6 @@ void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
     return window.location.assign(finalUrl);
   }
 
-
   return outcomes && outcomes.length == 1?  outcomes[0]: outcomes;
 
 };
@@ -136,7 +135,7 @@ const batchExecuteWithBrowserWallet = async (
   wallet: Wallet,
   callback?: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
-  
+
   const res = await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     ...(callback && { callbackUrl: callback }),

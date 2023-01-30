@@ -30,7 +30,6 @@ export type ListArgs = {
   }
 ```
 
-
 ## React example
 
 

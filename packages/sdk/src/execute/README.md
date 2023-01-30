@@ -30,12 +30,12 @@ export type NearExecuteOptions = {
 ## callbackUrl:
 
 - this argument can be set within [mbjs.config](../config/) ( globally ), thus if passed globally theres no need to be passed in the first obj argument.
-or in the execute method. it must be passed in full url. ex: "https://www.mintbase.xyz/success"
+or in the execute method. it must be passed in full url. ex: "https://www.yourwebsite.xyz/success"
 
 
 ## callbackArgs:
 
-- Optional object that will be passed as an argument on the url, ex: "https://www.mintbase.xyz/success?signMeta=arg1:XYZ"
+- Optional object that will be passed as an argument on the url, ex: "https://www.yourwebsite.xyz/success?signMeta=arg1:XYZ"
 
 
 ## React example
