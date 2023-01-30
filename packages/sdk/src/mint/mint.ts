@@ -6,25 +6,26 @@ import { NearContractCall } from '../execute';
 export type MintArgs =  {
   nftContractId?: string;
   ownerId: string;
+  reference?: string;
   metadata: TokenMetadata;
   options?: MintOptions;
-  noMedia: boolean;     // explicit opt-in to NFT without media, breaks wallets
-  noReference: boolean; // explicit opt-in to NFT without reference
+  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference?: boolean; // explicit opt-in to NFT without reference
 };
 
 export type TokenMetadata = {
-  title: string | null,
-  description: string | null,
-  media: string | null,
-  media_hash: string | null,
-  copies: number | null,
-  issued_at: string | null,  // Stringified unix timestamp, according to
-  expires_at: string | null, // standards this is milliseconds since epoch, but
-  starts_at: string | null,  // since `env::block_timestamp` is in nanoseconds
-  updated_at: string | null, // most timestamps in the ecosystem are nanoseconds
-  extra: string | null,
-  reference: string | null,
-  reference_hash: string | null
+  title?: string;
+  description?: string;
+  media?: string;
+  media_hash?: string;
+  copies?: number;
+  issued_at?: string;  // Stringified unix timestamp, according to
+  expires_at?: string; // standards this is milliseconds since epoch, but
+  starts_at?: string;  // since `env::block_timestamp` is in nanoseconds
+  updated_at?: string; // most timestamps in the ecosystem are nanoseconds
+  extra?: string;
+  reference?: string;
+  reference_hash?: string;
 }
 
 export type MintOptions = {
@@ -45,6 +46,7 @@ export const mint = (
 ): NearContractCall => {
   const {
     nftContractId = DEFAULT_CONTRACT_ADDRESS,
+    reference,
     metadata,
     ownerId,
     options = {},
@@ -58,7 +60,17 @@ export const mint = (
     throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID environment variable to default to');
   }
 
-  if (!noReference && !metadata.reference) {
+  // Either both references are the same or only one must be given
+  if (reference && metadata.reference && metadata.reference !== reference) {
+    throw new Error('Conflicting references');
+  }
+  // If reference not in metadata, insert
+  if (!metadata.reference) {
+    metadata.reference = reference;
+  }
+
+  // Reference and media need to be present or explictly opted out of
+  if (!noReference && !metadata.reference && !reference) {
     throw new Error('You must provide reference in your metadata or explicitly opt out of using reference');
   }
   if (!noMedia && !metadata.media) {
@@ -106,7 +118,6 @@ function adjustSplitsForContract(splits: Record<string, number> ): void {
   let counter = 0;
   Object.keys(splits).forEach(key => {
     counter += splits[key];
-    console.log(counter);
     splits[key] *= 10000;
   });
   if (counter != 1) {

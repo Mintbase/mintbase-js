@@ -48,7 +48,7 @@ describe('delist account', () => {
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       args: {
-        account_id: 'market-v2-beta.mintspace2.testnet',
+        account_id: 'simple.market.mintbase1.near',
         token_id: tokenId,
       },
       deposit: ONE_YOCTO,

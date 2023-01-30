@@ -5,6 +5,7 @@ import { mint, MintOptions } from './mint';
 describe('mint method tests', () => {
   const nftContractId = 'test.nft.contract';
   const reference = 'test';
+  const media = 'test';
   const ownerId = 'test';
   const options = {
     splits: { test: 0.5, test2: 0.5 },
@@ -78,19 +79,19 @@ describe('mint method tests', () => {
       test49: 49,
       test50: 50,
       test51: 51,
-    }, 
+    },
     amount: 1,
     royaltyPercentage: 0.5,
   };
 
-  
+
   test('mint without options', () => {
     const args = mint({
       nftContractId: nftContractId,
-      reference: reference,
+      metadata: { reference, media },
       ownerId: ownerId,
     });
-  
+
     expect(args).toEqual({
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.MINT,
@@ -98,6 +99,7 @@ describe('mint method tests', () => {
         owner_id: ownerId,
         metadata: {
           reference: reference,
+          media: media,
         },
         num_to_mint:  1,
         royalty_args: null,
@@ -107,14 +109,15 @@ describe('mint method tests', () => {
       gas: GAS,
     });
   });
+
   test('mint with options', () => {
     const args = mint({
       nftContractId: nftContractId,
-      reference: reference,
+      metadata: { reference, media },
       ownerId: ownerId,
       options: options,
     });
-  
+
     expect(args).toEqual({
       contractAddress: nftContractId,
       methodName: TOKEN_METHOD_NAMES.MINT,
@@ -122,6 +125,7 @@ describe('mint method tests', () => {
         owner_id: ownerId,
         metadata: {
           reference: reference,
+          media: media,
         },
         num_to_mint:  2,
         royalty_args: {
@@ -144,32 +148,61 @@ describe('mint method tests', () => {
   test('mint with invalid percentage', () => {
     expect(()=> mint({
       nftContractId: nftContractId,
-      reference: reference,
+      metadata: { reference, media },
       ownerId: ownerId,
       options: optionsWithInvalidPercentage,
     })).toThrow();
-
   });
 
   test('mint with invalid amount', () => {
-    
     expect(()=> mint({
       nftContractId: nftContractId,
-      reference: reference,
+      metadata: { reference, media },
       ownerId: ownerId,
       options: optionsWithInvalidAmount,
     })).toThrow();
-
-
   });
 
   test('mint with invalid splits', () => {
- 
+    expect((() => mint({
+      nftContractId: nftContractId,
+      metadata: { reference, media },
+      ownerId: ownerId,
+      options: optionsWithInvalidSplits,
+    }))).toThrow();
+  });
+
+  test('mint without reference', () => {
+    expect((() => mint({
+      nftContractId: nftContractId,
+      metadata: { media },
+      ownerId: ownerId,
+    }))).toThrow();
+  });
+
+  test('mint without media', () => {
+    expect((() => mint({
+      nftContractId: nftContractId,
+      metadata: { reference },
+      ownerId: ownerId,
+    }))).toThrow();
+  });
+
+  test('mint with reference in legacy location', () => {
     expect((() => mint({
       nftContractId: nftContractId,
       reference: reference,
+      metadata: { media },
       ownerId: ownerId,
-      options: optionsWithInvalidSplits,
+    }))).not.toThrow();
+  });
+
+  test('mint with conflicting reference', () => {
+    expect((() => mint({
+      nftContractId: nftContractId,
+      reference: reference,
+      metadata: { reference: 'bad', media },
+      ownerId: ownerId,
     }))).toThrow();
   });
 });
