@@ -191,6 +191,10 @@ export type TransferArgs = {
     receiverId: string;
     tokenId: string;
   }[];
+  token_ids?:  {
+    receiverId: string;
+    tokenId: string;
+  }[];
   contractAddress?: string;
 };
 
@@ -271,6 +275,7 @@ export interface MintReturnArgs {
   owner_id: string;
   metadata: {
     reference: string;
+    extra?: any;
   };
   num_to_mint:  number;
   // 10000 = 100%
@@ -283,5 +288,10 @@ export interface TransferContractOwnershipReturnArgs {
   keep_old_minters: boolean;
 }
 
+export interface ExecuteExtraArgs {
+  token_key?: string[] | string;
+  auto_transfer?: boolean;
+}
+
 export type ExecuteReturnArgs = BatchChangeMinterArgs | TransferReturnArgs | ListReturnArgs | MintReturnArgs |
-MinterArgs | DeployContractReturnArgs | DelistMultipleReturnArgs | BuyReturnArgs | BurnReturnArgs | TransferContractOwnershipReturnArgs
+MinterArgs | DeployContractReturnArgs | DelistMultipleReturnArgs | BuyReturnArgs | BurnReturnArgs | TransferContractOwnershipReturnArgs | ExecuteExtraArgs

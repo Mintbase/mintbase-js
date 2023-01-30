@@ -53,9 +53,12 @@ const checkTransactionHash = (receipt): {transactionHash: string}  => {
 
 
 export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBackArgs): string => {
-  let url = callbackUrl;
 
-  if (callbackArgs?.type) {
+  console.log(callbackUrl, 'callbackUrl');
+
+  let url = callbackUrl && typeof callbackUrl !== 'undefined' ?  callbackUrl : null;
+
+  if (callbackArgs?.type && callbackUrl) {
     const args = JSON.stringify({
       type: callbackArgs?.type,
       args: callbackArgs?.args,
@@ -73,8 +76,10 @@ export const genericBatchExecute
 
    const url = callbackUrlFormatter(callbackUrl, callbackArgs);
 
+   console.log(url, 'url');
+
    if (wallet) {
-     return batchExecuteWithBrowserWallet(call, wallet, url);
+     return url ?  batchExecuteWithBrowserWallet(call, wallet, url) : batchExecuteWithBrowserWallet(call, wallet);
    }
    return batchExecuteWithNearAccount(call, account, url);
 
@@ -86,7 +91,7 @@ export const genericBatchExecute
 const batchExecuteWithNearAccount = async (
   calls: ContractCall<ExecuteReturnArgs>[],
   account: Account,
-  callbackUrl: string,
+  callbackUrl?: string,
 ): Promise<FinalExecutionOutcome[]> => {
   const outcomes: any[] =[];
   for (const call of calls) {
@@ -98,8 +103,8 @@ const batchExecuteWithNearAccount = async (
         args: call.args,
         gas: new BN(call.gas),
         attachedDeposit: new BN(call.deposit),
-        walletCallbackUrl: callbackUrl,
-      }));
+        ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
+      })); 
     } catch (err: unknown) {
       console.error(
         `${call.contractAddress}:${call.methodName} in batch failed: ${err}`,
@@ -116,6 +121,8 @@ const batchExecuteWithBrowserWallet = async (
   wallet: Wallet,
   callback?: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
+
+  console.log(callback, 'callback');
 
   const res = callback && typeof callback !== 'undefined' ? await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
