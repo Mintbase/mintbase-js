@@ -47,7 +47,7 @@ export const mint = (
   args: MintArgs,
 ): NearContractCall => {
   const {
-    contractAddress = DEFAULT_CONTRACT_ADDRESS,
+    contractAddress = mbjs.keys.contractAddress,
     reference,
     metadata,
     ownerId,

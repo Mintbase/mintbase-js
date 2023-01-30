@@ -165,7 +165,7 @@ describe('mint method tests', () => {
 
   test('mint with invalid splits', () => {
     expect((() => mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
       options: optionsWithInvalidSplits,
@@ -174,7 +174,7 @@ describe('mint method tests', () => {
 
   test('mint without reference', () => {
     expect((() => mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { media },
       ownerId: ownerId,
     }))).toThrow();
@@ -182,7 +182,7 @@ describe('mint method tests', () => {
 
   test('mint without media', () => {
     expect((() => mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { reference },
       ownerId: ownerId,
     }))).toThrow();
@@ -199,7 +199,7 @@ describe('mint method tests', () => {
 
   test('mint with conflicting reference', () => {
     expect((() => mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       reference: reference,
       metadata: { reference: 'bad', media },
       ownerId: ownerId,
