@@ -292,7 +292,12 @@ export interface ExecuteExtraArgs {
   token_key?: string[] | string;
   autotransfer?: boolean;
   metadataId?: string;
+  price?: string |  string[];
+  timeout?: {
+    Hours: number;
+}[];
+  contractId?: string;
 }
 
 export type ExecuteReturnArgs = BatchChangeMinterArgs | TransferReturnArgs | ListReturnArgs | MintReturnArgs |
-MinterArgs | DeployContractReturnArgs | DelistMultipleReturnArgs | BuyReturnArgs | BurnReturnArgs | TransferContractOwnershipReturnArgs | ExecuteExtraArgs
+MinterArgs | DeployContractReturnArgs | DelistMultipleReturnArgs | BuyReturnArgs | BurnReturnArgs | TransferContractOwnershipReturnArgs | ExecuteExtraArgs | Record<string, unknown>
