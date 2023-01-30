@@ -1,28 +1,29 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { GAS, MARKET_METHOD_NAMES, MB_MARKET_ADDRESS } from '../constants';
+import { mbjs } from '../config/config';
+import { GAS } from '../constants';
+import { MARKET_METHOD_NAMES } from '../types';
 import { buy } from './buy';
 
 
-const nftContractId = 'testContract';
+const contractAddress = 'testContract';
 const tokenId = 'testToken';
-const referrerId = 'testReferrerId';
+const affiliateAccount = 'testaffiliateAccount';
 const price = '1';
 
 test('buy a token', () => {
   const args = buy({
-    nftContractId: nftContractId,
+    contractAddress: contractAddress,
     tokenId: tokenId,
-    referrerId: referrerId,
+    affiliateAccount: affiliateAccount,
     price: price,
   });
 
   expect(args).toEqual({
-    contractAddress: MB_MARKET_ADDRESS,
+    contractAddress: mbjs.keys.marketAddress,
     methodName: MARKET_METHOD_NAMES.BUY,
     args: {
-      nft_contract_id: nftContractId,
+      nft_contract_id: contractAddress,
       token_id: tokenId,
-      referrer_id: referrerId,
+      referrer_id: affiliateAccount,
     },
     deposit: price,
     gas: GAS,

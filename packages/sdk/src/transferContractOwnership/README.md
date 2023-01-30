@@ -13,7 +13,7 @@ Transfers ownership of a given contractId to an intended ownerId, must be called
 ```typescript
 export type TransferContractOwnershipArgs = {
     //id of the contract for which the ownership will be transfered
-    contractId: string;
+    contractAddress: string;
     //intended owner of the contract
     nextOwner: string;
     options?: {
@@ -32,14 +32,14 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, transferContractOwnership, TransferContractOwnershipArgs } from '@mintbase-js/sdk';
 
 
-export const TransferContractOwnershipComponent = ({ nextOwner, contractId }: TransferContractOwnershipArgs): JSX.Element => {
+export const TransferContractOwnershipComponent = ({ nextOwner, contractAddress }: TransferContractOwnershipArgs): JSX.Element => {
   const { selector } = useWallet();
   const handletransferContractOwnership = async (): Promise<void> => {
     const wallet = await selector.wallet();
     await execute(
       {wallet},
         transferContractOwnership({
-          contractId: contractId;
+          contractAddress: contractAddress;
           nextOwner: nextOwner;
         }),
       )
@@ -47,7 +47,7 @@ export const TransferContractOwnershipComponent = ({ nextOwner, contractId }: Tr
   return (
     <div>
       <button onClick={handletransferContractOwnership}>
-        transferContractOwnership for {contractId} to {nextOwner}
+        transferContractOwnership for {contractAddress} to {nextOwner}
       </button>
     </div>
   );

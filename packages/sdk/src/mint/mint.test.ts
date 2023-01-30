@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { mint, MintOptions } from './mint';
 
 describe('mint method tests', () => {
-  const nftContractId = 'test.nft.contract';
+  const contractAddress = 'test.nft.contract';
   const reference = 'test';
   const media = 'test';
   const ownerId = 'test';
@@ -87,13 +87,13 @@ describe('mint method tests', () => {
 
   test('mint without options', () => {
     const args = mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
     });
 
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.MINT,
       args: {
         owner_id: ownerId,
@@ -112,14 +112,14 @@ describe('mint method tests', () => {
 
   test('mint with options', () => {
     const args = mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
       options: options,
     });
 
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.MINT,
       args: {
         owner_id: ownerId,
@@ -147,7 +147,7 @@ describe('mint method tests', () => {
 
   test('mint with invalid percentage', () => {
     expect(()=> mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
       options: optionsWithInvalidPercentage,
@@ -156,7 +156,7 @@ describe('mint method tests', () => {
 
   test('mint with invalid amount', () => {
     expect(()=> mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
       options: optionsWithInvalidAmount,
@@ -190,7 +190,7 @@ describe('mint method tests', () => {
 
   test('mint with reference in legacy location', () => {
     expect((() => mint({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       reference: reference,
       metadata: { media },
       ownerId: ownerId,

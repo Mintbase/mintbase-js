@@ -40,7 +40,7 @@ Example:
 
 ```typescript
 
-import { tokenListingCountsByMetaId, TokenListingQueryResults } from  '@mintbase/data'
+import { tokenListingCountsByMetaId, TokenListingQueryResults } from  '@mintbase-js/data'
 
 
 

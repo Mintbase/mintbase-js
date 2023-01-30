@@ -3,3 +3,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 ## Getting Started
 
 Mintbase JS Browser/Next testing suite. 
+
+# config vars
+
+read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)

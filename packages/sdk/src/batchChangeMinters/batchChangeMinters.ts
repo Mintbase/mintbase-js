@@ -1,10 +1,13 @@
-import { DEFAULT_CONTRACT_ADDRESS, GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { mbjs } from '../config/config';
+import {  GAS, ONE_YOCTO } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';
+import { TOKEN_METHOD_NAMES } from '../types';
 
 export type BatchChangeMintersArgs =  {
     addMinters?: string[];
     removeMinters?: string[];
-    nftContractId?: string;
+    contractAddress?: string;
   };
 
 
@@ -16,10 +19,10 @@ export type BatchChangeMintersArgs =  {
 export const batchChangeMinters = (
   args: BatchChangeMintersArgs,
 ): NearContractCall => {
-  const { addMinters = [], removeMinters = [], nftContractId = DEFAULT_CONTRACT_ADDRESS } = args;
+  const { addMinters = [], removeMinters = [], contractAddress = mbjs.keys.contractAddress } = args;
 
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID enviroment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (addMinters.length === 0 && removeMinters.length === 0) {
@@ -27,7 +30,7 @@ export const batchChangeMinters = (
   }
   
   return {
-    contractAddress: nftContractId,
+    contractAddress: contractAddress,
     args: {
       grant: addMinters.length > 0 ? addMinters : undefined,
       revoke: removeMinters.length > 0 ? removeMinters : undefined,

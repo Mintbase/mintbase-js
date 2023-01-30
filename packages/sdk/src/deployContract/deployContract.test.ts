@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, DEFAULT_MB_BASE_URI, GAS_CONSTANTS, MB_TOKEN_FACTORY_ADDRESS, TOKEN_METHOD_NAMES } from '../constants';
+import { mbjs } from '../config/config';
+import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, DEFAULT_MB_BASE_URI, GAS_CONSTANTS } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { deployContract } from './deployContract';
 
 test('deploy contract set all values', () => {
@@ -96,7 +98,7 @@ test('deploy contract uses default values', () => {
   const result = deployContract(mockData);
 
   expect(result).toEqual({
-    contractAddress: MB_TOKEN_FACTORY_ADDRESS,
+    contractAddress: mbjs.keys.mbContract,
     methodName: TOKEN_METHOD_NAMES.DEPLOY_TOKEN_CONTRACT,
     args: {
       owner_id: mockData.ownerId,

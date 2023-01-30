@@ -19,7 +19,8 @@ export type MinterHookArgs = MintArgs;
 
 const useMinter = (args: MintArgs): UseMinterReturn => {
   const { selector } = useWallet();
-  const { nftContractId, options, metadata, ownerId } = args;
+  const { contractAddress, options, metadata, ownerId } = args;
+
 
   const [loading, setLoading] = useState(false);
   const [receipt, setReceipt] = useState<void | FinalExecutionOutcome | FinalExecutionOutcome[] | null>(null);
@@ -32,8 +33,8 @@ const useMinter = (args: MintArgs): UseMinterReturn => {
 
     const receipt = await execute({ wallet },
       mint({
-        nftContractId,
-        metadata,
+        contractAddress: contractAddress,
+        metadata: metadata,
         ownerId: ownerId,
         options,
       }),

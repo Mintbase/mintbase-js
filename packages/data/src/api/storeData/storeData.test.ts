@@ -4,8 +4,6 @@ import { StoreDataResults } from './storeData.types';
 import { GraphQLClient } from 'graphql-request';
 import { storeDataMock } from './storeData.mock';
 
-jest.mock('graphql-request');
-
 describe('storeData', () => {
   afterAll(() => {
     jest.resetAllMocks();

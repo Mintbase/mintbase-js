@@ -1,10 +1,12 @@
-/* eslint-disable @typescript-eslint/camelcase */
-import { DEFAULT_CONTRACT_ADDRESS, GAS, ONE_YOCTO, TOKEN_METHOD_NAMES } from '../constants';
+import { mbjs } from '../config/config';
+import { GAS, ONE_YOCTO } from '../constants';
+import { ERROR_MESSAGES } from '../errorMessages';
 import { NearContractCall } from '../execute';
+import { TOKEN_METHOD_NAMES } from '../types';
 
 export type RemoveMinterArgs =  {
     minterId: string;
-    nftContractId?: string;
+    contractAddress?: string;
   };
 
 /**
@@ -15,14 +17,14 @@ export type RemoveMinterArgs =  {
 export const removeMinter = (
   args: RemoveMinterArgs,
 ): NearContractCall=> {
-  const { minterId, nftContractId = DEFAULT_CONTRACT_ADDRESS } = args;
+  const { minterId, contractAddress = mbjs.keys.contractAddress } = args;
 
-  if (nftContractId == null) {
-    throw new Error('You must provide a nftContractId or define a NFT_CONTRACT_ID environment variable to default to');
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
   
   return {
-    contractAddress: nftContractId,
+    contractAddress: contractAddress || mbjs.keys.contractAddress,
     args: {
       account_id: minterId,
     },

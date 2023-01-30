@@ -13,8 +13,8 @@ Give an account id minting permission for a smart contract of your choice.
 ```typescript
 type AddMinterArgs = {
     //the contract you own for which you wish to grant minting access
-    //as an argument or through NFT_CONTRACT_ID env
-    nftContractId?: string;
+    //as an argument or through CONTRACT_ADDRESS env
+    contractAddress?: string;
     //the id of the account that will be allowed to mint on the corresponding nftContractId
     minterId: string;
 };
@@ -30,7 +30,7 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, addMinter, AddMinterArgs } from '@mintbase-js/sdk';
 
 
-export const AddMinterComponent = ({ contractId, minterId }:AddMinterArgs): JSX.Element => {
+export const AddMinterComponent = ({ contractAddress, minterId }:AddMinterArgs): JSX.Element => {
   const { selector } = useWallet();
  
   const handleAddMinter = async (): Promise<void> => {
@@ -38,7 +38,7 @@ export const AddMinterComponent = ({ contractId, minterId }:AddMinterArgs): JSX.
     
     await execute(
       {wallet},
-      addMinter({ nftContractId: contractId, minterId: minterId })
+      addMinter({ contractAddress: contractAddress, minterId: minterId })
     );
   }
 

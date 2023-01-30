@@ -1,4 +1,4 @@
-name: Push & Publish
+name: Push & Publish (branch)
 
 on:
   push
@@ -7,11 +7,12 @@ jobs:
   build:
     name: 'Build Test & Lerna Publish'
     runs-on: ubuntu-latest
-    # dont run this when the actor is mintbase team (automatic push from this script)
+    # don't run this when the actor is mintbase team (automatic push from this script)
     if: ${{ github.actor != 'mintbaseteam' }}
     steps:
       - uses: actions/checkout@v3
         with:
+          fetch-depth: 0
           token: ${{ secrets.TEAM_PAT }}
           ref: ${{ github.event.release.target_commitish }}
 
@@ -66,6 +67,7 @@ jobs:
       # only run these remaining steps on non-alpha pushes
       - name: Publish Preview Version (non default branch)
         if: ${{ github.ref_name != 'alpha'}}
+        id: publish
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
           git add --all
@@ -73,7 +75,7 @@ jobs:
           lerna publish from-package --yes --dist-tag prerelease
 
       - name: Update deployment status (success)
-        if: success() && ${{ github.ref_name != 'alpha'}}
+        if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'
@@ -82,7 +84,7 @@ jobs:
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
-        if: failure() && ${{ github.ref_name != 'alpha'}}
+        if: ${{ steps.publish.outcome != 'success' && github.ref_name != 'alpha'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'

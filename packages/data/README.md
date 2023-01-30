@@ -6,6 +6,10 @@ Built-in methods to help fetch data from our indexer.
 These methods aim to make it as easy as possible to get blockchain data.
 If the data you want to get is more specific or isn't covered in any of these methods check out our GraphQl Indexer where you can get as specific as you need!
 
+# config vars
+
+read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
 # methods
 
 | method name | params | description |
@@ -22,6 +26,7 @@ If the data you want to get is more specific or isn't covered in any of these me
 | [nearPrice](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/nearPrice/README.md) | - |get near price in usd|
 | [storeData](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeData/README.md) | `contractAddress: string | string[]` |get store data by certain contract or contracts|
 | [storeNfts](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeNfts/README.md) | `contractAddress: string | string[], showOnlyListed?: boolean, pagination?: {limit: number, offset:number}` |get store nfts by certain contract|
+| [metadataByMetadataId](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/metadataByMetadataId/README.md) | `metadataId: string` |get metadata by metadataId|
 
 While we will continue to provide public and our new mb_views schema objects, we will also begin to introduce helper methods here that can be used to query data **without having to write any graphql**.
 

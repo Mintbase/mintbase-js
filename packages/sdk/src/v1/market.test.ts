@@ -75,11 +75,8 @@ describe('token method calls', () => {
       contractAddress: marketAddress,
       methodName: 'buy',
       args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         nft_contract_id: nftContractId,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         referrer_id: receiverId,
       },
       deposit: '1',
@@ -101,9 +98,7 @@ describe('token method calls', () => {
       contractAddress: nftContractId,
       methodName: 'nft_approve',
       args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_id: tokenId1,
-        // eslint-disable-next-line @typescript-eslint/camelcase
         account_id: marketAddress,
         msg: JSON.stringify({
           price: '1',

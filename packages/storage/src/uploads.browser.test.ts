@@ -3,7 +3,7 @@
  */
 
 import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE_API_KEY } from './constants';
-import { MAX_UPLOAD_BYTES, uploadFile } from './uploads';
+import { MAX_UPLOAD_BYTES, OBJECT_IS_EMPTY_ERROR, uploadFile, uploadReference } from './uploads';
 import fetchMock from 'jest-fetch-mock';
 
 
@@ -22,7 +22,7 @@ describe('upload tests in browser', () => {
   test('uploads to arweave service', async () => {
     const file = new File([''], 'test.txt', { type: 'text/plain' });
 
-    fetchMock.mockResponseOnce(JSON.stringify( {
+    fetchMock.mockResponseOnce(JSON.stringify({
       status: 200,
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       json: () => Promise.resolve({
@@ -49,7 +49,7 @@ describe('upload tests in browser', () => {
 
 
   test('throws with big file', async () => {
-    fetchMock.mockResponseOnce(JSON.stringify( {
+    fetchMock.mockResponseOnce(JSON.stringify({
       status: 200,
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       json: () => Promise.resolve({
@@ -67,7 +67,7 @@ describe('upload tests in browser', () => {
     }
     const blob = new Blob([fileContents], { type: 'application/octet-stream' });
     const file = new File([blob], 'empty.bin', { type: 'application/octet-stream' });
-    
+
     await expect(uploadFile(file)).rejects.toThrow(
       MAX_UPLOAD_ERROR_MSG,
     );

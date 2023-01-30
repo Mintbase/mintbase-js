@@ -12,40 +12,27 @@ Breaking changes can and will be introduced on a regular basis until this reache
 
 
 # Getting started
-Visit any of the below links to access the documentation and usage examples for the different packages
 
-## Deploy or interact with smart contracts and mintbase market
+For guides and specific use case examples visit our [General Documentation](https://docs.mintbase.xyz/dev/getting-started)
+
+
+# Specific Module Documentation
+
 
 ### [@mintbase-js/sdk docs](packages/sdk)
 
- - Core NEAR smart contract method call util (single and multiple transactions)
- - Mintbase token and market contract method call wrappers (mint, transfer, list etc.)
-
-
- ## Add and manage wallet connection on your react dapp out of the box
+  - Deploy or interact with smart contracts and mintbase market
 
  ### [@mintbase-js/react docs](packages/react)
-  - WalletContext provider for auth connecting accounts to react applications
-  - Helpers for data fetching via hooks.
-
-
- ## Get blockchain data in a few lines of code
+  - Add and manage wallet connection on your react dapp out of the box
 
 ### [@mintbase-js/data docs](packages/data)
-  - Convenience wrapper methods for common use-case GraphQL calls
-
-  ## Upload metadata to permanent storage
+  - Get blockchain data in a few lines of code
 
 ### [@mintbase-js/storage docs](packages/auth/)
+  - Upload metadata to permanent storage
 
- - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
- - [near-api-js](https://github.com/near/near-api-js) convenience wrappers for loading accounts and managing keys
- - Message singing and verification utils.
-
-## Manage wallet connection manually
 ### [@mintbase-js/auth docs](packages/auth/)
-
- - Browser based wallet wrapper: [near/wallet-selector](https://github.com/near/wallet-selector/)
  - [near-api-js](https://github.com/near/near-api-js) convenience wrappers for loading accounts and managing keys
  - Message singing and verification utils.
 

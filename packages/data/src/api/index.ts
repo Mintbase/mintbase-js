@@ -11,3 +11,4 @@ export * from './ownedStores/ownedStores';
 export * from './storeNfts/storeNfts';
 export * from './nearPrice/nearPrice';
 export * from './storeData/storeData';
+export * from './metadataByMetadataId/metadataByMetadataId';

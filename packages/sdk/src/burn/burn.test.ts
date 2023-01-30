@@ -1,22 +1,21 @@
-import { TOKEN_METHOD_NAMES } from '../constants';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { burn, DEPOSIT_FOR_BURN, GAS_FOR_BURN } from './burn';
 
 describe('burn method calls', () => {
-  const nftContractId = 'test.nft.contract';
+  const contractAddress = 'test.nft.contract';
   const tokenId1 = '1';
   const tokenId2 = '2';
 
   test('burn one token', () => {
     const args = burn({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       tokenIds: [tokenId1],
     });
 
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
       args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [tokenId1],
       },
       deposit: DEPOSIT_FOR_BURN,
@@ -26,15 +25,14 @@ describe('burn method calls', () => {
 
   test('burn two tokens', () => {
     const args = burn({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       tokenIds: [tokenId1, tokenId2],
     });
 
     expect(args).toEqual({
-      contractAddress: nftContractId,
+      contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.BATCH_BURN,
       args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [tokenId1, tokenId2],
       },
       deposit: DEPOSIT_FOR_BURN,
@@ -45,7 +43,7 @@ describe('burn method calls', () => {
   test('burn empty array of tokens', () => {
 
     expect(() => burn({
-      nftContractId: nftContractId,
+      contractAddress: contractAddress,
       tokenIds: [],
     })).toThrow;
   });

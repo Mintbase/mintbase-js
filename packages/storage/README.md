@@ -49,7 +49,7 @@ Example usage of storage method in a hypothetical React component:
 ```tsx
 
 import { useState } from 'react';
-import { uploadFile } from '@mintbase/storage';
+import { uploadFile } from '@mintbase-js/storage';
 
 const FileUpload = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -81,3 +81,42 @@ const FileUpload = () => {
 
 ```
 {% endcode %}
+
+
+# Upload References in the Browser
+
+The easiest way to upload a reference json for your token is with this method.
+Calling it uploads a JSON object containing media of type [File](https://developer.mozilla.org/en-US/docs/Web/API/File) that is uploaded as well automatically. 
+This produces a permanently stored reference object containing a media field which has also been uploaded to arweave to save you from uploading twice.
+## uploadReference(referenceObject: ReferenceObject): ArweaveResponse
+
+`uploadReferece` takes a single argument of type File
+
+```typescript
+
+type ReferenceObject = any & {
+  title?: string;
+  description?: string;
+  //for the media to be uploaded to arweave it must be contained in one of these 3 fields
+  media?: File;
+  animation_url?: File;
+  document?: File;
+  //
+  attributes?: Trait[];
+  category?: string;
+  tags?: string[];
+  extra?: Trait[] | any;
+}
+
+export type ArweaveResponse = {
+  // Arweave hash. Concatenate 'https://arweave.net/' with the id to retrieve the file. See above an explanation of how Arweave works.
+  id: string;
+  // Arweave block. See above an explanation of how Arweave works.
+  block: string;
+  // The file's name.
+  name: string;
+  // The file's content type.
+  mimeType: string;
+}
+
+```
