@@ -132,7 +132,7 @@ export const uploadReference = async (
     throw new Error(OBJECT_IS_EMPTY_ERROR);
   }
   
-  const formdata = getFormDataFromJson(referenceObject)
+  const formdata = getFormDataFromJson(referenceObject);
   
 
   try {
@@ -172,28 +172,28 @@ export function getFileFromObject(referenceObject: unknown): File {
   });
 }
 
-export function getFormDataFromJson(referenceObject: ReferenceObject): FormData{
+export function getFormDataFromJson(referenceObject: ReferenceObject): FormData {
   const formdata = new FormData();
   Object.entries(referenceObject).forEach((entry) => {
     const [key, value] = entry;
-    const hasCorrectMediaType = (key == "document" || key == "media" || key == "animation_url")
+    const hasCorrectMediaType = (key == 'document' || key == 'media' || key == 'animation_url');
     const notMedia = !hasCorrectMediaType && !(value instanceof File);
     const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES; 
-    const invalidFile = !hasCorrectMediaType && (value instanceof File)
-    const mediaTypeWithoutFile = hasCorrectMediaType && (typeof(value) == "string")
+    const invalidFile = !hasCorrectMediaType && (value instanceof File);
+    const mediaTypeWithoutFile = hasCorrectMediaType && (typeof(value) == 'string');
 
-    if(invalidFile){
+    if (invalidFile) {
       // example title: File 
-      throw new Error("The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document")
+      throw new Error('The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document');
     }
 
-    if(mediaTypeWithoutFile){
+    if (mediaTypeWithoutFile) {
       // example: media: ""  -> upload anyways
-      console.warn("The provided media type will not be uploaded because its a string and not a file, try attaching files to the following keys: media, animation_url or document")
+      console.warn('The provided media type will not be uploaded because its a string and not a file, try attaching files to the following keys: media, animation_url or document');
       formdata.append(key, value);
     }
 
-    if (notMedia && typeof(value) == "string") {
+    if (notMedia && typeof(value) == 'string') {
       //fields
       formdata.append(key, value);
     } else if (canBeUploaded) {
@@ -201,5 +201,5 @@ export function getFormDataFromJson(referenceObject: ReferenceObject): FormData{
       formdata.append(key, value);
     }
   });
-  return formdata
+  return formdata;
 }
