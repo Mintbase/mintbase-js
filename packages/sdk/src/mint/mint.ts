@@ -64,7 +64,7 @@ export const mint = (
 
   // Either both references are the same or only one must be given
   if (reference && metadata.reference && metadata.reference !== reference) {
-    throw new Error('Conflicting references');
+    throw new Error(ERROR_MESSAGES.CONFLICTING_REFERENCES);
   }
   // If reference not in metadata, insert
   if (!metadata.reference) {
@@ -73,10 +73,10 @@ export const mint = (
 
   // Reference and media need to be present or explictly opted out of
   if (!noReference && !metadata.reference && !reference) {
-    throw new Error('You must provide reference in your metadata or explicitly opt out of using reference');
+    throw new Error(ERROR_MESSAGES.NO_REFERENCE);
   }
   if (!noMedia && !metadata.media) {
-    throw new Error('You must provide media in your metadata or explicitly opt out of using media');
+    throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
   if (splits) {
