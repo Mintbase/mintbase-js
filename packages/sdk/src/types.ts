@@ -132,6 +132,7 @@ export type BuyArgs = {
   tokenId: string;
   referrerId?: string;
   marketId?: string;
+  affiliateAccount?: string;
 };
 
 export type DelistArgs = {

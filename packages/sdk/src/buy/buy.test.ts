@@ -6,14 +6,14 @@ import { buy } from './buy';
 
 const contractAddress = 'testContract';
 const tokenId = 'testToken';
-const referrerId = 'testReferrerId';
+const affiliateAccount = 'testaffiliateAccount';
 const price = '1';
 
 test('buy a token', () => {
   const args = buy({
     contractAddress: contractAddress,
     tokenId: tokenId,
-    referrerId: referrerId,
+    affiliateAccount: affiliateAccount,
     price: price,
   });
 
@@ -23,7 +23,7 @@ test('buy a token', () => {
     args: {
       nft_contract_id: contractAddress,
       token_id: tokenId,
-      referrer_id: referrerId,
+      referrer_id: affiliateAccount,
     },
     deposit: price,
     gas: GAS,

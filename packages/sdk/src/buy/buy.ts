@@ -12,7 +12,7 @@ import { BuyArgs, BuyReturnArgs, MARKET_METHOD_NAMES, NearContractCall } from '.
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
 export const buy = (args: BuyArgs): NearContractCall<BuyReturnArgs>=> {
-  const { contractAddress = mbjs.keys.contractAddress, tokenId, referrerId = null, marketId = mbjs.keys.marketAddress, price } = args;
+  const { contractAddress = mbjs.keys.contractAddress, tokenId, referrerId = null, marketId = mbjs.keys.marketAddress, price, affiliateAccount } = args;
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
@@ -23,7 +23,7 @@ export const buy = (args: BuyArgs): NearContractCall<BuyReturnArgs>=> {
     args: {
       nft_contract_id: contractAddress || mbjs.keys.contractAddress,
       token_id: tokenId,
-      referrer_id: referrerId,
+      referrer_id: affiliateAccount || referrerId,
     },
     methodName: MARKET_METHOD_NAMES.BUY,
     gas: GAS,
