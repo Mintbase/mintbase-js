@@ -114,12 +114,14 @@ const batchExecuteWithNearAccount = async (
 const batchExecuteWithBrowserWallet = async (
   calls: ContractCall<ExecuteReturnArgs>[],
   wallet: Wallet,
-  callback: string,
+  callback?: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
 
-  const res = await wallet.signAndSendTransactions({
+  const res = callback && typeof callback !== 'undefined' ? await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     callbackUrl: callback,
+  }) : await wallet.signAndSendTransactions({
+    transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
   });
 
   return res;
