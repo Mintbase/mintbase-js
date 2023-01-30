@@ -228,7 +228,7 @@ export interface BatchChangeMinterArgs {
 }
 
 export interface BurnReturnArgs {
-  token_ids: string[];
+  token_ids: string[] |  string[][];
 }
 
 export interface BuyReturnArgs { 
@@ -243,7 +243,7 @@ export interface DelistReturnArgs {
   nft_contract_id: string;
 }
 export interface DelistMultipleReturnArgs extends DelistReturnArgs {
-  token_ids: string[];
+  token_ids: string[] |  string[][];
   nft_contract_id: string;
 }
 
@@ -290,7 +290,7 @@ export interface TransferContractOwnershipReturnArgs {
 
 export interface ExecuteExtraArgs {
   token_key?: string[] | string;
-  auto_transfer?: boolean;
+  autotransfer?: boolean;
 }
 
 export type ExecuteReturnArgs = BatchChangeMinterArgs | TransferReturnArgs | ListReturnArgs | MintReturnArgs |
