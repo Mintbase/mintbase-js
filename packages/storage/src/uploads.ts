@@ -134,7 +134,6 @@ export const uploadReference = async (
   
   const formdata = getFormDataFromJson(referenceObject);
   
-
   try {
     const request = await fetch(`${ARWEAVE_SERVICE_HOST}/reference`, {
       method: 'POST',

@@ -32,7 +32,7 @@ describe('delist account', () => {
       methodName: 'unlist',
       args: {
         token_ids: [tokenId],
-        CONTRACT_ADDRESS: contractAddress,
+        nft_contract_id: contractAddress,
       },
       deposit: ONE_YOCTO,
       gas: GAS,

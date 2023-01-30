@@ -17,7 +17,7 @@ export const buy = (
   return {
     contractAddress: marketAddress || mbjs.keys.marketAddress,
     args: {
-      CONTRACT_ADDRESS: nftContractId || mbjs.keys.contractAddress,
+      nft_contract_id: nftContractId || mbjs.keys.contractAddress,
       token_id: tokenId,
       referrer_id: referrerId,
     },

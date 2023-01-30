@@ -19,7 +19,7 @@ type BatchChangeMintersArgs = {
     contractAddress?: string;
     //an array of ids that will be added as minters for the given contractId, if nothing is provided no minters will be added
     addMinters: string[];
-    //an array of ids that will be removed as minters for the given contractId, if nothing is provided no minters will be added
+    //an array of ids that will be removed as minters for the given contractId, if nothing is provided no minters will be removed
     removeMinters: string[];
 };
 ```
