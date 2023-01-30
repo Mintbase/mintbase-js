@@ -5,7 +5,17 @@ import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, Near
 import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
 
-export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
+
+/**
+ * checkCallbackUrl()
+ * method to check if its a regular browser wallet or a InjectedWallet, and make them have the same behavior (redirect) to the desired url.
+ * @param callbackUrl url that should redirect after transaction
+ * @param callbackArgs metadata that should be passed via url to the success page 
+ * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}, or a redirect to selected callbackUrl
+ */
+
+export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): 
+void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
 
   const browserWallets = ['my-near-wallet', 'near-wallet'];
   const IsntBrowserWallets = !browserWallets.includes(wallet?.id);
@@ -37,6 +47,15 @@ export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs
 
 };
 
+
+/**
+ * checkTransactionHash()
+ * check what transaction receipt to return to the user.
+ * @param receipt near transaction Receipt object
+ * @returns transactionHash object
+ */
+
+
 const checkTransactionHash = (receipt): {transactionHash: string}  => {
   let transactionHash = receipt?.transaction_outcome?.id;
 
@@ -53,8 +72,6 @@ const checkTransactionHash = (receipt): {transactionHash: string}  => {
 
 
 export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBackArgs): string => {
-
-  console.log(callbackUrl, 'callbackUrl');
 
   let url = callbackUrl && typeof callbackUrl !== 'undefined' ?  callbackUrl : null;
 
@@ -75,8 +92,6 @@ export const genericBatchExecute
  = async (call: ContractCall<ExecuteReturnArgs>[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
 
    const url = callbackUrlFormatter(callbackUrl, callbackArgs);
-
-   console.log(url, 'url');
 
    if (wallet) {
      return url ?  batchExecuteWithBrowserWallet(call, wallet, url) : batchExecuteWithBrowserWallet(call, wallet);
@@ -121,9 +136,7 @@ const batchExecuteWithBrowserWallet = async (
   wallet: Wallet,
   callback?: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
-
-  console.log(callback, typeof callback, 'callback');
-
+  
   const res = await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     ...(callback && { callbackUrl: callback }),
