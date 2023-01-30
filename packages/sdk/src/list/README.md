@@ -34,7 +34,7 @@ export type ListArgs = {
 ## React example
 
 
-Example usage of deployContract method in a hypothetical React component:
+Example usage of list method in a hypothetical React component:
 {% code title="ListComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
