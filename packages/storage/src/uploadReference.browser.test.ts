@@ -99,9 +99,9 @@ describe('upload tests in browser', () => {
     };
 
     const result = await getFormDataFromJson(referenceObject);
-    expect(result.get('title')).toContain("title");
-    expect(result.get('media')).toHaveLength
-    expect(result.get('animation_url')).toHaveLength
+    expect(result.get('title')).toContain('title');
+    expect(result.get('media')).toHaveLength;
+    expect(result.get('animation_url')).toHaveLength;
   });
 
   test('grabs fields with weird names', async () => {
@@ -111,18 +111,18 @@ describe('upload tests in browser', () => {
     };
 
     const result = await getFormDataFromJson(referenceObject);
-    expect(result.get('bogusField')).toContain("bogus");
+    expect(result.get('bogusField')).toContain('bogus');
 
   });
 
   test('getFormData with mislabeled media key', async () => {
     const referenceObject = {
-      media: "yeet" ,
+      media: 'yeet' ,
 
     };
 
     const result = await getFormDataFromJson(referenceObject);
-    expect(result.get('media')).toContain("yeet");
+    expect(result.get('media')).toContain('yeet');
    
   });
 
@@ -132,7 +132,7 @@ describe('upload tests in browser', () => {
       yeet: media ,
 
     };
-    expect(() => getFormDataFromJson(referenceObject)).toThrowError("The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document");
+    expect(() => getFormDataFromJson(referenceObject)).toThrowError('The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document');
 
    
   });
