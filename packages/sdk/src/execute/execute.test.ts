@@ -2,7 +2,7 @@ import { execute } from './execute';
 import { MAX_GAS, ONE_YOCTO } from '../constants';
 import { NoSigningMethodPassedError } from '../errors';
 import BN from 'bn.js';
-import { ExecuteReturnArgs, NearContractCall } from '../types';
+import { ExecuteArgsResponse, NearContractCall } from '../types';
 
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
@@ -13,7 +13,7 @@ describe('contract method calls (execute)', () => {
     token_id: 'fake.token.id',
     receiver_id: 'mb_bob.testnet',
   };
-  const testContractCall: NearContractCall<ExecuteReturnArgs>= {
+  const testContractCall: NearContractCall<ExecuteArgsResponse>= {
     signerId: testSigner,
     contractAddress: testContract,
     methodName: testMethod,
