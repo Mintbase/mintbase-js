@@ -1,7 +1,7 @@
 import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { TOKEN_METHOD_NAMES, NearContractCall, BatchChangeMinterArgs } from '../types';
+import { TOKEN_METHOD_NAMES, NearContractCall, BatchChangeMinterArgsResponse } from '../types';
 
 export type BatchChangeMintersArgs =  {
     addMinters?: string[];
@@ -17,7 +17,7 @@ export type BatchChangeMintersArgs =  {
  */    
 export const batchChangeMinters = (
   args: BatchChangeMintersArgs,
-): NearContractCall<BatchChangeMinterArgs> => {
+): NearContractCall<BatchChangeMinterArgsResponse> => {
   const { addMinters = [], removeMinters = [], contractAddress = mbjs.keys.contractAddress } = args;
 
   if (contractAddress == null) {

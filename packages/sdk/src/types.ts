@@ -219,36 +219,36 @@ export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 // NearContractCall Args
 
 
-export interface MinterArgs {
+export interface MinterArgsResponse {
   account_id: string;
 }
 
-export interface BatchChangeMinterArgs {
+export interface BatchChangeMinterArgsResponse{
   grant: string[] | undefined;
   revoke: string[] | undefined;
 }
 
-export interface BurnReturnArgs {
+export interface BurnArgsResponse {
   token_ids: string[] |  string[][];
 }
 
-export interface BuyReturnArgs { 
+export interface BuyArgsResponse { 
   nft_contract_id: string;
   token_id: string;
   referrer_id: string;
 }
 
-export interface DelistReturnArgs {
+export interface DelistArgsResponse {
   token_id: string;
   account_id: string;
   nft_contract_id: string;
 }
-export interface DelistMultipleReturnArgs extends DelistReturnArgs {
+export interface DelistMultipleArgsResponse extends DelistArgsResponse {
   token_ids: string[] |  string[][];
   nft_contract_id: string;
 }
 
-export interface DeployContractReturnArgs {
+export interface DeployContractArgsResponse {
   owner_id: string;
   metadata: {
     spec: string;
@@ -261,18 +261,18 @@ export interface DeployContractReturnArgs {
   };
 }
 
-export interface TransferReturnArgs {
+export interface TransferArgsResponse {
   receiver_id: string;
   token_id: string;
 }
 
-export interface ListReturnArgs {
+export interface ListArgsResponse {
   token_id: string;
   account_id: string;
   msg: string;
 }
 
-export interface MintReturnArgs {
+export interface MintArgsResponse {
   owner_id: string;
   metadata: {
     reference: string;
@@ -284,12 +284,12 @@ export interface MintReturnArgs {
   split_owners: Splits | null;
 }
 
-export interface TransferContractOwnershipReturnArgs {
+export interface TransferContractOwnershipArgsResponse {
   new_owner: string;
   keep_old_minters: boolean;
 }
 
-export interface ExecuteExtraArgs {
+export interface ExecuteExtraArgsResponse {
   token_key?: string[] | string;
   autotransfer?: boolean;
   metadataId?: string;
@@ -300,5 +300,6 @@ export interface ExecuteExtraArgs {
   contractId?: string;
 }
 
-export type ExecuteReturnArgs = BatchChangeMinterArgs | TransferReturnArgs | ListReturnArgs | MintReturnArgs |
-MinterArgs | DeployContractReturnArgs | DelistMultipleReturnArgs | BuyReturnArgs | BurnReturnArgs | TransferContractOwnershipReturnArgs | ExecuteExtraArgs | Record<string, unknown>
+export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
+MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse 
+| ExecuteExtraArgsResponse | Record<string, unknown>
