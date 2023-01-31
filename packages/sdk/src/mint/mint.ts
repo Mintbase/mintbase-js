@@ -3,40 +3,6 @@ import { GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { MintArgs, MintArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 
-// TODO: move to ../types
-export type MintArgs =  {
-  contractAddress?: string;
-  ownerId: string;
-  reference?: string;
-  metadata: TokenMetadata;
-  options?: MintOptions;
-  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
-  noReference?: boolean; // explicit opt-in to NFT without reference
-};
-
-export type TokenMetadata = {
-  title?: string;
-  description?: string;
-  media?: string;
-  media_hash?: string;
-  copies?: number;
-  issued_at?: string;  // Stringified unix timestamp, according to
-  expires_at?: string; // standards this is milliseconds since epoch, but
-  starts_at?: string;  // since `env::block_timestamp` is in nanoseconds
-  updated_at?: string; // most timestamps in the ecosystem are nanoseconds
-  extra?: string;
-  reference?: string;
-  reference_hash?: string;
-}
-
-export type MintOptions = {
-    splits?: Splits;
-    amount?: number;
-    royaltyPercentage?: number;
-}
-
-export type Splits = Record<string, number>;
-
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
  * @param mintArguments {@link MintArgs}
@@ -47,7 +13,6 @@ export const mint = (
 ): NearContractCall<MintArgsResponse> => {
   const {
     contractAddress = mbjs.keys.contractAddress,
-    reference,
     metadata,
     ownerId,
     options = {},
@@ -61,17 +26,9 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
-  // Either both references are the same or only one must be given
-  if (reference && metadata.reference && metadata.reference !== reference) {
-    throw new Error(ERROR_MESSAGES.CONFLICTING_REFERENCES);
-  }
-  // If reference not in metadata, insert
-  if (!metadata.reference) {
-    metadata.reference = reference;
-  }
 
   // Reference and media need to be present or explictly opted out of
-  if (!noReference && !metadata.reference && !reference) {
+  if (!noReference && !metadata.reference) {
     throw new Error(ERROR_MESSAGES.NO_REFERENCE);
   }
   if (!noMedia && !metadata.media) {

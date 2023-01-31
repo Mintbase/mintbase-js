@@ -187,22 +187,4 @@ describe('mint method tests', () => {
       ownerId: ownerId,
     }))).toThrow();
   });
-
-  test('mint with reference in legacy location', () => {
-    expect((() => mint({
-      contractAddress: contractAddress,
-      reference: reference,
-      metadata: { media },
-      ownerId: ownerId,
-    }))).not.toThrow();
-  });
-
-  test('mint with conflicting reference', () => {
-    expect((() => mint({
-      contractAddress: contractAddress,
-      reference: reference,
-      metadata: { reference: 'bad', media },
-      ownerId: ownerId,
-    }))).toThrow();
-  });
 });
