@@ -1,23 +1,15 @@
-import { NearContractCall } from '../execute';
-import { GAS, ONE_YOCTO } from '../constants';
+import { DEPOSIT_FOR_BURN, GAS_FOR_BURN } from '../constants';
 import { mbjs } from '../config/config';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { TOKEN_METHOD_NAMES, NearContractCall, BurnArgs, BurnArgsResponse } from '../types';
 import { ERROR_MESSAGES } from '../errorMessages';
 
-export type BurnArgs = {
-  contractAddress?: string;
-  tokenIds: string[];
-};
-
-export const DEPOSIT_FOR_BURN = ONE_YOCTO;
-export const GAS_FOR_BURN = GAS;
 
 /**
  * Burns one or more tokens from a given contract.
  * @param burnArguments {@link BurnArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const burn = ({ tokenIds, contractAddress = mbjs.keys.contractAddress }: BurnArgs): NearContractCall => {
+export const burn = ({ tokenIds, contractAddress = mbjs.keys.contractAddress }: BurnArgs): NearContractCall<BurnArgsResponse> => {
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);

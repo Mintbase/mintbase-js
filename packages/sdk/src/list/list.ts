@@ -2,22 +2,15 @@
 import { mbjs } from '../config/config';
 import { GAS, LISTING_DEPOSIT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { MARKET_METHOD_NAMES } from '../types';
+import { ListArgs, ListArgsResponse, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
-export type ListArgs = {
-    contractAddress?: string;
-    marketAddress?: string;
-    price: string;
-    tokenId: string;
-  }
 
 /**
  * Lists a token on mintbase market contract 
  * @param listArguments {@link ListArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const list = (args: ListArgs): NearContractCall => {
+export const list = (args: ListArgs): NearContractCall<ListArgsResponse> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenId, marketAddress = mbjs.keys.marketAddress, price } = args;
   
   if (contractAddress == null) {

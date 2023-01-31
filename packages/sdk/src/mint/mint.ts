@@ -1,24 +1,8 @@
 import { mbjs } from '../config/config';
-import {  GAS, ONE_YOCTO } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { MintArgs, MintArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 
-
-export type MintArgs =  {
-  contractAddress?: string;
-  reference: string;
-  ownerId: string;
-  options?: MintOptions;
-};
-
-export type MintOptions = {
-    splits?: Splits;
-    amount?: number;
-    royaltyPercentage?: number;
-}
-
-export type Splits = Record<string, number>;
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -27,7 +11,7 @@ export type Splits = Record<string, number>;
  */
 export const mint = (
   args: MintArgs,
-): NearContractCall => {
+): NearContractCall<MintArgsResponse> => {
   const { contractAddress = mbjs.keys.contractAddress, reference, ownerId, options = {}  } = args;
 
   const { splits, amount, royaltyPercentage } = options;

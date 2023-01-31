@@ -1,7 +1,8 @@
-import { execute, NearContractCall } from './execute';
-import { MAX_GAS, ONE_YOCTO } from './constants';
-import { NoSigningMethodPassedError } from './errors';
+import { execute } from './execute';
+import { MAX_GAS, ONE_YOCTO } from '../constants';
+import { NoSigningMethodPassedError } from '../errors';
 import BN from 'bn.js';
+import { ExecuteArgsResponse, NearContractCall } from '../types';
 
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
@@ -9,19 +10,17 @@ describe('contract method calls (execute)', () => {
   const testMethod = 'nft_transfer';
   const testCallbackUrl = 'ftp://mintbase.testnet';
   const testArgs = {
-
     token_id: 'fake.token.id',
-
     receiver_id: 'mb_bob.testnet',
   };
-  const testContractCall: NearContractCall = {
+  const testContractCall: NearContractCall<ExecuteArgsResponse>= {
     signerId: testSigner,
     contractAddress: testContract,
     methodName: testMethod,
     args: testArgs,
     gas: MAX_GAS,
     deposit: ONE_YOCTO,
-    callbackUrl: testCallbackUrl,
+    // callbackUrl: testCallbackUrl,
   };
 
   const mockNearSelectorWallet = {
@@ -66,7 +65,7 @@ describe('contract method calls (execute)', () => {
         },
         type: 'FunctionCall',
       }],
-      callbackUrl: testCallbackUrl,
+      // callbackUrl: testCallbackUrl,
       receiverId: testContract,
       signerId: testSigner,
     }] , 'callbackUrl': testCallbackUrl };
@@ -75,6 +74,37 @@ describe('contract method calls (execute)', () => {
       .toHaveBeenCalledWith(transactions);
 
   });
+
+
+  test('execute calls through to browser wallet selector method without callback', async () => {
+    await execute(
+      {
+        wallet: mockNearSelectorWallet as any,
+      },
+      testContractCall,
+    );
+
+
+    const transactions = { 'transactions' : [{
+      actions:[{
+        params: {
+          args: testArgs,
+          methodName: testMethod,
+          gas: MAX_GAS,
+          deposit: ONE_YOCTO,
+        },
+        type: 'FunctionCall',
+      }],
+      // callbackUrl: testCallbackUrl,
+      receiverId: testContract,
+      signerId: testSigner,
+    }] };
+
+    expect(mockNearSelectorWallet.signAndSendTransactions)
+      .toHaveBeenCalledWith(transactions);
+
+  });
+
 
   test('passing multiple calls and composition works', async () => {
     await execute(
@@ -107,7 +137,7 @@ describe('contract method calls (execute)', () => {
       args: testArgs,
       gas: new BN(MAX_GAS),
       attachedDeposit: new BN(ONE_YOCTO),
-
+      // walletCallbackUrl: '',
     };
     expect(mockNearAccount.functionCall)
       .toHaveBeenCalledWith(expectedCallArgs);
