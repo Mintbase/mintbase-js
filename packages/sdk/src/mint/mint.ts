@@ -1,10 +1,9 @@
 import { mbjs } from '../config/config';
-import {  GAS, ONE_YOCTO } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { MintArgs, MintArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 
-
+// TODO: move to ../types
 export type MintArgs =  {
   contractAddress?: string;
   ownerId: string;
@@ -45,7 +44,7 @@ export type Splits = Record<string, number>;
  */
 export const mint = (
   args: MintArgs,
-): NearContractCall => {
+): NearContractCall<MintArgsResponse> => {
   const {
     contractAddress = mbjs.keys.contractAddress,
     reference,

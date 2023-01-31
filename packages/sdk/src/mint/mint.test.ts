@@ -1,6 +1,6 @@
 import { GAS, ONE_YOCTO } from '../constants';
-import { TOKEN_METHOD_NAMES } from '../types';
-import { mint, MintOptions } from './mint';
+import { MintOptions, TOKEN_METHOD_NAMES } from '../types';
+import { mint } from './mint';
 
 describe('mint method tests', () => {
   const contractAddress = 'test.nft.contract';

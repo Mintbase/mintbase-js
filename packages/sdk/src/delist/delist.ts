@@ -1,19 +1,18 @@
 import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { ContractCall, NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES } from '../types';
+import { TOKEN_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall, ContractCall, DelistArgs, DelistArgsResponse, DelistMultipleArgsResponse } from '../types';
 
-type DelistArgs = {
-  contractAddress: string;
-    tokenIds: string[];
-    marketAddress?: string;
-    oldMarket?: boolean;
-}
+
+/**
+ * Delist a token
+ * @param args {@link DelistArgs}
+ * @returns contract call to be passed to @mintbase-js/sdk execute method
+ */
 
 export const delist = (
   args: DelistArgs,
-): NearContractCall => {
+): NearContractCall<DelistArgsResponse> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenIds, marketAddress = mbjs.keys.marketAddress, oldMarket = false } = args;
 
   
@@ -29,7 +28,7 @@ export const delist = (
     throw new Error(ERROR_MESSAGES.TOKEN_LENGTH);
   }
 
-  const result: NearContractCall = [];
+  const result: NearContractCall<DelistArgsResponse> = [];
 
   //revoke ownership for all tokens
   for (const tokenId of tokenIds) {
@@ -42,7 +41,7 @@ export const delist = (
       methodName: TOKEN_METHOD_NAMES.TOKEN_ACCOUNT_REVOKE,
       gas: GAS,
       deposit: ONE_YOCTO,
-    }as ContractCall) ;
+    }as ContractCall<DelistArgsResponse>) ;
   }
   
 
@@ -55,7 +54,7 @@ export const delist = (
     },
     gas: GAS,
     deposit: ONE_YOCTO,
-  } as ContractCall);
+  } as ContractCall<DelistMultipleArgsResponse>);
 
-  return result as NearContractCall; 
+  return result as NearContractCall<DelistMultipleArgsResponse>; 
 };

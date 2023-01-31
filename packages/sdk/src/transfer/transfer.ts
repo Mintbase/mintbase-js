@@ -1,21 +1,7 @@
 import { mbjs } from '../config/config';
-import { ONE_YOCTO, GAS } from '../constants';
+import { DEPOSIT_FOR_TRANSFER, GAS_FOR_TRANSFER } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
-
-export type TransferArgs = {
-  transfers: {
-    receiverId: string;
-    tokenId: string;
-  }[];
-  contractAddress?: string;
-};
-
-
-export const DEPOSIT_FOR_TRANSFER = ONE_YOCTO;
-// TODO: make this more accurate someday.
-export const GAS_FOR_TRANSFER = GAS;
+import { NearContractCall, TOKEN_METHOD_NAMES, TransferArgs, TransferArgsResponse } from '../types';
 
 
 /**
@@ -26,7 +12,7 @@ export const GAS_FOR_TRANSFER = GAS;
 export const transfer = ({
   transfers,
   contractAddress = mbjs.keys.contractAddress,
-}: TransferArgs): NearContractCall => {
+}: TransferArgs): NearContractCall<TransferArgsResponse | {token_ids: string[][]}> => {
 
 
   if (contractAddress === null) {

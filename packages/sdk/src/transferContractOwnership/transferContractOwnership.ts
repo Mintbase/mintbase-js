@@ -1,16 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO } from '../constants';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
-
-export type TransferContractOwnershipArgs = {
-    contractAddress: string;
-    nextOwner: string;
-    options?: {
-      keepMinters: boolean;
-    };
-  };
+import { NearContractCall, TOKEN_METHOD_NAMES, TransferContractOwnershipArgs, TransferContractOwnershipArgsResponse } from '../types';
 
 
 /**
@@ -20,7 +11,7 @@ export type TransferContractOwnershipArgs = {
  */  
 export const transferContractOwnership = (
   args: TransferContractOwnershipArgs,
-): NearContractCall => {
+): NearContractCall<TransferContractOwnershipArgsResponse> => {
   const { contractAddress, nextOwner, options = { keepMinters: true } } = args;
 
   

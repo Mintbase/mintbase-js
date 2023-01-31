@@ -1,30 +1,17 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, TOKEN_CONTRACT_SPEC } from '../constants';
-import { NearContractCall } from '../execute';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { DeployContractArgs,DeployContractArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { standardizeString } from '../utils';
 
 const ARWEAVE_BASE_URI = 'https://arweave.net';
-
-export type DeployContractArgs = {
-    factoryContractId?: string;
-    name: string;
-    ownerId: string;
-    metadata: {
-      symbol: string;
-      icon?: string;
-      baseUri?: string;
-      reference?: string;
-      referenceHash?: string;
-    };
-  };
 
 /**
  * Deploys a contract from a certain contractFactoryId
  * @param DeployContractArgs {@link DeployContractArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const deployContract = (args: DeployContractArgs): NearContractCall=> {
+export const deployContract = (args: DeployContractArgs): NearContractCall<DeployContractArgsResponse> => {
   const { name, factoryContractId = mbjs.keys.mbContract, ownerId, metadata } = args;
 
   const { symbol, icon = DEFAULT_MB_LOGO, baseUri = ARWEAVE_BASE_URI, reference = null, referenceHash = null } = metadata;
@@ -48,7 +35,3 @@ export const deployContract = (args: DeployContractArgs): NearContractCall=> {
     deposit: CONTRACT_DEPOSIT,
   };
 };
-
-function standardizeString(name: string): string {
-  return name.replace(/[^a-z0-9]+/gim, '').toLowerCase();
-}

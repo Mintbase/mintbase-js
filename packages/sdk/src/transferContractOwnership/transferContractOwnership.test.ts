@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { GAS, ONE_YOCTO } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { transferContractOwnership } from './transferContractOwnership';
