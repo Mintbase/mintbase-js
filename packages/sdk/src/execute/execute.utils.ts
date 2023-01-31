@@ -1,7 +1,7 @@
 import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
-import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions, ExecuteReturnArgs } from '../types';
+import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions, ExecuteArgsResponse } from '../types';
 import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
 
@@ -88,7 +88,7 @@ export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBack
 };
 
 export const genericBatchExecute 
- = async (call: ContractCall<ExecuteReturnArgs>[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
+ = async (call: ContractCall<ExecuteArgsResponse>[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
 
    const url = callbackUrlFormatter(callbackUrl, callbackArgs);
 
@@ -103,7 +103,7 @@ export const genericBatchExecute
 // TODO: share batch signature with wallet selector sendAndSignTransaction when method becomes public
 
 const batchExecuteWithNearAccount = async (
-  calls: ContractCall<ExecuteReturnArgs>[],
+  calls: ContractCall<ExecuteArgsResponse>[],
   account: Account,
   callbackUrl?: string,
 ): Promise<FinalExecutionOutcome[]> => {
@@ -131,7 +131,7 @@ const batchExecuteWithNearAccount = async (
 };
 
 const batchExecuteWithBrowserWallet = async (
-  calls: ContractCall<ExecuteReturnArgs>[],
+  calls: ContractCall<ExecuteArgsResponse>[],
   wallet: Wallet,
   callback?: string,
 ): Promise<void | FinalExecutionOutcome[]> => {
@@ -146,7 +146,7 @@ const batchExecuteWithBrowserWallet = async (
 
 
 export const convertGenericCallToWalletCall = (
-  call: ContractCall<ExecuteReturnArgs>,
+  call: ContractCall<ExecuteArgsResponse>,
 ): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
 
   return {
@@ -164,13 +164,13 @@ export const convertGenericCallToWalletCall = (
   };
 };
 
-export function flattenArgs(calls: NearContractCall<ExecuteReturnArgs>[]): ContractCall<ExecuteReturnArgs>[] {
-  const contractCalls: ContractCall<ExecuteReturnArgs>[] =[];
+export function flattenArgs(calls: NearContractCall<ExecuteArgsResponse>[]): ContractCall<ExecuteArgsResponse>[] {
+  const contractCalls: ContractCall<ExecuteArgsResponse>[] =[];
   for (const call of calls) {
-    if (call instanceof Array && call.length > 0 && call as ContractCall<ExecuteReturnArgs>[]) {
-      call.map(item => contractCalls.push(item as ContractCall<ExecuteReturnArgs>));
+    if (call instanceof Array && call.length > 0 && call as ContractCall<ExecuteArgsResponse>[]) {
+      call.map(item => contractCalls.push(item as ContractCall<ExecuteArgsResponse>));
     } else {
-      contractCalls.push(call as ContractCall<ExecuteReturnArgs>);
+      contractCalls.push(call as ContractCall<ExecuteArgsResponse>);
     }
   }
   return contractCalls;

@@ -1,6 +1,6 @@
 import { DEPOSIT_FOR_BURN, GAS_FOR_BURN } from '../constants';
 import { mbjs } from '../config/config';
-import { TOKEN_METHOD_NAMES, NearContractCall, BurnArgs, BurnReturnArgs } from '../types';
+import { TOKEN_METHOD_NAMES, NearContractCall, BurnArgs, BurnArgsResponse } from '../types';
 import { ERROR_MESSAGES } from '../errorMessages';
 
 
@@ -9,7 +9,7 @@ import { ERROR_MESSAGES } from '../errorMessages';
  * @param burnArguments {@link BurnArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const burn = ({ tokenIds, contractAddress = mbjs.keys.contractAddress }: BurnArgs): NearContractCall<BurnReturnArgs> => {
+export const burn = ({ tokenIds, contractAddress = mbjs.keys.contractAddress }: BurnArgs): NearContractCall<BurnArgsResponse> => {
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
