@@ -1,30 +1,33 @@
 import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
-import { NearContractCall, CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions, ExecuteArgsResponse } from '../types';
+import { CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions, ExecuteArgsResponse } from '../types';
 import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
+import { ComposableCall } from '../types';
 
 
 /**
  * checkCallbackUrl()
  * method to check if its a regular browser wallet or a InjectedWallet, and make them have the same behavior (redirect) to the desired url.
  * @param callbackUrl url that should redirect after transaction
- * @param callbackArgs metadata that should be passed via url to the success page 
+ * @param callbackArgs metadata that should be passed via url to the success page
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}, or a redirect to selected callbackUrl
  */
-
-export const checkCallbackUrl = (callbackUrl: string, callbackArgs: CallBackArgs ,wallet: Wallet, outcomes: void | FinalExecutionOutcome[]): 
-void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
-
+export const checkCallbackUrl = (
+  callbackUrl: string,
+  callbackArgs: CallBackArgs,
+  wallet: Wallet,
+  outcomes: void | FinalExecutionOutcome[],
+): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
   const browserWallets = ['my-near-wallet', 'near-wallet'];
-  const IsntBrowserWallets = !browserWallets.includes(wallet?.id);
+  const isNotBrowserWallet = !browserWallets.includes(wallet?.id);
   const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
-  
-  if (hasCallbackUrl && IsntBrowserWallets) {
-    
+
+  if (hasCallbackUrl && isNotBrowserWallet) {
+
     const { transactionHash } = checkTransactionHash(outcomes);
-    
+
     let finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}`;
 
     if (callbackArgs) {
@@ -35,7 +38,7 @@ void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
       });
 
       const signMeta = encodeURIComponent(args);
-      
+
       finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}&signMeta=${signMeta}`;
     }
 
@@ -43,7 +46,6 @@ void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
   }
 
   return outcomes && outcomes.length == 1?  outcomes[0]: outcomes;
-
 };
 
 
@@ -53,8 +55,6 @@ void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
  * @param receipt near transaction Receipt object
  * @returns transactionHash object
  */
-
-
 const checkTransactionHash = (receipt): {transactionHash: string}  => {
   let transactionHash = receipt?.transaction_outcome?.id;
 
@@ -87,21 +87,22 @@ export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBack
   return url;
 };
 
-export const genericBatchExecute 
- = async (call: ContractCall<ExecuteArgsResponse>[], wallet: Wallet, account: Account, callbackUrl: string , callbackArgs: CallBackArgs): Promise<void | providers.FinalExecutionOutcome[]> =>{
-
-   const url = callbackUrlFormatter(callbackUrl, callbackArgs);
-
-   if (wallet) {
-     return url ?  batchExecuteWithBrowserWallet(call, wallet, url) : batchExecuteWithBrowserWallet(call, wallet);
-   }
-   return batchExecuteWithNearAccount(call, account, url);
-
- };
+export const genericBatchExecute = async (
+  call: ContractCall<ExecuteArgsResponse>[],
+  wallet: Wallet,
+  account: Account,
+  callbackUrl: string,
+  callbackArgs: CallBackArgs,
+): Promise<void | providers.FinalExecutionOutcome[]> =>{
+  const url = callbackUrlFormatter(callbackUrl, callbackArgs);
+  if (wallet) {
+    return url ?  batchExecuteWithBrowserWallet(call, wallet, url) : batchExecuteWithBrowserWallet(call, wallet);
+  }
+  return batchExecuteWithNearAccount(call, account, url);
+};
 
 // account call translation wrappers https://docs.near.org/tools/near-api-js/faq#how-to-send-batch-transactions
 // TODO: share batch signature with wallet selector sendAndSignTransaction when method becomes public
-
 const batchExecuteWithNearAccount = async (
   calls: ContractCall<ExecuteArgsResponse>[],
   account: Account,
@@ -118,14 +119,13 @@ const batchExecuteWithNearAccount = async (
         gas: new BN(call.gas),
         attachedDeposit: new BN(call.deposit),
         ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
-      })); 
+      }));
     } catch (err: unknown) {
       console.error(
         `${call.contractAddress}:${call.methodName} in batch failed: ${err}`,
       );
     }
   }
-
 
   return outcomes;
 };
@@ -139,7 +139,7 @@ const batchExecuteWithBrowserWallet = async (
   const res = await wallet.signAndSendTransactions({
     transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
     ...(callback && { callbackUrl: callback }),
-  }); 
+  });
 
   return res;
 };
@@ -164,11 +164,11 @@ export const convertGenericCallToWalletCall = (
   };
 };
 
-export function flattenArgs(calls: NearContractCall<ExecuteArgsResponse>[]): ContractCall<ExecuteArgsResponse>[] {
+export function flattenArgs(calls: ComposableCall[] ): ContractCall<ExecuteArgsResponse>[] {
   const contractCalls: ContractCall<ExecuteArgsResponse>[] =[];
   for (const call of calls) {
     if (call instanceof Array && call.length > 0 && call as ContractCall<ExecuteArgsResponse>[]) {
-      call.map(item => contractCalls.push(item as ContractCall<ExecuteArgsResponse>));
+      call.map((item: ComposableCall) => contractCalls.push(item as ContractCall<ExecuteArgsResponse>));
     } else {
       contractCalls.push(call as ContractCall<ExecuteArgsResponse>);
     }

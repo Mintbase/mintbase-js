@@ -108,6 +108,7 @@ export type ContractCall<T> = {
   };
 
 export type NearContractCall<T> = ContractCall<T> | ContractCall<T>[]
+export type ComposableCall = NearContractCall<ExecuteArgsResponse> | NearContractCall<ExecuteArgsResponse>[]
 
 export type NearExecuteOptions = {
   wallet?: Wallet;
