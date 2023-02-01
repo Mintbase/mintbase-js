@@ -28,9 +28,9 @@ jobs:
           ssh-key: ${{ secrets.TEAM_ACCOUNT_KEY }}
           persist-credentials: true
 
-      - name: Copy and Publish Docs (Release or Alpha Merge)
-        # for now - roll out docs on merge to alpha
-        if: ${{ github.event.release.tag_name || github.ref_name == 'alpha' }}
+      - name: Copy and Publish Docs (Release or beta Merge)
+        # for now - roll out docs on merge to beta
+        if: ${{ github.event.release.tag_name || github.ref_name == 'beta' }}
         working-directory: "docs/gitbook-docs"
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}

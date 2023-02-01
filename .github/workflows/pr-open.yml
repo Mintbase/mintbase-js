@@ -2,7 +2,7 @@ name: Telegram P/R Open notification
 
 on:
   pull_request:
-   branches: [ main,  alpha ]
+   branches: [ main,  beta ]
 
 
 jobs:

@@ -47,7 +47,7 @@ jobs:
       # publish merges to npm with ref names
       - name: Publish, Version & Push
         # only publish and push
-        if: ${{ github.ref_name == 'alpha'}}
+        if: ${{ github.ref_name == 'beta'}}
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}
           git add --all
@@ -64,9 +64,9 @@ jobs:
           environment: production
 
       # sha publish previews for PRs
-      # only run these remaining steps on non-alpha pushes
+      # only run these remaining steps on non-beta pushes
       - name: Publish Preview Version (non default branch)
-        if: ${{ github.ref_name != 'alpha'}}
+        if: ${{ github.ref_name != 'beta'}}
         id: publish
         run: |
           lerna version prerelease --yes --skip-git --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
@@ -75,7 +75,7 @@ jobs:
           lerna publish from-package --yes --dist-tag prerelease
 
       - name: Update deployment status (success)
-        if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'alpha'}}
+        if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'beta'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'
@@ -84,7 +84,7 @@ jobs:
           deployment-id: ${{ steps.deployment.outputs.deployment_id }}
 
       - name: Update deployment status (failure)
-        if: ${{ steps.publish.outcome != 'success' && github.ref_name != 'alpha'}}
+        if: ${{ steps.publish.outcome != 'success' && github.ref_name != 'beta'}}
         uses: chrnorm/deployment-status@v2
         with:
           token: '${{ github.token }}'

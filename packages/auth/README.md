@@ -65,7 +65,7 @@ const loadAuthenticatedNearAccountInNodeJS = async (accountId: string) => {
 ```
 {% endcode %}
 
-Here is a [working example](https://github.com/Mintbase/mintbase-js/blob/alpha/packages/testing/src/utils.ts#L7) from our [testing library](../testing) of this using GCP Secret Manager.
+Here is a [working example](https://github.com/Mintbase/mintbase-js/blob/beta/packages/testing/src/utils.ts#L7) from our [testing library](../testing) of this using GCP Secret Manager.
 
 
 
