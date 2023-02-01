@@ -4,7 +4,9 @@ export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
 export const ONE_YOCTO = '1';
 export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
-export const CONTRACT_DEPOSIT = '3500000000000000000000000';
+// TODO: This should be reduced to 3.5 NEAR once the new factory/stores
+// are deployed to mainnet.
+export const CONTRACT_DEPOSIT = '6500000000000000000000000';
 export const LISTING_DEPOSIT = '800000000000000000000';
 export const YOCTO_PER_BYTE = '10000000000000000000';
 export const MINTING_FEE = '10000000000000000000000000'; // 1 milliNEAR
