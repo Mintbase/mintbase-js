@@ -12,7 +12,7 @@ export const isDebugMode = Boolean(typeof window == 'undefined' && process?.env?
 export const hasContractAddress =  Boolean(typeof window == 'undefined' && process?.env?.CONTRACT_ADDRESS);
 export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
 
-const DEFAULT_API_KEY_AS_WARNING = '<set-me-by-calling-mbjs.config>';
+export const DEFAULT_API_KEY_AS_WARNING = '<set-me-by-calling-mbjs.config>';
 
 const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET];
 

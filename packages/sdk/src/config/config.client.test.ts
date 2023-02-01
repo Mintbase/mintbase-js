@@ -3,6 +3,7 @@
  */
 
 import { ConfigOptions, NEAR_NETWORKS } from '../types';
+import { DEFAULT_API_KEY_AS_WARNING } from './config';
 import { MAINNET_MOCK, TESTNET_MOCK } from './config.mocks';
 
 describe('test mbjs namespace', () => {
@@ -27,7 +28,10 @@ describe('test mbjs namespace', () => {
     configModule.mbjs.config(config);
 
     expect(configModule.setGlobalEnv).toHaveBeenCalledWith(config);
-    expect(configModule.mbjs.keys).toEqual(TESTNET_MOCK);
+    expect(configModule.mbjs.keys).toEqual({
+      ...TESTNET_MOCK,
+      apiKey: DEFAULT_API_KEY_AS_WARNING,
+    });
 
   });
 
@@ -47,7 +51,10 @@ describe('test mbjs namespace', () => {
     configModule.mbjs.config(config);
 
     expect(configModule.setGlobalEnv).toHaveBeenCalledWith(config);
-    expect(configModule.mbjs.keys).toEqual(MAINNET_MOCK);
+    expect(configModule.mbjs.keys).toEqual({
+      ...MAINNET_MOCK,
+      apiKey: DEFAULT_API_KEY_AS_WARNING,
+    });
 
   });
 
