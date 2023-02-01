@@ -8,6 +8,7 @@ import { errorContractAddress, errorToken } from './tokenById.errors';
 jest.mock('graphql-request');
 
 describe('tokenById', () => {
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();

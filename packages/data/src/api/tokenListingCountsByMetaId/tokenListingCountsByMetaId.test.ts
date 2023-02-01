@@ -1,6 +1,6 @@
 import { tokenListingCountsByMetaId, TokenListingQueryResults } from './tokenListingCountsByMetaId';
 import { GraphQLClient } from 'graphql-request';
-
+jest.mock('graphql-request');
 
 describe('tokenListingCountsByMetaId', () => {
   beforeEach(() => {

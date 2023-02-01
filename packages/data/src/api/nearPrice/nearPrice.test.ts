@@ -3,6 +3,7 @@ import { nearPriceMock } from './nearPrice.mock';
 
 
 describe('nearPrice Test', () => {
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   test('getNearPrice by Binance', async () => {
 
     const mockFetch = Promise.resolve({ json: () => Promise.resolve({ price: '1490000' }) });
@@ -33,12 +34,12 @@ describe('nearPrice Test', () => {
 
     expect(methods.nearPriceFallback).toHaveBeenCalled();
 
-  
+
   });
 
 
   test('error', async () => {
-    
+
 
     const mockFetch = Promise.reject(undefined);
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore

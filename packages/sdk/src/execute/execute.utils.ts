@@ -41,7 +41,6 @@ export const checkCallbackUrl = (
 
       finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}&signMeta=${signMeta}`;
     }
-
     return window.location.assign(finalUrl);
   }
 
@@ -108,7 +107,7 @@ const batchExecuteWithNearAccount = async (
   account: Account,
   callbackUrl?: string,
 ): Promise<FinalExecutionOutcome[]> => {
-  const outcomes: any[] =[];
+  const outcomes: FinalExecutionOutcome[] =[];
   for (const call of calls) {
 
     try {

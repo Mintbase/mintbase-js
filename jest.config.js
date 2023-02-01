@@ -1,8 +1,6 @@
 /** @type {import('ts-jest').JestConfigWithTsJest} */
 require('dotenv').config();
 process.env.NFT_CONTRACT_ID = 'foo.near';
-const { resolve } = require('path')
-
 // FIXME: dotenv seems to load for the jest debugger, but not when running npm test
 module.exports = {
   preset: 'ts-jest',
@@ -14,5 +12,4 @@ module.exports = {
     '@near-wallet-selector/meteor-wallet': '<rootDir>/jest.stub.js',
     '@here-wallet/core/build/strategy': '<rootDir>/jest.stub.js',
   },
-  setupFilesAfterEnv: [resolve(__dirname, './jest.setup.tsx')],
 };

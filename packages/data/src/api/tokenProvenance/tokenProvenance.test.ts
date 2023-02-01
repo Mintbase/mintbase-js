@@ -7,6 +7,7 @@ import { errorToken, errorContractAddress } from './tokenProvenance.errors';
 jest.mock('graphql-request');
 
 describe('tokenProvenance', () => {
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();

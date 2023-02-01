@@ -3,6 +3,7 @@ import { GraphQLClient, gql } from 'graphql-request';
 import { fetchGraphQl } from './fetch';
 import { mbjs } from '@mintbase-js/sdk';
 
+jest.mock('graphql-request');
 
 type FakeData = {
   foo: string;
@@ -11,10 +12,9 @@ type FakeData = {
 const fakeQuery = gql`query data(){}`;
 
 describe('graphql/fetch', () => {
- 
-
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   // it('should return no Network Error Message if no network is passed', async () => {
-   
+
   //   mbjs.keys = {
   //     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
   //   // @ts-ignore
@@ -53,7 +53,7 @@ describe('graphql/fetch', () => {
       nearRpcUrl: RPC_ENDPOINTS['testnet'],
       contractAddress: 'bbb',
     },
-    
+
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<FakeData> => Promise.resolve({ foo: 'bar' }),
     }));

@@ -1,6 +1,6 @@
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { ownedTokens, tokensByStatus } from '@mintbase-js/data';
-import { burn, ContractCall, execute, ExecuteArgsResponse, ExecuteExtraArgsResponse, mint, MintArgs, MintArgsResponse, NearContractCall } from '@mintbase-js/sdk';
+import { burn, execute, mint } from '@mintbase-js/sdk';
 import { TEST_TOKEN_CONTRACT } from '../src/constants';
 import { authenticatedKeyStore } from '../src/utils';
 import { TokensByStatus } from '@mintbase-js/data/lib/api/tokensByStatus/tokenByStatus.types';
