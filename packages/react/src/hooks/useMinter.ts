@@ -19,7 +19,8 @@ export type MinterHookArgs = MintArgs;
 
 const useMinter = (args: MintArgs): UseMinterReturn => {
   const { selector } = useWallet();
-  const { contractAddress, options, reference, ownerId } = args;
+  const { contractAddress, options, metadata, ownerId } = args;
+
 
   const [loading, setLoading] = useState(false);
   const [receipt, setReceipt] = useState<void | FinalExecutionOutcome | FinalExecutionOutcome[] | null>(null);
@@ -33,12 +34,12 @@ const useMinter = (args: MintArgs): UseMinterReturn => {
     const receipt = await execute({ wallet },
       mint({
         contractAddress: contractAddress,
-        reference: reference,
+        metadata: metadata,
         ownerId: ownerId,
         options,
       }),
     );
-    
+
     setReceipt(receipt);
     setLoading(false);
   };

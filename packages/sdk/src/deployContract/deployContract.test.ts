@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
-import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS } from '../constants';
+import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, DEFAULT_MB_BASE_URI, GAS_CONSTANTS } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { deployContract } from './deployContract';
 
@@ -107,7 +107,7 @@ test('deploy contract uses default values', () => {
         name: mockData.name,
         symbol: mockMetadata.symbol,
         icon: DEFAULT_MB_LOGO,
-        base_uri: null,
+        base_uri: DEFAULT_MB_BASE_URI,
         reference: null,
         reference_hash: null,
       },

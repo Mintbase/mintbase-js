@@ -4,6 +4,7 @@ import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, TOKEN_CONTRACT_SPEC }
 import { DeployContractArgs,DeployContractArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { standardizeString } from '../utils';
 
+const ARWEAVE_BASE_URI = 'https://arweave.net';
 
 /**
  * Deploys a contract from a certain contractFactoryId
@@ -13,7 +14,7 @@ import { standardizeString } from '../utils';
 export const deployContract = (args: DeployContractArgs): NearContractCall<DeployContractArgsResponse> => {
   const { name, factoryContractId = mbjs.keys.mbContract, ownerId, metadata } = args;
 
-  const { symbol, icon = DEFAULT_MB_LOGO, baseUri = null, reference = null, referenceHash = null } = metadata;
+  const { symbol, icon = DEFAULT_MB_LOGO, baseUri = ARWEAVE_BASE_URI, reference = null, referenceHash = null } = metadata;
 
   return {
     contractAddress: factoryContractId || mbjs.keys.mbContract,

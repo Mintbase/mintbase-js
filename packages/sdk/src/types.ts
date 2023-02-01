@@ -46,12 +46,12 @@ export enum MINTBASE_CONTRACTS {
   mainnet = 'mintbase1.near',
 }
 
-export enum GRAPHQL_ENDPOINTS  { 
+export enum GRAPHQL_ENDPOINTS  {
   mainnet =  'https://interop-mainnet.hasura.app/v1/graphql',
   testnet = 'https://interop-testnet.hasura.app/v1/graphql',
 }
 
-export enum RPC_ENDPOINTS  { 
+export enum RPC_ENDPOINTS  {
   mainnet = 'https://rpc.mainnet.near.org',
   testnet = 'https://rpc.testnet.near.org',
 }
@@ -113,7 +113,7 @@ export type NearExecuteOptions = {
   wallet?: Wallet;
   account?: Account;
   callbackUrl?: string;
-  callbackArgs?: CallBackArgs;  
+  callbackArgs?: CallBackArgs;
 };
 
 export type BurnArgs = {
@@ -169,10 +169,27 @@ export type ListArgs = {
 
 export type MintArgs =  {
   contractAddress?: string;
-  reference: string;
   ownerId: string;
+  metadata: TokenMetadata;
   options?: MintOptions;
+  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference?: boolean; // explicit opt-in to NFT without reference
 };
+
+export type TokenMetadata = {
+  title?: string;
+  description?: string;
+  media?: string;
+  media_hash?: string;
+  copies?: number;
+  issued_at?: string;  // Stringified unix timestamp, according to
+  expires_at?: string; // standards this is milliseconds since epoch, but
+  starts_at?: string;  // since `env::block_timestamp` is in nanoseconds
+  updated_at?: string; // most timestamps in the ecosystem are nanoseconds
+  extra?: string;
+  reference?: string;
+  reference_hash?: string;
+}
 
 export type MintOptions = {
     splits?: Splits;
@@ -232,7 +249,7 @@ export interface BurnArgsResponse {
   token_ids: string[] |  string[][];
 }
 
-export interface BuyArgsResponse { 
+export interface BuyArgsResponse {
   nft_contract_id: string;
   token_id: string;
   referrer_id: string;
@@ -274,13 +291,10 @@ export interface ListArgsResponse {
 
 export interface MintArgsResponse {
   owner_id: string;
-  metadata: {
-    reference: string;
-    extra?: any;
-  };
+  metadata: TokenMetadata;
   num_to_mint:  number;
   // 10000 = 100%
-  royalty_args: { split_between: Splits; percentage: number } | null; 
+  royalty_args: { split_between: Splits; percentage: number } | null;
   split_owners: Splits | null;
 }
 
@@ -301,5 +315,5 @@ export interface ExecuteExtraArgsResponse {
 }
 
 export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
-MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse 
+MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
 | ExecuteExtraArgsResponse | Record<string, unknown>
