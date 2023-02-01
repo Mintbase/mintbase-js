@@ -4,9 +4,10 @@ export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
 export const ONE_YOCTO = '1';
 export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
-export const CONTRACT_DEPOSIT = '6500000000000000000000000';
+export const CONTRACT_DEPOSIT = '3500000000000000000000000';
 export const LISTING_DEPOSIT = '800000000000000000000';
-
+export const YOCTO_PER_BYTE = '10000000000000000000';
+export const MINTING_FEE = '10000000000000000000000000'; // 1 milliNEAR
 
 export const GAS_CONSTANTS = {
   DEFAULT_GAS: '200000000000000',
@@ -18,6 +19,9 @@ export const DEPOSIT_CONSTANTS = {
   ONE_YOCTO: '1',
   ZERO_YOCTO: '0',
   LEGACY_LISTING: '4400000000000000000000',
+  // 80 bytes ->
+  STORE_COMMON: '800000000000000000000', // 80 bytes
+  STORE_TOKEN: '3600000000000000000000', // 360 bytes
 };
 
 export const multipleTokensLegacyListing = (tokenLength: number): string => new BN(DEPOSIT_CONSTANTS.LEGACY_LISTING).mul(new BN(tokenLength)).toString();
