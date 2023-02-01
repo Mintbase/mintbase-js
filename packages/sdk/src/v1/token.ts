@@ -1,7 +1,7 @@
 // Mintbase token contract JS implementation
 
 import { mbjs } from '../config/config';
-import {  BatchChangeMinterArgsResponse, BurnArgsResponse, DeployContractArgsResponse, NearContractCall, NEAR_NETWORKS, OldTransferContractOwnershipArgs, TOKEN_METHOD_NAMES } from '../types';
+import {  BatchChangeMintersArgsResponse, BurnArgsResponse, DeployContractArgsResponse, NearContractCall, NEAR_NETWORKS, OldTransferContractOwnershipArgs, TOKEN_METHOD_NAMES } from '../types';
 import {
   DEFAULT_MB_LOGO,
   GAS_CONSTANTS,
@@ -145,7 +145,7 @@ export const removeMinter = (
 
 export const batchChangeMinters = (
   args: BatchChangeMinters,
-): NearContractCall<BatchChangeMinterArgsResponse> => {
+): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addMinters, removeMinters, nftContractId } = args;
 
   return {

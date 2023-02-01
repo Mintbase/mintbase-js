@@ -15,4 +15,5 @@ export const ERROR_MESSAGES = {
   NO_MINTERS: `There are no minters being provided to the batchChangeMinters method to be changed, try adding account Ids to at least one of the minter fields ${SUPPORT}`,
   NO_REFERENCE: `You must provide a reference when minting or explicitly opt out ${SUPPORT}`,
   NO_MEDIA: `You must provide media when minting or explicitly opt out ${SUPPORT}`,
+  NO_MINTERS_CHANGE: `'There are no minters being provided to the batchChangeMinters method to be changed, try adding account Ids to at least one of the minter fields ${SUPPORT}'`,
 };

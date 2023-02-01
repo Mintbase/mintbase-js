@@ -240,7 +240,7 @@ export interface MinterArgsResponse {
   account_id: string;
 }
 
-export interface BatchChangeMinterArgsResponse{
+export interface BatchChangeMintersArgsResponse{
   grant: string[] | undefined;
   revoke: string[] | undefined;
 }
@@ -314,6 +314,6 @@ export interface ExecuteExtraArgsResponse {
   contractId?: string;
 }
 
-export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
+export type ExecuteArgsResponse = BatchChangeMintersArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
 | ExecuteExtraArgsResponse | Record<string, unknown>

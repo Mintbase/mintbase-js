@@ -13,12 +13,13 @@ describe('add minter unit tests', () => {
       contractAddress: contractAddress,
       minterId: minter,
     });
-  
+
     expect(args).toEqual({
       contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.ADD_MINTER,
+      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
       args: {
-        account_id: minter,
+        grant: [minter],
+        revoke: undefined,
       },
       deposit: ONE_YOCTO,
       gas: GAS,
