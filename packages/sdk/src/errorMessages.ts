@@ -13,7 +13,6 @@ export const ERROR_MESSAGES = {
   TOKEN_LENGTH: `tokenIds must have more than one element ${SUPPORT}`,
   TRANSFER:  `You must transfer at least one token ${SUPPORT}`,
   NO_MINTERS: `There are no minters being provided to the batchChangeMinters method to be changed, try adding account Ids to at least one of the minter fields ${SUPPORT}`,
-  CONFLICTING_REFERENCES: `References in minting arguments must not conflict ${SUPPORT}`,
   NO_REFERENCE: `You must provide a reference when minting or explicitly opt out ${SUPPORT}`,
   NO_MEDIA: `You must provide media when minting or explicitly opt out ${SUPPORT}`,
 };
