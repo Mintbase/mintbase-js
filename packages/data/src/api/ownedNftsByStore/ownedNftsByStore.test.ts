@@ -21,7 +21,7 @@ describe('tokenById', () => {
       request: (): Promise<OwnedNftsData> => Promise.resolve(ownedNftsByStoreMock),
     }));
 
-    const result = await ownedNftsByStore('test.testnet','test.mintbase1.near',{ limit: 12, offset: 0 });
+    const result = await ownedNftsByStore('test.testnet', 'test.mintbase1.near', { limit: 12, offset: 0 });
 
     expect(result?.data?.token[0].metadataId).toBe(
       ownedNftsByStoreMock.token[0].metadataId,
@@ -34,7 +34,7 @@ describe('tokenById', () => {
       request: (): Promise<OwnedNftsData> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await ownedNftsByStore('test.testnet','test.mintbase1.near',{ limit: 12, offset: 0 });
+    const call = await ownedNftsByStore('test.testnet', 'test.mintbase1.near', { limit: 12, offset: 0 });
 
     expect(call).toStrictEqual({ error: errMessage });
 

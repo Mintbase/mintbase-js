@@ -1,4 +1,8 @@
+/**
+ * @jest-environment jsdom
+ */
 // import { invokeContractMethod } from './transactions';
+import React from 'react';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { useWallet, WalletContextProvider } from './WalletContext';

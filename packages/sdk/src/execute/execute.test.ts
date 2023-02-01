@@ -68,7 +68,7 @@ describe('contract method calls (execute)', () => {
       // callbackUrl: testCallbackUrl,
       receiverId: testContract,
       signerId: testSigner,
-    }] , 'callbackUrl': testCallbackUrl };
+    }], 'callbackUrl': testCallbackUrl };
 
     expect(mockNearSelectorWallet.signAndSendTransactions)
       .toHaveBeenCalledWith(transactions);

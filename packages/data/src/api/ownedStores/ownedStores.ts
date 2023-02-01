@@ -20,6 +20,6 @@ export const ownedStores = async (
 
   const errorMsg = error? `Error fetching stores from ${ownerId}, ${error}`: '';
 
-  return parseData<OwnedStoresData>(data,error,errorMsg);
+  return parseData<OwnedStoresData>(data, error, errorMsg);
 
 };

@@ -33,6 +33,6 @@ export const ownedNftsByStore = async (
 
   const errorMsg = error? `Error fetching nfts from ${ownerId}, ${error}`: '';
 
-  return parseData<OwnedNftsData>(data,error,errorMsg);
+  return parseData<OwnedNftsData>(data, error, errorMsg);
 
 };

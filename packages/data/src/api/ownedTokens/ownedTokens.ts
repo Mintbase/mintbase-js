@@ -26,6 +26,6 @@ export const ownedTokens = async (
 
   const errorMsg = error? `Error fetching token listing counts, ${error}`: '';
 
-  return parseData<Token[]>(data?.tokens,error,errorMsg);
+  return parseData<Token[]>(data?.tokens, error, errorMsg);
 
 };

@@ -38,6 +38,7 @@
       "error",
       "always-multiline"
     ],
+    "comma-spacing": ["error", { "before": false, "after": true }],
     "consistent-return": "error",
     "curly": "error",
     "eol-last": [

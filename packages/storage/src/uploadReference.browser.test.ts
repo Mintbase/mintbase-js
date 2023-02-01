@@ -117,7 +117,7 @@ describe('upload tests in browser', () => {
 
   test('getFormData with mislabeled media key', async () => {
     const referenceObject = {
-      media: 'yeet' ,
+      media: 'yeet',
 
     };
 
@@ -129,7 +129,7 @@ describe('upload tests in browser', () => {
   test('getFormData with mislabeled media value', async () => {
     const media = new File([''], 'test.txt', { type: 'text/plain' });
     const referenceObject = {
-      yeet: media ,
+      yeet: media,
 
     };
     expect(() => getFormDataFromJson(referenceObject)).toThrowError('The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document');

@@ -28,7 +28,7 @@ describe('graphql/fetch', () => {
   it('should return invalid Network Error Message if network is wrong', async () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    const { data, error } = await fetchGraphQl<FakeData>({ query: fakeQuery , network: 'aaaa' });
+    const { data, error } = await fetchGraphQl<FakeData>({ query: fakeQuery, network: 'aaaa' });
     expect(error).toBeDefined();
     expect(error).toBe('Please add a valid Network');
   });
@@ -37,7 +37,7 @@ describe('graphql/fetch', () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<FakeData> => Promise.resolve({ foo: 'bar' }),
     }));
-    const { data, error } = await fetchGraphQl<FakeData>({ query: fakeQuery , network: 'testnet' });
+    const { data, error } = await fetchGraphQl<FakeData>({ query: fakeQuery, network: 'testnet' });
     expect(data).toBeDefined();
     expect(error).not.toBeDefined();
     expect(data?.foo).toBe('bar');

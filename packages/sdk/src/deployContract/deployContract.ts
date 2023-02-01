@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, GAS_CONSTANTS, TOKEN_CONTRACT_SPEC } from '../constants';
-import { DeployContractArgs,DeployContractArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { DeployContractArgs, DeployContractArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { standardizeString } from '../utils';
 
 const ARWEAVE_BASE_URI = 'https://arweave.net';

@@ -47,7 +47,7 @@ export const delist = (
 
   result.push( {
     contractAddress: marketAddress || mbjs.keys.marketAddress,
-    methodName: oldMarket? MARKET_METHOD_NAMES.UNLIST_OLD_MARKET: MARKET_METHOD_NAMES.UNLIST ,
+    methodName: oldMarket? MARKET_METHOD_NAMES.UNLIST_OLD_MARKET: MARKET_METHOD_NAMES.UNLIST,
     args: {
       token_ids: tokenIds,
       nft_contract_id: contractAddress || mbjs.keys.marketAddress,
