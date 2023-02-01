@@ -1,9 +1,8 @@
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
-import { ownedTokens, Token, tokensByStatus } from '@mintbase-js/data';
+import { ownedTokens, Token } from '@mintbase-js/data';
 import { burn, execute, mint } from '@mintbase-js/sdk';
 import { TEST_TOKEN_CONTRACT } from '../src/constants';
 import { authenticatedKeyStore } from '../src/utils';
-import { TokensByStatus } from '@mintbase-js/data/lib/api/tokensByStatus/tokenByStatus.types';
 
 describe('execute integration test', () => {
   test('execute single call', async () =>{

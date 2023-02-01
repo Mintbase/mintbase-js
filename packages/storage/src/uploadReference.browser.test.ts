@@ -9,11 +9,11 @@ describe('upload tests in browser', () => {
   beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => null);
   });
-    
+
   beforeEach(() => {
     fetchMock.resetMocks();
   });
-      
+
   test('uploads reference object with media and animation to arweave', async () => {
     const media = new File([''], 'test.txt', { type: 'text/plain' });
     const referenceObject = {
@@ -105,12 +105,12 @@ describe('upload tests in browser', () => {
   });
 
   test('grabs fields with weird names', async () => {
-    const media = new File([''], 'test.txt', { type: 'text/plain' });
     const referenceObject = {
       bogusField: 'bogus',
     };
 
-    const result = await getFormDataFromJson(referenceObject);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await getFormDataFromJson(referenceObject as any);
     expect(result.get('bogusField')).toContain('bogus');
 
   });
@@ -123,18 +123,19 @@ describe('upload tests in browser', () => {
 
     const result = await getFormDataFromJson(referenceObject);
     expect(result.get('media')).toContain('yeet');
-   
+
   });
 
   test('getFormData with mislabeled media value', async () => {
     const media = new File([''], 'test.txt', { type: 'text/plain' });
     const referenceObject = {
       yeet: media,
-
     };
-    expect(() => getFormDataFromJson(referenceObject)).toThrowError('The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document');
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    expect(() => getFormDataFromJson(referenceObject as any))
+      .toThrowError('The provided field has a key that is not recognized by our service and will not be uploaded to arweave, try using media, animation_url or document');
 
-   
+
   });
 
 });

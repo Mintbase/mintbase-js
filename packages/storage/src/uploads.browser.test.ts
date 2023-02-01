@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 
-import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE_API_KEY } from './constants';
-import { MAX_UPLOAD_BYTES, OBJECT_IS_EMPTY_ERROR, uploadFile, uploadReference } from './uploads';
+import { mbjs } from '@mintbase-js/sdk';
+import { ARWEAVE_SERVICE_HOST, MAX_UPLOAD_ERROR_MSG, MINTBASE_API_KEY_HEADER, MAX_UPLOAD_BYTES } from './constants';
+import { uploadFile } from './uploads';
 import fetchMock from 'jest-fetch-mock';
 
 
@@ -41,7 +42,7 @@ describe('upload tests in browser', () => {
 
     expect(fetchMock).toHaveBeenCalledWith(ARWEAVE_SERVICE_HOST, {
       method: 'POST',
-      headers: { 'mb-api-key': MINTBASE_API_KEY },
+      headers: { [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey },
       body: expect.any(FormData),
       redirect: 'follow',
     });
