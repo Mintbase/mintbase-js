@@ -4,6 +4,7 @@
     "docs",
     "react",
     "auth",
-    "all"
+    "all",
+    "integration"
   ]
 }

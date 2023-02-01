@@ -1,5 +1,5 @@
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
-import { ownedTokens, tokensByStatus } from '@mintbase-js/data';
+import { ownedTokens, Token, tokensByStatus } from '@mintbase-js/data';
 import { burn, execute, mint } from '@mintbase-js/sdk';
 import { TEST_TOKEN_CONTRACT } from '../src/constants';
 import { authenticatedKeyStore } from '../src/utils';
@@ -16,7 +16,7 @@ describe('execute integration test', () => {
         contractAddress: TEST_TOKEN_CONTRACT,
         ownerId: 'mb_bob.testnet',
         metadata: {
-          reference: 'https://arweave.net/OzOg7k329BMjb-ib3AZ3cCrxf5KpChzyBAobHtulxRE',
+          reference: 'OzOg7k329BMjb-ib3AZ3cCrxf5KpChzyBAobHtulxRE',
         },
         noMedia: true,
       }),
@@ -30,45 +30,29 @@ describe('execute integration test', () => {
     const account = 'mb_alice.testnet';
     const keyStore = await authenticatedKeyStore([account]);
     const signingAccount = await connect(account, keyStore);
-    const token = await ownedTokens(account, { limit: 1 });
+    const { data: tokens } = await ownedTokens(account, { limit: 10 }) as { data: Token[] };
 
-    if (!token) {
-      throw `${account} ran out of owned tokens to burn! Mint some more...`;
-    }
-    const { data } = await tokensByStatus(
-      token[0].metadataId,
-      account,
-    );
-    const { unlistedTokens } = data as TokensByStatus;
-
-    const tokensToBurn: string[] = [];
-
-    if (unlistedTokens.length > 1) {
-      tokensToBurn.push(unlistedTokens[0]);
-      tokensToBurn.push(unlistedTokens[1]);
+    if (tokens.length < 2) {
+      throw `${account} needs more tokens to burn to run this test..`;
     }
 
-    if (tokensToBurn.length < 1) {
-      console.error('No unburned tokens for burn integration test, mint some more');
-      return;
-    }
+    const [tokenToBurnOne, tokenToBurnTwo] = tokens;
 
     const burnCall1 = burn({
-      contractAddress: TEST_TOKEN_CONTRACT,
-      tokenIds: [tokensToBurn[0]],
+      contractAddress: tokenToBurnOne.contractId,
+      tokenIds: [tokenToBurnOne.tokenId],
     });
 
     const burnCall2 = burn({
-      contractAddress: TEST_TOKEN_CONTRACT,
-      tokenIds: [tokensToBurn[1]],
+      contractAddress: tokenToBurnTwo.contractId,
+      tokenIds: [tokenToBurnTwo.tokenId],
     });
-
 
     const mintCall = mint({
       contractAddress: TEST_TOKEN_CONTRACT,
-      ownerId: 'mb_bob.testnet',
+      ownerId: 'mb_alice.testnet',
       metadata: {
-        reference: 'https://arweave.net/OzOg7k329BMjb-ib3AZ3cCrxf5KpChzyBAobHtulxRE',
+        reference: 'OzOg7k329BMjb-ib3AZ3cCrxf5KpChzyBAobHtulxRE',
       },
       noMedia: true,
     });
@@ -86,6 +70,5 @@ describe('execute integration test', () => {
     expect(result[1].receipts_outcome).not.toBeUndefined();
     expect(result[2].receipts_outcome).not.toBeUndefined();
     expect(result[3].receipts_outcome).not.toBeUndefined();
-
   });
 });

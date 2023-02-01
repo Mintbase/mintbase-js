@@ -3,7 +3,7 @@
  */
 
 
-import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, Network, MINTBASE_CONTRACTS, NEAR_NETWORKS, MBJS_CONFIG_PARAMS, GRAPHQL_ENDPOINTS, RPC_ENDPOINTS } from '../types';
+import { MbJsKeysObject, MARKET_CONTRACT_ADDRESS, Network, MINTBASE_CONTRACTS, NEAR_NETWORKS, ConfigOptions, GRAPHQL_ENDPOINTS, RPC_ENDPOINTS } from '../types';
 
 // to create a new key you have to specify here on the CONFIG_KEYS and MbJsKeysObject + add on the setGlobalEnv
 
@@ -12,6 +12,7 @@ export const isDebugMode = Boolean(typeof window == 'undefined' && process?.env?
 export const hasContractAddress =  Boolean(typeof window == 'undefined' && process?.env?.CONTRACT_ADDRESS);
 export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
 
+const DEFAULT_API_KEY_AS_WARNING = '<set-me-by-calling-mbjs.config>';
 
 const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET];
 
@@ -25,12 +26,12 @@ export const CONFIG_KEYS: MbJsKeysObject = {
   contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
   mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
-  apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : '<set-me-by-calling-mbjs.config>',
+  apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY_AS_WARNING,
   debugMode: isDebugMode ? true : false,
   isSet:  isProcessEnv ? true : false,
 };
 
-export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
+export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
 
   const globalConfig: MbJsKeysObject = {
     network: configObj.network as Network,
@@ -58,7 +59,7 @@ export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
 };
 
 // client-side / manual set method
-const setConfig = (configObj: MBJS_CONFIG_PARAMS = CONFIG_KEYS): MbJsKeysObject => {
+const setConfig = (configObj: ConfigOptions = CONFIG_KEYS): MbJsKeysObject => {
   return setGlobalEnv(configObj);
 };
 
