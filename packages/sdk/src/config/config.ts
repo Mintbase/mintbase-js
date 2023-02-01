@@ -13,6 +13,8 @@ export const hasContractAddress =  Boolean(typeof window == 'undefined' && proce
 export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
 
 
+const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET];
+
 // if users set vars on process.env it will come by default setting up the config on the server.
 export const CONFIG_KEYS: MbJsKeysObject = {
   network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.TESTNET,
@@ -20,9 +22,10 @@ export const CONFIG_KEYS: MbJsKeysObject = {
   nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.TESTNET],
   callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '',
   // will check for process.env.CONTRACT_ADDRESS if not will setup mintbase contract according to the network, if not will setup testnet contract
-  contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
+  contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
   mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
+  apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : '<set-me-by-calling-mbjs.config>',
   debugMode: isDebugMode ? true : false,
   isSet:  isProcessEnv ? true : false,
 };
@@ -53,32 +56,13 @@ export const setGlobalEnv = (configObj: MBJS_CONFIG_PARAMS): MbJsKeysObject => {
 
   return globalConfig;
 };
- 
 
-// export const setConfigProcessEnv = (): MbJsKeysObject => {
-//   let callbackUrl = '';
-//   let contractAddress = '';
-
-//   if (process?.env.CALLBACK_URL) {
-//     callbackUrl = process?.env.CALLBACK_URL;
-//   }
-
-//   if (process?.env.CONTRACT_ADDRESS) {
-//     contractAddress = process?.env.CONTRACT_ADDRESS;
-//   }
-
-//   const configObjProcess = { network: process.env.NEAR_NETWORK as Network, callbackUrl: callbackUrl, contractAddress: contractAddress };
-   
-//   return setGlobalEnv(configObjProcess);
-// };
-
-
-// client-side method
-const mbjsConfig = (configObj: MBJS_CONFIG_PARAMS = CONFIG_KEYS): MbJsKeysObject => {
+// client-side / manual set method
+const setConfig = (configObj: MBJS_CONFIG_PARAMS = CONFIG_KEYS): MbJsKeysObject => {
   return setGlobalEnv(configObj);
 };
 
 export const mbjs = {
-  config: mbjsConfig,
+  config: setConfig,
   keys:  CONFIG_KEYS,
 };

@@ -59,6 +59,7 @@
         "ignoreUrls": true
       }
     ],
+    "no-nested-ternary": "error",
     "no-multiple-empty-lines": [
       "error",
       {
