@@ -26,8 +26,7 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
-
-  // Reference and media need to be present or explictly opted out of
+  // Reference and media need to be present or explicitly opted out of
   if (!noReference && !metadata.reference) {
     throw new Error(ERROR_MESSAGES.NO_REFERENCE);
   }
@@ -36,7 +35,8 @@ export const mint = (
   }
 
   if (splits) {
-    //0.5 -> 5000
+    // FIXME: suggest we use % (ints) vs float here
+    // 0.5 -> 5000
     adjustSplitsForContract(splits);
   }
 
@@ -62,8 +62,8 @@ export const mint = (
       owner_id: ownerId,
       metadata: metadata,
       num_to_mint: amount || 1,
-      // 10000 = 100%
-      royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10000 },
+      // 10_000 = 100% (see above note)
+      royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10_000 },
       split_owners: splits || null,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
@@ -76,7 +76,7 @@ function adjustSplitsForContract(splits: Record<string, number> ): void {
   let counter = 0;
   Object.keys(splits).forEach(key => {
     counter += splits[key];
-    splits[key] *= 10000;
+    splits[key] *= 10_000;
   });
   if (counter != 1) {
     throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);

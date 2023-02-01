@@ -21,15 +21,32 @@ The nftContactId can be supplied as an argument or through the `TOKEN_CONTRACT` 
 ```typescript
 export type MintArgs =  {
   //the contractId from which you want to mint
-  //can be specified through CONTRACT_ADDRESS enviroment var
+  //can be specified through CONTRACT_ADDRESS configuration / environment variables
   contractAddress?: string;
-  //url of reference material used to mint, this is typically a arweave or ipfs link
-  //you can upload to arweave easily using our storage module 'uploadFileToArweave' method
-  reference: string;
   //the intended owner of the token being minted
   ownerId: string;
+  // metadata including title, description and reference materials
+  metadata: TokenMetadata;
   options?: MintOptions;
+  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference?: boolean; // explicit opt-in to NFT without reference
 };
+
+export type TokenMetadata = {
+  title?: string;
+  description?: string;
+  media?: string;
+  media_hash?: string;
+  copies?: number;
+  issued_at?: string;  // Stringified unix timestamp, according to
+  expires_at?: string; // standards this is milliseconds since epoch, but
+  starts_at?: string;  // since `env::block_timestamp` is in nanoseconds
+  updated_at?: string; // most timestamps in the ecosystem are nanoseconds
+  extra?: string;
+  reference?: string;
+  reference_hash?: string;
+}
+
 
 export type MintOptions = {
     // 0 < royaltyPercentage < 0.5
@@ -61,16 +78,16 @@ import { useWallet } from '@mintbase-js/react';
 import { execute, mint, MintArgs } from '@mintbase-js/sdk';
 
 
-export const MintComponent = ({ reference, contractAddress, owner }:MintArgs): JSX.Element => {
- 
+export const MintComponent = ({ media, reference, contractAddress, owner }: MintArgs): JSX.Element => {
+
   const { selector } = useWallet();
 
   const handleMint = async (): Promise<void> => {
-    
+
     const wallet = await selector.wallet();
-    
+
     await execute(
-      mint({ contractAddress: contractAddress, reference: reference, ownerId: owner })
+      mint({ contractAddress: contractAddress, metadata: { media, reference }, ownerId: owner })
     );
 
   }
