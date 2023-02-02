@@ -1,10 +1,9 @@
 import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 import { list } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
-import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
+import { tokensByStatus, ownedTokens } from '@mintbase-js/data/lib/unwrap';
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
-import { ownedTokens } from '@mintbase-js/data';
 
 test('list a token', async () => {
   const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
@@ -32,7 +31,7 @@ test('list a token', async () => {
   const result = (await execute(
     { account: signingAccount },
     list({
-      nftContractId: TEST_TOKEN_CONTRACT,
+      contractAddress: TEST_TOKEN_CONTRACT,
       tokenId: tokenToList,
       price: '1',
     }),

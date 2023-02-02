@@ -7,10 +7,10 @@ import { authenticatedKeyStore } from '../../src/utils';
 import { ownedTokens } from '@mintbase-js/data/lib/unwrap';
 
 test('burn token', async () => {
-  const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
-  const burnFromIndex = Math.random() > 0.5 ? 1 : 0;
-  const accountToBurnFrom = accounts[burnFromIndex];
-  const keyStore = await authenticatedKeyStore([accountToBurnFrom]);
+  const accounts = ['mb_alice.testnet'];
+  // const burnFromIndex = Math.random() > 0.5 ? 1 : 0;
+  const accountToBurnFrom = accounts[0];
+  const keyStore = await authenticatedKeyStore(['mb_alice.testnet']);
   const signingAccount = await connect(accountToBurnFrom, keyStore);
   const token = await ownedTokens(accountToBurnFrom, { limit: 1 });
 

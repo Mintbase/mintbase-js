@@ -1,7 +1,7 @@
 import { TEST_TOKEN_CONTRACT } from '../../src/constants';
-import { buy, list } from '@mintbase-js/sdk/src';
+import { buy } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
-import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
+import { tokensByStatus } from '@mintbase-js/data/lib/unwrap';
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
 import { ownedTokens } from '@mintbase-js/data';
@@ -11,7 +11,7 @@ test('buy a token', async () => {
   const buyFromIndex = Math.random() > 0.5 ? 1 : 0;
   const buyIndex = buyFromIndex == 1? 0 : 1;
   const accountToBuyFrom = accounts[buyFromIndex];
-  const accountToBuy = accounts[buyIndex]; 
+  const accountToBuy = accounts[buyIndex];
   const keyStore = await authenticatedKeyStore([accountToBuy]);
   const signingAccount = await connect(accountToBuy, keyStore);
   const token = await ownedTokens(accountToBuy, { limit: 1 });
@@ -28,17 +28,16 @@ test('buy a token', async () => {
     return;
   }
   const tokenToBuy: string = listedTokens[0];
- 
+
 
   const result = (await execute(
     { account: signingAccount },
     buy({
-      nftContractId: TEST_TOKEN_CONTRACT,
+      contractAddress: TEST_TOKEN_CONTRACT,
       price: '1',
       tokenId: tokenToBuy,
     }),
   )) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();
-
 });

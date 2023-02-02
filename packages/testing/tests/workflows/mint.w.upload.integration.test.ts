@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import { TEST_TOKEN_CONTRACT } from '../src/constants';
+import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 import { execute, mint } from '@mintbase-js/sdk/src';
 import { uploadBuffer } from '@mintbase-js/storage';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { connect } from '@mintbase-js/auth';
-import { authenticatedKeyStore, writeGasTelemetryToFirestore } from '../src/utils';
+import { authenticatedKeyStore, writeGasTelemetryToFirestore } from '../../src/utils';
 
 test('upload media and mint tokens', async () => {
 
@@ -14,8 +14,8 @@ test('upload media and mint tokens', async () => {
   const signingAccount = await connect('mb_alice.testnet', keyStore);
 
   // upload media to arweave
-  const media = readFileSync(resolve(__dirname + '/../observatory.jpg'));
-  const mediaTwo = readFileSync(resolve(__dirname + '/../gas-station.jpg'));
+  const media = readFileSync(resolve(__dirname + '/../../observatory.jpg'));
+  const mediaTwo = readFileSync(resolve(__dirname + '/../../gas-station.jpg'));
   const { id: mediaIdOne, mimeType: mimeTypeOne } = await uploadBuffer(
     media,
     'observatory.jpg',

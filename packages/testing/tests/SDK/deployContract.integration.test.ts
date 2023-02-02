@@ -9,17 +9,18 @@ test('deploy contract', async () => {
   const keyStore = await authenticatedKeyStore([account]);
   const signingAccount = await connect(account, keyStore);
 
+  const contractOptions = {
+    name: makeRandomString(10),
+    ownerId: account,
+    metadata: {
+      symbol: 'test',
+    },
+  };
 
-  const result = (await execute(
+  const result = await execute(
     { account: signingAccount },
-    deployContract({
-      name: makeRandomString(10),
-      ownerId: account,
-      metadata: {
-        symbol: 'test',
-      },
-    }),
-  )) as FinalExecutionOutcome;
+    deployContract(contractOptions),
+  ) as FinalExecutionOutcome;
 
   expect(result.receipts_outcome).not.toBeUndefined();
 });

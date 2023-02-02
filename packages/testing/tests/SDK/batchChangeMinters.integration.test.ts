@@ -1,4 +1,4 @@
-import { batchChangeMinters } from '../../../sdk/src/batchChangeMinters/batchChangeMinters';
+import { batchChangeMinters } from '@mintbase-js/sdk/src/batchChangeMinters/batchChangeMinters';
 import { execute } from '@mintbase-js/sdk/src';
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';

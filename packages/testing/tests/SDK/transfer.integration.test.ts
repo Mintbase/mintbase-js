@@ -1,7 +1,7 @@
 import { connect } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
-import { transfer, execute, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk';
-import { ownedTokens } from '@mintbase-js/data';
+import { transfer, execute } from '@mintbase-js/sdk';
+import { ownedTokens } from '@mintbase-js/data/lib/unwrap';
 import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 
@@ -27,7 +27,7 @@ test('transfer token between two accounts', async () => {
   const result = (await execute(
     { account: signingAccount },
     transfer({
-      nftContractId: TEST_TOKEN_CONTRACT,
+      contractAddress: TEST_TOKEN_CONTRACT,
       transfers: [{ receiverId: accountTo, tokenId: token.tokenId }],
     }),
   )) as FinalExecutionOutcome;
