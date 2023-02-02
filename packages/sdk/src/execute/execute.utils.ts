@@ -1,10 +1,16 @@
 import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
-import { CallBackArgs, ContractCall, TxnOptionalSignerId, NearExecuteOptions, ExecuteArgsResponse } from '../types';
+import {
+  CallBackArgs,
+  ContractCall,
+  TxnOptionalSignerId,
+  NearExecuteOptions,
+  ExecuteArgsResponse,
+  ComposableCall,
+} from '../types';
 import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
-import { ComposableCall } from '../types';
 
 
 /**
