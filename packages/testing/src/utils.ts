@@ -1,5 +1,6 @@
 import { KeyPair, InMemoryKeyStore, KeyStore  } from '@mintbase-js/auth';
 import { SecretManagerServiceClient } from '@google-cloud/secret-manager';
+import { Firestore } from '@google-cloud/firestore';
 import { SECRETS_REPO_PATH } from './constants';
 
 const NEAR_NETWORK = process.env.NEAR_NETWORK || 'testnet';
@@ -24,4 +25,22 @@ export const authenticatedKeyStore = async (
   }
 
   return keyStore;
+};
+
+
+const GCP_PROJECT = 'omni-cloud-1';
+const TELEMETRY_COLLECTION = 'telemetry';
+const TELEMETRY_REF = 'gas';
+
+const db = new Firestore({
+  projectId: GCP_PROJECT,
+});
+
+export const writeGasTelemetryToFirestore = async(
+  data: object,
+): Promise<void> => {
+  await db
+    .collection(TELEMETRY_COLLECTION)
+    .doc(TELEMETRY_REF)
+    .set(data);
 };
