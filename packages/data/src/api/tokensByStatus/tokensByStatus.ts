@@ -6,7 +6,7 @@ import { TokenByStatusQueryResults, TokensByStatus } from './tokenByStatus.types
 import { tokensByStatusQuery } from './tokensByStatus.query';
 
 
-export const tokensByStatus = async (metadataId: string, ownedBy?: string, network?: Network ): Promise<ParsedDataReturn<TokensByStatus>> => {
+export const tokensByStatus = async (metadataId: string, ownedBy?: string, network?: Network): Promise<ParsedDataReturn<TokensByStatus>> => {
   const { data, error } = await fetchGraphQl<TokenByStatusQueryResults>({
     query: tokensByStatusQuery,
     variables: {
@@ -27,5 +27,14 @@ export const tokensByStatus = async (metadataId: string, ownedBy?: string, netwo
   };
 
   return parseData(finalData, error, errorMsg);
-  
+};
+
+
+export const tokensByStatusThrowOnError = async (metadataId: string, ownedBy?: string, network?: Network ): Promise<TokensByStatus> => {
+  const { data, error } = await tokensByStatus(metadataId, ownedBy, network);
+  if (error) {
+    console.error(`An error occurred fetching tokensByStatus ${error}`);
+    throw error;
+  }
+  return data;
 };

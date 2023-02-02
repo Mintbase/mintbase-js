@@ -35,4 +35,11 @@ describe('tokenListingCountsByMetaId', () => {
 
   });
 
+  it('should throw when called via throw on error', () => {
+    const errMessage = 'exploded';
+    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
+      request: (): Promise<OwnedTokensQueryResult> => Promise.reject(new Error(errMessage)),
+    }));
+    expect(ownedTokens('test.id', { limit: 1 })).rejects.toBe(errMessage);
+  });
 });

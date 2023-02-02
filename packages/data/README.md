@@ -2,15 +2,21 @@
 
 # @mintbase-js/data
 
-Built-in methods to help fetch data from our indexer.
-These methods aim to make it as easy as possible to get blockchain data.
-If the data you want to get is more specific or isn't covered in any of these methods check out our GraphQl Indexer where you can get as specific as you need!
+Built-in methods to help fetch data from our indexer. These methods aim to make it as easy as possible to get blockchain data.
 
-# config vars
+If the data you want to get is more specific also check out our [GraphQL schema](https://docs.mintbase.xyz/dev/mintbase-graph) instead.
 
-read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+# Source Configuration
 
-# methods
+You can set network and in some cases default contract configuration using the SDK's `mbjs.config` method. Read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
+## Usage Options
+
+The default export methods return a wrapped result object with error and data properties. For example `const { error, data } = myApiMethod()` will provide any network errors inside of error in the event of failure, and the expected result in data on success.
+
+If you prefer to catch errors, you can import the method from `@mintbase-js/data/lib/unwrap` instead. e.g. `import { ownedTokens } from '@mintbase-js/data/lib/unwrap` which will re-throw in the event of an error.
+
+# API Methods
 
 | method name | params | description |
 |--|--|--|

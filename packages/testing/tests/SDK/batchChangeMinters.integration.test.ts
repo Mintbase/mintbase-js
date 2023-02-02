@@ -12,12 +12,12 @@ test('batch change minters integration test', async () => {
 
 
   const add = batchChangeMinters({
-    nftContractId: nftContractId,
+    contractAddress: nftContractId,
     addMinters: minter,
   });
 
   const remove = batchChangeMinters({
-    nftContractId: nftContractId,
+    contractAddress: nftContractId,
     removeMinters: minter,
   });
 
