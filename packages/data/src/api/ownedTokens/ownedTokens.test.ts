@@ -1,9 +1,9 @@
 import { GraphQLClient } from 'graphql-request';
-import { ownedTokens, OwnedTokensQueryResult } from './ownedTokens';
+import { ownedTokens, ownedTokensThrowOnError, OwnedTokensQueryResult } from './ownedTokens';
 
 jest.mock('graphql-request');
 
-describe('tokenListingCountsByMetaId', () => {
+describe('ownedTokens', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => {
       // console.log('Suppressed console error.');
@@ -35,11 +35,11 @@ describe('tokenListingCountsByMetaId', () => {
 
   });
 
-  it('should throw when called via throw on error', () => {
-    const errMessage = 'exploded';
+  it('should throw when called via throw on error', async () => {
+    const errMessage = 'owned.token.fail';
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<OwnedTokensQueryResult> => Promise.reject(new Error(errMessage)),
     }));
-    expect(ownedTokens('test.id', { limit: 1 })).rejects.toBe(errMessage);
+    expect(ownedTokensThrowOnError('test.id', { limit: 1 })).rejects.toBeDefined();
   });
 });

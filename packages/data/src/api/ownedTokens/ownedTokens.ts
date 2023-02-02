@@ -24,7 +24,7 @@ export const ownedTokens = async (
     ...(network && { network:network }),
   });
 
-  const errorMsg = error? `Error fetching token listing counts, ${error}`: '';
+  const errorMsg = error ? `Error fetching token listing counts, ${error}` : undefined;
 
   return parseData<Token[]>(data?.tokens, error, errorMsg);
 
@@ -38,7 +38,7 @@ export const ownedTokensThrowOnError = async (
   const { data, error } = await ownedTokens(ownerId, pagination, network);
   if (error) {
     console.error(`An error occurred fetching ownedTokens ${error}`);
-    throw error;
+    throw new Error(error);
   }
   return data;
 };
