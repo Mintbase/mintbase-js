@@ -1,16 +1,16 @@
 import { TEST_TOKEN_CONTRACT } from '../../src/constants';
-import { burn, MAX_GAS, ONE_YOCTO } from '@mintbase-js/sdk/src';
+import { burn } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
-import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
+import { tokensByStatus } from '@mintbase-js/data/lib/unwrap';
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
-import { ownedTokens } from '@mintbase-js/data';
+import { ownedTokens } from '@mintbase-js/data/lib/unwrap';
 
 test('burn token', async () => {
-  const accounts = ['mb_alice.testnet', 'mb_bob.testnet'];
-  const burnFromIndex = Math.random() > 0.5 ? 1 : 0;
-  const accountToBurnFrom = accounts[burnFromIndex];
-  const keyStore = await authenticatedKeyStore([accountToBurnFrom]);
+  const accounts = ['mb_alice.testnet'];
+  // const burnFromIndex = Math.random() > 0.5 ? 1 : 0;
+  const accountToBurnFrom = accounts[0];
+  const keyStore = await authenticatedKeyStore(['mb_alice.testnet']);
   const signingAccount = await connect(accountToBurnFrom, keyStore);
   const token = await ownedTokens(accountToBurnFrom, { limit: 1 });
 
@@ -34,10 +34,10 @@ test('burn token', async () => {
     return;
   }
 
-  const result = (await execute(  
+  const result = (await execute(
     { account: signingAccount },
     burn({
-      nftContractId: TEST_TOKEN_CONTRACT,
+      contractAddress: TEST_TOKEN_CONTRACT,
       tokenIds: tokenToBurn,
     }),
   )) as FinalExecutionOutcome;

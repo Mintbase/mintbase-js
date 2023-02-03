@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { execute } from './execute';
 import { MAX_GAS, ONE_YOCTO } from '../constants';
 import { NoSigningMethodPassedError } from '../errors';
@@ -68,7 +69,7 @@ describe('contract method calls (execute)', () => {
       // callbackUrl: testCallbackUrl,
       receiverId: testContract,
       signerId: testSigner,
-    }] , 'callbackUrl': testCallbackUrl };
+    }], 'callbackUrl': testCallbackUrl };
 
     expect(mockNearSelectorWallet.signAndSendTransactions)
       .toHaveBeenCalledWith(transactions);

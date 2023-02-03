@@ -4,6 +4,10 @@
     "docs",
     "react",
     "auth",
-    "all"
+    "all",
+    "integration",
+    "storage",
+    "data",
+    "rpc"
   ]
 }

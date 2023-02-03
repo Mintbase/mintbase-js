@@ -11,9 +11,9 @@ export type OwnedTokensQueryResult = {
 export const ownedTokens = async (
   ownerId: string,
   { limit, offset = 0 }: Pagination,
-  network?: Network,  
+  network?: Network,
 ): Promise<ParsedDataReturn<Token[]>> => {
-  
+
   const { data, error } = await fetchGraphQl<OwnedTokensQueryResult>({
     query: ownedTokensQuery,
     variables: {
@@ -24,8 +24,21 @@ export const ownedTokens = async (
     ...(network && { network:network }),
   });
 
-  const errorMsg = error? `Error fetching token listing counts, ${error}`: '';
+  const errorMsg = error ? `Error fetching token listing counts, ${error}` : undefined;
 
-  return parseData<Token[]>(data?.tokens,error,errorMsg);
+  return parseData<Token[]>(data?.tokens, error, errorMsg);
 
+};
+
+export const ownedTokensThrowOnError = async (
+  ownerId: string,
+  pagination: Pagination,
+  network?: Network,
+): Promise<Token[]> => {
+  const { data, error } = await ownedTokens(ownerId, pagination, network);
+  if (error) {
+    console.error(`An error occurred fetching ownedTokens ${error}`);
+    throw new Error(error);
+  }
+  return data;
 };

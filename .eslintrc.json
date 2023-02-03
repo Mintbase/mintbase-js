@@ -38,6 +38,7 @@
       "error",
       "always-multiline"
     ],
+    "comma-spacing": ["error", { "before": false, "after": true }],
     "consistent-return": "error",
     "curly": "error",
     "eol-last": [
@@ -58,6 +59,7 @@
         "ignoreUrls": true
       }
     ],
+    "no-nested-ternary": "error",
     "no-multiple-empty-lines": [
       "error",
       {

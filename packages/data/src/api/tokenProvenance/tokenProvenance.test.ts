@@ -7,6 +7,7 @@ import { errorToken, errorContractAddress } from './tokenProvenance.errors';
 jest.mock('graphql-request');
 
 describe('tokenProvenance', () => {
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();
@@ -21,7 +22,7 @@ describe('tokenProvenance', () => {
       request: (): Promise<TokenProvenanceData> => Promise.resolve(tokenProvenanceMock),
     }));
 
-    const result = await tokenProvenance('2','test.mintbase1.near',{ limit: 12, offset: 0 });
+    const result = await tokenProvenance('2', 'test.mintbase1.near', { limit: 12, offset: 0 });
 
     expect(result?.data).toEqual(
       tokenProvenanceMock,
@@ -34,7 +35,7 @@ describe('tokenProvenance', () => {
       request: (): Promise<TokenProvenanceData> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await tokenProvenance('1','test.mintbase1.near',{ limit: 12, offset: 0 });
+    const call = await tokenProvenance('1', 'test.mintbase1.near', { limit: 12, offset: 0 });
 
     expect(call).toStrictEqual({ error: errMessage });
 

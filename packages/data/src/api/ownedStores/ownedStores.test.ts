@@ -6,6 +6,7 @@ import { ownedStores } from './ownedStores';
 jest.mock('graphql-request');
 
 describe('ownedStores', () => {
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();

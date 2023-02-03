@@ -7,6 +7,7 @@ import { storeListedNftsMock, storeNftsMock } from './storeNfts.mock';
 jest.mock('graphql-request');
 
 describe('storeNfts', () => {
+  jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
     jest.resetAllMocks();
     jest.restoreAllMocks();

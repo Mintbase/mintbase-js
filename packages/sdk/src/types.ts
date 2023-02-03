@@ -57,21 +57,23 @@ export enum RPC_ENDPOINTS  {
 }
 
 
-export type MBJS_CONFIG_PARAMS = {
-  network: Network | string;
+export type ConfigOptions = {
+  network?: Network | string;
   contractAddress?: string;
   callbackUrl?: string;
+  apiKey?: string;
 }
 
-export interface MbJsConfigObj extends MBJS_CONFIG_PARAMS {
+export interface ConfigOptionsObj extends ConfigOptions {
   graphqlUrl?: GRAPHQL_ENDPOINTS | '';
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS;
   nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
+  apiKey?: string;
 }
 
-export interface MbJsKeysObject extends MbJsConfigObj  {
+export interface MbJsKeysObject extends ConfigOptionsObj  {
  isSet: boolean;
 }
 
@@ -108,6 +110,7 @@ export type ContractCall<T> = {
   };
 
 export type NearContractCall<T> = ContractCall<T> | ContractCall<T>[]
+export type ComposableCall = NearContractCall<ExecuteArgsResponse> | NearContractCall<ExecuteArgsResponse>[]
 
 export type NearExecuteOptions = {
   wallet?: Wallet;
@@ -231,10 +234,6 @@ export interface OldTransferContractOwnershipArgs {
 }
 
 export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
-
-
-// NearContractCall Args
-
 
 export interface MinterArgsResponse {
   account_id: string;

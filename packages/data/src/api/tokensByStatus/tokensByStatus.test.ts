@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
-import { tokensByStatus } from './tokensByStatus';
+import { tokensByStatus, tokensByStatusThrowOnError } from './tokensByStatus';
 import { TOKEN_RESULT_MOCK }  from './tokenByStatus.mock';
 import { TokenByStatusQueryResults, TokensByStatus } from './tokenByStatus.types';
 
@@ -26,7 +26,7 @@ describe('getTokensFromMetaId', () => {
   });
 
   it('should show correct values for each type', async () => {
-  
+
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       request: (): Promise<TokenByStatusQueryResults> =>
@@ -40,5 +40,13 @@ describe('getTokensFromMetaId', () => {
     expect(listedTokens).toStrictEqual([TOKEN_RESULT_MOCK.listedTokens.nodes[0].token_id]);
     expect(burnedTokens).toStrictEqual([TOKEN_RESULT_MOCK.burnedTokens.nodes[0].token_id]);
     expect(unlistedTokens).toStrictEqual([TOKEN_RESULT_MOCK.unburnedTokens.nodes[0].token_id, TOKEN_RESULT_MOCK.unburnedTokens.nodes[1].token_id]);
+  });
+
+  it('should throw when calling via throw on error', () => {
+    const errMessage = 'exploded';
+    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
+      request: (): Promise<TokensByStatus> => Promise.reject(new Error(errMessage)),
+    }));
+    expect(tokensByStatusThrowOnError('test.id')).rejects.toBe(errMessage);
   });
 });

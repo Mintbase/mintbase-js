@@ -19,6 +19,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "@google-cloud/firestore": "^6.4.2",
     "@google-cloud/secret-manager": "^4.1.4",
     "@mintbase-js/auth": "^0.1.0-alpha.84",
     "@mintbase-js/sdk": "^0.1.0-alpha.84",

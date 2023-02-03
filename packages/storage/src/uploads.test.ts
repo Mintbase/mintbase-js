@@ -1,6 +1,6 @@
-import { uploadBuffer, MAX_UPLOAD_BYTES } from './uploads';
+import { uploadBuffer } from './uploads';
 import superagent from 'superagent';
-import { MAX_UPLOAD_ERROR_MSG } from './constants';
+import { MAX_UPLOAD_ERROR_MSG, MAX_UPLOAD_BYTES } from './constants';
 
 jest.mock('superagent', () => ({
   post: jest.fn().mockReturnThis(),

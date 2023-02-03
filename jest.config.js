@@ -12,5 +12,4 @@ module.exports = {
     '@near-wallet-selector/meteor-wallet': '<rootDir>/jest.stub.js',
     '@here-wallet/core/build/strategy': '<rootDir>/jest.stub.js',
   },
-  setupFilesAfterEnv: ['../../jest.setup.tsx'],
 };

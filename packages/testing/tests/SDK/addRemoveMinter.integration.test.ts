@@ -13,12 +13,12 @@ test('add and remove minter integration test', async () => {
 
 
   const add = addMinter({
-    nftContractId: nftContractId,
+    contractAddress: nftContractId,
     minterId: minterId,
   });
 
   const remove = removeMinter({
-    nftContractId: nftContractId,
+    contractAddress: nftContractId,
     minterId: minterId,
   });
 

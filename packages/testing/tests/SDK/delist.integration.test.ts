@@ -1,9 +1,8 @@
 import { delist } from '@mintbase-js/sdk/src';
 import { execute } from '@mintbase-js/sdk/src';
-import { tokensByStatus } from '@mintbase-js/data/src/api/tokensByStatus/tokensByStatus';
+import { tokensByStatus, ownedTokens } from '@mintbase-js/data/lib/unwrap';
 import { connect, FinalExecutionOutcome } from '@mintbase-js/auth';
 import { authenticatedKeyStore } from '../../src/utils';
-import { ownedTokens } from '@mintbase-js/data';
 import { TEST_TOKEN_CONTRACT } from '../../src/constants';
 
 test('delist a token', async () => {
@@ -32,11 +31,10 @@ test('delist a token', async () => {
     { account: signingAccount },
     delist({
       tokenIds: [listedTokens[0]],
-      nftContractId: TEST_TOKEN_CONTRACT,
+      contractAddress: TEST_TOKEN_CONTRACT,
     }),
   )) as FinalExecutionOutcome[];
 
   expect(result[0].receipts_outcome).not.toBeUndefined();
   expect(result[1].receipts_outcome).not.toBeUndefined();
-
 });

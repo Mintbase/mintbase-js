@@ -28,7 +28,7 @@ export const useOwnedNftsByStore = (
 
     if (loading && validParams) {
       (async (): Promise<void> => {
-        const { data, error } = await ownedNftsByStore(ownerId,contract,pagination);
+        const { data, error } = await ownedNftsByStore(ownerId, contract, pagination);
 
         if (error) {
           setError(error as string);
