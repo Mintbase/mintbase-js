@@ -1,7 +1,8 @@
+import BN from 'bn.js';
 import { mbjs } from '../config/config';
-import { GAS, ONE_YOCTO } from '../constants';
+import { DEPOSIT_CONSTANTS, GAS, ONE_YOCTO, YOCTO_PER_BYTE, MINTING_FEE } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { MintArgs, MintArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES } from '../types';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -68,7 +69,12 @@ export const mint = (
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,
-    deposit: ONE_YOCTO,
+    deposit: mintingDeposit({
+      nTokens: amount,
+      nRoyalties: !splits ? 0 : Object.keys(splits).length,
+      nSplits: splits ? Object.keys(splits).length : 0,
+      metadata,
+    }),
   };
 };
 
@@ -81,4 +87,33 @@ function adjustSplitsForContract(splits: Record<string, number> ): void {
   if (counter != 1) {
     throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
   }
+}
+
+function mintingDeposit({
+  nTokens,
+  nSplits,
+  nRoyalties,
+  metadata,
+}: {
+  nTokens: number;
+  nSplits: number;
+  nRoyalties: number;
+  metadata: TokenMetadata;
+}): string {
+  const commonDeposit = new BN(DEPOSIT_CONSTANTS.STORE_COMMON);
+  const royaltiesDeposit = commonDeposit.mul(new BN(nRoyalties));
+  const splitsDeposit = commonDeposit.mul(new BN(nRoyalties));
+  const mintingFee = new BN(MINTING_FEE);
+
+  // JSON serialization should give us an estimate that's always higher than
+  // borsh serialization
+  const metadataDeposit = new BN(YOCTO_PER_BYTE).mul(new BN(JSON.stringify(metadata).length));
+  const depositPerToken = new BN(DEPOSIT_CONSTANTS.STORE_TOKEN).add(splitsDeposit);
+
+  const total = commonDeposit
+    .add(mintingFee)
+    .add(royaltiesDeposit)
+    .add(metadataDeposit)
+    .add(new BN(nTokens).mul(depositPerToken));
+  return total.toString();
 }
