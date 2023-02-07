@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
 import { contractAttributes } from './contractAttributes';
 import { ContractAttributesDataResults } from './contractAttributes.types';
