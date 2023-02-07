@@ -27,6 +27,7 @@ read about config global variables on: [Config SDK method](https://docs.mintbase
 | [storeData](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeData/README.md) | `contractAddress: string | string[]` |get store data by certain contract or contracts|
 | [storeNfts](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/storeNfts/README.md) | `contractAddress: string | string[], showOnlyListed?: boolean, pagination?: {limit: number, offset:number}` |get store nfts by certain contract|
 | [metadataByMetadataId](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/metadataByMetadataId/README.md) | `metadataId: string` |get metadata by metadataId|
+| [contractAttributes](https://github.com/Mintbase/mintbase-js/tree/alpha/packages/data/src/api/contractAttributes/README.md) | `contractAddress: string` |get contract attributes by certain contract|
 
 While we will continue to provide public and our new mb_views schema objects, we will also begin to introduce helper methods here that can be used to query data **without having to write any graphql**.
 
