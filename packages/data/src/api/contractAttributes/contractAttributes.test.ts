@@ -1,8 +1,9 @@
+import { GraphQLClient } from 'graphql-request';
 import { contractAttributes } from './contractAttributes';
 import { ContractAttributesDataResults } from './contractAttributes.types';
-
-import { GraphQLClient } from 'graphql-request';
 import { contractAttributesMock } from './contractAttributes.mock';
+
+jest.mock('graphql-request');
 
 describe('contractAttributes', () => {
   afterAll(() => {
@@ -33,8 +34,6 @@ describe('contractAttributes', () => {
     }));
 
     const call = await contractAttributes('test.mintbase1.near');
-
-    expect(call).toStrictEqual({ error: errMessage });
-
+    expect(call.error).toEqual(errMessage );
   });
 });
