@@ -1,29 +1,47 @@
 import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
-import { ParsedDataReturn } from '../../types';
+import { Pagination, ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
-import { tokenOwnerQuery } from './tokenOwner.query';
-import { TokenOwnerQueryResult } from './tokenOwner.types';
+import { tokensByAttributesQuery } from './tokensByAttributes.query';
+import { AttributesFilters, TokensByAttributesDataResults } from './tokensByAttributes.types';
 
 export const tokenOwner = async (
-  tokenId: string,
-  contractAddress: string,
-  network?: Network,  
+  filters: AttributesFilters,
 ): Promise<ParsedDataReturn<string>> => {
-  const { data, error } = await fetchGraphQl<TokenOwnerQueryResult>({
-    query: tokenOwnerQuery,
-    variables: {
-      tokenId,
-      contractAddress,
-    },
-    ...(network && { network:network }),
-  });
+  // const { data, error } = await fetchGraphQl<TokensByAttributesDataResults>({
+  //   query: tokensByAttributesQuery,
+  //   variables: {
+  //     contractAddress,
+  //     search_fields: null,
+  //     limit: pagination?.limit ?? 12,
+  //     offset: pagination?.offset ?? 0,
+  //   },
+  //   ...(network && { network:network }),
+  // });
 
-  const errorMsg = error ? `Error fetching token owner, ${error}` : '';
+  let data;
+  let error: string;
 
-  return parseData<string>(
-    data?.mb_views_nft_tokens[0]?.owner,
+  try {
+    const res = await fetch('https://meta.mintbase.xyz/filter', {
+      method: 'POST',
+      body: JSON.stringify(filters),
+      headers: { 'Content-type': 'application/json' },
+    });
+
+    if (!res.ok) {
+      error = 'Error fetching filtered data';
+    }
+
+    data = await res.json();
+  } catch (err) {
+    error = `Error fetching filtered data, ${err}`;
+  }
+
+
+  return parseData<any>(
+    data,
     error,
-    errorMsg,
+    error,
   );
 };

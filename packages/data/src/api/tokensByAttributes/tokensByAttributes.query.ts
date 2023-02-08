@@ -4,15 +4,16 @@ import { QUERY_OPS_PREFIX } from '../../constants';
 export const tokensByAttributesQuery = gql`
 query ${QUERY_OPS_PREFIX}_getTokensByAttributes(
   $contractAddress: String!
+  $search_fields: [mb_views_nft_tokens_bool_exp!]
   $limit: String!
   $offset: String!
 ) {
   mb_views_nft_tokens(
     where: {
-      nft_contract_id: { _eq: $contractAddress }
+      nft_contract_id: { _eq: $contractAddress }, _and: $search_fields
     }
     limit: $limit
-    $offset: $offset
+    offset: $offset
   ) {
     baseUri: base_uri
     burnedReceiptId: burned_receipt_id
@@ -45,8 +46,8 @@ query ${QUERY_OPS_PREFIX}_getTokensByAttributes(
     tokenId: token_id
   }
 
-  mb_views_nft_tokens_aggregate(    where: {
-    nft_contract_id: { _eq: $contractAddress }
+  mb_views_nft_tokens_aggregate(where: {
+    nft_contract_id: { _eq: $contractAddress }, _and: $search_fields
   }) {
     aggregate {
       count

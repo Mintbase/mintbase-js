@@ -5,3 +5,10 @@ export interface TokensByAttributesDataResults  {
 export interface TokenOwner  {
     owner: string;
 }
+
+export interface AttributesFilters {
+    contract_id: string;
+    filters: { [key: string]: string[] };
+    limit?: number;
+    offset?: number;
+}
