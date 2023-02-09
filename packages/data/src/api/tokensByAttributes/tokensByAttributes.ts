@@ -4,6 +4,8 @@ import { parseData } from '../../utils';
 import { AttributesFilters, FilteredMetadataResult } from './tokensByAttributes.types';
 import 'isomorphic-fetch';
 
+export { FilteredMetadataResult, AttributesFilters };
+
 export const tokensByAttributes = async (
   contractId: string,
   filters: AttributesFilters,
