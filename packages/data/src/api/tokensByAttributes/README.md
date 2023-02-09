@@ -1,34 +1,36 @@
-[//]: # `{ "title": "tokenOwner", "order": "1.0.6" }`
+[//]: # `{ "title": "tokensByAttributes", "order": "1.0.7" }`
 
-# tokenOwner
+# tokensByAttributes
 
-{% hint style="warning" %}
+Returns a list of token items (metadata) which match the contract id and passed filters.
 
-This is a work in progress, please reach out to us on [Telegram](https://t.me/mintdev) for support.
-For the most reliable data, reference our [existing graphql docs](https://docs.mintbase.io/dev/read-data/mintbase-graph).
-
-{% endhint %}
-
-Returns token owner by `tokenId` and `contractAddress`.
-
-### tokenOwner(tokenId: string, contractAddress: string)
-
-This is an example of a data api method.
+### tokensByAttributes(contractId: string, filters: string): Promise<FilteredMetadataResult[]>
 
 Example:
 
-{% code title="queryTokens.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="filteredQuery.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
-import { tokenOwner } from "@mintbase-js/data";
+import { tokensByAttributes } from "@mintbase-js/data";
 
-const { data, error } = await tokenOwner("1", "mintbase.mintbase1.near");
+const query = {
+  filters: {
+    'eyes': ['blue', 'green'], // blue or green eyes
+    'face': ['pretty'], // with a pretty face
+  },
+  limit: 10,
+  offset: 0,
+};
+const { data, error } = await tokensByAttributes(
+  'some-nfts.contract.near',
+  filters
+);
 
 if (error) {
   console.log("error", error);
 }
 
-console.log(data); // => "nate.near"
+console.log(data); // => "[{ title: 'Woah betty', ...}]"
 ```
 
 {% endcode %}

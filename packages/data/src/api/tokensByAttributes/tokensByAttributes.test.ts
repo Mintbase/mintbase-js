@@ -1,11 +1,11 @@
-import { GraphQLClient } from 'graphql-request';
-import { tokenOwner } from './tokenOwner';
-import { tokenOwnerMock } from './tokenOwner.mock';
-import { TokenOwnerQueryResult } from './tokenOwner.types';
 
-jest.mock('graphql-request');
+import { META_SERVICE_HOST } from '../../constants';
+import { tokensByAttributes, tokensByAttributesThrowOnError } from './tokensByAttributes';
 
-describe('getTokenOwnerByTokenIdAndContractId', () => {
+import fetchMock from 'fetch-mock';
+import { FilteredMetadataResult } from './tokensByAttributes.types';
+
+describe('tokensByAttributes', () => {
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => {
       // console.log('Suppressed console error.');
@@ -13,23 +13,45 @@ describe('getTokenOwnerByTokenIdAndContractId', () => {
   });
 
   it('returns data', async () => {
-    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokenOwnerQueryResult> =>
-        Promise.resolve(tokenOwnerMock),
-    }));
-    const result = await tokenOwner('test.id', 'contract.id');
-    expect(result?.data).toStrictEqual('test.near');
+    fetchMock.mock(`begin:${META_SERVICE_HOST}`, { body: [{ tokenId: '123' }] });
+    const query = {
+      filters: {
+        'eyes': ['blue', 'green'],
+        'face': ['busted'],
+      },
+      limit: 10,
+      offset: 0,
+    };
+    const { data } = await tokensByAttributes('contract.id', query);
+    expect((data as Partial<FilteredMetadataResult>[]).length).toBeGreaterThan(0);
   });
 
-  it('should handle errors', async () => {
-    const errMessage = 'exploded';
-    (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<TokenOwnerQueryResult> =>
-        Promise.reject(new Error(errMessage)),
-    }));
+  it('returns errors', async () => {
+    fetchMock.mock(`begin:${META_SERVICE_HOST}`, 504, { overwriteRoutes: true });
+    const query = {
+      filters: {
+        'eyes': ['blue', 'green'],
+        'face': ['busted'],
+      },
+      limit: 10,
+      offset: 0,
+    };
+    const { error } = await tokensByAttributes('contract.id', query);
+    expect(error).toBeDefined();
+  });
 
-    const call = await tokenOwner('test.id', 'contract.id');
-
-    expect(call).toStrictEqual({ error: errMessage });
+  it('throws errors when unwrapped version is called', () => {
+    fetchMock.mock(`begin:${META_SERVICE_HOST}`, 504, { overwriteRoutes: true });
+    const query = {
+      filters: {
+        'eyes': ['blue', 'green'],
+        'face': ['busted'],
+      },
+      limit: 10,
+      offset: 0,
+    };
+    expect(tokensByAttributesThrowOnError('contract.id', query)).rejects.toBeDefined();
   });
 });
+
+

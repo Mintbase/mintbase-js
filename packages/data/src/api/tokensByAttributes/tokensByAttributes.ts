@@ -1,29 +1,19 @@
-import { Network } from '@mintbase-js/sdk';
-import { fetchGraphQl } from '../../graphql/fetch';
-import { Pagination, ParsedDataReturn } from '../../types';
+import { META_SERVICE_HOST } from '../../constants';
+import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
-import { tokensByAttributesQuery } from './tokensByAttributes.query';
-import { AttributesFilters, TokensByAttributesDataResults } from './tokensByAttributes.types';
+import { AttributesFilters, FilteredMetadataResult } from './tokensByAttributes.types';
+import 'isomorphic-fetch';
 
-export const tokenOwner = async (
+export const tokensByAttributes = async (
+  contractId: string,
   filters: AttributesFilters,
-): Promise<ParsedDataReturn<string>> => {
-  // const { data, error } = await fetchGraphQl<TokensByAttributesDataResults>({
-  //   query: tokensByAttributesQuery,
-  //   variables: {
-  //     contractAddress,
-  //     search_fields: null,
-  //     limit: pagination?.limit ?? 12,
-  //     offset: pagination?.offset ?? 0,
-  //   },
-  //   ...(network && { network:network }),
-  // });
+): Promise<ParsedDataReturn<FilteredMetadataResult[]>> => {
 
   let data;
   let error: string;
 
   try {
-    const res = await fetch('https://meta.mintbase.xyz/filter', {
+    const res = await fetch(`${META_SERVICE_HOST}/${contractId}/filter`, {
       method: 'POST',
       body: JSON.stringify(filters),
       headers: { 'Content-type': 'application/json' },
@@ -31,6 +21,7 @@ export const tokenOwner = async (
 
     if (!res.ok) {
       error = 'Error fetching filtered data';
+      throw new Error(error);
     }
 
     data = await res.json();
@@ -38,10 +29,22 @@ export const tokenOwner = async (
     error = `Error fetching filtered data, ${err}`;
   }
 
-
-  return parseData<any>(
+  return parseData<FilteredMetadataResult[]>(
     data,
     error,
     error,
   );
+};
+
+export const tokensByAttributesThrowOnError = async (
+  contractId: string,
+  filters: AttributesFilters,
+): Promise<FilteredMetadataResult[]> => {
+  const { data, error } = await tokensByAttributes(contractId, filters);
+  if (error) {
+    console.error(error);
+    throw new Error(error);
+  }
+
+  return data;
 };
