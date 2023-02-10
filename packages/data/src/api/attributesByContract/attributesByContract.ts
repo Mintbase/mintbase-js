@@ -1,9 +1,7 @@
 import { META_SERVICE_HOST } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
-import 'isomorphic-fetch';
-
-export type Attributes = Record<string, { name: string; count: number }[]>
+import { Attributes } from './attributesByContract.type';
 
 export const attributesByContract = async (
   contractId: string,

@@ -1,7 +1,8 @@
 
 import { META_SERVICE_HOST } from '../../constants';
-import { Attributes, attributesByContract, attributesByContractThrowOnError } from './attributesByContract';
+import { attributesByContract, attributesByContractThrowOnError } from './attributesByContract';
 import fetchMock from 'fetch-mock';
+import { Attributes } from './attributesByContract.type';
 
 describe('tokensByAttributes', () => {
   beforeEach(() => {
