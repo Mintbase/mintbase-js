@@ -10,6 +10,7 @@ export * from './tokenListingCountsByMetaId/tokenListingCountsByMetaId';
 export * from './tokenOwner/tokenOwner';
 export * from './tokenOwnersByMetadataId/tokenOwnersByMetadataId';
 export * from './tokenProvenance/tokenProvenance';
+export * from './tokensByAttributes/tokensByAttributes';
 export * from './storeNfts/storeNfts';
 export * from './storeData/storeData';
 export * from './contractAttributes/contractAttributes';
