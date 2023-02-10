@@ -6,7 +6,7 @@ import { STORE_NAME_MOCK } from './checkStoreName.mock';
 
 jest.mock('graphql-request');
 
-describe('storeData', () => {
+describe('checkStoreName', () => {
   jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
     jest.resetAllMocks();
