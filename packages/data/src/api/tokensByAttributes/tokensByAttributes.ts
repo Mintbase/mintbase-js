@@ -2,7 +2,6 @@ import { META_SERVICE_HOST } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { AttributesFilters, FilteredMetadataResult } from './tokensByAttributes.types';
-import 'isomorphic-fetch';
 
 export { FilteredMetadataResult, AttributesFilters };
 
