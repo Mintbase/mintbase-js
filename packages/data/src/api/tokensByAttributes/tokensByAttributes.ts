@@ -1,4 +1,5 @@
-import { META_SERVICE_HOST } from '../../constants';
+import { mbjs } from '@mintbase-js/sdk';
+import { META_SERVICE_HOST, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { AttributesFilters, FilteredMetadataResult } from './tokensByAttributes.types';
@@ -17,7 +18,9 @@ export const tokensByAttributes = async (
     const res = await fetch(`${META_SERVICE_HOST}/${contractId}/filter`, {
       method: 'POST',
       body: JSON.stringify(filters),
-      headers: { 'Content-type': 'application/json' },
+      headers: { 'Content-type': 'application/json', 
+        [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
+      },
     });
 
     if (!res.ok) {

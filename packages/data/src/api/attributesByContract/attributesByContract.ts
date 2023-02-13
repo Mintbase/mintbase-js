@@ -1,4 +1,5 @@
-import { META_SERVICE_HOST } from '../../constants';
+import { mbjs } from '@mintbase-js/sdk';
+import { META_SERVICE_HOST, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { Attributes } from './attributesByContract.type';
@@ -11,8 +12,13 @@ export const attributesByContract = async (
   let error: string;
 
   try {
-    const res = await fetch(`${META_SERVICE_HOST}/${contractId}/attributes`);
-
+    const res = await fetch(`${META_SERVICE_HOST}/${contractId}/attributes`, {
+      method: 'POST',
+      headers: {
+        [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
+      },
+    });
+    
     if (!res.ok) {
       error = 'Error fetching attributes data';
       throw new Error(error);
