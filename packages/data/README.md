@@ -25,13 +25,14 @@ ex:
 ```typescript
 
 import { QUERIES, fetchGraphQl } from '@mintbase-js/data'
+import { mbjs } from '@mintbase-js/sdk'
 
-const myFetchMethod = () => {
+const myFetchMethod = ({showOnlyListed, pagination, network}) => {
     const { data, error } = await fetchGraphQl<MyResultType>({
       query: QUERIES.storeNftsQuery,
       variables: {
         condition: {
-          nft_contract_id: { _in: contractAddress },
+          nft_contract_id: { _in: mbjs.keys.contractAddress },
           ...(showOnlyListed && { price: { _is_null: false } }),
         },
         limit: pagination?.limit ?? 12,
