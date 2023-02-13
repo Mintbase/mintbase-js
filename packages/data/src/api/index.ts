@@ -15,3 +15,4 @@ export * from './storeNfts/storeNfts';
 export * from './storeData/storeData';
 export * from './checkStoreName/checkStoreName';
 export * from './attributesByContract/attributesByContract';
+export * from './queries';
