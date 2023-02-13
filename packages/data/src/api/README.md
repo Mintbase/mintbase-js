@@ -22,3 +22,5 @@ Currently, these wrappers are methods for the [GraphQL API](https://docs.mintbas
 | [storeData](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/storeData/README.md) | `contractAddress: string | string[]` |get store data by certain contract or contracts|
 | [storeNfts](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/storeNfts/README.md) | `contractAddress: string | string[], showOnlyListed?: boolean, pagination?: {limit: number, offset:number}` |get store nfts by certain contract|
 | [metadataByMetadataId](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/metadataByMetadataId/README.md) | `metadataId: string` |get metadata by metadataId|
+| [tokenByAttributes](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/tokenByAttributes/README.md) | `contractId: string, filters: AttributesFilters` |get tokens of a certain contract and filters|
+| [attributesByContract](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/attributesByContract/README.md) | `contractId: string` |get attributes of a certain contract|
