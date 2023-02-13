@@ -16,6 +16,36 @@ The default export methods return a wrapped result object with error and data pr
 
 If you prefer to catch errors, you can import the method from `@mintbase-js/data/lib/unwrap` instead. e.g. `import { ownedTokens } from '@mintbase-js/data/lib/unwrap` which will re-throw in the event of an error.
 
+
+# use our GraphQL Fetch Method
+[check our GraphQl Fetch Method](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/graphql/fetch.ts)
+
+
+ex: 
+```typescript
+
+import { QUERIES, fetchGraphQl } from '@mintbase-js/data'
+import { mbjs } from '@mintbase-js/sdk'
+
+const myFetchMethod = ({showOnlyListed, pagination, network}) => {
+    const { data, error } = await fetchGraphQl<MyResultType>({
+      query: QUERIES.storeNftsQuery,
+      variables: {
+        condition: {
+          nft_contract_id: { _in: mbjs.keys.contractAddress },
+          ...(showOnlyListed && { price: { _is_null: false } }),
+        },
+        limit: pagination?.limit ?? 12,
+        offset: pagination?.offset ?? 0,
+      },
+      ...(network && { network:network }),
+    });
+  }
+```
+
+# Use our Queries on your own GraphQL Service Implementation
+[check our Queries here](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/queries.ts)
+
 # API Methods
 
 | method name | params | description |
