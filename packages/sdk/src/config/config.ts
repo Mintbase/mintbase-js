@@ -42,6 +42,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
+    apiKey: configObj.apiKey ?? DEFAULT_API_KEY_AS_WARNING,
     isSet: true,
   };
 
@@ -53,6 +54,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   CONFIG_KEYS.mbContract = globalConfig.mbContract;
   CONFIG_KEYS.debugMode = globalConfig.debugMode;
   CONFIG_KEYS.nearRpcUrl = globalConfig.nearRpcUrl;
+  CONFIG_KEYS.apiKey = globalConfig.apiKey;
   CONFIG_KEYS.isSet = globalConfig.isSet;
 
   return globalConfig;
