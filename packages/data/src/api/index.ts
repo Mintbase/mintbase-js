@@ -13,6 +13,5 @@ export * from './tokenProvenance/tokenProvenance';
 export * from './tokensByAttributes/tokensByAttributes';
 export * from './storeNfts/storeNfts';
 export * from './storeData/storeData';
-export * from './contractAttributes/contractAttributes';
 export * from './checkStoreName/checkStoreName';
 export * from './attributesByContract/attributesByContract';
