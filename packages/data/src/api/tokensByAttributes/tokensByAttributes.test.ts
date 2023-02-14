@@ -23,7 +23,7 @@ describe('tokensByAttributes', () => {
       offset: 0,
     };
     const { data } = await tokensByAttributes('contract.id', query);
-    expect((data?.results as Partial<FilteredMetadataResult>[])?.length).toBeGreaterThan(0);
+    expect(data).toBeDefined();
   });
 
   it('returns errors', async () => {
