@@ -2,6 +2,7 @@ export interface AttributesFilters {
     filters: Record<string, string[]>;
     limit?: number;
     offset?: number;
+    listedOnly?: boolean;
 }
 
 export type FilteredMetadataResult = {
@@ -17,4 +18,10 @@ export type FilteredMetadataResult = {
     lastTransferTimestamp: string;
     minter: string;
     price: number;
+    animationUrl: string;
 }
+
+export type FilteredMetadataQueryResult = {
+    results: FilteredMetadataResult[];
+    totalRecords: number;
+ }
