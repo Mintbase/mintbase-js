@@ -18,6 +18,7 @@ export type FilteredMetadataResult = {
     lastTransferTimestamp: string;
     minter: string;
     price: number;
+    animationUrl: string;
 }
 
 export type FilteredMetadataQueryResult = {
