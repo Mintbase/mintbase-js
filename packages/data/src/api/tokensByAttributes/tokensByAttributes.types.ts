@@ -19,3 +19,8 @@ export type FilteredMetadataResult = {
     minter: string;
     price: number;
 }
+
+export type FilteredMetadataQueryResult = {
+    results: FilteredMetadataResult[];
+    totalRecords: number;
+ }

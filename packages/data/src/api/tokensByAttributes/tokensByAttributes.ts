@@ -2,14 +2,14 @@ import { mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
-import { AttributesFilters, FilteredMetadataResult } from './tokensByAttributes.types';
+import { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult } from './tokensByAttributes.types';
 
-export { FilteredMetadataResult, AttributesFilters };
+export { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult };
 
 export const tokensByAttributes = async (
   contractId: string,
   filters: AttributesFilters,
-): Promise<ParsedDataReturn<FilteredMetadataResult[]>> => {
+): Promise<ParsedDataReturn<FilteredMetadataQueryResult>> => {
 
   let data;
   let error: string;
@@ -33,7 +33,7 @@ export const tokensByAttributes = async (
     error = `Error fetching filtered data, ${err}`;
   }
 
-  return parseData<FilteredMetadataResult[]>(
+  return parseData<FilteredMetadataQueryResult>(
     data,
     error,
     error,
@@ -43,7 +43,7 @@ export const tokensByAttributes = async (
 export const tokensByAttributesThrowOnError = async (
   contractId: string,
   filters: AttributesFilters,
-): Promise<FilteredMetadataResult[]> => {
+): Promise<FilteredMetadataQueryResult> => {
   const { data, error } = await tokensByAttributes(contractId, filters);
   if (error) {
     console.error(error);
