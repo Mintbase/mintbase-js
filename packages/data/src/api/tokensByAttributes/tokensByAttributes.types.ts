@@ -3,6 +3,7 @@ export interface AttributesFilters {
     limit?: number;
     offset?: number;
     listedOnly?: boolean;
+    orderBy?: string;
 }
 
 export type FilteredMetadataResult = {
