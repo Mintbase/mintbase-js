@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { mbjs } from '../config/config';
-import { DEPOSIT_CONSTANTS, GAS, ONE_YOCTO, YOCTO_PER_BYTE, MINTING_FEE } from '../constants';
+import { DEPOSIT_CONSTANTS, GAS, YOCTO_PER_BYTE, MINTING_FEE } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES } from '../types';
 
@@ -19,6 +19,7 @@ export const mint = (
     options = {},
     noMedia = false,
     noReference = false,
+    tokenIdsToMint,
   } = args;
 
   const { splits, amount, royaltyPercentage } = options;
@@ -66,6 +67,7 @@ export const mint = (
       // 10_000 = 100% (see above note)
       royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10_000 },
       split_owners: splits || null,
+      token_ids_to_mint: tokenIdsToMint,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,

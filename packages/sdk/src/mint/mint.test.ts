@@ -116,6 +116,7 @@ describe('mint method tests', () => {
       metadata: { reference, media },
       ownerId: ownerId,
       options: options,
+      tokenIdsToMint: [123, 456],
     });
 
     expect(args).toEqual({
@@ -139,6 +140,7 @@ describe('mint method tests', () => {
           test: 5000,
           test2: 5000,
         },
+        token_ids_to_mint: [123, 456],
       },
       deposit: '14150000000000000000000',
       gas: GAS,

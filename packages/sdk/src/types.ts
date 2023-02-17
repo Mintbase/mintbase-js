@@ -177,6 +177,7 @@ export type MintArgs =  {
   options?: MintOptions;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
+  tokenIdsToMint?: number[];
 };
 
 export type TokenMetadata = {
@@ -295,6 +296,7 @@ export interface MintArgsResponse {
   // 10000 = 100%
   royalty_args: { split_between: Splits; percentage: number } | null;
   split_owners: Splits | null;
+  token_ids_to_mint?: number[];
 }
 
 export interface TransferContractOwnershipArgsResponse {

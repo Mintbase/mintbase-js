@@ -1,12 +1,18 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { readFileSync } from 'fs';
 import { resolve } from 'path';
-import { TEST_TOKEN_CONTRACT } from '../../src/constants';
+import {
+  LICENSE_TEST_TOKEN_CONTRACT,
+  TEST_TOKEN_CONTRACT,
+} from '../../src/constants';
 import { execute, mint } from '@mintbase-js/sdk/src';
 import { uploadBuffer } from '@mintbase-js/storage';
 import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { connect } from '@mintbase-js/auth';
 import { authenticatedKeyStore, writeGasTelemetryToFirestore } from '../../src/utils';
+
+// const USE_TEST_CONTRACT = TEST_TOKEN_CONTRACT;
+const USE_TEST_CONTRACT = LICENSE_TEST_TOKEN_CONTRACT;
 
 test('upload media and mint tokens', async () => {
 
@@ -51,24 +57,28 @@ test('upload media and mint tokens', async () => {
     'metadata.json',
   );
 
+  const randInt = (): number => Number(Math.random().toString().slice(2, 19));
+
   const results = (await execute(
     { account: signingAccount },
 
     mint({
-      contractAddress: TEST_TOKEN_CONTRACT,
+      contractAddress: USE_TEST_CONTRACT,
       ownerId: 'mb_alice.testnet',
       metadata: {
         reference: referenceIdOne,
         media: mediaIdOne,
       },
+      tokenIdsToMint: [randInt()],
     }),
     mint({
-      contractAddress: TEST_TOKEN_CONTRACT,
+      contractAddress: USE_TEST_CONTRACT,
       ownerId: 'mb_alice.testnet',
       metadata: {
         reference: referenceIdTwo,
         media: mediaIdTwo,
       },
+      tokenIdsToMint: [randInt()],
     }),
 
   )) as FinalExecutionOutcome[];
