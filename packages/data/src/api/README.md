@@ -24,3 +24,4 @@ Currently, these wrappers are methods for the [GraphQL API](https://docs.mintbas
 | [metadataByMetadataId](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/metadataByMetadataId/README.md) | `metadataId: string` |get metadata by metadataId|
 | [tokenByAttributes](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/tokenByAttributes/README.md) | `contractId: string, filters: AttributesFilters` |get tokens of a certain contract and filters|
 | [attributesByContract](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/attributesByContract/README.md) | `contractId: string` |get attributes of a certain contract|
+| [attributeRarity](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/attributeRarity/README.md) | `contractId: string,   attributeType: string, attributeValue: string` |get attribute rarity of a certain contract, attribute type and attribute value|
