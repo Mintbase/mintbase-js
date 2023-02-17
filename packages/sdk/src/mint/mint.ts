@@ -102,7 +102,7 @@ function mintingDeposit({
 }): string {
   const commonDeposit = new BN(DEPOSIT_CONSTANTS.STORE_COMMON);
   const royaltiesDeposit = commonDeposit.mul(new BN(nRoyalties));
-  const splitsDeposit = commonDeposit.mul(new BN(nRoyalties));
+  const splitsDeposit = commonDeposit.mul(new BN(nSplits));
   const mintingFee = new BN(MINTING_FEE);
 
   // JSON serialization should give us an estimate that's always higher than
