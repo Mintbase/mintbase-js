@@ -105,7 +105,7 @@ describe('mint method tests', () => {
         royalty_args: null,
         split_owners: null,
       },
-      deposit: '10001150000000000000000000',
+      deposit: '2150000000000000000000',
       gas: GAS,
     });
   });
@@ -140,7 +140,7 @@ describe('mint method tests', () => {
           test2: 5000,
         },
       },
-      deposit: '10013150000000000000000000',
+      deposit: '14150000000000000000000',
       gas: GAS,
     });
   });
