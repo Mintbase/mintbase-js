@@ -12,7 +12,7 @@ export const isDebugMode = Boolean(typeof window == 'undefined' && process?.env?
 export const hasContractAddress =  Boolean(typeof window == 'undefined' && process?.env?.CONTRACT_ADDRESS);
 export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
 
-export const DEFAULT_API_KEY_AS_WARNING = '<set-me-by-calling-mbjs.config>';
+export const DEFAULT_API_KEY = 'anon';
 
 const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET];
 
@@ -26,13 +26,12 @@ export const CONFIG_KEYS: MbJsKeysObject = {
   contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
   mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
-  apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY_AS_WARNING,
+  apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY,
   debugMode: isDebugMode ? true : false,
   isSet:  isProcessEnv ? true : false,
 };
 
 export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
-
   const globalConfig: MbJsKeysObject = {
     network: configObj.network as Network,
     graphqlUrl: GRAPHQL_ENDPOINTS[configObj.network],
@@ -42,7 +41,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
-    apiKey: configObj.apiKey ?? DEFAULT_API_KEY_AS_WARNING,
+    apiKey: configObj.apiKey ?? DEFAULT_API_KEY,
     isSet: true,
   };
 
