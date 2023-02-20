@@ -3,11 +3,15 @@
  */
 import { getFormDataFromJson, uploadReference } from './uploads';
 import fetchMock from 'jest-fetch-mock';
+import { mbjs } from '@mintbase-js/sdk';
 fetchMock.enableMocks();
+
+const FAKE_API_KEY = 'foo';
 
 describe('upload tests in browser', () => {
   beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => null);
+    mbjs.config({ apiKey: FAKE_API_KEY });
   });
 
   beforeEach(() => {
@@ -34,6 +38,8 @@ describe('upload tests in browser', () => {
 
     const result = await uploadReference(referenceObject);
 
+    const [call] = fetchMock.mock.calls;
+    expect((call as any)[1].headers['mb-api-key']).toBe(FAKE_API_KEY);
     expect(result).toEqual({
       status: 200,
     });
