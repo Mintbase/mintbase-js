@@ -196,9 +196,10 @@ export type TokenMetadata = {
 }
 
 export type MintOptions = {
-    splits?: Splits;
     amount?: number;
     royaltyPercentage?: number;
+    royalties?: Splits;
+    splits?: Splits;
 }
 
 export type Splits = Record<string, number>;

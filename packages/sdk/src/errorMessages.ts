@@ -8,6 +8,8 @@ export const ERROR_MESSAGES = {
   MAX_AMOUT: `It is not possible to mint more than 99 copies of this token using this method ${SUPPORT}`,
   SPLITS: `There must be at least 2 accounts in splits ${SUPPORT}`,
   MAX_SPLITS: `Splits cannnot have more than 50 entries ${SUPPORT}`,
+  ROYALTIES: `There must be at least 2 accounts in royalties ${SUPPORT}`,
+  MAX_ROYALTIES: `Royalties cannnot have more than 50 entries ${SUPPORT}`,
   BURN_TOKEN_IDS: `Burn contract call should not have an empty array of tokens ids ${SUPPORT}`,
   TOKEN_NOT_ARRAY: `tokenIds must be an array ${SUPPORT}`,
   TOKEN_LENGTH: `tokenIds must have more than one element ${SUPPORT}`,
@@ -15,4 +17,6 @@ export const ERROR_MESSAGES = {
   NO_MINTERS: `There are no minters being provided to the batchChangeMinters method to be changed, try adding account Ids to at least one of the minter fields ${SUPPORT}`,
   NO_REFERENCE: `You must provide a reference when minting or explicitly opt out ${SUPPORT}`,
   NO_MEDIA: `You must provide media when minting or explicitly opt out ${SUPPORT}`,
+  ROYALTY_PERCENTAGE_WITHOUT_RECIPIENTS:`Cannot specifiy royalty percentage without splits or royalties ${SUPPORT}`,
+  ROYALTY_RECIPIENTS_WITHOUT_PERCENTAGE:`Cannot specify royalties without royalty percentage ${SUPPORT}`,
 };
