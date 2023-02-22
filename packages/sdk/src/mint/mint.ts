@@ -37,6 +37,10 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
+  const royalties = splitsFromOptions
+    ? adjustSplitsForContract(splitsFromOptions)
+    : null;
+
   const splits = noSplits
     ? undefined
     : splitsFromOptions;
@@ -70,7 +74,7 @@ export const mint = (
       metadata: metadata,
       num_to_mint: amount || 1,
       // 10_000 = 100% (see above note)
-      royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10_000 },
+      royalty_args: !royalties ? null : { split_between: royalties, percentage: royaltyPercentage * 10_000 },
       split_owners: splits || null,
       token_ids_to_mint: tokenIdsToMint,
     },

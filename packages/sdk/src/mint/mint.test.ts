@@ -1,4 +1,4 @@
-import { GAS, ONE_YOCTO } from '../constants';
+import { GAS } from '../constants';
 import { ContractCall, MintArgsResponse, MintOptions, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { mint } from './mint';
 
@@ -191,15 +191,23 @@ describe('mint method tests', () => {
   });
 
   test('mint without splits', () => {
+    const splits = {
+      foo: 0.3, bar: 0.4,
+    };
     const call = mint({
       contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
-      options: options,
+      options: {
+        splits,
+        royaltyPercentage: 0.5,
+      },
       noSplits: true,
       tokenIdsToMint: [123, 456],
     }) as ContractCall<MintArgsResponse>;
 
     expect(call.args.split_owners).toBe(null);
+    expect(call.args.royalty_args?.split_between.foo).toBe(3000);
+    expect(call.args.royalty_args?.split_between.foo).toBe(4000);
   });
 });
