@@ -1,4 +1,4 @@
-import { GAS } from '../constants';
+import { GAS, ONE_YOCTO } from '../constants';
 import { MintOptions, TOKEN_METHOD_NAMES } from '../types';
 import { mint } from './mint';
 
@@ -105,7 +105,7 @@ describe('mint method tests', () => {
         royalty_args: null,
         split_owners: null,
       },
-      deposit: '2950000000000000000000',
+      deposit: '2150000000000000000000',
       gas: GAS,
     });
   });
@@ -142,7 +142,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: [123, 456],
       },
-      deposit: '19750000000000000000000',
+      deposit: '14150000000000000000000',
       gas: GAS,
     });
   });

@@ -11,8 +11,8 @@ import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import { connect } from '@mintbase-js/auth';
 import { authenticatedKeyStore, writeGasTelemetryToFirestore } from '../../src/utils';
 
-const USE_TEST_CONTRACT = TEST_TOKEN_CONTRACT;
-// const USE_TEST_CONTRACT = LICENSE_TEST_TOKEN_CONTRACT;
+// const USE_TEST_CONTRACT = TEST_TOKEN_CONTRACT;
+const USE_TEST_CONTRACT = LICENSE_TEST_TOKEN_CONTRACT;
 
 test('upload media and mint tokens', async () => {
 
