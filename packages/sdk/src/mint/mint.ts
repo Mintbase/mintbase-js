@@ -44,7 +44,7 @@ export const mint = (
     ? cheapClone(splitsFromOptions)
     : null;
 
-  const splits = noSplits
+  const splits = noSplits || !splitsFromOptions
     ? undefined
     : cheapClone(splitsFromOptions);
 
