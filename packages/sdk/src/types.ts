@@ -177,6 +177,7 @@ export type MintArgs =  {
   options?: MintOptions;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
+  noSplits?: boolean;    // only set split option as royalties
   tokenIdsToMint?: number[];
 };
 

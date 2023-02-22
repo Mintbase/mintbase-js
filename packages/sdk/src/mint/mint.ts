@@ -19,10 +19,11 @@ export const mint = (
     options = {},
     noMedia = false,
     noReference = false,
+    noSplits = false,
     tokenIdsToMint,
   } = args;
 
-  const { splits, amount, royaltyPercentage } = options;
+  const { splits: splitsFromOptions, amount, royaltyPercentage } = options;
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
@@ -35,6 +36,10 @@ export const mint = (
   if (!noMedia && !metadata.media) {
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
+
+  const splits = noSplits
+    ? undefined
+    : splitsFromOptions;
 
   if (splits) {
     // FIXME: suggest we use % (ints) vs float here
@@ -51,7 +56,7 @@ export const mint = (
   }
 
   if (amount && amount > 125) {
-    throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
+    throw  new Error(ERROR_MESSAGES.MAX_AMOUNT);
   }
 
   if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
