@@ -37,13 +37,16 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
+  const cheapClone = (obj: object): Record<string, number> =>
+    JSON.parse(JSON.stringify(obj));
+
   const royalties = splitsFromOptions
-    ? splitsFromOptions
+    ? cheapClone(splitsFromOptions)
     : null;
 
   const splits = noSplits
     ? undefined
-    : splitsFromOptions;
+    : cheapClone(splitsFromOptions);
 
   if (splits) {
     // FIXME: suggest we use % (ints) vs float here
@@ -97,6 +100,7 @@ export const mint = (
 
 function adjustSplitsForContract(splits: Record<string, number>, isRoyalties = false): void {
   let counter = 0;
+  // mutating this is breaking tests
   Object.keys(splits).forEach(key => {
     counter += splits[key];
     splits[key] *= 10_000;
