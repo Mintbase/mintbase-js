@@ -22,7 +22,14 @@ export const mint = (
     tokenIdsToMint,
   } = args;
 
-  const { splits, amount, royaltyPercentage, royalties } = processOptions(options);
+  const {
+    splits,
+    amount,
+    royaltyPercentage,
+    royalties,
+    nRoyalties,
+    nSplits,
+  } = processOptions(options);
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
@@ -57,8 +64,8 @@ export const mint = (
     gas: GAS,
     deposit: mintingDeposit({
       nTokens: amount,
-      nRoyalties: !splits ? 0 : Object.keys(splits).length,
-      nSplits: splits ? Object.keys(splits).length : 0,
+      nRoyalties,
+      nSplits,
       metadata,
     }),
   };
@@ -75,24 +82,22 @@ function processOptions(options: MintOptions) {
     throw new Error(ERROR_MESSAGES.ROYALTY_RECIPIENTS_WITHOUT_PERCENTAGE);
   }
 
-  if (splits && Object.keys(splits).length > 50) {
-    throw new Error(ERROR_MESSAGES.MAX_SPLITS);
-  }
-  if (splits && Object.keys(splits).length < 2) {
-    throw new Error(ERROR_MESSAGES.SPLITS);
-  }
-  if (royalties && Object.keys(royalties).length > 50) {
-    throw new Error(ERROR_MESSAGES.MAX_ROYALTIES);
-  }
-  if (royalties && Object.keys(royalties).length < 2) {
-    throw new Error(ERROR_MESSAGES.ROYALTIES);
-  }
+  const nRoyalties = royalties ? Object.keys(royalties).length : 0;
+  const nSplits = royalties ? Object.keys(royalties).length : 0;
 
+  if (nSplits < 2) {
+    throw new Error(ERROR_MESSAGES.MIN_SPLITS);
+  }
+  if (nRoyalties < 1) {
+    throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
+  }
+  if (nRoyalties + nSplits > 50) {
+    throw new Error(ERROR_MESSAGES.MAX_ROYALTIES_SPLITS);
+  }
 
   if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 50) {
     throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
   }
-
 
   if (splits) {
     adjustSplitsForContract(splits);
@@ -102,7 +107,7 @@ function processOptions(options: MintOptions) {
     adjustSplitsForContract(royalties);
   }
 
-  return {splits, amount, royaltyPercentage, royalties}
+  return {splits, amount, royaltyPercentage, royalties, nRoyalties, nSplits}
 }
 
 function adjustSplitsForContract(splits: Record<string, number> ): void {
