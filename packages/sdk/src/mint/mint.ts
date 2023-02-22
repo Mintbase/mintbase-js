@@ -38,7 +38,7 @@ export const mint = (
   }
 
   const royalties = splitsFromOptions
-    ? adjustSplitsForContract(splitsFromOptions)
+    ? splitsFromOptions
     : null;
 
   const splits = noSplits
@@ -49,6 +49,12 @@ export const mint = (
     // FIXME: suggest we use % (ints) vs float here
     // 0.5 -> 5000
     adjustSplitsForContract(splits);
+  }
+
+  if (royalties) {
+    // FIXME: suggest we use % (ints) vs float here
+    // 0.5 -> 5000
+    adjustSplitsForContract(royalties, true);
   }
 
   if (splits && Object.keys(splits).length > 50) {
@@ -89,13 +95,13 @@ export const mint = (
   };
 };
 
-function adjustSplitsForContract(splits: Record<string, number> ): void {
+function adjustSplitsForContract(splits: Record<string, number>, isRoyalties = false): void {
   let counter = 0;
   Object.keys(splits).forEach(key => {
     counter += splits[key];
     splits[key] *= 10_000;
   });
-  if (counter != 1) {
+  if (counter != 1 && !isRoyalties) {
     throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
   }
 }

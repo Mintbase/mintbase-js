@@ -208,6 +208,6 @@ describe('mint method tests', () => {
 
     expect(call.args.split_owners).toBe(null);
     expect(call.args.royalty_args?.split_between.foo).toBe(3000);
-    expect(call.args.royalty_args?.split_between.foo).toBe(4000);
+    expect(call.args.royalty_args?.split_between.bar).toBe(4000);
   });
 });
