@@ -59,7 +59,7 @@ export const WalletContextProvider = (
   const setup = useCallback(async () => {
 
 
-    const components = contractAddress?await setupWalletSelectorComponents(network || mbjs.keys.network, contractAddress) :  await setupWalletSelectorComponents(network || mbjs.keys.network);
+    const components = contractAddress? await setupWalletSelectorComponents(network || mbjs.keys.network, contractAddress) :  await setupWalletSelectorComponents(network || mbjs.keys.network);
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
