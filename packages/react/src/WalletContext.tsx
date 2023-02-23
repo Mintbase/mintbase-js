@@ -10,7 +10,6 @@ import {
 import type { WalletSelectorComponents } from '@mintbase-js/auth/lib/wallet';
 import { WalletSelector, AccountState, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import { Network } from '@mintbase-js/sdk';
 import { mbjs } from '@mintbase-js/sdk';
 
 // This is heavily based on
@@ -50,7 +49,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   const setup = useCallback(async () => {
 
-    const components = await setupWalletSelectorComponents();
+    const components = await setupWalletSelectorComponents(mbjs.keys.network);
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);

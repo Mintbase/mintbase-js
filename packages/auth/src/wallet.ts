@@ -34,18 +34,21 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * Set up wallet selector components. Returns the modal
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
-export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
+export const setupWalletSelectorComponents = async (network?): Promise<WalletSelectorComponents> => {
 
   console.log(mbjs.keys.network, 'network 1 ');
+  console.log(mbjs.keys, 'keys on auth');
 
   const selector = await setupWalletSelector({
-    network: mbjs.keys.network as Network || NEAR_NETWORKS.MAINNET,
+    network: network ||  mbjs.keys.network as Network || NEAR_NETWORKS.MAINNET,
     debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
     ],
   });
+
+  console.log(selector, 'selector');
 
 
   const modal = setupModal(selector, {
