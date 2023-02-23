@@ -34,6 +34,7 @@ export type WalletContext = {
 export interface WalletContextProviderProps {
   network?: Network;
   children?: React.ReactNode;
+  contractAddress?: string;
 }
 
 export type WalletSetupComponents = {
@@ -44,7 +45,7 @@ export type WalletSetupComponents = {
 export const WalletContext = createContext<WalletContext | null>(null);
 
 export const WalletContextProvider = (
-  { children, network }: WalletContextProviderProps,
+  { children, network, contractAddress }: WalletContextProviderProps,
 ): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
@@ -55,22 +56,19 @@ export const WalletContextProvider = (
   console.log(network, 'network from provider');
   console.log(mbjs.keys.network, 'network 2');
 
-  const setup = useCallback(async (WalletNetwork?) => {
-
-    console.log('networksssssssss', WalletNetwork, network, mbjs.keys.network);
+  const setup = useCallback(async () => {
 
 
-    const components = await setupWalletSelectorComponents(network || WalletNetwork || mbjs.keys.network);
+    const components = await setupWalletSelectorComponents(network || mbjs.keys.network);
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
 
   // call setup on wallet selector
   useEffect(() => {
-    console.log(mbjs.keys.network, 'mbjs.keys.network on useEffect');
 
 
-    setup(mbjs.keys.network).catch((err: unknown) => {
+    setup().catch((err: unknown) => {
       setErrorMessage((err as Error).message || err as string);
     });
   }, [setup]);
