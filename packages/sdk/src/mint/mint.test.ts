@@ -79,5 +79,41 @@ describe('mint method tests', () => {
     }).toThrow(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
   });
 
+  test('mint with no reference', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { media },
+        ownerId: ownerId,
+        royalties: { test: 0.3, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.NO_REFERENCE);
+  });
+
+  test('mint with no media', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference },
+        ownerId: ownerId,
+        royalties: { test: 0.3, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.NO_MEDIA);
+  });
+
+  test('mint with negative royalties', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference, media },
+        ownerId: ownerId,
+        royalties: { test: -0.3, test1: 0.4 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.NEGATIVE_ROYALTIES);
+  });
+
 
 });

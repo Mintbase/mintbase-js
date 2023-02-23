@@ -94,6 +94,9 @@ function adjustRoyaltiesForContract(royalties: Record<string, number>, royaltyTo
   let counter = 0;
   const result: Splits = {};
   Object.keys(royalties).forEach(key => {
+    if (royalties[key] <= 0) {
+      throw new Error (ERROR_MESSAGES.NEGATIVE_ROYALTIES);
+    }
     const adjustedAmount = (royalties[key]/ royaltyTotal) * 10000 ;
     result[key] = adjustedAmount;
     counter += adjustedAmount;
