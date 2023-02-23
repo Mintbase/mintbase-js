@@ -40,7 +40,7 @@ export const setupWalletSelectorComponents = async (network?): Promise<WalletSel
   console.log(mbjs.keys, 'keys on auth');
 
   const selector = await setupWalletSelector({
-    network: network ||  mbjs.keys.network as Network || NEAR_NETWORKS.MAINNET,
+    network: network || mbjs.keys.network as Network || NEAR_NETWORKS.MAINNET,
     debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),

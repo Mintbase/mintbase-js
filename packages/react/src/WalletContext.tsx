@@ -10,7 +10,7 @@ import {
 import type { WalletSelectorComponents } from '@mintbase-js/auth/lib/wallet';
 import { WalletSelector, AccountState, VerifiedOwner, VerifyOwnerParams } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import { mbjs } from '@mintbase-js/sdk';
+import { mbjs, Network } from '@mintbase-js/sdk';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -24,6 +24,7 @@ export type WalletContext = {
   isWaitingForConnection: boolean;
   isWalletSelectorSetup: boolean;
   errorMessage: string | null;
+  network: Network;
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
@@ -37,7 +38,7 @@ export type WalletSetupComponents = {
 export const WalletContext = createContext<WalletContext | null>(null);
 
 export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
-  { children },
+  { children }, network: Network,
 ) => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
@@ -49,7 +50,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   const setup = useCallback(async () => {
 
-    const components = await setupWalletSelectorComponents(mbjs.keys.network);
+    const components = await setupWalletSelectorComponents(network || mbjs.keys.network);
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
@@ -114,6 +115,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   return (
     <WalletContext.Provider value={{
+      network,
       selector,
       modal,
       accounts,
