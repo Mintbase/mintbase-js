@@ -14,18 +14,18 @@ export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.
 
 export const DEFAULT_API_KEY = 'anon';
 
-const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET];
+const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.MAINNET];
 
 // if users set vars on process.env it will come by default setting up the config on the server.
 export const CONFIG_KEYS: MbJsKeysObject = {
   network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.MAINNET,
-  graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.TESTNET],
-  nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.TESTNET],
+  graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.MAINNET],
+  nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.MAINNET],
   callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '',
   // will check for process.env.CONTRACT_ADDRESS if not will setup mintbase contract according to the network, if not will setup testnet contract
   contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
-  marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
-  mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
+  marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.MAINNET],
+  mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.MAINNET],
   apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY,
   debugMode: isDebugMode ? true : false,
   isSet:  isProcessEnv ? true : false,
