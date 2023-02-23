@@ -1,5 +1,5 @@
 import { mbjs } from '@mintbase-js/sdk';
-import { META_SERVICE_HOST, MINTBASE_API_KEY_HEADER } from '../../constants';
+import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult } from './tokensByAttributes.types';
@@ -14,11 +14,15 @@ export const tokensByAttributes = async (
   let data;
   let error: string;
 
+  const useHost = mbjs.keys.network === 'testnet'
+    ? META_SERVICE_HOST_TESTNET
+    : META_SERVICE_HOST;
+
   try {
-    const res = await fetch(`${META_SERVICE_HOST}/${contractId}/filter`, {
+    const res = await fetch(`${useHost}/${contractId}/filter`, {
       method: 'POST',
       body: JSON.stringify(filters),
-      headers: { 'Content-type': 'application/json', 
+      headers: { 'Content-type': 'application/json',
         [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
       },
     });
