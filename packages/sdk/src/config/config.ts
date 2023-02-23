@@ -18,7 +18,7 @@ const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEA
 
 // if users set vars on process.env it will come by default setting up the config on the server.
 export const CONFIG_KEYS: MbJsKeysObject = {
-  network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.TESTNET,
+  network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.MAINNET,
   graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.TESTNET],
   nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.TESTNET],
   callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '',
