@@ -20,7 +20,6 @@
   "license": "MIT",
   "dependencies": {
     "@mintbase-js/sdk": "^0.1.0-debug-wallet-selector-acc394c.0",
-    "@near-wallet-selector/coin98-wallet": "^7.2.0",
     "@near-wallet-selector/core": "^7.1.0",
     "@near-wallet-selector/default-wallets": "^7.2.0",
     "@near-wallet-selector/here-wallet": "^7.4.0",
