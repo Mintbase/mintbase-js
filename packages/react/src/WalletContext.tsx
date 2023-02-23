@@ -30,6 +30,12 @@ export type WalletContext = {
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
 }
 
+
+export interface WalletContextProviderProps {
+  network?: Network;
+  children?: React.ReactNode;
+}
+
 export type WalletSetupComponents = {
   selector: WalletSelector;
   modal: WalletSelectorModal;
@@ -37,9 +43,9 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
-  { children }, network: Network,
-) => {
+export const WalletContextProvider = (
+  { children, network }: WalletContextProviderProps,
+): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(null);
   const [accounts, setAccounts] = useState<AccountState[]>([]);
@@ -54,7 +60,7 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
     console.log('networksssssssss', WalletNetwork, network, mbjs.keys.network);
 
 
-    const components = await setupWalletSelectorComponents(WalletNetwork || network || mbjs.keys.network);
+    const components = await setupWalletSelectorComponents(network || WalletNetwork || mbjs.keys.network);
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
