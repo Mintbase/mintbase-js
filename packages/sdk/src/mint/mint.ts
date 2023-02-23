@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { mbjs } from '../config/config';
 import { DEPOSIT_CONSTANTS, GAS, YOCTO_PER_BYTE, MINTING_FEE } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { MintArgs, MintOptions, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES } from '../types';
+import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES, Splits } from '../types';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -16,20 +16,12 @@ export const mint = (
     contractAddress = mbjs.keys.contractAddress,
     metadata,
     ownerId,
-    options = {},
+    royalties,
+    amount = 1,
+    tokenIdsToMint,
     noMedia = false,
     noReference = false,
-    tokenIdsToMint,
   } = args;
-
-  const {
-    splits,
-    amount,
-    royaltyPercentage,
-    royalties,
-    nRoyalties,
-    nSplits,
-  } = processOptions(options);
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
@@ -43,98 +35,88 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
+  let adjustedRoyalties: Splits = {};
+  let royaltyTotal: number;
+
+  if (royalties) {
+    // FIXME: suggest we use % (ints) vs float here
+    // 0.5 -> 5000
+    royaltyTotal = getRoyaltyTotal(royalties);
+    adjustedRoyalties = adjustRoyaltiesForContract(royalties, royaltyTotal);
+  }
+
+  if (royalties && Object.keys(royalties).length < 1) {
+    throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
+  }
+
   if (amount && amount > 125) {
     throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
   }
+  if (tokenIdsToMint && tokenIdsToMint.length == 0) {
+    throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
+  }
+
+  const adjustedTokenCount = tokenIdsToMint?.length > amount? tokenIdsToMint.length : amount;
 
   return {
     contractAddress: contractAddress || mbjs.keys.contractAddress,
     args: {
       owner_id: ownerId,
       metadata: metadata,
-      num_to_mint: amount || 1,
+      num_to_mint: adjustedTokenCount,
       // 10_000 = 100% (see above note)
-      royalty_args: royalties
-        ? { split_between: royalties, percentage: royaltyPercentage * 100 }
-        : null,
-      split_owners: splits || null,
-      token_ids_to_mint: tokenIdsToMint,
+      royalty_args: royaltyTotal < 0 || !royaltyTotal ? null : { split_between: adjustedRoyalties, percentage: royaltyTotal * 10000 },
+      token_ids_to_mint: !tokenIdsToMint ? null : tokenIdsToMint,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,
     deposit: mintingDeposit({
-      nTokens: amount,
-      nRoyalties,
-      nSplits,
+      nTokens: adjustedTokenCount,
+      nRoyalties: !royalties ? 0 : Object.keys(royalties).length,
       metadata,
     }),
   };
 };
 
-function processOptions(options: MintOptions) {
-  let { splits, amount, royaltyPercentage, royalties } = options;
+function getRoyaltyTotal(royalties: Record<string, number> ): number {
+  let royaltyTotal = 0;
+  Object.values(royalties).forEach(value => {
+    royaltyTotal += value;
+  });
 
-  if (royaltyPercentage && splits && !royalties) royalties = splits;
-  if (royaltyPercentage && !splits && !royalties) {
-    throw new Error(ERROR_MESSAGES.ROYALTY_PERCENTAGE_WITHOUT_RECIPIENTS);
+  if (royaltyTotal <= 0 || royaltyTotal > 0.5) {
+    throw new Error (ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
   }
-  if (royalties && !royalties) {
-    throw new Error(ERROR_MESSAGES.ROYALTY_RECIPIENTS_WITHOUT_PERCENTAGE);
-  }
-
-  const nRoyalties = royalties ? Object.keys(royalties).length : 0;
-  const nSplits = royalties ? Object.keys(royalties).length : 0;
-
-  if (nSplits < 2) {
-    throw new Error(ERROR_MESSAGES.MIN_SPLITS);
-  }
-  if (nRoyalties < 1) {
-    throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
-  }
-  if (nRoyalties + nSplits > 50) {
-    throw new Error(ERROR_MESSAGES.MAX_ROYALTIES_SPLITS);
-  }
-
-  if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 50) {
-    throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
-  }
-
-  if (splits) {
-    adjustSplitsForContract(splits);
-  }
-
-  if (royalties) {
-    adjustSplitsForContract(royalties);
-  }
-
-  return {splits, amount, royaltyPercentage, royalties, nRoyalties, nSplits}
+  return royaltyTotal;  
 }
 
-function adjustSplitsForContract(splits: Record<string, number> ): void {
+function adjustRoyaltiesForContract(royalties: Record<string, number>, royaltyTotal ): Splits {
   let counter = 0;
-  Object.keys(splits).forEach(key => {
-    counter += splits[key];
-    splits[key] *= 100;
+  const result: Splits = {};
+  Object.keys(royalties).forEach(key => {
+    const adjustedAmount = (royalties[key]/ royaltyTotal) * 10000 ;
+    result[key] = adjustedAmount;
+    counter += adjustedAmount;
   });
-  if (counter != 100) {
+  if (counter != 10000) {
     throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
   }
+
+  return result;
 }
 
 function mintingDeposit({
   nTokens,
-  nSplits,
   nRoyalties,
   metadata,
 }: {
   nTokens: number;
-  nSplits: number;
   nRoyalties: number;
   metadata: TokenMetadata;
 }): string {
   const commonDeposit = new BN(DEPOSIT_CONSTANTS.STORE_COMMON);
   const royaltiesDeposit = commonDeposit.mul(new BN(nRoyalties));
-  const splitsDeposit = commonDeposit.mul(new BN(nSplits));
+  const splitsDeposit = commonDeposit.mul(new BN(nRoyalties));
   const mintingFee = new BN(MINTING_FEE);
 
   // JSON serialization should give us an estimate that's always higher than

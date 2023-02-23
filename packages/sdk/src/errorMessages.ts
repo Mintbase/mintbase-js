@@ -3,7 +3,7 @@ const SUPPORT = '- further help available on our telegram channel: https://t.me/
 
 export const ERROR_MESSAGES = {
   CONTRACT_ADDRESS: `You must provide a contractAddress, define contractAddress on mbjs.config,or a CONTRACT_ADDRESS enviroment variable to default to ${DEFAULT_SUPPORT}`,
-  INVALID_ROYALTY_PERCENTAGE: `Invalid royalty percentage ${SUPPORT}`,
+  INVALID_ROYALTY_PERCENTAGE: `Invalid royalty percentage, it must be between 0 and 0.5 ${SUPPORT}`,
   SPLITS_PERCENTAGE: `Splits percentages must add up to 1 ${SUPPORT}`,
   MAX_AMOUT: `It is not possible to mint more than 99 copies of this token using this method ${SUPPORT}`,
   MIN_SPLITS: `There must be at least 2 accounts in splits ${SUPPORT}`,
@@ -18,4 +18,5 @@ export const ERROR_MESSAGES = {
   NO_MEDIA: `You must provide media when minting or explicitly opt out ${SUPPORT}`,
   ROYALTY_PERCENTAGE_WITHOUT_RECIPIENTS:`Cannot specifiy royalty percentage without splits or royalties ${SUPPORT}`,
   ROYALTY_RECIPIENTS_WITHOUT_PERCENTAGE:`Cannot specify royalties without royalty percentage ${SUPPORT}`,
+  TOKEN_IDS_TO_MINT_LEN:`Token ids to mint must not be included or have a length greater than 0 ${SUPPORT}`,
 };
