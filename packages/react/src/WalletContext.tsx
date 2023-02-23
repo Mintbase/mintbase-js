@@ -46,18 +46,25 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   const [isWaitingForConnection, setIsWaitingForConnection] = useState<boolean>(false);
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] = useState<boolean>(false);
 
+  console.log(network, 'network from provider');
   console.log(mbjs.keys.network, 'network 2');
 
-  const setup = useCallback(async () => {
+  const setup = useCallback(async (WalletNetwork?) => {
 
-    const components = await setupWalletSelectorComponents(network || mbjs.keys.network);
+    console.log('networksssssssss', WalletNetwork, network, mbjs.keys.network);
+
+
+    const components = await setupWalletSelectorComponents(WalletNetwork || network || mbjs.keys.network);
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
 
   // call setup on wallet selector
   useEffect(() => {
-    setup().catch((err: unknown) => {
+    console.log(mbjs.keys.network, 'mbjs.keys.network on useEffect');
+
+
+    setup(mbjs.keys.network).catch((err: unknown) => {
       setErrorMessage((err as Error).message || err as string);
     });
   }, [setup]);
