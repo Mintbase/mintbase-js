@@ -103,7 +103,7 @@ function adjustSplitsForContract(splits: Record<string, number>, isRoyalties = f
   // mutating this is breaking tests
   Object.keys(splits).forEach(key => {
     counter += splits[key];
-    splits[key] *= 10_000;
+    splits[key] = Math.floor(splits[key] * 10_000);
   });
   if (counter != 1 && !isRoyalties) {
     throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
