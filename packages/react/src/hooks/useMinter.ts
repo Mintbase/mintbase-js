@@ -19,7 +19,7 @@ export type MinterHookArgs = MintArgs;
 
 const useMinter = (args: MintArgs): UseMinterReturn => {
   const { selector } = useWallet();
-  const { contractAddress, options, metadata, ownerId } = args;
+  const { contractAddress, royalties, metadata, ownerId, amount } = args;
 
 
   const [loading, setLoading] = useState(false);
@@ -36,7 +36,8 @@ const useMinter = (args: MintArgs): UseMinterReturn => {
         contractAddress: contractAddress,
         metadata: metadata,
         ownerId: ownerId,
-        options,
+        royalties: royalties,
+        amount: amount,
       }),
     );
 
