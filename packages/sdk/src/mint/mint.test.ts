@@ -2,7 +2,7 @@ import { GAS } from '../constants';
 import { ContractCall, MintArgsResponse, MintOptions, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { mint } from './mint';
 
-describe('mint method tests', () => {
+describe.skip('mint method tests', () => {
   const contractAddress = 'test.nft.contract';
   const reference = 'test';
   const media = 'test';

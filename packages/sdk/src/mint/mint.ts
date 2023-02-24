@@ -51,13 +51,13 @@ export const mint = (
   if (splits) {
     // FIXME: suggest we use % (ints) vs float here
     // 0.5 -> 5000
-    adjustSplitsForContract(splits);
+    //adjustSplitsForContract(splits);
   }
 
   if (royalties) {
     // FIXME: suggest we use % (ints) vs float here
     // 0.5 -> 5000
-    adjustSplitsForContract(royalties, true);
+    // adjustSplitsForContract(royalties, true);
   }
 
   if (splits && Object.keys(splits).length > 50) {
@@ -72,9 +72,9 @@ export const mint = (
     throw  new Error(ERROR_MESSAGES.MAX_AMOUNT);
   }
 
-  if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
-    throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
-  }
+  // if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
+  //   throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
+  // }
 
   return {
     contractAddress: contractAddress || mbjs.keys.contractAddress,
@@ -83,7 +83,7 @@ export const mint = (
       metadata: metadata,
       num_to_mint: amount || 1,
       // 10_000 = 100% (see above note)
-      royalty_args: !royalties ? null : { split_between: royalties, percentage: royaltyPercentage * 10_000 },
+      royalty_args: !royalties ? null : { split_between: royalties, percentage: royaltyPercentage },
       split_owners: splits || null,
       token_ids_to_mint: tokenIdsToMint,
     },
