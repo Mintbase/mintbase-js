@@ -1,9 +1,8 @@
 
-import { META_SERVICE_HOST } from '../../constants';
+import { META_SERVICE_HOST_TESTNET } from '../../constants';
 import { tokensByAttributes, tokensByAttributesThrowOnError } from './tokensByAttributes';
 
 import fetchMock from 'fetch-mock';
-import { FilteredMetadataResult } from './tokensByAttributes.types';
 
 describe('tokensByAttributes', () => {
   beforeEach(() => {
@@ -13,7 +12,7 @@ describe('tokensByAttributes', () => {
   });
 
   it('returns data', async () => {
-    fetchMock.mock(`begin:${META_SERVICE_HOST}`, { body: [{ tokenId: '123' }] });
+    fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, { body: [{ tokenId: '123' }] });
     const query = {
       filters: {
         'eyes': ['blue', 'green'],
@@ -27,7 +26,7 @@ describe('tokensByAttributes', () => {
   });
 
   it('returns errors', async () => {
-    fetchMock.mock(`begin:${META_SERVICE_HOST}`, 504, { overwriteRoutes: true });
+    fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, 504, { overwriteRoutes: true });
     const query = {
       filters: {
         'eyes': ['blue', 'green'],
@@ -41,7 +40,7 @@ describe('tokensByAttributes', () => {
   });
 
   it('throws errors when unwrapped version is called', () => {
-    fetchMock.mock(`begin:${META_SERVICE_HOST}`, 504, { overwriteRoutes: true });
+    fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, 504, { overwriteRoutes: true });
     const query = {
       filters: {
         'eyes': ['blue', 'green'],
