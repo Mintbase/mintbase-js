@@ -1,11 +1,9 @@
-export interface BinanceNearPriceData  {
+export interface NearPriceData  {
     price?: string;
 }
-
 export interface CoinGeckoNearPriceData {
-    near?: {usd: string};
+    near?: {
+        usd: string;
+    };
 }
 
-export interface NearPriceError {
-    error: string;
-} 
