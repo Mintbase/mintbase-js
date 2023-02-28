@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/storage",
-  "version": "0.1.0-beta.20",
+  "version": "0.1.0-beta.21",
   "description": "Storage functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "^0.1.0-beta.20",
+    "@mintbase-js/sdk": "^0.1.0-beta.21",
     "near-api-js": "^0.44.2",
     "superagent": "^8.0.3"
   },
