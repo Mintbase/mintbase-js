@@ -163,6 +163,7 @@ export const uploadReference = async (
       block: string;
       name: string;
       mimeType: string;
+      media_hash: string;
     };
 
     return result;
