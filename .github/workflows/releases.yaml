@@ -43,5 +43,5 @@ jobs:
           git add --all
           git config --list
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
-          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
+          lerna publish from-package --yes
           git push --force
