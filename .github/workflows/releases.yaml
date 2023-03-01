@@ -39,9 +39,7 @@ jobs:
         env:
           github-token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          lerna version ${{ github.event.release.tag_name }} --yes --skip-git
+          lerna publish ${{ github.event.release.tag_name }} --force-publish '**' --ignore-changes '**' --yes --no-git-tag-version
           git add --all
-          git config --list
           git commit -m "🤖 Release ${{ github.event.release.tag_name }}"
-          lerna publish ${{ github.event.release.tag_name }} --force-publish '**' --ignore-changes '**' --yes --skip-git
           git push --force
