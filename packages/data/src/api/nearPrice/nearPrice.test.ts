@@ -1,61 +1,40 @@
-import * as methods from './nearPrice';
-import { nearPriceMock } from './nearPrice.mock';
+import { nearPrice } from './nearPrice';
+import fetch from 'isomorphic-unfetch';
+
+jest.mock('isomorphic-unfetch');
 
 
-describe('nearPrice Test', () => {
-  jest.spyOn(console, 'error').mockImplementation(() => null);
-  test('getNearPrice by Binance', async () => {
+describe('nearPrice', () => {
+  it('returns first fulfilled promise (binance or gecko)', async () => {
+    (fetch as jest.Mock)
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve({
+          near: {
+            usd: '123',
+          },
+        }),
+      })
+      .mockRejectedValueOnce({
+        binance: 'broken',
+      });
 
-    const mockFetch = Promise.resolve({ json: () => Promise.resolve({ price: '1490000' }) });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    global.fetch = jest.fn().mockImplementation(() => mockFetch);
-    jest.spyOn(methods, 'nearPriceFallback');
-
-    expect(methods.nearPriceFallback).not.toHaveBeenCalled();
-
-    const args = await methods.nearPrice();
-
-    expect(args?.data).toEqual(nearPriceMock);
+    const { data, error } = await nearPrice();
+    expect(data).toBe('123');
+    expect(error).toBeUndefined();
   });
 
+  it('returns error when all options fail', async () => {
+    (fetch as jest.Mock)
+      .mockRejectedValueOnce({
+        gecko: 'broken',
+      })
+      .mockRejectedValueOnce({
+        binance: 'broken',
+      });
 
-  test('getNearPrice by GECKO_API', async () => {
-
-    const mockFetch = Promise.resolve({ json: () => Promise.resolve({ price: null }) });
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    global.fetch = jest.fn().mockImplementation(() => mockFetch);
-
-    jest.spyOn(methods, 'nearPriceFallback');
-
-
-    await methods.nearPrice();
-
-    expect(methods.nearPriceFallback).toHaveBeenCalled();
-
-
-  });
-
-
-  test('error', async () => {
-
-
-    const mockFetch = Promise.reject(undefined);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    global.fetch = jest.fn().mockImplementation(() => mockFetch);
-
-    jest.spyOn(methods, 'nearPriceFallback');
-    jest.spyOn(methods, 'nearPrice');
-
-
-    const nearPriceData =  await methods.nearPrice();
-
-    expect(methods.nearPrice).toHaveBeenCalled();
-    expect(methods.nearPriceFallback).toHaveBeenCalled();
-
-    expect(nearPriceData).toEqual({ error: 'Error fetching NEAR price' });
+    const { data, error } = await nearPrice();
+    expect(data).toBeUndefined();
+    expect(error).toBeDefined();
   });
 
 });

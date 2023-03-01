@@ -12,6 +12,7 @@
     "target": "es6",
     "sourceMap": true,
     "lib": [
+      "ES2021",
       "es6",
       "dom",
     ]
