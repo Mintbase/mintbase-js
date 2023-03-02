@@ -4,15 +4,15 @@
 
 Mint a token for a specified reference material on a contract of your choice. You need to have been given minting permission.
 
-The reference material is typically uploaded to IPFS or Arweave and can be easily done through our `uploadFileToArweave` method found in the storage module.
+The reference material is typically uploaded to IPFS or Arweave and can be easily done through our `uploadReference` method found in the storage module. Follow [this guide](https://docs.mintbase.xyz/dev/getting-started/upload-reference-material-to-arweave-and-mint) to learn how to handle permanent uploads! 
 
-Royalties and splits can be configured to provide a customized flow of funds to up to 50 people as explained below.
+Royalties can be configured to provide a customized flow of funds as explained below.
 
 It is possible to configure the amount of copies you want to mint through the `amount` field, but currently they will all share the same reference material.
 
 The nftContactId can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbasejs click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
 ## mint(args: MintArgs): NearContractCall
 
@@ -32,6 +32,26 @@ export type MintArgs =  {
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
 
+export type MintArgs =  {
+  //the contractId from which you want to mint, this can be statically defined via the mbjs config file 
+  contractAddress?: string;
+  //the intended owner of the token being minted
+  ownerId: string;
+  //on chain metadata, currently reference and media must be provided unless clearly opted out using the noMedia or noReference args
+  //the storage module returns the media hash to be provided to the media key in the metadata object when uploading as well as the referenceId which should be supplied to the reference key.
+  metadata: TokenMetadata;
+  //permanent royalties to be paid on every token sale provided in a Record of keys (accountIds) and values (amount)
+  //the royalty total is capped at 0.5 eg: {"test1.near" : 0.2, "test2.near": 0.3}
+  royalties?: Splits;
+  //amount of tokens with the same metadata you would like to mint
+  amount?: number;
+  // explicit opt-in to NFT without media, breaks wallets
+  noMedia?: boolean;  
+  // explicit opt-in to NFT without reference    
+  noReference?: boolean; 
+  tokenIdsToMint?: number[];
+};
+
 export type TokenMetadata = {
   title?: string;
   description?: string;
@@ -45,25 +65,6 @@ export type TokenMetadata = {
   extra?: string;
   reference?: string;
   reference_hash?: string;
-}
-
-
-export type MintOptions = {
-    // 0 < royaltyPercentage < 0.5
-    //total percentage that will be allocated to royalties.
-    //the maximum amount that can be allocated to royalties is 0.5 (50%)
-    //this value cant be negative
-    royaltyPercentage?: number;
-    //key value pairs of ids and the relative percentage of the allocated royalties amount
-    //splits must have at least 2 entries
-    //splits must not have more than 50 entries
-    //the splits percentage amounts must total to 1 meaning 100% of royaltyPercentage
-    //i.e royaltyPercentage = 0.3 splits = {test1: 0.5, test2: 0.5}
-    //in this case test1 and test2 will receive 0.15 of the total gains (0.5*0.3)
-    splits?: Splits;
-    //the amount of copies of specified token to be minted
-    //this amount cannot be larger than 99
-    amount?: number;
 }
 ```
 
