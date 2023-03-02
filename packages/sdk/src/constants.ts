@@ -20,10 +20,9 @@ export const GAS_CONSTANTS = {
 export const DEPOSIT_CONSTANTS = {
   ONE_YOCTO: '1',
   ZERO_YOCTO: '0',
-  LEGACY_LISTING: '4400000000000000000000',
-  // 80 bytes ->
-  STORE_COMMON: '800000000000000000000', // 80 bytes
-  STORE_TOKEN: '3600000000000000000000', // 360 bytes
+  LEGACY_LISTING: `4400${'0'.repeat(18)}`, // 440 bytes, 4.4 milliNEAR
+  STORE_COMMON: `800${'0'.repeat(18)}`, // 80 bytes, 0.8 milliNEAR
+  STORE_TOKEN: `3600${'0'.repeat(18)}`, // 360 bytes, 3.6 milliNEAR
 };
 
 export const multipleTokensLegacyListing = (tokenLength: number): string => new BN(DEPOSIT_CONSTANTS.LEGACY_LISTING).mul(new BN(tokenLength)).toString();
