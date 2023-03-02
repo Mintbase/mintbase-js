@@ -25,7 +25,7 @@ describe('mint method tests', () => {
           reference: reference,
           media: media,
         },
-        num_to_mint:  1,
+        num_to_mint: 1,
         royalty_args: null,
         token_ids_to_mint: null,
       },
@@ -52,7 +52,7 @@ describe('mint method tests', () => {
           reference: reference,
           media: media,
         },
-        num_to_mint:  2,
+        num_to_mint: 2,
         royalty_args: {
           percentage: 5000,
           split_between: {
@@ -67,7 +67,7 @@ describe('mint method tests', () => {
     });
   });
 
-  test('mint with flaoting point royalties', () => {
+  test('mint with floating point royalties', () => {
     const args = mint({
       contractAddress: contractAddress,
       metadata: { reference, media },
@@ -85,7 +85,7 @@ describe('mint method tests', () => {
           reference: reference,
           media: media,
         },
-        num_to_mint:  2,
+        num_to_mint: 2,
         royalty_args: {
           percentage: 4007,
           split_between: {
@@ -119,7 +119,7 @@ describe('mint method tests', () => {
           reference: reference,
           media: media,
         },
-        num_to_mint:  2,
+        num_to_mint: 2,
         royalty_args: {
           percentage: 4007,
           split_between: {
@@ -147,7 +147,7 @@ describe('mint method tests', () => {
     }).toThrow(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
   });
 
-  test('mint with too differing amount and tokenIdsToMint len', () => {
+  test('mint with differing amount and tokenIdsToMint len', () => {
     expect(() => {
       mint({
         contractAddress: contractAddress,

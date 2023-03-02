@@ -4,7 +4,7 @@ const SUPPORT = '- further help available on our telegram channel: https://t.me/
 export const ERROR_MESSAGES = {
   CONTRACT_ADDRESS: `You must provide a contractAddress, define contractAddress on mbjs.config,or a CONTRACT_ADDRESS enviroment variable to default to ${DEFAULT_SUPPORT}`,
   INVALID_ROYALTY_PERCENTAGE: `Invalid royalty percentage, it must be between 0 and 0.5 ${SUPPORT}`,
-  SPLITS_PERCENTAGE: `Splits percentages must add up to 1 ${SUPPORT}`,
+  ROYALTIES_PERCENTAGE: `Splits percentages must add up 10000 in the contract call ${SUPPORT}`,
   MAX_AMOUT: `It is not possible to mint more than 99 copies of this token using this method ${SUPPORT}`,
   MIN_SPLITS: `There must be at least 2 accounts in splits ${SUPPORT}`,
   MIN_ROYALTIES: `There must be at least 1 account in royalties ${SUPPORT}`,
