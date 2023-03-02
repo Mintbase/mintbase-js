@@ -35,16 +35,18 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
-  let adjustedRoyalties: Splits = {};
+  let adjustedRoyalties: Splits;
   let royaltyTotal: number;
+  let roundedRoyalties: Splits;
 
+  //royalties adjustments to make devx better
   if (royalties) {
-    // FIXME: suggest we use % (ints) vs float here
-    // 0.5 -> 5000
     royaltyTotal = getRoyaltyTotal(royalties);
     adjustedRoyalties = adjustRoyaltiesForContract(royalties, royaltyTotal);
+    roundedRoyalties = roundRoyalties(adjustedRoyalties);
   }
 
+  //if royalties exist they need to be populated
   if (royalties && Object.keys(royalties).length < 1) {
     throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
@@ -52,8 +54,14 @@ export const mint = (
   if (amount && amount > 125) {
     throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
   }
+
+  //if specifying tokenIdsToMint these must be populated
   if (tokenIdsToMint && tokenIdsToMint.length == 0) {
-    throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
+    throw  new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
+  }
+
+  if (tokenIdsToMint && tokenIdsToMint.length > 0 && amount > 1) {
+    console.warn('When defining tokenIdsToMint defining amount is not necessary as it will be defined by the array len');
   }
 
   const adjustedTokenCount = tokenIdsToMint?.length > amount? tokenIdsToMint.length : amount;
@@ -65,7 +73,7 @@ export const mint = (
       metadata: metadata,
       num_to_mint: adjustedTokenCount,
       // 10_000 = 100% (see above note)
-      royalty_args: royaltyTotal < 0 || !royaltyTotal ? null : { split_between: adjustedRoyalties, percentage: royaltyTotal * 10000 },
+      royalty_args: royaltyTotal < 0 || !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.floor(royaltyTotal * 10000) },
       token_ids_to_mint: !tokenIdsToMint ? null : tokenIdsToMint,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
@@ -97,14 +105,30 @@ function adjustRoyaltiesForContract(royalties: Record<string, number>, royaltyTo
     if (royalties[key] <= 0) {
       throw new Error (ERROR_MESSAGES.NEGATIVE_ROYALTIES);
     }
-    const adjustedAmount = (royalties[key]/ royaltyTotal) * 10000 ;
+    const adjustedAmount = royalties[key]/ royaltyTotal * 10000;
     result[key] = adjustedAmount;
     counter += adjustedAmount;
   });
   if (counter != 10000) {
     throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
   }
+ 
+  return result;
+}
 
+function roundRoyalties(royalties: Record<string, number>): Record<string, number> {
+  let roundedCounter = 0;
+  const result: Splits = {};
+  const firstKey = Object.keys(royalties)[0];
+  Object.keys(royalties).forEach((key)=> {
+    const roundedVal = Math.round(royalties[key]);
+    result[key] = roundedVal;
+    roundedCounter += roundedVal;
+  });
+
+  if (roundedCounter != 10000) {
+    result[firstKey] += 10000 - roundedCounter;
+  }
   return result;
 }
 

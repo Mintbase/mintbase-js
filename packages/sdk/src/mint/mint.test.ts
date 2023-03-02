@@ -67,6 +67,40 @@ describe('mint method tests', () => {
     });
   });
 
+  test('mint with flaoting point royalties', () => {
+    const args = mint({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      ownerId: ownerId,
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+      tokenIdsToMint: [123, 456],
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.MINT,
+      args: {
+        owner_id: ownerId,
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        num_to_mint:  2,
+        royalty_args: {
+          percentage: 4007.5000000000005,
+          split_between: {
+            test: 5739,
+            test1: 3158,
+            test2: 1103,
+          },
+        },
+        token_ids_to_mint: [123, 456],
+      },
+      deposit: '16550000000000000000000',
+      gas: GAS,
+    });
+  });
+
   test('mint with too many royalties', () => {
     expect(() => {
       mint({

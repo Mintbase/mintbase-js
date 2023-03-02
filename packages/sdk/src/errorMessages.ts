@@ -20,4 +20,5 @@ export const ERROR_MESSAGES = {
   ROYALTY_RECIPIENTS_WITHOUT_PERCENTAGE:`Cannot specify royalties without royalty percentage ${SUPPORT}`,
   TOKEN_IDS_TO_MINT_LEN:`Token ids to mint must not be included or have a length greater than 0 ${SUPPORT}`,
   NEGATIVE_ROYALTIES:`Royalties cant be negative or 0 ${SUPPORT}`,
+  EMPTY_TOKEN_IDS:`Empty array passed into tokenIdsToMint field. If trying to specify this, add values to the array, otherwise remove the optional argument ${SUPPORT}`,
 };
