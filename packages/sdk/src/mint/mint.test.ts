@@ -29,7 +29,7 @@ describe('mint method tests', () => {
         royalty_args: null,
         token_ids_to_mint: null,
       },
-      deposit: '5750000000000000000000',
+      deposit: '2150000000000000000000',
       gas: GAS,
     });
   });
@@ -87,7 +87,7 @@ describe('mint method tests', () => {
         },
         num_to_mint:  2,
         royalty_args: {
-          percentage: 4007.5000000000005,
+          percentage: 4007,
           split_between: {
             test: 5739,
             test1: 3158,
@@ -95,6 +95,40 @@ describe('mint method tests', () => {
           },
         },
         token_ids_to_mint: [123, 456],
+      },
+      deposit: '16550000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('mint with flaoting point royalties and amount', () => {
+    const args = mint({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      ownerId: ownerId,
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+      amount: 2,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.MINT,
+      args: {
+        owner_id: ownerId,
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        num_to_mint:  2,
+        royalty_args: {
+          percentage: 4007,
+          split_between: {
+            test: 5739,
+            test1: 3158,
+            test2: 1103,
+          },
+        },
+        token_ids_to_mint: null,
       },
       deposit: '16550000000000000000000',
       gas: GAS,
@@ -111,6 +145,19 @@ describe('mint method tests', () => {
         tokenIdsToMint: [123, 456],
       });
     }).toThrow(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
+  });
+
+  test('mint with too differing amount and tokenIdsToMint len', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference, media },
+        ownerId: ownerId,
+        amount: 3,
+        royalties: { test: 0.1, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
   });
 
   test('mint with no reference', () => {

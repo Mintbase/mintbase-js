@@ -17,7 +17,7 @@ export const mint = (
     metadata,
     ownerId,
     royalties,
-    amount = 1,
+    amount,
     tokenIdsToMint,
     noMedia = false,
     noReference = false,
@@ -60,18 +60,20 @@ export const mint = (
     throw  new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   }
 
-  if (tokenIdsToMint && tokenIdsToMint.length > 0 && amount > 1) {
-    console.warn('When defining tokenIdsToMint defining amount is not necessary as it will be defined by the array len');
+  if (tokenIdsToMint && amount && tokenIdsToMint?.length !== amount) {
+    throw new Error (ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
   }
-
-  const adjustedTokenCount = tokenIdsToMint?.length > amount? tokenIdsToMint.length : amount;
+  const adjustedTokenCount = tokenIdsToMint?.length ? tokenIdsToMint?.length : amount;
+  //if no amount or tokenids defined then default to 1 amount
+  const adjustedAmount = !amount && !tokenIdsToMint ? 1 : adjustedTokenCount; 
+  
 
   return {
     contractAddress: contractAddress || mbjs.keys.contractAddress,
     args: {
       owner_id: ownerId,
       metadata: metadata,
-      num_to_mint: adjustedTokenCount,
+      num_to_mint: adjustedAmount,
       // 10_000 = 100% (see above note)
       royalty_args: royaltyTotal < 0 || !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.floor(royaltyTotal * 10000) },
       token_ids_to_mint: !tokenIdsToMint ? null : tokenIdsToMint,
@@ -80,7 +82,7 @@ export const mint = (
     gas: GAS,
     deposit: mintingDeposit({
       nTokens: adjustedTokenCount,
-      nRoyalties: !royalties ? 0 : Object.keys(royalties).length,
+      nRoyalties: !royalties ? 0 : Object.keys(royalties)?.length,
       metadata,
     }),
   };
@@ -148,7 +150,7 @@ function mintingDeposit({
 
   // JSON serialization should give us an estimate that's always higher than
   // borsh serialization
-  const metadataDeposit = new BN(YOCTO_PER_BYTE).mul(new BN(JSON.stringify(metadata).length));
+  const metadataDeposit = new BN(YOCTO_PER_BYTE).mul(new BN(JSON.stringify(metadata)?.length));
   const depositPerToken = new BN(DEPOSIT_CONSTANTS.STORE_TOKEN).add(splitsDeposit);
 
   const total = commonDeposit
