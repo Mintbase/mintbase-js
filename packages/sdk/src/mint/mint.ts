@@ -51,8 +51,8 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
 
-  if (amount && amount > 125) {
-    throw new Error(ERROR_MESSAGES.MAX_AMOUT);
+  if (amount && (amount > 125 || amount < 1)) {
+    throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
   }
 
   //if specifying tokenIdsToMint these must be populated

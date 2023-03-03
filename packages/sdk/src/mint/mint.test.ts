@@ -218,6 +218,20 @@ describe('mint method tests', () => {
     }).toThrow(ERROR_MESSAGES.NO_MEDIA);
   });
 
+  test('mint with invalid amount', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference },
+        noMedia: true,
+        noReference: true,
+        ownerId: ownerId,
+        royalties: { test: 0.2, test1: 0.25 },
+        amount: -2,
+      });
+    }).toThrow(ERROR_MESSAGES.INVALID_AMOUNT);
+  });
+
   test('mint with negative royalties', () => {
     expect(() => {
       mint({
