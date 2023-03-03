@@ -12,7 +12,7 @@ It is possible to configure the amount of copies you want to mint through the `a
 
 The nftContactId can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
-**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbasejs click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
+**As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
 ## mint(args: MintArgs): NearContractCall
 

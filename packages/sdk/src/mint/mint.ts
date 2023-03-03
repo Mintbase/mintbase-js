@@ -81,7 +81,7 @@ export const mint = (
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,
     deposit: mintingDeposit({
-      nTokens: adjustedTokenCount,
+      nTokens: adjustedAmount,
       nRoyalties: !royalties ? 0 : Object.keys(royalties)?.length,
       metadata,
     }),
@@ -137,23 +137,23 @@ function roundRoyalties(royalties: Record<string, number>): Record<string, numbe
 function mintingDeposit({
   nTokens,
   nRoyalties,
-  nSplits,
+  //nSplits,  
   metadata,
 }: {
-  nSplits: number;
+  //nSplits: number;
   nTokens: number;
   nRoyalties: number;
   metadata: TokenMetadata;
 }): string {
   const commonDeposit = new BN(DEPOSIT_CONSTANTS.STORE_COMMON);
   const royaltiesDeposit = commonDeposit.mul(new BN(nRoyalties));
-  const splitsDeposit = commonDeposit.mul(new BN(nSplits));
+  //const splitsDeposit = commonDeposit.mul(new BN(nSplits));
   const mintingFee = new BN(MINTING_FEE);
 
   // JSON serialization should give us an estimate that's always higher than
   // borsh serialization
   const metadataDeposit = new BN(YOCTO_PER_BYTE).mul(new BN(JSON.stringify(metadata)?.length));
-  const depositPerToken = new BN(DEPOSIT_CONSTANTS.STORE_TOKEN).add(splitsDeposit);
+  const depositPerToken = new BN(DEPOSIT_CONSTANTS.STORE_TOKEN);//.add(splitsDeposit);
 
   const total = commonDeposit
     .add(mintingFee)

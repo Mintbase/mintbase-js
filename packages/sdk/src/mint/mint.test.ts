@@ -29,7 +29,7 @@ describe('mint method tests', () => {
         royalty_args: null,
         token_ids_to_mint: null,
       },
-      deposit: '2150000000000000000000',
+      deposit: '5750000000000000000000',
       gas: GAS,
     });
   });
@@ -62,7 +62,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: [123, 456],
       },
-      deposit: '14150000000000000000000',
+      deposit: '10950000000000000000000',
       gas: GAS,
     });
   });
@@ -96,7 +96,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: [123, 456],
       },
-      deposit: '16550000000000000000000',
+      deposit: '11750000000000000000000',
       gas: GAS,
     });
   });
@@ -130,7 +130,41 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: null,
       },
-      deposit: '16550000000000000000000',
+      deposit: '11750000000000000000000',
+      gas: GAS,
+    });
+  });
+
+
+  test('mint with flaoting point royalties without amount or specifying tokenIds', () => {
+    const args = mint({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      ownerId: ownerId,
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.MINT,
+      args: {
+        owner_id: ownerId,
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        num_to_mint: 1,
+        royalty_args: {
+          percentage: 4007,
+          split_between: {
+            test: 5739,
+            test1: 3158,
+            test2: 1103,
+          },
+        },
+        token_ids_to_mint: null,
+      },
+      deposit: '8150000000000000000000',
       gas: GAS,
     });
   });
