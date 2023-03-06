@@ -51,10 +51,6 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
 
-  if (amount && (amount > 125 || amount < 1)) {
-    throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
-  }
-
   //if specifying tokenIdsToMint these must be populated
   if (tokenIdsToMint && tokenIdsToMint.length == 0) {
     throw new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
@@ -67,6 +63,9 @@ export const mint = (
   //if no amount or tokenids defined then default to 1 amount
   const adjustedAmount = tokenIdsToMint?.length || amount || 1;
 
+  if (adjustedAmount > 125 || adjustedAmount < 1) {
+    throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
+  }
 
   return {
     contractAddress: contractAddress || mbjs.keys.contractAddress,
@@ -137,7 +136,7 @@ function roundRoyalties(royalties: Record<string, number>): Record<string, numbe
 function mintingDeposit({
   nTokens,
   nRoyalties,
-  //nSplits,  
+  //nSplits,
   metadata,
 }: {
   //nSplits: number;
