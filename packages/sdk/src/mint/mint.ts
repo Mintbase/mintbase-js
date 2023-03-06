@@ -51,6 +51,11 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
 
+  //must not have more than 50 royalty owners
+  if (royalties && Object.keys(royalties).length > 50) {
+    throw new Error(ERROR_MESSAGES.MAX_ROYALTIES);
+  }
+
   //if specifying tokenIdsToMint these must be populated
   if (tokenIdsToMint && tokenIdsToMint.length == 0) {
     throw new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
