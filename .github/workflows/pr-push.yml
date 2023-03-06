@@ -45,8 +45,8 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            **omni-site** ⬆️ PUSH
-            Branch:  [${{github.head_ref}}](https://github.com/mintbase/omnisite/tree/${{github.head_ref}})
+            **mintbase-js** ⬆️ PUSH
+            Branch:  [${{github.head_ref}}](https://github.com/mintbase/mintbase-js/tree/${{github.head_ref}})
             Pull Request: [#${{ steps.find_pr.outputs.pull_request_number }} ${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }})
             Commit: [${{ steps.commit_info.outputs.commit_message }}](${{ steps.commit_info.outputs.commit_url }})
             Author: ${{ github.actor }}

@@ -23,6 +23,5 @@ jobs:
           token: ${{ secrets.TELEGRAM_TOKEN }}
           format: markdown
           message: |
-            [omni-site](https://github.com/Mintbase/omni-site/pull/) ➡️ [OPEN] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) by ${{ github.actor }}
+            [mintbase.js](https://github.com/Mintbase/mintbase-js/pull/) ➡️ [OPEN] [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) by ${{ github.actor }}
             Commit message: ${{ github.event.head_commit.message }}
-            [Testnet Environment](https://omni-site-git-${{github.head_ref}}-mintbase.vercel.app)
