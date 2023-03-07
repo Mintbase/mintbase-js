@@ -79,7 +79,7 @@ export const mint = (
       metadata: metadata,
       num_to_mint: adjustedAmount,
       // 10_000 = 100% (see above note)
-      royalty_args: !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.floor(royaltyTotal * 10000) },
+      royalty_args: !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.round(royaltyTotal * 10000) },
       token_ids_to_mint: !tokenIdsToMint ? null : tokenIdsToMint,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
