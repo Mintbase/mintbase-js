@@ -150,7 +150,7 @@ function mintingDeposit({
   nRoyalties: number;
   metadata: TokenMetadata;
 }): string {
-  const nSplitsAdj = nSplits < 1 ?  0 : nSplits - 1
+  const nSplitsAdj = nSplits < 1 ?  0 : nSplits - 1;
   const bytesPerToken = STORAGE_BYTES.TOKEN_BASE + nSplitsAdj * STORAGE_BYTES.COMMON;
   const metadataBytesEstimate = JSON.stringify(metadata).length;
 
@@ -160,5 +160,5 @@ function mintingDeposit({
     bytesPerToken * nTokens +
     STORAGE_BYTES.COMMON * nRoyalties;
 
-  return `${Math.ceil(totalBytes)}${"0".repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
+  return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
 }

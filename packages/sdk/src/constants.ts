@@ -27,7 +27,7 @@ export const STORAGE_BYTES = {
   TOKEN_BASE: 440,
   MINTING_BASE: 92,
   MINTING_FEE: 100, // minting fee of 1 milliNEAR expressed as bytes
-}
+};
 
 // currently 19, meaning that 1 bytes costs 1e19 yoctoNEAR
 export const STORAGE_PRICE_PER_BYTE_EXPONENT = 19;
