@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { mbjs } from '../config/config';
-import { DEPOSIT_CONSTANTS, GAS, YOCTO_PER_BYTE, MINTING_FEE } from '../constants';
+import { DEPOSIT_CONSTANTS, GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES, Splits } from '../types';
 
@@ -85,6 +85,7 @@ export const mint = (
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,
     deposit: mintingDeposit({
+      nSplits: 0,
       nTokens: adjustedAmount,
       nRoyalties: !royalties ? 0 : Object.keys(royalties)?.length,
       metadata,
@@ -141,28 +142,23 @@ function roundRoyalties(royalties: Record<string, number>): Record<string, numbe
 function mintingDeposit({
   nTokens,
   nRoyalties,
-  //nSplits,
+  nSplits,
   metadata,
 }: {
-  //nSplits: number;
+  nSplits: number;
   nTokens: number;
   nRoyalties: number;
   metadata: TokenMetadata;
 }): string {
-  const commonDeposit = new BN(DEPOSIT_CONSTANTS.STORE_COMMON);
-  const royaltiesDeposit = commonDeposit.mul(new BN(nRoyalties));
-  //const splitsDeposit = commonDeposit.mul(new BN(nSplits));
-  const mintingFee = new BN(MINTING_FEE);
+  const nSplitsAdj = nSplits < 1 ?  0 : nSplits - 1
+  const bytesPerToken = STORAGE_BYTES.TOKEN_BASE + nSplitsAdj * STORAGE_BYTES.COMMON;
+  const metadataBytesEstimate = JSON.stringify(metadata).length;
 
-  // JSON serialization should give us an estimate that's always higher than
-  // borsh serialization
-  const metadataDeposit = new BN(YOCTO_PER_BYTE).mul(new BN(JSON.stringify(metadata)?.length));
-  const depositPerToken = new BN(DEPOSIT_CONSTANTS.STORE_TOKEN);//.add(splitsDeposit);
+  const totalBytes = STORAGE_BYTES.MINTING_BASE +
+    STORAGE_BYTES.MINTING_FEE +
+    metadataBytesEstimate +
+    bytesPerToken * nTokens +
+    STORAGE_BYTES.COMMON * nRoyalties;
 
-  const total = commonDeposit
-    .add(mintingFee)
-    .add(royaltiesDeposit)
-    .add(metadataDeposit)
-    .add(new BN(nTokens).mul(depositPerToken));
-  return total.toString();
+  return `${Math.ceil(totalBytes)}${"0".repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
 }
