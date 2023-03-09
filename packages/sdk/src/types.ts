@@ -2,7 +2,7 @@ import { Wallet } from '@near-wallet-selector/core';
 import BN from 'bn.js';
 import { Account } from 'near-api-js';
 import type { Optional, Transaction } from '@near-wallet-selector/core';
-
+import type { FinalExecutionOutcome as FEO } from '@near-wallet-selector/core';
 
 export enum TOKEN_METHOD_NAMES {
   TRANSFER =  'nft_transfer',
@@ -312,4 +312,6 @@ export interface ExecuteExtraArgsResponse {
 
 export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
-| ExecuteExtraArgsResponse | Record<string, unknown>
+| ExecuteExtraArgsResponse | Record<string, unknown>;
+
+export type FinalExecutionOutcome = FEO;
