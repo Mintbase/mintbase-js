@@ -87,7 +87,7 @@ describe('mint method tests', () => {
         },
         num_to_mint: 2,
         royalty_args: {
-          percentage: 4007,
+          percentage: 4008,
           split_between: {
             test: 5739,
             test1: 3158,
@@ -121,7 +121,7 @@ describe('mint method tests', () => {
         },
         num_to_mint: 2,
         royalty_args: {
-          percentage: 4007,
+          percentage: 4008,
           split_between: {
             test: 5739,
             test1: 3158,
@@ -155,7 +155,7 @@ describe('mint method tests', () => {
         },
         num_to_mint: 1,
         royalty_args: {
-          percentage: 4007,
+          percentage: 4008,
           split_between: {
             test: 5739,
             test1: 3158,
