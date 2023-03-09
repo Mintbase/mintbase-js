@@ -174,7 +174,8 @@ export type MintArgs =  {
   contractAddress?: string;
   ownerId: string;
   metadata: TokenMetadata;
-  options?: MintOptions;
+  royalties?: Splits;
+  amount?: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
   tokenIdsToMint?: number[];
@@ -193,12 +194,6 @@ export type TokenMetadata = {
   extra?: string;
   reference?: string;
   reference_hash?: string;
-}
-
-export type MintOptions = {
-    splits?: Splits;
-    amount?: number;
-    royaltyPercentage?: number;
 }
 
 export type Splits = Record<string, number>;
@@ -295,7 +290,7 @@ export interface MintArgsResponse {
   num_to_mint:  number;
   // 10000 = 100%
   royalty_args: { split_between: Splits; percentage: number } | null;
-  split_owners: Splits | null;
+  //split_owners: Splits | null;
   token_ids_to_mint?: number[];
 }
 

@@ -1,5 +1,6 @@
 import { GAS, ONE_YOCTO } from '../constants';
-import { MintOptions, TOKEN_METHOD_NAMES } from '../types';
+import { ERROR_MESSAGES } from '../errorMessages';
+import { TOKEN_METHOD_NAMES } from '../types';
 import { mint } from './mint';
 
 describe('mint method tests', () => {
@@ -7,83 +8,6 @@ describe('mint method tests', () => {
   const reference = 'test';
   const media = 'test';
   const ownerId = 'test';
-  const options = {
-    splits: { test: 0.5, test2: 0.5 },
-    amount: 2,
-    royaltyPercentage: 0.5,
-  };
-
-  const optionsWithInvalidPercentage = {
-    splits: { test: 2 },
-    amount: 2,
-    royaltyPercentage: 1,
-  };
-
-  const optionsWithInvalidAmount = {
-    splits: { test: 2 },
-    amount: 300,
-    royaltyPercentage: 0.5,
-  };
-
-  const optionsWithInvalidSplits: MintOptions =  {
-    splits:{
-      test0: 0,
-      test1: 1,
-      test2: 2,
-      test3: 3,
-      test4: 4,
-      test5: 5,
-      test6: 6,
-      test7: 7,
-      test8: 8,
-      test9: 9,
-      test10: 10,
-      test11: 11,
-      test12: 12,
-      test13: 13,
-      test14: 14,
-      test15: 15,
-      test16: 16,
-      test17: 17,
-      test18: 18,
-      test19: 19,
-      test20: 20,
-      test21: 21,
-      test22: 22,
-      test23: 23,
-      test24: 24,
-      test25: 25,
-      test26: 26,
-      test27: 27,
-      test28: 28,
-      test29: 29,
-      test30: 30,
-      test31: 31,
-      test32: 32,
-      test33: 33,
-      test34: 34,
-      test35: 35,
-      test36: 36,
-      test37: 37,
-      test38: 38,
-      test39: 39,
-      test40: 40,
-      test41: 41,
-      test42: 42,
-      test43: 43,
-      test44: 44,
-      test45: 45,
-      test46: 46,
-      test47: 47,
-      test48: 48,
-      test49: 49,
-      test50: 50,
-      test51: 51,
-    },
-    amount: 1,
-    royaltyPercentage: 0.5,
-  };
-
 
   test('mint without options', () => {
     const args = mint({
@@ -101,11 +25,11 @@ describe('mint method tests', () => {
           reference: reference,
           media: media,
         },
-        num_to_mint:  1,
+        num_to_mint: 1,
         royalty_args: null,
-        split_owners: null,
+        token_ids_to_mint: null,
       },
-      deposit: '2150000000000000000000',
+      deposit: '6670000000000000000000',
       gas: GAS,
     });
   });
@@ -115,7 +39,7 @@ describe('mint method tests', () => {
       contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
-      options: options,
+      royalties: { test: 0.25, test1: 0.25 },
       tokenIdsToMint: [123, 456],
     });
 
@@ -128,65 +52,197 @@ describe('mint method tests', () => {
           reference: reference,
           media: media,
         },
-        num_to_mint:  2,
+        num_to_mint: 2,
         royalty_args: {
           percentage: 5000,
           split_between: {
             test: 5000,
-            test2: 5000,
+            test1: 5000,
           },
-        },
-        split_owners: {
-          test: 5000,
-          test2: 5000,
         },
         token_ids_to_mint: [123, 456],
       },
-      deposit: '14150000000000000000000',
+      deposit: '12670000000000000000000',
       gas: GAS,
     });
   });
 
-  test('mint with invalid percentage', () => {
-    expect(()=> mint({
+  test('mint with floating point royalties', () => {
+    const args = mint({
       contractAddress: contractAddress,
       metadata: { reference, media },
       ownerId: ownerId,
-      options: optionsWithInvalidPercentage,
-    })).toThrow();
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+      tokenIdsToMint: [123, 456],
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.MINT,
+      args: {
+        owner_id: ownerId,
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        num_to_mint: 2,
+        royalty_args: {
+          percentage: 4008,
+          split_between: {
+            test: 5739,
+            test1: 3158,
+            test2: 1103,
+          },
+        },
+        token_ids_to_mint: [123, 456],
+      },
+      deposit: '13470000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('mint with flaoting point royalties and amount', () => {
+    const args = mint({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      ownerId: ownerId,
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+      amount: 2,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.MINT,
+      args: {
+        owner_id: ownerId,
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        num_to_mint: 2,
+        royalty_args: {
+          percentage: 4008,
+          split_between: {
+            test: 5739,
+            test1: 3158,
+            test2: 1103,
+          },
+        },
+        token_ids_to_mint: null,
+      },
+      deposit: '13470000000000000000000',
+      gas: GAS,
+    });
+  });
+
+
+  test('mint with flaoting point royalties without amount or specifying tokenIds', () => {
+    const args = mint({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      ownerId: ownerId,
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.MINT,
+      args: {
+        owner_id: ownerId,
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        num_to_mint: 1,
+        royalty_args: {
+          percentage: 4008,
+          split_between: {
+            test: 5739,
+            test1: 3158,
+            test2: 1103,
+          },
+        },
+        token_ids_to_mint: null,
+      },
+      deposit: '9070000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('mint with too many royalties', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference, media },
+        ownerId: ownerId,
+        royalties: { test: 0.3, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
+  });
+
+  test('mint with differing amount and tokenIdsToMint len', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference, media },
+        ownerId: ownerId,
+        amount: 3,
+        royalties: { test: 0.1, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
+  });
+
+  test('mint with no reference', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { media },
+        ownerId: ownerId,
+        royalties: { test: 0.3, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.NO_REFERENCE);
+  });
+
+  test('mint with no media', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference },
+        ownerId: ownerId,
+        royalties: { test: 0.3, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.NO_MEDIA);
   });
 
   test('mint with invalid amount', () => {
-    expect(()=> mint({
-      contractAddress: contractAddress,
-      metadata: { reference, media },
-      ownerId: ownerId,
-      options: optionsWithInvalidAmount,
-    })).toThrow();
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference },
+        noMedia: true,
+        noReference: true,
+        ownerId: ownerId,
+        royalties: { test: 0.2, test1: 0.25 },
+        amount: -2,
+      });
+    }).toThrow(ERROR_MESSAGES.INVALID_AMOUNT);
   });
 
-  test('mint with invalid splits', () => {
-    expect((() => mint({
-      contractAddress: contractAddress,
-      metadata: { reference, media },
-      ownerId: ownerId,
-      options: optionsWithInvalidSplits,
-    }))).toThrow();
+  test('mint with negative royalties', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference, media },
+        ownerId: ownerId,
+        royalties: { test: -0.3, test1: 0.4 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.NEGATIVE_ROYALTIES);
   });
 
-  test('mint without reference', () => {
-    expect((() => mint({
-      contractAddress: contractAddress,
-      metadata: { media },
-      ownerId: ownerId,
-    }))).toThrow();
-  });
 
-  test('mint without media', () => {
-    expect((() => mint({
-      contractAddress: contractAddress,
-      metadata: { reference },
-      ownerId: ownerId,
-    }))).toThrow();
-  });
 });

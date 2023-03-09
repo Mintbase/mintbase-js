@@ -1,8 +1,8 @@
 import BN from 'bn.js';
 import { mbjs } from '../config/config';
-import { DEPOSIT_CONSTANTS, GAS, YOCTO_PER_BYTE, MINTING_FEE } from '../constants';
+import { DEPOSIT_CONSTANTS, GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES } from '../types';
+import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES, Splits } from '../types';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -16,13 +16,12 @@ export const mint = (
     contractAddress = mbjs.keys.contractAddress,
     metadata,
     ownerId,
-    options = {},
+    royalties,
+    amount,
+    tokenIdsToMint,
     noMedia = false,
     noReference = false,
-    tokenIdsToMint,
   } = args;
-
-  const { splits, amount, royaltyPercentage } = options;
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
@@ -36,26 +35,41 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
-  if (splits) {
-    // FIXME: suggest we use % (ints) vs float here
-    // 0.5 -> 5000
-    adjustSplitsForContract(splits);
+  let adjustedRoyalties: Splits;
+  let royaltyTotal: number;
+  let roundedRoyalties: Splits;
+
+  //royalties adjustments to make devx better
+  if (royalties) {
+    royaltyTotal = getRoyaltyTotal(royalties);
+    adjustedRoyalties = adjustRoyaltiesForContract(royalties, royaltyTotal);
+    roundedRoyalties = roundRoyalties(adjustedRoyalties);
   }
 
-  if (splits && Object.keys(splits).length > 50) {
-    throw new Error(ERROR_MESSAGES.MAX_SPLITS);
+  //if royalties exist they need to be populated
+  if (royalties && Object.keys(royalties).length < 1) {
+    throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
 
-  if (splits && Object.keys(splits).length < 2) {
-    throw new Error(ERROR_MESSAGES.SPLITS);
+  //must not have more than 50 royalty owners
+  if (royalties && Object.keys(royalties).length > 50) {
+    throw new Error(ERROR_MESSAGES.MAX_ROYALTIES);
   }
 
-  if (amount && amount > 125) {
-    throw  new Error(ERROR_MESSAGES.MAX_AMOUT);
+  //if specifying tokenIdsToMint these must be populated
+  if (tokenIdsToMint && tokenIdsToMint.length == 0) {
+    throw new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   }
 
-  if (royaltyPercentage && royaltyPercentage < 0 || royaltyPercentage > 0.5) {
-    throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
+  if (tokenIdsToMint && amount && tokenIdsToMint?.length !== amount) {
+    throw new Error(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
+  }
+
+  //if no amount or tokenids defined then default to 1 amount
+  const adjustedAmount = tokenIdsToMint?.length || amount || 1;
+
+  if (adjustedAmount > 125 || adjustedAmount < 1) {
+    throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
   }
 
   return {
@@ -63,59 +77,88 @@ export const mint = (
     args: {
       owner_id: ownerId,
       metadata: metadata,
-      num_to_mint: amount || 1,
+      num_to_mint: adjustedAmount,
       // 10_000 = 100% (see above note)
-      royalty_args: !splits ? null : { split_between: splits, percentage: royaltyPercentage * 10_000 },
-      split_owners: splits || null,
-      token_ids_to_mint: tokenIdsToMint,
+      royalty_args: !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.round(royaltyTotal * 10000) },
+      token_ids_to_mint: !tokenIdsToMint ? null : tokenIdsToMint,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,
     deposit: mintingDeposit({
-      nTokens: amount,
-      nRoyalties: !splits ? 0 : Object.keys(splits).length,
-      nSplits: splits ? Object.keys(splits).length : 0,
+      nSplits: 0,
+      nTokens: adjustedAmount,
+      nRoyalties: !royalties ? 0 : Object.keys(royalties)?.length,
       metadata,
     }),
   };
 };
 
-function adjustSplitsForContract(splits: Record<string, number> ): void {
-  let counter = 0;
-  Object.keys(splits).forEach(key => {
-    counter += splits[key];
-    splits[key] *= 10_000;
+function getRoyaltyTotal(royalties: Record<string, number>): number {
+  let royaltyTotal = 0;
+  Object.values(royalties).forEach(value => {
+    royaltyTotal += value;
   });
-  if (counter != 1) {
-    throw new Error (ERROR_MESSAGES.SPLITS_PERCENTAGE);
+
+  if (royaltyTotal <= 0 || royaltyTotal > 0.5) {
+    throw new Error(ERROR_MESSAGES.INVALID_ROYALTY_PERCENTAGE);
   }
+  return royaltyTotal;
+}
+
+function adjustRoyaltiesForContract(royalties: Record<string, number>, royaltyTotal): Splits {
+  let counter = 0;
+  const result: Splits = {};
+  Object.keys(royalties).forEach(key => {
+    if (royalties[key] <= 0) {
+      throw new Error(ERROR_MESSAGES.NEGATIVE_ROYALTIES);
+    }
+    const adjustedAmount = royalties[key] / royaltyTotal * 10000;
+    result[key] = adjustedAmount;
+    counter += adjustedAmount;
+  });
+  if (counter != 10000) {
+    throw new Error(ERROR_MESSAGES.ROYALTIES_PERCENTAGE);
+  }
+
+  return result;
+}
+
+function roundRoyalties(royalties: Record<string, number>): Record<string, number> {
+  let roundedCounter = 0;
+  const result: Splits = {};
+  const firstKey = Object.keys(royalties)[0];
+  Object.keys(royalties).forEach((key) => {
+    const roundedVal = Math.round(royalties[key]);
+    result[key] = roundedVal;
+    roundedCounter += roundedVal;
+  });
+
+  if (roundedCounter != 10000) {
+    result[firstKey] += 10000 - roundedCounter;
+  }
+  return result;
 }
 
 function mintingDeposit({
   nTokens,
-  nSplits,
   nRoyalties,
+  nSplits,
   metadata,
 }: {
-  nTokens: number;
   nSplits: number;
+  nTokens: number;
   nRoyalties: number;
   metadata: TokenMetadata;
 }): string {
-  const commonDeposit = new BN(DEPOSIT_CONSTANTS.STORE_COMMON);
-  const royaltiesDeposit = commonDeposit.mul(new BN(nRoyalties));
-  const splitsDeposit = commonDeposit.mul(new BN(nSplits));
-  const mintingFee = new BN(MINTING_FEE);
+  const nSplitsAdj = nSplits < 1 ?  0 : nSplits - 1;
+  const bytesPerToken = STORAGE_BYTES.TOKEN_BASE + nSplitsAdj * STORAGE_BYTES.COMMON;
+  const metadataBytesEstimate = JSON.stringify(metadata).length;
 
-  // JSON serialization should give us an estimate that's always higher than
-  // borsh serialization
-  const metadataDeposit = new BN(YOCTO_PER_BYTE).mul(new BN(JSON.stringify(metadata).length));
-  const depositPerToken = new BN(DEPOSIT_CONSTANTS.STORE_TOKEN).add(splitsDeposit);
+  const totalBytes = STORAGE_BYTES.MINTING_BASE +
+    STORAGE_BYTES.MINTING_FEE +
+    metadataBytesEstimate +
+    bytesPerToken * nTokens +
+    STORAGE_BYTES.COMMON * nRoyalties;
 
-  const total = commonDeposit
-    .add(mintingFee)
-    .add(royaltiesDeposit)
-    .add(metadataDeposit)
-    .add(new BN(nTokens).mul(depositPerToken));
-  return total.toString();
+  return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
 }

@@ -1,4 +1,5 @@
 import BN from 'bn.js';
+import { constants } from 'buffer';
 
 export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
@@ -8,8 +9,6 @@ export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
 // are deployed to mainnet.
 export const CONTRACT_DEPOSIT = `6500000${'0'.repeat(18)}`; // 6.5 NEAR
 export const LISTING_DEPOSIT = `800${'0'.repeat(18)}`; // 0.8 milliNEAR
-export const YOCTO_PER_BYTE = `10${'0'.repeat(18)}`; // 0.01 milliNEAR
-export const MINTING_FEE = `1000${'0'.repeat(18)}`; // 1 milliNEAR
 
 export const GAS_CONSTANTS = {
   DEFAULT_GAS: '200000000000000',
@@ -20,11 +19,18 @@ export const GAS_CONSTANTS = {
 export const DEPOSIT_CONSTANTS = {
   ONE_YOCTO: '1',
   ZERO_YOCTO: '0',
-  LEGACY_LISTING: '4400000000000000000000',
-  // 80 bytes ->
-  STORE_COMMON: '800000000000000000000', // 80 bytes
-  STORE_TOKEN: '3600000000000000000000', // 360 bytes
+  LEGACY_LISTING: `4400${'0'.repeat(18)}`, // 440 bytes, 4.4 milliNEAR
 };
+
+export const STORAGE_BYTES = {
+  COMMON: 80, // one royalty owner, one split owner, or one approval
+  TOKEN_BASE: 440,
+  MINTING_BASE: 92,
+  MINTING_FEE: 100, // minting fee of 1 milliNEAR expressed as bytes
+};
+
+// currently 19, meaning that 1 bytes costs 1e19 yoctoNEAR
+export const STORAGE_PRICE_PER_BYTE_EXPONENT = 19;
 
 export const multipleTokensLegacyListing = (tokenLength: number): string => new BN(DEPOSIT_CONSTANTS.LEGACY_LISTING).mul(new BN(tokenLength)).toString();
 

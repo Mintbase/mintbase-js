@@ -69,15 +69,7 @@ test('upload media and mint tokens', async () => {
         reference: referenceIdOne,
         media: mediaIdOne,
       },
-      tokenIdsToMint: [randInt()],
-    }),
-    mint({
-      contractAddress: USE_TEST_CONTRACT,
-      ownerId: 'mb_alice.testnet',
-      metadata: {
-        reference: referenceIdTwo,
-        media: mediaIdTwo,
-      },
+      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
       tokenIdsToMint: [randInt()],
     }),
 
