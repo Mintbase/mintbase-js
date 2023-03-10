@@ -1,4 +1,4 @@
-import { GAS, ONE_YOCTO } from '../constants';
+import { GAS } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { mint } from './mint';
