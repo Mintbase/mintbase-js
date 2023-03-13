@@ -12,7 +12,7 @@ describe('test mbjs namespace', () => {
     jest.resetModules();
   });
 
-  it('should set CONFIG_KEYS with testnet values', () => {
+  it('should set configuration with testnet values', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const configModule = require('./config');
@@ -35,7 +35,7 @@ describe('test mbjs namespace', () => {
 
   });
 
-  it('should set CONFIG_KEYS with mainnet values', () => {
+  it('should set configuration with mainnet values', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-var-requires
     const configModule = require('./config');

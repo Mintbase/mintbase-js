@@ -7,7 +7,7 @@ describe('test mbjs namespace', () => {
     jest.resetModules();
   });
 
-  it('should set CONFIG_KEYS with process.env TESTNET', () => {
+  it('should set configuration with process.env TESTNET', () => {
     process.env.NEAR_NETWORK = NEAR_NETWORKS.TESTNET;
     process.env.CONTRACT_ADDRESS = TESTNET_MOCK.contractAddress;
     process.env.CALLBACK_URL = TESTNET_MOCK.callbackUrl;
@@ -20,7 +20,7 @@ describe('test mbjs namespace', () => {
     expect(configModule.mbjs.keys).toEqual(TESTNET_MOCK);
   });
 
-  it('should set CONFIG_KEYS with process.env MAINNET', () => {
+  it('should set configuration with process.env MAINNET', () => {
     process.env.NEAR_NETWORK = NEAR_NETWORKS.MAINNET;
     process.env.CONTRACT_ADDRESS = MAINNET_MOCK.contractAddress;
     process.env.CALLBACK_URL = MAINNET_MOCK.callbackUrl;
