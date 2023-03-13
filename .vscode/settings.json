@@ -8,6 +8,7 @@
     "integration",
     "storage",
     "data",
-    "rpc"
+    "rpc",
+    "testinng"
   ]
 }

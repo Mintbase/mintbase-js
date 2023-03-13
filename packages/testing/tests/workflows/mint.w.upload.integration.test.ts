@@ -3,7 +3,7 @@ import { readFileSync } from 'fs';
 import { resolve } from 'path';
 import {
   LICENSE_TEST_TOKEN_CONTRACT,
-  TEST_TOKEN_CONTRACT,
+  // TEST_TOKEN_CONTRACT,
 } from '../../src/constants';
 import { execute, mint } from '@mintbase-js/sdk/src';
 import { uploadBuffer } from '@mintbase-js/storage';
@@ -21,15 +21,9 @@ test('upload media and mint tokens', async () => {
 
   // upload media to arweave
   const media = readFileSync(resolve(__dirname + '/../../observatory.jpg'));
-  const mediaTwo = readFileSync(resolve(__dirname + '/../../gas-station.jpg'));
   const { id: mediaIdOne, mimeType: mimeTypeOne } = await uploadBuffer(
     media,
     'observatory.jpg',
-  );
-
-  const { id: mediaIdTwo, mimeType: mimeTypeTwo } = await uploadBuffer(
-    mediaTwo,
-    'gas-station.jpg',
   );
 
   const metadata = {
@@ -44,6 +38,13 @@ test('upload media and mint tokens', async () => {
   const { id: referenceIdOne } = await uploadBuffer(
     Buffer.from(JSON.stringify(metadata)),
     'metadata.json',
+  );
+
+  // mint second token
+  const mediaTwo = readFileSync(resolve(__dirname + '/../../gas-station.jpg'));
+  const { id: mediaIdTwo, mimeType: mimeTypeTwo } = await uploadBuffer(
+    mediaTwo,
+    'gas-station.jpg',
   );
 
   const { id: referenceIdTwo } = await uploadBuffer(
@@ -70,6 +71,17 @@ test('upload media and mint tokens', async () => {
         media: mediaIdOne,
       },
       royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
+      tokenIdsToMint: [randInt()],
+    }),
+
+    mint({
+      contractAddress: USE_TEST_CONTRACT,
+      ownerId: 'mb_alice.testnet',
+      metadata: {
+        reference: referenceIdTwo,
+        media: mediaIdTwo,
+      },
+      royalties: undefined,
       tokenIdsToMint: [randInt()],
     }),
 
