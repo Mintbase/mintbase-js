@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
-import { GAS  } from '../constants';
+import { MAX_GAS  } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { BuyArgs, BuyArgsResponse, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
@@ -26,7 +26,7 @@ export const buy = (args: BuyArgs): NearContractCall<BuyArgsResponse>=> {
       referrer_id: affiliateAccount || referrerId,
     },
     methodName: MARKET_METHOD_NAMES.BUY,
-    gas: GAS,
+    gas: MAX_GAS,
     deposit: price,
   };
 };
