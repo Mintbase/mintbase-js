@@ -3,18 +3,21 @@ import { mbjs } from '@mintbase-js/sdk';
 
 export const NEAR_SOCIAL_IPFS_GATEWAY = 'https://ipfs.near.social/ipfs/';
 
+type ProfileImage = {
+  ipfs_cid: string;
+  url?: string;
+  nft?: {
+    contractId: string;
+    tokenId: string;
+  };
+}
+
 type NearSocialProfile = {
   name?: string;
   description?: string;
-  image?: {
-    ipfs_cid: string;
-    url?: string;
-    nft?: {
-      contractId: string;
-      tokenId: string;
-    };
-  };
+  image?: ProfileImage;
   imageUrl?: string;
+  backgroundImageUrl: string;
   linktree?: {
     twitter: string;
     github: string;
@@ -22,6 +25,22 @@ type NearSocialProfile = {
     website: string;
   };
   tags?: Record<string, string>;
+};
+
+const getImageUrl = (image: ProfileImage): string | null => {
+  let imageUrl = null;
+  if (image && image.ipfs_cid) {
+    imageUrl = `${NEAR_SOCIAL_IPFS_GATEWAY}${image.ipfs_cid}`;
+  }
+
+  if (image && image.url) {
+    imageUrl = image.url;
+  }
+
+  // TODO: if we have an nft, we will want to resolve the media from the contract
+  // a better pattern here may be just invoking the new API account method
+  // if (profile.image && profile.image.nft) { }
+  return imageUrl;
 };
 
 export const nearSocialProfile = async (
@@ -43,23 +62,10 @@ export const nearSocialProfile = async (
 
     const profile = data[accountId].profile;
 
-    // append the near ipfs gateway to the image if there is an image
-    let imageUrl = null;
-    if (profile.image && profile.image.ipfs_cid) {
-      imageUrl = `${NEAR_SOCIAL_IPFS_GATEWAY}${profile.image.ipfs_cid}`;
-    }
-
-    if (profile.image && profile.image.url) {
-      imageUrl = profile.image.url;
-    }
-
-    // TODO: if we have an nft, we will want to resolve the media from the contract
-    // a better pattern here may be just invoking the new API account method
-    // if (profile.image && profile.image.nft) { }
-
     return {
       ...profile,
-      imageUrl,
+      imageUrl: getImageUrl(profile.image),
+      backgroundImageUrl: getImageUrl(profile.backgroundImage),
     };
   } catch (err) {
     console.error(`Error calling near social RPC methods ${err}`);
