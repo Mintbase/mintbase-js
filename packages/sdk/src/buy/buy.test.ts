@@ -1,5 +1,5 @@
 import { mbjs } from '../config/config';
-import { GAS } from '../constants';
+import { MAX_GAS } from '../constants';
 import { MARKET_METHOD_NAMES } from '../types';
 import { buy } from './buy';
 
@@ -26,6 +26,6 @@ test('buy a token', () => {
       referrer_id: affiliateAccount,
     },
     deposit: price,
-    gas: GAS,
+    gas: MAX_GAS,
   });
 });
