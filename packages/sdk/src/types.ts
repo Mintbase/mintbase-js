@@ -26,6 +26,10 @@ export enum MARKET_METHOD_NAMES {
   UNLIST = 'unlist',
 }
 
+export enum FT_METHOD_NAMES {
+  FT_TRANSFER_CALL = "ft_transfer_call"
+}
+
 export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
 
 // due to wallet selector types had to do this one:

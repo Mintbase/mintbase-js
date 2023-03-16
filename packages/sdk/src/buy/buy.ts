@@ -2,7 +2,7 @@
 import { mbjs } from '../config/config';
 import { MAX_GAS, ONE_YOCTO  } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { BuyArgs, BuyArgsFtResponse, BuyArgsResponse, MARKET_METHOD_NAMES, NearContractCall } from '../types';
+import { BuyArgs, BuyArgsFtResponse, BuyArgsResponse, FT_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall } from '../types';
 
 //todo make a buy at listed price method
 
@@ -33,7 +33,7 @@ export const buy = (args: BuyArgs): NearContractCall<BuyArgsResponse | BuyArgsFt
           token_id: tokenId,
         })
       },
-      methodName: "ft_transfer_call", // TODO: use enum?
+      methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
       gas: MAX_GAS,
       deposit: ONE_YOCTO,
     }
