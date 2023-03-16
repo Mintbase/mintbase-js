@@ -19,7 +19,9 @@ export const buy = (args: BuyArgs): NearContractCall<BuyArgsResponse | BuyArgsFt
   }
 
   if (args.ftAddress) {
-    // TODO: validate that FT is a valid address and that MB is registered with them!
+    if (!Object.values(mbjs.keys.ftAddresses).includes(args.ftAddress)) {
+      throw new Error(ERROR_MESSAGES.UNSUPPORTED_FT);
+    }
 
     return {
       contractAddress: args.ftAddress,
