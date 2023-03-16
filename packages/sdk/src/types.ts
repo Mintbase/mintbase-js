@@ -150,6 +150,7 @@ export type BuyArgs = {
   referrerId?: string;
   marketId?: string;
   affiliateAccount?: string;
+  ftAddress?: string;
 };
 
 export type DelistArgs = {
@@ -264,6 +265,12 @@ export interface BuyArgsResponse {
   nft_contract_id: string;
   token_id: string;
   referrer_id: string;
+}
+
+export interface BuyArgsFtResponse {
+  receiver_id: string;
+  amount: string;
+  msg: string;
 }
 
 export interface DelistArgsResponse {
