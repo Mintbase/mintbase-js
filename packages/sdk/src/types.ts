@@ -56,6 +56,19 @@ export enum RPC_ENDPOINTS  {
   testnet = 'https://rpc.testnet.near.org',
 }
 
+export enum USDC_ADDRESS {
+  mainnet = '', // FIXME:
+  testnet = 'usdc.fakes.testnet',
+}
+
+export enum FungibleToken {
+  USDC = 'usdc',
+};
+
+// keys here need to be the values of the fungible token enum
+export type FtAddresses = {
+  usdc: USDC_ADDRESS;
+}
 
 export type ConfigOptions = {
   network?: Network | string;
@@ -71,6 +84,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
+  ftAddresses: FtAddresses | '';
 }
 
 export interface MbJsKeysObject extends ConfigOptionsObj  {
@@ -163,11 +177,13 @@ export type DepositStorageArgs = {
   marketAddress?: string;
 };
 
+
 export type ListArgs = {
   contractAddress?: string;
   marketAddress?: string;
   price: string;
   tokenId: string;
+  ft?: FungibleToken;
 }
 
 export type MintArgs =  {
