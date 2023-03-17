@@ -7,6 +7,7 @@ export interface AttributesFilters {
 }
 
 export type FilteredMetadataResult = {
+    tokenId: string;
     metadataId: string;
     title: string;
     description: string;

@@ -16,7 +16,7 @@ export const attributesByContract = async (
     : META_SERVICE_HOST;
 
   try {
-    const res = await fetch(`${useHost}/${contractId}/attributes`, {
+    const res = await fetch(`${useHost}/stores/${contractId}/attributes`, {
       method: 'GET',
       headers: {
         [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,

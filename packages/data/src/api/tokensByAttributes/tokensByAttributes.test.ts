@@ -1,6 +1,7 @@
 
 import { META_SERVICE_HOST_TESTNET } from '../../constants';
-import { tokensByAttributes, tokensByAttributesThrowOnError } from './tokensByAttributes';
+import { ParsedDataReturn } from '../../types';
+import { FilteredMetadataQueryResult, tokensByAttributes, tokensByAttributesThrowOnError } from './tokensByAttributes';
 
 import fetchMock from 'fetch-mock';
 
@@ -11,8 +12,8 @@ describe('tokensByAttributes', () => {
     });
   });
 
-  it('returns data', async () => {
-    fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, { body: [{ tokenId: '123' }] });
+  it('returns data and converts ', async () => {
+    fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, { body: { results: [{ token_id: '123' }] } });
     const query = {
       filters: {
         'eyes': ['blue', 'green'],
@@ -21,8 +22,9 @@ describe('tokensByAttributes', () => {
       limit: 10,
       offset: 0,
     };
-    const { data } = await tokensByAttributes('contract.id', query);
+    const { data } = await tokensByAttributes('contract.id', query) as ParsedDataReturn<FilteredMetadataQueryResult>;
     expect(data).toBeDefined();
+    expect(data?.results[0].tokenId).toBeDefined();
   });
 
   it('returns errors', async () => {
