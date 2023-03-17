@@ -31,12 +31,12 @@ export const buy = (args: BuyArgs): NearContractCall<BuyArgsResponse | BuyArgsFt
         msg: JSON.stringify({
           nft_contract_id: contractAddress || mbjs.keys.contractAddress,
           token_id: tokenId,
-        })
+        }),
       },
       methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
       gas: MAX_GAS,
       deposit: ONE_YOCTO,
-    }
+    };
   }
 
   return {

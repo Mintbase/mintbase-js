@@ -17,7 +17,7 @@ export const list = (args: ListArgs): NearContractCall<ListArgsResponse> => {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
-  const msg: { price: string, ft_contract?: string } = { price: price };
+  const msg: { price: string; ft_contract?: string } = { price: price };
   if (args.ft) {
     const ftContractId = mbjs.keys.ftAddresses[args.ft];
     msg.ft_contract = ftContractId;

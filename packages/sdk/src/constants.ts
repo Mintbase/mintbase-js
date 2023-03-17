@@ -45,7 +45,7 @@ export const DEPOSIT_FOR_TRANSFER = ONE_YOCTO;
 // TODO: make this more accurate someday.
 export const GAS_FOR_TRANSFER = GAS;
 
-export const FT_ADDRESSES: { testnet: FtAddresses; mainnet:FtAddresses } = {
+export const FT_ADDRESSES: { testnet: FtAddresses; mainnet: FtAddresses } = {
   testnet: {
     usdc: USDC_ADDRESS.testnet,
   },

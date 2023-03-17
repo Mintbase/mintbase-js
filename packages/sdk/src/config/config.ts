@@ -11,7 +11,6 @@ import {
   ConfigOptions,
   GRAPHQL_ENDPOINTS,
   RPC_ENDPOINTS,
-  USDC_ADDRESS,
 } from '../types';
 
 // to create a new key you have to specify here on the configuration and MbJsKeysObject + add on the setGlobalEnv
@@ -71,6 +70,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   config.debugMode = globalConfig.debugMode;
   config.nearRpcUrl = globalConfig.nearRpcUrl;
   config.apiKey = globalConfig.apiKey;
+  config.ftAddresses = globalConfig.ftAddresses;
   config.isSet = globalConfig.isSet;
 
   return globalConfig;

@@ -27,7 +27,7 @@ export enum MARKET_METHOD_NAMES {
 }
 
 export enum FT_METHOD_NAMES {
-  FT_TRANSFER_CALL = "ft_transfer_call"
+  FT_TRANSFER_CALL = 'ft_transfer_call'
 }
 
 export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
@@ -67,7 +67,7 @@ export enum USDC_ADDRESS {
 
 export enum FungibleToken {
   USDC = 'usdc',
-};
+}
 
 // keys here need to be the values of the fungible token enum
 export type FtAddresses = {

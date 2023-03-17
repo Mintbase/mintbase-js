@@ -22,5 +22,5 @@ export const ERROR_MESSAGES = {
   NEGATIVE_ROYALTIES: `Royalties cant be negative or 0 ${SUPPORT}`,
   EMPTY_TOKEN_IDS: `Empty array passed into tokenIdsToMint field. If trying to specify this, add values to the array, otherwise remove the optional argument ${SUPPORT}`,
   MUTUAL_EXCLUSIVE_AMOUNT: `When defining tokenIdsToMint the amount of tokens is given by the length of the provided array. amount and tokenIdsToMint are mutually exclusive ${SUPPORT}`,
-  UNSUPPORTED_FT: `You are trying to use a Fungible Token that is not yet supported by Mintbase ${SUPPORT}`
+  UNSUPPORTED_FT: `You are trying to use a Fungible Token that is not yet supported by Mintbase ${SUPPORT}`,
 };
