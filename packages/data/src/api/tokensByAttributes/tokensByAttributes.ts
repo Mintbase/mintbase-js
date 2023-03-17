@@ -19,7 +19,7 @@ export const tokensByAttributes = async (
     : META_SERVICE_HOST;
 
   try {
-    const res = await fetch(`store${useHost}/stores/${contractId}/filter`, {
+    const res = await fetch(`${useHost}/stores/${contractId}/filter`, {
       method: 'POST',
       body: JSON.stringify(filters),
       headers: { 'Content-type': 'application/json',
