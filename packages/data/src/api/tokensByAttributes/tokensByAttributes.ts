@@ -1,7 +1,7 @@
 import { mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
-import { parseData } from '../../utils';
+import { objectWithCamelKeys, parseData } from '../../utils';
 import { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult } from './tokensByAttributes.types';
 
 export { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult };
@@ -19,7 +19,7 @@ export const tokensByAttributes = async (
     : META_SERVICE_HOST;
 
   try {
-    const res = await fetch(`${useHost}/${contractId}/filter`, {
+    const res = await fetch(`${useHost}/stores/${contractId}/filter`, {
       method: 'POST',
       body: JSON.stringify(filters),
       headers: { 'Content-type': 'application/json',
@@ -33,9 +33,13 @@ export const tokensByAttributes = async (
     }
 
     data = await res.json();
+    // transform results to camel case
+    data.results = data.results.map(objectWithCamelKeys);
+
   } catch (err) {
     error = `Error fetching filtered data, ${err}`;
   }
+
 
   return parseData<FilteredMetadataQueryResult>(
     data,
