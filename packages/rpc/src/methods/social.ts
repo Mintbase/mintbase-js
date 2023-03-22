@@ -17,7 +17,7 @@ type NearSocialProfile = {
   description?: string;
   image?: ProfileImage;
   imageUrl?: string;
-  backgroundImageUrl: string;
+  backgroundImageUrl?: string;
   linktree?: {
     twitter: string;
     github: string;
@@ -60,7 +60,12 @@ export const nearSocialProfile = async (
       },
     });
 
-    const profile = data[accountId].profile;
+
+    const profile = data[accountId]?.profile;
+    if (!profile) {
+      // return empty profile
+      return {};
+    }
 
     return {
       ...profile,

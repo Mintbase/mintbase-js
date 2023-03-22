@@ -54,4 +54,20 @@ describe('near social', () => {
     expect(profile.backgroundImageUrl).not.toBeNull();
     expect(profile.imageUrl).toContain(NEAR_SOCIAL_IPFS_GATEWAY);
   });
+
+  it('should return empty profile', async () => {
+    (fetch as jest.Mock).mockResolvedValueOnce({
+      json: jest.fn().mockResolvedValueOnce({
+        result: {
+          result: [
+            123,
+            125,
+          ],
+        },
+      }),
+    });
+
+    const profile = await nearSocialProfile('benipsen.nope');
+    expect(profile.name).toBeUndefined();
+  });
 });
