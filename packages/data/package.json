@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.3.0-beta.3",
+  "version": "0.3.1-beta.1",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -28,6 +28,6 @@
     "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
-    "@mintbase-js/sdk": "^0.3.0-beta.3"
+    "@mintbase-js/sdk": "^0.3.1-beta.1"
   }
 }
