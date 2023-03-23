@@ -22,5 +22,8 @@
   "dependencies": {
     "bn.js": "5.2.1",
     "near-api-js": "^0.44.2"
+  },
+  "devDependencies": {
+    "@near-wallet-selector/core": "^7.9.1"
   }
 }
