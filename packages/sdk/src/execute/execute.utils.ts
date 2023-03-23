@@ -1,5 +1,4 @@
 import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
-import { BrowserWalletSignAndSendTransactionParams } from '@near-wallet-selector/core/lib/wallet';
 import type { providers, Account } from 'near-api-js';
 import {
   CallBackArgs,
@@ -152,8 +151,7 @@ const batchExecuteWithBrowserWallet = async (
 
 export const convertGenericCallToWalletCall = (
   call: ContractCall<ExecuteArgsResponse>,
-): BrowserWalletSignAndSendTransactionParams | TxnOptionalSignerId => {
-
+): TxnOptionalSignerId => {
   return {
     signerId: call.signerId,
     receiverId: call.contractAddress,
