@@ -13,7 +13,6 @@ import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOpti
  *  wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}, or a redirect to selected callbackUrl
  */
-
 export const execute = async (
   { wallet, account, callbackUrl = mbjs.keys.callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
