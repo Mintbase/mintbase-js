@@ -4,7 +4,15 @@ import {RPC_ENDPOINTS} from '@mintbase-js/sdk';
 
 const config: CodegenConfig = {
   overwrite: true,
-  schema: RPC_ENDPOINTS.mainnet,
+  schema: [
+    {
+      'https://graph.mintbase.xyz': {
+        headers: {
+          'mb-api-key' : 'anon'
+        }
+      },
+    }
+  ],
   // documents: 'src/**/*.tsx',
   generates: {
     'src/graphql/codegen/': {
