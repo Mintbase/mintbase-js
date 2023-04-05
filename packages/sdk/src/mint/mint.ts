@@ -151,7 +151,7 @@ function mintingDeposit({
   metadata: TokenMetadata;
 }): string {
   const nSplitsAdj = nSplits < 1 ?  0 : nSplits - 1;
-  const bytesPerToken = STORAGE_BYTES.TOKEN_BASE + nSplitsAdj * STORAGE_BYTES.COMMON;
+  const bytesPerToken = STORAGE_BYTES.TOKEN_BASE + nSplitsAdj * STORAGE_BYTES.COMMON + STORAGE_BYTES.COMMON;
   const metadataBytesEstimate = JSON.stringify(metadata).length;
 
   const totalBytes = STORAGE_BYTES.MINTING_BASE +
