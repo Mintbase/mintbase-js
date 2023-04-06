@@ -17,8 +17,10 @@ describe('getTokenOwnersByMetadataId', () => {
       request: (): Promise<TokenOwnersByMetadataIdQueryResult> =>
         Promise.resolve(tokenOwnersByMetadataIdMock),
     }));
-    const result = await tokenOwnersByMetadataId('teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc', { limit: 2 } );
-    expect(result?.data).toStrictEqual(tokenOwnersByMetadataIdMock);
+    const { data, error } = await tokenOwnersByMetadataId('teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc', { limit: 2 } );
+    expect(data).toStrictEqual(tokenOwnersByMetadataIdMock);
+    expect(error).toBeFalsy();
+    expect(data?.mb_views_nft_tokens).toBeDefined();
   });
 
   it('should handle errors', async () => {
