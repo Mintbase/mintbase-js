@@ -24,15 +24,13 @@ Details such as the method name, arguments, gas supplied, deposits and some othe
 This is a work in progress, please reach out to us on [Telegram](https://t.me/mintdev) for support.
 {% endhint %}
 
-Check back soon for details. Individual methods and documentation will start to be available as we implement in the gitbook documentation menu.
-
 <div name="execute"></div>
 
 ## Using `execute`
 
 The `excecute` method can be used without api helpers, however you will need to specify all `NearContractCall` properties.
 
-The method accepts any number of contract call objects returned by the sdk
+The method accepts any number of contract calls as arguments after the `signingOptions` argument in first position:
 
 ```
 execute(
@@ -43,7 +41,7 @@ execute(
 Here is an example using the execute function call:
 ## NearContractCall
 
-This type specifies properties of a contract calls:
+This type specifies properties of a contract calls. Each of the API convenience methods returns this object type, however you are welcome to create this object manually:
 
 {% code title="executeContractMethod.ts" overflow="wrap" lineNumbers="true" %}
 ```typescript
@@ -55,14 +53,38 @@ import type {
   FinalExecutionOutcome
 } from '@mintbase-js/sdk';
 
-//this creates a `NearContractCall` object for specific method 
+// create a contact call from scratch
+
+const myCustomContractCall: NearContractCall<ExecuteArgsResponse>= {
+  // who should be signing the transaction
+  signerId: 'you.near',
+
+  // contract address
+  contractAddress: 'my.contract.address.near',
+
+  // the contract method name
+  methodName: 'my_contract_method',
+
+  // specify arguments for call_method
+  args: { },
+
+  // amount of gas to attach to the transactions
+  gas: MAX_GAS,
+
+  // the deposit to be sent along with the transaction
+  deposit: ONE_YOCTO,
+};
+
+
+// create a `NearContractCall` object using a helper method:
+// note how this takes care of creating all the above properties
 const transferCall = transfer({
-        nftContractId: 'mytokencontract.mintbase1.near',
-        transfers: [{
-          receiverId: 'bob.near',
-          tokenId: '123',
-        }],
-      })
+  nftContractId: 'mytokencontract.mintbase1.near',
+  transfers: [{
+    receiverId: 'bob.near',
+    tokenId: '123',
+  }],
+})
 
 const makeSmartContractCall = async (): Promise<FinalExecutionOutcome> => {
 
@@ -70,15 +92,17 @@ const makeSmartContractCall = async (): Promise<FinalExecutionOutcome> => {
   // to use an account directly, you have to implement this method
   // const account = await authenticateAccount('mynearaccount.near');
 
-  // before the getWallet can be called, you will need to setup the components in the browser, it will throw othwerise
+  // before the getWallet can be called, you will need to setup context in the browser, it will throw otherwise
   const wallet = await getWallet();
 
-  const sign: NearExecuteOptions = {
+  const options: NearExecuteOptions = {
     // account
     wallet,
     callbackUrl: 'https://www.yourwebsite.xyz/success'
   }
-  return await execute(sign, transferCall);
+
+  // call sign with options,
+  return await execute(options, myCustomContractCall, transferCall);
 }
 
 makeSmartContractCall()
@@ -110,7 +134,7 @@ const mintCall = mint({
       ownerId: 'placeholder',
       reference: 'placeholder',
     });
-    
+
     const composed: NearContractCall  = [mintCall, mintCall] as ContractCall[];
 
     const result = execute(sign, composed) as FinalExecutionOutcome[];
