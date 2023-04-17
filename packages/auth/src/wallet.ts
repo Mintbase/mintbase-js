@@ -213,6 +213,13 @@ export type SigningPayload = {
 }
 
 export const verifyMessage = (payload: SigningPayload): boolean => {
+  // for now, just warn in browser
+  // isomporphic result produces different encoding byte lengths
+  if (typeof window !== 'undefined') {
+    console.warn('verifyMessage only works in NodeJS environments. This will always return false!');
+    return false;
+  }
+
   const publicKeyString = `ed25519:${base58.encode(
     Buffer.from(payload.publicKey, 'base64'),
   )}`;
