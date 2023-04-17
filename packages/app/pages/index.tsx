@@ -1,11 +1,11 @@
 import { useWallet } from '@mintbase-js/react';
-import { getSelectorState, isMeteorWallet, verifyMessage } from '@mintbase-js/auth';
+// import { getSelectorState, isMeteorWallet, verifyMessage } from '@mintbase-js/auth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { TokenExample } from '../components/TokenExample';
 import { TransferTest } from '../components/TransferTest';
 import styles from '../styles/Home.module.css';
-import { useState } from 'react';
+
 
 const Home: NextPage = () => {
   const {
@@ -18,23 +18,14 @@ const Home: NextPage = () => {
     isWalletSelectorSetup,
     signMessage,
   } = useWallet();
-  const [isVerifiedWallet, setIsVerifiedWallet] = useState(false);
 
   const signMessageTest = async (): Promise<void> => {
-    const payload = await signMessage({
+    const res = await signMessage({
       message: 'hey',
       callbackUrl: `${window.location.origin}/wallet-callback`,
       meta: JSON.stringify({ type: 'signature' }),
     });
-    console.log('payload w signature', payload);
-    // verify just for in browser smoke test
-    try {
-      const verified = verifyMessage(payload);
-      console.log('ok...', verified);
-      setIsVerifiedWallet(verified);
-    } catch (err) {
-      console.error(err);
-    }
+    console.log('signed message', res);
   };
   return (
     <div className={styles.container}>
@@ -84,7 +75,6 @@ const Home: NextPage = () => {
             SIGN MESSAGE
           </button>
         ) : null}
-        {isVerifiedWallet ? <p>Verified ownership.</p> : <p>Not verified.</p>}
 
         <h2>Test Components</h2>
         {activeAccountId ? <TransferTest /> : null}
