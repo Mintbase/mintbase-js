@@ -197,6 +197,7 @@ describe('wallet', () => {
     'signature': '8YKOezp2v/6iiKtGIRYy/U1DhH43ZJWSBqRtxT8HlYqeMAES05kpL6H2XffFF/YaQTMrQDcatTIt2T269qPtDg==',
   };
 
+  // because auth test is run w jsdom config
   test('verify valid message', () => {
     const result = verifyMessage(VALID_MESSAGE_PAYLOAD);
     expect(result).toBe(true);
