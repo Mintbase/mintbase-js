@@ -1,4 +1,5 @@
 import { useWallet } from '@mintbase-js/react';
+import { getSelectorState, isMeteorWallet } from '@mintbase-js/auth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import { TokenExample } from '../components/TokenExample';
@@ -18,11 +19,13 @@ const Home: NextPage = () => {
   } = useWallet();
 
   const signMessageTest = async (): Promise<void> => {
-    await signMessage({
+    console.log('is meteor?', isMeteorWallet(), getSelectorState());
+    const res = await signMessage({
       message: 'hey',
       callbackUrl: `${window.location.origin}/wallet-callback`,
       meta: JSON.stringify({ type: 'signature' }),
     });
+    console.log(res);
   };
   return (
     <div className={styles.container}>
