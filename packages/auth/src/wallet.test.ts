@@ -198,12 +198,14 @@ describe('wallet', () => {
   };
 
   // because auth test is run w jsdom config
-  test('verify valid message', () => {
+  test('verify valid message', async () => {
+    await setupWithMockComponents();
     const result = verifyMessage(VALID_MESSAGE_PAYLOAD);
     expect(result).toBe(true);
   });
 
-  test('verify invalid message', () => {
+  test('verify invalid message', async () => {
+    await setupWithMockComponents();
     const result = verifyMessage({
       ...VALID_MESSAGE_PAYLOAD,
       // off by one char at (0)
