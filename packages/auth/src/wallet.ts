@@ -2,18 +2,22 @@ import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
+import { mbjs, Network } from '@mintbase-js/sdk';
+import { sha256 } from 'js-sha256';
+import { encode } from 'isomorphic-textencoder';
+import base58 from 'bs58';
 
-import { mbjs, NEAR_NETWORKS, Network } from '@mintbase-js/sdk';
 
 import {
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
-import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
+import type { WalletSelector, AccountState, WalletSelectorState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
+import { utils } from 'near-api-js';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -139,9 +143,18 @@ export const getWallet = async (): Promise<Wallet> => {
     .wallet();
 };
 
+export const getSelectorState = (): WalletSelectorState => {
+  return walletSelectorComponents
+    .selector
+    .store
+    .getState();
+};
+
+export const isMeteorWallet = (): boolean =>
+  getSelectorState().selectedWalletId === 'meteor-wallet';
+
 export const connectWalletSelector = (): void => {
   validateWalletComponentsAreSetup();
-
   walletSelectorComponents
     .modal
     .show();
@@ -156,6 +169,14 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
   wallet.signOut();
 };
 
+
+// message signing with key pair support
+// at some point all wallets should support this, hopefully verify is standardized as well
+
+// https://github.com/near/wallet-selector/issues/434
+// https://github.com/near/NEPs/pull/413
+// https://www.npmjs.com/package/bs58
+// https://github.com/feross/buffer
 export const getVerifiedOwner =
   async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
     validateWalletComponentsAreSetup();
@@ -176,29 +197,46 @@ export const getVerifiedOwner =
   };
 
 
-// returns a signature of message
 export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
   const owner = await getVerifiedOwner(params);
 
   return owner;
 };
 
+export type SigningPayload = {
+  signature: string;
+  message: string;
+  publicKey: string;
+  accountId: string;
+  keyType: string | number;
+  blockId: string;
+}
 
-//  https://www.npmjs.com/package/bs58
-// https://github.com/feross/buffer
-// https://github.com/near/wallet-selector/issues/434
-// export const verifyMessage = async (signature: string): Promise<boolean> => {
+export const verifyMessage = (payload: SigningPayload): boolean => {
+  // for now, just warn in browser
+  // isomporphic result produces different encoding byte lengths
+  if (typeof window !== 'undefined') {
+    console.warn('verifyMessage only works in NodeJS environments. This will always return false!');
+  }
 
-//   // const owner = await getVerifiedOwner(signature);
+  const publicKeyString = `ed25519:${base58.encode(
+    Buffer.from(payload.publicKey, 'base64'),
+  )}`;
 
-//   // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
+  const owner = JSON.stringify({
+    accountId: payload.accountId,
+    message: payload.message,
+    blockId: payload.blockId,
+    publicKey: payload.publicKey,
+    keyType: payload.keyType,
+  });
 
-//   // const createdPublicKey = utils.PublicKey.from(publicKeyString);
+  const createdPublicKey = utils.PublicKey.from(publicKeyString);
 
-//   // const stringified = JSON.stringify(owner);
+  const verifiedSignature = createdPublicKey.verify(
+    encode(sha256.create().update(owner).array()),
+    Buffer.from(payload.signature, 'base64'),
+  );
 
-//   // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
-
-//   return false;
-// };
-
+  return verifiedSignature;
+};
