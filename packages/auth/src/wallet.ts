@@ -225,11 +225,9 @@ export const verifyMessage = (payload: SigningPayload): boolean => {
     keyType: payload.keyType,
   });
 
-  // const utf8Encode = new TextEncoder();
   const createdPublicKey = utils.PublicKey.from(publicKeyString);
 
   const verifiedSignature = createdPublicKey.verify(
-    //new Uint8Array(sha256.create().update(owner).array()),
     encode(sha256.create().update(owner).array()),
     Buffer.from(payload.signature, 'base64'),
   );
