@@ -1,6 +1,7 @@
 /**
  * mbjs Namespace to set the config vars on all mintbase-js packages, as also retrieve the global keys in any part of the application.
  */
+import { FT_ADDRESSES } from '../constants';
 import {
   MbJsKeysObject,
   MARKET_CONTRACT_ADDRESS,
@@ -37,6 +38,7 @@ const startupConfig: MbJsKeysObject = {
   apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY,
   connectProxyHost: null,
   debugMode: isDebugMode ? true : false,
+  ftAddresses: isProcessEnv ? FT_ADDRESSES[process.env.NEAR_NETWORK] : FT_ADDRESSES[NEAR_NETWORKS.TESTNET],
   isSet:  isProcessEnv ? true : false,
 };
 
@@ -56,6 +58,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
     apiKey: configObj.apiKey ?? DEFAULT_API_KEY,
+    ftAddresses: FT_ADDRESSES[configObj.network],
     connectProxyHost: null,
     isSet: true,
   };
@@ -69,9 +72,9 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   config.debugMode = globalConfig.debugMode;
   config.nearRpcUrl = globalConfig.nearRpcUrl;
   config.apiKey = globalConfig.apiKey;
+  config.ftAddresses = globalConfig.ftAddresses;
   config.connectProxyHost = globalConfig.connectProxyHost;
   config.isSet = globalConfig.isSet;
-
   return globalConfig;
 };
 

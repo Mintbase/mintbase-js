@@ -26,6 +26,10 @@ export enum MARKET_METHOD_NAMES {
   UNLIST = 'unlist',
 }
 
+export enum FT_METHOD_NAMES {
+  FT_TRANSFER_CALL = 'ft_transfer_call'
+}
+
 export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
 
 // due to wallet selector types had to do this one:
@@ -56,6 +60,19 @@ export enum RPC_ENDPOINTS  {
   testnet = 'https://rpc.testnet.near.org',
 }
 
+export enum USDC_ADDRESS {
+  mainnet = 'a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near',
+  testnet = 'usdc.fakes.testnet',
+}
+
+export enum FungibleToken {
+  USDC = 'usdc',
+}
+
+// keys here need to be the values of the fungible token enum
+export type FtAddresses = {
+  usdc: USDC_ADDRESS;
+}
 
 export type ConfigOptions = {
   network?: Network | string;
@@ -71,6 +88,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
+  ftAddresses: FtAddresses | '';
   connectProxyHost?: string;
 }
 
@@ -137,6 +155,7 @@ export type BuyArgs = {
   referrerId?: string;
   marketId?: string;
   affiliateAccount?: string;
+  ftAddress?: string;
 };
 
 export type DelistArgs = {
@@ -164,11 +183,13 @@ export type DepositStorageArgs = {
   marketAddress?: string;
 };
 
+
 export type ListArgs = {
   contractAddress?: string;
   marketAddress?: string;
   price: string;
   tokenId: string;
+  ft?: FungibleToken;
 }
 
 export type MintArgs =  {
@@ -249,6 +270,12 @@ export interface BuyArgsResponse {
   nft_contract_id: string;
   token_id: string;
   referrer_id: string;
+}
+
+export interface BuyArgsFtResponse {
+  receiver_id: string;
+  amount: string;
+  msg: string;
 }
 
 export interface DelistArgsResponse {

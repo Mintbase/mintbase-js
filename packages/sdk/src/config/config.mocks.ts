@@ -1,4 +1,4 @@
-import { GRAPHQL_ENDPOINTS, MARKET_CONTRACT_ADDRESS, MINTBASE_CONTRACTS, NEAR_NETWORKS, RPC_ENDPOINTS } from '../types';
+import { GRAPHQL_ENDPOINTS, MARKET_CONTRACT_ADDRESS, MINTBASE_CONTRACTS, NEAR_NETWORKS, RPC_ENDPOINTS, USDC_ADDRESS } from '../types';
 
 export const TESTNET_MOCK = {
   apiKey: process.env.MINTBASE_API_KEY,
@@ -11,6 +11,7 @@ export const TESTNET_MOCK = {
   mbContract: MINTBASE_CONTRACTS.testnet,
   nearRpcUrl: RPC_ENDPOINTS.testnet,
   network: NEAR_NETWORKS.TESTNET,
+  ftAddresses: { usdc: USDC_ADDRESS.testnet },
   connectProxyHost: null,
 };
 
@@ -26,6 +27,7 @@ export const MAINNET_MOCK = {
   mbContract: MINTBASE_CONTRACTS.mainnet,
   nearRpcUrl: RPC_ENDPOINTS.mainnet,
   network: NEAR_NETWORKS.MAINNET,
+  ftAddresses: { usdc: USDC_ADDRESS.mainnet },
   connectProxyHost: null,
 };
 
