@@ -23,7 +23,7 @@ export const MintbaseSessionContext = createContext<MintbaseSessionContext | nul
 export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
   { children },
 ) => {
-  // requires context
+  // requires wallet context
   const { activeAccountId } = useWallet();
   const [session, setSession] = useState<MintbaseSession|null>(null);
   const [token, setToken] = useState<string|null>(null);
@@ -55,7 +55,7 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
     }
   };
 
-  // attempt to get the session from cookies if a proxy host is defined
+  // attempt to get the session from cookies if a proxy address is defined
   useEffect((): void => {
     if (mbjs.keys.connectProxyAddress) {
       void requestServerSession();
