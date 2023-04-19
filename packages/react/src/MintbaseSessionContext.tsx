@@ -7,9 +7,7 @@ import type { MintbaseSession } from '@mintbase-js/auth/lib/wallet';
 import { useWallet } from './WalletContext';
 import { mbjs } from '@mintbase-js/sdk';
 
-// This is heavily based on
-// https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
-// but uses wrappers from @mintbase-js/auth and @mintbase-js/sdk
+
 export type MintbaseSessionContext = {
   session: MintbaseSession | null;
   error: string | null;
