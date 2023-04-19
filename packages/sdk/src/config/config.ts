@@ -35,7 +35,7 @@ const startupConfig: MbJsKeysObject = {
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
   mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
   apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY,
-  connectProxyHost: null,
+  connectProxyAddress: null,
   debugMode: isDebugMode ? true : false,
   isSet:  isProcessEnv ? true : false,
 };
@@ -56,7 +56,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
     apiKey: configObj.apiKey ?? DEFAULT_API_KEY,
-    connectProxyHost: null,
+    connectProxyAddress: null,
     isSet: true,
   };
 
@@ -69,7 +69,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   config.debugMode = globalConfig.debugMode;
   config.nearRpcUrl = globalConfig.nearRpcUrl;
   config.apiKey = globalConfig.apiKey;
-  config.connectProxyHost = globalConfig.connectProxyHost;
+  config.connectProxyAddress = globalConfig.connectProxyAddress;
   config.isSet = globalConfig.isSet;
 
   return globalConfig;

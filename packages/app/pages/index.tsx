@@ -1,7 +1,6 @@
-import { useWallet } from '@mintbase-js/react';
-import { getMintbaseSessionFromToken, requestMintbaseSessionToken } from '@mintbase-js/auth';
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import { useMintbaseSession, useWallet } from '@mintbase-js/react';
 import { TokenExample } from '../components/TokenExample';
 import { TransferTest } from '../components/TransferTest';
 import styles from '../styles/Home.module.css';
@@ -12,19 +11,17 @@ const Home: NextPage = () => {
     connect,
     disconnect,
     activeAccountId,
-    selector,
-    // isConnected,
     isWaitingForConnection,
     isWalletSelectorSetup,
-    signMessage,
   } = useWallet();
 
-  const signMessageTest = async (): Promise<void> => {
-    const token = await requestMintbaseSessionToken();
-    console.log('got session token!', token);
-    const session = await getMintbaseSessionFromToken(token);
-    console.log('got valid session!', session);
-  };
+  const {
+    session,
+    error: sessionError,
+    requestSession,
+  } = useMintbaseSession();
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -68,11 +65,21 @@ const Home: NextPage = () => {
           <div>Waiting for wallet selector components...</div>
         )}
 
-        {activeAccountId ? (
-          <button className={styles.button} onClick={signMessageTest}>
-            SIGN MESSAGE
+        {(activeAccountId && !session) ? (
+          <button className={styles.button} onClick={requestSession}>
+            REQUEST MINTBASE SESSION
           </button>
         ) : null}
+
+        {session
+          ? <p>A mintbase session is active for {session.accountId}, created {session.createdAt}</p>
+          : <p>No mintbase session yet</p>
+        }
+
+        {sessionError
+          ? <p>Error starting session: {sessionError}</p>
+          : null
+        }
 
         <h2>Test Components</h2>
         {activeAccountId ? <TransferTest /> : null}
