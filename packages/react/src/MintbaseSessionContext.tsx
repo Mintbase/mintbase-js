@@ -12,7 +12,6 @@ import { mbjs } from '@mintbase-js/sdk';
 // but uses wrappers from @mintbase-js/auth and @mintbase-js/sdk
 export type MintbaseSessionContext = {
   session: MintbaseSession | null;
-  token: string | null;
   error: string | null;
   requestSession: () => void;
 }
@@ -48,8 +47,13 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
 
   const requestServerSession = async (): Promise<void> => {
     try {
-      const session = await getMintbaseSessionFromToken('');
+      const session = await getMintbaseSessionFromToken('') as MintbaseSession & { error?: string };
+      if (session.error) {
+        setError(session.error);
+        return;
+      }
       setSession(session);
+      setToken(session.token);
     } catch (err) {
       console.warn('Attempted to get server side session but failed', err);
     }
@@ -64,7 +68,6 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
 
   return (
     <MintbaseSessionContext.Provider value={{
-      token,
       session,
       error,
       requestSession,

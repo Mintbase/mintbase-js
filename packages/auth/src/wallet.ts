@@ -210,6 +210,7 @@ export type SigningPayload = {
 export type MintbaseSession = {
   accountId: string;
   createdAt: string;
+  token: string;
   // TODO: augment with fields in Firestore (connect service)
 }
 

@@ -4,7 +4,30 @@ import { useMintbaseSession, useWallet } from '@mintbase-js/react';
 import { TokenExample } from '../components/TokenExample';
 import { TransferTest } from '../components/TransferTest';
 import styles from '../styles/Home.module.css';
+import { getAuth, signInWithCustomToken } from 'firebase/auth';
+import { useEffect } from 'react';
 
+// Import the functions you need from the SDKs you need
+import { initializeApp } from 'firebase/app';
+// import { getAnalytics } from 'firebase/analytics';
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: 'AIzaSyAwZOiBAke2iUnLPp-hf4-uUKbL6lhaY0I',
+  authDomain: 'omni-live.firebaseapp.com',
+  projectId: 'omni-live',
+  storageBucket: 'omni-live.appspot.com',
+  messagingSenderId: '121691574728',
+  appId: '1:121691574728:web:42884cdb2e6ca58274b0fd',
+  measurementId: 'G-XD6G6HW6M6',
+};
+
+// Initialize Firebase
+initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
 
 const Home: NextPage = () => {
   const {
@@ -21,6 +44,18 @@ const Home: NextPage = () => {
     requestSession,
   } = useMintbaseSession();
 
+
+  const testFirebaseLogin = async (): Promise<void> => {
+    const auth = getAuth();
+    const login = await signInWithCustomToken(auth, session.token);
+    console.log('has firebase login!', login);
+  };
+  useEffect(() => {
+    if (!session) {
+      return;
+    }
+    void testFirebaseLogin();
+  }, [session]);
 
   return (
     <div className={styles.container}>

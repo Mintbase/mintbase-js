@@ -39,7 +39,10 @@ export default async function sessionHandler(req: NextApiRequest, res: NextApiRe
         'Authorization': `Bearer ${token}`,
       },
     });
-    res.send(await session.json());
+    res.send({
+      ...await session.json(),
+      token,
+    });
   } catch (err) {
     console.log(`Failed to get session from cookie w token ${token}`);
     res.send(null);

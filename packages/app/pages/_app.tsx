@@ -9,7 +9,7 @@ globalThis.mbjs.contractAddress = 'mintbase1.near';
 
 // when this is defined, the context methods will use the proxy
 // keeping state on server
-// globalThis.mbjs.connectProxyAddress = 'http://localhost:3000/api/session';
+globalThis.mbjs.connectProxyAddress = 'http://localhost:3000/api/session';
 
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   return (
