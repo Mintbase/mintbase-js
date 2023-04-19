@@ -155,7 +155,7 @@ const NearWalletConnector = () => {
 
 The MintbaseSession context keeps track of a session token which allows authenticated calls to Mintbase services such as asset uploads and meta transactions.
 
-**IMPORTANT** As of April 3023 only [Meteor wallet](https://meteorwallet.app/) is capable of obtaining a session. You may still call `requestSession` with other wallets, but non meteor wallets will warn and always return null.
+**IMPORTANT** As of April 2023 only [Meteor wallet](https://meteorwallet.app/) is capable of obtaining a session. You may still call `requestSession` with other wallets, but non meteor wallets will warn and always return null.
 
 
 Next JS Example:
@@ -195,7 +195,8 @@ Next JS Example:
 
     return (
       <div>
-        <h2>Mintbase Session</h2>
+        <h2>Mintbase Session Status</h2>
+
         {(activeAccountId && !session) ? (
           <button className={styles.button} onClick={requestSession}>
             REQUEST MINTBASE SESSION
