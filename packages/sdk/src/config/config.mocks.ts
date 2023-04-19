@@ -12,6 +12,7 @@ export const TESTNET_MOCK = {
   nearRpcUrl: RPC_ENDPOINTS.testnet,
   network: NEAR_NETWORKS.TESTNET,
   ftAddresses: { usdc: USDC_ADDRESS.testnet },
+  connectProxyHost: null,
 };
 
 
@@ -27,4 +28,6 @@ export const MAINNET_MOCK = {
   nearRpcUrl: RPC_ENDPOINTS.mainnet,
   network: NEAR_NETWORKS.MAINNET,
   ftAddresses: { usdc: USDC_ADDRESS.mainnet },
+  connectProxyHost: null,
 };
+

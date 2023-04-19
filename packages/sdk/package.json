@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/sdk",
-  "version": "0.3.0-beta.2",
+  "version": "0.3.2-beta.6",
   "description": "Core functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,5 +22,8 @@
   "dependencies": {
     "bn.js": "5.2.1",
     "near-api-js": "^0.44.2"
+  },
+  "devDependencies": {
+    "@near-wallet-selector/core": "^7.9.1"
   }
 }

@@ -89,6 +89,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   debugMode?: boolean;
   apiKey?: string;
   ftAddresses: FtAddresses | '';
+  connectProxyHost?: string;
 }
 
 export interface MbJsKeysObject extends ConfigOptionsObj  {
