@@ -40,7 +40,7 @@ test('list a token for USDC', () => {
     tokenId: tokenId,
     marketAddress: marketAddress,
     price: price,
-    ft: FungibleToken.USDC
+    ft: FungibleToken.USDC,
   });
 
   expect(args).toEqual({
@@ -51,7 +51,7 @@ test('list a token for USDC', () => {
       account_id: marketAddress,
       msg: JSON.stringify({
         price: price,
-        ft_contract: mbjs.keys.ftAddresses[FungibleToken.USDC]
+        ft_contract: mbjs.keys.ftAddresses[FungibleToken.USDC],
       }),
     },
     deposit: LISTING_DEPOSIT,
