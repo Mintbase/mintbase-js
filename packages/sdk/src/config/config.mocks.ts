@@ -10,7 +10,9 @@ export const TESTNET_MOCK = {
   marketAddress: MARKET_CONTRACT_ADDRESS.testnet,
   mbContract: MINTBASE_CONTRACTS.testnet,
   nearRpcUrl: RPC_ENDPOINTS.testnet,
-  network: NEAR_NETWORKS.TESTNET };
+  network: NEAR_NETWORKS.TESTNET,
+  connectProxyHost: null,
+};
 
 
 export const MAINNET_MOCK = {
@@ -23,5 +25,7 @@ export const MAINNET_MOCK = {
   marketAddress: MARKET_CONTRACT_ADDRESS.mainnet,
   mbContract: MINTBASE_CONTRACTS.mainnet,
   nearRpcUrl: RPC_ENDPOINTS.mainnet,
-  network: NEAR_NETWORKS.MAINNET };
+  network: NEAR_NETWORKS.MAINNET,
+  connectProxyHost: null,
+};
 

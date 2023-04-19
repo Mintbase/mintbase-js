@@ -10,7 +10,8 @@ import {
   ConnectionTimeoutError,
   getVerifiedOwner,
   signMessage,
-  verifyMessage,
+  requestMintbaseSessionToken,
+  getMintbaseSessionFromToken,
 } from './wallet';
 import { setupWalletSelector } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
@@ -54,6 +55,8 @@ describe('wallet', () => {
         removeItem: jest.fn(),
       },
     });
+    jest.spyOn(console, 'warn').mockImplementation(() => null);
+    jest.spyOn(console, 'error').mockImplementation(() => null);
   });
 
   // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -188,27 +191,46 @@ describe('wallet', () => {
       .toThrow(SetupNotCalledError);
   });
 
-  const VALID_MESSAGE_PAYLOAD = {
-    'accountId': 'meteor_with_no_monies.near',
-    'message': 'hey',
-    'blockId': 'FXbpnvguB1ETCwaFk4beHgsekHBf1JkntPBM8MkWYw6g',
-    'publicKey': 'PXwxiJEOmsHAasQvHywXV1CDunJvj9K2DHGo+I8icA0=',
-    'keyType': 0,
-    'signature': '8YKOezp2v/6iiKtGIRYy/U1DhH43ZJWSBqRtxT8HlYqeMAES05kpL6H2XffFF/YaQTMrQDcatTIt2T269qPtDg==',
-  };
-
-  // for now have to skip these
-  test.skip('verify valid message', () => {
-    const result = verifyMessage(VALID_MESSAGE_PAYLOAD);
-    expect(result).toBe(true);
+  test('requests a session', async () => {
+    mockGetState.mockReturnValue({ selectedWalletId: 'meteor-wallet' });
+    await setupWithMockComponents();
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      json: () => Promise.resolve({ token: 'foo' }),
+    });
+    const token = await requestMintbaseSessionToken();
+    expect(token).toBe('foo');
   });
 
-  test.skip('verify invalid message', () => {
-    const result = verifyMessage({
-      ...VALID_MESSAGE_PAYLOAD,
-      // off by one char at (0)
-      publicKey: 'AXwxiJEOmsHAasQvHywXV1CDunJvj9K2DHGo+I8icA0=',
+  test('handles session error', async () => {
+    mockGetState.mockReturnValue({ selectedWalletId: 'meteor-wallet' });
+    await setupWithMockComponents();
+    global.fetch = jest.fn().mockRejectedValue('service down');
+    const token = await requestMintbaseSessionToken();
+    expect(token).toBe(null);
+  });
+
+  test('skips the session for non metor wallets', async () => {
+    mockGetState.mockReturnValue({ selectedWalletId: 'not-meteor-wallet' });
+    await setupWithMockComponents();
+    const token = await requestMintbaseSessionToken();
+    expect(token).toBe(null);
+  });
+
+  test('validates session from token a session', async () => {
+    mockGetState.mockReturnValue({ selectedWalletId: 'meteor-wallet' });
+    await setupWithMockComponents();
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      json: () => Promise.resolve({ accountId: 'foo' }),
     });
-    expect(result).toBe(false);
+    const session = await getMintbaseSessionFromToken('bar-token');
+    expect(session?.accountId).toBe('foo');
+  });
+
+  test('handles validation error', async () => {
+    mockGetState.mockReturnValue({ selectedWalletId: 'meteor-wallet' });
+    await setupWithMockComponents();
+    global.fetch = jest.fn().mockRejectedValue('service down');
+    const session = await getMintbaseSessionFromToken('bar-token');
+    expect(session).toBe(null);
   });
 });

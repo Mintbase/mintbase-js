@@ -3,12 +3,8 @@ import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 import { mbjs, Network } from '@mintbase-js/sdk';
-import { sha256 } from 'js-sha256';
-import { encode } from 'isomorphic-textencoder';
-import base58 from 'bs58';
-
-
 import {
+  MINTBASE_CONNECT_HOST,
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
@@ -17,7 +13,6 @@ import type { WalletSelector, AccountState, WalletSelectorState } from '@near-wa
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
-import { utils } from 'near-api-js';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -212,31 +207,66 @@ export type SigningPayload = {
   blockId: string;
 }
 
-export const verifyMessage = (payload: SigningPayload): boolean => {
-  // for now, just warn in browser
-  // isomporphic result produces different encoding byte lengths
-  if (typeof window !== 'undefined') {
-    console.warn('verifyMessage only works in NodeJS environments. This will always return false!');
+export type MintbaseSession = {
+  accountId: string;
+  createdAt: string;
+  // TODO: augment with fields in Firestore (connect service)
+}
+
+export const requestMintbaseSessionToken = async (): Promise<string | null> => {
+  if (!isMeteorWallet()) {
+    console.warn('Attempting to create a session with a non-meteor wallet.');
+    return null;
   }
 
-  const publicKeyString = `ed25519:${base58.encode(
-    Buffer.from(payload.publicKey, 'base64'),
-  )}`;
-
-  const owner = JSON.stringify({
-    accountId: payload.accountId,
-    message: payload.message,
-    blockId: payload.blockId,
-    publicKey: payload.publicKey,
-    keyType: payload.keyType,
+  const payload = await signMessage({
+    message: new Date().toString(),
+    // callbackUrl: `${window.location.origin}/wallet-callback`,
+    //meta: JSON.stringify({ type: 'signature' }),
   });
 
-  const createdPublicKey = utils.PublicKey.from(publicKeyString);
+  // if a proxy host is defined use that
+  // (better for cors and overall security)
+  const useHost = mbjs.keys.connectProxyHost
+    ? mbjs.keys.connectProxyHost
+    : MINTBASE_CONNECT_HOST;
 
-  const verifiedSignature = createdPublicKey.verify(
-    encode(sha256.create().update(owner).array()),
-    Buffer.from(payload.signature, 'base64'),
-  );
+  try {
+    const request = await fetch(`${useHost}/auth`, {
+      method: 'POST',
+      headers: {
+        'mb-api-key': mbjs.keys.apiKey,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify(payload),
+    });
 
-  return verifiedSignature;
+    const { token } = await request.json();
+    return token;
+  } catch (err) {
+    console.error('Error requesting session token', err);
+    return null;
+  }
+};
+
+export const getMintbaseSessionFromToken = async (token: string): Promise<MintbaseSession | null> => {
+  const useHost = mbjs.keys.connectProxyHost
+    ? mbjs.keys.connectProxyHost
+    : MINTBASE_CONNECT_HOST;
+
+  try {
+    const request = await fetch(`${useHost}/session`, {
+      headers: {
+        'mb-api-key': mbjs.keys.apiKey,
+        'content-type':'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const session = await request.json();
+    return session;
+  } catch (err) {
+    console.error('Error fetching session from token!', err);
+    return null;
+  }
 };
