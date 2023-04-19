@@ -3,8 +3,13 @@ import { META_SERVICE_HOST_TESTNET } from '../../constants';
 import { attributesByContract, attributesByContractThrowOnError } from './attributesByContract';
 import fetchMock from 'fetch-mock';
 import { Attributes } from './attributesByContract.type';
+import { mbjs } from '@mintbase-js/sdk';
 
 describe('tokensByAttributes', () => {
+  beforeAll(() => {
+    mbjs.config({ network: 'testnet' });
+  });
+
   beforeEach(() => {
     jest.spyOn(console, 'error').mockImplementation(() => {
       // console.log('Suppressed console error.');
@@ -28,5 +33,3 @@ describe('tokensByAttributes', () => {
     expect(attributesByContractThrowOnError('contract.id')).rejects.toBeDefined();
   });
 });
-
-
