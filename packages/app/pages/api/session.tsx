@@ -19,7 +19,7 @@ export default async function sessionHandler(req: NextApiRequest, res: NextApiRe
 
     const { token } = await session.json();
     cookies.set(COOKIES_KEY, token, {
-      httpOnly: true, // true by default
+      httpOnly: true,
     });
     res.send({ token });
     return;
@@ -27,12 +27,25 @@ export default async function sessionHandler(req: NextApiRequest, res: NextApiRe
 
   // attempt to validate session from authorization header token
   const token = cookies.get(COOKIES_KEY);
-  const session = await fetch(`${MINTBASE_CONNECT_HOST}/session`, {
-    headers: {
-      'mb-api-key': 'anon',
-      'content-type':'application/json',
-      'Authorization': `Bearer ${token}`,
-    },
-  });
-  res.send(await session.json());
+  if (!token) {
+    res.send(null);
+    return;
+  }
+  try {
+    const session = await fetch(`${MINTBASE_CONNECT_HOST}/session`, {
+      headers: {
+        'mb-api-key': 'anon',
+        'content-type':'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+    res.send({
+      ...await session.json(),
+      token,
+    });
+  } catch (err) {
+    console.log(`Failed to get session from cookie w token ${token}`);
+    res.send(null);
+  }
+
 }

@@ -210,6 +210,7 @@ export type SigningPayload = {
 export type MintbaseSession = {
   accountId: string;
   createdAt: string;
+  token: string;
   // TODO: augment with fields in Firestore (connect service)
 }
 
@@ -227,12 +228,12 @@ export const requestMintbaseSessionToken = async (): Promise<string | null> => {
 
   // if a proxy host is defined use that
   // (better for cors and overall security)
-  const useHost = mbjs.keys.connectProxyHost
-    ? mbjs.keys.connectProxyHost
-    : MINTBASE_CONNECT_HOST;
+  const authEndpoint = mbjs.keys.connectProxyAddress
+    ? mbjs.keys.connectProxyAddress
+    : `${MINTBASE_CONNECT_HOST}/auth`;
 
   try {
-    const request = await fetch(`${useHost}/auth`, {
+    const request = await fetch(authEndpoint, {
       method: 'POST',
       headers: {
         'mb-api-key': mbjs.keys.apiKey,
@@ -250,12 +251,12 @@ export const requestMintbaseSessionToken = async (): Promise<string | null> => {
 };
 
 export const getMintbaseSessionFromToken = async (token: string): Promise<MintbaseSession | null> => {
-  const useHost = mbjs.keys.connectProxyHost
-    ? mbjs.keys.connectProxyHost
-    : MINTBASE_CONNECT_HOST;
+  const sessionEndpoint = mbjs.keys.connectProxyAddress
+    ? mbjs.keys.connectProxyAddress
+    : `${MINTBASE_CONNECT_HOST}/session`;
 
   try {
-    const request = await fetch(`${useHost}/session`, {
+    const request = await fetch(sessionEndpoint, {
       headers: {
         'mb-api-key': mbjs.keys.apiKey,
         'content-type':'application/json',

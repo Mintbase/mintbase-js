@@ -88,8 +88,8 @@ export interface ConfigOptionsObj extends ConfigOptions {
   nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
+  connectProxyAddress?: string;
   ftAddresses: FtAddresses | '';
-  connectProxyHost?: string;
 }
 
 export interface MbJsKeysObject extends ConfigOptionsObj  {

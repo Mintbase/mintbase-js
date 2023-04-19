@@ -11,7 +11,7 @@
     "@mintbase-js/sdk": "^0.1.0-beta.26",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "cookies": "^0.8.0",
-    "firebase": "^9.19.1",
+    "firebase": "^9.20.0",
     "next": "12.3.1",
     "react": "18.2.0",
     "react-dom": "18.2.0"

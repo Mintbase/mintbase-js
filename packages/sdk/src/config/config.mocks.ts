@@ -11,8 +11,8 @@ export const TESTNET_MOCK = {
   mbContract: MINTBASE_CONTRACTS.testnet,
   nearRpcUrl: RPC_ENDPOINTS.testnet,
   network: NEAR_NETWORKS.TESTNET,
+  connectProxyAddress: null,
   ftAddresses: { usdc: USDC_ADDRESS.testnet },
-  connectProxyHost: null,
 };
 
 
@@ -27,7 +27,7 @@ export const MAINNET_MOCK = {
   mbContract: MINTBASE_CONTRACTS.mainnet,
   nearRpcUrl: RPC_ENDPOINTS.mainnet,
   network: NEAR_NETWORKS.MAINNET,
+  connectProxyAddress: null,
   ftAddresses: { usdc: USDC_ADDRESS.mainnet },
-  connectProxyHost: null,
 };
 
