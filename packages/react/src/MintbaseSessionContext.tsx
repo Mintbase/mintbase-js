@@ -25,7 +25,6 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
   // requires wallet context
   const { activeAccountId } = useWallet();
   const [session, setSession] = useState<MintbaseSession|null>(null);
-  const [token, setToken] = useState<string|null>(null);
   const [error, setError] = useState<string|null>(null);
 
   const requestSession = async (): Promise<void> => {
@@ -36,7 +35,6 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
     }
     try {
       const token = await requestMintbaseSessionToken();
-      setToken(token);
       const session = await getMintbaseSessionFromToken(token);
       setSession(session);
     } catch (err) {
@@ -53,7 +51,6 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
         return;
       }
       setSession(session);
-      setToken(session.token);
     } catch (err) {
       console.warn('Attempted to get server side session but failed', err);
     }
