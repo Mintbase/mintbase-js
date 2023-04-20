@@ -339,7 +339,7 @@ export interface ExecuteExtraArgsResponse {
 }
 
 export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
-MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
+MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
 | ExecuteExtraArgsResponse | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;
