@@ -79,6 +79,7 @@ export type ConfigOptions = {
   contractAddress?: string;
   callbackUrl?: string;
   apiKey?: string;
+  connectProxyAddress?: string;
 }
 
 export interface ConfigOptionsObj extends ConfigOptions {

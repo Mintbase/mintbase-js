@@ -10,6 +10,7 @@ import { mbjs } from '@mintbase-js/sdk';
 
 export type MintbaseSessionContext = {
   session: MintbaseSession | null;
+  isSessionInFlight: boolean;
   error: string | null;
   requestSession: () => void;
 }
@@ -23,21 +24,26 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
   // requires wallet context
   const { activeAccountId } = useWallet();
   const [session, setSession] = useState<MintbaseSession|null>(null);
+  const [isSessionInFlight, setIsSessionInFlight] = useState<boolean>(false);
   const [error, setError] = useState<string|null>(null);
 
   const requestSession = async (): Promise<void> => {
     setError(null);
     setSession(null);
+    setIsSessionInFlight(true);
     if (!activeAccountId) {
       setError('Session requested without an active account id.');
+      setIsSessionInFlight(false);
     }
     try {
       const token = await requestMintbaseSessionToken();
       const session = await getMintbaseSessionFromToken(token);
       setSession(session);
+      setIsSessionInFlight(false);
     } catch (err) {
       console.error(err);
       setError(err.toString());
+      setIsSessionInFlight(false);
     }
   };
 
@@ -64,6 +70,7 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
   return (
     <MintbaseSessionContext.Provider value={{
       session,
+      isSessionInFlight,
       error,
       requestSession,
     }}>

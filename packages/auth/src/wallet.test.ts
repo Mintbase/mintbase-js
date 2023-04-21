@@ -27,6 +27,7 @@ jest.mock('./constants', () => ({
 }));
 
 // jest.useFakeTimers();
+globalThis.mbjs = {};
 
 describe('wallet', () => {
   const mockModal = {

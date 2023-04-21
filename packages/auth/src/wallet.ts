@@ -36,8 +36,8 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
 
   const selector = await setupWalletSelector({
-    network: mbjs.keys.network as Network,
-    debug: mbjs.keys.debugMode,
+    network: globalThis.mbjs.network as Network,
+    debug: globalThis.mbjs.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
@@ -46,7 +46,7 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
 
 
   const modal = setupModal(selector, {
-    contractId: mbjs.keys.contractAddress ?? mbjs.keys.mbContract,
+    contractId: globalThis.mbjs.contractAddress ?? globalThis.mbjs.mbContract,
   });
 
   walletSelectorComponents = {
@@ -228,15 +228,15 @@ export const requestMintbaseSessionToken = async (): Promise<string | null> => {
 
   // if a proxy host is defined use that
   // (better for cors and overall security)
-  const authEndpoint = mbjs.keys.connectProxyAddress
-    ? mbjs.keys.connectProxyAddress
+  const authEndpoint = globalThis.mbjs.connectProxyAddress
+    ? globalThis.mbjs.connectProxyAddress
     : `${MINTBASE_CONNECT_HOST}/auth`;
 
   try {
     const request = await fetch(authEndpoint, {
       method: 'POST',
       headers: {
-        'mb-api-key': mbjs.keys.apiKey,
+        'mb-api-key': globalThis.mbjs.apiKey,
         'content-type': 'application/json',
       },
       body: JSON.stringify(payload),
@@ -251,14 +251,14 @@ export const requestMintbaseSessionToken = async (): Promise<string | null> => {
 };
 
 export const getMintbaseSessionFromToken = async (token: string): Promise<MintbaseSession | null> => {
-  const sessionEndpoint = mbjs.keys.connectProxyAddress
-    ? mbjs.keys.connectProxyAddress
+  const sessionEndpoint = globalThis.mbjs.connectProxyAddress
+    ? globalThis.mbjs.connectProxyAddress
     : `${MINTBASE_CONNECT_HOST}/session`;
 
   try {
     const request = await fetch(sessionEndpoint, {
       headers: {
-        'mb-api-key': mbjs.keys.apiKey,
+        'mb-api-key': globalThis.mbjs.apiKey,
         'content-type':'application/json',
         'Authorization': `Bearer ${token}`,
       },
