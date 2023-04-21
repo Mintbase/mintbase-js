@@ -34,7 +34,6 @@ export const MintbaseSessionProvider: React.FC<React.PropsWithChildren> = (
     if (!activeAccountId) {
       setError('Session requested without an active account id.');
       setIsSessionInFlight(false);
-      return;
     }
     try {
       const token = await requestMintbaseSessionToken();
