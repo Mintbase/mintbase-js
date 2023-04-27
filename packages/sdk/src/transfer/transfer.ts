@@ -44,8 +44,8 @@ export const transfer = ({
       contractAddress: contractAddress || mbjs.keys.contractAddress,
       methodName: TOKEN_METHOD_NAMES.TRANSFER,
       args: {
-        receiver_id: receiverId,
         token_id: tokenId,
+        receiver_id: receiverId,
       },
       deposit: DEPOSIT_FOR_TRANSFER,
       gas: GAS_FOR_TRANSFER,
