@@ -25,7 +25,7 @@ export const transfer = ({
 
   if (transfers.length > 1) {
     const ids = transfers.map((transferElm) => {
-      return [transferElm.receiverId, transferElm.tokenId];
+      return [transferElm.tokenId, transferElm.receiverId];
     });
 
     return {
@@ -44,8 +44,8 @@ export const transfer = ({
       contractAddress: contractAddress || mbjs.keys.contractAddress,
       methodName: TOKEN_METHOD_NAMES.TRANSFER,
       args: {
-        token_id: tokenId,
         receiver_id: receiverId,
+        token_id: tokenId,
       },
       deposit: DEPOSIT_FOR_TRANSFER,
       gas: GAS_FOR_TRANSFER,
