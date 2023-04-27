@@ -48,10 +48,9 @@ describe('transfer token unit tests', () => {
       contractAddress: contractAddress,
       methodName: TOKEN_METHOD_NAMES.BATCH_TRANSFER,
       args: {
-        // eslint-disable-next-line @typescript-eslint/camelcase
         token_ids: [
-          [receiverId, tokenId1],
-          [receiverId, tokenId2],
+          [tokenId1, receiverId],
+          [tokenId2, receiverId],
         ],
       },
       deposit: DEPOSIT_FOR_TRANSFER,
