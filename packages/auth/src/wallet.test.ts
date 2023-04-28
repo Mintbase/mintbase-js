@@ -195,9 +195,13 @@ describe('wallet', () => {
   test('requests a session', async () => {
     mockGetState.mockReturnValue({ selectedWalletId: 'meteor-wallet' });
     await setupWithMockComponents();
-    global.fetch = jest.fn().mockResolvedValueOnce({
-      json: () => Promise.resolve({ token: 'foo' }),
-    });
+    global.fetch = jest.fn()
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve({ nonce: 'nonce' }),
+      })
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve({ token: 'foo' }),
+      });
     const token = await requestMintbaseSessionToken();
     expect(token).toBe('foo');
   });

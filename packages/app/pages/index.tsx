@@ -47,6 +47,7 @@ const Home: NextPage = () => {
 
   const testFirebaseLogin = async (): Promise<void> => {
     const auth = getAuth();
+    console.log('got session?', session);
     const login = await signInWithCustomToken(auth, session.token);
     console.log('has firebase login!', login);
   };

@@ -6,3 +6,4 @@ export const WALLET_CONNECTION_POLL_INTERVAL = 1_000;
 export const WALLET_CONNECTION_TIMEOUT = 30_000;
 
 export const MINTBASE_CONNECT_HOST = 'https://connect.mintbase.xyz';
+// export const MINTBASE_CONNECT_HOST = 'http://localhost:8000';

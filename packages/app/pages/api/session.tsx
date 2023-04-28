@@ -1,4 +1,4 @@
-import { MINTBASE_CONNECT_HOST } from '@mintbase-js/auth';
+import { proxySessionTokenRequest, validateSessionToken } from '@mintbase-js/auth';
 import { NextApiRequest, NextApiResponse } from 'next';
 import Cookies from 'cookies';
 
@@ -8,21 +8,13 @@ export default async function sessionHandler(req: NextApiRequest, res: NextApiRe
   const cookies = new Cookies(req, res);
 
   if (req.method === 'POST') {
-    const session = await fetch(`${MINTBASE_CONNECT_HOST}/auth`, {
-      method: 'POST',
-      headers: {
-        'mb-api-key': 'anon',
-        'content-type':'application/json',
-      },
-      body: JSON.stringify(req.body),
-    });
-
-    const { token } = await session.json();
+    const token = await proxySessionTokenRequest(req);
     cookies.set(COOKIES_KEY, token, {
       httpOnly: true,
     });
-    res.send({ token });
-    return;
+    res.send({
+      token,
+    });
   }
 
   // attempt to validate session from authorization header token
@@ -32,20 +24,10 @@ export default async function sessionHandler(req: NextApiRequest, res: NextApiRe
     return;
   }
   try {
-    const session = await fetch(`${MINTBASE_CONNECT_HOST}/session`, {
-      headers: {
-        'mb-api-key': 'anon',
-        'content-type':'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-    res.send({
-      ...await session.json(),
-      token,
-    });
+    const session = await validateSessionToken(token);
+    res.send(session);
   } catch (err) {
     console.log(`Failed to get session from cookie w token ${token}`);
     res.send(null);
   }
-
 }
