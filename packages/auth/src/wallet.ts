@@ -13,6 +13,7 @@ import type { WalletSelector, AccountState, WalletSelectorState } from '@near-wa
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
+import { proxySessionTokenRequest, validateSessionToken } from './session';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -164,38 +165,33 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
   wallet.signOut();
 };
 
-
 // message signing with key pair support
 // at some point all wallets should support this, hopefully verify is standardized as well
-
 // https://github.com/near/wallet-selector/issues/434
 // https://github.com/near/NEPs/pull/413
 // https://www.npmjs.com/package/bs58
 // https://github.com/feross/buffer
-export const getVerifiedOwner =
-  async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
-    validateWalletComponentsAreSetup();
+export const getVerifiedOwner = async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
+  validateWalletComponentsAreSetup();
 
-    const { message, callbackUrl, meta } = params;
+  const { message, callbackUrl, meta } = params;
 
-    const wallet = await walletSelectorComponents
-      .selector
-      .wallet();
+  const wallet = await walletSelectorComponents
+    .selector
+    .wallet();
 
-    const owner = await wallet.verifyOwner({
-      message: message,
-      callbackUrl: callbackUrl,
-      meta: meta,
-    }) as VerifiedOwner;
+  const owner = await wallet.verifyOwner({
+    message: message,
+    callbackUrl: callbackUrl,
+    meta: meta,
+  }) as VerifiedOwner;
 
-    return owner;
-  };
+  return owner;
+};
 
 
 export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
-  const owner = await getVerifiedOwner(params);
-
-  return owner;
+  return await getVerifiedOwner(params);
 };
 
 export type SigningPayload = {
@@ -211,39 +207,37 @@ export type MintbaseSession = {
   accountId: string;
   createdAt: string;
   token: string;
+  stores: string[];
   // TODO: augment with fields in Firestore (connect service)
 }
 
 export const requestMintbaseSessionToken = async (): Promise<string | null> => {
   if (!isMeteorWallet()) {
-    console.warn('Attempting to create a session with a non-meteor wallet.');
+    console.warn('Attempted to create a session with a non-meteor wallet. Returning null.');
     return null;
   }
 
-  const payload = await signMessage({
-    message: new Date().toString(),
-    // callbackUrl: `${window.location.origin}/wallet-callback`,
-    //meta: JSON.stringify({ type: 'signature' }),
-  });
-
   // if a proxy host is defined use that
-  // (better for cors and overall security)
+  // (more secure method to store jwt vs local storage)
   const authEndpoint = globalThis.mbjs.connectProxyAddress
     ? globalThis.mbjs.connectProxyAddress
     : `${MINTBASE_CONNECT_HOST}/auth`;
 
   try {
-    const request = await fetch(authEndpoint, {
-      method: 'POST',
-      headers: {
-        'mb-api-key': globalThis.mbjs.apiKey,
-        'content-type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    });
+    // request a nonce from mintbase connect
+    const nonceRequest = await fetch(`${MINTBASE_CONNECT_HOST}/nonce`);
+    const { nonce } = await nonceRequest.json();
 
-    const { token } = await request.json();
-    return token;
+    const payload = await signMessage({
+      message: nonce,
+      // NOTE callbacks will be necessary in the future to support web wallets
+      // this Obviously breaks this flow...
+      // will have to devise a way to complete the process from the callback origin.
+
+      // callbackUrl: `${window.location.origin}/wallet-callback`,
+      // meta: JSON.stringify({ type: 'signature' }),
+    });
+    return await proxySessionTokenRequest({ body: payload }, authEndpoint);
   } catch (err) {
     console.error('Error requesting session token', err);
     return null;
@@ -256,16 +250,7 @@ export const getMintbaseSessionFromToken = async (token: string): Promise<Mintba
     : `${MINTBASE_CONNECT_HOST}/session`;
 
   try {
-    const request = await fetch(sessionEndpoint, {
-      headers: {
-        'mb-api-key': globalThis.mbjs.apiKey,
-        'content-type':'application/json',
-        'Authorization': `Bearer ${token}`,
-      },
-    });
-
-    const session = await request.json();
-    return session;
+    return await validateSessionToken(token, sessionEndpoint);
   } catch (err) {
     console.error('Error fetching session from token!', err);
     return null;
