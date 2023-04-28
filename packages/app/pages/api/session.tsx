@@ -25,7 +25,6 @@ export default async function sessionHandler(req: NextApiRequest, res: NextApiRe
   }
   try {
     const session = await validateSessionToken(token);
-    console.log('wtf========', session);
     res.send(session);
   } catch (err) {
     console.log(`Failed to get session from cookie w token ${token}`);
