@@ -21,6 +21,7 @@ export type FilteredMetadataResult = {
     minter: string;
     price: number;
     animationUrl: string;
+    currency: string;
 }
 
 export type FilteredMetadataQueryResult = {
