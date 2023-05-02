@@ -1,4 +1,11 @@
 [//]: # `{ "title": "API Methods", "order": "1.0" }`
+
+# Installing
+
+`npm install @mintbase-js/data`
+
+package needed: `npm install --save-dev isomorphic-unfetch`
+
 # Using Data APIs
 
 Currently, these wrappers are methods for the [GraphQL API](https://docs.mintbase.xyz/dev/mintbase-graph). They are still in beta and may change at anytime.

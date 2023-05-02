@@ -1,5 +1,12 @@
 [//]: # `{ "title": "@mintbase-js/rpc", "order": "5" }`
 
+
+# Installing
+
+`npm install @mintbase-js/rpc`
+
+package needed: `npm install --save-dev isomorphic-unfetch`
+
 # Interacting with the NEAR RPC
 
 This module provides a wrapper around common RPC calls used to fetch on-chain data to supplement, or in some cases substitute data provided by the indexer (data module).
