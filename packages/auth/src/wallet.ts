@@ -37,8 +37,8 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
 
   const selector = await setupWalletSelector({
-    network: globalThis.mbjs.network as Network,
-    debug: globalThis.mbjs.debugMode,
+    network: mbjs.keys.network as Network,
+    debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
@@ -47,7 +47,7 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
 
 
   const modal = setupModal(selector, {
-    contractId: globalThis.mbjs.contractAddress ?? globalThis.mbjs.mbContract,
+    contractId: mbjs.keys.contractAddress ?? mbjs.keys.mbContract,
   });
 
   walletSelectorComponents = {
@@ -219,8 +219,8 @@ export const requestMintbaseSessionToken = async (): Promise<string | null> => {
 
   // if a proxy host is defined use that
   // (more secure method to store jwt vs local storage)
-  const authEndpoint = globalThis.mbjs.connectProxyAddress
-    ? globalThis.mbjs.connectProxyAddress
+  const authEndpoint = globalThis.mbjs.keys.connectProxyAddress
+    ? globalThis.mbjs.keys.connectProxyAddress
     : `${MINTBASE_CONNECT_HOST}/auth`;
 
   try {
@@ -245,8 +245,8 @@ export const requestMintbaseSessionToken = async (): Promise<string | null> => {
 };
 
 export const getMintbaseSessionFromToken = async (token: string): Promise<MintbaseSession | null> => {
-  const sessionEndpoint = globalThis.mbjs.connectProxyAddress
-    ? globalThis.mbjs.connectProxyAddress
+  const sessionEndpoint = globalThis.mbjs.keys.connectProxyAddress
+    ? globalThis.mbjs.keys.connectProxyAddress
     : `${MINTBASE_CONNECT_HOST}/session`;
 
   try {
