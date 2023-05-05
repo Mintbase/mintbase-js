@@ -1,7 +1,6 @@
 export * from './account';
 export * from './wallet';
 export * from './constants';
-export * from './session';
 
 // this is done to avoid importing near-api-js more than once
 // which leads to a strange, but known issue
