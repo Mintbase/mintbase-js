@@ -1,6 +1,6 @@
 import { mbjs } from '../config/config';
-import { MAX_GAS } from '../constants';
-import { MARKET_METHOD_NAMES } from '../types';
+import { MAX_GAS, ONE_YOCTO } from '../constants';
+import { MARKET_METHOD_NAMES, FT_METHOD_NAMES, FungibleToken } from '../types';
 import { buy } from './buy';
 
 
@@ -27,5 +27,30 @@ test('buy a token', () => {
     },
     deposit: price,
     gas: MAX_GAS,
+  });
+});
+
+test('buy a token using USDC', () => {
+  const args = buy({
+    contractAddress: contractAddress,
+    tokenId: tokenId,
+    affiliateAccount: affiliateAccount,
+    price: price,
+    ftAddress: mbjs.keys.ftAddresses[FungibleToken.USDC],
+  });
+
+  expect(args).toEqual({
+    contractAddress: mbjs.keys.ftAddresses[FungibleToken.USDC],
+    args: {
+      receiver_id: mbjs.keys.marketAddress,
+      amount: price,
+      msg: JSON.stringify({
+        nft_contract_id: contractAddress,
+        token_id: tokenId,
+      }),
+    },
+    methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
+    gas: MAX_GAS,
+    deposit: ONE_YOCTO,
   });
 });

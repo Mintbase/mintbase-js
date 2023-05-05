@@ -1,6 +1,7 @@
 /**
  * mbjs Namespace to set the config vars on all mintbase-js packages, as also retrieve the global keys in any part of the application.
  */
+import { FT_ADDRESSES } from '../constants';
 import {
   MbJsKeysObject,
   MARKET_CONTRACT_ADDRESS,
@@ -35,14 +36,16 @@ const startupConfig: MbJsKeysObject = {
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.TESTNET],
   mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.TESTNET],
   apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY,
+  connectProxyAddress: null,
   debugMode: isDebugMode ? true : false,
+  ftAddresses: isProcessEnv ? FT_ADDRESSES[process.env.NEAR_NETWORK] : FT_ADDRESSES[NEAR_NETWORKS.TESTNET],
   isSet:  isProcessEnv ? true : false,
 };
 
 // config is scoped globally as to avoid version mismatches from conflicting
 // (force singleton at scope vs. module resolution)
 const config = startupConfig;
-globalThis.mbjs = startupConfig;
+globalThis.mbjs = config;
 
 export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   const globalConfig: MbJsKeysObject = {
@@ -55,6 +58,8 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
     apiKey: configObj.apiKey ?? DEFAULT_API_KEY,
+    connectProxyAddress: null,
+    ftAddresses: FT_ADDRESSES[configObj.network],
     isSet: true,
   };
 
@@ -67,8 +72,9 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   config.debugMode = globalConfig.debugMode;
   config.nearRpcUrl = globalConfig.nearRpcUrl;
   config.apiKey = globalConfig.apiKey;
+  config.connectProxyAddress = globalConfig.connectProxyAddress;
+  config.ftAddresses = globalConfig.ftAddresses;
   config.isSet = globalConfig.isSet;
-
   return globalConfig;
 };
 
