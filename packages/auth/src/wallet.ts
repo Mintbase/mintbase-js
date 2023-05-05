@@ -2,18 +2,18 @@ import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
-import { mbjs, Network } from '@mintbase-js/sdk';
+
+import { mbjs, NEAR_NETWORKS, Network } from '@mintbase-js/sdk';
+
 import {
-  MINTBASE_CONNECT_HOST,
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
-import type { WalletSelector, AccountState, WalletSelectorState } from '@near-wallet-selector/core';
+import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
-import { proxySessionTokenRequest, validateSessionToken } from './session';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -139,18 +139,9 @@ export const getWallet = async (): Promise<Wallet> => {
     .wallet();
 };
 
-export const getSelectorState = (): WalletSelectorState => {
-  return walletSelectorComponents
-    .selector
-    .store
-    .getState();
-};
-
-export const isMeteorWallet = (): boolean =>
-  getSelectorState().selectedWalletId === 'meteor-wallet';
-
 export const connectWalletSelector = (): void => {
   validateWalletComponentsAreSetup();
+
   walletSelectorComponents
     .modal
     .show();
@@ -165,94 +156,49 @@ export const disconnectFromWalletSelector = async(): Promise<void> => {
   wallet.signOut();
 };
 
-// message signing with key pair support
-// at some point all wallets should support this, hopefully verify is standardized as well
-// https://github.com/near/wallet-selector/issues/434
-// https://github.com/near/NEPs/pull/413
-// https://www.npmjs.com/package/bs58
-// https://github.com/feross/buffer
-export const getVerifiedOwner = async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
-  validateWalletComponentsAreSetup();
+export const getVerifiedOwner =
+  async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
+    validateWalletComponentsAreSetup();
 
-  const { message, callbackUrl, meta } = params;
+    const { message, callbackUrl, meta } = params;
 
-  const wallet = await walletSelectorComponents
-    .selector
-    .wallet();
+    const wallet = await walletSelectorComponents
+      .selector
+      .wallet();
 
-  const owner = await wallet.verifyOwner({
-    message: message,
-    callbackUrl: callbackUrl,
-    meta: meta,
-  }) as VerifiedOwner;
+    const owner = await wallet.verifyOwner({
+      message: message,
+      callbackUrl: callbackUrl,
+      meta: meta,
+    }) as VerifiedOwner;
+
+    return owner;
+  };
+
+
+// returns a signature of message
+export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
+  const owner = await getVerifiedOwner(params);
 
   return owner;
 };
 
 
-export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
-  return await getVerifiedOwner(params);
-};
+//  https://www.npmjs.com/package/bs58
+// https://github.com/feross/buffer
+// https://github.com/near/wallet-selector/issues/434
+// export const verifyMessage = async (signature: string): Promise<boolean> => {
 
-export type SigningPayload = {
-  signature: string;
-  message: string;
-  publicKey: string;
-  accountId: string;
-  keyType: string | number;
-  blockId: string;
-}
+//   // const owner = await getVerifiedOwner(signature);
 
-export type MintbaseSession = {
-  accountId: string;
-  createdAt: string;
-  token: string;
-  stores: string[];
-  // TODO: augment with fields in Firestore (connect service)
-}
+//   // const publicKeyString = `ed25519:${BinaryToBase58(Buffer.from(owner.publicKey, 'base64'))}`;
 
-export const requestMintbaseSessionToken = async (): Promise<string | null> => {
-  if (!isMeteorWallet()) {
-    console.warn('Attempted to create a session with a non-meteor wallet. Returning null.');
-    return null;
-  }
+//   // const createdPublicKey = utils.PublicKey.from(publicKeyString);
 
-  // if a proxy host is defined use that
-  // (more secure method to store jwt vs local storage)
-  const authEndpoint = globalThis.mbjs.keys.connectProxyAddress
-    ? globalThis.mbjs.keys.connectProxyAddress
-    : `${MINTBASE_CONNECT_HOST}/auth`;
+//   // const stringified = JSON.stringify(owner);
 
-  try {
-    // request a nonce from mintbase connect
-    const nonceRequest = await fetch(`${MINTBASE_CONNECT_HOST}/nonce`);
-    const { nonce } = await nonceRequest.json();
+//   // const verified = createdPublicKey.verify(new Uint8Array(sha256.array(stringified)), Buffer.from(signature, 'base64'));
 
-    const payload = await signMessage({
-      message: nonce,
-      // NOTE callbacks will be necessary in the future to support web wallets
-      // this Obviously breaks this flow...
-      // will have to devise a way to complete the process from the callback origin.
+//   return false;
+// };
 
-      // callbackUrl: `${window.location.origin}/wallet-callback`,
-      // meta: JSON.stringify({ type: 'signature' }),
-    });
-    return await proxySessionTokenRequest({ body: payload }, authEndpoint);
-  } catch (err) {
-    console.error('Error requesting session token', err);
-    return null;
-  }
-};
-
-export const getMintbaseSessionFromToken = async (token: string): Promise<MintbaseSession | null> => {
-  const sessionEndpoint = globalThis.mbjs.keys.connectProxyAddress
-    ? globalThis.mbjs.keys.connectProxyAddress
-    : `${MINTBASE_CONNECT_HOST}/session`;
-
-  try {
-    return await validateSessionToken(token, sessionEndpoint);
-  } catch (err) {
-    console.error('Error fetching session from token!', err);
-    return null;
-  }
-};

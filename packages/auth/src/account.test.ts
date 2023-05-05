@@ -12,6 +12,6 @@ describe('connect', () => {
   it('should default network to NEAR_NETWORK', async () => {
     const keyStore = new InMemoryKeyStore();
     const account = await connect('mb_alice.testnet', keyStore);
-    expect(account.connection.networkId).toBe(NEAR_NETWORKS.MAINNET);
+    expect(account.connection.networkId).toBe(NEAR_NETWORKS.TESTNET);
   });
 });
