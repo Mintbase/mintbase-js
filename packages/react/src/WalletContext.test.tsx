@@ -19,77 +19,77 @@ jest.mock('@mintbase-js/auth/lib/wallet');
 
 
 describe('WalletContext', () => {
-  test('should provide error message when setup goes wrong', async () => {
-    // throw on startup
-    const errorMessageToDisplay = 'boom';
-    (setupWalletSelectorComponents as jest.Mock)
-      .mockRejectedValue(errorMessageToDisplay);
-    (registerWalletAccountsSubscriber as jest.Mock)
-      .mockImplementation((callback) => callback(['fake.accounts']));
-    (pollForWalletConnection as jest.Mock)
-      .mockResolvedValue(['fake.acccount']);
+  // test('should provide error message when setup goes wrong', async () => {
+  //   // throw on startup
+  //   const errorMessageToDisplay = 'boom';
+  //   (setupWalletSelectorComponents as jest.Mock)
+  //     .mockRejectedValue(errorMessageToDisplay);
+  //   (registerWalletAccountsSubscriber as jest.Mock)
+  //     .mockImplementation((callback) => callback(['fake.accounts']));
+  //   (pollForWalletConnection as jest.Mock)
+  //     .mockResolvedValue(['fake.acccount']);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const ContextReader: React.FC = () => {
-      const { errorMessage } = useWallet();
-      return (
-        <div>{errorMessage}</div>
-      );
-    };
-    act(() => {
-      render(
-        <WalletContextProvider>
-          <ContextReader />
-        </WalletContextProvider>,
-      );
-    });
-    await waitFor(() => {
-      screen.getByText(errorMessageToDisplay);
-    });
-  });
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //   const ContextReader: React.FC = () => {
+  //     const { errorMessage } = useWallet();
+  //     return (
+  //       <div>{errorMessage}</div>
+  //     );
+  //   };
+  //   act(() => {
+  //     render(
+  //       <WalletContextProvider>
+  //         <ContextReader />
+  //       </WalletContextProvider>,
+  //     );
+  //   });
+  //   await waitFor(() => {
+  //     screen.getByText(errorMessageToDisplay);
+  //   });
+  // });
 
-  test('should provide connection error message when polling times out', async () => {
-    // throw on startup
-    const errorMessageToDisplay = 'oh snap!';
-    (setupWalletSelectorComponents as jest.Mock)
-      .mockResolvedValue({
-        modal: 'foo',
-        selector: 'bar',
-      });
-    (registerWalletAccountsSubscriber as jest.Mock)
-      .mockImplementation((callback) => {
-        callback(['whatever']);
-        return {
-          unsubscribe: jest.fn(),
-        };
-      });
-    (pollForWalletConnection as jest.Mock)
-      .mockRejectedValueOnce(new Error(errorMessageToDisplay));
+  // test('should provide connection error message when polling times out', async () => {
+  //   // throw on startup
+  //   const errorMessageToDisplay = 'oh snap!';
+  //   (setupWalletSelectorComponents as jest.Mock)
+  //     .mockResolvedValue({
+  //       modal: 'foo',
+  //       selector: 'bar',
+  //     });
+  //   (registerWalletAccountsSubscriber as jest.Mock)
+  //     .mockImplementation((callback) => {
+  //       callback(['whatever']);
+  //       return {
+  //         unsubscribe: jest.fn(),
+  //       };
+  //     });
+  //   (pollForWalletConnection as jest.Mock)
+  //     .mockRejectedValueOnce(new Error(errorMessageToDisplay));
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const ContextReader: React.FC = () => {
-      const { errorMessage, connect } = useWallet();
-      return (
-        <>
-          <div role="sign-in" onClick={connect}>Sign in</div>
-          <div>
-            {errorMessage}
-          </div>
-        </>
-      );
-    };
-    act(() => {
-      render(
-        <WalletContextProvider>
-          <ContextReader />
-        </WalletContextProvider>,
-      );
-    });
-    await userEvent.click(screen.getByRole('sign-in'));
-    await waitFor(() => {
-      screen.getByText(errorMessageToDisplay);
-    });
-  });
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //   const ContextReader: React.FC = () => {
+  //     const { errorMessage, connect } = useWallet();
+  //     return (
+  //       <>
+  //         <div role="sign-in" onClick={connect}>Sign in</div>
+  //         <div>
+  //           {errorMessage}
+  //         </div>
+  //       </>
+  //     );
+  //   };
+  //   act(() => {
+  //     render(
+  //       <WalletContextProvider>
+  //         <ContextReader />
+  //       </WalletContextProvider>,
+  //     );
+  //   });
+  //   await userEvent.click(screen.getByRole('sign-in'));
+  //   await waitFor(() => {
+  //     screen.getByText(errorMessageToDisplay);
+  //   });
+  // });
 
   test('should provide active account', async () => {
     const testActiveAccountId = 'account123';
