@@ -65,13 +65,20 @@ export enum USDC_ADDRESS {
   testnet = 'usdc.fakes.testnet',
 }
 
+export enum USDT_ADDRESS {
+  mainnet = 'dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near',
+  testnet = 'usdt.fakes.testnet',
+}
+
 export enum FungibleToken {
   USDC = 'usdc',
+  USDT = 'usdt',
 }
 
 // keys here need to be the values of the fungible token enum
 export type FtAddresses = {
   usdc: USDC_ADDRESS;
+  usdt: USDT_ADDRESS;
 }
 
 export type ConfigOptions = {
