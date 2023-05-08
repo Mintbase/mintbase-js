@@ -39,7 +39,7 @@ const useMinter = (args: MintArgs): UseMinterReturn => {
         royalties: royalties,
         amount: amount,
       }),
-    );
+    ) as any;
 
     setReceipt(receipt);
     setLoading(false);

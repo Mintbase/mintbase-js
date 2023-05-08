@@ -24,7 +24,6 @@
     "@near-wallet-selector/default-wallets": "^8.0.3",
     "@near-wallet-selector/here-wallet": "^8.0.3",
     "@near-wallet-selector/ledger": "^8.0.3",
-    "@near-wallet-selector/math-wallet": "*",
     "@near-wallet-selector/meteor-wallet": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
     "@near-wallet-selector/my-near-wallet": "*",
@@ -37,6 +36,7 @@
     "rxjs": "^7.5.7"
   },
   "devDependencies": {
-    "jest-environment-jsdom": "^29.1.1"
+    "jest-environment-jsdom": "^29.1.1",
+    "zod": "^3.9.0"
   }
 }

@@ -17,7 +17,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   network,
 }: {
   query: DocumentNode | string;
-  variables?: V;
+  variables?: any;
   network?: Network | null | undefined;
 }): Promise<GqlFetchResult<T>> => {
 
