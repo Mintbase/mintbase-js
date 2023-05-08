@@ -11,5 +11,5 @@ export const SUPPORTED_NEAR_WALLETS: Array<WalletModuleFactory> =[
   setupMeteorWallet(),
   setupSender(),
   setupMyNearWallet(),
-  // setupHereWallet(),
+  setupHereWallet(),
 ];
