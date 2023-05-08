@@ -15,7 +15,7 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
 // but uses wrappers from @mintbase-js/auth and @mintbase-js/sdk
 export type WalletContext = {
-  selector: any;
+  selector: WalletSelector;
   modal: WalletSelectorModal;
   accounts: AccountState[];
   activeAccountId: string | null;
