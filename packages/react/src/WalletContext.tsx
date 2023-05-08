@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   registerWalletAccountsSubscriber,
   setupWalletSelectorComponents,
@@ -33,6 +33,7 @@ export type WalletSetupComponents = {
   modal: WalletSelectorModal;
 }
 
+
 export const WalletContext = createContext<WalletContext | null>(null);
 
 export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
@@ -52,8 +53,11 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   // call setup on wallet selector
   useEffect(() => {
+
+    console.log(components, 'components');
     setup().catch((err: unknown) => {
-      setErrorMessage((err as Error).message || err as string);
+      console.log(err, 'error');
+      setErrorMessage(err as string);
     });
   }, [setup]);
 
@@ -90,6 +94,9 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
 
   const connect = async (): Promise<void> => {
     setIsWaitingForConnection(true);
+
+    console.log(errorMessage, 'error');
+
     setErrorMessage(null);
     connectWalletSelector();
 
@@ -98,7 +105,9 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
       setIsWaitingForConnection(false);
       setAccounts(accounts);
     } catch (err: unknown) {
-      setErrorMessage((err as Error).message || err as string);
+      console.log(err, errorMessage,  'error');
+
+      setErrorMessage(err as string);
     }
   };
 
@@ -108,21 +117,26 @@ export const WalletContextProvider: React.FC<React.PropsWithChildren> = (
   };
 
 
-  return (
-    <WalletContext.Provider value={{
-      selector,
-      modal,
-      accounts,
-      activeAccountId: accounts
-        .find((account) => account.active)?.accountId || null,
+  const walletSelectorContextValue = useMemo<WalletContext>(
+    () => ({
+      selector: selector,
+      modal: modal,
+      accounts: accounts,
+      activeAccountId: accounts.find((account) => account.active)?.accountId || null,
       isConnected: accounts && accounts.length > 0,
-      isWaitingForConnection,
-      isWalletSelectorSetup,
-      errorMessage,
+      isWaitingForConnection: isWaitingForConnection,
+      isWalletSelectorSetup: isWalletSelectorSetup,
+      errorMessage: errorMessage,
       connect,
       disconnect,
       signMessage,
-    }}>
+    }),
+    [selector, modal, accounts],
+  );
+
+
+  return (
+    <WalletContext.Provider value={walletSelectorContextValue}>
       {children}
     </WalletContext.Provider>
   );
