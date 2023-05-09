@@ -1,6 +1,6 @@
 import BN from 'bn.js';
 import { constants } from 'buffer';
-import { FtAddresses, USDC_ADDRESS } from './types';
+import { FtAddresses, USDC_ADDRESS, USDT_ADDRESS } from './types';
 
 export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
@@ -48,8 +48,10 @@ export const GAS_FOR_TRANSFER = GAS;
 export const FT_ADDRESSES: { testnet: FtAddresses; mainnet: FtAddresses } = {
   testnet: {
     usdc: USDC_ADDRESS.testnet,
+    usdt: USDT_ADDRESS.testnet,
   },
   mainnet: {
     usdc: USDC_ADDRESS.mainnet,
+    usdt: USDT_ADDRESS.mainnet,
   },
 };

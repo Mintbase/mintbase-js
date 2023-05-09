@@ -1,4 +1,4 @@
-import { GRAPHQL_ENDPOINTS, RPC_ENDPOINTS, USDC_ADDRESS } from '@mintbase-js/sdk';
+import { GRAPHQL_ENDPOINTS, RPC_ENDPOINTS, USDC_ADDRESS, USDT_ADDRESS } from '@mintbase-js/sdk';
 import { GraphQLClient, gql } from 'graphql-request';
 import { fetchGraphQl } from './fetch';
 import { mbjs } from '@mintbase-js/sdk';
@@ -52,7 +52,10 @@ describe('graphql/fetch', () => {
       graphqlUrl: GRAPHQL_ENDPOINTS['testnet'],
       nearRpcUrl: RPC_ENDPOINTS['testnet'],
       contractAddress: 'bbb',
-      ftAddresses: { usdc: USDC_ADDRESS['testnet'] },
+      ftAddresses: {
+        usdc: USDC_ADDRESS['testnet'],
+        usdt: USDT_ADDRESS['testnet'],
+      },
     },
 
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({

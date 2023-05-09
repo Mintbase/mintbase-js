@@ -54,3 +54,28 @@ test('buy a token using USDC', () => {
     deposit: ONE_YOCTO,
   });
 });
+
+test('buy a token using USDC', () => {
+  const args = buy({
+    contractAddress: contractAddress,
+    tokenId: tokenId,
+    affiliateAccount: affiliateAccount,
+    price: price,
+    ftAddress: mbjs.keys.ftAddresses[FungibleToken.USDT],
+  });
+
+  expect(args).toEqual({
+    contractAddress: mbjs.keys.ftAddresses[FungibleToken.USDT],
+    args: {
+      receiver_id: mbjs.keys.marketAddress,
+      amount: price,
+      msg: JSON.stringify({
+        nft_contract_id: contractAddress,
+        token_id: tokenId,
+      }),
+    },
+    methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
+    gas: MAX_GAS,
+    deposit: ONE_YOCTO,
+  });
+});
