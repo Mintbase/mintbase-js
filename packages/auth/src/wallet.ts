@@ -3,8 +3,6 @@ import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 
-import { mbjs, NEAR_NETWORKS, Network } from '@mintbase-js/sdk';
-
 import {
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
@@ -36,8 +34,10 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
 
+  const mbjs = globalThis.mbjs;
+
   const selector = await setupWalletSelector({
-    network: mbjs.keys.network as Network,
+    network: mbjs.keys.network,
     debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),

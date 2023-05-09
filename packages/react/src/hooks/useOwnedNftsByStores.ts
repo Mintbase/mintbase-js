@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ownedNftsByStore } from '@mintbase-js/data';
 import { OwnedNftsData } from '@mintbase-js/data/lib/api/ownedNftsByStore/ownedNftsByStore.types';
-import { mbjs } from '@mintbase-js/sdk';
 
 interface OwnedNftsByStoreHookResult {
   data: OwnedNftsData | undefined;
@@ -11,9 +10,12 @@ interface OwnedNftsByStoreHookResult {
 
 export const useOwnedNftsByStore = (
   ownerId: string,
-  contractAddress: string = mbjs.keys.contractAddress,
+  contractAddress: string = globalThis.mbjs.keys.contractAddress,
   pagination: { limit: number; offset?: number},
 ): OwnedNftsByStoreHookResult => {
+
+  const mbjs = globalThis.mbjs;
+
   const [loading, setLoading] = useState<boolean>(true);
   const [res, setData] = useState<OwnedNftsData | undefined>(undefined);
   const [errorMsg, setError] = useState<string | null>(null);
