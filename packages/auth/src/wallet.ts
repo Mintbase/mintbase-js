@@ -33,12 +33,9 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
 export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
-
-  const mbjs = globalThis.mbjs;
-
   const selector = await setupWalletSelector({
-    network: mbjs.keys.network,
-    debug: mbjs.keys.debugMode,
+    network: globalThis.mbjs.keys.network,
+    debug: globalThis.mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
@@ -46,7 +43,7 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
   });
 
   const modal = setupModal(selector, {
-    contractId: mbjs.keys.contractAddress ?? mbjs.keys.mbContract,
+    contractId: globalThis.mbjs.keys.contractAddress ?? globalThis.mbjs.keys.mbContract,
   });
 
   walletSelectorComponents = {

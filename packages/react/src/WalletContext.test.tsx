@@ -18,6 +18,25 @@ import {
 jest.mock('@mintbase-js/auth/lib/wallet');
 
 
+globalThis.mbjs = { 
+  keys :{
+    apiKey: 'omni-site',
+    callbackUrl: 'https://www.mintbase.xyz/wallet-callback',
+    connectProxyAddress: null,
+    contractAddress: 'mintbase1.near',
+    debugMode: false,
+    ftAddresses: {
+      usdc: 'a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near',
+    },
+    graphqlUrl: 'https://interop-mainnet.hasura.app/v1/graphql',
+    isSet: true,
+    marketAddress: 'simple.market.mintbase1.near',
+    mbContract: 'mintbase1.near',
+    nearRpcUrl: 'https://rpc.mainnet.near.org',
+    network: 'mainnet',
+  }, 
+};
+
 describe('WalletContext', () => {
   // test('should provide error message when setup goes wrong', async () => {
   //   // throw on startup
