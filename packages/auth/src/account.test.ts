@@ -1,6 +1,6 @@
-import { NEAR_NETWORKS } from '@mintbase-js/sdk/lib/types';
 import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
 import { connect } from './account';
+import { NEAR_NETWORKS } from '@mintbase-js/sdk';
 
 globalThis.mbjs = { 
   keys :{
