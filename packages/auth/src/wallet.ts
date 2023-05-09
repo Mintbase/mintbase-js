@@ -45,7 +45,6 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
     ],
   });
 
-
   const modal = setupModal(selector, {
     contractId: mbjs.keys.contractAddress ?? mbjs.keys.mbContract,
   });
