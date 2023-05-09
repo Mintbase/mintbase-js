@@ -11,7 +11,8 @@
     "lint": "lerna run lint",
     "test": "lerna run test --stream --ignore @mintbase-js/testing",
     "test:integration": "lerna run test --stream --scope @mintbase-js/testing",
-    "unlock": "find . -name \"package-lock.json\" -exec rm -rf '{}' +"
+    "unlock": "find . -name \"package-lock.json\" -exec rm -rf '{}' +",
+    "add:sdk": "lerna add @mintbase-js/sdk --scope @mintbase-js/auth"
   },
   "nodemonConfig": {
     "watch": [
