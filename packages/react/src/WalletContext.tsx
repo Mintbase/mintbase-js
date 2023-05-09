@@ -48,7 +48,7 @@ export type WalletSetupComponents = {
 export const WalletContext = createContext<WalletContext | null>(null);
 
 export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [errorMessage, setErrorMessage] = useState<string>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
     null,
   );
@@ -67,7 +67,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
   // call setup on wallet selector
   useEffect(() => {
     setup().catch((err: Error) => {
-      if (err || err.message.length > 0) {
+      if (err || err.message.length > 0 && err.message !== null ) {
         setErrorMessage((err as Error).message);
       }
     });
@@ -112,7 +112,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
       setIsWaitingForConnection(false);
       setAccounts(accounts);
     } catch (err:unknown) {
-      if (err) {
+      if (err !== null ) {
         setErrorMessage((err as Error).message);
       }
     }
@@ -133,12 +133,12 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
       isConnected: accounts && accounts.length > 0,
       isWaitingForConnection: isWaitingForConnection,
       isWalletSelectorSetup: isWalletSelectorSetup,
-      errorMessage: errorMessage,
+      errorMessage: errorMessage || null,
       connect,
       disconnect,
       signMessage,
     }),
-    [selector, modal, accounts],
+    [selector, modal, accounts, errorMessage],
   );
 
   return (
