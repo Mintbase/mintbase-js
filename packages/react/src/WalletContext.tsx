@@ -23,6 +23,8 @@ import type {
   VerifyOwnerParams,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
+import type { Network } from '@mintbase-js/sdk';
+import { mbjs } from '@mintbase-js/sdk';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -48,7 +50,7 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: string; contractAddress?: string }> = ({
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string }> = ({
   children, network, contractAddress,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
@@ -61,10 +63,13 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
+  const selectedNetwork =   network || mbjs.keys.network;
+  const selectedContract = contractAddress || mbjs.keys.contractAddress;
+
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents(
-      network,
-      contractAddress,
+      selectedNetwork,
+      selectedContract,
     );
 
     setIsWalletSelectorSetup(true);
@@ -77,8 +82,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
   const setupWallet = async () => {
     const components = await setupWalletSelectorComponents(
-      network,
-      contractAddress,
+      selectedNetwork,
+      selectedContract,
     );
     return components;
   };
