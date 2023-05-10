@@ -24,7 +24,6 @@ import type {
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import type { Network } from '@mintbase-js/sdk';
-import { mbjs } from '@mintbase-js/sdk';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -63,13 +62,10 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-  const selectedNetwork =   network || mbjs.keys.network;
-  const selectedContract = contractAddress || mbjs.keys.contractAddress;
-
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents(
-      selectedNetwork,
-      selectedContract,
+      network,
+      contractAddress,
     );
 
     setIsWalletSelectorSetup(true);
@@ -82,8 +78,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
   const setupWallet = async () => {
     const components = await setupWalletSelectorComponents(
-      selectedNetwork,
-      selectedContract,
+      network,
+      contractAddress,
     );
     return components;
   };

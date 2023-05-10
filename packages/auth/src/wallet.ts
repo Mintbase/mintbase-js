@@ -36,7 +36,7 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (network?, contractAddress?): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
-    network: network || mbjs.keys.network as Network,
+    network: network,
     debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
@@ -45,7 +45,7 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?):
   });
 
   const modal = setupModal(selector, {
-    contractId:contractAddress || mbjs.keys.contractAddress || mbjs.keys.mbContract,
+    contractId:contractAddress,
   });
 
   walletSelectorComponents = {
