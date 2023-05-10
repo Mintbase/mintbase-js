@@ -1,8 +1,5 @@
-![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta)](https://coveralls.io/github/Mintbase/mintbase-js?branch=beta)
-
 # Mintbase JS
 
-A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
 <p align="center">
 <img src="https://img.shields.io/github/v/release/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
@@ -11,7 +8,11 @@ A library for making web3 end to end development as easy as possible from smart 
 <img src="https://img.shields.io/github/contributors/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/commit-activity/m/mintbase/mintbase-js" />
  <img src="https://img.shields.io/npm/l/@mintbase-js/react"/>
+ [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta)](https://coveralls.io/github/Mintbase/mintbase-js?branch=beta)
 </p>
+
+A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
+
 {% hint style="danger" %}
 ## All packages are currently in beta.
 Breaking changes can and will be introduced on a regular basis until an official release later this year.
