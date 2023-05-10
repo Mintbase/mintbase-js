@@ -3,9 +3,10 @@
 # @mintbase-js/react
 
 This package contains React helpers for interacting with Mintbase JS.
-
+<p align="center">
 <img src='https://img.shields.io/npm/dw/@mintbase-js/react' />
-
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/react'>
+</p>
 ## Summary
 
 - [Installing](#Installing)
