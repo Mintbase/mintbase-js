@@ -1,6 +1,10 @@
 {
   "name": "@mintbase-js/data",
+<<<<<<< HEAD
   "version": "0.3.2-upgrade-packages-8d232aa.0",
+=======
+  "version": "0.3.2-beta.21",
+>>>>>>> beta
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

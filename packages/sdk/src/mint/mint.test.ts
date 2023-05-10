@@ -29,7 +29,7 @@ describe('mint method tests', () => {
         royalty_args: null,
         token_ids_to_mint: null,
       },
-      deposit: '6670000000000000000000',
+      deposit: '7470000000000000000000',
       gas: GAS,
     });
   });
@@ -62,7 +62,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: [123, 456],
       },
-      deposit: '12670000000000000000000',
+      deposit: '14270000000000000000000',
       gas: GAS,
     });
   });
@@ -96,7 +96,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: [123, 456],
       },
-      deposit: '13470000000000000000000',
+      deposit: '15070000000000000000000',
       gas: GAS,
     });
   });
@@ -130,7 +130,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: null,
       },
-      deposit: '13470000000000000000000',
+      deposit: '15070000000000000000000',
       gas: GAS,
     });
   });
@@ -164,7 +164,7 @@ describe('mint method tests', () => {
         },
         token_ids_to_mint: null,
       },
-      deposit: '9070000000000000000000',
+      deposit: '9870000000000000000000',
       gas: GAS,
     });
   });
