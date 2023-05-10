@@ -62,6 +62,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
+  console.log(contractAddress, network, 'debug mode');
+
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents(
       network,

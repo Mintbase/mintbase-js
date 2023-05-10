@@ -13,7 +13,6 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
 import { mbjs } from '@mintbase-js/sdk';
-import { Network } from '.';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -35,6 +34,8 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
 export const setupWalletSelectorComponents = async (network?, contractAddress?): Promise<WalletSelectorComponents> => {
+  console.log(contractAddress, network, 'debug mode');
+  
   const selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
