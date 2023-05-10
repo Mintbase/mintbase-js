@@ -1,7 +1,12 @@
-import { GRAPHQL_ENDPOINTS, RPC_ENDPOINTS, USDC_ADDRESS, USDT_ADDRESS } from '@mintbase-js/sdk';
+import { GRAPHQL_ENDPOINTS, RPC_ENDPOINTS, USDC_ADDRESS } from '@mintbase-js/sdk';
 import { GraphQLClient, gql } from 'graphql-request';
 import { fetchGraphQl } from './fetch';
 import { mbjs } from '@mintbase-js/sdk';
+
+ enum USDT_ADDRESS {
+  mainnet = 'dac17f958d2ee523a2206206994597c13d831ec7.factory.bridge.near',
+  testnet = 'usdt.fakes.testnet',
+}
 
 jest.mock('graphql-request');
 
@@ -54,7 +59,7 @@ describe('graphql/fetch', () => {
       contractAddress: 'bbb',
       ftAddresses: {
         usdc: USDC_ADDRESS['testnet'],
-        usdt: USDT_ADDRESS['testnet'],
+        // usdt: USDT_ADDRESS['testnet'],
       },
     },
 
