@@ -3,7 +3,15 @@
 # Mintbase JS
 
 A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
-
+<p align="center">
+<img src="https://img.shields.io/github/v/release/mintbase/mintbase-js" />
+<img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
+<img src="https://img.shields.io/github/actions/workflow/status/mintbase/mintbase-js/branch-publish.yml" />
+<img src="https://img.shields.io/github/lerna-json/v/mintbase/mintbase-js" />
+<img src="https://img.shields.io/github/contributors/mintbase/mintbase-js" />
+<img src="https://img.shields.io/github/commit-activity/m/mintbase/mintbase-js" />
+ <img src="https://img.shields.io/npm/l/@mintbase-js/react"/>
+</p>
 {% hint style="danger" %}
 ## All packages are currently in beta.
 Breaking changes can and will be introduced on a regular basis until an official release later this year.
