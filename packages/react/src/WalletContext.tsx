@@ -23,7 +23,6 @@ import type {
   VerifyOwnerParams,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import type { Network } from '@mintbase-js/sdk';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -49,7 +48,7 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string }> = ({
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: string; contractAddress?: string }> = ({
   children, network, contractAddress,
 }) => {
   const [errorMessage, setErrorMessage] = useState<string>(null);
@@ -61,8 +60,6 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     useState<boolean>(false);
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
-
-  console.log(contractAddress, network, 'debug mode');
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents(

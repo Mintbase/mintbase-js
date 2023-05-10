@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { tokenById } from '@mintbase-js/data';
 import { TokenByIdResults } from '@mintbase-js/data/lib/api/tokenById/tokenById.types';
-import { mbjs } from '@mintbase-js/sdk';
 
 interface TokenByIdHookResult {
   data: TokenByIdResults | undefined;
@@ -17,7 +16,7 @@ export const useTokenById = (
   const [res, setData] = useState<TokenByIdResults | undefined>(undefined);
   const [errorMsg, setError] = useState<string | null>(null);
 
-  const contract = contractAddress || mbjs.keys.contractAddress;
+  const contract = contractAddress;
   const validParams = contract && tokenId; 
 
 
