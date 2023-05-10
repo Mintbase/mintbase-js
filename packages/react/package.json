@@ -23,9 +23,9 @@
     "@testing-library/user-event": "^14.4.3"
   },
   "dependencies": {
-    "@mintbase-js/auth": "^0.3.2-upgrade-packages-8d232aa.0",
-    "@mintbase-js/data": "^0.3.2-upgrade-packages-8d232aa.0",
-    "@mintbase-js/sdk": "^0.3.2-upgrade-packages-8d232aa.0",
+    "@mintbase-js/auth": "^0.3.2-upgrade-packages-3378beb.0",
+    "@mintbase-js/data": "^0.3.2-upgrade-packages-3378beb.0",
+    "@mintbase-js/sdk": "^0.3.2-upgrade-packages-3378beb.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
     "near-api-js": "^2.1.3"

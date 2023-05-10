@@ -25,7 +25,7 @@
     "isomorphic-unfetch": "^3.1.0"
   },
   "devDependencies": {
-    "@mintbase-js/sdk": "^0.3.2-upgrade-packages-8d232aa.0",
+    "@mintbase-js/sdk": "^0.3.2-upgrade-packages-3378beb.0",
     "@types/bn.js": "^5.1.1"
   },
   "overrides": {
