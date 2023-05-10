@@ -8,7 +8,8 @@
 <img src="https://img.shields.io/github/contributors/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/commit-activity/m/mintbase/mintbase-js" />
  <img src="https://img.shields.io/npm/l/@mintbase-js/react"/>
- [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta)](https://coveralls.io/github/Mintbase/mintbase-js?branch=beta)
+<a href="https://coveralls.io/github/Mintbase/mintbase-js?branch=beta" target="_blank"> <img src="https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta"/> </a>
+
 </p>
 
 A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
