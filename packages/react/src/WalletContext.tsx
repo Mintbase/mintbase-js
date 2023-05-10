@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, {
   createContext,
   useCallback,
@@ -22,6 +23,8 @@ import type {
   VerifyOwnerParams,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
+import type { Network } from '@mintbase-js/sdk';
+import { mbjs } from '@mintbase-js/sdk';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -47,8 +50,10 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string }> = ({
+  children, network, contractAddress,
+}) => {
+  const [errorMessage, setErrorMessage] = useState<string>(null);
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
     null,
   );
@@ -58,29 +63,50 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
+  const selectedNetwork =   network || mbjs.keys.network;
+  const selectedContract = contractAddress || mbjs.keys.contractAddress;
+
   const setup = useCallback(async () => {
-    const components = await setupWalletSelectorComponents();
+    const components = await setupWalletSelectorComponents(
+      selectedNetwork,
+      selectedContract,
+    );
+
     setIsWalletSelectorSetup(true);
     setComponents(components);
   }, []);
-
-  // call setup on wallet selector
-  useEffect(() => {
-    setup().catch((err: Error) => {
-      if (err || err.message.length > 0 && err.message !== null ) {
-        setErrorMessage((err as Error).message);
-      }
-    });
-  }, [setup]);
 
   const onCloseModal = (): void => {
     setIsWaitingForConnection(false);
   };
 
-  if (typeof window !== 'undefined') {
+  const setupWallet = async () => {
+    const components = await setupWalletSelectorComponents(
+      selectedNetwork,
+      selectedContract,
+    );
+    return components;
+  };
+
+  // call setup on wallet selector
+  useEffect(() => {
+    setupWallet();
+
+    setup().catch((err: Error) => {
+      if (err || err.message.length > 0) {
+        setErrorMessage((err as Error).message);
+      }
+    });
+
+    // Add the event listener here
     const closeButton = document?.getElementsByClassName('close-button')[0];
     closeButton?.addEventListener('click', onCloseModal);
-  }
+
+    // Cleanup the event listener on unmount
+    return () => {
+      closeButton?.removeEventListener('click', onCloseModal);
+    };
+  }, [setup]);
 
   // subscribe to account state changes
   useEffect(() => {
@@ -111,8 +137,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
       const accounts = await pollForWalletConnection();
       setIsWaitingForConnection(false);
       setAccounts(accounts);
-    } catch (err:unknown) {
-      if (err !== null ) {
+    } catch (err: unknown) {
+      if (err) {
         setErrorMessage((err as Error).message);
       }
     }
@@ -133,12 +159,12 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode }> = ({
       isConnected: accounts && accounts.length > 0,
       isWaitingForConnection: isWaitingForConnection,
       isWalletSelectorSetup: isWalletSelectorSetup,
-      errorMessage: errorMessage || null,
+      errorMessage: errorMessage,
       connect,
       disconnect,
       signMessage,
     }),
-    [selector, modal, accounts, errorMessage],
+    [selector, modal, accounts],
   );
 
   return (
