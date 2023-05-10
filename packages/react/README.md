@@ -4,6 +4,8 @@
 
 This package contains React helpers for interacting with Mintbase JS.
 
+<img src='https://img.shields.io/npm/dw/@mintbase-js/react' />
+
 ## Summary
 
 - [Installing](#Installing)
