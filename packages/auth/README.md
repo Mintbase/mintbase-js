@@ -7,7 +7,6 @@
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/auth'>
 </p>
 
-
 # Working with Web3 Accounts
 
 This package abstracts login, auth and signing functionality away from `@mintbase-js/sdk` core.
