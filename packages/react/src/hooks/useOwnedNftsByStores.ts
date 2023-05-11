@@ -14,6 +14,7 @@ export const useOwnedNftsByStore = (
   contractAddress: string = mbjs.keys.contractAddress,
   pagination: { limit: number; offset?: number},
 ): OwnedNftsByStoreHookResult => {
+
   const [loading, setLoading] = useState<boolean>(true);
   const [res, setData] = useState<OwnedNftsData | undefined>(undefined);
   const [errorMsg, setError] = useState<string | null>(null);

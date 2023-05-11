@@ -1,6 +1,43 @@
-![License](https://img.shields.io/badge/license-MIT-blue.svg) [![Coverage Status](https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta)](https://coveralls.io/github/Mintbase/mintbase-js?branch=beta)
-
 # Mintbase JS
+
+<p align="center">
+<img src="https://img.shields.io/github/v/release/mintbase/mintbase-js" />
+<img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
+<img src="https://img.shields.io/github/actions/workflow/status/mintbase/mintbase-js/branch-publish.yml" />
+<img src="https://img.shields.io/github/commit-activity/m/mintbase/mintbase-js" />
+ <img src="https://img.shields.io/npm/l/@mintbase-js/react"/>
+<a href="https://coveralls.io/github/Mintbase/mintbase-js?branch=beta" target="_blank"> <img src="https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta"/> </a>
+
+</p>
+
+
+<br/>
+<br/>
+<p>
+<b>@mintbase-js/auth:</b>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/auth' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/auth' />
+<br/>
+<b>@mintbase-js/data:</b>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/data' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/data' />
+<br/>
+<b>@mintbase-js/react:</b>
+ &nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/react' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/react' />
+<br/>
+<b>@mintbase-js/rpc:</b>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/rpc' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/rpc' />
+<br/>
+<b>@mintbase-js/sdk:</b>
+ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/sdk' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/sdk' />
+<br/>
+<b>@mintbase-js/storage:</b>
+<img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage' />
+</p>
 
 A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
 

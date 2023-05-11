@@ -3,8 +3,6 @@ import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 
-import { mbjs, NEAR_NETWORKS, Network } from '@mintbase-js/sdk';
-
 import {
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
@@ -14,6 +12,7 @@ import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
+import { mbjs } from '@mintbase-js/sdk';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -34,10 +33,11 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * Set up wallet selector components. Returns the modal
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
-export const setupWalletSelectorComponents = async (): Promise<WalletSelectorComponents> => {
-
+export const setupWalletSelectorComponents = async (network?, contractAddress?): Promise<WalletSelectorComponents> => {
+  console.log(contractAddress, network, 'debug mode');
+  
   const selector = await setupWalletSelector({
-    network: mbjs.keys.network as Network,
+    network: network,
     debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
@@ -45,9 +45,8 @@ export const setupWalletSelectorComponents = async (): Promise<WalletSelectorCom
     ],
   });
 
-
   const modal = setupModal(selector, {
-    contractId: mbjs.keys.contractAddress ?? mbjs.keys.mbContract,
+    contractId:contractAddress,
   });
 
   walletSelectorComponents = {

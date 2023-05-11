@@ -1,6 +1,6 @@
 
-import { mbjs, Network, RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import { connectToNear, Account, KeyStore } from '.';
+import { mbjs } from '@mintbase-js/sdk';
 
 /**
  * Connect to a NEAR account `accountId` with credentials in `keyStore` {@link KeyStore}
@@ -10,6 +10,14 @@ import { connectToNear, Account, KeyStore } from '.';
  *  wallet: {@link Wallet} or account: {@link Account}, defaults to wallet when present
  * @returns a result for single transactions of {@link FinalExecutionOutcome}, or void for batches
  */
+
+export type Network = 'testnet' | 'mainnet'
+
+export enum RPC_ENDPOINTS  {
+  mainnet = 'https://rpc.mainnet.near.org',
+  testnet = 'https://rpc.testnet.near.org',
+}
+
 export const connect = async (
   accountId: string,
   keyStore: KeyStore,
@@ -18,8 +26,8 @@ export const connect = async (
   
   const near = await connectToNear({
     keyStore,
-    networkId: network || mbjs.keys.network as Network,
-    nodeUrl: RPC_ENDPOINTS[network] ||  mbjs.keys.nearRpcUrl,
+    networkId: network ||  mbjs.keys.network as Network,
+    nodeUrl: RPC_ENDPOINTS[network] || mbjs.keys.nearRpcUrl,
     headers: {},
   });
   return await near.account(accountId);
