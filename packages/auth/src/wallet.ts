@@ -34,7 +34,6 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
 export const setupWalletSelectorComponents = async (network?, contractAddress?): Promise<WalletSelectorComponents> => {
-  console.log(contractAddress, network, 'debug mode');
   
   const selector = await setupWalletSelector({
     network: network,

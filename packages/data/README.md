@@ -2,6 +2,12 @@
 
 # @mintbase-js/data
 
+<p align="center">
+<img src='https://img.shields.io/npm/dw/@mintbase-js/data' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/data'>
+</p>
+
+
 Built-in methods to help fetch data from our indexer. These methods aim to make it as easy as possible to get blockchain data.
 
 If the data you want to get is more specific also check out our [GraphQL schema](https://docs.mintbase.xyz/dev/mintbase-graph) instead.

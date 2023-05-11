@@ -17,6 +17,8 @@ This package contains React helpers for interacting with Mintbase JS.
 
 # Installing
 
+```@mintbase-js/react relies on React and React Dom version v18.2.0 due to @near-wallet-selector/modal-ui```
+
 ### NPM:
 
 ```
@@ -33,6 +35,17 @@ pnpm add @mintbase-js/react
 # config vars
 
 read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
+
+you can set network and contractAddress (the one from your dapp/mintbase store) straight on the WalletContextProvider too like this:
+
+{% code title="app.tsx" overflow="wrap" lineNumbers="true" %}
+```typescript
+     <WalletContextProvider network="mainnet" contractAddress="mycontract.mintbase1.near">
+            <Component {...pageProps} />
+        </WalletContextProvider>
+```
+{% endcode %}
+
 
 # WalletContextProvider
   WalletContextProvider is the provider you should wrap on your regular app.tsx/app.jsx file so that your application can work with our Wallet Selector:

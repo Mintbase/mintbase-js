@@ -1,4 +1,12 @@
 [//]: # `{ "title": "@mintbase-js/storage", "order": 3 }`
+
+# @mintbase-js/storage
+
+<p align="center">
+<img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage'>
+</p>
+
 # Storage
 
 Convenience methods for storing NFT reference materials.
