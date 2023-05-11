@@ -36,8 +36,7 @@ pnpm add @mintbase-js/react
 
 read about config global variables on: [Config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
 
-you can set network and contractAddress (the one from your dapp/mintbase store) straight on the WalletContextProvider too like this:
-
+***ALSO RECOMMENDED TO DO:*** you can set network and contractAddress (the one from your dapp/mintbase store) straight on the WalletContextProvider too like this:
 {% code title="app.tsx" overflow="wrap" lineNumbers="true" %}
 ```typescript
      <WalletContextProvider network="mainnet" contractAddress="mycontract.mintbase1.near">
