@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.3.2-upgrade-packages-8d232aa.0",
+  "version": "0.3.2-beta.22",
   "description": "React app tools for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
