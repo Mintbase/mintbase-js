@@ -4,8 +4,6 @@
 <img src="https://img.shields.io/github/v/release/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/actions/workflow/status/mintbase/mintbase-js/branch-publish.yml" />
-<img src="https://img.shields.io/github/lerna-json/v/mintbase/mintbase-js" />
-<img src="https://img.shields.io/github/contributors/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/commit-activity/m/mintbase/mintbase-js" />
  <img src="https://img.shields.io/npm/l/@mintbase-js/react"/>
 <a href="https://coveralls.io/github/Mintbase/mintbase-js?branch=beta" target="_blank"> <img src="https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta"/> </a>
