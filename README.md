@@ -18,27 +18,27 @@
 <p>
 <b>@mintbase-js/auth:</b>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/auth' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/auth'>
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/auth' />
 <br/>
 <b>@mintbase-js/data:</b>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/data' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/data'>
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/data' />
 <br/>
 <b>@mintbase-js/react:</b>
  &nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/react' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/react'>
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/react' />
 <br/>
 <b>@mintbase-js/rpc:</b>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/rpc' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/rpc'>
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/rpc' />
 <br/>
 <b>@mintbase-js/sdk:</b>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/sdk' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/sdk'>
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/sdk' />
 <br/>
 <b>@mintbase-js/storage:</b>
 <img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage'>
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage' />
 </p>
 
 A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
