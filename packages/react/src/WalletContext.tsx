@@ -52,8 +52,8 @@ export const WalletContext = createContext<WalletContext | null>(null);
 
 export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string }> = ({
   children, network, contractAddress,
-}) => {
-  const [errorMessage, setErrorMessage] = useState<string>(null);
+}): JSX.Element => {
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
     null,
   );
