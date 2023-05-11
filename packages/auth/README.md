@@ -1,4 +1,12 @@
 [//]: # `{ "title": "@mintbase-js/auth", "order": "4" }`
+
+# @mintbase-js/auth
+
+<p align="center">
+<img src='https://img.shields.io/npm/dw/@mintbase-js/auth' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/auth'>
+</p>
+
 # Working with Web3 Accounts
 
 This package abstracts login, auth and signing functionality away from `@mintbase-js/sdk` core.

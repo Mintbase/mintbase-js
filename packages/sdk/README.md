@@ -1,4 +1,12 @@
 [//]: # `{ "title": "@mintbase-js/sdk", "order": "0" }`
+
+# @mintbase-js/sdk
+
+<p align="center">
+<img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage'>
+</p>
+
 ## Core Features
 
 The core `@mintbase-js/sdk` is a set of convenience wrappers around invocation of Mintbase smart contract methods.
