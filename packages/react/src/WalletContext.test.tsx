@@ -37,7 +37,7 @@ globalThis.mbjs = {
   }, 
 };
 
-// describe('WalletContext', () => {
+describe('WalletContext', () => {
 //   test('should provide error message when setup goes wrong', async () => {
 //     // throw on startup
 //     const errorMessageToDisplay = 'boom';
@@ -48,24 +48,24 @@ globalThis.mbjs = {
 //     (pollForWalletConnection as jest.Mock)
 //       .mockResolvedValue(['fake.acccount']);
 
-//     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-//     const ContextReader: React.FC = () => {
-//       const { errorMessage } = useWallet();
-//       return (
-//         <div>{errorMessage}</div>
-//       );
-//     };
-//     act(() => {
-//       render(
-//         <WalletContextProvider>
-//           <ContextReader />
-//         </WalletContextProvider>,
-//       );
-//     });
-//     await waitFor(() => {
-//       screen.getByText(errorMessageToDisplay);
-//     });
-//   });
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     const ContextReader: React.FC = () => {
+  //       const { errorMessage } = useWallet();
+  //       return (
+  //         <div>{errorMessage}</div>
+  //       );
+  //     };
+  //     act(() => {
+  //       render(
+  //         <WalletContextProvider>
+  //           <ContextReader />
+  //         </WalletContextProvider>,
+  //       );
+  //     });
+  //     await waitFor(() => {
+  //       screen.getByText(errorMessageToDisplay);
+  //     });
+  //   });
 
   test('should provide connection error message when polling times out', async () => {
     // throw on startup
