@@ -85,7 +85,11 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   };
 
   const setupWallet = async () => {
-    const components = await setupWalletSelectorComponents(
+    const components = customWallets?.length>  0 ? await setupWalletSelectorComponents(
+      selectedNetwork,
+      selectedContract,
+      customWallets,
+    ) :  await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,
     );
