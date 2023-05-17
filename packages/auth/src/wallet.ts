@@ -10,7 +10,7 @@ import {
 
 import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
+import { ALL_WALLETS, SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
 import { mbjs } from '@mintbase-js/sdk';
 
@@ -35,10 +35,10 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (network?, contractAddress?, customWallets?): Promise<WalletSelectorComponents> => {
   
-  const modulesAdded = customWallets?.length > 0 ? 
+  const modulesAdded = customWallets == 'all' ? 
     [...(await setupDefaultWallets()),
-      ...SUPPORTED_NEAR_WALLETS, 
-      ...customWallets] : 
+      ...ALL_WALLETS, 
+    ] : 
     [...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS];
 
