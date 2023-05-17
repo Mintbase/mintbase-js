@@ -50,8 +50,8 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string }> = ({
-  children, network, contractAddress,
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string; customWallets?: any }> = ({
+  children, network, contractAddress, customWallets,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
@@ -67,7 +67,11 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
   const setup = useCallback(async () => {
-    const components = await setupWalletSelectorComponents(
+    const components = customWallets?.length>  0 ? await setupWalletSelectorComponents(
+      selectedNetwork,
+      selectedContract,
+      customWallets,
+    ) :  await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,
     );
