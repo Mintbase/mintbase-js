@@ -67,6 +67,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
   const setup = useCallback(async () => {
+    console.log(customWallets?.length, customWallets, 'customWallets 1');
+    console.log(selectedNetwork, mbjs.keys.network, 'selectedNetwork 1');
     const components = customWallets?.length>  0 ? await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,
@@ -85,6 +87,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   };
 
   const setupWallet = async () => {
+
+    console.log(customWallets?.length, customWallets, 'customWallets');
+    console.log(selectedNetwork, mbjs.keys.network, 'selectedNetwork 2');
     const components = customWallets?.length>  0 ? await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,
