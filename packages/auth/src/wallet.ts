@@ -35,7 +35,7 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (network?, contractAddress?, customWallets?): Promise<WalletSelectorComponents> => {
   
-  const modulesAdded = customWallets.length > 0 ? 
+  const modulesAdded = customWallets?.length > 0 ? 
     [...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS, 
       ...customWallets] : 
