@@ -1,5 +1,6 @@
 export interface AttributesFilters {
     filters: Record<string, string[]>;
+    accountId?: string;
     limit?: number;
     offset?: number;
     listedOnly?: boolean;
@@ -22,6 +23,7 @@ export type FilteredMetadataResult = {
     price: number;
     animationUrl: string;
     currency: string;
+    isOwner?: boolean;
 }
 
 export type FilteredMetadataQueryResult = {
