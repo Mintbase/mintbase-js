@@ -22,6 +22,7 @@ export type FilteredMetadataResult = {
     price: number;
     animationUrl: string;
     currency: string;
+    isOwner?: boolean;
 }
 
 export type FilteredMetadataQueryResult = {
