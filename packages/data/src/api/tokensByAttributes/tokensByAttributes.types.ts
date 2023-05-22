@@ -23,7 +23,7 @@ export type FilteredMetadataResult = {
     price: number;
     animationUrl: string;
     currency: string;
-    isOwner?: boolean;
+    isOwned?: boolean;
 }
 
 export type FilteredMetadataQueryResult = {
