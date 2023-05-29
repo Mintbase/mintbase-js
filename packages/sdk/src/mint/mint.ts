@@ -160,5 +160,9 @@ function mintingDeposit({
     bytesPerToken * nTokens +
     STORAGE_BYTES.COMMON * nRoyalties;
 
-  return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
+  // The above totalBytes calculation seems to diverge from settings on the
+  // smart contract despite having been triple-checked to be the same
+  // calculation, except for the deliberate over-estimation of serialized
+  // metadata size. Multiply by 1.2 to make it work.
+  return `${Math.ceil(totalBytes * 1.2)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
 }
