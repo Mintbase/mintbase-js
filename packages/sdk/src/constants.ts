@@ -1,5 +1,4 @@
 import BN from 'bn.js';
-import { constants } from 'buffer';
 import { FtAddresses, USDC_ADDRESS, USDT_ADDRESS } from './types';
 
 export const GAS = '200000000000000';
