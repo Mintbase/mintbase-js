@@ -24,6 +24,8 @@ export type FilteredMetadataResult = {
     animationUrl: string;
     currency: string;
     isOwned?: boolean;
+    reference: string;
+    kyc?: boolean;
 }
 
 export type FilteredMetadataQueryResult = {
