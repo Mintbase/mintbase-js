@@ -5,6 +5,8 @@ export interface AttributesFilters {
     offset?: number;
     listedOnly?: boolean;
     orderBy?: string;
+    ownedFilter?: boolean;
+    kycFilter?: boolean;
 }
 
 export type FilteredMetadataResult = {
@@ -26,6 +28,8 @@ export type FilteredMetadataResult = {
     isOwned?: boolean;
     reference: string;
     kyc?: boolean;
+    listingsCount: number;
+    tokensCount: number;
 }
 
 export type FilteredMetadataQueryResult = {
