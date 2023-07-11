@@ -21,8 +21,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "graphql-request": "^5.0.0",
-    "isomorphic-fetch": "^3.0.0"
+    "graphql-request": "^5.0.0"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "^2.13.7",
