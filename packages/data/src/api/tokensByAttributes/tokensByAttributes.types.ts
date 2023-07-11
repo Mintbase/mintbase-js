@@ -3,7 +3,7 @@ export interface AttributesFilters {
     accountId?: string;
     limit?: number;
     offset?: number;
-    listedOnly?: boolean;
+    listedFilter?: boolean;
     orderBy?: string;
     ownedFilter?: boolean;
     kycFilter?: boolean;
