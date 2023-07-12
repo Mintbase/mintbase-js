@@ -30,7 +30,7 @@ jobs:
         run: |
           echo NEAR_NETWORK=testnet >> .env
           echo NFT_CONTRACT_ID=default_contract >> .env
-          npm i
+          npm ci
           npm run bootstrap
           npm run lint
           npm run build
