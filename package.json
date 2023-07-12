@@ -3,7 +3,6 @@
   "version": "0.0.0-alpha.0",
   "description": "Mintbase Typescript SDK. A library for interacting with smart contracts on the NEAR Blockchain",
   "scripts": {
-    "bootstrap": "lerna bootstrap --force-local",
     "build": "lerna run build --sort",
     "clean": "rm -rf **/node_modules && rm -rf **/lib && rm -rf **/coverage",
     "dev": "lerna run watch --stream & cd packages/app && npm run dev",
