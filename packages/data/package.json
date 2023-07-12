@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/data",
-  "version": "0.4.0-make-lerna-publish-again-61df299.0",
+  "version": "0.4.0-beta.0",
   "description": "Query wrappers for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
