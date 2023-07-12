@@ -46,14 +46,11 @@ jobs:
       # publish merges to npm with ref names
       - name: Publish, Version & Push
         # only publish and push
-        # FIXME: reactivate
-        # if: ${{ github.ref_name == 'beta'}}
+        if: ${{ github.ref_name == 'beta'}}
         run: |
-          # FIXME: remove SHA
-          lerna version prerelease --yes --no-git-tag-version --no-push --preid ${{ github.ref_name }}-${GITHUB_SHA::7}
+          lerna version prerelease --yes --no-git-tag-version --no-push --preid ${{ github.ref_name }}
           git add --all
-          # FIXME: remove SHA
-          git commit -m "🤖 npm prerelease ${{ github.ref_name }}-${GITHUB_SHA::7}"
+          git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
           git push --force
 
