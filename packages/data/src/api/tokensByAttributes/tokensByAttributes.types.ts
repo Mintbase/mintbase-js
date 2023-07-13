@@ -1,5 +1,5 @@
 export interface AttributesFilters {
-    filters: Record<string, string[]>;
+    filters: Record<string, string[]> | null;
     accountId?: string;
     limit?: number;
     offset?: number;
