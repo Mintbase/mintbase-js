@@ -41,7 +41,7 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?, 
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
-      ...options?.additionalWallets,
+      ...options?.additionalWallets || [],
     ],
   });
 
