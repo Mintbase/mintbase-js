@@ -8,7 +8,7 @@ import {
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
-import type { WalletSelector, AccountState } from '@near-wallet-selector/core';
+import type { WalletSelector, AccountState, WalletModuleFactory } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
@@ -33,7 +33,7 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * Set up wallet selector components. Returns the modal
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
-export const setupWalletSelectorComponents = async (network?, contractAddress?): Promise<WalletSelectorComponents> => {
+export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory> }): Promise<WalletSelectorComponents> => {
   
   const selector = await setupWalletSelector({
     network: network,
@@ -41,6 +41,7 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?):
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
+      ...options?.additionalWallets,
     ],
   });
 
