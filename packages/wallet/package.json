@@ -1,0 +1,30 @@
+{
+  "name": "@mintbase-js/wallet",
+  "version": "0.0.0-beta.1",
+  "description": "Mintbase Wallet",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc && tsc --watch & jest --watch --coverage",
+    "lint": "eslint . --fix --ext ts",
+    "test": "jest --coverage"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^16.0.0",
+    "bn.js": "^5.2.1",
+    "isomorphic-unfetch": "^3.1.0"
+  },
+  "devDependencies": {
+    "@mintbase-js/sdk": "^0.4.1-beta.1",
+    "@types/bn.js": "^5.1.1"
+  }
+}
