@@ -1,8 +1,8 @@
-import * as nearAPI from "near-api-js";
-import { networks } from "./networks";
+import * as nearAPI from 'near-api-js';
+import { networks } from './networks';
 
-import { Action, Transaction } from "@near-wallet-selector/core";
-import BN from "bn.js";
+import { Action, Transaction } from '@near-wallet-selector/core';
+import BN from 'bn.js';
 
 export class MintbaseWallet {
   networkId: string;
@@ -16,17 +16,17 @@ export class MintbaseWallet {
     signInContractId,
     networkId,
     relayerUrl,
-    walletUrl
+    walletUrl,
   }: {
     signInContractId: string;
-    networkId: "testnet" | "mainnet";
+    networkId: 'testnet' | 'mainnet';
     relayerUrl: string;
     walletUrl: string;
   }) {
     this.networkId = networkId;
     this.signInContractId = signInContractId;
 
-    this._setupWalletState()
+    this._setupWalletState();
 
     this.keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
 
@@ -53,7 +53,7 @@ export class MintbaseWallet {
 
   async signIn() {
     const currentUrl = new URL(window.location.href);
-    const newUrl = new URL(`${this.walletUrl}`)
+    const newUrl = new URL(`${this.walletUrl}`);
     newUrl.searchParams.set('success_url', currentUrl.href);
     newUrl.searchParams.set('failure_url', currentUrl.href);
     window.location.assign(newUrl.toString());
@@ -61,18 +61,18 @@ export class MintbaseWallet {
 
   async signOut() {
     if (this.activeAccountId === undefined || this.activeAccountId === null) {
-      throw new Error("Wallet is already signed out");
+      throw new Error('Wallet is already signed out');
     }
 
     await this.keyStore.removeKey(this.networkId, this.activeAccountId);
-    window.localStorage.removeItem("mintbasewallet:activeAccountId");
-    window.localStorage.removeItem("mintbasewallet:account-data");
+    window.localStorage.removeItem('mintbasewallet:activeAccountId');
+    window.localStorage.removeItem('mintbasewallet:account-data');
   }
 
   assertValidSigner(signerId: string) {
     if (signerId && signerId !== this.activeAccountId) {
       throw new Error(
-        `Cannot sign transactions for ${signerId} while signed in as ${this.activeAccountId}`
+        `Cannot sign transactions for ${signerId} while signed in as ${this.activeAccountId}`,
       );
     }
   }
@@ -88,11 +88,11 @@ export class MintbaseWallet {
   }) {
     this.assertValidSigner(signerId);
 
-    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }])
+    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
 
     const urlParam = encodeURIComponent(stringifiedParam);
 
-    const newUrl = new URL(`${this.walletUrl}/sign-transaction`)
+    const newUrl = new URL(`${this.walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
     window.location.assign(newUrl.toString());
 
@@ -118,7 +118,7 @@ export class MintbaseWallet {
     transactions: Transaction[];
   }) {
 
-    throw new Error("Mintbase Wallet does not support signing and sending multiple transactions.")
+    throw new Error('Mintbase Wallet does not support signing and sending multiple transactions.');
 
     // TODO: support multiple transactions in the future
     // for (let { signerId } of transactions) {
@@ -135,7 +135,7 @@ export class MintbaseWallet {
   };
 
   async verifyOwner() {
-    throw Error("mintbasewallet:verifyOwner is unsupported!");
+    throw Error('mintbasewallet:verifyOwner is unsupported!');
   }
 
   async getAvailableBalance() {
@@ -146,7 +146,7 @@ export class MintbaseWallet {
     if (this.activeAccountId !== undefined && this.activeAccountId !== null) {
       const accountObj = new nearAPI.Account(
         this.near.connection,
-        this.activeAccountId
+        this.activeAccountId,
       );
       return [accountObj];
     }
@@ -162,7 +162,7 @@ export class MintbaseWallet {
     const urlParams = this._getQueryParams();
 
     if (Object.keys(urlParams).length === 0) {
-      const accountId = window.localStorage.getItem("mintbasewallet:activeAccountId");
+      const accountId = window.localStorage.getItem('mintbasewallet:activeAccountId');
 
       if (accountId) {
         this._initializeWalletState({ accountId });
@@ -171,17 +171,17 @@ export class MintbaseWallet {
     }
 
     if (urlParams?.accountId) {
-      this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || "" });
+      this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
     }
   }
 
-  private _initializeWalletState({ accountId, publicKey }: { accountId: string, publicKey?: string }) {
+  private _initializeWalletState({ accountId, publicKey }: { accountId: string; publicKey?: string }) {
     this._setActiveAccountId(accountId);
 
-    window.localStorage.setItem("near-wallet-selector:selectedWalletId", JSON.stringify("mintbasewallet"));
+    window.localStorage.setItem('near-wallet-selector:selectedWalletId', JSON.stringify('mintbasewallet'));
 
     if (publicKey) {
-      window.localStorage.setItem("mintbasewallet:account-data", JSON.stringify({ accountId, publicKey }));
+      window.localStorage.setItem('mintbasewallet:account-data', JSON.stringify({ accountId, publicKey }));
     }
 
     this._clearQueryParams();
@@ -189,7 +189,7 @@ export class MintbaseWallet {
 
   private _setActiveAccountId(accountId: string) {
     this.activeAccountId = accountId;
-    window.localStorage.setItem("mintbasewallet:activeAccountId", accountId);
+    window.localStorage.setItem('mintbasewallet:activeAccountId', accountId);
   }
 
   private _getQueryParams(): Record<string, string> {
@@ -197,11 +197,13 @@ export class MintbaseWallet {
     const accountId = currentUrl.searchParams.get('account_id') || '';
     const publicKey = currentUrl.searchParams.get('public_key') || '';
 
-    if (!accountId || !publicKey) return {}
+    if (!accountId || !publicKey) {
+      return {};
+    }
 
     return {
       accountId,
-      publicKey
+      publicKey,
     };
   }
 
