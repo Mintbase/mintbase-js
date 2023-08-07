@@ -50,6 +50,11 @@ export enum MINTBASE_CONTRACTS {
   mainnet = 'mintbase1.near',
 }
 
+export enum MINTBASE_CONTRACTS_V2 {
+  testnet =  'mintspace3.testnet',
+  mainnet = 'mintbase2.near',
+}
+
 export enum GRAPHQL_ENDPOINTS  {
   mainnet =  'https://interop-mainnet.hasura.app/v1/graphql',
   testnet = 'https://interop-testnet.hasura.app/v1/graphql',
@@ -93,6 +98,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   graphqlUrl?: GRAPHQL_ENDPOINTS | '';
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS;
+  mbContractV2?: MINTBASE_CONTRACTS_V2;
   nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
