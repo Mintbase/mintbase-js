@@ -5,6 +5,7 @@ import { mint } from './mint';
 
 describe('mint method tests', () => {
   const contractAddress = 'test.nft.contract';
+  const contractAddressV2 = 'test.mintbase2.near';
   const reference = 'test';
   const media = 'test';
   const ownerId = 'test';
@@ -36,7 +37,7 @@ describe('mint method tests', () => {
 
   test('mint with options', () => {
     const args = mint({
-      contractAddress: contractAddress,
+      contractAddress: contractAddressV2,
       metadata: { reference, media },
       ownerId: ownerId,
       royalties: { test: 0.25, test1: 0.25 },
@@ -44,7 +45,7 @@ describe('mint method tests', () => {
     });
 
     expect(args).toEqual({
-      contractAddress: contractAddress,
+      contractAddress: contractAddressV2,
       methodName: TOKEN_METHOD_NAMES.MINT,
       args: {
         owner_id: ownerId,
@@ -69,7 +70,7 @@ describe('mint method tests', () => {
 
   test('mint with floating point royalties', () => {
     const args = mint({
-      contractAddress: contractAddress,
+      contractAddress: contractAddressV2,
       metadata: { reference, media },
       ownerId: ownerId,
       royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
@@ -77,7 +78,7 @@ describe('mint method tests', () => {
     });
 
     expect(args).toEqual({
-      contractAddress: contractAddress,
+      contractAddress: contractAddressV2,
       methodName: TOKEN_METHOD_NAMES.MINT,
       args: {
         owner_id: ownerId,
@@ -194,6 +195,19 @@ describe('mint method tests', () => {
     }).toThrow(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
   });
 
+  test('mint with token ID specification on old smart contract', () => {
+    expect(() => {
+      mint({
+        contractAddress: contractAddress,
+        metadata: { reference, media },
+        ownerId: ownerId,
+        amount: 2,
+        royalties: { test: 0.1, test1: 0.25 },
+        tokenIdsToMint: [123, 456],
+      });
+    }).toThrow(ERROR_MESSAGES.TOKEN_ID_SPECIFICATION);
+  });
+
   test('mint with no reference', () => {
     expect(() => {
       mint({
@@ -243,6 +257,4 @@ describe('mint method tests', () => {
       });
     }).toThrow(ERROR_MESSAGES.NEGATIVE_ROYALTIES);
   });
-
-
 });

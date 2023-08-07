@@ -2,6 +2,7 @@ import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES, Splits } from '../types';
+import { isStoreV2 } from '../utils';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -38,33 +39,38 @@ export const mint = (
   let royaltyTotal: number;
   let roundedRoyalties: Splits;
 
-  //royalties adjustments to make devx better
+  // royalties adjustments to make devx better
   if (royalties) {
     royaltyTotal = getRoyaltyTotal(royalties);
     adjustedRoyalties = adjustRoyaltiesForContract(royalties, royaltyTotal);
     roundedRoyalties = roundRoyalties(adjustedRoyalties);
   }
 
-  //if royalties exist they need to be populated
+  // if royalties exist they need to be populated
   if (royalties && Object.keys(royalties).length < 1) {
     throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
 
-  //must not have more than 50 royalty owners
+  // must not have more than 50 royalty owners
   if (royalties && Object.keys(royalties).length > 50) {
     throw new Error(ERROR_MESSAGES.MAX_ROYALTIES);
   }
 
-  //if specifying tokenIdsToMint these must be populated
+  // if specifying tokenIdsToMint these must be populated
   if (tokenIdsToMint && tokenIdsToMint.length == 0) {
     throw new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   }
 
+  // if specifying tokenIdsToMint and amount, those need to match up
   if (tokenIdsToMint && amount && tokenIdsToMint?.length !== amount) {
     throw new Error(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
   }
 
-  //if no amount or tokenids defined then default to 1 amount
+  if (tokenIdsToMint && !isStoreV2(contractAddress)) {
+    throw new Error(ERROR_MESSAGES.TOKEN_ID_SPECIFICATION);
+  }
+
+  // if no amount or tokenids defined then default to 1 amount
   const adjustedAmount = tokenIdsToMint?.length || amount || 1;
 
   if (adjustedAmount > 125 || adjustedAmount < 1) {
