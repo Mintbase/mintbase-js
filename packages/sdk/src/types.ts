@@ -16,6 +16,7 @@ export enum TOKEN_METHOD_NAMES {
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
+  SET_SPLITS = 'set_split_owners'
 }
 
 export enum MARKET_METHOD_NAMES {
@@ -265,6 +266,12 @@ export interface OldTransferContractOwnershipArgs {
   keep_old_minters?: boolean;
 }
 
+export interface SetSplitsArgs {
+  contractAddress?: string;
+  tokenIds: string[];
+  splitOwners: Record<string, number>;
+}
+
 export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
 export interface MinterArgsResponse {
@@ -350,6 +357,11 @@ export interface ExecuteExtraArgsResponse {
     Hours: number;
 }[];
   contractId?: string;
+}
+
+export interface SetSplitsArgsResponse {
+  token_ids: string[];
+  split_between: Record<string, number>;
 }
 
 export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |

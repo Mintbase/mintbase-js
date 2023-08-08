@@ -24,4 +24,6 @@ export const ERROR_MESSAGES = {
   MUTUAL_EXCLUSIVE_AMOUNT: `When defining tokenIdsToMint the amount of tokens is given by the length of the provided array. amount and tokenIdsToMint are mutually exclusive ${SUPPORT}`,
   UNSUPPORTED_FT: `You are trying to use a Fungible Token that is not yet supported by Mintbase ${SUPPORT}`,
   TOKEN_ID_SPECIFICATION: `You are trying to mint with specified token IDs on a smart contract that does not support it ${SUPPORT}`,
+  SET_SPLITS_NO_TOKEN_IDS: `Cannot set splits without specifying at least one token ID ${SUPPORT}`,
+  SPLITS_NOT_HUNDERT_PERCENT: `Your specified splits do not add up to 100% ${SUPPORT}`,
 };
