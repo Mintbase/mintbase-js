@@ -53,7 +53,7 @@ export class MintbaseWallet {
 
   async signIn() {
     const currentUrl = new URL(window.location.href);
-    const newUrl = new URL(`${this.walletUrl}`);
+    const newUrl = new URL(`${this.walletUrl}/connect`);
     newUrl.searchParams.set('success_url', currentUrl.href);
     newUrl.searchParams.set('failure_url', currentUrl.href);
     window.location.assign(newUrl.toString());
@@ -81,10 +81,14 @@ export class MintbaseWallet {
     receiverId,
     actions,
     signerId,
+    successUrl,
+    failureUrl
   }: {
     receiverId: string;
     actions: Action[];
     signerId: string;
+    successUrl?: string;
+    failureUrl?: string;
   }) {
     this.assertValidSigner(signerId);
 
@@ -92,8 +96,12 @@ export class MintbaseWallet {
 
     const urlParam = encodeURIComponent(stringifiedParam);
 
+    const currentUrl = new URL(window.location.href);
+
     const newUrl = new URL(`${this.walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
+    newUrl.searchParams.set('success_url', successUrl || currentUrl.toString());
+    newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString());
     window.location.assign(newUrl.toString());
 
     // const account = (await this.getAccounts())[0];
