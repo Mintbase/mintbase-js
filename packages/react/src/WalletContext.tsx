@@ -59,7 +59,7 @@ export const WalletContext = createContext<WalletContext | null>(null);
 export const WalletContextProvider: React.FC<{ children: React.ReactNode; 
   network?: Network; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory>; 
   isMintbaseWallet?: boolean; mbWallet?: any;}> = ({
-    children, network, contractAddress, additionalWallets, isMintbaseWallet = false, mbWallet
+    children, network, contractAddress, additionalWallets, isMintbaseWallet = false, mbWallet,
   }): JSX.Element => {
     const [errorMessage, setErrorMessage] = useState<string>('');
     const [components, setComponents] = useState<WalletSelectorComponents | null>(
@@ -75,7 +75,10 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode;
     useState<string>('');
     const [isConnected, setIsConnected] = useState(false);
 
-    const [mbWalletSelector, setWalletMb] = useState(null);
+  const [mbWalletSelector, setWalletMb] = useState<WalletSelector | null>(null);
+
+
+
     const selectedNetwork =   network || mbjs.keys.network;
     const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
@@ -119,13 +122,13 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode;
         network: network,
         debug: mbjs.keys.debugMode,
         modules: [
-           setupAuthWallet({
-             networkId:mbWallet?.network,
-             relayerUrl: mbWallet?.network,
-             signInContractId: mbWallet.tokenContractAddress,
-             walletUrl: mbWallet.walletUrl,
-             deprecated: mbWallet.deprecated
-           }) as any,
+          setupAuthWallet({
+            networkId:mbWallet?.network,
+            relayerUrl: mbWallet?.network,
+            signInContractId: mbWallet.tokenContractAddress,
+            walletUrl: mbWallet.walletUrl,
+            deprecated: mbWallet.deprecated,
+          }),
         ],
       });
 
@@ -182,13 +185,17 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode;
 
     // call setup on wallet selector
     useEffect(() => {
-      setupWallet();
 
-      setup().catch((err: Error) => {
-        if (err || err.message.length > 0) {
-          setErrorMessage((err as Error).message);
-        }
-      });
+      if (!isMintbaseWallet) {
+        setupWallet();
+
+        setup().catch((err: Error) => {
+          if (err || err.message.length > 0) {
+            setErrorMessage((err as Error).message);
+          }
+        });
+      }
+    
 
       // Add the event listener here
       const closeButton = document?.getElementsByClassName('close-button')[0];

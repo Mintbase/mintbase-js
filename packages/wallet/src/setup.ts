@@ -108,7 +108,7 @@ export function setupAuthWallet({
 
     return {
       id: 'mintbasewallet',
-      type: 'redirected',
+      type: 'injected',
       metadata: {
         name: 'Mintbase Wallet',
         description: '',
