@@ -132,6 +132,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
         additionalWallets,
       },
     );
+
+      console.log(components, 'components')
+
     return components;
   };
 
@@ -145,14 +148,14 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       setupWallet();
       setAccounts(event.detail[0]);
 
-      registerWalletAccountsSubscriber(
-        (accounts: AccountState[]) => {
+      setup().catch((err: Error) => {
+      if (err || err.message.length > 0) {
+        setErrorMessage((err as Error).message);
+      }
+    });
 
-          console.log(accounts, 'accounts 333');
-          setAccounts(accounts);
-        },
-      );
 
+    
       console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet');
     };
 
@@ -163,7 +166,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     return () => {
       window.removeEventListener('mbWalletLogin', handleUsernameChange);
     };
-  }, []);
+  }, [setup]);
 
 
   // call setup on wallet selector
