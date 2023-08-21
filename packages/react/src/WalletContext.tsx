@@ -120,33 +120,38 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
         
     setWalletMb(res);
 
-    console.log(res, 'wallet set')
+    console.log(res, 'wallet set');
   
     return res;
   };
 
 
   useEffect(() => {
-
+      const account = window.localStorage.getItem('mintbasewallet:activeAccountId');
 
     if (isMintbaseWallet) {
-
       setupMintbaseWallet().catch((err: Error) => {
         if (err || err.message.length > 0) {
           setErrorMessage((err as Error).message);
         }
       });
-      
+
+      if (account.length > 0) {
+        setMbWalletUsername(account);
+      setIsConnected(true);
+      }
     }
 
-  
+
     const handleUsernameChange = (event) => {
 
       console.log(event, event.detail, event.detail[0]);
       const newUsername = event.detail[0].accountId;
+      connect();
+
+
       setMbWalletUsername(newUsername);
       setIsConnected(true);
-
       setAccounts(event.detail[0]);
 
     
