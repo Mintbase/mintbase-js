@@ -116,6 +116,11 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
         ...additionalWallets,
       ],
     });
+
+        
+    setWalletMb(res);
+
+    console.log(res, 'wallet set')
   
     return res;
   };
@@ -127,10 +132,10 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     if (isMintbaseWallet) {
 
       setupMintbaseWallet().catch((err: Error) => {
-      if (err || err.message.length > 0) {
-        setErrorMessage((err as Error).message);
-      }
-    });
+        if (err || err.message.length > 0) {
+          setErrorMessage((err as Error).message);
+        }
+      });
       
     }
 
