@@ -101,7 +101,12 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       },
     );
 
+<<<<<<< HEAD
     console.log(components, additionalWallets, 'components');
+=======
+
+      console.log(components, additionalWallets, 'components')
+>>>>>>> feat-add-wallet-package
 
     return components;
   };
@@ -136,8 +141,20 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
       setAccounts(event.detail[0]);
 
+<<<<<<< HEAD
     
       console.log(isConnected, isMintbaseWallet, mbWalletUsername, accounts, 'mb wallet');
+=======
+      setup().catch((err: Error) => {
+      if (err || err.message.length > 0) {
+        setErrorMessage((err as Error).message);
+      }
+    });
+
+
+    
+      console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet');
+>>>>>>> feat-add-wallet-package
     };
 
     // Listen for the custom event
@@ -147,7 +164,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     return () => {
       window.removeEventListener('mbWalletLogin', handleUsernameChange);
     };
-  }, []);
+  }, [setup]);
 
 
   // call setup on wallet selector
