@@ -75,35 +75,69 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
-  const isMintbaseWallet = localStorage.getItem('near-wallet-selector:selectedWalletId');
+
 
 
   useEffect(() => {
-    const checkLocalStorage = () => {
-      const activeAccountId = localStorage.getItem('mintbasewallet:activeAccountId');
+    const handleUsernameChange = (event) => {
+      const newUsername = event.detail[0].accountId;
+      setMbWalletUsername(newUsername);
+      setIsMbWallet(true)
+      setIsConnected(true)
 
-  if(isMintbaseWallet == 'mintbasewallet') {
-    setIsMbWallet(true)
-  }
+      setAccounts(event.detail[0])
 
-      if (activeAccountId) {
-        setIsConnected(true);
-        setMbWalletUsername(activeAccountId)
-        console.log(activeAccountId,isConnected , 'isConnected');
-      }
+      registerWalletAccountsSubscriber(
+      (accounts: AccountState[]) => {
+
+        console.log(accounts, 'accounts 333');
+        setAccounts(accounts);
+      },
+    );
+
+      console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet')
     };
 
-    // Initial check
-    checkLocalStorage();
+    // Listen for the custom event
+    window.addEventListener('mbWalletLogin', handleUsernameChange);
 
-    // Polling interval (adjust the interval time as needed)
-    const pollingInterval = setInterval(checkLocalStorage, 1000); // Check every 1 second
-
-    // Cleanup the interval when component unmounts
+    // Cleanup the event listener when the component unmounts
     return () => {
-      clearInterval(pollingInterval);
+      window.removeEventListener('mbWalletLogin', handleUsernameChange);
     };
   }, []);
+
+
+
+
+
+
+  // useEffect(() => {
+  //   const checkLocalStorage = () => {
+  //     const activeAccountId = localStorage.getItem('mintbasewallet:activeAccountId');
+
+  // if(isMintbaseWallet == 'mintbasewallet') {
+  //   setIsMbWallet(true)
+  // }
+
+  //     if (activeAccountId) {
+  //       setIsConnected(true);
+  //       setMbWalletUsername(activeAccountId)
+  //       console.log(activeAccountId,isConnected , 'isConnected');
+  //     }
+  //   };
+
+  //   // Initial check
+  //   checkLocalStorage();
+
+  //   // Polling interval (adjust the interval time as needed)
+  //   const pollingInterval = setInterval(checkLocalStorage, 1000); // Check every 1 second
+
+  //   // Cleanup the interval when component unmounts
+  //   return () => {
+  //     clearInterval(pollingInterval);
+  //   };
+  // }, []);
 
 
   const setup = useCallback(async () => {
@@ -203,9 +237,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       selector: selector,
       modal: modal,
       accounts: accounts,
-      activeAccountId: isMbWallet? mbWalletUsername :
+      activeAccountId: isMbWallet ? mbWalletUsername :
         accounts.find((account) => account.active)?.accountId || null,
-      isConnected: isMbWallet ?isConnected : accounts && accounts.length > 0,
+      isConnected: isMbWallet ? isConnected : accounts && accounts.length > 0,
       isWaitingForConnection: isWaitingForConnection,
       isWalletSelectorSetup: isWalletSelectorSetup,
       errorMessage: errorMessage,
@@ -213,7 +247,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       disconnect,
       signMessage,
     }),
-    [selector, modal, accounts],
+    [selector, modal, accounts, isMbWallet, isConnected, mbWalletUsername],
   );
 
   return (
