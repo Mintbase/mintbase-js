@@ -193,6 +193,8 @@ export class MintbaseWallet {
     }
 
     this._clearQueryParams();
+
+    return accountId
   }
 
   private _setActiveAccountId(accountId: string) {
