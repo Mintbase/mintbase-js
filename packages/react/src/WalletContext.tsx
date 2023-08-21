@@ -85,7 +85,17 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       setIsMbWallet(true)
       setIsConnected(true)
 
-      console.log(isConnected, isMbWallet, mbWalletUsername, 'mb wallet')
+      setAccounts(event.detail[0])
+
+      registerWalletAccountsSubscriber(
+      (accounts: AccountState[]) => {
+
+        console.log(accounts, 'accounts 333');
+        setAccounts(accounts);
+      },
+    );
+
+      console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet')
     };
 
     // Listen for the custom event
