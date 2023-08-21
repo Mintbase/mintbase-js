@@ -174,12 +174,17 @@ export class MintbaseWallet {
 
       if (accountId) {
         this._initializeWalletState({ accountId });
+
+           return [{accountId: accountId, active:true}]
       }
-      return;
+   
     }
 
     if (urlParams?.accountId) {
       this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
+
+       return [{accountId:  urlParams?.accountId, publicKey: urlParams?.publicKey ,  active:true}]
+
     }
   }
 
@@ -195,6 +200,7 @@ export class MintbaseWallet {
     this._clearQueryParams();
 
     return [{publickKey: publicKey, accountId: accountId, active: true}]
+
   }
 
   private _setActiveAccountId(accountId: string) {
