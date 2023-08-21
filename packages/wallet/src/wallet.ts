@@ -188,9 +188,9 @@ export class MintbaseWallet {
     if (urlParams?.accountId) {
       this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
 
-      console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }, '{publickKey: publicKey, accountId: accountId, active: true}');
+      console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey },this.getAccounts(), '{publickKey: publicKey, accountId: accountId, active: true}');
 
-      return [{ accountId:  urlParams?.accountId, publicKey: urlParams?.publicKey,  active:true }];
+    return this.getAccounts();
 
     }
   }
@@ -206,9 +206,9 @@ export class MintbaseWallet {
 
     this._clearQueryParams();
 
-    console.log({ publickKey: publicKey, accountId: accountId, active: true }, '{publickKey: publicKey, accountId: accountId, active: true}');
+    console.log({ publickKey: publicKey, accountId: accountId, active: true },this.getAccounts(), '{publickKey: publicKey, accountId: accountId, active: true}');
 
-    return [{ publickKey: publicKey, accountId: accountId, active: true }];
+    return this.getAccounts();
 
   }
 
