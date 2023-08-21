@@ -16,12 +16,13 @@ import {
   signMessage,
 } from '@mintbase-js/auth/lib/wallet';
 import type { WalletSelectorComponents } from '@mintbase-js/auth/lib/wallet';
-import type {
-  WalletSelector,
-  AccountState,
-  VerifiedOwner,
-  VerifyOwnerParams,
-  WalletModuleFactory,
+import {
+  type WalletSelector,
+  type AccountState,
+  type VerifiedOwner,
+  type VerifyOwnerParams,
+  type WalletModuleFactory,
+  setupWalletSelector,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import type { Network } from '@mintbase-js/sdk';
@@ -51,8 +52,8 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
-  children, network, contractAddress, additionalWallets,
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory>; isMintbaseWallet?: boolean}> = ({
+  children, network, contractAddress, additionalWallets, isMintbaseWallet = false,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
@@ -64,47 +65,13 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-  const [isMbWallet, setIsMbWallet] =
-    useState<boolean>(false);
-
   const [mbWalletUsername, setMbWalletUsername] =
     useState<string>('');
   const [isConnected, setIsConnected] = useState(false);
 
-
+  const [mbWalletSelector, setWalletMb] = useState(null);
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
-
-
- 
-
-
-  // useEffect(() => {
-  //   const checkLocalStorage = () => {
-  //     const activeAccountId = localStorage.getItem('mintbasewallet:activeAccountId');
-
-  // if(isMintbaseWallet == 'mintbasewallet') {
-  //   setIsMbWallet(true)
-  // }
-
-  //     if (activeAccountId) {
-  //       setIsConnected(true);
-  //       setMbWalletUsername(activeAccountId)
-  //       console.log(activeAccountId,isConnected , 'isConnected');
-  //     }
-  //   };
-
-  //   // Initial check
-  //   checkLocalStorage();
-
-  //   // Polling interval (adjust the interval time as needed)
-  //   const pollingInterval = setInterval(checkLocalStorage, 1000); // Check every 1 second
-
-  //   // Cleanup the interval when component unmounts
-  //   return () => {
-  //     clearInterval(pollingInterval);
-  //   };
-  // }, []);
 
 
   const setup = useCallback(async () => {
@@ -133,31 +100,43 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       },
     );
 
-
-      console.log(components, additionalWallets, 'components')
+    console.log(components, additionalWallets, 'components');
 
     return components;
   };
 
 
- useEffect(() => {
-    const handleUsernameChange = (event) => {
-      const newUsername = event.detail[0].accountId;
-      setMbWalletUsername(newUsername);
-      setIsMbWallet(true);
-      setIsConnected(true);
-      setupWallet();
-      setAccounts(event.detail[0]);
+  useEffect(() => {
 
-      setup().catch((err: Error) => {
-      if (err || err.message.length > 0) {
-        setErrorMessage((err as Error).message);
-      }
+
+    const setupMintbaseWallet = async () => await setupWalletSelector({
+      network: network,
+      debug: mbjs.keys.debugMode,
+      modules: [
+        ...additionalWallets,
+      ],
     });
 
 
+    if (isMintbaseWallet) {
+
+      const mbSelector = setupMintbaseWallet();
+
+      setWalletMb(mbSelector);
+    }
+
+  
+    const handleUsernameChange = (event) => {
+
+      console.log(event, event.detail, event.detail[0]);
+      const newUsername = event.detail[0].accountId;
+      setMbWalletUsername(newUsername);
+      setIsConnected(true);
+
+      setAccounts(event.detail[0]);
+
     
-      console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet');
+      console.log(isConnected, isMintbaseWallet, mbWalletUsername, accounts, 'mb wallet');
     };
 
     // Listen for the custom event
@@ -236,12 +215,12 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
   const walletSelectorContextValue = useMemo<WalletContext>(
     () => ({
-      selector: selector,
+      selector: isMintbaseWallet? mbWalletSelector : selector,
       modal: modal,
       accounts: accounts,
-      activeAccountId: isMbWallet ? mbWalletUsername :
+      activeAccountId: isMintbaseWallet ? mbWalletUsername :
         accounts.find((account) => account.active)?.accountId || null,
-      isConnected: isMbWallet ? isConnected : accounts && accounts.length > 0,
+      isConnected: isMintbaseWallet ? isConnected : accounts && accounts.length > 0,
       isWaitingForConnection: isWaitingForConnection,
       isWalletSelectorSetup: isWalletSelectorSetup,
       errorMessage: errorMessage,
@@ -249,7 +228,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       disconnect,
       signMessage,
     }),
-    [selector, modal, accounts, isMbWallet, isConnected, mbWalletUsername],
+    [selector, modal, accounts, isMintbaseWallet, isConnected, mbWalletUsername],
   );
 
   return (
