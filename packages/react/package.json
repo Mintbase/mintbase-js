@@ -26,6 +26,7 @@
     "@mintbase-js/auth": "^0.4.1-beta.1",
     "@mintbase-js/data": "^0.4.1-beta.1",
     "@mintbase-js/sdk": "^0.4.1-beta.1",
+    "@mintbase-js/wallet": "^0.4.1-feat-add-wallet-package-47f58b9.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
     "near-api-js": "^2.1.3",

@@ -238,7 +238,7 @@ export class MintbaseWallet {
     currentUrl.searchParams.delete('public_key');
 
     // reload
-    window.location.reload()
+    // window.location.reload()
     window.history.replaceState({}, document.title, currentUrl.toString());
   }
 }
