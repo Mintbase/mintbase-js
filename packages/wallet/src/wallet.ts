@@ -56,7 +56,12 @@ export class MintbaseWallet {
     const newUrl = new URL(`${this.walletUrl}/connect`);
     newUrl.searchParams.set('success_url', currentUrl.href);
     newUrl.searchParams.set('failure_url', currentUrl.href);
+
     window.location.assign(newUrl.toString());
+
+    return this.getAccounts()
+
+ 
   }
 
   async signOut() {
@@ -82,7 +87,7 @@ export class MintbaseWallet {
     actions,
     signerId,
     successUrl,
-    failureUrl
+    failureUrl,
   }: {
     receiverId: string;
     actions: Action[];
@@ -175,7 +180,7 @@ export class MintbaseWallet {
       if (accountId) {
         this._initializeWalletState({ accountId });
 
-           return [{accountId: accountId, active:true}]
+        return [{ accountId: accountId, active:true }];
       }
    
     }
@@ -183,7 +188,9 @@ export class MintbaseWallet {
     if (urlParams?.accountId) {
       this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
 
-       return [{accountId:  urlParams?.accountId, publicKey: urlParams?.publicKey ,  active:true}]
+      console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }, '{publickKey: publicKey, accountId: accountId, active: true}');
+
+      return [{ accountId:  urlParams?.accountId, publicKey: urlParams?.publicKey,  active:true }];
 
     }
   }
@@ -199,7 +206,9 @@ export class MintbaseWallet {
 
     this._clearQueryParams();
 
-    return [{publickKey: publicKey, accountId: accountId, active: true}]
+    console.log({ publickKey: publicKey, accountId: accountId, active: true }, '{publickKey: publicKey, accountId: accountId, active: true}');
+
+    return [{ publickKey: publicKey, accountId: accountId, active: true }];
 
   }
 
