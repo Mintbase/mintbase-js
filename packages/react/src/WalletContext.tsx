@@ -109,13 +109,19 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   useEffect(() => {
 
 
-    const setupMintbaseWallet = async () => await setupWalletSelector({
-      network: network,
-      debug: mbjs.keys.debugMode,
-      modules: [
-        ...additionalWallets,
-      ],
-    });
+    const setupMintbaseWallet = async () => {
+      
+      
+      const res = await setupWalletSelector({
+        network: network,
+        debug: mbjs.keys.debugMode,
+        modules: [
+          ...additionalWallets,
+        ],
+      });
+  
+      return res;
+    };
 
 
     if (isMintbaseWallet) {
