@@ -58,8 +58,6 @@ export class MintbaseWallet {
     newUrl.searchParams.set('failure_url', currentUrl.href);
 
     window.location.assign(newUrl.toString());
-
-
   }
 
   async signOut() {
@@ -208,8 +206,6 @@ export class MintbaseWallet {
     }
 
     this._clearQueryParams();
-
-  
 
 
     return [{ publickKey: publicKey, accountId: accountId, active: true }]
