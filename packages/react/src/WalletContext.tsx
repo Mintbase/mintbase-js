@@ -123,6 +123,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
+
+        console.log(accounts, 'accounts');
         setAccounts(accounts);
       },
     );
@@ -143,6 +145,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     try {
       const accounts = await pollForWalletConnection();
       setIsWaitingForConnection(false);
+      console.log(accounts, 'accounts');
       setAccounts(accounts);
     } catch (err: unknown) {
       if (err) {
