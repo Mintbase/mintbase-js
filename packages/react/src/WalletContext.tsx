@@ -64,8 +64,47 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
+      const [isMbWallet, setIsMbWallet] =
+    useState<boolean>(false);
+
+          const [mbWalletUsername, setMbWalletUsername] =
+    useState<string>('');
+      const [isConnected, setIsConnected] = useState(false);
+
+
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
+
+  const isMintbaseWallet = localStorage.getItem('near-wallet-selector:selectedWalletId');
+
+
+  useEffect(() => {
+    const checkLocalStorage = () => {
+      const activeAccountId = localStorage.getItem('mintbasewallet:activeAccountId');
+
+  if(isMintbaseWallet == 'mintbasewallet') {
+    setIsMbWallet(true)
+  }
+
+      if (activeAccountId) {
+        setIsConnected(true);
+        setMbWalletUsername(activeAccountId)
+        console.log(activeAccountId,isConnected , 'isConnected');
+      }
+    };
+
+    // Initial check
+    checkLocalStorage();
+
+    // Polling interval (adjust the interval time as needed)
+    const pollingInterval = setInterval(checkLocalStorage, 1000); // Check every 1 second
+
+    // Cleanup the interval when component unmounts
+    return () => {
+      clearInterval(pollingInterval);
+    };
+  }, []);
+
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents(
@@ -124,7 +163,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
 
-        console.log(accounts, 'accounts');
+        console.log(accounts, 'accounts 1');
         setAccounts(accounts);
       },
     );
@@ -145,7 +184,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     try {
       const accounts = await pollForWalletConnection();
       setIsWaitingForConnection(false);
-      console.log(accounts, 'accounts');
+      console.log(accounts, 'accounts 2');
       setAccounts(accounts);
     } catch (err: unknown) {
       if (err) {
@@ -164,9 +203,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       selector: selector,
       modal: modal,
       accounts: accounts,
-      activeAccountId:
+      activeAccountId: isMbWallet? mbWalletUsername :
         accounts.find((account) => account.active)?.accountId || null,
-      isConnected: accounts && accounts.length > 0,
+      isConnected: isMbWallet ?isConnected : accounts && accounts.length > 0,
       isWaitingForConnection: isWaitingForConnection,
       isWalletSelectorSetup: isWalletSelectorSetup,
       errorMessage: errorMessage,
