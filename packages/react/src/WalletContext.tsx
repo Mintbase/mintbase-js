@@ -64,52 +64,19 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-      const [isMbWallet, setIsMbWallet] =
+  const [isMbWallet, setIsMbWallet] =
     useState<boolean>(false);
 
-          const [mbWalletUsername, setMbWalletUsername] =
+  const [mbWalletUsername, setMbWalletUsername] =
     useState<string>('');
-      const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState(false);
 
 
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
 
-
-
-  useEffect(() => {
-    const handleUsernameChange = (event) => {
-      const newUsername = event.detail[0].accountId;
-      setMbWalletUsername(newUsername);
-      setIsMbWallet(true)
-      setIsConnected(true)
-
-      setAccounts(event.detail[0])
-
-      registerWalletAccountsSubscriber(
-      (accounts: AccountState[]) => {
-
-        console.log(accounts, 'accounts 333');
-        setAccounts(accounts);
-      },
-    );
-
-      console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet')
-    };
-
-    // Listen for the custom event
-    window.addEventListener('mbWalletLogin', handleUsernameChange);
-
-    // Cleanup the event listener when the component unmounts
-    return () => {
-      window.removeEventListener('mbWalletLogin', handleUsernameChange);
-    };
-  }, []);
-
-
-
-
+ 
 
 
   // useEffect(() => {
@@ -167,6 +134,37 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     );
     return components;
   };
+
+
+ useEffect(() => {
+    const handleUsernameChange = (event) => {
+      const newUsername = event.detail[0].accountId;
+      setMbWalletUsername(newUsername);
+      setIsMbWallet(true);
+      setIsConnected(true);
+      setupWallet();
+      setAccounts(event.detail[0]);
+
+      registerWalletAccountsSubscriber(
+        (accounts: AccountState[]) => {
+
+          console.log(accounts, 'accounts 333');
+          setAccounts(accounts);
+        },
+      );
+
+      console.log(isConnected, isMbWallet, mbWalletUsername, accounts, 'mb wallet');
+    };
+
+    // Listen for the custom event
+    window.addEventListener('mbWalletLogin', handleUsernameChange);
+
+    // Cleanup the event listener when the component unmounts
+    return () => {
+      window.removeEventListener('mbWalletLogin', handleUsernameChange);
+    };
+  }, []);
+
 
   // call setup on wallet selector
   useEffect(() => {
