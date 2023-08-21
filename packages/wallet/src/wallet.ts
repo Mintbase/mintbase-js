@@ -194,7 +194,7 @@ export class MintbaseWallet {
 
     this._clearQueryParams();
 
-    return accountId
+    return [{publickKey: publicKey, accountId: accountId, active: true}]
   }
 
   private _setActiveAccountId(accountId: string) {
