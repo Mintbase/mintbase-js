@@ -136,7 +136,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
         }
       });
 
-      if (account.length > 0) {
+      if (account !== null && account?.length > 0) {
         setMbWalletUsername(account);
       setIsConnected(true);
       }
