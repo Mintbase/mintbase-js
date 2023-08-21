@@ -128,7 +128,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode;
             signInContractId: mbWallet.tokenContractAddress,
             walletUrl: mbWallet.walletUrl,
             deprecated: mbWallet.deprecated,
-          }),
+          }) as any,
         ],
       });
 
