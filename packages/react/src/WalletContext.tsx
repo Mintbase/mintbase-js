@@ -116,6 +116,10 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
         ...additionalWallets,
       ],
     });
+
+    setWalletMb(res);
+
+    console.log(res, 'selector')
   
     return res;
   };
@@ -126,9 +130,12 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
     if (isMintbaseWallet) {
 
-      const mbSelector = setupMintbaseWallet();
-
-      setWalletMb(mbSelector);
+      setupMintbaseWallet().catch((err: Error) => {
+      if (err || err.message.length > 0) {
+        setErrorMessage((err as Error).message);
+      }
+    });
+      
     }
 
   
@@ -152,7 +159,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     return () => {
       window.removeEventListener('mbWalletLogin', handleUsernameChange);
     };
-  }, [setup]);
+  }, []);
 
 
   // call setup on wallet selector
@@ -234,7 +241,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       disconnect,
       signMessage,
     }),
-    [selector, modal, accounts, isMintbaseWallet, isConnected, mbWalletUsername],
+    [selector, modal, accounts, isMintbaseWallet, isConnected, mbWalletUsername, mbWalletSelector],
   );
 
   return (
