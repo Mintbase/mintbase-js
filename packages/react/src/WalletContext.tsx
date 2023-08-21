@@ -133,6 +133,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       },
     );
 
+
       console.log(components, additionalWallets, 'components')
 
     return components;
