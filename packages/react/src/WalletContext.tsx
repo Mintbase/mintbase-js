@@ -64,12 +64,12 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-    const [isUserConnected, setUserConnected] =
+  const [isUserConnected, setUserConnected] =
     useState<boolean>(false);
 
 
-    const [userAccount, setUserAccount] =
-    useState<string>("");
+  const [userAccount, setUserAccount] =
+    useState<string>('');
 
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
@@ -128,8 +128,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     const activeAccountId = localStorage.getItem('mintbasewallet:activeAccountId');
 
     if (activeAccountId) {
-       setUserConnected(true)
-       setUserAccount(activeAccountId)
+      setUserConnected(true);
+      setUserAccount(activeAccountId);
     }
   }, []); 
 
@@ -143,7 +143,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     const subscription = registerWalletAccountsSubscriber(
       (accounts: AccountState[]) => {
         setAccounts(accounts);
-        setUserConnected(true)
+        setUserConnected(true);
       },
     );
 
@@ -164,7 +164,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       const accounts = await pollForWalletConnection();
       setIsWaitingForConnection(false);
       setAccounts(accounts);
-      setUserConnected(true)
+      setUserConnected(true);
     } catch (err: unknown) {
       if (err) {
         setErrorMessage((err as Error).message);
