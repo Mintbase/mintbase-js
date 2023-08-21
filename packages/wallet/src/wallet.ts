@@ -59,7 +59,7 @@ export class MintbaseWallet {
 
     window.location.assign(newUrl.toString());
 
-    return this.getAccounts()
+    return this.getAccounts();
 
  
   }
@@ -188,9 +188,9 @@ export class MintbaseWallet {
     if (urlParams?.accountId) {
       this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
 
-      console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey },this.getAccounts(), '{publickKey: publicKey, accountId: accountId, active: true}');
+      console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }, this.getAccounts(), '{publickKey: publicKey, accountId: accountId, active: true}');
 
-    return this.getAccounts();
+      return [{ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }]
 
     }
   }
@@ -201,14 +201,20 @@ export class MintbaseWallet {
     window.localStorage.setItem('near-wallet-selector:selectedWalletId', JSON.stringify('mintbasewallet'));
 
     if (publicKey) {
+      const usernameSet = new CustomEvent('mbWalletLogin', { detail: [{ publickKey: publicKey, accountId: accountId, active: true }] });
+
+      window.dispatchEvent(usernameSet);
+
+
       window.localStorage.setItem('mintbasewallet:account-data', JSON.stringify({ accountId, publicKey }));
     }
 
     this._clearQueryParams();
 
-    console.log({ publickKey: publicKey, accountId: accountId, active: true },this.getAccounts(), '{publickKey: publicKey, accountId: accountId, active: true}');
+  
 
-    return this.getAccounts();
+
+    return [{ publickKey: publicKey, accountId: accountId, active: true }]
 
   }
 
