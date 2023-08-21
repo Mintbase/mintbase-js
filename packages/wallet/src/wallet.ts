@@ -236,6 +236,9 @@ export class MintbaseWallet {
     const currentUrl = new URL(window.location.href);
     currentUrl.searchParams.delete('account_id');
     currentUrl.searchParams.delete('public_key');
+
+    // reload
+    window.location.reload()
     window.history.replaceState({}, document.title, currentUrl.toString());
   }
 }

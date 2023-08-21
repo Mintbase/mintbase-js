@@ -69,7 +69,6 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     useState<string>('');
   const [isConnected, setIsConnected] = useState(false);
 
-  const [mbWalletSelector, setWalletMb] = useState(null);
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
@@ -106,43 +105,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   };
 
 
-  const setupMintbaseWallet = async () => {
-      
-      
-    const res = await setupWalletSelector({
-      network: network,
-      debug: mbjs.keys.debugMode,
-      modules: [
-        ...additionalWallets,
-      ],
-    });
-
-        
-    setWalletMb(res);
-
-    console.log(res, 'wallet set');
-  
-    return res;
-  };
 
 
   useEffect(() => {
-      const account = window.localStorage.getItem('mintbasewallet:activeAccountId');
-
-    if (isMintbaseWallet) {
-      setupMintbaseWallet().catch((err: Error) => {
-        if (err || err.message.length > 0) {
-          setErrorMessage((err as Error).message);
-        }
-      });
-
-      if (account !== null && account?.length > 0) {
-        setMbWalletUsername(account);
-      setIsConnected(true);
-      }
-    }
-
-
     const handleUsernameChange = (event) => {
 
       console.log(event, event.detail, event.detail[0]);
@@ -234,7 +199,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
   const walletSelectorContextValue = useMemo<WalletContext>(
     () => ({
-      selector: isMintbaseWallet? mbWalletSelector : selector,
+      selector: selector,
       modal: modal,
       accounts: accounts,
       activeAccountId: isMintbaseWallet ? mbWalletUsername :
@@ -247,7 +212,7 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
       disconnect,
       signMessage,
     }),
-    [selector, modal, accounts, isMintbaseWallet, isConnected, mbWalletUsername, mbWalletSelector],
+    [selector, modal, accounts, isMintbaseWallet, isConnected, mbWalletUsername],
   );
 
   return (
