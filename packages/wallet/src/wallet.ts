@@ -59,7 +59,11 @@ export class MintbaseWallet {
 
     window.location.assign(newUrl.toString());
 
+<<<<<<< HEAD
     return this.getAccounts();
+=======
+    return this.getAccounts()
+>>>>>>> feat-add-wallet-package
 
  
   }
