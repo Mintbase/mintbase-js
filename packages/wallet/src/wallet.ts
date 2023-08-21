@@ -58,14 +58,6 @@ export class MintbaseWallet {
     newUrl.searchParams.set('failure_url', currentUrl.href);
 
     window.location.assign(newUrl.toString());
-
-<<<<<<< HEAD
-    return this.getAccounts();
-=======
-    return this.getAccounts()
->>>>>>> feat-add-wallet-package
-
- 
   }
 
   async signOut() {
@@ -214,8 +206,6 @@ export class MintbaseWallet {
     }
 
     this._clearQueryParams();
-
-  
 
 
     return [{ publickKey: publicKey, accountId: accountId, active: true }]
