@@ -123,16 +123,6 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
 
   useEffect(() => {
 
-    setWalletMb(res);
-
-    console.log(res, 'selector')
-  
-    return res;
-  };
-
-
-  useEffect(() => {
-
 
     if (isMintbaseWallet) {
 
