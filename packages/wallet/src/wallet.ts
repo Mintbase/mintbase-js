@@ -258,12 +258,12 @@ export class MintbaseWallet {
       document.body.appendChild(this.loadingElement);
     }
 
-   private hideLoadingAnimation(): void {
-  const centeredDiv = document.querySelector('.centeredLoading'); // Find the div with the class "centered"
-  if (centeredDiv && centeredDiv.parentNode) {
-    centeredDiv.parentNode.removeChild(centeredDiv); // Remove the parent div
-  }
-}
+    private hideLoadingAnimation(): void {
+      const centeredDiv = document.querySelector('.centeredLoading'); // Find the div with the class "centered"
+      if (centeredDiv && centeredDiv.parentNode) {
+        centeredDiv.parentNode.removeChild(centeredDiv); // Remove the parent div
+      }
+    }
 
     private injectKeyframeAnimations(): void {
       const styleTag = document.createElement('style');
@@ -348,35 +348,37 @@ export class MintbaseWallet {
       document.head.appendChild(styleTag);
     }
 
+  private reloaded = false;
 
-    private async _clearQueryParams() {
-      this.injectKeyframeAnimations();
-      this.showLoadingAnimation();
+  private async _clearQueryParams() {
+    this.injectKeyframeAnimations();
+    this.showLoadingAnimation();
 
-
-
-      function forceRefresh() {
-        // Append a timestamp or random value as a query parameter to the URL
-        const currentUrl = new URL(window.location.href);
-        currentUrl.searchParams.set('refresh', String(Math.random())); // Convert the random number to a string
-
-        // Navigate to the modified URL, triggering a forced refresh
-        window.location.href = currentUrl.toString();
-      }
-
-      // Check if account data is already set in localStorage
-      const accountData = window.localStorage.getItem('mintbasewallet:account-data');
-      if (accountData && !this.reloaded) {
-        this.reloaded = true; // Set the flag
-
-                    this.hideLoadingAnimation();
+    const currentUrl = new URL(window.location.href);
 
 
-        forceRefresh(); // Trigger a single forced refresh
-      }
+    function forceRefresh() {
+      // Append a timestamp or random value as a query parameter to the URL
+      currentUrl.searchParams.set('session', String(Math.random())); // Convert the random number to a string
 
-      
+      // Navigate to the modified URL, triggering a forced refresh
+      window.location.href = currentUrl.toString();
+    }
+    const hadRefreshed =  currentUrl.searchParams.get('session').length > 0;
+    // Check if account data is already set in localStorage
+    const accountData = window.localStorage.getItem('mintbasewallet:account-data');
+    if (accountData && !this.reloaded && !hadRefreshed) {
+      this.reloaded = true; // Set the flag
+ 
+      forceRefresh(); // Trigger a single forced refresh
+      this.hideLoadingAnimation();
+
+      currentUrl.searchParams.delete('account_id');
+      currentUrl.searchParams.delete('public_key');
+      currentUrl.searchParams.delete('session');
     }
 
-  private reloaded = false;
+      
+  }
+
 }
