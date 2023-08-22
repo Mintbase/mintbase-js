@@ -354,8 +354,6 @@ export class MintbaseWallet {
   private reloaded = false;
 
   private async _clearQueryParams() {
-    this.injectKeyframeAnimations();
-    this.showLoadingAnimation();
 
     const currentUrl = new URL(window.location.href);
 
@@ -369,12 +367,12 @@ export class MintbaseWallet {
     }
     const hadRefreshed =  currentUrl.searchParams.get('session') &&  currentUrl.searchParams.get('session').length > 0;
     // Check if account data is already set in localStorage
-    const accountData = window.localStorage.getItem('mintbasewallet:account-data');
+    const accountData = window.localStorage.getItem('mintbasewallet:account-data') && window.localStorage.getItem('mintbasewallet:account-data').length > 0;
     if (accountData && !this.reloaded && !hadRefreshed) {
       this.reloaded = true; // Set the flag
  
       forceRefresh(); // Trigger a single forced refresh
-      this.hideLoadingAnimation();
+  
 
       currentUrl.searchParams.delete('account_id');
       currentUrl.searchParams.delete('public_key');
