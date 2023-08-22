@@ -244,7 +244,7 @@ export class MintbaseWallet {
 
       for (let i = 0; i < 4; i++) {
         const dot = document.createElement('div');
-        dot.style.animation = `lds-ellipsis${i + 1} 0.6s infinite`;
+        dot.style.animation = `0.6s infinite`;
         ellipsisContainer.appendChild(dot);
       }
 
@@ -278,6 +278,7 @@ export class MintbaseWallet {
         left:0px;
         width:100vw;
         background:#fff;
+        z-index: 999;
       }
 
       .lds-ellipsis {
@@ -344,6 +345,8 @@ export class MintbaseWallet {
           transform: scale(0);
         }
       }
+
+      
     `;
       document.head.appendChild(styleTag);
     }
@@ -364,7 +367,7 @@ export class MintbaseWallet {
       // Navigate to the modified URL, triggering a forced refresh
       window.location.href = currentUrl.toString();
     }
-    const hadRefreshed =  currentUrl.searchParams.get('session').length > 0;
+    const hadRefreshed =  currentUrl.searchParams.get('session') &&  currentUrl.searchParams.get('session').length > 0;
     // Check if account data is already set in localStorage
     const accountData = window.localStorage.getItem('mintbasewallet:account-data');
     if (accountData && !this.reloaded && !hadRefreshed) {
