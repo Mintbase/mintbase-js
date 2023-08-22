@@ -56,6 +56,7 @@ export class MintbaseWallet {
     const newUrl = new URL(`${this.walletUrl}/connect`);
     newUrl.searchParams.set('success_url', currentUrl.href);
     newUrl.searchParams.set('failure_url', currentUrl.href);
+
     window.location.assign(newUrl.toString());
   }
 
@@ -82,7 +83,7 @@ export class MintbaseWallet {
     actions,
     signerId,
     successUrl,
-    failureUrl
+    failureUrl,
   }: {
     receiverId: string;
     actions: Action[];
@@ -174,12 +175,16 @@ export class MintbaseWallet {
 
       if (accountId) {
         this._initializeWalletState({ accountId });
+
+        return [{ accountId: accountId, active:true }];
       }
-      return;
+   
     }
 
     if (urlParams?.accountId) {
       this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
+      return [{ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }];
+
     }
   }
 
@@ -189,10 +194,19 @@ export class MintbaseWallet {
     window.localStorage.setItem('near-wallet-selector:selectedWalletId', JSON.stringify('mintbasewallet'));
 
     if (publicKey) {
+      const usernameSet = new CustomEvent('mbWalletLogin', { detail: [{ publickKey: publicKey, accountId: accountId, active: true }] });
+
+      window.dispatchEvent(usernameSet);
+
+
       window.localStorage.setItem('mintbasewallet:account-data', JSON.stringify({ accountId, publicKey }));
     }
 
     this._clearQueryParams();
+
+
+    return [{ publickKey: publicKey, accountId: accountId, active: true }];
+
   }
 
   private _setActiveAccountId(accountId: string) {
@@ -215,10 +229,48 @@ export class MintbaseWallet {
     };
   }
 
-  private _clearQueryParams() {
+
+  private reloaded = false;
+
+  private async _clearQueryParams() {
+
     const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.delete('account_id');
-    currentUrl.searchParams.delete('public_key');
-    window.history.replaceState({}, document.title, currentUrl.toString());
+
+
+    function generateRandomHash() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      const length = 32; // Adjust the length of the hash as needed
+      let hash = '';
+
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        hash += characters.charAt(randomIndex);
+      }
+
+      return hash;
+    }
+
+    function forceRefresh() {
+      // Append a timestamp or random value as a query parameter to the URL
+      currentUrl.searchParams.set('session', generateRandomHash());
+
+      // Navigate to the modified URL, triggering a forced refresh
+      window.location.href = currentUrl.toString();
+    }
+    const hadRefreshed =  currentUrl.searchParams.get('session') &&  currentUrl.searchParams.get('session').length > 0;
+    // Check if account data is already set in localStorage
+    const accountData = window.localStorage.getItem('mintbasewallet:account-data') && window.localStorage.getItem('mintbasewallet:account-data').length > 0;
+    if (accountData && !this.reloaded && !hadRefreshed) {
+      this.reloaded = true; // Set the flag
+ 
+      forceRefresh(); // Trigger a single forced refresh
+  
+
+      currentUrl.searchParams.delete('account_id');
+      currentUrl.searchParams.delete('public_key');
+      currentUrl.searchParams.delete('session');
+    }
+
   }
+
 }
