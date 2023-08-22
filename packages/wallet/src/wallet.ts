@@ -186,7 +186,7 @@ export class MintbaseWallet {
 
       console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }, '{publickKey: publicKey, accountId: accountId, active: true}');
 
-      return [{ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }]
+      return [{ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }];
 
     }
   }
@@ -208,7 +208,7 @@ export class MintbaseWallet {
     this._clearQueryParams();
 
 
-    return [{ publickKey: publicKey, accountId: accountId, active: true }]
+    return [{ publickKey: publicKey, accountId: accountId, active: true }];
 
   }
 
@@ -231,14 +231,101 @@ export class MintbaseWallet {
       publicKey,
     };
   }
+    private loadingElement: HTMLDivElement | null = null;
 
-  private _clearQueryParams() {
-    const currentUrl = new URL(window.location.href);
-    currentUrl.searchParams.delete('account_id');
-    currentUrl.searchParams.delete('public_key');
 
-    // reload
-    // window.location.reload()
-    window.history.replaceState({}, document.title, currentUrl.toString());
-  }
+    private createLoadingElement(): void {
+    // Create the loading element
+      this.loadingElement = document.createElement('div');
+      this.loadingElement.className = 'centered';
+
+      const ellipsisContainer = document.createElement('div');
+      ellipsisContainer.className = 'lds-ellipsis';
+
+      for (let i = 0; i < 4; i++) {
+        const dot = document.createElement('div');
+        dot.style.animation = `lds-ellipsis${i + 1} 0.6s infinite`;
+        ellipsisContainer.appendChild(dot);
+      }
+
+      this.loadingElement.appendChild(ellipsisContainer);
+    }
+
+    private showLoadingAnimation(): void {
+      if (!this.loadingElement) {
+        this.createLoadingElement();
+      }
+      document.body.appendChild(this.loadingElement);
+    }
+
+    private hideLoadingAnimation(): void {
+      if (this.loadingElement && this.loadingElement.parentNode) {
+        this.loadingElement.parentNode.removeChild(this.loadingElement);
+      }
+    }
+
+
+    private injectKeyframeAnimations(): void {
+      const styleTag = document.createElement('style');
+      styleTag.innerHTML = `
+      .centered {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+
+      .lds-ellipsis {
+        display: inline-block;
+        position: relative;
+        width: 80px;
+        height: 80px;
+      }
+
+         @keyframes lds-ellipsis1 {
+        0% {
+          transform: scale(0);
+        }
+        100% {
+          transform: scale(1);
+        }
+      }
+
+      @keyframes lds-ellipsis2 {
+        0% {
+          transform: translate(0, 0);
+        }
+        100% {
+          transform: translate(24px, 0);
+        }
+      }
+
+      @keyframes lds-ellipsis3 {
+        0% {
+          transform: scale(1);
+        }
+        100% {
+          transform: scale(0);
+        }
+      }
+    `;
+      document.head.appendChild(styleTag);
+    }
+
+    private _clearQueryParams() {
+    // Show the loading animation and inject keyframes before clearing query parameters and reloading
+      this.injectKeyframeAnimations();
+      this.showLoadingAnimation();
+
+      const currentUrl = new URL(window.location.href);
+      currentUrl.searchParams.delete('account_id');
+      currentUrl.searchParams.delete('public_key');
+
+      // Reload
+      window.history.replaceState({}, document.title, currentUrl.toString());
+      window.location.reload();
+
+      // Hide the loading animation after reloading
+      this.hideLoadingAnimation();
+    }
 }
