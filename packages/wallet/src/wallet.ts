@@ -231,132 +231,14 @@ export class MintbaseWallet {
       publicKey,
     };
   }
-    private loadingElement: HTMLDivElement | null = null;
+   
 
-
-    private createLoadingElement(): void {
-    // Create the loading element
-      this.loadingElement = document.createElement('div');
-      this.loadingElement.className = 'centeredLoading';
-
-      const ellipsisContainer = document.createElement('div');
-      ellipsisContainer.className = 'lds-ellipsis';
-
-      for (let i = 0; i < 4; i++) {
-        const dot = document.createElement('div');
-        dot.style.animation = `0.6s infinite`;
-        ellipsisContainer.appendChild(dot);
-      }
-
-      this.loadingElement.appendChild(ellipsisContainer);
-    }
-
-    private showLoadingAnimation(): void {
-      if (!this.loadingElement) {
-        this.createLoadingElement();
-      }
-      document.body.appendChild(this.loadingElement);
-    }
-
-    private hideLoadingAnimation(): void {
-      const centeredDiv = document.querySelector('.centeredLoading'); // Find the div with the class "centered"
-      if (centeredDiv && centeredDiv.parentNode) {
-        centeredDiv.parentNode.removeChild(centeredDiv); // Remove the parent div
-      }
-    }
-
-    private injectKeyframeAnimations(): void {
-      const styleTag = document.createElement('style');
-      styleTag.innerHTML = `
-      .centeredLoading {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        position:fixed;
-        top:0px;
-        left:0px;
-        width:100vw;
-        background:#fff;
-        z-index: 999;
-      }
-
-      .lds-ellipsis {
-        display: inline-block;
-        position: relative;
-        width: 80px;
-        height: 80px;
-      }
-
-
-      .lds-ellipsis div {
-        position: absolute;
-        top: 33px;
-        width: 13px;
-        height: 13px;
-        border-radius: 50%;
-        background: #ff2424;
-        animation-timing-function: cubic-bezier(0, 1, 1, 0);
-      }
-
-      .lds-ellipsis div:nth-child(1) {
-        left: 8px;
-        animation: lds-ellipsis1 0.6s infinite;
-      }
-
-      .lds-ellipsis div:nth-child(2) {
-        left: 8px;
-        animation: lds-ellipsis2 0.6s infinite;
-      }
-
-      .lds-ellipsis div:nth-child(3) {
-        left: 32px;
-        animation: lds-ellipsis2 0.6s infinite;
-      }
-
-      .lds-ellipsis div:nth-child(4) {
-        left: 56px;
-        animation: lds-ellipsis3 0.6s infinite;
-      }
-
-         @keyframes lds-ellipsis1 {
-        0% {
-          transform: scale(0);
-        }
-        100% {
-          transform: scale(1);
-        }
-      }
-
-      @keyframes lds-ellipsis2 {
-        0% {
-          transform: translate(0, 0);
-        }
-        100% {
-          transform: translate(24px, 0);
-        }
-      }
-
-      @keyframes lds-ellipsis3 {
-        0% {
-          transform: scale(1);
-        }
-        100% {
-          transform: scale(0);
-        }
-      }
-
-      
-    `;
-      document.head.appendChild(styleTag);
-    }
 
   private reloaded = false;
 
   private async _clearQueryParams() {
 
     const currentUrl = new URL(window.location.href);
-
 
     function forceRefresh() {
       // Append a timestamp or random value as a query parameter to the URL
@@ -379,7 +261,6 @@ export class MintbaseWallet {
       currentUrl.searchParams.delete('session');
     }
 
-      
   }
 
 }
