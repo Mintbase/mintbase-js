@@ -183,9 +183,6 @@ export class MintbaseWallet {
 
     if (urlParams?.accountId) {
       this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
-
-      console.log({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }, '{publickKey: publicKey, accountId: accountId, active: true}');
-
       return [{ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }];
 
     }
@@ -233,6 +230,19 @@ export class MintbaseWallet {
   }
    
 
+private generateRandomHash() {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const length = 32; // Adjust the length of the hash as needed
+  let hash = '';
+
+  for (let i = 0; i < length; i++) {
+    const randomIndex = Math.floor(Math.random() * characters.length);
+    hash += characters.charAt(randomIndex);
+  }
+
+  return hash;
+}
+
 
   private reloaded = false;
 
@@ -242,7 +252,7 @@ export class MintbaseWallet {
 
     function forceRefresh() {
       // Append a timestamp or random value as a query parameter to the URL
-      currentUrl.searchParams.set('session', String(Math.random())); // Convert the random number to a string
+      currentUrl.searchParams.set('session', this.generateRandomHash());
 
       // Navigate to the modified URL, triggering a forced refresh
       window.location.href = currentUrl.toString();

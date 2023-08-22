@@ -43,7 +43,6 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?, 
     ],
   });
 
-  console.log(selector, 'selectorselector')
 
   const modal = setupModal(selector, {
     contractId:contractAddress,
@@ -53,8 +52,6 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?, 
     selector,
     modal,
   };
-
-  console.log(walletSelectorComponents, 'walletSelectorComponents')
 
   return walletSelectorComponents;
 };
@@ -79,9 +76,6 @@ export const registerWalletAccountsSubscriber = (
   callback: (accounts: AccountState[]) => void,
 ): Subscription => {
   validateWalletComponentsAreSetup();
-
-
-  console.log(walletSelectorComponents, 'walletSelectorComponents')
 
   return walletSelectorComponents
     .selector
@@ -111,9 +105,6 @@ export const pollForWalletConnection = async (): Promise<AccountState[]> => {
       .selector
       .store
       .getState() || {};
-
-          console.log(accounts, 'accounts')
-
 
     // accounts present in state
     if (accounts) {
