@@ -312,21 +312,8 @@ export class MintbaseWallet {
       document.head.appendChild(styleTag);
     }
 
-    private async waitForLocalStorageValue(key: string): Promise<void> {
-      return new Promise((resolve) => {
-        const checkLocalStorage = () => {
-          if (window.localStorage.getItem(key)) {
-            resolve();
-          } else {
-            setTimeout(checkLocalStorage, 100); // Check every 100ms
-          }
-        };
-        checkLocalStorage();
-      });
-    }
 
-    private async reloadOnceAfterLocalStorageSet() {
-    // Show the loading animation and inject keyframes before clearing query parameters and reloading
+    private async _clearQueryParams() {
       this.injectKeyframeAnimations();
       this.showLoadingAnimation();
 
@@ -337,22 +324,21 @@ export class MintbaseWallet {
       // Reload
       window.history.replaceState({}, document.title, currentUrl.toString());
 
-      // Wait for the localStorage value to be set
-      await this.waitForLocalStorageValue('mintbasewallet:account-data');
+      // Listen for changes to the localStorage value
+      const storageEventListener = (event: StorageEvent) => {
+        if (event.key === 'mintbasewallet:account-data') {
+          window.removeEventListener('storage', storageEventListener);
+          this.hideLoadingAnimation();
+          if (!this.reloaded) {
+            this.reloaded = true;
+            window.location.reload();
+          }
+        }
+      };
 
-      // Hide the loading animation before reloading
-      this.hideLoadingAnimation();
-
-      if (!this.reloaded) {
-        this.reloaded = true; // Add a property to track if the reload has occurred
-        // Reload the page
-        window.location.reload();
-      }
+      // Add the storage event listener
+      window.addEventListener('storage', storageEventListener);
     }
 
   private reloaded = false;
-
-  private _clearQueryParams() {
-    this.reloadOnceAfterLocalStorageSet();
-  }
 }
