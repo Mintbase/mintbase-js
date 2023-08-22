@@ -237,7 +237,7 @@ export class MintbaseWallet {
     private createLoadingElement(): void {
     // Create the loading element
       this.loadingElement = document.createElement('div');
-      this.loadingElement.className = 'centered';
+      this.loadingElement.className = 'centeredLoading';
 
       const ellipsisContainer = document.createElement('div');
       ellipsisContainer.className = 'lds-ellipsis';
@@ -258,21 +258,26 @@ export class MintbaseWallet {
       document.body.appendChild(this.loadingElement);
     }
 
-    private hideLoadingAnimation(): void {
-      if (this.loadingElement && this.loadingElement.parentNode) {
-        this.loadingElement.parentNode.removeChild(this.loadingElement);
-      }
-    }
-
+   private hideLoadingAnimation(): void {
+  const centeredDiv = document.querySelector('.centeredLoading'); // Find the div with the class "centered"
+  if (centeredDiv && centeredDiv.parentNode) {
+    centeredDiv.parentNode.removeChild(centeredDiv); // Remove the parent div
+  }
+}
 
     private injectKeyframeAnimations(): void {
       const styleTag = document.createElement('style');
       styleTag.innerHTML = `
-      .centered {
+      .centeredLoading {
         display: flex;
         justify-content: center;
         align-items: center;
         height: 100vh;
+        position:fixed
+        top:0px
+        left:0px
+        width:100vw
+        background:#fff
       }
 
       .lds-ellipsis {
@@ -280,6 +285,37 @@ export class MintbaseWallet {
         position: relative;
         width: 80px;
         height: 80px;
+      }
+
+
+      .lds-ellipsis div {
+        position: absolute;
+        top: 33px;
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        background: #ff2424;
+        animation-timing-function: cubic-bezier(0, 1, 1, 0);
+      }
+
+      .lds-ellipsis div:nth-child(1) {
+        left: 8px;
+        animation: lds-ellipsis1 0.6s infinite;
+      }
+
+      .lds-ellipsis div:nth-child(2) {
+        left: 8px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+
+      .lds-ellipsis div:nth-child(3) {
+        left: 32px;
+        animation: lds-ellipsis2 0.6s infinite;
+      }
+
+      .lds-ellipsis div:nth-child(4) {
+        left: 56px;
+        animation: lds-ellipsis3 0.6s infinite;
       }
 
          @keyframes lds-ellipsis1 {
@@ -317,11 +353,19 @@ export class MintbaseWallet {
       this.injectKeyframeAnimations();
       this.showLoadingAnimation();
 
+      function forceRefresh() {
+        // Append a timestamp or random value as a query parameter to the URL
+        const currentUrl = new URL(window.location.href);
+        currentUrl.searchParams.set('refresh', String(Math.random())); // Convert the random number to a string
+
+        // Navigate to the modified URL, triggering a forced refresh
+        window.location.href = currentUrl.toString();
+      }
+
       const currentUrl = new URL(window.location.href);
       currentUrl.searchParams.delete('account_id');
       currentUrl.searchParams.delete('public_key');
 
-      // Reload
       window.history.replaceState({}, document.title, currentUrl.toString());
 
       // Listen for changes to the localStorage value
@@ -331,7 +375,7 @@ export class MintbaseWallet {
           this.hideLoadingAnimation();
           if (!this.reloaded) {
             this.reloaded = true;
-            window.location.reload();
+            forceRefresh();          
           }
         }
       };
