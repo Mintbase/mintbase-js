@@ -273,11 +273,11 @@ export class MintbaseWallet {
         justify-content: center;
         align-items: center;
         height: 100vh;
-        position:fixed
-        top:0px
-        left:0px
-        width:100vw
-        background:#fff
+        position:fixed;
+        top:0px;
+        left:0px;
+        width:100vw;
+        background:#fff;
       }
 
       .lds-ellipsis {
@@ -353,6 +353,8 @@ export class MintbaseWallet {
       this.injectKeyframeAnimations();
       this.showLoadingAnimation();
 
+
+
       function forceRefresh() {
         // Append a timestamp or random value as a query parameter to the URL
         const currentUrl = new URL(window.location.href);
@@ -362,26 +364,18 @@ export class MintbaseWallet {
         window.location.href = currentUrl.toString();
       }
 
-      const currentUrl = new URL(window.location.href);
-      currentUrl.searchParams.delete('account_id');
-      currentUrl.searchParams.delete('public_key');
+      // Check if account data is already set in localStorage
+      const accountData = window.localStorage.getItem('mintbasewallet:account-data');
+      if (accountData && !this.reloaded) {
+        this.reloaded = true; // Set the flag
 
-      window.history.replaceState({}, document.title, currentUrl.toString());
+                    this.hideLoadingAnimation();
 
-      // Listen for changes to the localStorage value
-      const storageEventListener = (event: StorageEvent) => {
-        if (event.key === 'mintbasewallet:account-data') {
-          window.removeEventListener('storage', storageEventListener);
-          this.hideLoadingAnimation();
-          if (!this.reloaded) {
-            this.reloaded = true;
-            forceRefresh();          
-          }
-        }
-      };
 
-      // Add the storage event listener
-      window.addEventListener('storage', storageEventListener);
+        forceRefresh(); // Trigger a single forced refresh
+      }
+
+      
     }
 
   private reloaded = false;
