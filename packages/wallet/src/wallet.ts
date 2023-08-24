@@ -54,7 +54,7 @@ export class MintbaseWallet {
   async signIn() {
     const currentUrl = new URL(window.location.href);
     const newUrl = new URL(`${this.walletUrl}/connect`);
-    newUrl.searchParams.set('success_url', currentUrl.href);
+    newUrl.searchParams.set('success_url', `${currentUrl.href}&success=true`);
     newUrl.searchParams.set('failure_url', currentUrl.href);
 
     window.location.assign(newUrl.toString());
