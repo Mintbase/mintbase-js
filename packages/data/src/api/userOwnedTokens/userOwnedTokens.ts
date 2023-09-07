@@ -12,6 +12,7 @@ export const getUserOwnedTokens = async (
   orderBy: ORDER_BY_VALUE,
   listedFilter: boolean,
 ): Promise<ParsedDataReturn<any>> => {
+  
   let data;
   let error: string;
 
