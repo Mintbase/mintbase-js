@@ -8,9 +8,7 @@
     "build": "tsc",
     "codegen": "graphql-codegen --config ./src/graphql/codegen/config.ts",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
-    "lint": "eslint . --fix --ext ts",
-    "test": "jest --coverage"
-  },
+    "lint": "eslint . --fix --ext ts"  },
   "files": [
     "lib"
   ],
