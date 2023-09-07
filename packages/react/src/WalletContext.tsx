@@ -21,6 +21,7 @@ import type {
   AccountState,
   VerifiedOwner,
   VerifyOwnerParams,
+  WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import type { Network } from '@mintbase-js/sdk';
@@ -50,8 +51,8 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string }> = ({
-  children, network, contractAddress,
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
+  children, network, contractAddress, additionalWallets,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
@@ -70,6 +71,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     const components = await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,
+      {
+        additionalWallets,
+      },
     );
 
     setIsWalletSelectorSetup(true);
@@ -84,6 +88,9 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
     const components = await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,
+      {
+        additionalWallets,
+      },
     );
     return components;
   };
