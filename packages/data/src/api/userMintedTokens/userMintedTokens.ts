@@ -4,7 +4,7 @@ import { ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../..
 import { parseData } from '../../utils';
 
 
-export const getUserOwnedTokens = async (
+export const getUserMintedTokens = async (
   accountId: string,
   filters: UserTokensFilter,
 ): Promise<ParsedDataReturn<UserTokensQueryResult>> => {
@@ -19,7 +19,7 @@ export const getUserOwnedTokens = async (
     : META_SERVICE_HOST;
 
   try {
-    const res = await fetch(`${useHost}/human/${accountId}/owned?offset=${offset}&limit=${limit}&orderBy=${orderBy}&listedFilter=${listedFilter}`, {
+    const res = await fetch(`${useHost}/human/${accountId}/minted?offset=${offset}&limit=${limit}&orderBy=${orderBy}&listedFilter=${listedFilter}`, {
       method: 'GET',
       headers: { 'Content-type': 'application/json',
         [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,

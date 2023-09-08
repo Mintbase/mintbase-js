@@ -1,11 +1,10 @@
 import { META_SERVICE_HOST_TESTNET } from '../../constants';
 import { ORDER_BY_VALUE, ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
-
 import fetchMock from 'fetch-mock';
 import { mbjs } from '@mintbase-js/sdk';
-import { getUserOwnedTokens } from './userOwnedTokens';
+import { getUserOwnedTokens } from '../userOwnedTokens/userOwnedTokens';
 
-describe('userOwnedTokens', () => {
+describe('userMintedTokens', () => {
   beforeAll(() => {
     mbjs.config({ network: 'testnet' });
   });

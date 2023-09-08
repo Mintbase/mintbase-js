@@ -72,7 +72,7 @@ const myFetchMethod = ({showOnlyListed, pagination, network}) => {
 | [metadataByMetadataId](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/metadataByMetadataId/README.md) | `metadataId: string` |get metadata by metadataId|
 | [tokenByAttributes](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/tokenByAttributes/README.md) | `contractId: string, filters: AttributesFilters` |get tokens of a certain contract and filters|
 | [attributesByContract](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/attributesByContract/README.md) | `contractId: string` |get attributes of a certain contract|
-| [attributeRarity](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/attributeRarity/README.md) | `contractId: string,   attributeType: string, attributeValue: string` |get attribute rarity of a certain contract, attribute type and attribute value| [userOwnedTokens](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/userOwnedTokens/README.md)
+| [attributeRarity](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/attributeRarity/README.md) | `contractId: string,   attributeType: string, attributeValue: string` |get attribute rarity of a certain contract, attribute type and attribute value| [userOwnedTokens](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/userOwnedTokens/README.md)| [userMintedTokens](https://github.com/Mintbase/mintbase-js/tree/beta/packages/data/src/api/userMintedTokens/README.md)
 
 While we will continue to provide public and our new mb_views schema objects, we will also begin to introduce helper methods here that can be used to query data **without having to write any graphql**.
 
