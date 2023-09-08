@@ -51,6 +51,19 @@ export type UserTokensQueryResult = {
   total: number;
 }
 
+export interface ReferenceBlob {
+  tags?: Array<string>;
+  type?: string;
+  extra?: Array<{ trait_type?: string; value?: any; display_type?: string }>;
+  media?: string;
+  store?: string;
+  title?: string;
+  category?: string;
+  media_hash?: string;
+  description?: string;
+  animation_url?: string;
+}
+
 export interface UserTokensResult {
   nft_contract_id: string;
   token_id: string;
@@ -61,7 +74,7 @@ export interface UserTokensResult {
   title: string;
   media: string;
   reference: string;
-  reference_blob: null;
+  reference_blob: ReferenceBlob;
   minted_timestamp: string;
   last_transfer_timestamp: string;
   price: string;
