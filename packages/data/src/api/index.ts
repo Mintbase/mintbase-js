@@ -17,3 +17,5 @@ export * from './checkStoreName/checkStoreName';
 export * from './attributesByContract/attributesByContract';
 export * from './queries';
 export * from './userOwnedTokens/userOwnedTokens';
+export * from './userMintedTokens/userMintedTokens';
+
