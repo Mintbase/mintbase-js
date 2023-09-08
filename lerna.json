@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
-  "version": "0.8.6-rc-minted-owned-api",
+  "version": "0.8.7-rc-minted-owned-api",
   "packages": [
     "packages/*"
   ]
