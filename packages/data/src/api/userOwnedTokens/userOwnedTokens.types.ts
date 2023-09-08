@@ -5,7 +5,19 @@ export enum ORDER_BY_VALUE {
     OLDEST = 'oldest',
 }
 
-export interface UserTokensQueryResult {
+export interface UserTokensFilter {
+    limit: number;
+    offset: number;
+    listedFilter: boolean;
+    orderBy: string;
+}
+
+export type UserTokensQueryResult = {
+    results: UserTokensResult[];
+    total: number;
+ }
+
+export interface UserTokensResult {
     nft_contract_id: string;
     token_id: string;
     minter: string;

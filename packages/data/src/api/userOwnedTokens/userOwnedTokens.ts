@@ -2,19 +2,19 @@ import { mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
-import { ORDER_BY_VALUE, UserTokensQueryResult } from './userOwnedTokens.types';
+import { ORDER_BY_VALUE, UserTokensQueryResult, UserTokensFilter } from './userOwnedTokens.types';
 
+export { UserTokensQueryResult, ORDER_BY_VALUE, UserTokensFilter };
 
 export const getUserOwnedTokens = async (
   accountId: string,
-  limit: number,
-  offset: number,
-  orderBy: ORDER_BY_VALUE,
-  listedFilter: boolean,
+  filters: UserTokensFilter,
 ): Promise<ParsedDataReturn<UserTokensQueryResult>> => {
   
   let data;
   let error: string;
+
+  const { limit, offset, orderBy, listedFilter } = filters;
 
   const useHost = mbjs.keys.network === 'testnet'
     ? META_SERVICE_HOST_TESTNET
