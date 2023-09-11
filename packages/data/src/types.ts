@@ -32,18 +32,16 @@ export type Attribute = {
   attribute_type?: string | null;
 }
 
-export enum ORDER_BY_VALUE {
-  PRICE_DESC = 'price desc nulls last',
-  PRICE_ASC = 'price asc',
-  LATEST = 'latest',
-  OLDEST = 'oldest',
+export enum OWNED_MINTED_ORDER_BY {
+  OWNED = 'greatest(minted_timestamp%2Clast_transfer_timestamp)',
+  MINTED = 'minted_timestamp'
 }
 
 export interface UserTokensFilter {
   limit: number;
   offset: number;
   listedFilter: boolean;
-  orderBy: string;
+  orderBy: OWNED_MINTED_ORDER_BY;
 }
 
 export type UserTokensQueryResult = {

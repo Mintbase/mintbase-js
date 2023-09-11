@@ -1,5 +1,5 @@
 import { META_SERVICE_HOST_TESTNET } from '../../constants';
-import { ORDER_BY_VALUE, ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
+import { OWNED_MINTED_ORDER_BY, ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
 
 import fetchMock from 'fetch-mock';
 import { mbjs } from '@mintbase-js/sdk';
@@ -19,7 +19,7 @@ describe('userOwnedTokens', () => {
   it('owned user tokens', async () => {
     fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, { body: { results: [{ token_id: '123' }] } });
     const filters: UserTokensFilter = {
-      orderBy: ORDER_BY_VALUE.PRICE_ASC,
+      orderBy: OWNED_MINTED_ORDER_BY.MINTED,
       limit: 10,
       offset: 0,
       listedFilter: true,
@@ -31,7 +31,7 @@ describe('userOwnedTokens', () => {
   it('returns errors', async () => {
     fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, 504, { overwriteRoutes: true });
     const filters = {
-      orderBy: 'xpto',
+      orderBy: OWNED_MINTED_ORDER_BY.MINTED,
       limit: 10,
       offset: 0,
       listedFilter: true,
