@@ -33,8 +33,10 @@ export type Attribute = {
 }
 
 export enum OWNED_MINTED_ORDER_BY {
-  OWNED = 'greatest(minted_timestamp%2Clast_transfer_timestamp)',
-  MINTED = 'minted_timestamp'
+  OWNED = 'greatest(minted_timestamp, last_transfer_timestamp) desc nulls last',
+  MINTED = 'minted_timestamp desc nulls last',
+  PRICE_DESC = 'price desc nulls last',
+  PRICE_ASC = 'price asc',
 }
 
 export interface UserTokensFilter {
