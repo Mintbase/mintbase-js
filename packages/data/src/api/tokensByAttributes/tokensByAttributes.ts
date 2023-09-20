@@ -22,7 +22,7 @@ export const tokensByAttributes = async (
   const filtersBase64 = Buffer.from(filtersString).toString('base64');
   
   try {
-    const res = await fetch(`${useHost}/stores/${contractId}/filter/${filtersBase64}`, {
+    const res = await fetch(`${useHost}/stores/${contractId}/filter?args=${filtersBase64}`, {
       method: 'GET',
       headers: { 'Content-type': 'application/json',
         [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
