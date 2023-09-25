@@ -7,7 +7,7 @@ export const ONE_YOCTO = '1';
 export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
 // TODO: This should be reduced to 3.5 NEAR once the new factory/stores
 // are deployed to mainnet.
-export const CONTRACT_DEPOSIT = `6500000${'0'.repeat(18)}`; // 6.5 NEAR
+export const CONTRACT_DEPOSIT = `3500000${'0'.repeat(18)}`; // 6.5 NEAR
 export const LISTING_DEPOSIT = `1000${'0'.repeat(18)}`; // 1 milliNEAR
 
 export const GAS_CONSTANTS = {
