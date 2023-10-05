@@ -21,6 +21,7 @@
   "dependencies": {
     "@mintbase-js/sdk": "^0.4.1-beta.4",
     "@near-wallet-selector/core": "^8.5.3",
+    "@near-wallet-selector/default-wallets": "^8.0.3",
     "@near-wallet-selector/here-wallet": "^8.5.3",
     "@near-wallet-selector/ledger": "^8.5.3",
     "@near-wallet-selector/meteor-wallet": "^8.5.3",
