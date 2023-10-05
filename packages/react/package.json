@@ -26,8 +26,8 @@
     "@mintbase-js/auth": "^0.4.1-beta.4",
     "@mintbase-js/data": "^0.4.1-beta.4",
     "@mintbase-js/sdk": "^0.4.1-beta.4",
-    "@near-wallet-selector/core": "^8.0.3",
-    "@near-wallet-selector/modal-ui": "^8.0.3",
+    "@near-wallet-selector/core": "^8.5.3",
+    "@near-wallet-selector/modal-ui": "^8.5.3",
     "near-api-js": "^2.1.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
