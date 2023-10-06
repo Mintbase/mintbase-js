@@ -122,44 +122,44 @@ export class MintbaseWallet {
   }
 
 
-  async transformTransactions(
-    transactions: Array<Optional<Transaction, 'signerId'>>,
-  ) {
-    const account = (await this.getAccounts())[0];
-    const { networkId, signer, provider } = account.connection;
+  // async transformTransactions(
+  //   transactions: Array<Optional<Transaction, 'signerId'>>,
+  // ) {
+  //   const account = (await this.getAccounts())[0];
+  //   const { networkId, signer, provider } = account.connection;
 
-    const localKey = await signer.getPublicKey(account.accountId, networkId);
+  //   const localKey = await signer.getPublicKey(account.accountId, networkId);
 
-    return Promise.all(
-      transactions.map(async (transaction, index) => {
-        const actions = transaction.actions.map((action) =>
-          createAction(action),
-        );
-        const accessKey = await account.accessKeyForTransaction(
-          transaction.receiverId,
-          actions,
-          localKey,
-        );
+  //   return Promise.all(
+  //     transactions.map(async (transaction, index) => {
+  //       const actions = transaction.actions.map((action) =>
+  //         createAction(action),
+  //       );
+  //       const accessKey = await account.accessKeyForTransaction(
+  //         transaction.receiverId,
+  //         actions,
+  //         localKey,
+  //       );
 
-        if (!accessKey) {
-          throw new Error(
-            `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
-          );
-        }
+  //       if (!accessKey) {
+  //         throw new Error(
+  //           `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
+  //         );
+  //       }
 
-        const block = await provider.block({ finality: 'final' });
+  //       const block = await provider.block({ finality: 'final' });
 
-        return nearAPI.transactions.createTransaction(
-          account.accountId,
-          nearAPI.utils.PublicKey.from(accessKey.public_key),
-          transaction.receiverId,
-          accessKey.access_key.nonce + index + 1,
-          actions,
-          nearAPI.utils.serialize.base_decode(block.header.hash),
-        );
-      }),
-    );
-  }
+  //       return nearAPI.transactions.createTransaction(
+  //         account.accountId,
+  //         nearAPI.utils.PublicKey.from(accessKey.public_key),
+  //         transaction.receiverId,
+  //         accessKey.access_key.nonce + index + 1,
+  //         actions,
+  //         nearAPI.utils.serialize.base_decode(block.header.hash),
+  //       );
+  //     }),
+  //   );
+  // }
 
 
   async signAndSendTransactions({
