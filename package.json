@@ -44,7 +44,7 @@
     "@graphql-codegen/cli": "^2.13.7",
     "@graphql-codegen/client-preset": "1.1.1",
     "@graphql-codegen/introspection": "2.2.1",
-    "@mintbase-js/auth": "file:packages/auth",
+    "@mintbase-js/auth": "^0.4.1-beta.1",
     "@mintbase-js/data": "file:packages/data",
     "@mintbase-js/react": "file:packages/react",
     "@mintbase-js/rpc": "file:packages/rpc",
