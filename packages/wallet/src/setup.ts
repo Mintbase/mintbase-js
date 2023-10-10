@@ -21,7 +21,7 @@ function invokeEscKey() {
 }
 
 
-export function setupMintbaseWallet(
+export function setupMbWallet(
   params: MintbaseWalletParams = {}): WalletModuleFactory<BrowserWallet> {
 
   const {
