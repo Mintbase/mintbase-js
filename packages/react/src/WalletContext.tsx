@@ -68,6 +68,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
   const setup = useCallback(async () => {
+
+    console.log('setup')
     const components = await setupWalletSelectorComponents(
       selectedNetwork,
       selectedContract,

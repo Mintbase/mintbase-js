@@ -103,7 +103,10 @@ export class MintbaseWallet {
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('success_url', successUrl || currentUrl.toString());
     newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString());
-    window.location.assign(newUrl.toString());
+
+    console.log(newUrl, 'newUrl')
+
+    // window.location.assign(newUrl.toString());
 
     // const account = (await this.getAccounts())[0];
 
@@ -168,14 +171,14 @@ export class MintbaseWallet {
     transactions: Transaction[];
   }) {
 
-    // throw new Error('Mintbase Wallet does not support signing and sending multiple transactions.');
+    console.log(transactions, 'transactions')
 
+    // throw new Error('Mintbase Wallet does not support signing and sending multiple transactions.');
     for (const { signerId } of transactions) {
       this.assertValidSigner(signerId);
     }
 
     for (const { actions, receiverId, signerId } of transactions) {
-      
       await this.signAndSendTransaction({ receiverId, signerId, actions });
     }
   }
@@ -304,8 +307,8 @@ export class MintbaseWallet {
     if (accountData && !this.reloaded && !hadRefreshed) {
       this.reloaded = true; // Set the flag
  
-      forceRefresh(); // Trigger a single forced refresh
-  
+      // forceRefresh(); // Trigger a single forced refresh
+      console.log('here login  2')
 
       currentUrl.searchParams.delete('account_id');
       currentUrl.searchParams.delete('public_key');

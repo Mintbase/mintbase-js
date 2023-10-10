@@ -19,7 +19,8 @@
   "dependencies": {
     "@types/node": "^16.0.0",
     "bn.js": "^5.2.1",
-    "isomorphic-unfetch": "^3.1.0"
+    "isomorphic-unfetch": "^3.1.0",
+    "near-api-js": "^2.1.4"
   },
   "devDependencies": {
     "@mintbase-js/sdk": "^0.4.1-beta.1",

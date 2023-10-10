@@ -1,6 +1,5 @@
 import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
-import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 
 import {
@@ -10,9 +9,10 @@ import {
 
 import type { WalletSelector, AccountState, WalletModuleFactory } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
-import { mbjs } from '@mintbase-js/sdk';
+import { mbjs, MINTBASE_CONTRACTS } from '@mintbase-js/sdk';
+import { setupMBWallet } from '@mintbase-js/wallet';
+
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -35,11 +35,18 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 */
 export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory> }): Promise<WalletSelectorComponents> => {
   
+  console.log('modules')
+
   const selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
     modules: [
-      ...options?.additionalWallets || [],
+      setupMBWallet({
+        networkId: network,
+        relayerUrl: '/api/relay',
+        signInContractId: MINTBASE_CONTRACTS[network],
+        walletUrl: network ==='testnet' ? 'https://testnet.wallet.mintbase.xyz' : 'https://testnet.wallet.mintbase.xyz',
+      }),
     ],
   });
 

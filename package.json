@@ -77,9 +77,16 @@
     "typescript": "^4.8.4"
   },
   "workspaces": [
-    "packages/*"
+    "packages/sdk",
+    "packages/auth",
+    "packages/wallet",
+    "packages/data",
+    "packages/rpc",
+    "packages/storage",
+    "packages/react"
   ],
   "dependencies": {
+    "@near-wallet-selector/core": "^8.5.3",
     "jest-fetch-mock": "^3.0.3"
   }
 }

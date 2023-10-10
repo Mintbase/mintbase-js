@@ -1,2 +1,2 @@
 export { MintbaseWallet } from './wallet'
-export { setupAuthWallet } from './setup'
+export { setupMBWallet } from './setup'
