@@ -124,6 +124,7 @@ const signTransaction = ({ receiverId, actions, signerId, successUrl, failureUrl
 
 export const MintbaseWallet = async (params: MintbaseWalletParams) => {
   const state = await initializeMintbaseWallet(params);
+      console.log(state, 'state 1')
 
   return {
     getContractId: (): string => state.signInContractId,
@@ -134,6 +135,8 @@ export const MintbaseWallet = async (params: MintbaseWalletParams) => {
       const newUrl = new URL(`${state.walletUrl}/connect`);
       newUrl.searchParams.set('success_url', currentUrl.href);
       newUrl.searchParams.set('failure_url', currentUrl.href);
+
+      console.log(state, 'state')
 
       window.location.assign(newUrl.toString());
     },
