@@ -7,8 +7,11 @@
     "mintbase",
     "wallet"
   ],
+  "scripts": {
+    "build": "tsc"
+  },
   "author": "Mintbase",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "@near-wallet-selector/core": "^8.5.4",
     "bn.js": "^5.2.1",
