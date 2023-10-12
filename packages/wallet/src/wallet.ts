@@ -1,276 +1,218 @@
-import * as nearAPI from 'near-api-js';
-import { networks } from './networks';
+import * as nearAPI from 'near-api-js'
 
-import { Action, Transaction } from '@near-wallet-selector/core';
-import BN from 'bn.js';
+import BN from 'bn.js'
+import type {
+  Action,
+  BrowserWallet,
+  Transaction,
+  WalletBehaviourFactory,
+} from '@near-wallet-selector/core'
+import { BrowserLocalStorageKeyStore } from 'near-api-js/lib/key_stores'
 
-export class MintbaseWallet {
-  networkId: string;
-  signInContractId: string;
-  activeAccountId?: string;
-  keyStore: nearAPI.keyStores.BrowserLocalStorageKeyStore;
-  near: nearAPI.Near;
-  relayerUrl: string;
-  walletUrl: string;
-  constructor({
-    signInContractId,
-    networkId,
-    relayerUrl,
-    walletUrl,
-  }: {
-    signInContractId: string;
-    networkId: 'testnet' | 'mainnet';
-    relayerUrl: string;
-    walletUrl: string;
-  }) {
-    this.networkId = networkId;
-    this.signInContractId = signInContractId;
+export const MintbaseWallet: WalletBehaviourFactory<
+  BrowserWallet,
+  { walletUrl: string; networkId: string }
+> = async ({
+  metadata,
+  options,
+  store,
+  logger,
+  emitter,
+  walletUrl,
+  networkId,
+}) => {
+  const setupWalletState = async () => {
+    const { connect, WalletConnection } = nearAPI
 
-    this._setupWalletState();
-
-    this.keyStore = new nearAPI.keyStores.BrowserLocalStorageKeyStore();
-
-    this.near = new nearAPI.Near({
-      ...networks[networkId],
-      deps: { keyStore: this.keyStore },
-    });
-
-    this.relayerUrl = relayerUrl;
-    this.walletUrl = walletUrl;
-  }
-
-  getContractId() {
-    return this.signInContractId;
-  }
-
-  getAccountId() {
-    return this.activeAccountId;
-  }
-
-  async isSignedIn() {
-    return !!this.activeAccountId;
-  }
-
-  async signIn() {
-    const currentUrl = new URL(window.location.href);
-    const newUrl = new URL(`${this.walletUrl}/connect`);
-    newUrl.searchParams.set('success_url', currentUrl.href);
-    newUrl.searchParams.set('failure_url', currentUrl.href);
-
-    window.location.assign(newUrl.toString());
-  }
-
-  async signOut() {
-    if (this.activeAccountId === undefined || this.activeAccountId === null) {
-      throw new Error('Wallet is already signed out');
+    const connectionConfig = {
+      networkId: networkId,
+      keyStore: new BrowserLocalStorageKeyStore(),
+      nodeUrl: 'https://rpc.testnet.near.org',
+      walletUrl: walletUrl,
     }
 
-    await this.keyStore.removeKey(this.networkId, this.activeAccountId);
-    window.localStorage.removeItem('mintbasewallet:activeAccountId');
-    window.localStorage.removeItem('mintbasewallet:account-data');
+    const searchParams = new URL(window.location.href)
+
+    const acc = searchParams.searchParams.get('account_id')
+
+    if (acc && acc?.length > 0) {
+      localStorage.setItem(
+        'mintbase-wallet_wallet_auth_key',
+        JSON.stringify({
+          accountId: acc as string,
+          allKeys: [],
+        })
+      )
+    }
+
+    const nearConnection = await connect(connectionConfig)
+
+    const wallet = new WalletConnection(nearConnection, 'mintbase-wallet')
+
+    return {
+      wallet,
+    }
   }
 
-  assertValidSigner(signerId: string) {
-    if (signerId && signerId !== this.activeAccountId) {
+  const state = await setupWalletState()
+
+  let activeAccountId: string
+
+  const getAccountId = () => activeAccountId
+
+  const isSignedIn = async () => !!activeAccountId
+
+  const signIn = async () => {
+    const existingAccounts = await getAccounts()
+
+    if (existingAccounts.length) {
+      return existingAccounts
+    }
+
+    await state.wallet.requestSignIn({
+      methodNames: [],
+      successUrl: 'http://testnet.localhost:3001',
+      failureUrl: 'http://testnet.localhost:3001',
+    })
+
+    return getAccounts()
+  }
+
+  const signOut = async () => {
+    // if (activeAccountId === undefined || activeAccountId === null) {
+    //   throw new Error("Wallet is already signed out");
+    // }
+
+    window.localStorage.removeItem('mintbase-wallet:account-data')
+
+    if (state.wallet.isSignedIn()) {
+      state.wallet.signOut()
+    }
+  }
+
+  const assertValidSigner = (signerId: string) => {
+    if (signerId && signerId !== state.wallet.getAccountId()) {
       throw new Error(
-        `Cannot sign transactions for ${signerId} while signed in as ${this.activeAccountId}`,
-      );
+        `Cannot sign transactions for ${signerId} while signed in as ${activeAccountId}`
+      )
     }
   }
 
-  async signAndSendTransaction({
+  const signAndSendTransactions = async ({
+    transactions,
+    callbackUrl,
+  }: {
+    transactions: Array<Transaction>
+    callbackUrl: string
+  }): Promise<void> => {
+    // throw new Error(
+    //   "Mintbase Wallet does not support signing and sending multiple transactions."
+    // );
+
+
+    for (const { signerId } of transactions) {
+      assertValidSigner(signerId)
+    }
+    const stringifiedParam = JSON.stringify(transactions)
+
+    const urlParam = encodeURIComponent(stringifiedParam)
+    //const currentUrl = new URL(window.location.href);
+    const newUrl = new URL(`${walletUrl}/sign-transaction`)
+    newUrl.searchParams.set('transactions_data', urlParam)
+    newUrl.searchParams.set('callback_url', callbackUrl)
+
+
+
+     window.location.assign(newUrl.toString())
+    return
+  }
+
+  const signAndSendTransaction = ({
     receiverId,
     actions,
     signerId,
     successUrl,
     failureUrl,
+    callbackUrl
   }: {
-    receiverId: string;
-    actions: Action[];
-    signerId: string;
-    successUrl?: string;
-    failureUrl?: string;
-  }) {
-    this.assertValidSigner(signerId);
+    receiverId: string
+    actions: Array<Action>
+    signerId: string
+    successUrl: string
+    failureUrl: string
+    callbackUrl: string
+  }): Promise<void> => {
+    assertValidSigner(signerId)
 
-    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
+    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }])
 
-    const urlParam = encodeURIComponent(stringifiedParam);
+    const urlParam = encodeURIComponent(stringifiedParam)
 
-    const currentUrl = new URL(window.location.href);
+    const currentUrl = new URL(window.location.href)
 
-    const newUrl = new URL(`${this.walletUrl}/sign-transaction`);
-    newUrl.searchParams.set('transactions_data', urlParam);
-    newUrl.searchParams.set('success_url', successUrl || currentUrl.toString());
-    newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString());
-    window.location.assign(newUrl.toString());
+    const newUrl = new URL(`${walletUrl}/sign-transaction`)
+    newUrl.searchParams.set('transactions_data', urlParam)
+    newUrl.searchParams.set('success_url', successUrl || currentUrl.toString())
+    newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString())
+    newUrl.searchParams.set('callback_url', callbackUrl || currentUrl.toString())
 
-    // const account = (await this.getAccounts())[0];
-
-    // const signedDelegate = await account.signedDelegate({
-    //   actions: actions.map((action) => createAction(action)),
-    //   blockHeightTtl: 60,
-    //   receiverId,
-    // });
-
-    // await fetch(this.relayerUrl, {
-    //   method: "POST",
-    //   mode: "cors",
-    //   body: JSON.stringify(Array.from(encodeSignedDelegate(signedDelegate))),
-    //   headers: new Headers({ "Content-Type": "application/json" }),
-    // });
+    window.location.assign(newUrl.toString())
+    return
   }
 
-  async signAndSendTransactions({
-    transactions,
-  }: {
-    transactions: Transaction[];
-  }) {
-
-    throw new Error('Mintbase Wallet does not support signing and sending multiple transactions.');
-
-    // TODO: support multiple transactions in the future
-    // for (let { signerId } of transactions) {
-    //   this.assertValidSigner(signerId);
-    // }
-
-    // for (let { actions, receiverId, signerId } of transactions) {
-    //   await this.signAndSendTransaction({ receiverId, signerId, actions });
-    // }
-  }
-
-  showModal = () => {
+  const showModal = () => {
     // unused
-  };
-
-  async verifyOwner() {
-    throw Error('mintbasewallet:verifyOwner is unsupported!');
   }
 
-  async getAvailableBalance() {
-    return new BN(0);
+  const verifyOwner = async () => {
+    throw Error('mintbasewallet:verifyOwner is unsupported!')
   }
 
-  async getAccounts() {
-    if (this.activeAccountId !== undefined && this.activeAccountId !== null) {
-      const accountObj = new nearAPI.Account(
-        this.near.connection,
-        this.activeAccountId,
-      );
-      return [accountObj];
+  const getAvailableBalance = async () => {
+    return new BN(0)
+  }
+
+  const getAccounts = async () => {
+    const accountId = state.wallet.getAccountId()
+    const account = state.wallet.account()
+
+    if (!accountId || !account) {
+      return []
     }
 
-    return [];
+    const currentAccount: string = window.localStorage.getItem(
+      'mintbase-wallet:account-creation-data'
+    )!
+
+    return [
+      {
+        accountId,
+        publicKey: JSON.parse(currentAccount)?.devicePublicKey,
+      },
+    ]
   }
 
-  async switchAccount(id: string) {
-    this._setActiveAccountId(id);
+  const switchAccount = async (id: string) => {
+    //TODO fix
+    setActiveAccountId(id)
   }
 
-  private _setupWalletState() {
-    const urlParams = this._getQueryParams();
-
-    if (Object.keys(urlParams).length === 0) {
-      const accountId = window.localStorage.getItem('mintbasewallet:activeAccountId');
-
-      if (accountId) {
-        this._initializeWalletState({ accountId });
-
-        return [{ accountId: accountId, active:true }];
-      }
-   
-    }
-
-    if (urlParams?.accountId) {
-      this._initializeWalletState({ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey || '' });
-      return [{ accountId: urlParams?.accountId, publicKey: urlParams?.publicKey }];
-
-    }
+  const setActiveAccountId = (accountId: string) => {
+    activeAccountId = accountId
+    window.localStorage.setItem('mintbase-wallet:activeAccountId', accountId)
   }
 
-  private _initializeWalletState({ accountId, publicKey }: { accountId: string; publicKey?: string }) {
-    this._setActiveAccountId(accountId);
-
-    window.localStorage.setItem('near-wallet-selector:selectedWalletId', JSON.stringify('mintbasewallet'));
-
-    if (publicKey) {
-      const usernameSet = new CustomEvent('mbWalletLogin', { detail: [{ publickKey: publicKey, accountId: accountId, active: true }] });
-
-      window.dispatchEvent(usernameSet);
-
-
-      window.localStorage.setItem('mintbasewallet:account-data', JSON.stringify({ accountId, publicKey }));
-    }
-
-    this._clearQueryParams();
-
-
-    return [{ publickKey: publicKey, accountId: accountId, active: true }];
-
+  return {
+    getAccountId,
+    isSignedIn,
+    signIn,
+    signOut,
+    signAndSendTransaction,
+    showModal,
+    verifyOwner,
+    getAvailableBalance,
+    getAccounts,
+    switchAccount,
+    signAndSendTransactions,
   }
-
-  private _setActiveAccountId(accountId: string) {
-    this.activeAccountId = accountId;
-    window.localStorage.setItem('mintbasewallet:activeAccountId', accountId);
-  }
-
-  private _getQueryParams(): Record<string, string> {
-    const currentUrl = new URL(window.location.href);
-    const accountId = currentUrl.searchParams.get('account_id') || '';
-    const publicKey = currentUrl.searchParams.get('public_key') || '';
-
-    if (!accountId || !publicKey) {
-      return {};
-    }
-
-    return {
-      accountId,
-      publicKey,
-    };
-  }
-
-
-  private reloaded = false;
-
-  private async _clearQueryParams() {
-
-    const currentUrl = new URL(window.location.href);
-
-
-    function generateRandomHash() {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      const length = 32; // Adjust the length of the hash as needed
-      let hash = '';
-
-      for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        hash += characters.charAt(randomIndex);
-      }
-
-      return hash;
-    }
-
-    function forceRefresh() {
-      // Append a timestamp or random value as a query parameter to the URL
-      currentUrl.searchParams.set('session', generateRandomHash());
-
-      // Navigate to the modified URL, triggering a forced refresh
-      window.location.href = currentUrl.toString();
-    }
-    const hadRefreshed =  currentUrl.searchParams.get('session') &&  currentUrl.searchParams.get('session').length > 0;
-    // Check if account data is already set in localStorage
-    const accountData = window.localStorage.getItem('mintbasewallet:account-data') && window.localStorage.getItem('mintbasewallet:account-data').length > 0;
-    if (accountData && !this.reloaded && !hadRefreshed) {
-      this.reloaded = true; // Set the flag
- 
-      forceRefresh(); // Trigger a single forced refresh
-  
-
-      currentUrl.searchParams.delete('account_id');
-      currentUrl.searchParams.delete('public_key');
-      currentUrl.searchParams.delete('session');
-    }
-
-  }
-
 }
