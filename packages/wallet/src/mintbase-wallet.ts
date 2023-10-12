@@ -1,13 +1,13 @@
-import * as nearAPI from 'near-api-js'
+import * as nearAPI from 'near-api-js';
 
-import BN from 'bn.js'
+import BN from 'bn.js';
 import type {
   Action,
   BrowserWallet,
   Transaction,
   WalletBehaviourFactory,
-} from '@near-wallet-selector/core'
-import { BrowserLocalStorageKeyStore } from 'near-api-js/lib/key_stores'
+} from '@near-wallet-selector/core';
+import { BrowserLocalStorageKeyStore } from 'near-api-js/lib/key_stores';
 
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
@@ -22,18 +22,19 @@ export const MintbaseWallet: WalletBehaviourFactory<
   networkId,
 }) => {
   const setupWalletState = async () => {
-    const { connect, WalletConnection } = nearAPI
+    const { connect, WalletConnection } = nearAPI;
 
     const connectionConfig = {
       networkId: networkId,
       keyStore: new BrowserLocalStorageKeyStore(),
       nodeUrl: 'https://rpc.testnet.near.org',
       walletUrl: walletUrl,
-    }
+      headers: {}
+    };
 
-    const searchParams = new URL(window.location.href)
+    const searchParams = new URL(window.location.href);
 
-    const acc = searchParams.searchParams.get('account_id')
+    const acc = searchParams.searchParams.get('account_id');
 
     if (acc && acc?.length > 0) {
       localStorage.setItem(
@@ -41,69 +42,69 @@ export const MintbaseWallet: WalletBehaviourFactory<
         JSON.stringify({
           accountId: acc as string,
           allKeys: [],
-        })
-      )
+        }),
+      );
     }
 
-    const nearConnection = await connect(connectionConfig)
+    const nearConnection = await connect(connectionConfig);
 
-    const wallet = new WalletConnection(nearConnection, 'mintbase-wallet')
+    const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
 
     return {
       wallet,
-    }
-  }
+    };
+  };
 
-  const state = await setupWalletState()
+  const state = await setupWalletState();
 
-  let activeAccountId: string
+  let activeAccountId: string;
 
-  const getAccountId = () => activeAccountId
+  const getAccountId = () => activeAccountId;
 
-  const isSignedIn = async () => !!activeAccountId
+  const isSignedIn = async () => !!activeAccountId;
 
   const signIn = async () => {
-    const existingAccounts = await getAccounts()
+    const existingAccounts = await getAccounts();
 
     if (existingAccounts.length) {
-      return existingAccounts
+      return existingAccounts;
     }
 
     await state.wallet.requestSignIn({
       methodNames: [],
       successUrl: 'http://testnet.localhost:3001',
       failureUrl: 'http://testnet.localhost:3001',
-    })
+    });
 
-    return getAccounts()
-  }
+    return getAccounts();
+  };
 
   const signOut = async () => {
     // if (activeAccountId === undefined || activeAccountId === null) {
     //   throw new Error("Wallet is already signed out");
     // }
 
-    window.localStorage.removeItem('mintbase-wallet:account-data')
+    window.localStorage.removeItem('mintbase-wallet:account-data');
 
     if (state.wallet.isSignedIn()) {
-      state.wallet.signOut()
+      state.wallet.signOut();
     }
-  }
+  };
 
   const assertValidSigner = (signerId: string) => {
     if (signerId && signerId !== state.wallet.getAccountId()) {
       throw new Error(
-        `Cannot sign transactions for ${signerId} while signed in as ${activeAccountId}`
-      )
+        `Cannot sign transactions for ${signerId} while signed in as ${activeAccountId}`,
+      );
     }
-  }
+  };
 
   const signAndSendTransactions = async ({
     transactions,
     callbackUrl,
   }: {
-    transactions: Array<Transaction>
-    callbackUrl: string
+    transactions: Array<Transaction>;
+    callbackUrl: string;
   }): Promise<void> => {
     // throw new Error(
     //   "Mintbase Wallet does not support signing and sending multiple transactions."
@@ -111,21 +112,20 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
 
     for (const { signerId } of transactions) {
-      assertValidSigner(signerId)
+      assertValidSigner(signerId);
     }
-    const stringifiedParam = JSON.stringify(transactions)
+    const stringifiedParam = JSON.stringify(transactions);
 
-    const urlParam = encodeURIComponent(stringifiedParam)
+    const urlParam = encodeURIComponent(stringifiedParam);
     //const currentUrl = new URL(window.location.href);
-    const newUrl = new URL(`${walletUrl}/sign-transaction`)
-    newUrl.searchParams.set('transactions_data', urlParam)
-    newUrl.searchParams.set('callback_url', callbackUrl)
+    const newUrl = new URL(`${walletUrl}/sign-transaction`);
+    newUrl.searchParams.set('transactions_data', urlParam);
+    newUrl.searchParams.set('callback_url', callbackUrl);
 
 
-
-     window.location.assign(newUrl.toString())
-    return
-  }
+    window.location.assign(newUrl.toString());
+    return;
+  };
 
   const signAndSendTransaction = ({
     receiverId,
@@ -133,74 +133,74 @@ export const MintbaseWallet: WalletBehaviourFactory<
     signerId,
     successUrl,
     failureUrl,
-    callbackUrl
+    callbackUrl,
   }: {
-    receiverId: string
-    actions: Array<Action>
-    signerId: string
-    successUrl: string
-    failureUrl: string
-    callbackUrl: string
+    receiverId: string;
+    actions: Array<Action>;
+    signerId: string;
+    successUrl: string;
+    failureUrl: string;
+    callbackUrl: string;
   }): Promise<void> => {
-    assertValidSigner(signerId)
+    assertValidSigner(signerId);
 
-    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }])
+    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
 
-    const urlParam = encodeURIComponent(stringifiedParam)
+    const urlParam = encodeURIComponent(stringifiedParam);
 
-    const currentUrl = new URL(window.location.href)
+    const currentUrl = new URL(window.location.href);
 
-    const newUrl = new URL(`${walletUrl}/sign-transaction`)
-    newUrl.searchParams.set('transactions_data', urlParam)
-    newUrl.searchParams.set('success_url', successUrl || currentUrl.toString())
-    newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString())
-    newUrl.searchParams.set('callback_url', callbackUrl || currentUrl.toString())
+    const newUrl = new URL(`${walletUrl}/sign-transaction`);
+    newUrl.searchParams.set('transactions_data', urlParam);
+    newUrl.searchParams.set('success_url', successUrl || currentUrl.toString());
+    newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString());
+    newUrl.searchParams.set('callback_url', callbackUrl || currentUrl.toString());
 
-    window.location.assign(newUrl.toString())
-    return
-  }
+    window.location.assign(newUrl.toString());
+    return;
+  };
 
   const showModal = () => {
     // unused
-  }
+  };
 
   const verifyOwner = async () => {
-    throw Error('mintbasewallet:verifyOwner is unsupported!')
-  }
+    throw Error('mintbasewallet:verifyOwner is unsupported!');
+  };
 
   const getAvailableBalance = async () => {
-    return new BN(0)
-  }
+    return new BN(0);
+  };
 
   const getAccounts = async () => {
-    const accountId = state.wallet.getAccountId()
-    const account = state.wallet.account()
+    const accountId = state.wallet.getAccountId();
+    const account = state.wallet.account();
 
     if (!accountId || !account) {
-      return []
+      return [];
     }
 
     const currentAccount: string = window.localStorage.getItem(
-      'mintbase-wallet:account-creation-data'
-    )!
+      'mintbase-wallet:account-creation-data',
+    )!;
 
     return [
       {
         accountId,
         publicKey: JSON.parse(currentAccount)?.devicePublicKey,
       },
-    ]
-  }
+    ];
+  };
 
   const switchAccount = async (id: string) => {
     //TODO fix
-    setActiveAccountId(id)
-  }
+    setActiveAccountId(id);
+  };
 
   const setActiveAccountId = (accountId: string) => {
-    activeAccountId = accountId
-    window.localStorage.setItem('mintbase-wallet:activeAccountId', accountId)
-  }
+    activeAccountId = accountId;
+    window.localStorage.setItem('mintbase-wallet:activeAccountId', accountId);
+  };
 
   return {
     getAccountId,
@@ -214,5 +214,5 @@ export const MintbaseWallet: WalletBehaviourFactory<
     getAccounts,
     switchAccount,
     signAndSendTransactions,
-  }
-}
+  };
+};
