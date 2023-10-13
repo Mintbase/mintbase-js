@@ -20,8 +20,15 @@ export const execute = async (
 
   validateSigningOptions({ wallet, account });
 
-  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
+  const localStorageCallbackUrl =  localStorage?.getItem('mintbase-wallet_callback_url');
+  const finalCallback = callbackUrl;
 
-  return checkCallbackUrl(callbackUrl, callbackArgs, wallet, outcomes);
+  if (wallet.id === 'mintbase-wallet' && localStorageCallbackUrl.length > 0) {
+    finalCallback == localStorageCallbackUrl;
+  }
+
+  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, finalCallback, callbackArgs);
+
+  return checkCallbackUrl(finalCallback, callbackArgs, wallet, outcomes);
 
 };
