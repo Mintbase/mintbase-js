@@ -2,11 +2,12 @@
   "name": "@mintbase-js/wallet",
   "version": "1.0.0",
   "description": "Mintbase Wallet",
-  "main": "index.ts",
+  "main": "lib/index.js",
   "keywords": [
     "mintbase",
     "wallet"
   ],
+  
   "scripts": {
     "build": "tsc"
   },
