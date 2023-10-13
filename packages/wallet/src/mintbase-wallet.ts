@@ -11,7 +11,7 @@ import { BrowserLocalStorageKeyStore } from 'near-api-js/lib/key_stores';
 
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
-  { walletUrl: string; networkId: string }
+  { walletUrl: string; networkId: string; callback: string }
 > = async ({
   metadata,
   options,
@@ -19,6 +19,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
   logger,
   emitter,
   walletUrl,
+  callback,
   networkId,
 }) => {
   const setupWalletState = async () => {
@@ -110,6 +111,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
     //   "Mintbase Wallet does not support signing and sending multiple transactions."
     // );
 
+    const callbackFinal = callback ?? callbackUrl
+
 
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
@@ -120,7 +123,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     //const currentUrl = new URL(window.location.href);
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
-    newUrl.searchParams.set('callback_url', callbackUrl);
+    newUrl.searchParams.set('callback_url', callbackFinal);
 
 
     window.location.assign(newUrl.toString());
@@ -150,11 +153,15 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const currentUrl = new URL(window.location.href);
 
+    const callbackFinal = callback ?? callbackUrl
+
+
+
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('success_url', successUrl || currentUrl.toString());
     newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString());
-    newUrl.searchParams.set('callback_url', callbackUrl || currentUrl.toString());
+    newUrl.searchParams.set('callback_url', callbackFinal || currentUrl.toString());
 
     window.location.assign(newUrl.toString());
     return;
