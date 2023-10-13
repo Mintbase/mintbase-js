@@ -14,7 +14,7 @@ export function setupMintbaseWallet({
   deprecated = false,
   successUrl = '',
   failureUrl = '',
-  callbackUrl = ''
+  callbackUrl = '',
 }): WalletModuleFactory<BrowserWallet> {
   return async (moduleOptions): Promise<WalletModule<BrowserWallet> | null> => {
     const wallet: WalletModule<BrowserWallet> = {
@@ -32,7 +32,7 @@ export function setupMintbaseWallet({
         walletUrl: walletUrl,
       },
       init: (options) => {
-        return MintbaseWallet({ callback: callbackUrl, networkId, walletUrl, ...options });
+        return MintbaseWallet({ callback: callbackUrl, networkId, walletUrl,successUrl, failureUrl, ...options });
       },
     };
     return wallet;

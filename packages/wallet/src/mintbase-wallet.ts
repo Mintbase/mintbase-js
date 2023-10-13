@@ -11,7 +11,7 @@ import { BrowserLocalStorageKeyStore } from 'near-api-js/lib/key_stores';
 
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
-  { walletUrl: string; networkId: string; callback: string }
+  { walletUrl: string; networkId: string; callback: string; successUrl?: string; failureUrl?: string }
 > = async ({
   metadata,
   options,
@@ -19,6 +19,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
   logger,
   emitter,
   walletUrl,
+  successUrl,
+  failureUrl,
   callback,
   networkId,
 }) => {
@@ -30,7 +32,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       keyStore: new BrowserLocalStorageKeyStore(),
       nodeUrl: 'https://rpc.testnet.near.org',
       walletUrl: walletUrl,
-      headers: {}
+      headers: {},
     };
 
     const searchParams = new URL(window.location.href);
@@ -38,8 +40,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const acc = searchParams.searchParams.get('account_id');
 
     if (acc && acc?.length > 0) {
-
-     localStorage.setItem('mintbase-wallet_callback_url', callback)
+      localStorage.setItem('mintbase-wallet_callback_url', callback);
 
       localStorage.setItem(
         'mintbase-wallet_wallet_auth_key',
@@ -70,14 +71,16 @@ export const MintbaseWallet: WalletBehaviourFactory<
   const signIn = async () => {
     const existingAccounts = await getAccounts();
 
+    const origin = window.location.origin;
+
     if (existingAccounts.length) {
       return existingAccounts;
     }
 
     await state.wallet.requestSignIn({
       methodNames: [],
-      successUrl: 'http://testnet.localhost:3001',
-      failureUrl: 'http://testnet.localhost:3001',
+      successUrl: successUrl ?? origin,
+      failureUrl: failureUrl ?? origin,
     });
 
     return getAccounts();
@@ -114,9 +117,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     //   "Mintbase Wallet does not support signing and sending multiple transactions."
     // );
 
-   
-
-
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
     }
@@ -127,7 +127,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('callback_url', callbackUrl);
-
 
     window.location.assign(newUrl.toString());
     return;
@@ -158,9 +157,27 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
-    newUrl.searchParams.set('success_url', successUrl || currentUrl.toString());
-    newUrl.searchParams.set('failure_url', failureUrl || currentUrl.toString());
-    newUrl.searchParams.set('callback_url', callbackUrl || currentUrl.toString());
+
+    if (!callbackUrl) {
+      if (successUrl && successUrl.length > 0) {
+        newUrl.searchParams.set(
+          'success_url',
+          successUrl || currentUrl.toString(),
+        );
+      }
+
+      if (failureUrl && failureUrl.length > 0) {
+        newUrl.searchParams.set(
+          'success_url',
+          failureUrl || currentUrl.toString(),
+        );
+      }
+    }
+
+    newUrl.searchParams.set(
+      'callback_url',
+      callbackUrl || currentUrl.toString(),
+    );
 
     window.location.assign(newUrl.toString());
     return;
