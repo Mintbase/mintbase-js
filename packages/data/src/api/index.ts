@@ -1,3 +1,4 @@
+export * from './accountsByPublicKey/accountsByPublicKey';
 export * from './attributesByMetaId/attributesByMetaId';
 export * from './metadataByMetadataId/metadataByMetadataId';
 export * from './nearPrice/nearPrice';
@@ -18,4 +19,3 @@ export * from './attributesByContract/attributesByContract';
 export * from './queries';
 export * from './userOwnedTokens/userOwnedTokens';
 export * from './userMintedTokens/userMintedTokens';
-
