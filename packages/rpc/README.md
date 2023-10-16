@@ -29,6 +29,10 @@ For a transaction hash, determine the status of a transaction on the configured 
 
 Calls a token contract in order to determine the percentage amounts paid out to royalty accounts.
 
+### `getAccessKeys(accountId: string): Promise<AccessKey>`
+
+Gets all access keys (public key and permissions object) for a given account.
+
 ## Configuration
 
 Before calling these methods the near network should be configured using the [config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
