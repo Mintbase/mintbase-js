@@ -4,3 +4,4 @@ export * from './methods/balance';
 export * from './methods/payouts';
 export * from './methods/account';
 export * from './methods/social';
+export * from './methods/keys';
