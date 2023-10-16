@@ -1,6 +1,6 @@
-[//]: # `{ "title": "tokenByStatus", "order": "1.0.5" }`
+[//]: # `{ "title": "keyActivity", "order": "1.0.18" }`
 
-# tokenByStatus
+# keyActivity
 
 
 {% hint style="warning" %}
@@ -11,37 +11,25 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 {% endhint %}
 
-
-
-
 Returns number of tokens by `metadataId` and statuses: `burned, unburned, listed`.
 
+### getKey(accountId: string)
 
-
-### tokenById(metadataId: string, ownedBy?: string)
-
-
-
-This is an example of a data api method.
-
-
-
+Fetches all historical additions and deletions of full access keys to an account.
 
 Example:
-
-
 
 {% code title="queryNftsByStore.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 
-import { tokensByStatus } from  '@mintbase-js/data'
+import { getKeyActivity } from  '@mintbase-js/data'
 
-const { data, error } = await tokensByStatus('dogeflower.mintbase1.near%3A5ef2d9b0651172d90dc173af0726b5fc', 'maxknivets.near');
+const { data, error } = await getKeyActivity('foo.near');
 
 if (error) {console.log('error', error)}
 
-console.log(data.listedTokens) // => 1
+console.log(data.listedTokens)
 
 ```
 
