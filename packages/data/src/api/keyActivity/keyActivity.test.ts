@@ -23,14 +23,21 @@ describe('getTokensFromMetaId', () => {
 
     const { data } = await keyActivity('test.near');
 
-    expect(data?.keyActivity.length).toBe(2);
-    expect(data?.keyActivity[0].kind).toBe('add');
-    expect(data?.keyActivity[1].kind).toBe('del');
-    expect(data?.keyActivity[0].receiptId).toBe('receiptIdAdd');
-    expect(data?.keyActivity[1].receiptId).toBe('receiptIdDel');
-    expect(data?.keyActivity[0].publicKey).toBe('pubkey');
-    expect(data?.keyActivity[1].publicKey).toBe('pubkey');
-    expect(data?.keyActivity[0].timestamp).toBe('2000-01-01T00:00:00.000000');
-    expect(data?.keyActivity[1].timestamp).toBe('2000-01-02T00:00:00.000000');
+    expect(JSON.stringify(data)).toBe(JSON.stringify({
+      keyActivity: [
+        {
+          timestamp: '2000-01-01T00:00:00.000000',
+          receiptId: 'receiptIdAdd',
+          publicKey: 'pubkey',
+          kind: 'add',
+        },
+        {
+          timestamp: '2000-01-02T00:00:00.000000',
+          receiptId: 'receiptIdDel',
+          publicKey: 'pubkey',
+          kind: 'del',
+        },
+      ],
+    }));
   });
 });
