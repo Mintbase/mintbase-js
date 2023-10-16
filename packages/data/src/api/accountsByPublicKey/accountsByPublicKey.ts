@@ -18,8 +18,7 @@ export const accountsByPublicKey = async (
   });
 
   const errorMsg = error ? `Error fetching accounts by public key, ${error}` : '';
-
-  const accountIds = data.accounts.map(a => a.id);
+  const accountIds = error ? [] : data.accounts.map(a => a.id);
 
   return parseData<string[]>(accountIds, error, errorMsg);
 
