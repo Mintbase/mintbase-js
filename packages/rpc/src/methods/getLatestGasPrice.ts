@@ -7,7 +7,7 @@ export const getLatestGasPrice = async (): Promise<number> => {
     method: 'gas_price',
     params: [null],
   });
-  const blockHeight = res?.result?.sync_info?.latest_block_hash;
+  const blockHeight = res?.result?.gas_price;
   if (!blockHeight) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }

@@ -5,9 +5,9 @@ export const getGasPrice = async (hash: string): Promise<number> => {
     jsonrpc: '2.0',
     id: 'dontcare',
     method: 'gas_price',
-    params: { block_hash: hash },
+    params: [hash],
   });
-  const blockHeight = res?.result?.sync_info?.latest_block_hash;
+  const blockHeight = res?.result?.gas_price;
   if (!blockHeight) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }
