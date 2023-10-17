@@ -35,7 +35,6 @@ export const execute = async (
       const localStorageCallbackUrl = localStorage?.getItem(
         'mintbase-wallet_callback_url'
       );
-      console.log(localStorageCallbackUrl, 'localStorageCallbackUrl');
 
       if (localStorageCallbackUrl.length > 0) {
         finalCallback = localStorageCallbackUrl;

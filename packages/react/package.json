@@ -23,7 +23,7 @@
     "@testing-library/user-event": "^14.4.3"
   },
   "dependencies": {
-    "@mintbase-js/auth": "^0.4.1-beta.4",
+    "@mintbase-js/auth": "0.4.1-mintbase-wallet-c1580a3.0",
     "@mintbase-js/data": "^0.4.1-beta.4",
     "@mintbase-js/sdk": "0.4.1-mintbase-wallet-b7e8639.0",
     "@near-wallet-selector/core": "^8.0.3",
