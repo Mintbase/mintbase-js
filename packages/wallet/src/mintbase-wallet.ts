@@ -7,7 +7,6 @@ import type {
   Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
-import { BrowserLocalStorageKeyStore } from 'near-api-js/lib/key_stores';
 
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
@@ -25,39 +24,44 @@ export const MintbaseWallet: WalletBehaviourFactory<
   networkId,
 }) => {
   const setupWalletState = async () => {
-    const { connect, WalletConnection } = nearAPI;
 
-    const connectionConfig = {
-      networkId: networkId,
-      keyStore: new BrowserLocalStorageKeyStore(),
-      nodeUrl: 'https://rpc.testnet.near.org',
-      walletUrl: walletUrl,
-      headers: {},
-    };
+    if (typeof window !== undefined) {
+      const { connect, WalletConnection, keyStores } = nearAPI;
 
-    const searchParams = new URL(window.location.href);
+      const connectionConfig = {
+        networkId: networkId,
+        keyStore: new keyStores.BrowserLocalStorageKeyStore(),
+        nodeUrl: 'https://rpc.testnet.near.org',
+        walletUrl: walletUrl,
+        headers: {},
+      };
 
-    const acc = searchParams.searchParams.get('account_id');
+      const searchParams = new URL(window.location.href);
 
-    if (acc && acc?.length > 0) {
-      localStorage.setItem('mintbase-wallet_callback_url', callback);
+      const acc = searchParams.searchParams.get('account_id');
 
-      localStorage.setItem(
-        'mintbase-wallet_wallet_auth_key',
-        JSON.stringify({
-          accountId: acc as string,
-          allKeys: [],
-        }),
-      );
+      if (acc && acc?.length > 0) {
+        localStorage.setItem('mintbase-wallet_callback_url', callback);
+
+        localStorage.setItem(
+          'mintbase-wallet_wallet_auth_key',
+          JSON.stringify({
+            accountId: acc as string,
+            allKeys: [],
+          }),
+        );
+      }
+
+      const nearConnection = await connect(connectionConfig);
+
+      const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
+
+      return {
+        wallet,
+      };
+
     }
-
-    const nearConnection = await connect(connectionConfig);
-
-    const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
-
-    return {
-      wallet,
-    };
+  
   };
 
   const state = await setupWalletState();
