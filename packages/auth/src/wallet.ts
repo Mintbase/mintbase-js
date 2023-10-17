@@ -40,7 +40,6 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?, 
     debug: mbjs.keys.debugMode,
     modules: [
       ...options?.additionalWallets || [],
-      ...SUPPORTED_NEAR_WALLETS,
     ],
   });
 
