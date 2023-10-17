@@ -8,6 +8,10 @@ import type {
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 
+interface MintbaseWalletState {
+  wallet: nearAPI.WalletConnection;
+}
+
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
   { walletUrl: string; networkId: string; callback: string; successUrl?: string; failureUrl?: string }
@@ -23,7 +27,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
   callback,
   networkId,
 }) => {
-  const setupWalletState = async () => {
+  const setupWalletState = async (): Promise<MintbaseWalletState> => {
 
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
@@ -68,9 +72,9 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
   let activeAccountId: string;
 
-  const getAccountId = () => activeAccountId;
+  const getAccountId = ():  string => activeAccountId;
 
-  const isSignedIn = async () => !!activeAccountId;
+  const isSignedIn = async (): Promise<boolean> => !!activeAccountId;
 
   const signIn = async () => {
     const existingAccounts = await getAccounts();

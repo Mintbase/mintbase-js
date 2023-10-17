@@ -39,9 +39,8 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?, 
     network: network,
     debug: mbjs.keys.debugMode,
     modules: [
-      ...(await setupDefaultWallets()),
-      ...SUPPORTED_NEAR_WALLETS,
       ...options?.additionalWallets || [],
+      ...SUPPORTED_NEAR_WALLETS,
     ],
   });
 
