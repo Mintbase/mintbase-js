@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.4.1-beta.7",
+  "version": "0.4.1-beta.8",
   "description": "React app tools for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@mintbase-js/auth": "0.4.1-mintbase-wallet-ad7982e.0",
-    "@mintbase-js/data": "^0.4.1-beta.7",
+    "@mintbase-js/data": "^0.4.1-beta.8",
     "@mintbase-js/sdk": "0.4.1-mintbase-wallet-b7e8639.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",

@@ -127,7 +127,6 @@ describe('contract method calls (execute)', () => {
   });
 
   test('execute calls through to account (near api) method', async () => {
-
  
 
     await execute(
