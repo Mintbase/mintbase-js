@@ -1,0 +1,1 @@
+export { setupMintbaseWallet } from './setup';

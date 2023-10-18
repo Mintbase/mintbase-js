@@ -39,6 +39,11 @@
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage' />
 </p>
 
+<b>@mintbase-js/wallet:</b>
+<img src='https://img.shields.io/npm/dw/@mintbase-js/wallet' />
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet' />
+</p>
+
 A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
 
 {% hint style="danger" %}
@@ -55,6 +60,9 @@ For guides and specific use case examples visit our [General Documentation](http
 
 # Specific Module Documentation
 
+
+### [@mintbase-js/wallet docs](packages/wallet)
+  - Upload metadata to permanent storage
 
 ### [@mintbase-js/sdk docs](packages/sdk)
 
