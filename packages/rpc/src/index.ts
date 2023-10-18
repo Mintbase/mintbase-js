@@ -7,3 +7,4 @@ export * from './methods/social';
 export * from './methods/getBlockHash';
 export * from './methods/getGasPrice';
 export * from './methods/getLatestGasPrice';
+export * from './methods/keys';
