@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { nearPrice } from '@mintbase-js/data';
+import { nearPrice  } from '@mintbase-js/data';
 
 type UseNearPriceReturn = {
   nearPrice: number;

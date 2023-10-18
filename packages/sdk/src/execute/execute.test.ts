@@ -5,7 +5,6 @@ import { NoSigningMethodPassedError } from '../errors';
 import BN from 'bn.js';
 import { ExecuteArgsResponse, NearContractCall } from '../types';
 
-
 describe('contract method calls (execute)', () => {
   const testSigner = 'mb_alice.testnet';
   const testContract = 'mb_store.mintspace2.testnet';
@@ -127,8 +126,6 @@ describe('contract method calls (execute)', () => {
   });
 
   test('execute calls through to account (near api) method', async () => {
- 
-
     await execute(
       { account: mockNearAccount as any },
       testContractCall,
