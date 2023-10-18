@@ -25,7 +25,7 @@ export const checkCallbackUrl = (
   wallet: Wallet,
   outcomes: void | FinalExecutionOutcome[],
 ): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
-  const browserWallets = ['my-near-wallet', 'near-wallet', 'mintbase-wallet'];
+  const browserWallets = ['my-near-wallet', 'near-wallet'];
   const isNotBrowserWallet = !browserWallets.includes(wallet?.id);
   const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
 

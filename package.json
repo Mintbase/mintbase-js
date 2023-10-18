@@ -51,7 +51,6 @@
     "@mintbase-js/sdk": "file:packages/sdk",
     "@mintbase-js/storage": "file:packages/storage",
     "@mintbase-js/testing": "file:packages/testing",
-    "@mintbase-js/wallet": "file:packages/wallet",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^25.2.3",
@@ -81,7 +80,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "@near-wallet-selector/core": "^8.5.4",
     "jest-fetch-mock": "^3.0.3"
   }
 }

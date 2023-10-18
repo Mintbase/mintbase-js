@@ -1,12 +1,10 @@
+
+import type { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import type { providers } from 'near-api-js';
 import { mbjs } from '../config/config';
-import type { ComposableCall, NearExecuteOptions } from '../types';
-import {
-  checkCallbackUrl,
-  flattenArgs,
-  genericBatchExecute,
-  validateSigningOptions,
-} from './execute.utils';
+import { ComposableCall, NearExecuteOptions } from '../types';
+import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOptions } from './execute.utils';
+
 
 /**
  * Base method for executing contract calls.
@@ -16,39 +14,14 @@ import {
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}, or a redirect to selected callbackUrl
  */
 export const execute = async (
-  {
-    wallet,
-    account,
-    callbackUrl = mbjs.keys.callbackUrl,
-    callbackArgs,
-  }: NearExecuteOptions,
+  { wallet, account, callbackUrl = mbjs.keys.callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
-): Promise<
-  void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]
-> => {
+): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
+
   validateSigningOptions({ wallet, account });
 
-  let finalCallback = callbackUrl;
+  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
 
-  if (wallet?.id === 'mintbase-wallet') {
-    if (typeof window !== undefined) {
-      const localStorageCallbackUrl = localStorage?.getItem(
-        'mintbase-wallet_callback_url'
-      );
+  return checkCallbackUrl(callbackUrl, callbackArgs, wallet, outcomes);
 
-      if (localStorageCallbackUrl.length > 0) {
-        finalCallback = localStorageCallbackUrl;
-      }
-    }
-  }
-
-  const outcomes = await genericBatchExecute(
-    flattenArgs(calls),
-    wallet,
-    account,
-    finalCallback,
-    callbackArgs,
-  );
-
-  return checkCallbackUrl(finalCallback, callbackArgs, wallet, outcomes);
 };
