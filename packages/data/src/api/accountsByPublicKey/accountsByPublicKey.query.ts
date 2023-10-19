@@ -8,7 +8,7 @@ export const accountsByPublicKeyQuery = gql`
     accounts: access_keys(
       where: {
         public_key: { _eq: $publicKey }
-        removed_at: { _is_null: false }
+        removed_at: { _is_null: true }
       }
     ) {
       id: account_id
