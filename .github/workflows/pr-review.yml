@@ -1,0 +1,39 @@
+name: Slack P/R Review and Comment notification
+
+on:
+  pull_request_review:
+    types: [submitted]
+  issue_comment:
+    types: [created]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v2
+
+      # Determine the type of event (review or comment) and set the notification message accordingly
+      - name: Set Notification Message
+        id: set_message
+        run: |
+          if [[ -n "${{ github.event.pull_request_review }}" ]]; then
+            echo "Review: ✉️ [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) - ${{ github.event.review.user.login }} - ${{ github.event.review.state }}"
+            echo ::set-output name=message::"Review: ✉️ [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) - ${{ github.event.review.user.login }} - ${{ github.event.review.state }}"
+          elif [[ -n "${{ github.event.issue_comment }}" ]]; then
+            echo "Comment: 💬 [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) - ${{ github.event.comment.user.login }}"
+            echo ::set-output name=message::"Comment: 💬 [${{ github.event.pull_request.title }}](${{ github.event.pull_request.html_url }}) - ${{ github.event.comment.user.login }}"
+          fi
+
+      # Runs the Slack webhook notify action to send a notification
+      - name: Slack Notify
+        uses: slackapi/slack-github-action@v1.24.0
+        env:
+          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+         with:
+          channel-id: 'github-flows'
+          payload: |
+            {
+              "text": ${{ steps.set_message.outputs.message }}
+            }
