@@ -105,7 +105,7 @@ modules: [mintbaseWallet],
 `walletUrl:` valid wallet urls
 `successUrl:` If you dont have a single callback entrypoint to handle failure/success you can set successUrl.
 `failureUrl:` If you dont have a single callback entrypoint to handle failure/success you can set failureUrl.
-  `callbackUrl:` when you have a single entrypoint to deal with transaction results.
+`callbackUrl:` when you have a single entrypoint to deal with transaction results.
 
 
 | property | value |

@@ -32,7 +32,7 @@ export function setupMintbaseWallet({
         walletUrl: walletUrl,
       },
       init: (options) => {
-        return MintbaseWallet({ callback: callbackUrl, networkId, walletUrl,successUrl, failureUrl, ...options });
+        return MintbaseWallet({ callback: callbackUrl, networkId, walletUrl, successUrl, failureUrl, ...options });
       },
     };
     return wallet;
