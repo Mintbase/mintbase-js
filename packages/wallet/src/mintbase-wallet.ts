@@ -7,9 +7,15 @@ import type {
   Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
+import { getCallbackUrl } from './utils';
 
 interface MintbaseWalletState {
   wallet: nearAPI.WalletConnection;
+}
+
+interface MintbaseWalletAccount { 
+  accountId: string;
+  publicKey: string;
 }
 
 export const MintbaseWallet: WalletBehaviourFactory<
@@ -27,7 +33,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
   callback,
   networkId,
 }) => {
-  const setupWalletState = async (): Promise<MintbaseWalletState> => {
+
+  const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
 
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
@@ -65,6 +72,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
       };
 
     }
+
+    return null;
   
   };
 
@@ -76,7 +85,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
   const isSignedIn = async (): Promise<boolean> => !!activeAccountId;
 
-  const signIn = async () => {
+  const signIn = async (): Promise<MintbaseWalletAccount[]> => {
     const existingAccounts = await getAccounts();
 
     const origin = window.location.origin;
@@ -94,19 +103,18 @@ export const MintbaseWallet: WalletBehaviourFactory<
     return getAccounts();
   };
 
-  const signOut = async () => {
-    // if (activeAccountId === undefined || activeAccountId === null) {
-    //   throw new Error("Wallet is already signed out");
-    // }
+  const signOut = async (): Promise<void> => {
 
     window.localStorage.removeItem('mintbase-wallet:account-data');
 
     if (state.wallet.isSignedIn()) {
       state.wallet.signOut();
     }
+
+    return;
   };
 
-  const assertValidSigner = (signerId: string) => {
+  const assertValidSigner = (signerId: string): void => {
     if (signerId && signerId !== state.wallet.getAccountId()) {
       throw new Error(
         `Cannot sign transactions for ${signerId} while signed in as ${activeAccountId}`,
@@ -119,11 +127,10 @@ export const MintbaseWallet: WalletBehaviourFactory<
     callbackUrl,
   }: {
     transactions: Array<Transaction>;
-    callbackUrl: string;
+    callbackUrl?: string;
   }): Promise<void> => {
-    // throw new Error(
-    //   "Mintbase Wallet does not support signing and sending multiple transactions."
-    // );
+
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '') ;
 
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
@@ -134,7 +141,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     //const currentUrl = new URL(window.location.href);
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
-    newUrl.searchParams.set('callback_url', callbackUrl);
+    newUrl.searchParams.set('callback_url', cbUrl);
 
     window.location.assign(newUrl.toString());
     return;
@@ -159,6 +166,10 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
 
+    // check if user passed callbackUrl on the call if not, it will get from localStorage
+
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '') ;
+
     const urlParam = encodeURIComponent(stringifiedParam);
 
     const currentUrl = new URL(window.location.href);
@@ -166,7 +177,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
 
-    if (!callbackUrl) {
+    if (!cbUrl) {
       if (successUrl && successUrl.length > 0) {
         newUrl.searchParams.set(
           'success_url',
@@ -184,26 +195,28 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     newUrl.searchParams.set(
       'callback_url',
-      callbackUrl || currentUrl.toString(),
+      cbUrl,
     );
 
     window.location.assign(newUrl.toString());
     return;
   };
 
-  const showModal = () => {
-    // unused
+  // const showModal = () => {
+  //   // unused
+  // };
+
+  const verifyOwner = async (): Promise<void> => {
+    console.error('mintbasewallet:verifyOwner is unsupported!');
+
+    return;
   };
 
-  const verifyOwner = async () => {
-    throw Error('mintbasewallet:verifyOwner is unsupported!');
-  };
-
-  const getAvailableBalance = async () => {
+  const getAvailableBalance = async (): Promise<BN> => {
     return new BN(0);
   };
 
-  const getAccounts = async () => {
+  const getAccounts = async (): Promise<MintbaseWalletAccount[]> => {
     const accountId = state.wallet.getAccountId();
     const account = state.wallet.account();
 
@@ -223,14 +236,18 @@ export const MintbaseWallet: WalletBehaviourFactory<
     ];
   };
 
-  const switchAccount = async (id: string) => {
+  const switchAccount = async (id: string): Promise<null> => {
     //TODO fix
     setActiveAccountId(id);
+
+    return null;
   };
 
-  const setActiveAccountId = (accountId: string) => {
+  const setActiveAccountId = (accountId: string): null => {
     activeAccountId = accountId;
     window.localStorage.setItem('mintbase-wallet:activeAccountId', accountId);
+
+    return null;
   };
 
   return {
@@ -239,7 +256,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     signIn,
     signOut,
     signAndSendTransaction,
-    showModal,
     verifyOwner,
     getAvailableBalance,
     getAccounts,
