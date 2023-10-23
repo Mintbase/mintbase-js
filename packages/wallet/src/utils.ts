@@ -28,7 +28,7 @@ const checkCallbackUrl = (callbackUrl: string): string | boolean => {
 
 };
 
-const getCallbackUrl = (callbackUrl?: string):  {cbUrl: string} | null => {
+const getCallbackUrl = (callbackUrl?: string):  {cbUrl: string} => {
   const currentUrl = new URL(window.location.href);
   if (typeof window !== undefined) { 
     const isValidCallbackUrl = checkCallbackUrl(callbackUrl);
@@ -47,8 +47,8 @@ const getCallbackUrl = (callbackUrl?: string):  {cbUrl: string} | null => {
       }
     }
   }
-  
-  return null;
+
+  return { cbUrl : currentUrl.toString() };
 
 };
 

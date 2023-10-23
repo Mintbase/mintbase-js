@@ -151,15 +151,11 @@ export const MintbaseWallet: WalletBehaviourFactory<
     receiverId,
     actions,
     signerId,
-    successUrl,
-    failureUrl,
     callbackUrl,
   }: {
     receiverId: string;
     actions: Array<Action>;
     signerId: string;
-    successUrl: string;
-    failureUrl: string;
     callbackUrl: string;
   }): Promise<void> => {
     assertValidSigner(signerId);
@@ -177,22 +173,22 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
 
-    if (!cbUrl) {
+    if (successUrl) {
       if (successUrl && successUrl.length > 0) {
         newUrl.searchParams.set(
           'success_url',
           successUrl || currentUrl.toString(),
         );
       }
-
-      if (failureUrl && failureUrl.length > 0) {
-        newUrl.searchParams.set(
-          'success_url',
-          failureUrl || currentUrl.toString(),
-        );
-      }
     }
 
+    if (failureUrl && failureUrl.length > 0) {
+      newUrl.searchParams.set(
+        'success_url',
+        failureUrl || currentUrl.toString(),
+      );
+    }
+    
     newUrl.searchParams.set(
       'callback_url',
       cbUrl,
