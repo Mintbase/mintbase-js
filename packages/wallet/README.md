@@ -49,7 +49,7 @@ const mintbaseWallet = setupMintbaseWallet({
 });
 
   
-const  selector = await  setupWalletSelector({
+const selector = await setupWalletSelector({
   network:  "mainnet",
   modules: [mintbaseWallet],
 });
