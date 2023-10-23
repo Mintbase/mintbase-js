@@ -73,7 +73,7 @@ const selector = await setupWalletSelector({
 | property | value |
 |--|--|
 | networkId | `mainnet` or `testnet` |
-| walletUrl | `wallet.mintbase.xyz` or `testnet.wallet.mintbase.xyz` |
+| walletUrl | `https://wallet.mintbase.xyz` or `https://testnet.wallet.mintbase.xyz` |
 | successUrl | any http or https url as a string|
 | failureUrl | any http or https url as a string|
 | callbackUrl | any http or https url as a string|
