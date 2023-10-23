@@ -132,6 +132,9 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '') ;
 
+    console.log(cbUrl, callbackUrl, 'cbUrl');
+
+
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
     }
@@ -143,7 +146,10 @@ export const MintbaseWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('callback_url', cbUrl);
 
-    window.location.assign(newUrl.toString());
+        console.log(newUrl, 'URL')
+
+
+    // window.location.assign(newUrl.toString());
     return;
   };
 
@@ -165,6 +171,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
     // check if user passed callbackUrl on the call if not, it will get from localStorage
 
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '') ;
+
+    console.log(cbUrl, callbackUrl, 'cbUrl');
 
     const urlParam = encodeURIComponent(stringifiedParam);
 
@@ -194,7 +202,9 @@ export const MintbaseWallet: WalletBehaviourFactory<
       cbUrl,
     );
 
-    window.location.assign(newUrl.toString());
+    console.log(newUrl, 'URL')
+
+    // window.location.assign(newUrl.toString());
     return;
   };
 

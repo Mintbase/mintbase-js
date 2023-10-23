@@ -32,13 +32,18 @@ const getCallbackUrl = (callbackUrl?: string):  {cbUrl: string} => {
   const currentUrl = new URL(window.location.href);
   if (typeof window !== undefined) { 
     const isValidCallbackUrl = checkCallbackUrl(callbackUrl);
+    console.log(isValidCallbackUrl, callbackUrl, 'isvalidCallback')
  
     // check if callBackUrl sent on the method is valid
     // method callbackUrl will always have priority over global callbackUrl , user can set different callbackUrls according to the method..
 
     if (!isValidCallbackUrl) {
+
+        console.log('here')
       const storedCallbackUrl =  localStorage.getItem('mintbase-wallet_callback_url');
       const cbUrl = checkCallbackUrl(storedCallbackUrl);
+
+      console.log(cbUrl, typeof cbUrl )
 
       if (typeof cbUrl === 'string') {
         return { cbUrl : storedCallbackUrl }; 
