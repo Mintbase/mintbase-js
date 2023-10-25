@@ -206,7 +206,7 @@ export function getFormDataFromJson(referenceObject: ReferenceObject): FormData 
       console.warn('The provided media type will not be uploaded because its a string and not a file, try attaching files to the following keys: media, animation_url or document');
       formData.append(key, value);
     }
-
+    console.log(typeof(value));
     if (notMedia && typeof(value) == 'string') {
       //fields
       formData.append(key, value);
