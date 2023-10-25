@@ -182,13 +182,19 @@ export function getFileFromObject(referenceObject: unknown): File {
 
 export function getFormDataFromJson(referenceObject: ReferenceObject): FormData {
   const formData = new FormData();
+
+  console.log({ formData });
   Object.entries(referenceObject).forEach((entry) => {
+
+    console.log({ entry });
     const [key, value] = entry;
     const hasCorrectMediaType = (key == 'document' || key == 'media' || key == 'animation_url');
     const notMedia = !hasCorrectMediaType && !(value instanceof File);
     const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES;
     const invalidFile = !hasCorrectMediaType && (value instanceof File);
     const mediaTypeWithoutFile = hasCorrectMediaType && (typeof(value) == 'string');
+
+    console.log({ hasCorrectMediaType, notMedia, canBeUploaded, invalidFile, mediaTypeWithoutFile });
 
     if (invalidFile) {
       // example title: File
@@ -200,14 +206,21 @@ export function getFormDataFromJson(referenceObject: ReferenceObject): FormData 
       console.warn('The provided media type will not be uploaded because its a string and not a file, try attaching files to the following keys: media, animation_url or document');
       formData.append(key, value);
     }
-
-    if (notMedia && typeof(value) == 'string') {
-      //fields
-      formData.append(key, value);
+    console.log(typeof(value));
+    if (notMedia) {
+      if ( typeof(value) == 'string') {
+        //fields
+        formData.append(key, value);
+      } else if (typeof(value) == 'object') {
+        //fields
+        formData.append(key, JSON.stringify(value));
+      }
     } else if (canBeUploaded) {
       //media
       formData.append(key, value);
     }
+
+    console.log('finalFormDATA:', formData);
   });
   return formData;
 }
