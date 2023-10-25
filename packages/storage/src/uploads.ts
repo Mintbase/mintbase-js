@@ -182,13 +182,19 @@ export function getFileFromObject(referenceObject: unknown): File {
 
 export function getFormDataFromJson(referenceObject: ReferenceObject): FormData {
   const formData = new FormData();
+
+  console.log({ formData });
   Object.entries(referenceObject).forEach((entry) => {
+
+    console.log({ entry });
     const [key, value] = entry;
     const hasCorrectMediaType = (key == 'document' || key == 'media' || key == 'animation_url');
     const notMedia = !hasCorrectMediaType && !(value instanceof File);
     const canBeUploaded = value instanceof File && value.size < MAX_UPLOAD_BYTES;
     const invalidFile = !hasCorrectMediaType && (value instanceof File);
     const mediaTypeWithoutFile = hasCorrectMediaType && (typeof(value) == 'string');
+
+    console.log({ hasCorrectMediaType, notMedia, canBeUploaded, invalidFile, mediaTypeWithoutFile });
 
     if (invalidFile) {
       // example title: File
@@ -208,6 +214,8 @@ export function getFormDataFromJson(referenceObject: ReferenceObject): FormData 
       //media
       formData.append(key, value);
     }
+
+    console.log('finalFormDATA:', formData);
   });
   return formData;
 }
