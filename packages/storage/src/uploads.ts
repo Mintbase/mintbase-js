@@ -207,9 +207,14 @@ export function getFormDataFromJson(referenceObject: ReferenceObject): FormData 
       formData.append(key, value);
     }
     console.log(typeof(value));
-    if (notMedia && typeof(value) == 'string') {
-      //fields
-      formData.append(key, value);
+    if (notMedia) {
+      if ( typeof(value) == 'string') {
+        //fields
+        formData.append(key, value);
+      } else if (typeof(value) == 'object') {
+        //fields
+        formData.append(key, JSON.stringify(value));
+      }
     } else if (canBeUploaded) {
       //media
       formData.append(key, value);
