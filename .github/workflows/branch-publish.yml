@@ -44,13 +44,13 @@ jobs:
 
           # Loop through and build/test the changed packages
           for package in $changed_packages; do
-            package_path=$(echo $package | jq -r '.location')
-            cd $package_path
+            package_name=$(echo $package | jq -r '.name')
+            cd packages/$package_name
             npm ci
             npm run lint
             npm run build
             npm run test
-            cd ..
+            cd ../..
           done
         shell: bash
 
