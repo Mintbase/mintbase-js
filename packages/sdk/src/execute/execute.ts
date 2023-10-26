@@ -28,27 +28,13 @@ export const execute = async (
 > => {
   validateSigningOptions({ wallet, account });
 
-  let finalCallback = callbackUrl;
-
-  if (wallet?.id === 'mintbase-wallet') {
-    if (typeof window !== undefined) {
-      const localStorageCallbackUrl = localStorage?.getItem(
-        'mintbase-wallet_callback_url'
-      );
-
-      if (localStorageCallbackUrl.length > 0) {
-        finalCallback = localStorageCallbackUrl;
-      }
-    }
-  }
-
   const outcomes = await genericBatchExecute(
     flattenArgs(calls),
     wallet,
     account,
-    finalCallback,
+    callbackUrl,
     callbackArgs,
   );
 
-  return checkCallbackUrl(finalCallback, callbackArgs, wallet, outcomes);
+  return checkCallbackUrl(callbackUrl, callbackArgs, wallet, outcomes);
 };
