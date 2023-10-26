@@ -200,7 +200,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     );
 
     console.log(newUrl, 'URL')
-
+    console.log(newUrl, 'URL')
     // window.location.assign(newUrl.toString());
     return;
   };
