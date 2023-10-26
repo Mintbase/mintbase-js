@@ -40,11 +40,12 @@ jobs:
           echo NFT_CONTRACT_ID=default_contract >> .env
 
           # Get the list of changed packages from the previous step
-          changed_packages=$(echo ${{ steps.changed-packages.outputs.changed_packages }})
+          changed_packages=$(echo "${{ steps.changed-packages.outputs.changed_packages }}")
 
           # Loop through and build/test the changed packages
           for package in $changed_packages; do
-            cd $package
+            package_path=$(echo $package | jq -r '.location')
+            cd $package_path
             npm ci
             npm run lint
             npm run build
