@@ -30,7 +30,7 @@ jobs:
         id: changed-packages
         run: |
           # Determine changed packages based on the current commit
-          changed_packages=$(npx lerna ls --since HEAD~1 --json --all)
+          changed_packages=$(npx lerna changed --json)
           echo "::set-output name=changed_packages::$changed_packages"
         shell: bash
 
