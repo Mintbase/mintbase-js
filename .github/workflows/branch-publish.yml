@@ -10,13 +10,13 @@ jobs:
     # don't run this when the actor is mintbase team (automatic push from this script)
     if: ${{ github.actor != 'mintbaseteam' }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
           token: ${{ secrets.TEAM_PAT }}
           ref: ${{ github.event.release.target_commitish }}
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           node-version: 16
 
@@ -26,31 +26,24 @@ jobs:
           git config --global user.email "eng@mintbase.io"
           npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_MINTBASEJS_AUTH_TOKEN }}"
 
-      - name: Determine changed packages
-        id: changed-packages
-        run: |
-          # Determine changed packages based on the current commit
-          changed_packages=$(npx lerna changed --json)
-          echo "::set-output name=changed_packages::$changed_packages"
-        shell: bash
-
-      - name: Build & Test Changed Packages
+      - name: Build & Test
         run: |
           echo NEAR_NETWORK=testnet >> .env
           echo NFT_CONTRACT_ID=default_contract >> .env
 
-          # Get the list of changed packages from the previous step
-          changed_packages=$(echo "${{ steps.changed-packages.outputs.changed_packages }}")
+          # Get the list of changed packages
+          changed_packages=$(npx lerna changed --json)
 
-          # Loop through and build/test the changed packages
+          # Iterate through the changed packages and run the NPM scripts
           for package in $changed_packages; do
             package_name=$(echo $package | jq -r '.name')
-            cd packages/$package_name
+            package_path="packages/$package_name"
+            cd $package_path
             npm ci
             npm run lint
             npm run build
             npm run test
-            cd ../..
+            cd ..
           done
         shell: bash
 
@@ -67,11 +60,28 @@ jobs:
         # only publish and push
         if: ${{ github.ref_name == 'beta'}}
         run: |
-          lerna version prerelease --yes --no-git-tag-version --no-push --preid ${{ github.ref_name }}
-          git add --all
-          git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
-          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
-          git push --force
+          # Get the list of changed packages
+          changed_packages=$(npx lerna changed --json)
+
+          # Create an array to store the names of changed packages
+          package_names=()
+          
+          # Extract the package names from the JSON output
+          for package in $changed_packages; do
+            package_name=$(echo $package | jq -r '.name')
+            package_names+=("$package_name")
+          done
+
+          # Version and publish only the changed packages
+          if [ ${#package_names[@]} -gt 0 ]; then
+            lerna version prerelease --yes --no-git-tag-version --no-push --preid ${{ github.ref_name }} ${package_names[@]}
+            git add --all
+            git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
+            lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease' }} ${package_names[@]}
+            git push --force
+          fi
+        shell: bash
+
 
       - uses: chrnorm/deployment-action@v2
         name: Create GitHub deployment
@@ -83,7 +93,7 @@ jobs:
 
       # sha publish previews for PRs
       # only run these remaining steps on non-beta pushes
-      - name: Publish Preview Version (non-default branch)
+      - name: Publish Preview Version (non default branch)
         if: ${{ github.ref_name != 'beta'}}
         id: publish
         run: |
