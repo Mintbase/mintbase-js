@@ -8,19 +8,31 @@ import type {
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
+import { TransactionSuccessEnum } from '@mintbase-js/sdk';
 
 interface MintbaseWalletState {
   wallet: nearAPI.WalletConnection;
 }
 
-interface MintbaseWalletAccount { 
+interface MintbaseWalletAccount {
   accountId: string;
   publicKey: string;
 }
 
+export type CallBackArgs = {
+  args: object;
+  type: TransactionSuccessEnum;
+}
+
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
-  { walletUrl: string; networkId: string; callback: string; successUrl?: string; failureUrl?: string }
+  {
+    walletUrl: string;
+    networkId: string;
+    callback: string;
+    successUrl?: string;
+    failureUrl?: string;
+  }
 > = async ({
   metadata,
   options,
@@ -33,9 +45,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
   callback,
   networkId,
 }) => {
-
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
-
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
 
@@ -52,7 +62,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const acc = searchParams.searchParams.get('account_id');
 
       if (acc && acc?.length > 0) {
-        localStorage.setItem('mintbase-wallet_callback_url', callback);
+        localStorage.setItem('mintbase-wallet:callback_url', callback);
 
         localStorage.setItem(
           'mintbase-wallet_wallet_auth_key',
@@ -70,18 +80,16 @@ export const MintbaseWallet: WalletBehaviourFactory<
       return {
         wallet,
       };
-
     }
 
     return null;
-  
   };
 
   const state = await setupWalletState();
 
   let activeAccountId: string;
 
-  const getAccountId = ():  string => activeAccountId;
+  const getAccountId = (): string => activeAccountId;
 
   const isSignedIn = async (): Promise<boolean> => !!activeAccountId;
 
@@ -104,7 +112,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
   };
 
   const signOut = async (): Promise<void> => {
-
     window.localStorage.removeItem('mintbase-wallet:account-data');
 
     if (state.wallet.isSignedIn()) {
@@ -130,9 +137,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     callbackUrl?: string;
   }): Promise<void> => {
 
-    const { cbUrl } = getCallbackUrl(callbackUrl ?? '') ;
-
-    console.log(cbUrl, callbackUrl, 'cbUrl');
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
 
     for (const { signerId } of transactions) {
@@ -141,12 +146,11 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const stringifiedParam = JSON.stringify(transactions);
 
     const urlParam = encodeURIComponent(stringifiedParam);
-    //const currentUrl = new URL(window.location.href);
     const newUrl = new URL(`${walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('callback_url', cbUrl);
 
-    // window.location.assign(newUrl.toString());
+    window.location.assign(newUrl.toString());
     return;
   };
 
@@ -155,21 +159,21 @@ export const MintbaseWallet: WalletBehaviourFactory<
     actions,
     signerId,
     callbackUrl,
+    callbackArgs,
   }: {
     receiverId: string;
     actions: Array<Action>;
     signerId: string;
     callbackUrl: string;
+    callbackArgs?: CallBackArgs;
   }): Promise<void> => {
     assertValidSigner(signerId);
 
     const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
 
-    // check if user passed callbackUrl on the call if not, it will get from localStorage
 
-    const { cbUrl } = getCallbackUrl(callbackUrl ?? '') ;
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
-    console.log(cbUrl, callbackUrl, 'cbUrl');
 
     const urlParam = encodeURIComponent(stringifiedParam);
 
@@ -193,21 +197,22 @@ export const MintbaseWallet: WalletBehaviourFactory<
         failureUrl || currentUrl.toString(),
       );
     }
-    
-    newUrl.searchParams.set(
-      'callback_url',
-      cbUrl,
-    );
 
-    console.log(newUrl, 'URL')
-    console.log(newUrl, 'URL')
-    // window.location.assign(newUrl.toString());
+    if (callbackArgs) {
+      const args = JSON.stringify({
+        type: callbackArgs?.type ?? '',
+        args: callbackArgs?.args ?? '',
+      });
+      const signMeta = encodeURIComponent(args);
+
+      newUrl.searchParams.set('callback_url', `${cbUrl}?signMeta=${signMeta}`);
+    } else {
+      newUrl.searchParams.set('callback_url', cbUrl);
+    }
+
+    window.location.assign(newUrl.toString());
     return;
   };
-
-  // const showModal = () => {
-  //   // unused
-  // };
 
   const verifyOwner = async (): Promise<void> => {
     console.error('mintbasewallet:verifyOwner is unsupported!');
