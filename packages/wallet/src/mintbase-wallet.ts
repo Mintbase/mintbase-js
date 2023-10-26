@@ -146,9 +146,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('callback_url', cbUrl);
 
-        console.log(newUrl, 'URL')
-
-
     // window.location.assign(newUrl.toString());
     return;
   };

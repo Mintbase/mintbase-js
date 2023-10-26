@@ -10,13 +10,13 @@ jobs:
     # don't run this when the actor is mintbase team (automatic push from this script)
     if: ${{ github.actor != 'mintbaseteam' }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v2
         with:
           fetch-depth: 0
           token: ${{ secrets.TEAM_PAT }}
           ref: ${{ github.event.release.target_commitish }}
 
-      - uses: actions/setup-node@v3
+      - uses: actions/setup-node@v2
         with:
           node-version: 16
 
@@ -26,14 +26,32 @@ jobs:
           git config --global user.email "eng@mintbase.io"
           npm config set '//registry.npmjs.org/:_authToken' "${{ secrets.NPM_MINTBASEJS_AUTH_TOKEN }}"
 
-      - name: Build & Test
+      - name: Determine changed packages
+        id: changed-packages
+        run: |
+          # Determine changed packages based on the current commit
+          changed_packages=$(npx lerna ls --since HEAD~1 --json --all)
+          echo "::set-output name=changed_packages::$changed_packages"
+        shell: bash
+
+      - name: Build & Test Changed Packages
         run: |
           echo NEAR_NETWORK=testnet >> .env
           echo NFT_CONTRACT_ID=default_contract >> .env
-          npm ci
-          npm run lint
-          npm run build
-          npm run test
+
+          # Get the list of changed packages from the previous step
+          changed_packages=$(echo ${{ steps.changed-packages.outputs.changed_packages }})
+
+          # Loop through and build/test the changed packages
+          for package in $changed_packages; do
+            cd $package
+            npm ci
+            npm run lint
+            npm run build
+            npm run test
+            cd ..
+          done
+        shell: bash
 
       - name: Aggregate LCOV results
         uses: RauliL/lerna-lcov-aggregate-action@master
@@ -64,7 +82,7 @@ jobs:
 
       # sha publish previews for PRs
       # only run these remaining steps on non-beta pushes
-      - name: Publish Preview Version (non default branch)
+      - name: Publish Preview Version (non-default branch)
         if: ${{ github.ref_name != 'beta'}}
         id: publish
         run: |
