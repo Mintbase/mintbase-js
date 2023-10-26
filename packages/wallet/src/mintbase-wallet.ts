@@ -8,7 +8,23 @@ import type {
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
-import { TransactionSuccessEnum } from '@mintbase-js/sdk';
+
+
+export enum TransactionSuccessEnum {
+  MINT = 'mint',
+  TRANSFER = 'transfer',
+  BURN = 'burn',
+  DEPLOY_STORE = 'deploy-store',
+  MAKE_OFFER = 'make-offer',
+  REVOKE_MINTER = 'revoke-minter',
+  ADD_MINTER = 'add-minter',
+  TRANSFER_STORE_OWNERSHIP = 'transfer-store-ownership',
+  AUCTION_LIST = 'list',
+  SIMPLE_SALE_LIST = 'simple-sale-list',
+  UNLIST = 'unlist',
+  TAKE_OFFER = 'take-offer',
+  WITHDRAW_OFFER = 'withdraw-offer',
+}
 
 interface MintbaseWalletState {
   wallet: nearAPI.WalletConnection;

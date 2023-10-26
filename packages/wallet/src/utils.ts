@@ -2,60 +2,54 @@
     Mintbase Wallet Utils file
 */
 
-const checkCallbackUrl = (callbackUrl: string): string | boolean => {
-
+const checkCallbackUrl = (callbackUrl: string): string => {
   function isValidURL(url): boolean {
     const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
     return urlPattern.test(url);
   }
 
-  if (callbackUrl !== null && callbackUrl.length > 0) { 
-
+  if (callbackUrl !== null && callbackUrl.length > 0) {
     if (isValidURL(callbackUrl)) {
-      if (callbackUrl.startsWith('https://') || callbackUrl.startsWith('http://')) {
+      if (
+        callbackUrl.startsWith('https://') ||
+        callbackUrl.startsWith('http://')
+      ) {
         return callbackUrl;
-      } 
+      }
     } else {
-      console.error('callbackUrl set with wrong format. please use an URL with http:// or https:// instead.Further help available on our telegram channel: https://t.me/mintdev');
-      return false;
+      console.error(
+        'callbackUrl set with wrong format. please use an URL with http:// or https:// instead.Further help available on our telegram channel: https://t.me/mintdev',
+      );
+      return  new URL(window.location.href).toString();
     }
   } else {
-    console.info('please set your callbackUrl property on setupMintbaseWallet - further help available on our telegram channel: https://t.me/mintdev');
-    return false;
+    const globalCallBackUrl = localStorage.getItem(
+      'mintbase-wallet:callback_url',
+    );
+
+    if (isValidURL(globalCallBackUrl)) {
+      return globalCallBackUrl;
+    } else {
+      console.error(
+        'please set your callbackUrl property on setupMintbaseWallet - further help available on our telegram channel: https://t.me/mintdev',
+      );
+      return  new URL(window.location.href).toString();
+    }
   }
 
-  return false;
-
+  return  new URL(window.location.href).toString();
 };
 
-const getCallbackUrl = (callbackUrl?: string):  {cbUrl: string} => {
-  const currentUrl = new URL(window.location.href);
-  if (typeof window !== undefined) { 
-    const isValidCallbackUrl = checkCallbackUrl(callbackUrl);
-    console.log(isValidCallbackUrl, callbackUrl, 'isvalidCallback')
- 
+const getCallbackUrl = (callbackUrl?: string): { cbUrl: string } => {
+  if (typeof window !== undefined) {
+    const callBackUrlRes = checkCallbackUrl(callbackUrl);
+    console.log(callBackUrlRes, callbackUrl, 'isvalidCallback');
+
     // check if callBackUrl sent on the method is valid
     // method callbackUrl will always have priority over global callbackUrl , user can set different callbackUrls according to the method..
 
-    if (!isValidCallbackUrl) {
-
-        console.log('here')
-      const storedCallbackUrl =  localStorage.getItem('mintbase-wallet_callback_url');
-      const cbUrl = checkCallbackUrl(storedCallbackUrl);
-
-      console.log(cbUrl, typeof cbUrl )
-
-      if (typeof cbUrl === 'string') {
-        return { cbUrl : storedCallbackUrl }; 
-      } else {
-        return { cbUrl : currentUrl.toString() }; 
-      }
-    }
+    return { cbUrl: callBackUrlRes };
   }
-
-  return { cbUrl : currentUrl.toString() };
-
 };
-
 
 export { checkCallbackUrl, getCallbackUrl };
