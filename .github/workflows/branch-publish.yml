@@ -30,22 +30,10 @@ jobs:
         run: |
           echo NEAR_NETWORK=testnet >> .env
           echo NFT_CONTRACT_ID=default_contract >> .env
-
-          # Get the list of changed packages
-          changed_packages=$(npx lerna changed --json)
-
-          # Iterate through the changed packages and run the NPM scripts
-          for package in $changed_packages; do
-            package_name=$(echo $package | jq -r '.name')
-            package_path="packages/$package_name"
-            cd $package_path
-            npm ci
-            npm run lint
-            npm run build
-            npm run test
-            cd ..
-          done
-        shell: bash
+          npm ci
+          npm run lint
+          npm run build
+          npm run test
 
       - name: Aggregate LCOV results
         uses: RauliL/lerna-lcov-aggregate-action@master
@@ -60,28 +48,11 @@ jobs:
         # only publish and push
         if: ${{ github.ref_name == 'beta'}}
         run: |
-          # Get the list of changed packages
-          changed_packages=$(npx lerna changed --json)
-
-          # Create an array to store the names of changed packages
-          package_names=()
-          
-          # Extract the package names from the JSON output
-          for package in $changed_packages; do
-            package_name=$(echo $package | jq -r '.name')
-            package_names+=("$package_name")
-          done
-
-          # Version and publish only the changed packages
-          if [ ${#package_names[@]} -gt 0 ]; then
-            lerna version prerelease --yes --no-git-tag-version --no-push --preid ${{ github.ref_name }} ${package_names[@]}
-            git add --all
-            git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
-            lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease' }} ${package_names[@]}
-            git push --force
-          fi
-        shell: bash
-
+          lerna version prerelease --yes --no-git-tag-version --no-push --preid ${{ github.ref_name }}
+          git add --all
+          git commit -m "🤖 npm prerelease ${{ github.ref_name }}"
+          lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
+          git push --force
 
       - uses: chrnorm/deployment-action@v2
         name: Create GitHub deployment
