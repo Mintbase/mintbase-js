@@ -9,7 +9,6 @@ import type {
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
 
-
 export enum TransactionSuccessEnum {
   MINT = 'mint',
   TRANSFER = 'transfer',
@@ -152,9 +151,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     transactions: Array<Transaction>;
     callbackUrl?: string;
   }): Promise<void> => {
-
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
-
 
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
@@ -187,9 +184,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
 
-
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
-
 
     const urlParam = encodeURIComponent(stringifiedParam);
 
@@ -221,10 +216,16 @@ export const MintbaseWallet: WalletBehaviourFactory<
       });
       const signMeta = encodeURIComponent(args);
 
-      newUrl.searchParams.set('callback_url', `${cbUrl}?signMeta=${signMeta}`);
+      const cbUrlFinal = cbUrl.endsWith('/') ? cbUrl.slice(0, -1) : cbUrl;
+
+      newUrl.searchParams.set(
+        'callback_url',
+        `${cbUrlFinal}?signMeta=${signMeta}`,
+      );
     } else {
       newUrl.searchParams.set('callback_url', cbUrl);
     }
+
 
     window.location.assign(newUrl.toString());
     return;
