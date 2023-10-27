@@ -46,8 +46,6 @@ const getCallbackUrl = (callbackUrl?: string): { cbUrl: string } | null => {
   if (typeof window !== undefined) {
     const callBackUrlRes = checkCallbackUrl(callbackUrl);
 
-    console.log(callBackUrlRes, 'callBackUrlRes');
-
     // check if callBackUrl sent on the method is valid
     // method callbackUrl will always have priority over global callbackUrl , user can set different callbackUrls according to the method..
 
