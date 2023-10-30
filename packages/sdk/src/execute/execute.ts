@@ -19,7 +19,7 @@ export const execute = async (
   {
     wallet,
     account,
-    callbackUrl = mbjs.keys.callbackUrl,
+    callbackUrl,
     callbackArgs,
   }: NearExecuteOptions,
   ...calls: ComposableCall[]

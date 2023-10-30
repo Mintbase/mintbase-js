@@ -151,6 +151,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     transactions: Array<Transaction>;
     callbackUrl?: string;
   }): Promise<void> => {
+
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
     for (const { signerId } of transactions) {

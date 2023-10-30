@@ -4,7 +4,7 @@
 
 const checkCallbackUrl = (callbackUrl: string): string => {
   function isValidURL(url): boolean {
-    const urlPattern = /^(https?|ftp):\/\/[^\s/$.?#].[^\s]*$/;
+    const urlPattern = /^(https?|ftp|http?):\/\/[^\s/$.?#].[^\s]*$/;
     return urlPattern.test(url);
   }
 
@@ -44,7 +44,15 @@ const checkCallbackUrl = (callbackUrl: string): string => {
 
 const getCallbackUrl = (callbackUrl?: string): { cbUrl: string } | null => {
   if (typeof window !== undefined) {
-    const callBackUrlRes = checkCallbackUrl(callbackUrl);
+
+    const mbjsCallbackUrl = window?.['mbjs']?.keys.callbackUrl ? window?.['mbjs']?.keys.callbackUrl  : '';
+
+    const globalCBUrl =  localStorage?.getItem('mintbase-wallet:callback_url') || mbjsCallbackUrl;
+
+    // it gets always the passed callBackUrl first, if not check for the one on the Wallet Setup or mbjs.keys.callbackUrl
+    const finalcbURL = callbackUrl ?? globalCBUrl;
+
+    const callBackUrlRes = checkCallbackUrl(finalcbURL);
 
     // check if callBackUrl sent on the method is valid
     // method callbackUrl will always have priority over global callbackUrl , user can set different callbackUrls according to the method..
