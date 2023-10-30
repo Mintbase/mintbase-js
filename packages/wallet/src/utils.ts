@@ -45,7 +45,11 @@ const checkCallbackUrl = (callbackUrl: string): string => {
 const getCallbackUrl = (callbackUrl?: string): { cbUrl: string } | null => {
   if (typeof window !== undefined) {
 
-    const mbjsCallbackUrl = window?.['mbjs']?.keys.callbackUrl ? window?.['mbjs']?.keys.callbackUrl  : '';
+    let mbjsCallbackUrl =  '';
+
+    if ( window?.['mbjs']?.keys?.callbackUrl && window?.['mbjs']?.keys?.callbackUrl.length > 0  ) {
+      mbjsCallbackUrl = window?.['mbjs']?.keys?.callbackUrl;
+    }
 
     const globalCBUrl =  localStorage?.getItem('mintbase-wallet:callback_url') || mbjsCallbackUrl;
 
