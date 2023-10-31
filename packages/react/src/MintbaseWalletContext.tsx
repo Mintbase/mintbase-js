@@ -28,7 +28,6 @@ import type { Network } from '@mintbase-js/sdk';
 import { mbjs } from '@mintbase-js/sdk';
 import { setupMintbaseWallet } from '@mintbase-js/wallet';
 
-
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
 // but uses wrappers from @mintbase-js/auth and @mintbase-js/sdk
@@ -44,11 +43,6 @@ export type MintbaseWalletContext = {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
-}
-
-export type WalletSetupComponents = {
-  selector: WalletSelector;
-  modal: WalletSelectorModal;
 }
 
 export const MintbaseWalletContext = createContext<MintbaseWalletContext | null>(null);
@@ -218,4 +212,4 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   );
 };
 
-export const useWallet = (): MintbaseWalletContext => useContext(MintbaseWalletContext);
+export const useMbWallet = (): MintbaseWalletContext => useContext(MintbaseWalletContext);
