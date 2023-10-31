@@ -1,6 +1,6 @@
 import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
 import type { providers, Account } from 'near-api-js';
-import {
+import type {
   CallBackArgs,
   ContractCall,
   TxnOptionalSignerId,
@@ -10,7 +10,6 @@ import {
 } from '../types';
 import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
-
 
 /**
  * checkCallbackUrl()
@@ -26,16 +25,16 @@ export const checkCallbackUrl = (
   outcomes: void | FinalExecutionOutcome[],
 ): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
   const isNotBrowserWallet = wallet?.type !== 'browser';
-  const hasCallbackUrl = Boolean(typeof window !== 'undefined' && callbackUrl?.length > 0);
+  const hasCallbackUrl = Boolean(
+    typeof window !== 'undefined' && callbackUrl?.length > 0,
+  );
 
   if (hasCallbackUrl && isNotBrowserWallet) {
-
     const { transactionHash } = checkTransactionHash(outcomes);
 
     let finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}`;
 
     if (callbackArgs) {
-
       const args = JSON.stringify({
         type: callbackArgs?.type ?? '',
         args: callbackArgs?.args ?? '',
@@ -48,9 +47,8 @@ export const checkCallbackUrl = (
     return window.location.assign(finalUrl);
   }
 
-  return outcomes && outcomes.length == 1?  outcomes[0]: outcomes;
+  return outcomes && outcomes.length == 1 ? outcomes[0] : outcomes;
 };
-
 
 /**
  * checkTransactionHash()
@@ -58,7 +56,7 @@ export const checkCallbackUrl = (
  * @param receipt near transaction Receipt object
  * @returns transactionHash object
  */
-const checkTransactionHash = (receipt): {transactionHash: string}  => {
+const checkTransactionHash = (receipt): { transactionHash: string } => {
   let transactionHash = receipt?.transaction_outcome?.id;
 
   if (receipt?.length == 1) {
@@ -72,10 +70,12 @@ const checkTransactionHash = (receipt): {transactionHash: string}  => {
   return { transactionHash };
 };
 
-
-export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBackArgs): string => {
-
-  let url = callbackUrl && typeof callbackUrl !== 'undefined' ?  callbackUrl : null;
+export const callbackUrlFormatter = (
+  callbackUrl: string,
+  callbackArgs: CallBackArgs,
+): string => {
+  let url =
+    callbackUrl && typeof callbackUrl !== 'undefined' ? callbackUrl : null;
 
   if (callbackArgs?.type && callbackUrl) {
     const args = JSON.stringify({
@@ -84,7 +84,7 @@ export const callbackUrlFormatter = (callbackUrl: string, callbackArgs: CallBack
     });
 
     const signMeta = encodeURIComponent(args);
-    url = `${callbackUrl}/?signMeta=${signMeta}`;
+    url = `${callbackUrl}?signMeta=${signMeta}`;
   }
 
   return url;
@@ -96,10 +96,12 @@ export const genericBatchExecute = async (
   account: Account,
   callbackUrl: string,
   callbackArgs: CallBackArgs,
-): Promise<void | providers.FinalExecutionOutcome[]> =>{
+): Promise<void | providers.FinalExecutionOutcome[]> => {
   const url = callbackUrlFormatter(callbackUrl, callbackArgs);
   if (wallet) {
-    return url ?  batchExecuteWithBrowserWallet(call, wallet, url) : batchExecuteWithBrowserWallet(call, wallet);
+    return url
+      ? batchExecuteWithBrowserWallet(call, wallet, url, callbackArgs)
+      : batchExecuteWithBrowserWallet(call, wallet);
   }
   return batchExecuteWithNearAccount(call, account, url);
 };
@@ -111,18 +113,19 @@ const batchExecuteWithNearAccount = async (
   account: Account,
   callbackUrl?: string,
 ): Promise<FinalExecutionOutcome[]> => {
-  const outcomes: FinalExecutionOutcome[] =[];
+  const outcomes: FinalExecutionOutcome[] = [];
   for (const call of calls) {
-
     try {
-      outcomes.push(await account.functionCall({
-        contractId: call.contractAddress,
-        methodName: call.methodName,
-        args: call.args,
-        gas: new BN(call.gas),
-        attachedDeposit: new BN(call.deposit),
-        ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
-      }));
+      outcomes.push(
+        await account.functionCall({
+          contractId: call.contractAddress,
+          methodName: call.methodName,
+          args: call.args,
+          gas: new BN(call.gas),
+          attachedDeposit: new BN(call.deposit),
+          ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
+        }),
+      );
     } catch (err: unknown) {
       console.error(
         `${call.contractAddress}:${call.methodName} in batch failed: ${err}`,
@@ -137,16 +140,18 @@ const batchExecuteWithBrowserWallet = async (
   calls: ContractCall<ExecuteArgsResponse>[],
   wallet: Wallet,
   callback?: string,
+  callbackArgs?: CallBackArgs,
 ): Promise<void | FinalExecutionOutcome[]> => {
-
   const res = await wallet.signAndSendTransactions({
-    transactions: calls.map(convertGenericCallToWalletCall) as TxnOptionalSignerId[],
+    transactions: calls.map(
+      convertGenericCallToWalletCall,
+    ) as TxnOptionalSignerId[],
     ...(callback && { callbackUrl: callback }),
+    ...(callbackArgs && { callbackArgs: callbackArgs }),
   });
 
   return res;
 };
-
 
 export const convertGenericCallToWalletCall = (
   call: ContractCall<ExecuteArgsResponse>,
@@ -154,23 +159,33 @@ export const convertGenericCallToWalletCall = (
   return {
     signerId: call.signerId,
     receiverId: call.contractAddress,
-    actions:[{
-      type: 'FunctionCall',
-      params: {
-        methodName: call.methodName,
-        args: call.args,
-        gas: call.gas as string,
-        deposit: call.deposit as string,
+    actions: [
+      {
+        type: 'FunctionCall',
+        params: {
+          methodName: call.methodName,
+          args: call.args,
+          gas: call.gas as string,
+          deposit: call.deposit as string,
+        },
       },
-    }],
+    ],
   };
 };
 
-export function flattenArgs(calls: ComposableCall[] ): ContractCall<ExecuteArgsResponse>[] {
-  const contractCalls: ContractCall<ExecuteArgsResponse>[] =[];
+export function flattenArgs(
+  calls: ComposableCall[],
+): ContractCall<ExecuteArgsResponse>[] {
+  const contractCalls: ContractCall<ExecuteArgsResponse>[] = [];
   for (const call of calls) {
-    if (call instanceof Array && call.length > 0 && call as ContractCall<ExecuteArgsResponse>[]) {
-      call.map((item: ComposableCall) => contractCalls.push(item as ContractCall<ExecuteArgsResponse>));
+    if (
+      call instanceof Array &&
+      call.length > 0 &&
+      (call as ContractCall<ExecuteArgsResponse>[])
+    ) {
+      call.map((item: ComposableCall) =>
+        contractCalls.push(item as ContractCall<ExecuteArgsResponse>),
+      );
     } else {
       contractCalls.push(call as ContractCall<ExecuteArgsResponse>);
     }
@@ -178,8 +193,10 @@ export function flattenArgs(calls: ComposableCall[] ): ContractCall<ExecuteArgsR
   return contractCalls;
 }
 
-
-export const validateSigningOptions = ({ wallet, account }: NearExecuteOptions): void => {
+export const validateSigningOptions = ({
+  wallet,
+  account,
+}: NearExecuteOptions): void => {
   if (!wallet && !account) {
     throw NoSigningMethodPassedError;
   }

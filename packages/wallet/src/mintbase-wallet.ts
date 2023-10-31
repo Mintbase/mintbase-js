@@ -151,8 +151,11 @@ export const MintbaseWallet: WalletBehaviourFactory<
     transactions: Array<Transaction>;
     callbackUrl?: string;
   }): Promise<void> => {
-
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
+
+    // fix txn length issue
+    // if (transactions?.length > 10) {
+    // }
 
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
@@ -173,13 +176,11 @@ export const MintbaseWallet: WalletBehaviourFactory<
     actions,
     signerId,
     callbackUrl,
-    callbackArgs,
   }: {
     receiverId: string;
     actions: Array<Action>;
     signerId: string;
     callbackUrl: string;
-    callbackArgs?: CallBackArgs;
   }): Promise<void> => {
     assertValidSigner(signerId);
 
@@ -203,30 +204,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       }
     }
 
-    if (failureUrl && failureUrl.length > 0) {
-      newUrl.searchParams.set(
-        'success_url',
-        failureUrl || currentUrl.toString(),
-      );
-    }
-
-    if (callbackArgs) {
-      const args = JSON.stringify({
-        type: callbackArgs?.type ?? '',
-        args: callbackArgs?.args ?? '',
-      });
-      const signMeta = encodeURIComponent(args);
-
-      const cbUrlFinal = cbUrl.endsWith('/') ? cbUrl.slice(0, -1) : cbUrl;
-
-      newUrl.searchParams.set(
-        'callback_url',
-        `${cbUrlFinal}?signMeta=${signMeta}`,
-      );
-    } else {
-      newUrl.searchParams.set('callback_url', cbUrl);
-    }
-
+    newUrl.searchParams.set('callback_url', cbUrl);
 
     window.location.assign(newUrl.toString());
     return;

@@ -1,5 +1,4 @@
 import type { providers } from 'near-api-js';
-import { mbjs } from '../config/config';
 import type { ComposableCall, NearExecuteOptions } from '../types';
 import {
   checkCallbackUrl,
@@ -16,25 +15,40 @@ import {
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}, or a redirect to selected callbackUrl
  */
 export const execute = async (
-  {
-    wallet,
-    account,
-    callbackUrl,
-    callbackArgs,
-  }: NearExecuteOptions,
+  { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
 ): Promise<
   void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]
 > => {
   validateSigningOptions({ wallet, account });
 
+  let callbackFinal = callbackUrl;
+
+  if (wallet?.id == 'mintbase-wallet') {
+    if (callbackUrl?.length < 1 || callbackUrl === undefined) {
+      let mbjsCallbackUrl = '';
+
+      if (
+        window?.['mbjs']?.keys?.callbackUrl &&
+        window?.['mbjs']?.keys?.callbackUrl.length > 0
+      ) {
+        mbjsCallbackUrl = window?.['mbjs']?.keys?.callbackUrl;
+      }
+
+      const globalCBUrl =
+        localStorage?.getItem('mintbase-wallet:callback_url') || mbjsCallbackUrl;
+
+      callbackFinal = globalCBUrl;
+    }
+  }
+
   const outcomes = await genericBatchExecute(
     flattenArgs(calls),
     wallet,
     account,
-    callbackUrl,
+    callbackFinal,
     callbackArgs,
   );
 
-  return checkCallbackUrl(callbackUrl, callbackArgs, wallet, outcomes);
+  return checkCallbackUrl(callbackFinal, callbackArgs, wallet, outcomes);
 };
