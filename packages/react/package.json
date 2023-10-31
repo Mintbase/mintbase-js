@@ -23,10 +23,9 @@
     "@testing-library/user-event": "^14.4.3"
   },
   "dependencies": {
-    "@mintbase-js/auth": "^0.4.1-fix-sign-transaction-c74f653.0",
+    "@mintbase-js/auth": "^0.4.1-fix-sign-transaction-93af109.0",
     "@mintbase-js/data": "^0.4.1-beta.7",
     "@mintbase-js/sdk": "^0.4.1-fix-sign-transaction-01752c3.0",
-    "@mintbase-js/wallet": "^0.4.1-fix-sign-transaction-01752c3.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
     "near-api-js": "^2.1.3",

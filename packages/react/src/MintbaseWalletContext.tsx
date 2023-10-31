@@ -9,11 +9,11 @@ import React, {
 } from 'react';
 import {
   registerWalletAccountsSubscriber,
-  setupWalletSelectorComponents,
   connectWalletSelector,
   disconnectFromWalletSelector,
   pollForWalletConnection,
   signMessage,
+  setupMintbaseWalletSelector,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import type {
@@ -26,7 +26,6 @@ import type {
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import type { Network } from '@mintbase-js/sdk';
 import { mbjs } from '@mintbase-js/sdk';
-import { setupMintbaseWallet } from '@mintbase-js/wallet';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -64,58 +63,31 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   const selectedNetwork =   network || mbjs.keys.network;
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
-  const walletUrls = {
-    testnet: 'https://testnet.wallet.mintbase.xyz/',
-    mainnet: 'https://wallet.mintbase.xyz',
-  };
 
   const setupMbWallet = async () => {
     if (onlyMbWallet) {
-      return await setupWalletSelectorComponents(
+      return await setupMintbaseWalletSelector(
+        callbackUrl,
+        true,
         selectedNetwork,
         selectedContract,
-        {
-          additionalWallets: [
-            setupMintbaseWallet({
-              networkId: network,
-              walletUrl: walletUrls[network],
-              deprecated: false,
-              callbackUrl: callbackUrl,
-            }),
-          ],
-        },
       );
     } else {
       if ( additionalWallets?.length > 0 || additionalWallets !== undefined ) {
-        return await setupWalletSelectorComponents(
+        return await setupMintbaseWalletSelector(
+          callbackUrl,
+          true,
           selectedNetwork,
           selectedContract,
-          {
-            additionalWallets: [
-              ...additionalWallets,
-              setupMintbaseWallet({
-                networkId: network,
-                walletUrl: walletUrls[network],
-                deprecated: false,
-                callbackUrl: callbackUrl,
-              }),
-            ],
-          },
+          { additionalWallets },
         );
       } else {
-        return await setupWalletSelectorComponents(
+        return await setupMintbaseWalletSelector(
+          callbackUrl,
+          false,
           selectedNetwork,
           selectedContract,
-          {
-            additionalWallets: [
-              setupMintbaseWallet({
-                networkId: network,
-                walletUrl: walletUrls[network],
-                deprecated: false,
-                callbackUrl: callbackUrl,
-              }),
-            ],
-          },
+          { additionalWallets },
         );
       }
     }
