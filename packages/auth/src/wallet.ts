@@ -33,14 +33,16 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * Set up wallet selector components. Returns the modal
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
-export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory> }): Promise<WalletSelectorComponents> => {
+// eslint-disable-next-line max-len
+export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory>; onlyMbWallet?: boolean }): Promise<WalletSelectorComponents> => {
   
+  const moduls = options?.onlyMbWallet?  [...options?.additionalWallets] : [...options?.additionalWallets || [],
+    ...(await setupDefaultWallets())]; 
+
   const selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
-    modules: [
-      ...options?.additionalWallets || [],
-    ],
+    modules: moduls,
   });
 
   const modal = setupModal(selector, {
