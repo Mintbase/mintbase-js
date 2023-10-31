@@ -44,8 +44,7 @@ const walletUrls = {
 
 // eslint-disable-next-line max-len
 export const setupMintbaseWalletSelector = async (callbackUrl, onlyMbWallet = false, network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory>  }): Promise<WalletSelectorComponents> => {
-  
-  const selector = await setupWalletSelector({
+  let selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
     modules: [
@@ -56,9 +55,27 @@ export const setupMintbaseWalletSelector = async (callbackUrl, onlyMbWallet = fa
         callbackUrl: callbackUrl,
       }),
       ...options?.additionalWallets || [],
-      ...(!onlyMbWallet && {  ...(await setupDefaultWallets()) }),
     ],
   });
+ 
+
+  if (onlyMbWallet === false) {
+    selector = await setupWalletSelector({
+      network: network,
+      debug: mbjs.keys.debugMode,
+      modules: [
+        setupMintbaseWallet({
+          networkId: network,
+          walletUrl: walletUrls[network],
+          deprecated: false,
+          callbackUrl: callbackUrl,
+        }),
+        ...options?.additionalWallets || [],
+        ...(await setupDefaultWallets()),
+      ],
+    });
+  }
+
 
   const modal = setupModal(selector, {
     contractId:contractAddress,
