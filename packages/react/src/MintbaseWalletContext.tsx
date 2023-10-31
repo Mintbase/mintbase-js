@@ -14,8 +14,8 @@ import {
   disconnectFromWalletSelector,
   pollForWalletConnection,
   signMessage,
-} from '@mintbase-js/auth/lib/wallet';
-import type { WalletSelectorComponents } from '@mintbase-js/auth/lib/wallet';
+} from '@mintbase-js/auth';
+import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import type {
   WalletSelector,
   AccountState,
