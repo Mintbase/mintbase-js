@@ -13,7 +13,6 @@ import {
   disconnectFromWalletSelector,
   pollForWalletConnection,
   signMessage,
-  setupMintbaseWalletSelector,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import type {
@@ -26,6 +25,7 @@ import type {
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import type { Network } from '@mintbase-js/sdk';
 import { mbjs } from '@mintbase-js/sdk';
+import { setupMintbaseWalletSelector } from '@mintbase-js/auth';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -65,32 +65,15 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
 
 
   const setupMbWallet = async () => {
-    if (onlyMbWallet) {
-      return await setupMintbaseWalletSelector(
-        callbackUrl,
-        true,
-        selectedNetwork,
-        selectedContract,
-      );
-    } else {
-      if ( additionalWallets?.length > 0 || additionalWallets !== undefined ) {
-        return await setupMintbaseWalletSelector(
-          callbackUrl,
-          true,
-          selectedNetwork,
-          selectedContract,
-          { additionalWallets },
-        );
-      } else {
-        return await setupMintbaseWalletSelector(
-          callbackUrl,
-          false,
-          selectedNetwork,
-          selectedContract,
-          { additionalWallets },
-        );
-      }
-    }
+    const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
+
+    return await setupMintbaseWalletSelector(
+      callbackUrl,
+      isOnlyMbWallet,
+      selectedNetwork,
+      selectedContract,
+      isOnlyMbWallet ? { additionalWallets } : undefined,
+    );
   };
 
   const setup = useCallback(async () => {
@@ -171,7 +154,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
     setIsWaitingForConnection(false);
   };
 
-  const walletSelectorContextValue = useMemo<MintbaseWalletContext>(
+  const contextVal = useMemo<MintbaseWalletContext>(
     () => ({
       selector: selector,
       modal: modal,
@@ -190,7 +173,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   );
 
   return (
-    <MintbaseWalletContext.Provider value={walletSelectorContextValue}>
+    <MintbaseWalletContext.Provider value={contextVal}>
       {children}
     </MintbaseWalletContext.Provider>
   );
