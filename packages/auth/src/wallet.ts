@@ -33,19 +33,16 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 * Set up wallet selector components. Returns the modal
 * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
 */
-// eslint-disable-next-line max-len
-export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory>; onlyMbWallet?: boolean }): Promise<WalletSelectorComponents> => {
+export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory> }): Promise<WalletSelectorComponents> => {
   
-  const modls = options?.onlyMbWallet?  [...options?.additionalWallets] : [
-    ...(await setupDefaultWallets()),
-    ...SUPPORTED_NEAR_WALLETS,
-    ...options?.additionalWallets || [],
-  ]; 
-
   const selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
-    modules: modls,
+    modules: [
+      ...(await setupDefaultWallets()),
+      ...SUPPORTED_NEAR_WALLETS,
+      ...options?.additionalWallets || [],
+    ],
   });
 
   const modal = setupModal(selector, {
@@ -203,4 +200,3 @@ export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOw
 
 //   return false;
 // };
-
