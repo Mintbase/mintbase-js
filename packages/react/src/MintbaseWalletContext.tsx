@@ -70,7 +70,6 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   };
 
   const setupMbWallet = async () => {
-      
     if (onlyMbWallet) {
       return await setupWalletSelectorComponents(
         selectedNetwork,
@@ -88,8 +87,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
         },
       );
     } else {
-
-      if (additionalWallets !== null || additionalWallets.length > 0) {
+      if ( additionalWallets?.length > 0 || additionalWallets !== undefined ) {
         return await setupWalletSelectorComponents(
           selectedNetwork,
           selectedContract,

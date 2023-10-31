@@ -36,13 +36,16 @@ export let walletSelectorComponents: WalletSelectorComponents  = {
 // eslint-disable-next-line max-len
 export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory>; onlyMbWallet?: boolean }): Promise<WalletSelectorComponents> => {
   
-  const moduls = options?.onlyMbWallet?  [...options?.additionalWallets] : [...options?.additionalWallets || [],
-    ...(await setupDefaultWallets())]; 
+  const modls = options?.onlyMbWallet?  [...options?.additionalWallets] : [
+    ...(await setupDefaultWallets()),
+    ...SUPPORTED_NEAR_WALLETS,
+    ...options?.additionalWallets || [],
+  ]; 
 
   const selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
-    modules: moduls,
+    modules: modls,
   });
 
   const modal = setupModal(selector, {
