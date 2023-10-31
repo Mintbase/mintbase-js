@@ -89,23 +89,40 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
       );
     } else {
 
-      return await setupWalletSelectorComponents(
-        selectedNetwork,
-        selectedContract,
-        {
-          additionalWallets: [
-            ...additionalWallets,
-            setupMintbaseWallet({
-              networkId: network,
-              walletUrl: walletUrls[network],
-              deprecated: false,
-              callbackUrl: callbackUrl,
-            }),
-          ],
-          onlyMbWallet: false,
-        },
-      );
-
+      if (additionalWallets !== null || additionalWallets.length > 0) {
+        return await setupWalletSelectorComponents(
+          selectedNetwork,
+          selectedContract,
+          {
+            additionalWallets: [
+              ...additionalWallets,
+              setupMintbaseWallet({
+                networkId: network,
+                walletUrl: walletUrls[network],
+                deprecated: false,
+                callbackUrl: callbackUrl,
+              }),
+            ],
+            onlyMbWallet: false,
+          },
+        );
+      } else {
+        return await setupWalletSelectorComponents(
+          selectedNetwork,
+          selectedContract,
+          {
+            additionalWallets: [
+              setupMintbaseWallet({
+                networkId: network,
+                walletUrl: walletUrls[network],
+                deprecated: false,
+                callbackUrl: callbackUrl,
+              }),
+            ],
+            onlyMbWallet: false,
+          },
+        );
+      }
     }
   };
 
