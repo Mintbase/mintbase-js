@@ -43,49 +43,39 @@ const walletUrls = {
 
 
 // eslint-disable-next-line max-len
-export const setupMintbaseWalletSelector = async (callbackUrl, onlyMbWallet = false, network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory>  }): Promise<WalletSelectorComponents> => {
-  let selector = await setupWalletSelector({
-    network: network,
+export const setupMintbaseWalletSelector = async (callbackUrl, onlyMbWallet = false, network?, contractAddress?, options? : { additionalWallets?: Array<WalletModuleFactory> },
+): Promise<WalletSelectorComponents> => {
+  const commonModuleConfig = {
+    network,
     debug: mbjs.keys.debugMode,
     modules: [
       setupMintbaseWallet({
         networkId: network,
         walletUrl: walletUrls[network],
         deprecated: false,
-        callbackUrl: callbackUrl,
+        callbackUrl,
       }),
       ...options?.additionalWallets || [],
     ],
-  });
- 
+  };
 
-  if (onlyMbWallet === false) {
+  let selector;
+
+  if (onlyMbWallet) {
+    selector = await setupWalletSelector(commonModuleConfig);
+  } else {
+    const defaultWallets = await setupDefaultWallets();
     selector = await setupWalletSelector({
-      network: network,
-      debug: mbjs.keys.debugMode,
-      modules: [
-        setupMintbaseWallet({
-          networkId: network,
-          walletUrl: walletUrls[network],
-          deprecated: false,
-          callbackUrl: callbackUrl,
-        }),
-        ...options?.additionalWallets || [],
-        ...(await setupDefaultWallets()),
-      ],
+      ...commonModuleConfig,
+      modules: [...commonModuleConfig.modules, ...defaultWallets],
     });
   }
 
-
   const modal = setupModal(selector, {
-    contractId:contractAddress,
+    contractId: contractAddress,
   });
 
-  walletSelectorComponents = {
-    selector,
-    modal,
-  };
-  return walletSelectorComponents;
+  return { selector, modal };
 };
 
 
