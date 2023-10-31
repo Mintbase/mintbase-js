@@ -83,7 +83,6 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
               callbackUrl: callbackUrl,
             }),
           ],
-          onlyMbWallet: true,
         },
       );
     } else {
@@ -101,7 +100,6 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
                 callbackUrl: callbackUrl,
               }),
             ],
-            onlyMbWallet: false,
           },
         );
       } else {
@@ -117,7 +115,6 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
                 callbackUrl: callbackUrl,
               }),
             ],
-            onlyMbWallet: false,
           },
         );
       }
