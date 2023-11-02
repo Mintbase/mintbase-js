@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/rpc",
-  "version": "0.4.2-beta-prerelease.2",
+  "version": "0.4.2-beta-prerelease.3",
   "description": "NEAR RPC interactions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -25,7 +25,7 @@
     "isomorphic-unfetch": "^3.1.0"
   },
   "devDependencies": {
-    "@mintbase-js/sdk": "^0.4.2-beta-prerelease.2",
+    "@mintbase-js/sdk": "^0.4.2-beta-prerelease.3",
     "@types/bn.js": "^5.1.1"
   }
 }
