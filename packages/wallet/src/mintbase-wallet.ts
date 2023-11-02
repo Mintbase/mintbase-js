@@ -113,14 +113,17 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const origin = window.location.origin;
 
+    const callBackUrl = localStorage?.getItem('mintbase-wallet:callback_url');
+
     if (existingAccounts.length) {
       return existingAccounts;
     }
 
     await state.wallet.requestSignIn({
       methodNames: [],
-      successUrl: successUrl ?? origin,
-      failureUrl: failureUrl ?? origin,
+      successUrl: callBackUrl ?? origin,
+      failureUrl: callBackUrl ?? origin,
+       
     });
 
     return getAccounts();
