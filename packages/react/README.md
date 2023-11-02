@@ -91,12 +91,11 @@ import { MintbaseWalletContextProvider } from '@mintbase-js/react'
 <MintbaseWalletContextProvider
 	contractAddress="mycontract.mintbase1.near"
 	network="mainnet"
-	callbackUrl="https://www.mywebsite.com/callback"
-  >
+	callbackUrl="https://www.mywebsite.com/callback">
 
 	<Component {...pageProps} />
 
-</WalletContextProvider>
+</MintbaseWalletContextProvider>
 
 ```
 
