@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/testing",
-  "version": "0.4.2-beta-prerelease.3",
+  "version": "0.4.2-beta-prerelease.4",
   "description": "Integration test suite and testing utils",
   "main": "lib/index.js",
   "scripts": {
@@ -21,7 +21,7 @@
   "dependencies": {
     "@google-cloud/firestore": "^6.4.2",
     "@google-cloud/secret-manager": "^4.1.4",
-    "@mintbase-js/auth": "^0.4.2-beta-prerelease.3",
+    "@mintbase-js/auth": "^0.4.2-beta-prerelease.4",
     "@mintbase-js/sdk": "^0.3.2-upgrade-packages-3378beb.0",
     "graphql-request": "^5.0.0"
   },
