@@ -1,5 +1,6 @@
 export * from './accountsByPublicKey/accountsByPublicKey';
 export * from './attributesByMetaId/attributesByMetaId';
+export * from './keyActivity/keyActivity';
 export * from './metadataByMetadataId/metadataByMetadataId';
 export * from './nearPrice/nearPrice';
 export * from './ownedTokens/ownedTokens';
