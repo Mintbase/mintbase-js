@@ -62,7 +62,7 @@ For guides and specific use case examples visit our [General Documentation](http
 
 
 ### [@mintbase-js/wallet docs](packages/wallet)
-  - Upload metadata to permanent storage
+  - the mintbase wallet js sdk.
 
 ### [@mintbase-js/sdk docs](packages/sdk)
 
