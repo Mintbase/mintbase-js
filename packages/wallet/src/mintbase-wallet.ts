@@ -123,7 +123,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
       methodNames: [],
       successUrl: callBackUrl ?? origin,
       failureUrl: callBackUrl ?? origin,
-       
     });
 
     return getAccounts();
