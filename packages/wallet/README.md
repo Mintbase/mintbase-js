@@ -1,3 +1,4 @@
+[//]: # `{ "title": "@mintbase-js/wallet", "order": "1" }`
 
 # @mintbase-js/wallet
 
@@ -44,6 +45,10 @@ pnpm  install  @mintbase-js/wallet
 
 Then use it in your dApp:
 
+
+{% code title="setup.ts" overflow="wrap" lineNumbers="true" %}
+
+
 ```ts
 
 import { setupWalletSelector } from  "@near-wallet-selector/core";
@@ -63,7 +68,8 @@ const selector = await setupWalletSelector({
 });
 
 ```
-  
+ {% endcode %}
+
 
 ## setupMintbaseWallet
 
