@@ -1,4 +1,9 @@
-import { setupWalletSelector, VerifiedOwner, VerifyOwnerParams, Wallet } from '@near-wallet-selector/core';
+import {
+  setupWalletSelector,
+  VerifiedOwner,
+  VerifyOwnerParams,
+  Wallet,
+} from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
 import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
@@ -8,45 +13,109 @@ import {
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
-import type { WalletSelector, AccountState, WalletModuleFactory } from '@near-wallet-selector/core';
+import type {
+  WalletSelector,
+  AccountState,
+  WalletModuleFactory,
+} from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
 import { mbjs } from '@mintbase-js/sdk';
+import { setupMintbaseWallet } from '@mintbase-js/wallet';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
 // https://github.com/near/wallet-selector/
+
 export type WalletSelectorComponents = {
-    selector: WalletSelector;
-    modal: WalletSelectorModal;
+  selector: WalletSelector;
+  modal: WalletSelectorModal;
 }
 
 // wallet components are held and exposed as a singleton reference
 // this way they can be more easily passed to other components vs composing calls.
-export let walletSelectorComponents: WalletSelectorComponents  = {
+export let walletSelectorComponents: WalletSelectorComponents = {
   selector: null,
   modal: null,
 };
 
 /**
-* Set up wallet selector components. Returns the modal
-* See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
-*/
-export const setupWalletSelectorComponents = async (network?, contractAddress?, options?: { additionalWallets?: Array<WalletModuleFactory> }): Promise<WalletSelectorComponents> => {
-  
+ * Set up wallet selector components. Returns the modal
+ * See also docs on {@link https://github.com/near/wallet-selector/ | near wallet selector}
+ */
+
+const walletUrls = {
+  testnet: 'https://testnet.wallet.mintbase.xyz/',
+  mainnet: 'https://wallet.mintbase.xyz',
+};
+
+// eslint-disable-next-line max-len
+export const setupMintbaseWalletSelector = async (
+  callbackUrl,
+  onlyMbWallet = false,
+  network?,
+  contractAddress?,
+  options?: { additionalWallets?: Array<WalletModuleFactory> },
+): Promise<WalletSelectorComponents> => {
+
+
+  if (onlyMbWallet === false) {
+
+    walletSelectorComponents.selector = await setupWalletSelector({
+      network: network,
+      debug: mbjs.keys.debugMode,
+      modules: [
+        setupMintbaseWallet({
+          networkId: network,
+          walletUrl: walletUrls[network],
+          deprecated: false,
+          callbackUrl: callbackUrl,
+        }),
+        ...(options?.additionalWallets || []),
+        ...SUPPORTED_NEAR_WALLETS,
+      ],
+    });
+  } else {
+    walletSelectorComponents.selector = await setupWalletSelector({
+      network: network,
+      debug: mbjs.keys.debugMode,
+      modules: [
+        setupMintbaseWallet({
+          networkId: network,
+          walletUrl: walletUrls[network],
+          deprecated: false,
+          callbackUrl: callbackUrl,
+        }),
+        ...(options?.additionalWallets || []),
+      ],
+    });
+  }
+
+  walletSelectorComponents.modal = setupModal( walletSelectorComponents.selector, {
+    contractId: contractAddress,
+  });
+
+  return walletSelectorComponents;
+};
+
+export const setupWalletSelectorComponents = async (
+  network?,
+  contractAddress?,
+  options?: { additionalWallets?: Array<WalletModuleFactory> },
+): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
     network: network,
     debug: mbjs.keys.debugMode,
     modules: [
       ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
-      ...options?.additionalWallets || [],
+      ...(options?.additionalWallets || []),
     ],
   });
 
   const modal = setupModal(selector, {
-    contractId:contractAddress,
+    contractId: contractAddress,
   });
 
   walletSelectorComponents = {
@@ -57,18 +126,16 @@ export const setupWalletSelectorComponents = async (network?, contractAddress?, 
 };
 
 export class SetupNotCalledError extends Error {
-  message: string;
+  message: string
 }
 
 export class ConnectionTimeoutError extends Error {
-  message: string;
+  message: string
 }
 
 const validateWalletComponentsAreSetup = (): void => {
   if (!walletSelectorComponents.selector) {
-    throw new SetupNotCalledError(
-      ERROR_MESSAGES.WALLET_SETUP_NOT_CALLED_ERROR,
-    );
+    throw new SetupNotCalledError(ERROR_MESSAGES.WALLET_SETUP_NOT_CALLED_ERROR);
   }
 };
 
@@ -77,11 +144,11 @@ export const registerWalletAccountsSubscriber = (
 ): Subscription => {
   validateWalletComponentsAreSetup();
 
-  return walletSelectorComponents
-    .selector
-    .store
-    .observable
-    .pipe(map((state) => state.accounts), distinctUntilChanged())
+  return walletSelectorComponents.selector.store.observable
+    .pipe(
+      map((state) => state.accounts),
+      distinctUntilChanged(),
+    )
     .subscribe(callback);
 };
 
@@ -99,10 +166,8 @@ export const pollForWalletConnection = async (): Promise<AccountState[]> => {
     reject: (err: ConnectionTimeoutError) => void,
     elapsed = 0,
   ): void => {
-    const { accounts } = walletSelectorComponents
-      .selector
-      .store
-      .getState() || {};
+    const { accounts } =
+      walletSelectorComponents.selector.store.getState() || {};
 
     // accounts present in state
     if (accounts) {
@@ -111,72 +176,70 @@ export const pollForWalletConnection = async (): Promise<AccountState[]> => {
 
     // timed out
     if (elapsed > WALLET_CONNECTION_TIMEOUT) {
-      reject(new ConnectionTimeoutError(ERROR_MESSAGES.WALLET_CONNECTION_NOT_FOUND));
+      reject(
+        new ConnectionTimeoutError(ERROR_MESSAGES.WALLET_CONNECTION_NOT_FOUND),
+      );
     }
 
     // try again
     clearTimeout(timerReference);
-    timerReference = setTimeout(() =>
-      tryToResolveAccountsFromState(
-        resolve,
-        reject,
-        elapsed + WALLET_CONNECTION_POLL_INTERVAL,
-      ), WALLET_CONNECTION_POLL_INTERVAL);
-
+    timerReference = setTimeout(
+      () =>
+        tryToResolveAccountsFromState(
+          resolve,
+          reject,
+          elapsed + WALLET_CONNECTION_POLL_INTERVAL,
+        ),
+      WALLET_CONNECTION_POLL_INTERVAL,
+    );
   };
 
-  return new Promise(
-    (resolve, reject) => tryToResolveAccountsFromState(resolve, reject),
+  return new Promise((resolve, reject) =>
+    tryToResolveAccountsFromState(resolve, reject),
   );
 };
 
 export const getWallet = async (): Promise<Wallet> => {
   validateWalletComponentsAreSetup();
 
-  return await walletSelectorComponents
-    .selector
-    .wallet();
+  return await walletSelectorComponents.selector.wallet();
 };
 
 export const connectWalletSelector = (): void => {
   validateWalletComponentsAreSetup();
 
-  walletSelectorComponents
-    .modal
-    .show();
+  walletSelectorComponents.modal.show();
 };
 
-export const disconnectFromWalletSelector = async(): Promise<void> => {
+export const disconnectFromWalletSelector = async (): Promise<void> => {
   validateWalletComponentsAreSetup();
 
-  const wallet = await walletSelectorComponents
-    .selector
-    .wallet();
+  const wallet = await walletSelectorComponents.selector.wallet();
   wallet.signOut();
 };
 
-export const getVerifiedOwner =
-  async (params: VerifyOwnerParams): Promise<VerifiedOwner | undefined> => {
-    validateWalletComponentsAreSetup();
+export const getVerifiedOwner = async (
+  params: VerifyOwnerParams,
+): Promise<VerifiedOwner | undefined> => {
+  validateWalletComponentsAreSetup();
 
-    const { message, callbackUrl, meta } = params;
+  const { message, callbackUrl, meta } = params;
 
-    const wallet = await walletSelectorComponents
-      .selector
-      .wallet();
+  const wallet = await walletSelectorComponents.selector.wallet();
 
-    const owner = await wallet.verifyOwner({
-      message: message,
-      callbackUrl: callbackUrl,
-      meta: meta,
-    }) as VerifiedOwner;
+  const owner = (await wallet.verifyOwner({
+    message: message,
+    callbackUrl: callbackUrl,
+    meta: meta,
+  })) as VerifiedOwner;
 
-    return owner;
-  };
-
+  return owner;
+};
 
 // returns a signature of message
-export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOwner> => {
+export const signMessage = async (
+  params: VerifyOwnerParams,
+): Promise<VerifiedOwner> => {
   const owner = await getVerifiedOwner(params);
 
   return owner;
@@ -200,4 +263,3 @@ export const signMessage = async (params: VerifyOwnerParams): Promise<VerifiedOw
 
 //   return false;
 // };
-

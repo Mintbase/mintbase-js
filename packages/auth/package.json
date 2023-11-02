@@ -19,7 +19,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "^0.4.1-beta-prerelease.1",
+    "@mintbase-js/sdk": "0.4.1-fix-sign-transaction-b2e404b.0",
+    "@mintbase-js/wallet": "0.4.1-fix-sign-transaction-b2e404b.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/default-wallets": "^8.0.3",
     "@near-wallet-selector/here-wallet": "^8.0.3",
