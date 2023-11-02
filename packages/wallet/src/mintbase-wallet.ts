@@ -121,8 +121,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     await state.wallet.requestSignIn({
       methodNames: [],
-      successUrl: callBackUrl ?? origin,
-      failureUrl: callBackUrl ?? origin,
+      successUrl: successUrl ?? origin,
+      failureUrl: failureUrl ?? origin,
     });
 
     return getAccounts();

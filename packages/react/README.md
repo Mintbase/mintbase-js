@@ -58,19 +58,17 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 
 {% code title="app.tsx" overflow="wrap" lineNumbers="true" %}
 
-| prop | value |
+## properties:
 
-|--|--|
+**contractAddress** : `your near contract address / your mintbase store address`
 
-|contractAddress | your near contract address / your mintbase store address |
+**network** : ` mainnet | testnet`
 
-|network | mainnet / testnet |
+**callbackUrl** : `a valid https/http address to the user be sent after the transaction`
 
-|callbackUrl | a valid https/http address to the user be sent after the transaction |
+**onlyMbWallet** : `boolean, it sets up only MintbaseWallet or if false(default) MintbaseWallet + default wallets`
 
-|onlyMbWallet | boolean, it sets up only MintbaseWallet or if false(default) MintbaseWallet + default wallets |
-
-|additionalWallets | WalletModuleFactory[] extra wallets setup |
+**additionalWallets** : `WalletModuleFactory[] extra wallets setup`
 
 ```typescript
 
@@ -269,8 +267,8 @@ return <button  onClick={connect}>Connect  To  NEAR</button>
 return (
  <div>
     <p>You  are  connected  as {activeAccountId}</p>
-    <button  onClick={signTxn}>Transaction</button>
-    <button  onClick={disconnect}>Disconnect</button>
+    <button onClick={signTxn}>Transaction</button>
+    <button onClick={disconnect}>Disconnect</button>
  </div>
  )
 }
