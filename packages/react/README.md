@@ -80,7 +80,7 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 |--|--|
 |contractAddress  | your near contract address / your mintbase store address |
 |network  | mainnet / testnet |
-|callbackUrl  | a valid https/http address to be sent after the transaction |
+|callbackUrl  | a valid https/http address to the user be sent after the transaction |
 |onlyMbWallet  | boolean, it sets up only MintbaseWallet or if false(default) MintbaseWallet + default wallets |
 |additionalWallets  | WalletModuleFactory[] extra wallets setup |
 
