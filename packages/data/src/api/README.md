@@ -1,4 +1,4 @@
-[//]: # `{ "title": "API Methods", "order": "1.0" }`
+[//]: # `{ "title": "API Methods", "order": "2.0" }`
 
 # Installing
 

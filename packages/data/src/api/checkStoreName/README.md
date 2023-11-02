@@ -1,4 +1,4 @@
-[//]: # `{ "title": "checkStoreName", "order": "1.0.14" }`
+[//]: # `{ "title": "checkStoreName", "order": "2.0.14" }`
 # checkStoreName
 
 

@@ -1,4 +1,4 @@
-[//]: # `{ "title": "storeNfts", "order": "1.0.13" }`
+[//]: # `{ "title": "storeNfts", "order": "2.0.13" }`
 # storeNfts
 
 
