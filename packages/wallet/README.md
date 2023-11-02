@@ -13,6 +13,8 @@ This is the [Mintbase Wallet](https://wallet.mintbase.xyz/) SDK package.
 </p>
 
 
+check our [React integration](https://docs.mintbase.xyz/dev/mintbase-sdk-ref/react#mintbasewalletcontextprovider)
+
 ## Installation and Usage
 
 The easiest way to use this package is to install it from the NPM registry, this package requires `near-api-js` v1.0.0 or above:
