@@ -1,6 +1,6 @@
 {
   "name": "mintbase-next-test-suite",
-  "version": "0.4.2-beta.0",
+  "version": "0.4.2-beta-prerelease.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
