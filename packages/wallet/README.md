@@ -1,7 +1,15 @@
 
 # @mintbase-js/wallet
 
-This is the [Mintbase Wallet](https://wallet.mintbase.xyz/) package.
+This is the [Mintbase Wallet](https://wallet.mintbase.xyz/) SDK package.
+
+<p  align="center">
+
+<img src='https://img.shields.io/npm/dw/@mintbase-js/wallet'  />
+
+<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet'>
+
+</p>
 
 
 ## Installation and Usage
