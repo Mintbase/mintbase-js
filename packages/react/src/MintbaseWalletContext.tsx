@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
 import React, {
   createContext,
   useCallback,
@@ -13,6 +12,7 @@ import {
   disconnectFromWalletSelector,
   pollForWalletConnection,
   signMessage,
+  setupMintbaseWalletSelector,
 } from '@mintbase-js/auth';
 import type { WalletSelectorComponents } from '@mintbase-js/auth';
 import type {
@@ -25,7 +25,6 @@ import type {
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import type { Network } from '@mintbase-js/sdk';
 import { mbjs } from '@mintbase-js/sdk';
-import { setupMintbaseWalletSelector } from '@mintbase-js/auth';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -64,7 +63,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
 
-  const setupMbWallet = async () => {
+  const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
     const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
 
     return await setupMintbaseWalletSelector(
@@ -87,7 +86,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
     setIsWaitingForConnection(false);
   };
 
-  const setupWallet = async () => {
+  const setupWallet = async (): Promise<WalletSelectorComponents> => {
     const components = await setupMbWallet();
 
     return components;
@@ -108,7 +107,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
     closeButton?.addEventListener('click', onCloseModal);
 
     // Cleanup the event listener on unmount
-    return () => {
+    return (): void => {
       closeButton?.removeEventListener('click', onCloseModal);
     };
   }, [setup]);
