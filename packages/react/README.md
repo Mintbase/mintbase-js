@@ -83,14 +83,19 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 |callbackUrl  | a valid https/http address to be sent after the transaction |
 |onlyMbWallet  | boolean, it sets up only MintbaseWallet or if false(default) MintbaseWallet + default wallets |
 |additionalWallets  | WalletModuleFactory[] extra wallets setup |
+
+
 ```typescript
 import { MintbaseWalletContextProvider } from '@mintbase-js/react'
 
 <MintbaseWalletContextProvider
 	contractAddress="mycontract.mintbase1.near"
 	network="mainnet"
-	callbackUrl="https://www.mywebsite.com/callback">
-		<Component {...pageProps} />
+	callbackUrl="https://www.mywebsite.com/callback"
+  >
+
+	<Component {...pageProps} />
+
 </WalletContextProvider>
 
 ```
