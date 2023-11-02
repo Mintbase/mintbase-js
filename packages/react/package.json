@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/react",
-  "version": "0.4.2-beta-prerelease.1",
+  "version": "0.4.2-beta-prerelease.2",
   "description": "React app tools for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@mintbase-js/auth": "0.4.1-fix-sign-transaction-2018697.0",
-    "@mintbase-js/data": "^0.4.2-beta-prerelease.1",
+    "@mintbase-js/data": "^0.4.2-beta-prerelease.2",
     "@mintbase-js/sdk": "0.4.1-fix-sign-transaction-0872c2d.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
