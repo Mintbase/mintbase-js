@@ -19,11 +19,11 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@mintbase-js/auth": "0.4.1-fix-sign-transaction-2018697.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3"
   },
   "dependencies": {
-    "@mintbase-js/auth": "0.4.1-fix-sign-transaction-0872c2d.0",
     "@mintbase-js/data": "^0.4.1-beta.7",
     "@mintbase-js/sdk": "0.4.1-fix-sign-transaction-0872c2d.0",
     "@near-wallet-selector/core": "^8.0.3",
