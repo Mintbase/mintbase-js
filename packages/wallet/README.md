@@ -2,6 +2,9 @@
 
 # @mintbase-js/wallet
 
+![Frame 183341](https://github.com/Mintbase/mintbase-js/assets/11164548/026fe6ae-7b77-44dd-86ad-f90e52d3d0f1)
+
+
 This is the [Mintbase Wallet](https://wallet.mintbase.xyz/) SDK package.
 
 <p  align="center">
