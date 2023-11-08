@@ -1,5 +1,12 @@
+<<<<<<< HEAD
 [//]: # `{ "title": "@mintbase-js/wallet", "order": "3" }`
 
+=======
+
+[//]: # `{ "title": "@mintbase-js/wallet", "order": "1" }`
+>>>>>>> beta
+
+  
 
 # @mintbase-js/wallet
 
