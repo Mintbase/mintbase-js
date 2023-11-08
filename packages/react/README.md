@@ -12,6 +12,12 @@ This package contains React helpers for interacting with Mintbase JS.
 
 </p>
 
+Example:
+You can check a [quick example of Simple Login](https://github.com/Mintbase/starter) using Next.js 14 and @mintbase-js/react
+
+
+[Live Demo](https://mintbase-starter.vercel.app/)
+
 ## Summary
 
 - [Installing](#Installing)
@@ -278,3 +284,24 @@ return (
 ```
 
 {% endcode %}
+
+
+# Troubleshooting
+The wallet runs only on client-side.
+
+it might ask you to install 
+
+```
+  "@near-wallet-selector/modal-ui": "^8.7.1",
+  "isomorphic-unfetch": "^3.1.0",
+```
+
+if you have any extra problems with ```fs``` you can copy this
+[next.config.js](https://github.com/Mintbase/starter/blob/main/next-js/next.config.js) example
+
+Any other questions or issues you can contact support on our [Telegram Channel](https://telegram.me/mintdev).
+
+
+## License
+
+This repository is distributed under the terms of both the MIT license and the Apache License (Version 2.0).
