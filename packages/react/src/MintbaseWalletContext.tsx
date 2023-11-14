@@ -25,7 +25,6 @@ import type {
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import '@near-wallet-selector/modal-ui/styles.css';
 
-const mbjs = window!== undefined ? window['mbjs'] : '';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -60,9 +59,10 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
+  const mbjs = typeof window !== undefined ? window['mbjs'] : '';
+
   const selectedNetwork =   network || mbjs?.keys?.network;
   const selectedContract = contractAddress || mbjs?.keys?.contractAddress;
-
 
   const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
     const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
