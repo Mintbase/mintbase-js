@@ -4,10 +4,16 @@ import BN from 'bn.js';
 import type {
   Action,
   BrowserWallet,
+  Network,
+  NetworkId,
   Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
+import { getBalance } from "@mintbase-js/rpc";
+
+
+
 
 export enum TransactionSuccessEnum {
   MINT = 'mint',
@@ -39,6 +45,16 @@ export type CallBackArgs = {
   type: TransactionSuccessEnum;
 }
 
+interface Networks {
+  mainnet: string;
+  testnet: string;
+}
+
+const nodeRPCurls: Networks = {
+  mainnet: 'https://rpc.near.org',
+  testnet: 'https://rpc.testnet.near.org',
+};
+
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
   {
@@ -67,7 +83,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const connectionConfig = {
         networkId: networkId,
         keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-        nodeUrl: 'https://rpc.testnet.near.org',
+        nodeUrl: nodeRPCurls[networkId],
         walletUrl: walletUrl,
         headers: {},
       };
@@ -210,13 +226,12 @@ export const MintbaseWallet: WalletBehaviourFactory<
   };
 
   const verifyOwner = async (): Promise<void> => {
-    console.error('mintbasewallet:verifyOwner is unsupported!');
-
-    return;
+    throw (`The verifyOwner method is not supported for ${metadata.name}`);
   };
 
   const getAvailableBalance = async (): Promise<BN> => {
-    return new BN(0);
+    const accountId = state.wallet.getAccountId();
+    return await getBalance(accountId);
   };
 
   const getAccounts = async (): Promise<MintbaseWalletAccount[]> => {

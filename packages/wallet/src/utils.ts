@@ -2,6 +2,8 @@
     Mintbase Wallet Utils file
 */
 
+import { Network } from '@near-wallet-selector/core';
+
 const checkCallbackUrl = (callbackUrl: string): string => {
   function isValidURL(url): boolean {
     const urlPattern = /^(https?|ftp|http?):\/\/[^\s/$.?#].[^\s]*$/;
@@ -66,4 +68,19 @@ const getCallbackUrl = (callbackUrl?: string): { cbUrl: string } | null => {
   return null;
 };
 
-export { checkCallbackUrl, getCallbackUrl };
+const resolveWalletUrl = (network: string, walletUrl?: string): string  => {
+  if (walletUrl) {
+    return walletUrl;
+  }
+
+  switch (network) {
+  case 'mainnet':
+    return 'https://wallet.mintbase.xyz';
+  case 'testnet':
+    return 'https://testnet.wallet.mintbase.xyz/';
+  default:
+    throw new Error('Invalid wallet url');
+  }
+};
+
+export { checkCallbackUrl, getCallbackUrl, resolveWalletUrl };
