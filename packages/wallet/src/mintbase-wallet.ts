@@ -4,16 +4,11 @@ import BN from 'bn.js';
 import type {
   Action,
   BrowserWallet,
-  Network,
-  NetworkId,
   Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
-import { getBalance } from "@mintbase-js/rpc";
-
-
-
+import { getBalance } from '@mintbase-js/rpc';
 
 export enum TransactionSuccessEnum {
   MINT = 'mint',

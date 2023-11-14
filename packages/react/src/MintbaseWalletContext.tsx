@@ -23,8 +23,8 @@ import type {
   WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import type { Network } from '@mintbase-js/sdk';
-import { mbjs } from '@mintbase-js/sdk';
+
+const mbjs = window!== undefined ? window['mbjs'] : '';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -46,7 +46,7 @@ export type MintbaseWalletContext = {
 export const MintbaseWalletContext = createContext<MintbaseWalletContext | null>(null);
 
 // eslint-disable-next-line max-len
-export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl: string; network?: Network; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
+export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl: string; network?: string; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
   children, network, contractAddress, additionalWallets, onlyMbWallet, callbackUrl,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');

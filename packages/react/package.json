@@ -25,7 +25,6 @@
   "dependencies": {
     "@mintbase-js/auth": "0.5.0-beta.1",
     "@mintbase-js/data": "^0.5.0-beta-prerelease.1",
-    "@mintbase-js/sdk": "0.4.1-fix-sign-transaction-0872c2d.0",
     "@near-wallet-selector/core": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
     "near-api-js": "^2.1.3",

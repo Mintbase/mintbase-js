@@ -24,8 +24,9 @@ import type {
   WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import type { Network } from '@mintbase-js/sdk';
-import { mbjs } from '@mintbase-js/sdk';
+
+
+const mbjs = window!== undefined ? window['mbjs'] : '';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -51,7 +52,7 @@ export type WalletSetupComponents = {
 
 export const WalletContext = createContext<WalletContext | null>(null);
 
-export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: Network; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
+export const WalletContextProvider: React.FC<{ children: React.ReactNode; network?: string; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
   children, network, contractAddress, additionalWallets,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');

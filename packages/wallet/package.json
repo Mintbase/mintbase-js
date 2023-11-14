@@ -13,7 +13,6 @@
   "author": "Mintbase",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/rpc": "^0.5.0-beta-prerelease.1",
     "@near-wallet-selector/core": "^8.5.4",
     "bn.js": "^5.2.1",
     "near-api-js": "^2.1.4"
