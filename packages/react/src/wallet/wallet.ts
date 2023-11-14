@@ -35,16 +35,12 @@ export const ERROR_MESSAGES =  {
   WALLET_CONNECTION_NOT_FOUND:  `Wallet connection not received after ${WALLET_CONNECTION_TIMEOUT}ms - ${SUPPORT}`,
 };
 
-
-
 export const SUPPORTED_NEAR_WALLETS: Array<WalletModuleFactory> =[
   setupNearWallet(),
   setupMeteorWallet(),
   setupMyNearWallet(),
   setupHereWallet(),
 ];
-
-
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
