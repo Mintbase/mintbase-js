@@ -13,8 +13,8 @@ import {
   pollForWalletConnection,
   signMessage,
   setupMintbaseWalletSelector,
-} from '@mintbase-js/auth';
-import type { WalletSelectorComponents } from '@mintbase-js/auth';
+} from './wallet/wallet';
+import type { WalletSelectorComponents } from './wallet/wallet';
 import type {
   WalletSelector,
   AccountState,
