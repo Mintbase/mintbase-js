@@ -8,7 +8,6 @@ import type {
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
-import { getBalance } from '@mintbase-js/rpc';
 
 export enum TransactionSuccessEnum {
   MINT = 'mint',
@@ -224,9 +223,10 @@ export const MintbaseWallet: WalletBehaviourFactory<
     throw (`The verifyOwner method is not supported for ${metadata.name}`);
   };
 
-  const getAvailableBalance = async (): Promise<BN> => {
-    const accountId = state.wallet.getAccountId();
-    return await getBalance(accountId);
+  const getAvailableBalance = async (): Promise<void> => {
+    // const accountId = state.wallet.getAccountId();
+    // return await getBalance(accountId);
+    throw (`The getAvailableBalance method is not supported for ${metadata.name}`);
   };
 
   const getAccounts = async (): Promise<MintbaseWalletAccount[]> => {
