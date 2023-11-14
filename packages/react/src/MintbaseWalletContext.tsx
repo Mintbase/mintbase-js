@@ -58,11 +58,9 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
     useState<boolean>(false);
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
-
-  const mbjs = typeof window !== undefined ? window['mbjs'] : '';
-
-  const selectedNetwork =   network || mbjs?.keys?.network;
-  const selectedContract = contractAddress || mbjs?.keys?.contractAddress;
+  
+  const selectedNetwork = network; 
+  const selectedContract = contractAddress; 
 
   const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
     const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
@@ -94,24 +92,29 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   };
 
   // call setup on wallet selector
+
   useEffect(() => {
-    setupWallet();
+    if (typeof window !== 'undefined') {
+    // This code will only run in the browser environment
+      setupWallet();
 
-    setup().catch((err: Error) => {
-      if (err || err.message.length > 0) {
-        setErrorMessage((err as Error).message);
-      }
-    });
+      setup().catch((err: Error) => {
+        if (err || err.message.length > 0) {
+          setErrorMessage((err as Error).message);
+        }
+      });
 
-    // Add the event listener here
-    const closeButton = document?.getElementsByClassName('close-button')[0];
+      // Add the event listener here
+      const closeButton = document?.getElementsByClassName('close-button')[0];
     closeButton?.addEventListener('click', onCloseModal);
 
     // Cleanup the event listener on unmount
     return (): void => {
       closeButton?.removeEventListener('click', onCloseModal);
     };
+    }
   }, [setup]);
+
 
   // subscribe to account state changes
   useEffect(() => {
