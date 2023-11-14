@@ -24,7 +24,6 @@ You can check a [quick example of Simple Login](https://github.com/Mintbase/star
 
 - [MintbaseWalletContextProvider (default)](#mintbasewalletcontextprovider) : The default Mintbase Wallet provider
 
-- [Hooks](#Hooks): a variety of hooks to make data fetching and transactions from our SDK/Data modules super easy in your React apps.
 
 ## Deprecated
 
@@ -92,31 +91,7 @@ callbackUrl="https://www.mywebsite.com/callback">
 ```
 
 {% endcode %}
-
-
-# Hooks
-
-a variety of hooks to make data fetching and transactions from our SDK/Data modules super easy in your React apps.
-
-### useOwnedNftsByStore
-
-hook to fetch owned nfts by store (contractAddress)
-
-_params:_
-
-`ownerId: string`
-
-`contractAddress: string`
-
-`pagination: { limit: number; offset?: number}`
-
-### useTokenById
-
-hook to fetch token by Id
-
-_params:_
-
-`tokenId: string,contractAddress: string`
+z
 
 # config vars (deprecated)
 
