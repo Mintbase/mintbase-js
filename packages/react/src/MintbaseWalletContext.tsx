@@ -23,6 +23,7 @@ import type {
   WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
+import '@near-wallet-selector/modal-ui/styles.css';
 
 const mbjs = window!== undefined ? window['mbjs'] : '';
 
