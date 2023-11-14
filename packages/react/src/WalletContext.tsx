@@ -65,8 +65,8 @@ export const WalletContextProvider: React.FC<{ children: React.ReactNode; networ
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-  const selectedNetwork =   network || mbjs.keys.network;
-  const selectedContract = contractAddress || mbjs.keys.contractAddress;
+  const selectedNetwork =   network || mbjs?.keys?.network;
+  const selectedContract = contractAddress || mbjs?.keys?.contractAddress;
 
   const setup = useCallback(async () => {
     const components = await setupWalletSelectorComponents(

@@ -59,8 +59,8 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-  const selectedNetwork =   network || mbjs.keys.network;
-  const selectedContract = contractAddress || mbjs.keys.contractAddress;
+  const selectedNetwork =   network || mbjs?.keys?.network;
+  const selectedContract = contractAddress || mbjs?.keys?.contractAddress;
 
 
   const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
