@@ -47,7 +47,7 @@ export type MintbaseWalletContext = {
 export const MintbaseWalletContext = createContext<MintbaseWalletContext | null>(null);
 
 // eslint-disable-next-line max-len
-export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl: string; network?: string; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
+export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl?: string; network?: string; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
   children, network, contractAddress, additionalWallets, onlyMbWallet, callbackUrl,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
