@@ -26,7 +26,7 @@ export function setupMintbaseWallet({
   successUrl = '',
   failureUrl = '',
   callbackUrl = '',
-}: MintbaseWalletSetup): WalletModuleFactory<BrowserWallet> {
+}: MintbaseWalletSetup = {}): WalletModuleFactory<BrowserWallet> {
   return async (moduleOptions): Promise<WalletModule<BrowserWallet> | null> => {
     const wallet: WalletModule<BrowserWallet> = {
       id: 'mintbase-wallet',
