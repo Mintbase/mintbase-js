@@ -70,33 +70,14 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 import { MintbaseWalletContextProvider } from  '@mintbase-js/react'
 
 <MintbaseWalletContextProvider
-contractAddress="mycontract.mintbase1.near"
-network="mainnet"
-callbackUrl="https://www.mywebsite.com/callback">
-   
+  contractAddress="mycontract.mintbase1.near"
+  network="mainnet"
+  callbackUrl="https://www.mywebsite.com/callback"
+>
    <Component {...pageProps} />
-
 </MintbaseWalletContextProvider>
 
 ```
-
-
-
-
-# WalletContext
-
-The WalletContext provides methods for:
-
-1. Connecting NEAR accounts to your applications via [near-wallet-selector](https://github.com/near/wallet-selector/)
-
-2. Interacting with @mintbase-js/sdk
-
-The following props are provided to consumers of the `WalletContext.Provider`:
-
-{% code title="NearWalletConnector.ts" overflow="wrap" lineNumbers="true" %}
-
-
-
 
 # Troubleshooting
 The wallet runs only on client-side.
