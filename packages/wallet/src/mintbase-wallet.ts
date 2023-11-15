@@ -210,13 +210,17 @@ export const MintbaseWallet: WalletBehaviourFactory<
   };
 
   const verifyOwner = async (): Promise<void> => {
-    throw (`The verifyOwner method is not supported for ${metadata.name}`);
+    throw new Error(`The verifyOwner method is not supported by ${metadata.name}`);
+  };
+
+  const signMessage = async (): Promise<void> => {
+    throw new Error(`The signMessage method is not supported by ${metadata.name}`);
   };
 
   const getAvailableBalance = async (): Promise<void> => {
     // const accountId = state.wallet.getAccountId();
     // return await getBalance(accountId);
-    throw (`The getAvailableBalance method is not supported for ${metadata.name}`);
+    throw (`The getAvailableBalance method is not supported by ${metadata.name}`);
   };
 
   const getAccounts = async (): Promise<MintbaseWalletAccount[]> => {
@@ -260,6 +264,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     signOut,
     signAndSendTransaction,
     verifyOwner,
+    signMessage,
     getAvailableBalance,
     getAccounts,
     switchAccount,
