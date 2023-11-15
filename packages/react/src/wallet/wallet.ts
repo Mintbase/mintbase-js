@@ -23,7 +23,6 @@ import type {
   WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import { mbjs } from '@mintbase-js/sdk';
 import { setupMintbaseWallet } from '@mintbase-js/wallet';
 
 // error messages
@@ -81,7 +80,6 @@ export const setupMintbaseWalletSelector = async (
 
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
-      debug: mbjs.keys.debugMode,
       modules: [
         setupMintbaseWallet({
           networkId: network,
@@ -96,7 +94,6 @@ export const setupMintbaseWalletSelector = async (
   } else {
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
-      debug: mbjs.keys.debugMode,
       modules: [
         setupMintbaseWallet({
           networkId: network,
@@ -123,7 +120,6 @@ export const setupWalletSelectorComponents = async (
 ): Promise<WalletSelectorComponents> => {
   const selector = await setupWalletSelector({
     network: network,
-    debug: mbjs.keys.debugMode,
     modules: [
       ...SUPPORTED_NEAR_WALLETS,
       ...(options?.additionalWallets || []),
