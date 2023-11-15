@@ -1,6 +1,5 @@
-import * as nearAPI from 'near-api-js';
+ import * as nearAPI from 'near-api-js';
 
-import BN from 'bn.js';
 import type {
   Action,
   BrowserWallet,
@@ -44,16 +43,10 @@ interface Networks {
   testnet: string;
 }
 
-const nodeRPCurls: Networks = {
-  mainnet: 'https://rpc.near.org',
-  testnet: 'https://rpc.testnet.near.org',
-};
-
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
   {
-    walletUrl: string;
-    networkId: string;
+    networkId: any;
     callback: string;
     successUrl?: string;
     failureUrl?: string;
@@ -61,15 +54,12 @@ export const MintbaseWallet: WalletBehaviourFactory<
 > = async ({
   metadata,
   options,
-  store,
-  logger,
-  emitter,
-  walletUrl,
   successUrl,
   failureUrl,
   callback,
   networkId,
 }) => {
+
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
@@ -77,8 +67,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const connectionConfig = {
         networkId: networkId,
         keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-        nodeUrl: nodeRPCurls[networkId],
-        walletUrl: walletUrl,
+        nodeUrl: options.network.nodeUrl,
+        walletUrl: metadata.walletUrl,
         headers: {},
       };
 
@@ -172,7 +162,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const stringifiedParam = JSON.stringify(transactions);
 
     const urlParam = encodeURIComponent(stringifiedParam);
-    const newUrl = new URL(`${walletUrl}/sign-transaction`);
+    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('callback_url', cbUrl);
 
@@ -201,7 +191,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const currentUrl = new URL(window.location.href);
 
-    const newUrl = new URL(`${walletUrl}/sign-transaction`);
+    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
 
     if (successUrl) {

@@ -6,14 +6,12 @@ import type {
 import { MintbaseWallet } from './mintbase-wallet';
 import { resolveWalletUrl } from './utils';
 
-
 interface MintbaseWalletSetup {
   callbackUrl?: string;
   successUrl?: string;
   walletUrl?: string;
   failureUrl?: string;
   deprecated?: boolean;
-  networkId?: string;
 }
 
 const icon =
@@ -21,13 +19,14 @@ const icon =
 
 export function setupMintbaseWallet({
   walletUrl = '',
-  networkId = '',
   deprecated = false,
   successUrl = '',
   failureUrl = '',
   callbackUrl = '',
 }: MintbaseWalletSetup = {}): WalletModuleFactory<BrowserWallet> {
+
   return async (moduleOptions): Promise<WalletModule<BrowserWallet> | null> => {
+
     const wallet: WalletModule<BrowserWallet> = {
       id: 'mintbase-wallet',
       type: 'browser',
@@ -40,10 +39,10 @@ export function setupMintbaseWallet({
         available: true,
         successUrl,
         failureUrl,
-        walletUrl: resolveWalletUrl(networkId, walletUrl),
+        walletUrl: resolveWalletUrl(moduleOptions.options.network.networkId, walletUrl),
       },
       init: (options) => {
-        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network.toString(), walletUrl, successUrl, failureUrl, ...options });
+        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network, successUrl, failureUrl, ...options });
       },
     };
     return wallet;
