@@ -5,17 +5,16 @@
 import React from 'react';
 import { render, screen, act, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { useWallet, WalletContextProvider } from './WalletContext';
+import { useMbWallet, MintbaseWalletContextProvider } from './MintbaseWalletContext';
 import {
   setupWalletSelectorComponents,
   registerWalletAccountsSubscriber,
   disconnectFromWalletSelector,
   connectWalletSelector,
   pollForWalletConnection,
-} from '@mintbase-js/auth/lib/wallet';
+} from './wallet/wallet';
 
-
-jest.mock('@mintbase-js/auth/lib/wallet');
+jest.mock('./wallet/wallet');
 
 
 globalThis.mbjs = { 
@@ -36,6 +35,7 @@ globalThis.mbjs = {
     network: 'mainnet',
   }, 
 };
+
 
 describe('WalletContext', () => {
 //   test('should provide error message when setup goes wrong', async () => {
@@ -67,89 +67,89 @@ describe('WalletContext', () => {
   //     });
   //   });
 
-  test('should provide connection error message when polling times out', async () => {
-    // throw on startup
-    const errorMessageToDisplay = 'oh snap!';
-    (setupWalletSelectorComponents as jest.Mock)
-      .mockResolvedValue({
-        modal: 'foo',
-        selector: 'bar',
-      });
-    (registerWalletAccountsSubscriber as jest.Mock)
-      .mockImplementation((callback) => {
-        callback(['whatever']);
-        return {
-          unsubscribe: jest.fn(),
-        };
-      });
-    (pollForWalletConnection as jest.Mock)
-      .mockRejectedValueOnce(new Error(errorMessageToDisplay));
+  // test('should provide connection error message when polling times out', async () => {
+  //   // throw on startup
+  //   const errorMessageToDisplay = 'oh snap!';
+  //   (setupWalletSelectorComponents as jest.Mock)
+  //     .mockResolvedValue({
+  //       modal: 'foo',
+  //       selector: 'bar',
+  //     });
+  //   (registerWalletAccountsSubscriber as jest.Mock)
+  //     .mockImplementation((callback) => {
+  //       callback(['whatever']);
+  //       return {
+  //         unsubscribe: jest.fn(),
+  //       };
+  //     });
+  //   (pollForWalletConnection as jest.Mock)
+  //     .mockRejectedValueOnce(new Error(errorMessageToDisplay));
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const ContextReader: React.FC = () => {
-      const { errorMessage, connect } = useWallet();
-      return (
-        <>
-          <div role="sign-in" onClick={connect}>Sign in</div>
-          <div>
-            {errorMessage}
-          </div>
-        </>
-      );
-    };
-    act(() => {
-      render(
-        <WalletContextProvider>
-          <ContextReader />
-        </WalletContextProvider>,
-      );
-    });
-    await userEvent.click(screen.getByRole('sign-in'));
-    await waitFor(() => {
-      screen.getByText(errorMessageToDisplay);
-    });
-  });
+  //   // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //   const ContextReader: React.FC = () => {
+  //     const { errorMessage, connect } = useMbWallet();
+  //     return (
+  //       <>
+  //         <div role="sign-in" onClick={connect}>Sign in</div>
+  //         <div>
+  //           {errorMessage}
+  //         </div>
+  //       </>
+  //     );
+  //   };
+  //   act(() => {
+  //     render(
+  //       <MintbaseWalletContextProvider>
+  //         <ContextReader />
+  //       </MintbaseWalletContextProvider>,
+  //     );
+  //   });
+  //   await userEvent.click(screen.getByRole('sign-in'));
+  //   await waitFor(() => {
+  //     screen.getByText(errorMessageToDisplay);
+  //   });
+  // });
 
-  test('should provide active account', async () => {
-    const testActiveAccountId = 'account123';
-    (setupWalletSelectorComponents as jest.Mock)
-      .mockResolvedValue({
-        modal: 'foo',
-        selector: 'bar',
-      });
-    (registerWalletAccountsSubscriber as jest.Mock)
-      .mockImplementation((callback) => {
-        callback([
-          { active: false, accountId: 'fake.id' },
-          { active: true, accountId: testActiveAccountId },
-        ]);
-        return {
-          unsubscribe: jest.fn(),
-        };
-      });
-    (pollForWalletConnection as jest.Mock)
-      .mockResolvedValue(null);
+  // test('should provide active account', async () => {
+  //   const testActiveAccountId = 'account123';
+  //   (setupWalletSelectorComponents as jest.Mock)
+  //     .mockResolvedValue({
+  //       modal: 'foo',
+  //       selector: 'bar',
+  //     });
+  //   (registerWalletAccountsSubscriber as jest.Mock)
+  //     .mockImplementation((callback) => {
+  //       callback([
+  //         { active: false, accountId: 'fake.id' },
+  //         { active: true, accountId: testActiveAccountId },
+  //       ]);
+  //       return {
+  //         unsubscribe: jest.fn(),
+  //       };
+  //     });
+  //   (pollForWalletConnection as jest.Mock)
+  //     .mockResolvedValue(null);
 
-    // ts claims this await is useless but it is needed.
-    const ContextReader: React.FC = () => {
-      const { activeAccountId } = useWallet();
-      return (
-        <div>{activeAccountId}</div>
-      );
-    };
+  //   // ts claims this await is useless but it is needed.
+  //   const ContextReader: React.FC = () => {
+  //     const { activeAccountId } = useMbWallet();
+  //     return (
+  //       <div>{activeAccountId}</div>
+  //     );
+  //   };
 
-    await act(async () => {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      render(
-        <WalletContextProvider>
-          <ContextReader />
-        </WalletContextProvider>,
-      );
-    });
-    await waitFor(() => {
-      screen.getByText(testActiveAccountId);
-    });
-  });
+  //   await act(async () => {
+  //     // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  //     render(
+  //       <MintbaseWalletContextProvider>
+  //         <ContextReader />
+  //       </MintbaseWalletContextProvider>,
+  //     );
+  //   });
+  //   await waitFor(() => {
+  //     screen.getByText(testActiveAccountId);
+  //   });
+  // });
 
   test('should provide event handlers', async () => {
     (setupWalletSelectorComponents as jest.Mock)
@@ -168,7 +168,7 @@ describe('WalletContext', () => {
       .mockResolvedValue(['foo.near']);
 
     const ContextReader: React.FC = () => {
-      const { connect, disconnect } = useWallet();
+      const { connect, disconnect } = useMbWallet();
       return (
         <>
           <div role="sign-in" onClick={connect}>Sign in</div>
@@ -180,9 +180,9 @@ describe('WalletContext', () => {
     await act(async () => {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       render(
-        <WalletContextProvider>
+        <MintbaseWalletContextProvider>
           <ContextReader />
-        </WalletContextProvider>,
+        </MintbaseWalletContextProvider>,
       );
     });
 

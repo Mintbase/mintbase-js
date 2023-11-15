@@ -13,8 +13,8 @@ import {
   pollForWalletConnection,
   signMessage,
   setupMintbaseWalletSelector,
-} from '@mintbase-js/auth';
-import type { WalletSelectorComponents } from '@mintbase-js/auth';
+} from './wallet/wallet';
+import type { WalletSelectorComponents } from './wallet/wallet';
 import type {
   WalletSelector,
   AccountState,
@@ -23,8 +23,8 @@ import type {
   WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import type { Network } from '@mintbase-js/sdk';
-import { mbjs } from '@mintbase-js/sdk';
+import '@near-wallet-selector/modal-ui/styles.css';
+
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
@@ -46,7 +46,7 @@ export type MintbaseWalletContext = {
 export const MintbaseWalletContext = createContext<MintbaseWalletContext | null>(null);
 
 // eslint-disable-next-line max-len
-export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl: string; network?: Network; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
+export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl?: string; network?: string; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
   children, network, contractAddress, additionalWallets, onlyMbWallet, callbackUrl,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -59,9 +59,9 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   const [isWalletSelectorSetup, setIsWalletSelectorSetup] =
     useState<boolean>(false);
 
-  const selectedNetwork =   network || mbjs.keys.network;
-  const selectedContract = contractAddress || mbjs.keys.contractAddress;
 
+  const selectedNetwork =  network;
+  const selectedContract = contractAddress;
 
   const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
     const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
@@ -93,6 +93,8 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
   };
 
   // call setup on wallet selector
+
+  
   useEffect(() => {
     setupWallet();
 

@@ -15,8 +15,7 @@ This is the [Mintbase Wallet](https://wallet.mintbase.xyz/) SDK package.
 You can check a quick example of Simple Login using Next.js 14 and @mintbase-js/react
   
 
-<p  align="center">
-
+<p align="center">
 <img  src='https://img.shields.io/npm/dw/@mintbase-js/wallet'  />
 <img  src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet'>
 </p>
@@ -123,39 +122,11 @@ const  selector = await  setupWalletSelector({
   
 
 `networkId:` Near Networks
-
-  
-
 `walletUrl:` valid wallet urls
-
-  
-
 `successUrl:` If you dont have a single callback entrypoint to handle failure/success you can set successUrl.
-
-  
-
 `failureUrl:` If you dont have a single callback entrypoint to handle failure/success you can set failureUrl.
-
-  
-
 `callbackUrl:` when you have a single entrypoint to deal with transaction results.
 
-  
-  
-
-| property | value |
-
-|--|--|
-
-| networkId | `mainnet` or `testnet` |
-
-| walletUrl | `https://wallet.mintbase.xyz` or `https://testnet.wallet.mintbase.xyz` |
-
-| successUrl | any http or https url as a string|
-
-| failureUrl | any http or https url as a string|
-
-| callbackUrl | any http or https url as a string|
 
 ## Troubleshooting
 

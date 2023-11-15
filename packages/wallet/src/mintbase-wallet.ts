@@ -1,6 +1,5 @@
-import * as nearAPI from 'near-api-js';
+ import * as nearAPI from 'near-api-js';
 
-import BN from 'bn.js';
 import type {
   Action,
   BrowserWallet,
@@ -39,11 +38,15 @@ export type CallBackArgs = {
   type: TransactionSuccessEnum;
 }
 
+interface Networks {
+  mainnet: string;
+  testnet: string;
+}
+
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
   {
-    walletUrl: string;
-    networkId: string;
+    networkId: any;
     callback: string;
     successUrl?: string;
     failureUrl?: string;
@@ -51,15 +54,12 @@ export const MintbaseWallet: WalletBehaviourFactory<
 > = async ({
   metadata,
   options,
-  store,
-  logger,
-  emitter,
-  walletUrl,
   successUrl,
   failureUrl,
   callback,
   networkId,
 }) => {
+
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
@@ -67,8 +67,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const connectionConfig = {
         networkId: networkId,
         keyStore: new keyStores.BrowserLocalStorageKeyStore(),
-        nodeUrl: 'https://rpc.testnet.near.org',
-        walletUrl: walletUrl,
+        nodeUrl: options.network.nodeUrl,
+        walletUrl: metadata.walletUrl,
         headers: {},
       };
 
@@ -162,7 +162,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const stringifiedParam = JSON.stringify(transactions);
 
     const urlParam = encodeURIComponent(stringifiedParam);
-    const newUrl = new URL(`${walletUrl}/sign-transaction`);
+    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
     newUrl.searchParams.set('callback_url', cbUrl);
 
@@ -191,7 +191,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const currentUrl = new URL(window.location.href);
 
-    const newUrl = new URL(`${walletUrl}/sign-transaction`);
+    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
     newUrl.searchParams.set('transactions_data', urlParam);
 
     if (successUrl) {
@@ -210,13 +210,17 @@ export const MintbaseWallet: WalletBehaviourFactory<
   };
 
   const verifyOwner = async (): Promise<void> => {
-    console.error('mintbasewallet:verifyOwner is unsupported!');
-
-    return;
+    throw new Error(`The verifyOwner method is not supported by ${metadata.name}`);
   };
 
-  const getAvailableBalance = async (): Promise<BN> => {
-    return new BN(0);
+  const signMessage = async (): Promise<void> => {
+    throw new Error(`The signMessage method is not supported by ${metadata.name}`);
+  };
+
+  const getAvailableBalance = async (): Promise<void> => {
+    // const accountId = state.wallet.getAccountId();
+    // return await getBalance(accountId);
+    throw (`The getAvailableBalance method is not supported by ${metadata.name}`);
   };
 
   const getAccounts = async (): Promise<MintbaseWalletAccount[]> => {
@@ -260,6 +264,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     signOut,
     signAndSendTransaction,
     verifyOwner,
+    signMessage,
     getAvailableBalance,
     getAccounts,
     switchAccount,
