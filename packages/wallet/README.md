@@ -100,15 +100,15 @@ import { setupWalletSelector } from  "@near-wallet-selector/core";
 import { setupMintbaseWallet } from  "@mintbase-js/wallet";
 
 const  mintbaseWallet = setupMintbaseWallet({
-	networkId:  'mainnet',
-	walletUrl:  'https://wallet.mintbase.xyz',
-	callbackUrl:  'https://www.mywebsite.com',
-	deprecated:  false,
+    networkId:  'mainnet',
+    walletUrl:  'https://wallet.mintbase.xyz',
+    callbackUrl:  'https://www.mywebsite.com',
+    deprecated:  false,
 });
 
 const  selector = await  setupWalletSelector({
-	network:  "mainnet",
-	modules: [mintbaseWallet],
+    network:  "mainnet",
+    modules: [mintbaseWallet],
 });
 ```
 
@@ -126,7 +126,7 @@ const  selector = await  setupWalletSelector({
 `successUrl:` If you dont have a single callback entrypoint to handle failure/success you can set successUrl.
 `failureUrl:` If you dont have a single callback entrypoint to handle failure/success you can set failureUrl.
 `callbackUrl:` when you have a single entrypoint to deal with transaction results.
-
+`contractId`: the ContractId that your dapp will be using aka (receiverId)
 
 ## Troubleshooting
 

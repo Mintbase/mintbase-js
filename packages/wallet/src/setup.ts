@@ -12,6 +12,7 @@ interface MintbaseWalletSetup {
   walletUrl?: string;
   failureUrl?: string;
   deprecated?: boolean;
+  contractId?: string;
 }
 
 const icon =
@@ -23,6 +24,7 @@ export function setupMintbaseWallet({
   successUrl = '',
   failureUrl = '',
   callbackUrl = '',
+  contractId = '',
 }: MintbaseWalletSetup = {}): WalletModuleFactory<BrowserWallet> {
 
   return async (moduleOptions): Promise<WalletModule<BrowserWallet> | null> => {
@@ -42,7 +44,11 @@ export function setupMintbaseWallet({
         walletUrl: resolveWalletUrl(moduleOptions.options.network.networkId, walletUrl),
       },
       init: (options) => {
+<<<<<<< HEAD
+        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network, successUrl, failureUrl, contractId,  ...options });
+=======
         return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network, successUrl, failureUrl, ...options });
+>>>>>>> beta
       },
     };
     return wallet;
