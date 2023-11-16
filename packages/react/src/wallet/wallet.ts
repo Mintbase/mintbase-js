@@ -82,9 +82,7 @@ export const setupMintbaseWalletSelector = async (
       network: network,
       modules: [
         setupMintbaseWallet({
-          networkId: network,
           walletUrl: walletUrls[network],
-          deprecated: false,
           callbackUrl: callbackUrl,
         }),
         ...(options?.additionalWallets || []),
@@ -96,9 +94,7 @@ export const setupMintbaseWalletSelector = async (
       network: network,
       modules: [
         setupMintbaseWallet({
-          networkId: network,
           walletUrl: walletUrls[network],
-          deprecated: false,
           callbackUrl: callbackUrl,
         }),
         ...(options?.additionalWallets || []),
