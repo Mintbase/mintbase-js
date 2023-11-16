@@ -1,4 +1,4 @@
- import * as nearAPI from 'near-api-js';
+import * as nearAPI from 'near-api-js';
 
 import type {
   Action,
@@ -95,7 +95,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
 
       return {
-        wallet
+        wallet,
       };
     }
 
@@ -186,7 +186,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     assertValidSigner(signerId);
 
     if (!receiverId && !contractId) {
-           throw new Error("No receiver found to send the transaction to");
+      throw new Error('No receiver found to send the transaction to');
     }
 
     const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
