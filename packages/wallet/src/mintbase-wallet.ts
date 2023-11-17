@@ -172,7 +172,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     return;
   };
 
-  const signAndSendTransaction = ({
+  const signAndSendTransaction =  async ({
     receiverId,
     actions,
     signerId,
