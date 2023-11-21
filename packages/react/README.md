@@ -33,18 +33,21 @@ You can check a [quick example of Simple Login](https://github.com/Mintbase/exam
 
 ```
 npm install @mintbase-js/react
+npm install @near-wallet-selector/modal-ui
 ```
 
 ### Yarn:
 
 ```
 yarn add @mintbase-js/react
+yarn add @near-wallet-selector/modal-ui
 ```
 
 ### PNPM:
 
 ```
-pnpm add @mintbase-js/react
+pnpm install @mintbase-js/react
+pnpm install @near-wallet-selector/modal-ui
 ```
 
 # MintbaseWalletContextProvider
