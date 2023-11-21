@@ -26,7 +26,7 @@ You can check a quick example of Simple Login using Next.js 14 and @mintbase-js/
 check our [React integration](https://docs.mintbase.xyz/dev/mintbase-sdk-ref/react#mintbasewalletcontextprovider)
 
 Example:
-You can check a [quick example of Simple Login](https://github.com/Mintbase/starter) using Next.js 14 and @mintbase-js/react
+You can check a [quick example of Simple Login](https://github.com/Mintbase/examples/tree/main/starter) using Next.js 14 and @mintbase-js/react
 
 
 ## Installation and Usage

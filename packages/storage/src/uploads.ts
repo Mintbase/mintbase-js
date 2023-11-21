@@ -8,7 +8,6 @@ import {
   OBJECT_IS_EMPTY_ERROR,
 } from './constants';
 import { mbjs } from '@mintbase-js/sdk';
-import superagent from 'superagent';
 
 
 export type ArweaveResponse = {
@@ -42,43 +41,6 @@ type Trait = {
   value: number;
 }
 
-
-/**
- * (NodeJS) upload a file via POST to upload service
- * @param file A file to upload
- * @param name The name of the file to upload
- */
-export const uploadBuffer = async (
-  file: Buffer,
-  name: string,
-): Promise<ArweaveResponse> => {
-  if (mbjs.keys.apiKey == MINTBASE_API_ANON_USER) {
-    console.warn(ANON_USER_WARNING);
-  }
-
-  const size = (file as Buffer).length;
-
-  // if size is more than 30MB, throw since cloud run won't upload.
-  if (size > MAX_UPLOAD_BYTES) {
-    throw new Error(MAX_UPLOAD_ERROR_MSG);
-  }
-
-  try {
-    const { body } = await superagent
-      .post(ARWEAVE_SERVICE_HOST)
-      .set({
-        [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
-      })
-      .attach('file', file, name);
-    return body;
-  } catch (err: unknown) {
-    const httpError = err as HttpError;
-    console.error(
-      `Uploading file to arweave failed: ${httpError.status} ${httpError.response.text}`,
-    );
-    throw err;
-  }
-};
 
 /**
  * (Browser) upload a file via POST to upload service
