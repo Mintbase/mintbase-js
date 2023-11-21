@@ -66,7 +66,7 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 **additionalWallets** : `WalletModuleFactory[] extra wallets setup`
 
 ```typescript
-
+import "@near-wallet-selector/modal-ui/styles.css";
 import { MintbaseWalletContextProvider } from  '@mintbase-js/react'
 
 <MintbaseWalletContextProvider
