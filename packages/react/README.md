@@ -4,7 +4,7 @@
 
 This package contains React helpers for interacting with Mintbase JS.
 
-<p  align="center">
+<p align="center">
 
 <img  src='https://img.shields.io/npm/dw/@mintbase-js/react'  />
 
@@ -16,7 +16,9 @@ Example:
 You can check a [quick example of Simple Login](https://github.com/Mintbase/examples/tree/main/starter) using Next.js 14 and @mintbase-js/react
 
 
-[Live Demo](https://mintbase-starter.vercel.app/)
+[Check our Templates repository for Mintbase.js](https://github.com/Mintbase/templates)
+
+[Live Demo](https://starter.mintbase.xyz/)
 
 ## Summary
 

@@ -1,5 +1,7 @@
 # Mintbase JS
 
+[Check our Templates repository for Mintbase.js](https://github.com/Mintbase/templates)
+
 <p align="center">
 <img src="https://img.shields.io/github/v/release/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
