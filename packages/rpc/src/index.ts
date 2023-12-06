@@ -8,4 +8,4 @@ export * from './methods/getBlockHash';
 export * from './methods/getGasPrice';
 export * from './methods/getLatestGasPrice';
 export * from './methods/keys';
-export { callViewMethod } from './util';
+export * from './methods/ftBalance';
