@@ -2,14 +2,16 @@ import { requestFromNearRpc } from '../util';
 
 export type AccessKey = {
   public_key: string;
-  permission: AccessKeyPermissions;
+  access_key: AccessKeyPermissions[];
 };
 
-export type AccessKeyPermissions = 'FullAccess' | {
-  'FunctionCall': {
-    allowance: string;
-    receiver_id: string;
-    method_names: string[];
+export type AccessKeyPermissions = {
+  permission: 'FullAccess' | {
+    FunctionCall: {
+      allowance: string;
+      receiver_id: string;
+      method_names: string[];
+    };
   };
 }
 
@@ -26,6 +28,7 @@ export const getAccessKeys = async (accountId: string): Promise<AccessKey[]> => 
   });
 
   const accessKeys = res?.result?.keys;
+
   if (res?.error) {
     throw res.error;
   }
