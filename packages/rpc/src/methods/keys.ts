@@ -2,7 +2,7 @@ import { requestFromNearRpc } from '../util';
 
 export type AccessKey = {
   public_key: string;
-  access_key: AccessKeyPermissions[];
+  access_key: AccessKeyPermissions;
 };
 
 export type AccessKeyPermissions = {
