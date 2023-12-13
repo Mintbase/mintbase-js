@@ -5,7 +5,7 @@ export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
 export const ONE_YOCTO = '1';
 export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
-export const CONTRACT_DEPOSIT = `3500000${'0'.repeat(18)}`; // 3.5 NEAR
+export const CONTRACT_DEPOSIT = `3700000${'0'.repeat(18)}`; // 3.5 NEAR
 export const LISTING_DEPOSIT = `1000${'0'.repeat(18)}`; // 1 milliNEAR
 
 export const GAS_CONSTANTS = {
