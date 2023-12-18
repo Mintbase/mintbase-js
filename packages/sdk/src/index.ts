@@ -13,5 +13,7 @@ export * from './buy/buy';
 export * from './depositStorage/depositStorage';
 export * from './mint/mint';
 export * from './delist/delist';
+export * from './ftTransfer/ftTransfer';
+// export * from './ftDepositStorage/ftDepositStorage'; // TODO:
 export { mbjs } from './config/config';
 export * from './types';

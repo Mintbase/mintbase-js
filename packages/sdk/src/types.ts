@@ -27,7 +27,8 @@ export enum MARKET_METHOD_NAMES {
 }
 
 export enum FT_METHOD_NAMES {
-  FT_TRANSFER_CALL = 'ft_transfer_call'
+  FT_TRANSFER_CALL = 'ft_transfer_call',
+  FT_TRANSFER = 'ft_transfer'
 }
 
 export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
@@ -259,6 +260,13 @@ export interface OldTransferContractOwnershipArgs {
   keep_old_minters?: boolean;
 }
 
+export type FtTransferArgs = {
+  receiverId: string;
+  amount: string;
+  ftContractAddress: string;
+  memo?: string;
+};
+
 export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
 export interface MinterArgsResponse {
@@ -342,12 +350,19 @@ export interface ExecuteExtraArgsResponse {
   price?: string |  string[];
   timeout?: {
     Hours: number;
-}[];
+  }[];
   contractId?: string;
 }
 
+export interface FtTransferArgsResponse {
+  receiver_id: string;
+  amount: string;
+  memo: string | null;
+}
+
+
 export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
-| ExecuteExtraArgsResponse | Record<string, unknown>;
+| ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;
