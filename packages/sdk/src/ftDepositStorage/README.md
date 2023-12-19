@@ -1,4 +1,4 @@
-[//]: # `{ "title": "ftTransfer", "order": 0.14 }`
+[//]: # `{ "title": "ftDepositStorage", "order": 0.15 }`
 
 # Transfer Fungible Tokens
 
