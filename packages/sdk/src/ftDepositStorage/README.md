@@ -1,27 +1,21 @@
 [//]: # `{ "title": "ftDepositStorage", "order": 0.15 }`
 
-# Transfer Fungible Tokens
+# Deposit storage for FT transfers
 
-Transfers one or more tokens from the transaction signer to the recipient(s) specified.
-
+This acts as registration for FT transfers. You cannot transfer FTs to an account that does is not registered with the corresponding FT smart contract.
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
-## transfer(args: TransferArgs): NearContractCall
+## ftDepositStorage(args: FtDepositStorageArgs): NearContractCall
 
-`transfer` takes a single argument of type `TransferArgs`
+`ftDepositStorage` takes a single argument of type `FtDepositStorageArgs`
 
 ```typescript
-type TransferArgs = {
-  // pairs of recipient and token ids,
-  // each recipient will receive the corresponding token
-  transfers: {
-    receiverId: string;
-    tokenId: string;
-  }[];
-  // nftContractId is the token contract capable of doing the transfer
-  // if omitted, transfer method will attempt to use process.env.CONTRACT_ADDRESS
-  nftContractId?: string;
+type FtDepositStorageArgs = {
+  // The FT contract whose tokens should be transferred.
+  ftContractAddress: string;
+  // The account for which you wish to cover the storage deposit.
+  accountId?: string;
 };
 ```
 
@@ -31,32 +25,29 @@ Example usage of transfer method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, transfer, TransferArgs } from '@mintbase-js/sdk';
+import { execute, ftDepositStorage, FtDepositStorageArgs } from '@mintbase-js/sdk';
 
-const TransferComponent = ({ tokenId, contractAddress }: TransferArgs): JSX.Element => {
+const FtDepositStorageComponent = (): JSX.Element => {
   const { selector, activeAccountId } = useWallet();
 
-  const handleTransfer = async (): Promise<void> => {
+  const handleFtDepositStorage = async (): Promise<void> => {
     const wallet = await selector.wallet();
 
-    const transferArgs: TransferArgs = {
-        contractAddress: contractAddress,
-        transfers: [{
-          receiverId: 'mb_carol.testnet',
-          tokenId: token.tokenId,
-        }],
+    const ftDepositStorageArgs: FtDepositStorageArgs = {
+        ftContractAddress: "usdc.fakes.testnet",
+        accountId: 'mb_carol.testnet',
       }
 
     await execute(
       { wallet },
-      transfer(transferArgs),
+      ftDepositStorage(ftDepositStorageArgs),
     );
   };
 
   return (
     <div>
-      <button onClick={handleTransfer}>
-        Transfer {tokenId} of {contractAddress} from {activeAccountId} to Carol
+      <button onClick={handleFtDepositStorage}>
+        Register Carol with USDC
       </button>
     </div>
   );

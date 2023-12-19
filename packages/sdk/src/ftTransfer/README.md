@@ -2,61 +2,58 @@
 
 # Transfer Fungible Tokens
 
-Transfers one or more tokens from the transaction signer to the recipient(s) specified.
+Transfers an amount of fungible tokens to a given account. Make sure that your recipient is [registered with the FT contract](../ftDepositStorage/README.md), and that you get the decimals of the transfer right.
 
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
-## transfer(args: TransferArgs): NearContractCall
+## ftTransfer(args: FtTransferArgs): NearContractCall
 
-`transfer` takes a single argument of type `TransferArgs`
+`ftTransfer` takes a single argument of type `FtTransferArgs`
 
 ```typescript
-type TransferArgs = {
-  // pairs of recipient and token ids,
-  // each recipient will receive the corresponding token
-  transfers: {
-    receiverId: string;
-    tokenId: string;
-  }[];
-  // nftContractId is the token contract capable of doing the transfer
-  // if omitted, transfer method will attempt to use process.env.CONTRACT_ADDRESS
-  nftContractId?: string;
+type FtTransferArgs = {
+  // The FT contract whose tokens should be transferred.
+  ftContractAddress: string;
+  // The recipient of the FT transfer.
+  receiverId: string;
+  // The amount of FT to transfer in atomic units. Make sure to check the `decimals` field of this FT smart contracts metadata to avoid errors.
+  amount: string;
+  // An optional memo that you wish to send along with the transfer.
+  memo?: string;
 };
 ```
 
-Example usage of transfer method in a hypothetical React component:
-{% code title="TransferComponent.ts" overflow="wrap" lineNumbers="true" %}
+Example usage of FT transfer method in a hypothetical React component:
+{% code title="FtTransferComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, transfer, TransferArgs } from '@mintbase-js/sdk';
+import { execute, ftTransfer, FtTransferArgs } from '@mintbase-js/sdk';
 
-const TransferComponent = ({ tokenId, contractAddress }: TransferArgs): JSX.Element => {
+const TransferComponent = (): JSX.Element => {
   const { selector, activeAccountId } = useWallet();
 
-  const handleTransfer = async (): Promise<void> => {
+  const handleFtTransfer = async (): Promise<void> => {
     const wallet = await selector.wallet();
 
-    const transferArgs: TransferArgs = {
-        contractAddress: contractAddress,
-        transfers: [{
-          receiverId: 'mb_carol.testnet',
-          tokenId: token.tokenId,
-        }],
+    const ftTransferArgs: FtTransferArgs = {
+        ftContractAddress: "usdc.fakes.testnet",
+        receiverId: "mb_carol.testnet",
+        amount: "10000000"
       }
 
     await execute(
       { wallet },
-      transfer(transferArgs),
+      ftTransfer(ftTransferArgs),
     );
   };
 
   return (
     <div>
-      <button onClick={handleTransfer}>
-        Transfer {tokenId} of {contractAddress} from {activeAccountId} to Carol
+      <button onClick={handleFtTransfer}>
+        Transfer 10 USDC to Carol
       </button>
     </div>
   );
