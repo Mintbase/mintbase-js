@@ -7,11 +7,13 @@ export const ONE_YOCTO = '1';
 export const TOKEN_CONTRACT_SPEC = 'nft-1.0.0';
 export const CONTRACT_DEPOSIT = `3700000${'0'.repeat(18)}`; // 3.5 NEAR
 export const LISTING_DEPOSIT = `1000${'0'.repeat(18)}`; // 1 milliNEAR
+export const FT_STORAGE_DEPOSIT = `1250${'0'.repeat(18)}`;
 
 export const GAS_CONSTANTS = {
   DEFAULT_GAS: '200000000000000',
   OPTIMAL_GAS: '225000000000000',
   MAX_GAS: '300000000000000',
+  FT_TRANSFER: '15000000000000',
 };
 
 export const DEPOSIT_CONSTANTS = {
