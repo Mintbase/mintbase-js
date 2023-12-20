@@ -10,3 +10,4 @@ export * from './methods/getLatestGasPrice';
 export * from './methods/keys';
 export * from './methods/ftBalance';
 export * from './methods/ftStorageBalance';
+export * from './methods/ftMetadata';

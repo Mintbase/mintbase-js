@@ -44,7 +44,7 @@ function isStringOrNull(x: any): x is string | null {
   return false;
 }
 
-export const ftBalance = async ({ contractId }): Promise<FtMetadata | null> => {
+export const ftMetadata = async ({ contractId }): Promise<FtMetadata | null> => {
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',
