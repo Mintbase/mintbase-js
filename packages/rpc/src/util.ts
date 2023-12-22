@@ -9,7 +9,10 @@ export const requestFromNearRpc = async (
   const res = await fetch(fetchUrl, {
     method: 'POST',
     body: JSON.stringify(body),
-    headers: { 'Content-type': 'application/json' },
+    headers: {
+      'Content-type': 'application/json',
+      'Access-Control-Allow-Origin': '*',
+    },
   });
 
   return res.json();
