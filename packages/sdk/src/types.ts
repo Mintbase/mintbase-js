@@ -58,8 +58,8 @@ export enum GRAPHQL_ENDPOINTS  {
 }
 
 export enum RPC_ENDPOINTS  {
-  mainnet = 'https://rpc.mainnet.near.org',
-  testnet = 'https://rpc.testnet.near.org',
+  mainnet = 'https://near-mainnet.api.pagoda.co/rpc/v1',
+  testnet = 'https://near-testnet.api.pagoda.co/rpc/v1',
 }
 
 export enum USDC_ADDRESS {

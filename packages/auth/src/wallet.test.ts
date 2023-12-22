@@ -24,7 +24,7 @@ jest.mock('./constants', () => ({
   WALLET_CONNECTION_POLL_INTERVAL: 100,
 }));
 
-globalThis.mbjs = { 
+globalThis.mbjs = {
   keys :{
     apiKey: 'omni-site',
     callbackUrl: 'https://www.mintbase.xyz/wallet-callback',
@@ -38,9 +38,9 @@ globalThis.mbjs = {
     isSet: true,
     marketAddress: 'simple.market.mintbase1.near',
     mbContract: 'mintbase1.near',
-    nearRpcUrl: 'https://rpc.mainnet.near.org',
+    nearRpcUrl: 'https://near-mainnet.api.pagoda.co/rpc/v1',
     network: 'mainnet',
-  }, 
+  },
 };
 
 // jest.useFakeTimers();

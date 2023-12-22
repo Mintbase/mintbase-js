@@ -2,7 +2,7 @@ import { InMemoryKeyStore } from 'near-api-js/lib/key_stores';
 import { connect } from './account';
 import { NEAR_NETWORKS } from '@mintbase-js/sdk';
 
-globalThis.mbjs = { 
+globalThis.mbjs = {
   keys :{
     apiKey: 'omni-site',
     callbackUrl: 'https://www.mintbase.xyz/wallet-callback',
@@ -16,9 +16,9 @@ globalThis.mbjs = {
     isSet: true,
     marketAddress: 'simple.market.mintbase1.near',
     mbContract: 'mintbase1.near',
-    nearRpcUrl: 'https://rpc.mainnet.near.org',
+    nearRpcUrl: 'https://near-mainnet.api.pagoda.co/rpc/v1',
     network: 'mainnet',
-  }, 
+  },
 };
 
 describe('connect', () => {
