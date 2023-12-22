@@ -14,8 +14,8 @@ import { mbjs } from '@mintbase-js/sdk';
 export type Network = 'testnet' | 'mainnet'
 
 export enum RPC_ENDPOINTS  {
-  mainnet = 'https://rpc.mainnet.near.org',
-  testnet = 'https://rpc.testnet.near.org',
+  mainnet = 'https://near-mainnet.api.pagoda.co/rpc/v1',
+  testnet = 'https://near-testnet.api.pagoda.co/rpc/v1',
 }
 
 export const connect = async (
@@ -23,7 +23,7 @@ export const connect = async (
   keyStore: KeyStore,
   network: Network = mbjs.keys.network as Network,
 ): Promise<Account> => {
-  
+
   const near = await connectToNear({
     keyStore,
     networkId: network ||  mbjs.keys.network as Network,
