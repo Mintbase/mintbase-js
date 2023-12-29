@@ -46,6 +46,5 @@ export const callViewMethod = async <T>({
   }
 
   const parsed = JSON.parse(Buffer.from(res?.result?.result).toString());
-  
   return parsed as T;
 };
