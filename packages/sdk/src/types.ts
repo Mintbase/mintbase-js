@@ -11,8 +11,6 @@ export enum TOKEN_METHOD_NAMES {
   DEPLOY_TOKEN_CONTRACT =  'create_store',
   TRANSFER_TOKEN_CONTRACT_OWNERSHIP =  'transfer_store_ownership',
   MINT = 'nft_batch_mint',
-  ADD_MINTER = 'grant_minter',
-  REMOVE_MINTER = 'revoke_minter',
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
