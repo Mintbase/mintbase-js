@@ -3,10 +3,13 @@ import fetch from 'isomorphic-unfetch';
 
 export const requestFromNearRpc = async (
   body: Record<string, any>,
+  network?: string
 ): Promise<Record<string, any> | undefined> => {
-  const fetchUrl = RPC_ENDPOINTS[mbjs.keys.network] || mbjs.keys.nearRpcUrl;
 
-  const res = await fetch(fetchUrl, {
+  const fetchUrl = RPC_ENDPOINTS[mbjs.keys.network] || mbjs.keys.nearRpcUrl;
+  const rpcAddress = network ? RPC_ENDPOINTS[network] : fetchUrl;
+
+  const res = await fetch(rpcAddress, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'Content-type': 'application/json' },
@@ -19,10 +22,12 @@ export const callViewMethod = async <T>({
   contractId,
   method,
   args,
+  network,
 }: {
   contractId: string;
   method: string;
   args?: Record<string, any>;
+  network?: string;
 }): Promise<T> => {
   const args_base64 = args
     ? Buffer.from(JSON.stringify(args), 'utf-8').toString('base64')
@@ -39,7 +44,7 @@ export const callViewMethod = async <T>({
       method_name: method,
       args_base64,
     },
-  });
+  }, network);
 
   if (res?.error) {
     throw res.error;

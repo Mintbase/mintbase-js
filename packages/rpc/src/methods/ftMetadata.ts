@@ -44,10 +44,11 @@ function isStringOrNull(x: any): x is string | null {
   return false;
 }
 
-export const ftMetadata = async ({ contractId }): Promise<FtMetadata | null> => {
+export const ftMetadata = async ({ contractId, network }): Promise<FtMetadata | null> => {
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',
+    network: network
   });
 
   return isFtMetadata(res) ? res : null;
