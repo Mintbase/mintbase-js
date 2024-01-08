@@ -6,6 +6,7 @@ import {
   genericBatchExecute,
   validateSigningOptions,
 } from './execute.utils';
+import { callbackSideCheck } from './checkCallback';
 
 /**
  * Base method for executing contract calls.
@@ -22,32 +23,8 @@ export const execute = async (
 > => {
   validateSigningOptions({ wallet, account });
 
-  let callbackFinal = callbackUrl;
-
-  const shouldGetFromMbjs = callbackUrl?.length < 1 || callbackUrl === undefined && 
-   window?.['mbjs']?.callbackUrl && window?.['mbjs']?.callbackUrl.length > 0; 
-
-  if (wallet?.id == 'mintbase-wallet') {
-    if (callbackUrl?.length < 1 || callbackUrl === undefined) {
-      let mbjsCallbackUrl = '';
-
-      if (
-        window?.['mbjs']?.callbackUrl &&
-        window?.['mbjs']?.callbackUrl.length > 0
-      ) {
-        mbjsCallbackUrl = window?.['mbjs']?.callbackUrl;
-      }
-
-      const globalCBUrl =
-        localStorage?.getItem('mintbase-wallet:callback_url') || mbjsCallbackUrl;
-
-      callbackFinal = globalCBUrl;
-    }
-  }
-
-  if (shouldGetFromMbjs) {
-    callbackFinal =  window?.['mbjs']?.callbackUrl;
-  } 
+  // check if execute is client side and return callback from global object, if not return callback from param
+  const callbackFinal = callbackSideCheck(callbackUrl, wallet);
 
   const outcomes = await genericBatchExecute(
     flattenArgs(calls),
