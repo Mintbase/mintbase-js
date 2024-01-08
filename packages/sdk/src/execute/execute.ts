@@ -24,6 +24,9 @@ export const execute = async (
 
   let callbackFinal = callbackUrl;
 
+  const shouldGetFromMbjs = callbackUrl?.length < 1 || callbackUrl === undefined && 
+   window?.['mbjs']?.keys?.callbackUrl && window?.['mbjs']?.keys?.callbackUrl.length > 0; 
+
   if (wallet?.id == 'mintbase-wallet') {
     if (callbackUrl?.length < 1 || callbackUrl === undefined) {
       let mbjsCallbackUrl = '';
@@ -42,8 +45,7 @@ export const execute = async (
     }
   }
 
-  if (callbackUrl?.length < 1 || callbackUrl === undefined &&  window?.['mbjs']?.keys?.callbackUrl &&
-        window?.['mbjs']?.keys?.callbackUrl.length > 0) {
+  if (shouldGetFromMbjs) {
     callbackFinal =  window?.['mbjs']?.keys?.callbackUrl;
   } 
 
