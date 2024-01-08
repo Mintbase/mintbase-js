@@ -1,3 +1,7 @@
+/**
+ * @jest-environment jsdom
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { execute } from './execute';
 import { MAX_GAS, ONE_YOCTO } from '../constants';

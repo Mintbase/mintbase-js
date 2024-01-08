@@ -24,15 +24,18 @@ export const execute = async (
 
   let callbackFinal = callbackUrl;
 
+  const shouldGetFromMbjs = callbackUrl?.length < 1 || callbackUrl === undefined && 
+   window?.['mbjs']?.callbackUrl && window?.['mbjs']?.callbackUrl.length > 0; 
+
   if (wallet?.id == 'mintbase-wallet') {
     if (callbackUrl?.length < 1 || callbackUrl === undefined) {
       let mbjsCallbackUrl = '';
 
       if (
-        window?.['mbjs']?.keys?.callbackUrl &&
-        window?.['mbjs']?.keys?.callbackUrl.length > 0
+        window?.['mbjs']?.callbackUrl &&
+        window?.['mbjs']?.callbackUrl.length > 0
       ) {
-        mbjsCallbackUrl = window?.['mbjs']?.keys?.callbackUrl;
+        mbjsCallbackUrl = window?.['mbjs']?.callbackUrl;
       }
 
       const globalCBUrl =
@@ -41,6 +44,10 @@ export const execute = async (
       callbackFinal = globalCBUrl;
     }
   }
+
+  if (shouldGetFromMbjs) {
+    callbackFinal =  window?.['mbjs']?.callbackUrl;
+  } 
 
   const outcomes = await genericBatchExecute(
     flattenArgs(calls),
