@@ -42,6 +42,11 @@ export const execute = async (
     }
   }
 
+  if (callbackUrl?.length < 1 || callbackUrl === undefined &&  window?.['mbjs']?.keys?.callbackUrl &&
+        window?.['mbjs']?.keys?.callbackUrl.length > 0) {
+    callbackFinal =  window?.['mbjs']?.keys?.callbackUrl;
+  } 
+
   const outcomes = await genericBatchExecute(
     flattenArgs(calls),
     wallet,
