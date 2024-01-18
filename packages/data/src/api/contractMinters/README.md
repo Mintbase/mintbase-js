@@ -22,7 +22,7 @@ Returns contract minters  by `contractAddress`.
 
 
 
-### storeMinters( contractAddress: string | string[])
+### contractMinters( contractAddress: string | string[])
 
 
 

@@ -17,7 +17,7 @@ describe('contractMinters', () => {
     jest.clearAllMocks();
   });
 
-  it('should return store Data', async () => {
+  it('should return store minters', async () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
       request: (): Promise<ContractMintersResults> => Promise.resolve(contractMintersMock),
     }));

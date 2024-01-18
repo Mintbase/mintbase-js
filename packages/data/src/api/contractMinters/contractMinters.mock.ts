@@ -1,5 +1,5 @@
 export const contractMintersMock = {
-  nft_contracts: [
+  mb_store_minters: [
     {
       minter_id: ['test.near'],
     },
