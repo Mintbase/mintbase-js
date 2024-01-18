@@ -20,3 +20,4 @@ export * from './attributesByContract/attributesByContract';
 export * from './queries';
 export * from './userOwnedTokens/userOwnedTokens';
 export * from './userMintedTokens/userMintedTokens';
+export * from './contractMinters/contractMinters';
