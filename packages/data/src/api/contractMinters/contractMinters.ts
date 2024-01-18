@@ -18,7 +18,7 @@ export const contractMinters = async (
     ...(network && { network:network }),
   });
 
-  const errorMsg = error ? `Error fetching store data, ${error}` : '';
+  const errorMsg = error ? `Error fetching contract minters, ${error}` : '';
 
   return parseData(data, error, errorMsg);
 };
