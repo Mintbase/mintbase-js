@@ -11,6 +11,7 @@ import { tokenOwnerQuery } from './tokenOwner/tokenOwner.query';
 import { tokenOwnersByMetadataIdQuery } from './tokenOwnersByMetadataId/tokenOwnersByMetadataId.query';
 import { getTokenProvenance } from './tokenProvenance/tokenProvenance.query';
 import { tokensByStatusQuery } from './tokensByStatus/tokensByStatus.query';
+import { contractMintersQuery } from './contractMinters/contractMinters.query';
 
 export const QUERIES = {
   attributesByMetaIdQuery: attributesByMetaIdQuery,
@@ -26,4 +27,5 @@ export const QUERIES = {
   tokenOwnersByMetadataIdQuery: tokenOwnersByMetadataIdQuery,
   getTokenProvenance: getTokenProvenance,
   tokensByStatusQuery: tokensByStatusQuery,
+  contractMintersQuery: contractMintersQuery
 };
