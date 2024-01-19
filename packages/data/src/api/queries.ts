@@ -27,5 +27,5 @@ export const QUERIES = {
   tokenOwnersByMetadataIdQuery: tokenOwnersByMetadataIdQuery,
   getTokenProvenance: getTokenProvenance,
   tokensByStatusQuery: tokensByStatusQuery,
-  contractMintersQuery: contractMintersQuery
+  contractMintersQuery: contractMintersQuery,
 };
