@@ -1,5 +1,6 @@
 import { attributesByMetaIdQuery } from './attributesByMetaId/attributesByMetaId.query';
 import { checkStoreNameQuery } from './checkStoreName/checkStoreName.query';
+import { contractMintersQuery } from './contractMinters/contractMinters.query';
 import { ownedNftsByStoreQuery } from './ownedNftsByStore/ownedNftsByStore.query';
 import { ownedStoresQuery } from './ownedStores/ownedStores.query';
 import { ownedTokensQuery } from './ownedTokens/ownedTokens.query';
@@ -26,4 +27,5 @@ export const QUERIES = {
   tokenOwnersByMetadataIdQuery: tokenOwnersByMetadataIdQuery,
   getTokenProvenance: getTokenProvenance,
   tokensByStatusQuery: tokensByStatusQuery,
+  contractMintersQuery: contractMintersQuery,
 };
