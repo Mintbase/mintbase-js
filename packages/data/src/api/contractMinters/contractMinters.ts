@@ -20,7 +20,7 @@ export const contractMinters = async (
 
   const errorMsg = error ? `Error fetching contract minters, ${error}` : '';
 
-  const minters = data?.mb_store_minters?.map((minter) => minter.minter_id);
+  const minters = data?.mb_store_minters?.map((minter) => minter?.minter_id);
 
   return parseData(minters, error, errorMsg);
 };
