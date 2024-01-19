@@ -1,7 +1,1 @@
-export const contractMintersMock = {
-  mb_store_minters: [
-    {
-      minter_id: ['test.near'],
-    },
-  ],
-};
+export const contractMintersMock = ['minter1.near', 'minter2.near'];

@@ -19,7 +19,7 @@ describe('contractMinters', () => {
 
   it('should return store minters', async () => {
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (): Promise<ContractMintersResults> => Promise.resolve(contractMintersMock),
+      request: (): Promise<string[]> => Promise.resolve(contractMintersMock),
     }));
 
     const result = await contractMinters('test.mintbase1.near');
