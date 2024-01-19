@@ -7,7 +7,7 @@ import { ContractMintersResults } from './contractMinters.types';
 
 
 export const contractMinters = async (
-  contractAddress: string | string[],
+  contractAddress: string,
   network?: Network,
 ): Promise<ParsedDataReturn<ContractMintersResults>> => {
   const { data, error } = await fetchGraphQl<ContractMintersResults>({
