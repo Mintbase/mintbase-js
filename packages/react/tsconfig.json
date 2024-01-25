@@ -1,6 +1,7 @@
 {
   "extends": "../../tsconfig.json",
   "compilerOptions": {
+    "declaration": true,
     "moduleResolution": "node",
     "jsx": "react-jsx",
     "outDir": "./lib"
