@@ -75,7 +75,6 @@ export const setupMintbaseWalletSelector = async (
 
 
   if (onlyMbWallet === false) {
-
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
       modules: [
@@ -100,7 +99,7 @@ export const setupMintbaseWalletSelector = async (
     });
   }
 
-  walletSelectorComponents.modal = setupModal( walletSelectorComponents.selector, {
+  walletSelectorComponents.modal = setupModal(walletSelectorComponents.selector, {
     contractId: contractAddress,
   });
 
