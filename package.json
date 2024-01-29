@@ -55,9 +55,11 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",
     "@types/jest": "^25.2.3",
-    "@types/node": "^13.13.52",
-    "@types/react": "^18.0.21",
-    "@types/react-dom": "^18.0.6",
+    "@types/big.js": "^6.2.2",
+    "@types/bn.js": "^5.1.5",
+    "@types/node": "18.11.9",
+    "@types/react": "18.0.25",
+    "@types/react-dom": "18.0.9",
     "@typescript-eslint/eslint-plugin": "^2.31.0",
     "@typescript-eslint/parser": "^2.31.0",
     "eslint": "^6.6.0",
@@ -81,7 +83,7 @@
     "packages/*"
   ],
   "dependencies": {
-    "@near-wallet-selector/core": "^8.5.4",
+    "@near-wallet-selector/core": "8.9.3",
     "jest-fetch-mock": "^3.0.3"
   }
 }

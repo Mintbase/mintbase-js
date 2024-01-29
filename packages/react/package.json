@@ -20,15 +20,15 @@
   "license": "MIT",
   "devDependencies": {
     "@testing-library/react": "^13.4.0",
-    "@testing-library/user-event": "^14.4.3"
+    "@testing-library/user-event": "^14.5.2"
   },
   "dependencies": {
-    "@mintbase-js/wallet": "v0.5.0-beta.4",
-    "@near-wallet-selector/core": "^8.0.3",
-    "@near-wallet-selector/here-wallet": "^8.0.3",
-    "@near-wallet-selector/meteor-wallet": "^8.0.3",
-    "@near-wallet-selector/modal-ui": "^8.0.3",
-    "@near-wallet-selector/my-near-wallet": "*",
+    "@mintbase-js/wallet": "0.5.2-beta.0",
+    "@near-wallet-selector/core": "8.9.3",
+    "@near-wallet-selector/here-wallet": "8.9.3",
+    "@near-wallet-selector/meteor-wallet": "8.9.3",
+    "@near-wallet-selector/modal-ui": "8.9.3",
+    "@near-wallet-selector/my-near-wallet": "8.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
