@@ -1,11 +1,14 @@
 # Mintbase JS
-
+A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
 [Check our Templates repository for Mintbase.js](https://github.com/Mintbase/templates)
 
 ## Start with a template
 
 Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap your dapp with mintbase.js with any of the currently 11 templates;
 - [AI Chat](https://templates.mintbase.xyz/templates/ai-chat), [AI Minter](https://templates.mintbase.xyz/templates/ai-minter), [Blogchain](https://templates.mintbase.xyz/templates/blogchain), [Contract Deployer](https://templates.mintbase.xyz/templates/contract-deployer), [Minter](https://templates.mintbase.xyz/templates/minter), [Minsta](https://templates.mintbase.xyz/templates/minsta), [Marketplace](https://templates.mintbase.xyz/templates/marketplace), [NFT Stripe Checkout](https://templates.mintbase.xyz/templates/nft-stripe-checkout), [Next Wallet Starter](https://templates.mintbase.xyz/templates/starter-next), [Wallet Starter Vite](https://templates.mintbase.xyz/templates/starter-vite), [Token Drop](https://templates.mintbase.xyz/templates/simple-token-drop)
+
+
+## Status
 
 
 <p align="center">
@@ -49,7 +52,6 @@ Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap you
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet' />
 </p>
 
-A library for making web3 end to end development as easy as possible from smart contract deployment and interaction to metadata storage and blockchain data access.
 
 {% hint style="danger" %}
 ## All packages are currently in beta.
