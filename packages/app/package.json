@@ -1,13 +1,13 @@
 {
   "name": "mintbase-next-test-suite",
-  "version": "0.5.1-beta-prerelease.0",
+  "version": "0.5.2-beta.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "lint": "eslint . --fix --ext ts --ext tsx"
   },
   "dependencies": {
-    "@mintbase-js/react": "^0.5.1-beta-prerelease.0",
+    "@mintbase-js/react": "^0.5.2-beta.0",
     "@mintbase-js/sdk": "^0.1.0-beta.26",
     "@near-wallet-selector/modal-ui": "^7.0.3",
     "cookies": "^0.8.0",
