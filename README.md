@@ -55,6 +55,12 @@ Breaking changes can and will be introduced on a regular basis until an official
 {% endhint %}
 
 
+# Start with a template
+
+Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap your dapp with mintbase.js with any of the currently 11 templates;
+- [AI Chat](https://templates.mintbase.xyz/templates/ai-chat), [AI Minter](https://templates.mintbase.xyz/templates/ai-minter), [Blogchain](https://templates.mintbase.xyz/templates/blogchain), [Contract Deployer](https://templates.mintbase.xyz/templates/contract-deployer), [Minter](https://templates.mintbase.xyz/templates/minter), [Minsta](https://templates.mintbase.xyz/templates/minsta), [Marketplace](https://templates.mintbase.xyz/templates/marketplace), [NFT Stripe Checkout](https://templates.mintbase.xyz/templates/nft-stripe-checkout), [Near Wallet Starter Next.js](https://templates.mintbase.xyz/templates/starter-next), [Near Wallet Starter Vite](https://templates.mintbase.xyz/templates/starter-vite), [Token Drop](https://templates.mintbase.xyz/templates/simple-token-drop)
+
+
 # Getting started
 
 For guides and specific use case examples visit our [General Documentation](https://docs.mintbase.xyz/dev/getting-started)
