@@ -2,7 +2,7 @@
 
 [Check our Templates repository for Mintbase.js](https://github.com/Mintbase/templates)
 
-# Start with a template
+## Start with a template
 
 Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap your dapp with mintbase.js with any of the currently 11 templates;
 - [AI Chat](https://templates.mintbase.xyz/templates/ai-chat), [AI Minter](https://templates.mintbase.xyz/templates/ai-minter), [Blogchain](https://templates.mintbase.xyz/templates/blogchain), [Contract Deployer](https://templates.mintbase.xyz/templates/contract-deployer), [Minter](https://templates.mintbase.xyz/templates/minter), [Minsta](https://templates.mintbase.xyz/templates/minsta), [Marketplace](https://templates.mintbase.xyz/templates/marketplace), [NFT Stripe Checkout](https://templates.mintbase.xyz/templates/nft-stripe-checkout), [Next Wallet Starter](https://templates.mintbase.xyz/templates/starter-next), [Wallet Starter Vite](https://templates.mintbase.xyz/templates/starter-vite), [Token Drop](https://templates.mintbase.xyz/templates/simple-token-drop)
@@ -59,12 +59,12 @@ Breaking changes can and will be introduced on a regular basis until an official
 
 
 
-# Getting started
+## Getting started
 
 For guides and specific use case examples visit our [General Documentation](https://docs.mintbase.xyz/dev/getting-started)
 
 
-# Specific Module Documentation
+## Specific Module Documentation
 
 
 ### [@mintbase-js/wallet docs](packages/wallet)
@@ -89,7 +89,7 @@ For guides and specific use case examples visit our [General Documentation](http
 
 
 
-# Join us in Building the Future
+## Join us in Building the Future
 
 Have feedback or perhaps need a hand?
 
