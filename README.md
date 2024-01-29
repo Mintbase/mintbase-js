@@ -43,7 +43,7 @@ Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap you
 <b>@mintbase-js/storage:</b>
 <img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage' />
-</p>
+<br/>
 <b>@mintbase-js/wallet:</b>
 <img src='https://img.shields.io/npm/dw/@mintbase-js/wallet' />
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet' />
