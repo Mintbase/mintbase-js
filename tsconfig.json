@@ -8,6 +8,8 @@
     "noImplicitAny": false,
     "removeComments": false,
     "noLib": false,
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "target": "es6",

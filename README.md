@@ -2,6 +2,12 @@
 
 [Check our Templates repository for Mintbase.js](https://github.com/Mintbase/templates)
 
+# Start with a template
+
+Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap your dapp with mintbase.js with any of the currently 11 templates;
+- [AI Chat](https://templates.mintbase.xyz/templates/ai-chat), [AI Minter](https://templates.mintbase.xyz/templates/ai-minter), [Blogchain](https://templates.mintbase.xyz/templates/blogchain), [Contract Deployer](https://templates.mintbase.xyz/templates/contract-deployer), [Minter](https://templates.mintbase.xyz/templates/minter), [Minsta](https://templates.mintbase.xyz/templates/minsta), [Marketplace](https://templates.mintbase.xyz/templates/marketplace), [NFT Stripe Checkout](https://templates.mintbase.xyz/templates/nft-stripe-checkout), [Next Wallet Starter](https://templates.mintbase.xyz/templates/starter-next), [Wallet Starter Vite](https://templates.mintbase.xyz/templates/starter-vite), [Token Drop](https://templates.mintbase.xyz/templates/simple-token-drop)
+
+
 <p align="center">
 <img src="https://img.shields.io/github/v/release/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
@@ -11,8 +17,6 @@
 <a href="https://coveralls.io/github/Mintbase/mintbase-js?branch=beta" target="_blank"> <img src="https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta"/> </a>
 
 </p>
-
-
 <br/>
 <br/>
 <p>
@@ -40,7 +44,6 @@
 <img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage' />
 </p>
-
 <b>@mintbase-js/wallet:</b>
 <img src='https://img.shields.io/npm/dw/@mintbase-js/wallet' />
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet' />
@@ -53,6 +56,7 @@ A library for making web3 end to end development as easy as possible from smart 
 Breaking changes can and will be introduced on a regular basis until an official release later this year.
 
 {% endhint %}
+
 
 
 # Getting started

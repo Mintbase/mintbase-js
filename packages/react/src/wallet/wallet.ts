@@ -12,7 +12,6 @@ import {
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
-import { setupNearWallet } from '@near-wallet-selector/near-wallet';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
@@ -28,13 +27,12 @@ import { setupMintbaseWallet } from '@mintbase-js/wallet';
 // error messages
 const SUPPORT = '- further help available on our telegram channel: https://t.me/mintdev';
 
-export const ERROR_MESSAGES =  { 
+export const ERROR_MESSAGES =  {
   WALLET_SETUP_NOT_CALLED_ERROR : `Call and await setupWalletSelectorComponents() before registering a subscriber - ${SUPPORT}`,
   WALLET_CONNECTION_NOT_FOUND:  `Wallet connection not received after ${WALLET_CONNECTION_TIMEOUT}ms - ${SUPPORT}`,
 };
 
 export const SUPPORTED_NEAR_WALLETS: Array<WalletModuleFactory> =[
-  setupNearWallet(),
   setupMeteorWallet(),
   setupMyNearWallet(),
   setupHereWallet(),
@@ -77,7 +75,6 @@ export const setupMintbaseWalletSelector = async (
 
 
   if (onlyMbWallet === false) {
-
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
       modules: [
@@ -102,7 +99,7 @@ export const setupMintbaseWalletSelector = async (
     });
   }
 
-  walletSelectorComponents.modal = setupModal( walletSelectorComponents.selector, {
+  walletSelectorComponents.modal = setupModal(walletSelectorComponents.selector, {
     contractId: contractAddress,
   });
 

@@ -5,7 +5,6 @@ import {
   Wallet,
 } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
-import { setupDefaultWallets } from '@near-wallet-selector/default-wallets';
 import { map, distinctUntilChanged, Subscription } from 'rxjs';
 
 import {
@@ -67,7 +66,6 @@ export const setupMintbaseWalletSelector = async (
       debug: mbjs.keys.debugMode,
       modules: [
         setupMintbaseWallet({
-          networkId: network,
           walletUrl: walletUrls[network],
           deprecated: false,
           callbackUrl: callbackUrl,
@@ -82,7 +80,6 @@ export const setupMintbaseWalletSelector = async (
       debug: mbjs.keys.debugMode,
       modules: [
         setupMintbaseWallet({
-          networkId: network,
           walletUrl: walletUrls[network],
           deprecated: false,
           callbackUrl: callbackUrl,
@@ -108,7 +105,6 @@ export const setupWalletSelectorComponents = async (
     network: network,
     debug: mbjs.keys.debugMode,
     modules: [
-      ...(await setupDefaultWallets()),
       ...SUPPORTED_NEAR_WALLETS,
       ...(options?.additionalWallets || []),
     ],
