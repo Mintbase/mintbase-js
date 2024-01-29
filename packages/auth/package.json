@@ -28,7 +28,6 @@
     "@near-wallet-selector/meteor-wallet": "^8.0.3",
     "@near-wallet-selector/modal-ui": "^8.0.3",
     "@near-wallet-selector/my-near-wallet": "*",
-    "@near-wallet-selector/near-wallet": "^8.0.3",
     "@near-wallet-selector/sender": "^8.0.3",
     "@near-wallet-selector/wallet-connect": "^8.0.3",
     "bs58": "^5.0.0",
