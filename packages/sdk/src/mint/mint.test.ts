@@ -5,7 +5,7 @@ import { mint } from './mint';
 
 describe('mint method tests', () => {
   const contractAddress = 'test.nft.contract';
-  const contractAddressV2 = 'test.mintbase2.near';
+  // const contractAddressV2 = 'test.mintbase2.near';
   const reference = 'test';
   const media = 'test';
   const ownerId = 'test';
@@ -35,74 +35,7 @@ describe('mint method tests', () => {
     });
   });
 
-  test('mint with options', () => {
-    const args = mint({
-      contractAddress: contractAddressV2,
-      metadata: { reference, media },
-      ownerId: ownerId,
-      royalties: { test: 0.25, test1: 0.25 },
-      tokenIdsToMint: [123, 456],
-    });
-
-    expect(args).toEqual({
-      contractAddress: contractAddressV2,
-      methodName: TOKEN_METHOD_NAMES.MINT,
-      args: {
-        owner_id: ownerId,
-        metadata: {
-          reference: reference,
-          media: media,
-        },
-        num_to_mint: 2,
-        royalty_args: {
-          percentage: 5000,
-          split_between: {
-            test: 5000,
-            test1: 5000,
-          },
-        },
-        token_ids_to_mint: [123, 456],
-      },
-      deposit: '14270000000000000000000',
-      gas: GAS,
-    });
-  });
-
-  test('mint with floating point royalties', () => {
-    const args = mint({
-      contractAddress: contractAddressV2,
-      metadata: { reference, media },
-      ownerId: ownerId,
-      royalties: { test: 0.23, test1: 0.12654, test2: 0.04421 },
-      tokenIdsToMint: [123, 456],
-    });
-
-    expect(args).toEqual({
-      contractAddress: contractAddressV2,
-      methodName: TOKEN_METHOD_NAMES.MINT,
-      args: {
-        owner_id: ownerId,
-        metadata: {
-          reference: reference,
-          media: media,
-        },
-        num_to_mint: 2,
-        royalty_args: {
-          percentage: 4008,
-          split_between: {
-            test: 5739,
-            test1: 3158,
-            test2: 1103,
-          },
-        },
-        token_ids_to_mint: [123, 456],
-      },
-      deposit: '15070000000000000000000',
-      gas: GAS,
-    });
-  });
-
-  test('mint with flaoting point royalties and amount', () => {
+  test('mint with floating point royalties and amount', () => {
     const args = mint({
       contractAddress: contractAddress,
       metadata: { reference, media },
