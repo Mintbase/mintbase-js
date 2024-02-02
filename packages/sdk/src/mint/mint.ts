@@ -23,6 +23,13 @@ export const mint = (
     noReference = false,
   } = args;
 
+  // TODO: if store v1      -> execute this logic
+  //       else if store v2 -> execute store v2 logic
+  //       else             -> throw error
+  if (isStoreV2(contractAddress)) {
+    throw new Error('This method is currently not compatible with v2 stores');
+  }
+
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
@@ -66,6 +73,7 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
   }
 
+  // FIXME: move into own logic for v2
   if (tokenIdsToMint && !isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.TOKEN_ID_SPECIFICATION);
   }
