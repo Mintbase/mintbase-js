@@ -207,7 +207,7 @@ export type ListArgs = {
   ft?: FungibleToken;
 }
 
-export type MintArgs =  {
+export type MintArgsV1 =  {
   contractAddress?: string;
   ownerId: string;
   metadata: TokenMetadata;
@@ -215,7 +215,6 @@ export type MintArgs =  {
   amount?: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
-  tokenIdsToMint?: number[];
 };
 
 export type TokenMetadata = {
@@ -345,7 +344,7 @@ export interface ListArgsResponse {
   msg: string;
 }
 
-export interface MintArgsResponse {
+export interface MintArgsV1Response {
   owner_id: string;
   metadata: TokenMetadata;
   num_to_mint:  number;
@@ -386,7 +385,7 @@ export interface FtDepositStorageArgsResponse {
   account_id: string;
 }
 
-export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
+export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsV1Response |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
 | ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
 

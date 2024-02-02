@@ -27,4 +27,6 @@ export const ERROR_MESSAGES = {
   TOKEN_ID_SPECIFICATION: `You are trying to mint with specified token IDs on a smart contract that does not support it ${SUPPORT}`,
   SET_SPLITS_NO_TOKEN_IDS: `Cannot set splits without specifying at least one token ID ${SUPPORT}`,
   SPLITS_NOT_HUNDERT_PERCENT: `Your specified splits do not add up to 100% ${SUPPORT}`,
+  // TODO: update with method name
+  USE_MINT_V2: `The minting paradigm has changed for smart contracts v2, please look into method \`TODO\` ${SUPPORT}`,
 };

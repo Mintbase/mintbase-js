@@ -1,5 +1,9 @@
 import { mbjs } from './config/config';
 
+export function isStoreV1(name: string): boolean {
+  return name.endsWith(`.${mbjs.keys.mbContract}`);
+}
+
 export function isStoreV2(name: string): boolean {
   return name.endsWith(`.${mbjs.keys.mbContractV2}`);
 }
