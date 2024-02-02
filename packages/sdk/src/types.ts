@@ -11,8 +11,6 @@ export enum TOKEN_METHOD_NAMES {
   DEPLOY_TOKEN_CONTRACT =  'create_store',
   TRANSFER_TOKEN_CONTRACT_OWNERSHIP =  'transfer_store_ownership',
   MINT = 'nft_batch_mint',
-  ADD_MINTER = 'grant_minter',
-  REMOVE_MINTER = 'revoke_minter',
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
@@ -28,7 +26,9 @@ export enum MARKET_METHOD_NAMES {
 }
 
 export enum FT_METHOD_NAMES {
-  FT_TRANSFER_CALL = 'ft_transfer_call'
+  FT_TRANSFER_CALL = 'ft_transfer_call',
+  FT_TRANSFER = 'ft_transfer',
+  STORAGE_DEPOSIT = 'storage_deposit',
 }
 
 export type NEAR_NETWORK = 'testnet' | 'mainnet' | 'sandbox'
@@ -272,6 +272,18 @@ export interface SetSplitsArgs {
   splitOwners: Record<string, number>;
 }
 
+export type FtTransferArgs = {
+  ftContractAddress: string;
+  receiverId: string;
+  amount: string;
+  memo?: string;
+};
+
+export type FtDepositStorageArgs = {
+  ftContractAddress: string;
+  accountId?: string;
+};
+
 export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
 export interface MinterArgsResponse {
@@ -355,7 +367,7 @@ export interface ExecuteExtraArgsResponse {
   price?: string |  string[];
   timeout?: {
     Hours: number;
-}[];
+  }[];
   contractId?: string;
 }
 
@@ -364,8 +376,18 @@ export interface SetSplitsArgsResponse {
   split_between: Record<string, number>;
 }
 
+export interface FtTransferArgsResponse {
+  receiver_id: string;
+  amount: string;
+  memo: string | null;
+}
+
+export interface FtDepositStorageArgsResponse {
+  account_id: string;
+}
+
 export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
-| ExecuteExtraArgsResponse | Record<string, unknown>;
+| ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;

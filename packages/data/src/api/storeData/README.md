@@ -1,4 +1,4 @@
-[//]: # `{ "title": "storeData", "order": "1.0.12" }`
+[//]: # `{ "title": "storeData", "order": "2.0.12" }`
 # storeData
 
 
@@ -18,7 +18,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 
 
-Returns token data  by `contractAddress`.
+Returns contract data  by `contractAddress`.
 
 
 

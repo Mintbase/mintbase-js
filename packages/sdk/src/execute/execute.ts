@@ -1,10 +1,12 @@
-
-import type { FinalExecutionOutcome } from '@near-wallet-selector/core';
 import type { providers } from 'near-api-js';
-import { mbjs } from '../config/config';
-import { ComposableCall, NearExecuteOptions } from '../types';
-import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOptions } from './execute.utils';
-
+import type { ComposableCall, NearExecuteOptions } from '../types';
+import {
+  checkCallbackUrl,
+  flattenArgs,
+  genericBatchExecute,
+  validateSigningOptions,
+} from './execute.utils';
+import { callbackSideCheck } from './checkCallback';
 
 /**
  * Base method for executing contract calls.
@@ -14,14 +16,23 @@ import { checkCallbackUrl, flattenArgs, genericBatchExecute, validateSigningOpti
  * @returns an outcome object or an array of outcome objects if batching calls {@link FinalExecutionOutcome[]} | {@link FinalExecutionOutcome}, or a redirect to selected callbackUrl
  */
 export const execute = async (
-  { wallet, account, callbackUrl = mbjs.keys.callbackUrl, callbackArgs }: NearExecuteOptions,
+  { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
-): Promise<void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[] > => {
-
+): Promise<
+  void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]
+> => {
   validateSigningOptions({ wallet, account });
 
-  const outcomes = await genericBatchExecute(flattenArgs(calls), wallet, account, callbackUrl, callbackArgs);
+  // check if execute is client side and return callback from global object, if not return callback from param
+  const callbackFinal = callbackSideCheck(callbackUrl, wallet);
 
-  return checkCallbackUrl(callbackUrl, callbackArgs, wallet, outcomes);
+  const outcomes = await genericBatchExecute(
+    flattenArgs(calls),
+    wallet,
+    account,
+    callbackFinal,
+    callbackArgs,
+  );
 
+  return checkCallbackUrl(callbackFinal, callbackArgs, wallet, outcomes);
 };

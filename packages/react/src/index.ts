@@ -1,6 +1,3 @@
-export * from './WalletContext';
-// export * from './MintbaseSessionContext';
-// export * from './hooks/useMinter';
-export * from './hooks/useTokenById';
-export * from './hooks/useOwnedNftsByStores';
+export * from './MintbaseWalletContext';
 export * from './hooks/useNearPrice';
+export { Wallet, WalletModuleFactory, WalletModule, WalletBehaviourFactory, BrowserWallet, Account } from '@near-wallet-selector/core';

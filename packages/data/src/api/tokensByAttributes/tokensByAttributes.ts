@@ -18,10 +18,12 @@ export const tokensByAttributes = async (
     ? META_SERVICE_HOST_TESTNET
     : META_SERVICE_HOST;
 
+  const filtersString = JSON.stringify(filters);
+  const filtersBase64 = Buffer.from(filtersString).toString('base64');
+  
   try {
-    const res = await fetch(`${useHost}/stores/${contractId}/filter`, {
-      method: 'POST',
-      body: JSON.stringify(filters),
+    const res = await fetch(`${useHost}/stores/${contractId}/filter?args=${filtersBase64}`, {
+      method: 'GET',
       headers: { 'Content-type': 'application/json',
         [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
       },

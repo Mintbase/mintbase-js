@@ -1,0 +1,20 @@
+{
+  "name": "@mintbase-js/wallet",
+  "version": "0.5.2-beta-prerelease.1",
+  "description": "Mintbase Wallet",
+  "main": "lib/index.js",
+  "keywords": [
+    "mintbase",
+    "wallet"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Mintbase",
+  "license": "MIT",
+  "dependencies": {
+    "@near-wallet-selector/core": "8.9.3",
+    "bn.js": "^5.2.1",
+    "near-api-js": "^2.1.4"
+  }
+}

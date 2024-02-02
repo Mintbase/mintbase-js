@@ -1,4 +1,4 @@
-[//]: # `{ "title": "tokenOwnersByMetadataId", "order": "1.0.8" }`
+[//]: # `{ "title": "tokenOwnersByMetadataId", "order": "2.0.8" }`
 
 # tokenOwnersByMetadataId
 

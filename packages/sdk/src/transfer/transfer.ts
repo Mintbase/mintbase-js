@@ -19,7 +19,7 @@ export const transfer = ({
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
-  if (transfer.length == 0) {
+  if (transfers.length === 0) {
     throw new Error(ERROR_MESSAGES.TRANSFER);
   }
 

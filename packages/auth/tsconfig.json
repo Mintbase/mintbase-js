@@ -3,6 +3,16 @@
   "compilerOptions": {
     "outDir": "./lib"
   },
+  "declaration": false,
+  "emitDecoratorMetadata": true,
+  "experimentalDecorators": true,
+  "importHelpers": true,
+  "allowSyntheticDefaultImports": true,
+  "skipDefaultLibCheck": true,
+  "target": "es2015",
+  "module": "esnext",
+  "moduleResolution": "node",
+  "skipLibCheck": true,
   "include": [
     "./src"
   ]
