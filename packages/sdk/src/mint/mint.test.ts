@@ -2,9 +2,10 @@ import { GAS } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { mint } from './mint';
+import { mbjs } from '../config/config';
 
 describe('mint method tests', () => {
-  const contractAddress = 'test.mintspace2.testnet';
+  const contractAddress = `test.${mbjs.keys.mbContract}`;
   // const contractAddressV2 = 'test.mintbase2.near';
   const reference = 'test';
   const media = 'test';
