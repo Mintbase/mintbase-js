@@ -1,5 +1,5 @@
 import { mbjs, RPC_ENDPOINTS } from '@mintbase-js/sdk';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 
 export const requestFromNearRpc = async (
   body: Record<string, any>,

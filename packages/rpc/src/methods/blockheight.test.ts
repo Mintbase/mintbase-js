@@ -1,7 +1,7 @@
 import { getBlockHeight } from './blockheight';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('getBlockHeight', () => {
   it('should return a numeric, non-negative block height', async () => {

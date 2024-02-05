@@ -1,8 +1,8 @@
 import BN from 'bn.js';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 import { getBalance } from './balance';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('getBalance', () => {
   it('should return a numeric, non-negative block height', async () => {

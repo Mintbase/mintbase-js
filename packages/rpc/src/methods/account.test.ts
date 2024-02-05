@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 import { accountExists } from './account';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('accountExists', () => {
   it('should return true when the account exists', async () => {

@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 import { NEAR_SOCIAL_IPFS_GATEWAY, nearSocialProfile } from './social';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('near social', () => {
   it('should return profile data', async () => {

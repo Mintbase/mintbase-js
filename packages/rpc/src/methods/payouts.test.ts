@@ -1,7 +1,7 @@
 import { payouts } from './payouts';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('payouts rpc call', () => {
   it('should return payouts for contract and token id', async () => {

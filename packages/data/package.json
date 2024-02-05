@@ -21,6 +21,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
+    "cross-fetch": "^4.0.0",
     "graphql-request": "^5.2.0"
   },
   "peerDependencies": {
