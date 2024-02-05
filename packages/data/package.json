@@ -28,6 +28,6 @@
   "devDependencies": {
     "@graphql-codegen/cli": "^2.16.5",
     "@graphql-codegen/client-preset": "1.1.1",
-    "@graphql-codegen/introspection": "2.2.1",
+    "@graphql-codegen/introspection": "2.2.1"
   }
 }
