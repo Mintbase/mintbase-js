@@ -1,7 +1,7 @@
 import { nearPrice } from './nearPrice';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 
 describe('nearPrice', () => {

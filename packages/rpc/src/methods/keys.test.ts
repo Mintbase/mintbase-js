@@ -1,7 +1,7 @@
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 import { AccessKey, getAccessKeys } from './keys';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('keys', () => {
   const getRes = async (): Promise<AccessKey[]> => await getAccessKeys('benipsen.near');

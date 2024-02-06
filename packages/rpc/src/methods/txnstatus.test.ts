@@ -1,8 +1,8 @@
 import { getTxnStatus } from './txnstatus';
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 import { mbjs } from '@mintbase-js/sdk';
 
-jest.mock('isomorphic-unfetch');
+jest.mock('cross-fetch');
 
 describe('getTxnStatus', () => {
 

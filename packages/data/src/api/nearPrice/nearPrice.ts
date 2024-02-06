@@ -1,4 +1,4 @@
-import fetch from 'isomorphic-unfetch';
+import fetch from 'cross-fetch';
 import { BINANCE_API, COIN_GECKO_API } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
