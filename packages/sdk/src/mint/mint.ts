@@ -38,6 +38,7 @@ export const mint = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
+  // FIXME: extracted to utils
   let adjustedRoyalties: Splits;
   let royaltyTotal: number;
   let roundedRoyalties: Splits;
