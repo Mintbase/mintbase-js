@@ -37,7 +37,118 @@ describe('createMetadata method tests', () => {
     });
   });
 
-  // TODO: test new features
+  test('createMetadata with metadataId', () => {
+    const args = createMetadata({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      metadataId: '1',
+      price: 1,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
+      args: {
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        price: `1${'0'.repeat(24)}`,
+        metadata_id: '1',
+        royalty_args: null,
+        minters_allowlist: null,
+        max_supply: null,
+        last_possible_mint: null,
+      },
+      deposit: '7470000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('createMetadata with minters allowlist', () => {
+    const args = createMetadata({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      mintersAllowlist: ['foo', 'bar'],
+      price: 1,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
+      args: {
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        price: `1${'0'.repeat(24)}`,
+        metadata_id: null,
+        royalty_args: null,
+        minters_allowlist: ['foo', 'bar'],
+        max_supply: null,
+        last_possible_mint: null,
+      },
+      deposit: '7470000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('createMetadata with maximum supply', () => {
+    const args = createMetadata({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      maxSupply: 10,
+      price: 1,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
+      args: {
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        price: `1${'0'.repeat(24)}`,
+        metadata_id: null,
+        royalty_args: null,
+        minters_allowlist: null,
+        max_supply: 10,
+        last_possible_mint: null,
+      },
+      deposit: '7470000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('createMetadata with expiry date', () => {
+    const args = createMetadata({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      lastPossibleMint: new Date('2022-01-01 00:00:00'),
+      price: 1,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
+      args: {
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        price: `1${'0'.repeat(24)}`,
+        metadata_id: null,
+        royalty_args: null,
+        minters_allowlist: null,
+        max_supply: null,
+        last_possible_mint: '1640995200000000000',
+      },
+      deposit: '7470000000000000000000',
+      gas: GAS,
+    });
+  });
+
   test('createMetadata with floating point royalties and amount', () => {
     const args = createMetadata({
       contractAddress: contractAddress,
