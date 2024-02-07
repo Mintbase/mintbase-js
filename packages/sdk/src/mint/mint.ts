@@ -1,7 +1,8 @@
 import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES, Splits } from '../types';
+import { MintArgsV1, MintArgsV1Response, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES, Splits } from '../types';
+import { isStoreV1 } from '../utils';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -9,18 +10,21 @@ import { MintArgs, MintArgsResponse, NearContractCall, TokenMetadata, TOKEN_METH
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
 export const mint = (
-  args: MintArgs,
-): NearContractCall<MintArgsResponse> => {
+  args: MintArgsV1,
+): NearContractCall<MintArgsV1Response> => {
   const {
     contractAddress = mbjs.keys.contractAddress,
     metadata,
     ownerId,
     royalties,
     amount,
-    tokenIdsToMint,
     noMedia = false,
     noReference = false,
   } = args;
+
+  if (!isStoreV1(contractAddress)) {
+    throw new Error(ERROR_MESSAGES.USE_MINT_V2);
+  }
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
@@ -38,34 +42,24 @@ export const mint = (
   let royaltyTotal: number;
   let roundedRoyalties: Splits;
 
-  //royalties adjustments to make devx better
+  // royalties adjustments to make devx better
   if (royalties) {
     royaltyTotal = getRoyaltyTotal(royalties);
     adjustedRoyalties = adjustRoyaltiesForContract(royalties, royaltyTotal);
     roundedRoyalties = roundRoyalties(adjustedRoyalties);
   }
 
-  //if royalties exist they need to be populated
+  // if royalties exist they need to be populated
   if (royalties && Object.keys(royalties).length < 1) {
     throw new Error(ERROR_MESSAGES.MIN_ROYALTIES);
   }
 
-  //must not have more than 50 royalty owners
+  // must not have more than 50 royalty owners
   if (royalties && Object.keys(royalties).length > 50) {
     throw new Error(ERROR_MESSAGES.MAX_ROYALTIES);
   }
 
-  //if specifying tokenIdsToMint these must be populated
-  if (tokenIdsToMint && tokenIdsToMint.length == 0) {
-    throw new Error(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
-  }
-
-  if (tokenIdsToMint && amount && tokenIdsToMint?.length !== amount) {
-    throw new Error(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
-  }
-
-  //if no amount or tokenids defined then default to 1 amount
-  const adjustedAmount = tokenIdsToMint?.length || amount || 1;
+  const adjustedAmount = amount || 1;
 
   if (adjustedAmount > 125 || adjustedAmount < 1) {
     throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
@@ -79,7 +73,6 @@ export const mint = (
       num_to_mint: adjustedAmount,
       // 10_000 = 100% (see above note)
       royalty_args: !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.round(royaltyTotal * 10000) },
-      token_ids_to_mint: !tokenIdsToMint ? null : tokenIdsToMint,
     },
     methodName: TOKEN_METHOD_NAMES.MINT,
     gas: GAS,

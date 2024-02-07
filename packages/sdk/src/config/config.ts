@@ -7,6 +7,7 @@ import {
   MARKET_CONTRACT_ADDRESS,
   Network,
   MINTBASE_CONTRACTS,
+  MINTBASE_CONTRACTS_V2,
   NEAR_NETWORKS,
   ConfigOptions,
   GRAPHQL_ENDPOINTS,
@@ -35,6 +36,7 @@ const startupConfig: MbJsKeysObject = {
   contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
   marketAddress:  isProcessEnv ? MARKET_CONTRACT_ADDRESS[process.env.NEAR_NETWORK] : MARKET_CONTRACT_ADDRESS[NEAR_NETWORKS.MAINNET],
   mbContract: isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.MAINNET],
+  mbContractV2: isProcessEnv ? MINTBASE_CONTRACTS_V2[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS_V2[NEAR_NETWORKS.MAINNET],
   apiKey: isProcessEnv ? process.env.MINTBASE_API_KEY : DEFAULT_API_KEY,
   connectProxyAddress: null,
   debugMode: isDebugMode ? true : false,
@@ -57,6 +59,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
     debugMode: configObj.network == NEAR_NETWORKS.TESTNET,
     mbContract: MINTBASE_CONTRACTS[configObj.network],
+    mbContractV2: MINTBASE_CONTRACTS_V2[configObj.network],
     apiKey: configObj.apiKey ?? DEFAULT_API_KEY,
     connectProxyAddress: null,
     ftAddresses: FT_ADDRESSES[configObj.network],
@@ -69,6 +72,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   config.contractAddress = globalConfig.contractAddress;
   config.marketAddress = globalConfig.marketAddress;
   config.mbContract = globalConfig.mbContract;
+  config.mbContractV2 = globalConfig.mbContractV2;
   config.debugMode = globalConfig.debugMode;
   config.nearRpcUrl = globalConfig.nearRpcUrl;
   config.apiKey = globalConfig.apiKey;

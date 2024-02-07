@@ -11,6 +11,8 @@ export * from './depositStorage/depositStorage';
 export * from './ftTransfer/ftTransfer';
 export * from './list/list';
 export * from './mint/mint';
+export * from './delist/delist';
+export * from './setSplits/setSplits';
 export * from './transferContractOwnership/transferContractOwnership';
 // export * from './ftDepositStorage/ftDepositStorage'; // TODO:
 export { mbjs } from './config/config';

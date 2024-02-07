@@ -14,6 +14,7 @@ export enum TOKEN_METHOD_NAMES {
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
+  SET_SPLITS = 'set_split_owners'
 }
 
 export enum MARKET_METHOD_NAMES {
@@ -48,6 +49,11 @@ export enum MARKET_CONTRACT_ADDRESS {
 export enum MINTBASE_CONTRACTS {
   testnet =  'mintspace2.testnet',
   mainnet = 'mintbase1.near',
+}
+
+export enum MINTBASE_CONTRACTS_V2 {
+  testnet =  'mintspace3.testnet',
+  mainnet = 'mintbase2.near',
 }
 
 export enum GRAPHQL_ENDPOINTS  {
@@ -93,6 +99,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   graphqlUrl?: GRAPHQL_ENDPOINTS | '';
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS;
+  mbContractV2?: MINTBASE_CONTRACTS_V2;
   nearRpcUrl: RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
@@ -200,7 +207,7 @@ export type ListArgs = {
   ft?: FungibleToken;
 }
 
-export type MintArgs =  {
+export type MintArgsV1 =  {
   contractAddress?: string;
   ownerId: string;
   metadata: TokenMetadata;
@@ -208,7 +215,6 @@ export type MintArgs =  {
   amount?: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
-  tokenIdsToMint?: number[];
 };
 
 export type TokenMetadata = {
@@ -257,6 +263,12 @@ export type TransferContractOwnershipArgs = {
 export interface OldTransferContractOwnershipArgs {
   new_owner: string;
   keep_old_minters?: boolean;
+}
+
+export interface SetSplitsArgs {
+  contractAddress?: string;
+  tokenIds: string[];
+  splitOwners: Record<string, number>;
 }
 
 export type FtTransferArgs = {
@@ -332,7 +344,7 @@ export interface ListArgsResponse {
   msg: string;
 }
 
-export interface MintArgsResponse {
+export interface MintArgsV1Response {
   owner_id: string;
   metadata: TokenMetadata;
   num_to_mint:  number;
@@ -358,6 +370,11 @@ export interface ExecuteExtraArgsResponse {
   contractId?: string;
 }
 
+export interface SetSplitsArgsResponse {
+  token_ids: string[];
+  split_between: Record<string, number>;
+}
+
 export interface FtTransferArgsResponse {
   receiver_id: string;
   amount: string;
@@ -368,7 +385,7 @@ export interface FtDepositStorageArgsResponse {
   account_id: string;
 }
 
-export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsResponse |
+export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsV1Response |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
 | ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
 
