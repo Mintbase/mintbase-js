@@ -15,7 +15,7 @@ export type AccessKeyPermissions = {
   };
 }
 
-export const getAccessKeys = async (accountId: string): Promise<AccessKey[]> => {
+export const getAccessKeys = async (accountId: string, network?: string): Promise<AccessKey[]> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
@@ -25,7 +25,7 @@ export const getAccessKeys = async (accountId: string): Promise<AccessKey[]> => 
       finality: 'final',
       account_id: accountId,
     },
-  });
+  }, network);
 
   const accessKeys = res?.result?.keys;
 

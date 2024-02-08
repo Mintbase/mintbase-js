@@ -1,6 +1,6 @@
 import { requestFromNearRpc } from '../util';
 
-export const accountExists = async (accountId: string): Promise<boolean> => {
+export const accountExists = async (accountId: string, network?: string): Promise<boolean> => {
   const response = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
@@ -10,7 +10,7 @@ export const accountExists = async (accountId: string): Promise<boolean> => {
       finality: 'final',
       account_id: accountId,
     },
-  });
+  }, network);
 
   if (response?.error) {
     return false;
