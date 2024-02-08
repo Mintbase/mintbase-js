@@ -1,7 +1,7 @@
 import BN from 'bn.js';
 import { requestFromNearRpc } from '../util';
 
-export const getBalance = async (accountId: string): Promise<BN> => {
+export const getBalance = async (accountId: string, network?: string): Promise<BN> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
@@ -11,7 +11,7 @@ export const getBalance = async (accountId: string): Promise<BN> => {
       finality: 'final',
       account_id: accountId,
     },
-  });
+  }, network);
   const balanceString = res?.result?.amount;
   if (!balanceString) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);

@@ -5,13 +5,14 @@ export type TxnStatus = 'pending' | 'success' | 'failure';
 export const getTxnStatus = async (
   txnHash: string,
   senderId: string,
+  network?: string,
 ): Promise<TxnStatus> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
     method: 'tx',
     params: [txnHash, senderId],
-  });
+  }, network);
   if (res?.error) {
     throw res.error;
   }
