@@ -48,7 +48,7 @@ export const ftMetadata = async ({ contractId, network }): Promise<FtMetadata | 
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',
-    network: network
+    network: network,
   });
 
   return isFtMetadata(res) ? res : null;

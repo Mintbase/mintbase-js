@@ -3,7 +3,7 @@ import fetch from 'cross-fetch';
 
 export const requestFromNearRpc = async (
   body: Record<string, any>,
-  network?: string
+  network?: string,
 ): Promise<Record<string, any> | undefined> => {
 
   const fetchUrl = RPC_ENDPOINTS[mbjs.keys.network] || mbjs.keys.nearRpcUrl;
