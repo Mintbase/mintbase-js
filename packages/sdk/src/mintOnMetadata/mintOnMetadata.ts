@@ -2,7 +2,7 @@ import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { MintOnMetadataArgs, MintOnMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
-import { isStoreV2 } from '../utils';
+import { isIntString, isStoreV2 } from '../utils';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -40,7 +40,9 @@ export const mintOnMetadata = (
     throw new Error(ERROR_MESSAGES.INVALID_AMOUNT);
   }
 
-  // TODO: tokenIds need to be int strings
+  if (tokenIds && !tokenIds.every(isIntString)) {
+    throw new Error(ERROR_MESSAGES.TOKEN_ID_NOT_INT);
+  }
 
   return {
     contractAddress: contractAddress || mbjs.keys.contractAddress,

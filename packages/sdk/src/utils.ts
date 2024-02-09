@@ -14,6 +14,10 @@ export function standardizeString(name: string): string {
   return name.replace(/[^a-z0-9]+/gim, '').toLowerCase();
 }
 
+export function isIntString(x: string): boolean {
+  return parseInt(x).toString() === x;
+}
+
 export function processRoyalties(
   royalties: Splits | null | undefined,
 ): {

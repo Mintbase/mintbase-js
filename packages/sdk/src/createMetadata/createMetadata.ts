@@ -3,7 +3,7 @@ import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { CreateMetadataArgs, CreateMetadataArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES } from '../types';
-import { isStoreV2, processRoyalties } from '../utils';
+import { isIntString, isStoreV2, processRoyalties } from '../utils';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -42,7 +42,9 @@ export const createMetadata = (
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
 
-  // TODO: metadataId needs to be int string!
+  if (metadataId && !isIntString(metadataId)) {
+    throw new Error(ERROR_MESSAGES.METADATA_ID_NOT_INT);
+  }
 
   const { royaltyTotal, roundedRoyalties } = processRoyalties(royalties);
 
