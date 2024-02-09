@@ -32,7 +32,7 @@ describe('createMetadata method tests', () => {
         max_supply: null,
         last_possible_mint: null,
       },
-      deposit: '7470000000000000000000',
+      deposit: '2270000000000000000000',
       gas: GAS,
     });
   });
@@ -60,7 +60,7 @@ describe('createMetadata method tests', () => {
         max_supply: null,
         last_possible_mint: null,
       },
-      deposit: '7470000000000000000000',
+      deposit: '2270000000000000000000',
       gas: GAS,
     });
   });
@@ -88,7 +88,7 @@ describe('createMetadata method tests', () => {
         max_supply: null,
         last_possible_mint: null,
       },
-      deposit: '7470000000000000000000',
+      deposit: '2270000000000000000000',
       gas: GAS,
     });
   });
@@ -116,7 +116,7 @@ describe('createMetadata method tests', () => {
         max_supply: 10,
         last_possible_mint: null,
       },
-      deposit: '7470000000000000000000',
+      deposit: '2270000000000000000000',
       gas: GAS,
     });
   });
@@ -144,7 +144,7 @@ describe('createMetadata method tests', () => {
         max_supply: null,
         last_possible_mint: '1640995200000000000',
       },
-      deposit: '7470000000000000000000',
+      deposit: '2270000000000000000000',
       gas: GAS,
     });
   });
@@ -179,7 +179,7 @@ describe('createMetadata method tests', () => {
         max_supply: null,
         last_possible_mint: null,
       },
-      deposit: '9870000000000000000000',
+      deposit: '4670000000000000000000',
       gas: GAS,
     });
   });

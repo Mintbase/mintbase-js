@@ -232,6 +232,14 @@ export type CreateMetadataArgs = {
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
 
+export type MintOnMetadataArgs = {
+  contractAddress?: string;
+  metadataId: string;
+  ownerId: string;
+  amount?: number;
+  tokenIds?: string[];
+};
+
 export type TokenMetadata = {
   title?: string;
   description?: string;
@@ -379,6 +387,14 @@ export interface CreateMetadataArgsResponse {
   max_supply?: number;
   last_possible_mint?: string;
   price: string;
+}
+
+export interface MintOnMetadataArgsResponse {
+  metadata_id: string;
+  owner_id: string;
+  num_to_mint?: number; // panic if neither specified!
+  token_ids?: string[]; // panic if neither specified!
+  split_owners?: Splits;
 }
 
 export interface TransferContractOwnershipArgsResponse {

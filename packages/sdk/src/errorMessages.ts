@@ -28,5 +28,6 @@ export const ERROR_MESSAGES = {
   SET_SPLITS_NO_TOKEN_IDS: `Cannot set splits without specifying at least one token ID ${SUPPORT}`,
   SPLITS_NOT_HUNDERT_PERCENT: `Your specified splits do not add up to 100% ${SUPPORT}`,
   // TODO: update with method name
-  USE_MINT_V2: `The minting paradigm has changed for smart contracts v2, please look into method \`TODO\` ${SUPPORT}`,
+  ONLY_V1: `This method is only compatible with Mintbase v1 smart contracts ${SUPPORT}`,
+  ONLY_V2: `This method is only compatible with Mintbase v2 smart contracts ${SUPPORT}`,
 };

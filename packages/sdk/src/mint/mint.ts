@@ -23,7 +23,7 @@ export const mint = (
   } = args;
 
   if (!isStoreV1(contractAddress)) {
-    throw new Error(ERROR_MESSAGES.USE_MINT_V2);
+    throw new Error(ERROR_MESSAGES.ONLY_V1);
   }
 
   if (contractAddress == null) {

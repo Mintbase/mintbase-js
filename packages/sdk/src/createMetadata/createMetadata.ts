@@ -27,7 +27,7 @@ export const createMetadata = (
   } = args;
 
   if (!isStoreV2(contractAddress)) {
-    throw new Error(ERROR_MESSAGES.USE_MINT_V2);
+    throw new Error(ERROR_MESSAGES.ONLY_V2);
   }
 
   if (contractAddress == null) {
@@ -41,6 +41,8 @@ export const createMetadata = (
   if (!noMedia && !metadata.media) {
     throw new Error(ERROR_MESSAGES.NO_MEDIA);
   }
+
+  // TODO: metadataId needs to be int string!
 
   const { royaltyTotal, roundedRoyalties } = processRoyalties(royalties);
 
@@ -58,35 +60,25 @@ export const createMetadata = (
     },
     methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
     gas: GAS,
-    deposit: mintingDeposit({
-      nSplits: 0,
-      nTokens: 1,
+    deposit: createMetadataDeposit({
       nRoyalties: !royalties ? 0 : Object.keys(royalties)?.length,
       metadata,
     }),
   };
 };
 
-// FIXME: does this need to change?
-export function mintingDeposit({
-  nTokens,
+export function createMetadataDeposit({
   nRoyalties,
-  nSplits,
   metadata,
 }: {
-  nSplits: number;
-  nTokens: number;
   nRoyalties: number;
   metadata: TokenMetadata;
 }): string {
-  const nSplitsAdj = nSplits < 1 ?  0 : nSplits - 1;
-  const bytesPerToken = STORAGE_BYTES.TOKEN_BASE + nSplitsAdj * STORAGE_BYTES.COMMON + STORAGE_BYTES.COMMON;
   const metadataBytesEstimate = JSON.stringify(metadata).length;
 
   const totalBytes = STORAGE_BYTES.MINTING_BASE +
     STORAGE_BYTES.MINTING_FEE +
     metadataBytesEstimate +
-    bytesPerToken * nTokens +
     STORAGE_BYTES.COMMON * nRoyalties;
 
   return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
