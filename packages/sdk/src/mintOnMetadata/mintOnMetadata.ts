@@ -1,3 +1,4 @@
+import BN from 'bn.js';
 import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
@@ -18,9 +19,8 @@ export const mintOnMetadata = (
     ownerId,
     amount = null,
     tokenIds = null,
+    price,
   } = args;
-
-  // FIXME: attach price!
 
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
@@ -60,14 +60,15 @@ export const mintOnMetadata = (
     },
     methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
     gas: GAS,
-    deposit: mintOnMetadataDeposit(amountCalc),
+    deposit: mintOnMetadataDeposit(amountCalc, price),
   };
 };
 
-export function mintOnMetadataDeposit(nTokens: number): string {
+export function mintOnMetadataDeposit(nTokens: number, price: number): string {
   const totalBytes = STORAGE_BYTES.MINTING_BASE +
     STORAGE_BYTES.MINTING_FEE +
     (STORAGE_BYTES.TOKEN_BASE + STORAGE_BYTES.COMMON) * nTokens;
-
-  return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
+  const storageCost = new BN(`${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`);
+  const priceCost = new BN(`1${'0'.repeat(24)}`).muln(price).muln(nTokens);
+  return storageCost.add(priceCost).toString();
 }

@@ -14,6 +14,7 @@ describe('mintOnMetadata method tests', () => {
       contractAddress: contractAddress,
       metadataId: '1',
       ownerId,
+      price: 1,
     });
 
     expect(args).toEqual({
@@ -25,7 +26,7 @@ describe('mintOnMetadata method tests', () => {
         num_to_mint: 1,
         token_ids: null,
       },
-      deposit: '7120000000000000000000',
+      deposit: '1007120000000000000000000',
       gas: GAS,
     });
   });
@@ -36,6 +37,7 @@ describe('mintOnMetadata method tests', () => {
       metadataId: '1',
       ownerId,
       amount: 5,
+      price: 1,
     });
 
     expect(args).toEqual({
@@ -47,7 +49,7 @@ describe('mintOnMetadata method tests', () => {
         num_to_mint: 5,
         token_ids: null,
       },
-      deposit: '27920000000000000000000',
+      deposit: '5027920000000000000000000',
       gas: GAS,
     });
   });
@@ -58,6 +60,7 @@ describe('mintOnMetadata method tests', () => {
       metadataId: '1',
       ownerId,
       tokenIds: ['1', '2'],
+      price: 1,
     });
 
     expect(args).toEqual({
@@ -69,7 +72,7 @@ describe('mintOnMetadata method tests', () => {
         num_to_mint: null,
         token_ids: ['1', '2'],
       },
-      deposit: '12320000000000000000000',
+      deposit: '2012320000000000000000000',
       gas: GAS,
     });
   });
@@ -82,6 +85,7 @@ describe('mintOnMetadata method tests', () => {
         ownerId,
         amount: 2,
         tokenIds: ['1', '2', '3'],
+        price: 1,
       });
     }).toThrow(ERROR_MESSAGES.MUTUAL_EXCLUSIVE_AMOUNT);
   });
@@ -93,6 +97,7 @@ describe('mintOnMetadata method tests', () => {
         metadataId: '1',
         ownerId,
         tokenIds: [],
+        price: 1,
       });
     }).toThrow(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   });

@@ -28,6 +28,8 @@ export type MintOnMetadataArgs =  {
   amount?: number;
   //pre-specified token IDs
   tokenIds?: string[];
+  //price for minting on token in NEAR
+  price: number;
 };
 ```
 

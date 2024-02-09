@@ -238,6 +238,7 @@ export type MintOnMetadataArgs = {
   ownerId: string;
   amount?: number;
   tokenIds?: string[];
+  price: number;
 };
 
 export type TokenMetadata = {
