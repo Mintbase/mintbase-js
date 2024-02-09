@@ -1,63 +1,34 @@
-[//]: # `{ "title": "createMetadata", "order": 0.16 }`
+[//]: # `{ "title": "mintOnMetadata", "order": 0.17 }`
 
-# Create Metadata
+# Mint on Metadata (v2)
 
-Create metadata for a specified reference material on a contract of your choice. Others can then mint tokens on that metadata, while you as the creator will get the payout from the price specified on creating the metadata. You need to have been given creator permission.
+Mint on [previously created metadata](../createMetadata/README.md). Make sure to attach the required price!
 
-The reference material is typically uploaded to IPFS or Arweave and can be easily done through our `uploadReference` method found in the storage module. Follow [this guide](https://docs.mintbase.xyz/dev/getting-started/upload-reference-material-to-arweave-and-mint) to learn how to handle permanent uploads!
-
-Royalties can be configured to provide a customized flow of funds as explained below.
-
-You can restrict minting via an allowlist of NEAR account IDs that are allowed to mint (`minter_allowslist`), via a maximum supply that will be enforced by the smart contract (`max_supply`), and via an expiry date (`last_possible_mint`).
+If you want specific token IDs, you can specify those via the `tokenIds` parameter. If your token IDs are already in use, this will cause a smart contract panic. You can also mint multiple tokens without specifying token IDs using the `amount` parameter. Make sure that there is no mismatch between your `tokenIds` and `amount` parameters.
 
 The `nftContactId` can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
+If you want to mint on a v1 smart contract, please use the [corresponding method](../mint/README.md).
+
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
-## mint(args: MintArgs): NearContractCall
+## mintOnMetadata(args: MintOnMetadataArgs): NearContractCall
 
-`mint` takes a single argument of type `MintArgs`
+`mintOnMetadata` takes a single argument of type `MintOnMetadataArgs`
 
 ```typescript
-export type MintArgs =  {
+export type MintOnMetadataArgs =  {
   //the contractId from which you want to mint, this can be statically defined via the mbjs config file
   contractAddress?: string;
-  //on chain metadata, currently reference and media must be provided unless clearly opted out using the noMedia or noReference args
-  //the storage module returns the media hash to be provided to the media key in the metadata object when uploading as well as the referenceId which should be supplied to the reference key.
-  metadata: TokenMetadata;
-  //pre-specified metadata ID, increment counter otherwise
-  metadataId?: string;
-  //permanent royalties to be paid on every token sale provided in a Record of keys (accountIds) and values (amount)
-  //the royalty total is capped at 0.5 eg: {"test1.near" : 0.2, "test2.near": 0.3}
-  royalties?: Splits;
-  //account IDs that are allowed to mint tokens on this metadata
-  mintersAllowlist?: string[];
-  //maximum amount of tokens allowed to be minted on this metadata
-  maxSupply?: string[];
-  //date when minting of this metadata will be disabled.
-  lastPossibleMint?: Date;
-  //price in $NEAR that has to be paid for minting on this metadata, will be distributed between royalty holders
-  price: number;
-  // explicit opt-in to NFT without media, breaks wallets
-  noMedia?: boolean;
-  // explicit opt-in to NFT without reference
-  noReference?: boolean;
+  //the ID of the metadata you wish to mint on
+  metadataId: string;
+  //the owner of the minted tokens
+  ownerId: string;
+  // number of tokens to mint
+  amount?: number;
+  //pre-specified token IDs
+  tokenIds?: string[];
 };
-
-export type TokenMetadata = {
-  title?: string;
-  description?: string;
-  media?: string;
-  media_hash?: string;
-  copies?: number;
-  issued_at?: string;  // Stringified unix timestamp, according to
-  expires_at?: string; // standards this is milliseconds since epoch, but
-  starts_at?: string;  // since `env::block_timestamp` is in nanoseconds
-  updated_at?: string; // most timestamps in the ecosystem are nanoseconds
-  extra?: string;
-  reference?: string;
-  reference_hash?: string;
-}
 ```
 
 ## React example
@@ -68,27 +39,27 @@ Example usage of mint method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, createMetadata, CreateMetadataArgs } from '@mintbase-js/sdk';
+import { execute, mintOnMetadata, MintOnMetadataArgs } from '@mintbase-js/sdk';
 
 
-export const CreateMetadataComponent = ({ media, reference, contractAddress, price }: CreateMetadataArgs): JSX.Element => {
+export const MintOnMetadataComponent = ({ contractAddress, metadataId, ownerId, price }: MintOnMetadataArgs): JSX.Element => {
 
   const { selector } = useWallet();
 
-  const handleCreateMetadata = async (): Promise<void> => {
+  const handleMintOnMetadata = async (): Promise<void> => {
 
     const wallet = await selector.wallet();
 
     await execute(
-      createMetadata({ contractAddress: contractAddress, metadata: { media, reference }, price })
+      mintOnMetadata({ contractAddress, metadataId, ownerId, price })
     );
 
   }
 
   return (
     <div>
-      <button onClick={handleMint}>
-        Create metadata
+      <button onClick={handleMintOnMetadata}>
+        Mint on metadata
       </button>
     </div>
   );

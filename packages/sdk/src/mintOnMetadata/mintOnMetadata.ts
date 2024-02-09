@@ -20,8 +20,14 @@ export const mintOnMetadata = (
     tokenIds = null,
   } = args;
 
+  // FIXME: attach price!
+
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
+  }
+
+  if (!isIntString(metadataId)) {
+    throw new Error(ERROR_MESSAGES.METADATA_ID_NOT_INT);
   }
 
   if (contractAddress == null) {

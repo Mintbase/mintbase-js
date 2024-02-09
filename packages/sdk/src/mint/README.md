@@ -1,16 +1,18 @@
 [//]: # `{ "title": "mint", "order": 0.1 }`
 
-# Mint
+# Mint (v1)
 
 Mint a token for a specified reference material on a contract of your choice. You need to have been given minting permission.
 
-The reference material is typically uploaded to IPFS or Arweave and can be easily done through our `uploadReference` method found in the storage module. Follow [this guide](https://docs.mintbase.xyz/dev/getting-started/upload-reference-material-to-arweave-and-mint) to learn how to handle permanent uploads! 
+The reference material is typically uploaded to IPFS or Arweave and can be easily done through our `uploadReference` method found in the storage module. Follow [this guide](https://docs.mintbase.xyz/dev/getting-started/upload-reference-material-to-arweave-and-mint) to learn how to handle permanent uploads!
 
 Royalties can be configured to provide a customized flow of funds as explained below.
 
 It is possible to configure the amount of copies you want to mint through the `amount` field, but currently they will all share the same reference material.
 
 The nftContactId can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
+
+If you want to mint on a v2 smart contract, please [create metadata](../createMetadata/README.md), then [mint on it](../mintOnMetadata/README.md).
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
@@ -33,7 +35,7 @@ export type MintArgs =  {
 };
 
 export type MintArgs =  {
-  //the contractId from which you want to mint, this can be statically defined via the mbjs config file 
+  //the contractId from which you want to mint, this can be statically defined via the mbjs config file
   contractAddress?: string;
   //the intended owner of the token being minted
   ownerId: string;
@@ -46,9 +48,9 @@ export type MintArgs =  {
   //amount of tokens with the same metadata you would like to mint
   amount?: number;
   // explicit opt-in to NFT without media, breaks wallets
-  noMedia?: boolean;  
-  // explicit opt-in to NFT without reference    
-  noReference?: boolean; 
+  noMedia?: boolean;
+  // explicit opt-in to NFT without reference
+  noReference?: boolean;
   tokenIdsToMint?: number[];
 };
 
