@@ -22,7 +22,7 @@ Returns contract data  by `contractAddress`.
 
 
 
-### storeData( contractAddress: string | string[], network: "testnet" | "mainnet")
+### storeData( contractAddress: string | string[], network?: "testnet" | "mainnet")
 
 
 
@@ -40,8 +40,6 @@ Example:
 ```typescript
 
 import { storeData } from  '@mintbase-js/data'
-
-
 
 const { data, error } = await storeData('teammintbase.mintbase1.near', 'mainnet');
 

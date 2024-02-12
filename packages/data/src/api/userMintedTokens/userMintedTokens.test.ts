@@ -1,8 +1,21 @@
 import { META_SERVICE_HOST_TESTNET } from '../../constants';
 import { OWNED_MINTED_ORDER_BY, ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
 import fetchMock from 'fetch-mock';
-import { mbjs } from '@mintbase-js/sdk';
-import { getUserOwnedTokens } from '../userOwnedTokens/userOwnedTokens';
+import { Network, mbjs } from '@mintbase-js/sdk';
+import { getUserMintedTokens } from '../userMintedTokens/userMintedTokens';
+
+
+const props = {
+  accountId: 'mintbase1.near',
+  filters: {
+    orderBy: OWNED_MINTED_ORDER_BY.MINTED,
+    limit: 10,
+    offset: 0,
+    listedFilter: true,
+  },
+  network: 'mainnet' as Network,
+};
+
 
 describe('userMintedTokens', () => {
   beforeAll(() => {
@@ -23,7 +36,7 @@ describe('userMintedTokens', () => {
       offset: 0,
       listedFilter: true,
     };
-    const { data } = await getUserOwnedTokens('human.id', filters) as ParsedDataReturn<UserTokensQueryResult>;
+    const { data } = await getUserMintedTokens(props) as ParsedDataReturn<UserTokensQueryResult>;
     expect(data?.results).toBeDefined();
   });
 
@@ -35,7 +48,7 @@ describe('userMintedTokens', () => {
       offset: 0,
       listedFilter: true,
     };
-    const { error } = await getUserOwnedTokens('contract.id', filters);
+    const { error } = await getUserMintedTokens(props);
     expect(error).toBeDefined();
   });
 });

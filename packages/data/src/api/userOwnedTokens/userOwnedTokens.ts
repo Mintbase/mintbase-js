@@ -1,20 +1,30 @@
-import { mbjs } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
 import { parseData } from '../../utils';
 
+interface UserOwnedTokensProps {
+  accountId: string;
+  filters: UserTokensFilter;
+  network?: Network;
+}
 
-export const getUserOwnedTokens = async (
-  accountId: string,
-  filters: UserTokensFilter,
+
+export const getUserOwnedTokens = async ({
+  accountId,
+  filters,
+  network,
+}: UserOwnedTokensProps,
 ): Promise<ParsedDataReturn<UserTokensQueryResult>> => {
-  
+
   let data;
   let error: string;
 
   const { limit, offset, orderBy, listedFilter } = filters;
 
-  const useHost = mbjs.keys.network === 'testnet'
+  const networkFinal = network || mbjs.keys.network;
+
+  const useHost = networkFinal
     ? META_SERVICE_HOST_TESTNET
     : META_SERVICE_HOST;
 

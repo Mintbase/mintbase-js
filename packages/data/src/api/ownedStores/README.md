@@ -17,7 +17,7 @@ Returns stores owned by `ownerId`.
 
 
 
-### ownedStores(ownerId: string, network: "testnet" | "mainnet")
+### ownedStores(ownerId: string, network?: "testnet" | "mainnet")
 
 
 

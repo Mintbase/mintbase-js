@@ -1,3 +1,5 @@
+import { Network } from '@mintbase-js/sdk';
+
 export interface AttributesFilters {
     filters: Record<string, string[]>;
     accountId?: string;
@@ -35,4 +37,10 @@ export type FilteredMetadataResult = {
 export type FilteredMetadataQueryResult = {
     results: FilteredMetadataResult[];
     totalRecords: number;
+ }
+
+export interface TokensByAttributesProps {
+    contractId: string;
+    filters: AttributesFilters;
+    network?: Network;
  }

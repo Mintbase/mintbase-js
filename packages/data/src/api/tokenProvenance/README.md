@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns token provenance by `tokenId` in a particular `contractAddress` with limit and offset pagination.
 
-### tokenProvenance(tokenId: string | number, contractAddress: string, pagination?: Pagination)
+### tokenProvenance({tokenId: string | number, contractAddress: string, pagination?: Pagination, network?: "testnet" | "mainnet"})
 
 This is an example of a data api method.
 
@@ -22,7 +22,15 @@ Example:
 ```typescript
 import { tokenProvenance } from '@mintbase-js/data'
 
-const {data,error} = await tokenProvenance('104', 'teammintbase.mintbase1.near');
+
+const props = {
+    tokenId: '104',
+    contractAddress: 'teammintbase.mintbase1.near',
+    pagination : {limit: 20 , offset:0 },
+    network: 'mainnet',
+}
+
+const {data,error} = await tokenProvenance(props);
 
 if(error) {console.log('error', error)}
 

@@ -17,7 +17,7 @@ Returns rarity of an attribute by `contractId`, `attributeType` and `attributeVa
 
 
 
-### attributeRarity({contractId: string, attributeType: string, attributeValue: string, network: "testnet" | "mainnet"})
+### attributeRarity({contractId: string, attributeType: string, attributeValue: string, network?: "testnet" | "mainnet"})
 
 
 

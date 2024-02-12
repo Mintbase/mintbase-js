@@ -17,7 +17,7 @@ Returns tokens owned by `ownerId`  in a particular `contractAddress`  with pagin
 
 
 
-### ownedNftsByStore({ownerId: string, contractAddress:string, pagination: { limit:number, offset: number }, network: "testnet" | "mainnet"})
+### ownedNftsByStore({ownerId: string, contractAddress:string, pagination: { limit:number, offset: number }, network?: "testnet" | "mainnet"})
 
 
 

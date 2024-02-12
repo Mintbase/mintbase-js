@@ -22,7 +22,7 @@ Returns nfts by `contractAddress` and filtering by `showOnlyListed` with limit a
 
 
 
-### storeNfts( {contractAddress: string, showOnlyListed?: boolean, { limit, offset }?: Pagination, network: "testnet" | "mainnet"})
+### storeNfts( {contractAddress: string, showOnlyListed?: boolean, { limit, offset }?: Pagination, network?: "testnet" | "mainnet"})
 
 
 

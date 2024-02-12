@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns token owners by `metadataId` with limit and offset pagination..
 
-### tokenOwnersByMetadataId({metadataId: string, pagination?: Pagination, network: "testnet" | "mainnet"})
+### tokenOwnersByMetadataId({metadataId: string, pagination?: Pagination, network?: "testnet" | "mainnet"})
 
 This is an example of a data api method.
 

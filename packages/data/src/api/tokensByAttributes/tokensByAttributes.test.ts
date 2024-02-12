@@ -3,7 +3,23 @@ import { ParsedDataReturn } from '../../types';
 import { FilteredMetadataQueryResult, tokensByAttributes, tokensByAttributesThrowOnError } from './tokensByAttributes';
 
 import fetchMock from 'fetch-mock';
-import { mbjs } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
+
+
+const query = {
+  filters: {
+    'eyes': ['blue', 'green'], // blue or green eyes
+    'face': ['pretty'], // with a pretty face
+  },
+  limit: 10,
+  offset: 0,
+};
+
+const props = {
+  contractId: 'some-nfts.contract.near',
+  filters: query,
+  network: 'mainnet' as Network,
+};
 
 describe('tokensByAttributes', () => {
   beforeAll(() => {
@@ -26,7 +42,7 @@ describe('tokensByAttributes', () => {
       limit: 10,
       offset: 0,
     };
-    const { data } = await tokensByAttributes('contract.id', query) as ParsedDataReturn<FilteredMetadataQueryResult>;
+    const { data } = await tokensByAttributes(props) as ParsedDataReturn<FilteredMetadataQueryResult>;
     expect(data).toBeDefined();
     expect(data?.results[0].tokenId).toBeDefined();
   });
@@ -41,7 +57,7 @@ describe('tokensByAttributes', () => {
       limit: 10,
       offset: 0,
     };
-    const { error } = await tokensByAttributes('contract.id', query);
+    const { error } = await tokensByAttributes(props);
     expect(error).toBeDefined();
   });
 

@@ -22,7 +22,7 @@ Returns token data  by `contractAddress`.
 
 
 
-### tokenById( tokenId: string | number, contractAddress: string,)
+### tokenById({ tokenId: string | number, contractAddress: string, network?: "testnet" | "mainnet"})
 
 
 

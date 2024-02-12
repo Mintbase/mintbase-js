@@ -13,7 +13,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns number of tokens of a contract by `metadataId` and statuses: `burned, unburned, listed`.
 
-### getKey(accountId: string, network: "testnet" | "mainnet")
+### getKey(accountId: string, network?: "testnet" | "mainnet")
 
 Fetches all historical additions and deletions of full access keys to an account.
 

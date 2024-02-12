@@ -1,26 +1,30 @@
-import { mbjs } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { objectWithCamelKeys, parseData } from '../../utils';
-import { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult } from './tokensByAttributes.types';
+import { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult, TokensByAttributesProps } from './tokensByAttributes.types';
 
 export { AttributesFilters, FilteredMetadataQueryResult, FilteredMetadataResult };
 
-export const tokensByAttributes = async (
-  contractId: string,
-  filters: AttributesFilters,
+export const tokensByAttributes = async ({
+  contractId,
+  filters,
+  network,
+}: TokensByAttributesProps,
 ): Promise<ParsedDataReturn<FilteredMetadataQueryResult>> => {
 
   let data;
   let error: string;
 
-  const useHost = mbjs.keys.network === 'testnet'
+  const networkFinal = network  || mbjs.keys.network;
+
+  const useHost = networkFinal === 'testnet'
     ? META_SERVICE_HOST_TESTNET
     : META_SERVICE_HOST;
 
   const filtersString = JSON.stringify(filters);
   const filtersBase64 = Buffer.from(filtersString).toString('base64');
-  
+
   try {
     const res = await fetch(`${useHost}/stores/${contractId}/filter?args=${filtersBase64}`, {
       method: 'GET',
@@ -54,7 +58,7 @@ export const tokensByAttributesThrowOnError = async (
   contractId: string,
   filters: AttributesFilters,
 ): Promise<FilteredMetadataQueryResult> => {
-  const { data, error } = await tokensByAttributes(contractId, filters);
+  const { data, error } = await tokensByAttributes({ contractId, filters });
   if (error) {
     console.error(error);
     throw new Error(error);

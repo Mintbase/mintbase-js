@@ -18,7 +18,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 
 
-### checkStoreName( name: string, network: "testnet" | "mainnet" )
+### checkStoreName( name: string, network?: "testnet" | "mainnet" )
 
 
 

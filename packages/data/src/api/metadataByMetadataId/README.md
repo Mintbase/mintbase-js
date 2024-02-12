@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns metadata by `metadataId`.
 
-### metadataByMetadataId(metadataId: string, network: "testnet" | "mainnet")
+### metadataByMetadataId(metadataId: string, network?: "testnet" | "mainnet")
 
 This is an example of a data api method.
 

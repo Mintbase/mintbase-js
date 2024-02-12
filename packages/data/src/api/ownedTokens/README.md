@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns tokens owned by `ownerId` with limit and offset pagination.
 
-### ownedTokens(ownerId: string, { limit, offset }: Pagination)
+### ownedTokens(ownerId: string, { limit, offset }: Pagination, network?: "testnet" | "mainnet")
 
 This is an example of a data api method.
 

@@ -17,7 +17,7 @@ Returns attributes of a token by `metadataId`.
 
 
 
-### attributesBymetaId(metadataId: string,  network: "testnet" | "mainnet")
+### attributesBymetaId(metadataId: string, network?: "testnet" | "mainnet")
 
 
 

@@ -1,16 +1,17 @@
-import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
-import { Pagination, ParsedDataReturn } from '../../types';
+import { ParsedDataReturn } from '../../types';
 import { parseData, validContractAddress, validTokenId } from '../../utils';
 import { errorContractAddress, errorToken } from './tokenProvenance.errors';
 import { getTokenProvenance } from './tokenProvenance.query';
-import { TokenProvenanceData } from './tokenProvenance.types';
+import { TokenProvenanceData, TokenProvenanceProps } from './tokenProvenance.types';
 
 export const tokenProvenance = async (
-  tokenId: string | number,
-  contractAddress: string,
-  pagination?: Pagination,
-  network?: Network,  
+  {
+    tokenId,
+    contractAddress,
+    pagination,
+    network,
+  }: TokenProvenanceProps,
 ): Promise<ParsedDataReturn<TokenProvenanceData>> => {
 
   const isValidTokenId =  validTokenId(tokenId);

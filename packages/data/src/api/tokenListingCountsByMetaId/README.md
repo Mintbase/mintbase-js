@@ -23,7 +23,7 @@ Returns number of tokens by `metadataId`.
 
 
 
-### tokenListingCountsByMetaId( metadataId: string, network: 'mainnet' | 'testnet')
+### tokenListingCountsByMetaId( metadataId: string, network?: 'mainnet' | 'testnet')
 
 
 

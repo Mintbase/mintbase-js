@@ -22,7 +22,7 @@ Returns contract minters  by `contractAddress`.
 
 
 
-### contractMinters( contractAddress: string | string[], network: "testnet" | "mainnet")
+### contractMinters( contractAddress: string | string[], network?: "testnet" | "mainnet")
 
 
 

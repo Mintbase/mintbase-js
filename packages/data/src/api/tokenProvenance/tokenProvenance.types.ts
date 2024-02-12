@@ -1,5 +1,8 @@
+import { Network } from '@mintbase-js/sdk';
+import { Pagination } from '../../types';
+
 export interface TokenProvenanceData {
-    nft_activities: 
+    nft_activities:
         {
           price: number | null;
           action_receiver: string | null;
@@ -15,4 +18,12 @@ export interface TokenProvenanceData {
           count: number;
         };
     };
+}
+
+
+export interface TokenProvenanceProps {
+  tokenId: string | number;
+  contractAddress: string;
+  pagination?: Pagination;
+  network?: Network;
 }

@@ -4,7 +4,7 @@
 
 Returns a list of token items (metadata) which match the contract id and passed filters.
 
-### attributesByContract(contractId: string, network: "testnet" | "mainnet"): Promise<Attributes>
+### attributesByContract(contractId: string, network?: "testnet" | "mainnet"): Promise<Attributes>
 
 Example:
 
