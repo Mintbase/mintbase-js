@@ -6,14 +6,14 @@ import { getUserMintedTokens } from '../userMintedTokens/userMintedTokens';
 
 
 const props = {
-  accountId: 'mintbase1.near',
+  accountId: 'rubenm4rcus.testnet',
   filters: {
     orderBy: OWNED_MINTED_ORDER_BY.MINTED,
     limit: 10,
     offset: 0,
     listedFilter: true,
   },
-  network: 'mainnet' as Network,
+  network: 'testnet' as Network,
 };
 
 
@@ -37,6 +37,9 @@ describe('userMintedTokens', () => {
       listedFilter: true,
     };
     const { data } = await getUserMintedTokens(props) as ParsedDataReturn<UserTokensQueryResult>;
+
+    console.log(data);
+
     expect(data?.results).toBeDefined();
   });
 

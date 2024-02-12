@@ -59,7 +59,7 @@ describe('tokenById', () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    const call = await ownedNftsByStore();
+    const call = await ownedNftsByStore({ ownerId: undefined });
 
     expect(consoleSpy).toHaveBeenCalledWith(errorMessage);
 
@@ -75,7 +75,7 @@ describe('tokenById', () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    const call = await ownedNftsByStore('test1.mintbase.near');
+    const call = await ownedNftsByStore({ ownerId: 'test1.mintbase.near', contractAddress: 'aaa' });
 
     expect(consoleSpy).toHaveBeenCalledWith(errorMessage);
 
@@ -91,7 +91,7 @@ describe('tokenById', () => {
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    const call = await ownedNftsByStore('test1.mintbase.near', { offset: 0 });
+    const call = await ownedNftsByStore({ ownerId: 'test1.mintbase.near', pagination: { limit: 'xxx', offset: 0 }, contractAddress: 'aaa' });
 
     expect(consoleSpy).toHaveBeenCalledWith(errorMessage);
 

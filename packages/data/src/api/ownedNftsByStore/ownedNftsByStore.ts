@@ -13,7 +13,8 @@ export const ownedNftsByStore = async ({
 }: NftsByStoreProps,
 ): Promise<ParsedDataReturn<OwnedNftsData>> => {
 
-  const wrongParams = typeof pagination?.limit === 'undefined' || typeof ownerId === 'undefined' || pagination?.limit < 1;
+  const wrongParams = typeof pagination?.limit === 'undefined' || typeof ownerId === 'undefined' || pagination?.limit < 1 || typeof pagination?.limit !== 'number';
+
 
   if (wrongParams) {
     console.error(`Error fetching nfts from ${ownerId}, please check the arguments provided`);

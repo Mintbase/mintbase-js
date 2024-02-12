@@ -3,8 +3,17 @@ import { TokenProvenanceData } from './tokenProvenance.types';
 import { tokenProvenance } from './tokenProvenance';
 import { tokenProvenanceMock } from './tokenProvenance.mock';
 import { errorToken, errorContractAddress } from './tokenProvenance.errors';
+import { Network } from '@mintbase-js/sdk';
 
 jest.mock('graphql-request');
+
+
+const props = {
+  tokenId: '104',
+  contractAddress: 'teammintbase.mintbase1.near',
+  pagination : { limit: 20, offset:0 },
+  network: 'mainnet' as Network,
+};
 
 describe('tokenProvenance', () => {
   jest.spyOn(console, 'error').mockImplementation(() => null);
@@ -22,7 +31,7 @@ describe('tokenProvenance', () => {
       request: (): Promise<TokenProvenanceData> => Promise.resolve(tokenProvenanceMock),
     }));
 
-    const result = await tokenProvenance('2', 'test.mintbase1.near', { limit: 12, offset: 0 });
+    const result = await tokenProvenance(props);
 
     expect(result?.data).toEqual(
       tokenProvenanceMock,
@@ -35,7 +44,7 @@ describe('tokenProvenance', () => {
       request: (): Promise<TokenProvenanceData> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await tokenProvenance('1', 'test.mintbase1.near', { limit: 12, offset: 0 });
+    const call = await tokenProvenance(props);
 
     expect(call).toStrictEqual({ error: errMessage });
 
@@ -53,7 +62,7 @@ describe('tokenProvenance', () => {
       error: errorToken.message,
     };
 
-    const call = await tokenProvenance(tokenId, address);
+    const call = await tokenProvenance({ tokenId, contractAddress: address });
 
     expect(consoleSpy).toHaveBeenCalledWith(errorToken.message);
 
@@ -71,7 +80,7 @@ describe('tokenProvenance', () => {
       error: errorContractAddress.message,
     };
 
-    const call = await tokenProvenance(tokenId, address);
+    const call = await tokenProvenance({ tokenId, contractAddress: address });
 
     expect(consoleSpy).toHaveBeenCalledWith(errorContractAddress.message);
 

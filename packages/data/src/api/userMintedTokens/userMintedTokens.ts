@@ -28,8 +28,11 @@ export const getUserMintedTokens = async ({
     ? META_SERVICE_HOST_TESTNET
     : META_SERVICE_HOST;
 
+  const url = `${useHost}/human/${accountId}/minted?offset=${offset}&limit=${limit}&orderBy=${orderBy}&listedFilter=${listedFilter}`;
+
+
   try {
-    const res = await fetch(`${useHost}/human/${accountId}/minted?offset=${offset}&limit=${limit}&orderBy=${orderBy}&listedFilter=${listedFilter}`, {
+    const res = await fetch(url, {
       method: 'GET',
       headers: { 'Content-type': 'application/json',
         [MINTBASE_API_KEY_HEADER]: mbjs.keys.apiKey,
@@ -42,6 +45,7 @@ export const getUserMintedTokens = async ({
     }
 
     data = await res.json();
+
   } catch (err) {
     error = `Error fetching human owned nfts, ${err}`;
   }

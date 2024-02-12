@@ -18,7 +18,7 @@ const query = {
 const props = {
   contractId: 'some-nfts.contract.near',
   filters: query,
-  network: 'mainnet' as Network,
+  network: 'testnet' as Network,
 };
 
 describe('tokensByAttributes', () => {
