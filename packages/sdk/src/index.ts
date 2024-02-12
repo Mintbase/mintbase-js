@@ -5,6 +5,7 @@ export * from './execute/execute';
 export * from './execute/execute.utils';
 export * from './transfer/transfer';
 export * from './batchChangeMinters/batchChangeMinters';
+export * from './batchChangeCreators/batchChangeCreators';
 export * from './buy/buy';
 export * from './delist/delist';
 export * from './deployContract/deployContract';

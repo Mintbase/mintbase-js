@@ -14,6 +14,7 @@ export enum TOKEN_METHOD_NAMES {
   CREATE_METADATA = 'create_metadata',
   MINT_ON_METADATA = 'mint_on_metadata',
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
+  BATCH_CHANGE_CREATORS = 'batch_change_creators',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
   SET_SPLITS = 'set_split_owners'
@@ -160,8 +161,15 @@ export type BurnArgs = {
   tokenIds: string[];
 };
 
-export type AddMinterArgs =  {
-  minterId: string;
+export type BatchChangeMintersArgs =  {
+  addMinters?: string[];
+  removeMinters?: string[];
+  contractAddress?: string;
+};
+
+export type BatchChangeCreatorsArgs =  {
+  addCreators?: string[];
+  removeCreators?: string[];
   contractAddress?: string;
 };
 
@@ -199,7 +207,6 @@ export type DepositStorageArgs = {
   listAmount?: number;
   marketAddress?: string;
 };
-
 
 export type ListArgs = {
   contractAddress?: string;
@@ -315,7 +322,7 @@ export interface MinterArgsResponse {
   account_id: string;
 }
 
-export interface BatchChangeMinterArgsResponse{
+export interface BatchChangeMintersArgsResponse{
   grant: string[] | undefined;
   revoke: string[] | undefined;
 }
@@ -429,7 +436,7 @@ export interface FtDepositStorageArgsResponse {
   account_id: string;
 }
 
-export type ExecuteArgsResponse = BatchChangeMinterArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsV1Response |
+export type ExecuteArgsResponse = BatchChangeMintersArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsV1Response |
 MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
 | ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
 

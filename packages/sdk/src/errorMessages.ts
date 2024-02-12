@@ -32,4 +32,7 @@ export const ERROR_MESSAGES = {
   // TODO: update with method name
   ONLY_V1: `This method is only compatible with Mintbase v1 smart contracts ${SUPPORT}`,
   ONLY_V2: `This method is only compatible with Mintbase v2 smart contracts ${SUPPORT}`,
+  BATCH_CHANGE_MINTERS_NO_CHANGE: `There are no minters provided to the batchChangeMinters method to be changed, try adding account IDs to at least one of the fields ${SUPPORT}`,
+  BATCH_CHANGE_CREATORS_NO_CHANGE: `There are no creators provided to the batchChangeCreators method to be changed, try adding account IDs to at least one of the fields ${SUPPORT}`,
+
 };

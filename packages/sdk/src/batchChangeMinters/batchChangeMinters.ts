@@ -1,23 +1,16 @@
 import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { TOKEN_METHOD_NAMES, NearContractCall, BatchChangeMinterArgsResponse } from '../types';
-
-export type BatchChangeMintersArgs =  {
-    addMinters?: string[];
-    removeMinters?: string[];
-    contractAddress?: string;
-  };
-
+import { TOKEN_METHOD_NAMES, NearContractCall, BatchChangeMintersArgs, BatchChangeMintersArgsResponse } from '../types';
 
 /**
  * Add or remove minting access of various ids of a contract you own.
  * @param batchChangeMintersArgs {@link BatchChangeMintersArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
- */    
+ */
 export const batchChangeMinters = (
   args: BatchChangeMintersArgs,
-): NearContractCall<BatchChangeMinterArgsResponse> => {
+): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addMinters = [], removeMinters = [], contractAddress = mbjs.keys.contractAddress } = args;
 
   if (contractAddress == null) {
@@ -25,9 +18,9 @@ export const batchChangeMinters = (
   }
 
   if (addMinters.length === 0 && removeMinters.length === 0) {
-    throw new Error('There are no minters being provided to the batchChangeMinters method to be changed, try adding account Ids to at least one of the minter fields)');
+    throw new Error(ERROR_MESSAGES.BATCH_CHANGE_MINTERS_NO_CHANGE);
   }
-  
+
   return {
     contractAddress: contractAddress,
     args: {
