@@ -33,6 +33,7 @@ describe('upload tests in browser', () => {
         block: 'abc',
         name: 'test.txt',
         mimeType: 'text/plain',
+        media_url: 'https://arweave.net/undefined',
       }),
     } as Response));
 
@@ -42,6 +43,7 @@ describe('upload tests in browser', () => {
     expect((call as any)[1].headers['mb-api-key']).toBe(FAKE_API_KEY);
     expect(result).toEqual({
       status: 200,
+      media_url: 'https://arweave.net/undefined',
     });
   });
 
@@ -67,6 +69,7 @@ describe('upload tests in browser', () => {
 
     expect(result).toEqual({
       status: 200,
+      media_url: 'https://arweave.net/undefined',
     });
   });
 
@@ -93,6 +96,7 @@ describe('upload tests in browser', () => {
 
     expect(result).toEqual({
       status: 200,
+      media_url: 'https://arweave.net/undefined',
     });
   });
 
