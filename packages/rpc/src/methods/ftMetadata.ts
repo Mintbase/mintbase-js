@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { callViewMethod } from '../util';
 
 export type FtMetadata = {
@@ -8,6 +9,12 @@ export type FtMetadata = {
   reference: string | null;
   reference_hash: string | null;
   decimals: number;
+}
+
+
+interface FtMetadataProps {
+  contractId: string;
+  network?: Network;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -44,7 +51,7 @@ function isStringOrNull(x: any): x is string | null {
   return false;
 }
 
-export const ftMetadata = async ({ contractId, network }): Promise<FtMetadata | null> => {
+export const ftMetadata = async ({ contractId, network }: FtMetadataProps): Promise<FtMetadata | null> => {
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',

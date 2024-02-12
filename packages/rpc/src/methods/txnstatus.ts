@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { requestFromNearRpc } from '../util';
 
 export type TxnStatus = 'pending' | 'success' | 'failure';
@@ -5,7 +6,7 @@ export type TxnStatus = 'pending' | 'success' | 'failure';
 export const getTxnStatus = async (
   txnHash: string,
   senderId: string,
-  network?: string,
+  network?: Network,
 ): Promise<TxnStatus> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',

@@ -18,7 +18,7 @@ Returns number of owned tokens by `accountId`.
 
 
 
-### getUserOwnedTokens({accountId: string, filters: UserTokensFilter,network: "mainnet" | "testnet"}): Promise<ParsedDataReturn<UserTokensQueryResult>>
+### getUserOwnedTokens({accountId: string, filters: UserTokensFilter,network?: "mainnet" | "testnet"}): Promise<ParsedDataReturn<UserTokensQueryResult>>
 
 
 
