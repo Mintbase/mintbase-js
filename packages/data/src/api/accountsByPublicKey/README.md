@@ -12,7 +12,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns accounts for which `publicKey` is a full access key.
 
-### accountsByPublicKey(publicKey: string, network:"testnet" | "mainnet"): Promise<ParsedDataReturn<string[]>>
+### accountsByPublicKey(publicKey: string, network?:"testnet" | "mainnet"): Promise<ParsedDataReturn<string[]>>
 
 Example:
 
