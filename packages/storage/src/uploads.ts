@@ -15,6 +15,7 @@ export type ArweaveResponse = {
   block: string;
   name: string;
   mimeType: string;
+  media_url?: string;
 };
 
 type HttpError = {
@@ -120,15 +121,9 @@ export const uploadReference = async (
       );
     }
 
-    const result = (await request.json()) as {
-      id: string;
-      block: string;
-      name: string;
-      mimeType: string;
-      media_hash: string;
-    };
+    const result = (await request.json());
 
-    return result;
+    return { ...result, media_url: `https://arweave.net/${result.media_hash}` };
   } catch (error: unknown) {
     console.error('Uploading file to arweave failed');
     throw error;

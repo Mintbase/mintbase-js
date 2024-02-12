@@ -8,6 +8,14 @@ fetchMock.enableMocks();
 
 const FAKE_API_KEY = 'foo';
 
+const ArweaveResponseMock = {
+  id: '123',
+  block: 'abc',
+  name: 'test.txt',
+  mimeType: 'text/plain',
+  media_hash: 'odkMrNBZ9rAl9fi6hFy20qh89oDVG91px7iMnZJPxo4',
+};
+
 describe('upload tests in browser', () => {
   beforeAll(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => null);
@@ -29,10 +37,7 @@ describe('upload tests in browser', () => {
     fetchMock.mockResponseOnce(JSON.stringify({
       status: 200,
       json: () => Promise.resolve({
-        id: '123',
-        block: 'abc',
-        name: 'test.txt',
-        mimeType: 'text/plain',
+
       }),
     } as Response));
 
@@ -42,6 +47,7 @@ describe('upload tests in browser', () => {
     expect((call as any)[1].headers['mb-api-key']).toBe(FAKE_API_KEY);
     expect(result).toEqual({
       status: 200,
+      media_url: 'https://arweave.net/undefined',
     });
   });
 
@@ -55,18 +61,14 @@ describe('upload tests in browser', () => {
     fetchMock.mockResponse(JSON.stringify({
       status: 200,
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      json: () => Promise.resolve({
-        id: '123',
-        block: 'abc',
-        name: 'test.txt',
-        mimeType: 'text/plain',
-      }),
+      json: () => Promise.resolve(ArweaveResponseMock),
     } as Response));
 
     const result = await uploadReference(referenceObject);
 
     expect(result).toEqual({
       status: 200,
+      media_url: 'https://arweave.net/undefined',
     });
   });
 
@@ -81,18 +83,14 @@ describe('upload tests in browser', () => {
     fetchMock.mockResponse(JSON.stringify({
       status: 200,
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-      json: () => Promise.resolve({
-        id: '123',
-        block: 'abc',
-        name: 'test.txt',
-        mimeType: 'text/plain',
-      }),
+      json: () => Promise.resolve(ArweaveResponseMock),
     } as Response));
 
     const result = await uploadReference(referenceObject);
 
     expect(result).toEqual({
       status: 200,
+      media_url: 'https://arweave.net/undefined',
     });
   });
 
