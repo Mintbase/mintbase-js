@@ -1,5 +1,6 @@
 export * from './burn/burn';
 export * from './constants';
+export * from './createMetadata/createMetadata';
 export * from './execute/execute';
 export * from './execute/execute.utils';
 export * from './transfer/transfer';
@@ -17,4 +18,3 @@ export * from './transferContractOwnership/transferContractOwnership';
 // export * from './ftDepositStorage/ftDepositStorage'; // TODO:
 export { mbjs } from './config/config';
 export * from './types';
-

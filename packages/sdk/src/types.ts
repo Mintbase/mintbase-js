@@ -11,6 +11,8 @@ export enum TOKEN_METHOD_NAMES {
   DEPLOY_TOKEN_CONTRACT =  'create_store',
   TRANSFER_TOKEN_CONTRACT_OWNERSHIP =  'transfer_store_ownership',
   MINT = 'nft_batch_mint',
+  CREATE_METADATA = 'create_metadata',
+  MINT_ON_METADATA = 'mint_on_metadata',
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
@@ -217,6 +219,28 @@ export type MintArgsV1 =  {
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
 
+export type CreateMetadataArgs = {
+  contractAddress?: string;
+  metadata: TokenMetadata;
+  metadataId?: string;
+  royalties?: Splits;
+  mintersAllowlist?: string[];
+  maxSupply?: number;
+  lastPossibleMint?: Date;
+  price: number;
+  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference?: boolean; // explicit opt-in to NFT without reference
+};
+
+export type MintOnMetadataArgs = {
+  contractAddress?: string;
+  metadataId: string;
+  ownerId: string;
+  amount?: number;
+  tokenIds?: string[];
+  price: number;
+};
+
 export type TokenMetadata = {
   title?: string;
   description?: string;
@@ -233,6 +257,8 @@ export type TokenMetadata = {
 }
 
 export type Splits = Record<string, number>;
+
+export type RoyaltyArgs = {split_between: Splits; percentage: number}
 
 export type RemoveMinterArgs =  {
   minterId: string;
@@ -349,9 +375,27 @@ export interface MintArgsV1Response {
   metadata: TokenMetadata;
   num_to_mint:  number;
   // 10000 = 100%
-  royalty_args: { split_between: Splits; percentage: number } | null;
+  royalty_args: RoyaltyArgs | null;
   //split_owners: Splits | null;
   token_ids_to_mint?: number[];
+}
+
+export interface CreateMetadataArgsResponse {
+  metadata: TokenMetadata;
+  metadata_id?: string;
+  royalty_args?: RoyaltyArgs;
+  minters_allowlist?: string[];
+  max_supply?: number;
+  last_possible_mint?: string;
+  price: string;
+}
+
+export interface MintOnMetadataArgsResponse {
+  metadata_id: string;
+  owner_id: string;
+  num_to_mint?: number; // panic if neither specified!
+  token_ids?: string[]; // panic if neither specified!
+  split_owners?: Splits;
 }
 
 export interface TransferContractOwnershipArgsResponse {
