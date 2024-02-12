@@ -1,26 +1,26 @@
 /* eslint-disable @typescript-eslint/camelcase */
-import { batchChangeMinters } from './batchChangeMinters';
+import { batchChangeCreators } from './batchChangeCreators';
 import { GAS, ONE_YOCTO } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { mbjs } from '../config/config';
 
 describe('batch change minters tests', () => {
-  const contractAddress = `test.${mbjs.keys.mbContract}`;
+  const contractAddress = `test.${mbjs.keys.mbContractV2}`;
   const minter = ['test'];
   const manyMinters = ['test', 'test2', 'test3'];
   const otherManyMinters = ['test4', 'test5'];
 
 
   test('batch add and remove one minter', () => {
-    const args = batchChangeMinters({
+    const args = batchChangeCreators({
       contractAddress: contractAddress,
-      addMinters: minter,
-      removeMinters: minter,
+      addCreators: minter,
+      removeCreators: minter,
     });
 
     expect(args).toEqual({
       contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
+      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_CREATORS,
       args: {
         grant: minter,
         revoke: minter,
@@ -30,14 +30,14 @@ describe('batch change minters tests', () => {
     });
   });
   test('batch add one minter', () => {
-    const args = batchChangeMinters({
+    const args = batchChangeCreators({
       contractAddress: contractAddress,
-      addMinters: minter,
+      addCreators: minter,
     });
 
     expect(args).toEqual({
       contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
+      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_CREATORS,
       args: {
         grant: minter,
         revoke: undefined,
@@ -48,14 +48,14 @@ describe('batch change minters tests', () => {
   });
 
   test('batch remove one minter', () => {
-    const args = batchChangeMinters({
+    const args = batchChangeCreators({
       contractAddress: contractAddress,
-      removeMinters: minter,
+      removeCreators: minter,
     });
 
     expect(args).toEqual({
       contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
+      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_CREATORS,
       args: {
         grant: undefined,
         revoke: minter,
@@ -66,15 +66,15 @@ describe('batch change minters tests', () => {
   });
 
   test('batch add and remove multiple minters', () => {
-    const args = batchChangeMinters({
+    const args = batchChangeCreators({
       contractAddress: contractAddress,
-      addMinters: manyMinters,
-      removeMinters: otherManyMinters,
+      addCreators: manyMinters,
+      removeCreators: otherManyMinters,
     });
 
     expect(args).toEqual({
       contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_MINTERS,
+      methodName: TOKEN_METHOD_NAMES.BATCH_CHANGE_CREATORS,
       args: {
         grant: manyMinters,
         revoke: otherManyMinters,
@@ -86,7 +86,7 @@ describe('batch change minters tests', () => {
 
   test('expect throw', () => {
 
-    expect(()=> batchChangeMinters({
+    expect(()=> batchChangeCreators({
       contractAddress: contractAddress,
     })).toThrow();
   });
