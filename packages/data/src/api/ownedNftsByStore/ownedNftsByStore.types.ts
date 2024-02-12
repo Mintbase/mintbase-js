@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { Token } from 'graphql';
 
 export interface OwnedNftsData {
@@ -22,6 +23,12 @@ export interface OwnedNftsData {
     };
 }
 
+export interface NftsByStoreProps {
+    ownerId: string;
+    contractAddress: string;
+    pagination: { limit: number; offset?: number };
+    network?: Network;
+  }
 
 export interface NftsByStoreData {
     data?: OwnedNftsData | null;

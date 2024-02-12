@@ -1,3 +1,5 @@
+import { Network } from '@mintbase-js/sdk';
+
 export interface NftTokenData {
   animationUrl: string | null;
   document: string | null;
@@ -54,4 +56,11 @@ export interface Extra {
 export interface TokenByIdData {
   data?: TokenByIdResults | null;
   error: string | null;
+}
+
+
+export interface TokenByIdProps {
+  tokenId: string | number;
+  contractAddress: string;
+  network?: Network;
 }

@@ -1,16 +1,16 @@
-import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { attributeRarityQuery } from './attributeRarity.query';
-import { AttributeRarityResults } from './attributeRarity.type';
+import { AttributeRarityProps, AttributeRarityResults } from './attributeRarity.type';
 
-export const attributeRarity = async (
-  contractId: string,
-  attributeType: string,
-  attributeValue: string,
-  network?: Network,
-): Promise<ParsedDataReturn<string>> => {
+
+export const attributeRarity = async ({
+  contractId,
+  attributeType,
+  attributeValue,
+  network,
+}: AttributeRarityProps): Promise<ParsedDataReturn<string>> => {
 
 
   const { data, error } = await fetchGraphQl<AttributeRarityResults>({

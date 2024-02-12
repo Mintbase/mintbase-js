@@ -2,8 +2,15 @@ import { GraphQLClient } from 'graphql-request';
 import { tokenOwner } from './tokenOwner';
 import { tokenOwnerMock } from './tokenOwner.mock';
 import { TokenOwnerQueryResult } from './tokenOwner.types';
+import { Network } from '@mintbase-js/sdk';
 
 jest.mock('graphql-request');
+
+const props = {
+  tokenId: 'test.id',
+  contractAddress: 'contract.id',
+  network: 'mainnet' as Network,
+};
 
 describe('getTokenOwnerByTokenIdAndContractId', () => {
   beforeEach(() => {
@@ -17,7 +24,7 @@ describe('getTokenOwnerByTokenIdAndContractId', () => {
       request: (): Promise<TokenOwnerQueryResult> =>
         Promise.resolve(tokenOwnerMock),
     }));
-    const result = await tokenOwner('test.id', 'contract.id');
+    const result = await tokenOwner(props);
     expect(result?.data).toStrictEqual('test.near');
   });
 
@@ -28,7 +35,7 @@ describe('getTokenOwnerByTokenIdAndContractId', () => {
         Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await tokenOwner('test.id', 'contract.id');
+    const call = await tokenOwner(props);
 
     expect(call).toStrictEqual({ error: errMessage });
   });

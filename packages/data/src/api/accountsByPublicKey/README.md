@@ -12,10 +12,9 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns accounts for which `publicKey` is a full access key.
 
-### accountsByPublicKey(publicKey: string): Promise<ParsedDataReturn<string[]>>
+### accountsByPublicKey(publicKey: string, network:"testnet" | "mainnet"): Promise<ParsedDataReturn<string[]>>
 
 Example:
-
 
 
 {% code title="accountsByPublicKey.ts" overflow="wrap" lineNumbers="true" %}
@@ -24,7 +23,7 @@ Example:
 
 import { accountsByPublicKey } from  '@mintbase-js/data'
 
-const { data, error } = await accountsByPublicKey('ed25519:12345...');
+const { data, error } = await accountsByPublicKey('ed25519:12345...', 'testnet');
 
 if (error) {console.log('error', error)}
 

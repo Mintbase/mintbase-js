@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns metadata by `metadataId`.
 
-### metadataByMetadataId(metadataId: string)
+### metadataByMetadataId(metadataId: string, network: "testnet" | "mainnet")
 
 This is an example of a data api method.
 
@@ -22,7 +22,7 @@ Example:
 ```typescript
 import { metadataByMetadataId } from "@mintbase-js/data";
 
-const { data, error } = await metadataByMetadataId("teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc");
+const { data, error } = await metadataByMetadataId("teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc", 'mainnet');
 
 if (error) {
   console.log("error", error);

@@ -1,3 +1,5 @@
+import { Network } from '@mintbase-js/sdk';
+
 export interface AttributeRarityResults {
     amountValues: {aggregate: {
         count: number;
@@ -6,5 +8,13 @@ export interface AttributeRarityResults {
       totalTypes: {aggregate: {
         count: number;
       };
-    }; 
+    };
+  }
+
+
+export interface AttributeRarityProps {
+    contractId: string;
+    attributeType: string;
+    attributeValue: string;
+    network?: Network;
   }

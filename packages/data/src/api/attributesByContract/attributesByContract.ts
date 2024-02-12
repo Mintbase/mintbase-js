@@ -1,4 +1,4 @@
-import { mbjs } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
@@ -6,12 +6,15 @@ import { Attributes } from './attributesByContract.type';
 
 export const attributesByContract = async (
   contractId: string,
+  network?: Network,
 ): Promise<ParsedDataReturn<Attributes>> => {
 
   let data;
   let error: string;
 
-  const useHost = mbjs.keys.network === 'testnet'
+  const networkFinal = network ?? mbjs.keys.network;
+
+  const useHost = networkFinal === 'testnet'
     ? META_SERVICE_HOST_TESTNET
     : META_SERVICE_HOST;
 

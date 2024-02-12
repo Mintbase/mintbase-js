@@ -17,7 +17,7 @@ Returns attributes of a token by `metadataId`.
 
 
 
-### attributesBymetaId(metadataId: string)
+### attributesBymetaId(metadataId: string,  network: "testnet" | "mainnet")
 
 
 
@@ -30,7 +30,7 @@ Example:
 ```typescript
 import { attributesByMetaId } from '@mintbase-js/data'
 
-const {data, error} = await attributesByMetaId('test');
+const {data, error} = await attributesByMetaId('midjourny.mintbase1.near%3A4eff4e2c3b563021aad849df3fee898d', 'mainnet');
 
 if(error) {console.log('error', error)}
 

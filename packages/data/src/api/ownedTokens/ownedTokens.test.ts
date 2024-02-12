@@ -19,7 +19,11 @@ describe('ownedTokens', () => {
         } as any],
       }),
     }));
-    const result = await ownedTokens('test.id', { limit: 1 });
+
+    const props = {
+      ownerId: 'test.id', pagination: { limit: 1 },
+    };
+    const result = await ownedTokens(props);
     expect(result?.data?.length).toBeGreaterThan(0);
   });
 
@@ -29,7 +33,11 @@ describe('ownedTokens', () => {
       request: (): Promise<OwnedTokensQueryResult> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await ownedTokens('test.id', { limit: 1 });
+    const props = {
+      ownerId: 'test.id', pagination: { limit: 1 },
+    };
+
+    const call = await ownedTokens(props);
 
     expect(call).toStrictEqual({ error: errMessage });
 

@@ -3,8 +3,16 @@ import { ownedNftsByStore } from './ownedNftsByStore';
 
 import { ownedNftsByStoreMock } from './ownedNftsByStore.mock';
 import { GraphQLClient } from 'graphql-request';
+import { Network } from '@mintbase-js/sdk';
 
 jest.mock('graphql-request');
+
+const props = {
+  ownerId: 'rub3n.testnet',
+  contractAddress: 'audiobr.mintspace2.testnet',
+  pagination:  { limit: 20, offset: 0 },
+  network: 'testnet' as Network,
+};
 
 describe('tokenById', () => {
   jest.spyOn(console, 'error').mockImplementation(() => null);
@@ -22,7 +30,8 @@ describe('tokenById', () => {
       request: (): Promise<OwnedNftsData> => Promise.resolve(ownedNftsByStoreMock),
     }));
 
-    const result = await ownedNftsByStore('test.testnet', 'test.mintbase1.near', { limit: 12, offset: 0 });
+
+    const result = await ownedNftsByStore(props);
 
     expect(result?.data?.token[0].metadataId).toBe(
       ownedNftsByStoreMock.token[0].metadataId,
@@ -35,7 +44,7 @@ describe('tokenById', () => {
       request: (): Promise<OwnedNftsData> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await ownedNftsByStore('test.testnet', 'test.mintbase1.near', { limit: 12, offset: 0 });
+    const call = await ownedNftsByStore(props);
 
     expect(call).toStrictEqual({ error: errMessage });
 

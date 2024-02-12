@@ -6,6 +6,12 @@ import { AttributeRarityResults } from './attributeRarity.type';
 
 jest.mock('graphql-request');
 
+const attributeRarityProps = {
+  contractId: 'foo.testnet',
+  attributeType: 'eyes',
+  attributeValue: 'blue',
+};
+
 describe('attributeRarity', () => {
   jest.spyOn(console, 'error').mockImplementation(() => null);
   afterAll(() => {
@@ -22,7 +28,7 @@ describe('attributeRarity', () => {
       request: (): Promise<AttributeRarityResults> => Promise.resolve(attributeRarityMock),
     }));
 
-    const result = await attributeRarity('test.mintbase1.near', 'head', 'big');
+    const result = await attributeRarity(attributeRarityProps);
 
     expect(result?.data).toBe(
       '33.33%',
@@ -35,7 +41,7 @@ describe('attributeRarity', () => {
       request: (): Promise<AttributeRarityResults> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await attributeRarity('test.mintbase1.near', 'head', 'big');
+    const call = await attributeRarity(attributeRarityProps);
 
     expect(call).toStrictEqual({ error: errMessage });
 
