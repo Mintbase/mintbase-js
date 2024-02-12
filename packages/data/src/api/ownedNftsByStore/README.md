@@ -17,7 +17,7 @@ Returns tokens owned by `ownerId`  in a particular `contractAddress`  with pagin
 
 
 
-### ownedNftsByStore(ownerId: string, contractAddress:string, pagination: { limit:number, offset: number })
+### ownedNftsByStore({ownerId: string, contractAddress:string, pagination: { limit:number, offset: number }, network?: "testnet" | "mainnet"})
 
 
 
@@ -35,7 +35,14 @@ Example:
 ```typescript
 import { ownedNftsByStore } from '@mintbase-js/data'
 
-const {data, error} = await ownedNftsByStore('rub3n.testnet', 'audiobr.mintspace2.testnet' { limit: 20 , offset: 0});
+const props = {
+  ownerId: 'rub3n.testnet',
+  contractAddress: 'audiobr.mintspace2.testnet',
+  pagination:  { limit: 20 , offset: 0},
+  network: 'testnet',
+}
+
+const {data, error} = await ownedNftsByStore(props);
 
 if (error) {console.log('error', error)}
 

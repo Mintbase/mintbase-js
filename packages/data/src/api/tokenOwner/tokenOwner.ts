@@ -1,14 +1,14 @@
-import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
 import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { tokenOwnerQuery } from './tokenOwner.query';
-import { TokenOwnerQueryResult } from './tokenOwner.types';
+import { TokenOwnerProps, TokenOwnerQueryResult } from './tokenOwner.types';
 
-export const tokenOwner = async (
-  tokenId: string,
-  contractAddress: string,
-  network?: Network,  
+export const tokenOwner = async ({
+  tokenId,
+  contractAddress,
+  network,
+}: TokenOwnerProps,
 ): Promise<ParsedDataReturn<string>> => {
   const { data, error } = await fetchGraphQl<TokenOwnerQueryResult>({
     query: tokenOwnerQuery,

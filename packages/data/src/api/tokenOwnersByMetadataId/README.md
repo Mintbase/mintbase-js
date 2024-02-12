@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns token owners by `metadataId` with limit and offset pagination..
 
-### tokenOwnersByMetadataId(metadataId: string, pagination?: Pagination)
+### tokenOwnersByMetadataId({metadataId: string, pagination?: Pagination, network?: "testnet" | "mainnet"})
 
 This is an example of a data api method.
 
@@ -22,7 +22,13 @@ Example:
 ```typescript
 import { tokenOwnersByMetadataId } from "@mintbase-js/data";
 
-const { data, error } = await tokenOwnersByMetadataId("teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc");
+const props = {
+  metadataId: "teammintbase.mintbase1.near:0fd038b1fc7d86de6f8c816d5669accc",
+  pagination: { limit:10, offset: 0},
+  network: "mainnet",
+}
+
+const { data, error } = await tokenOwnersByMetadataId(props);
 
 if (error) {
   console.log("error", error);

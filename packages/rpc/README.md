@@ -11,23 +11,25 @@ This module provides a wrapper around common RPC calls used to fetch on-chain da
 
 ## Available Modules & Methods
 
-### `getBalance(account: string): BN`
+`type Network: 'testnet' | 'mainnet'`
+
+### `getBalance(account: string, network?: Network): BN`
 
 Fetches the balance of a NEAR account (in yocto) by address.
 
-### `getBlockHeight(): number`
+### `getBlockHeight(network?: Network): number`
 
 Returns the current block height for the configured network.
 
-### `getTxnStatus(txnHash: string, senderId: string): TxnStatus`
+### `getTxnStatus(txnHash: string, senderId: string,network?: Network): TxnStatus`
 
 For a transaction hash, determine the status of a transaction on the configured network: `pending`, `success`, or `failure`
 
-### `payouts({ contractId, tokenId }): Promise<UiPayout>`
+### `payouts({ contractId, tokenId, network }): Promise<UiPayout>`
 
 Calls a token contract in order to determine the percentage amounts paid out to royalty accounts.
 
-### `getAccessKeys(accountId: string): Promise<AccessKey>`
+### `getAccessKeys(accountId: string, network?: Network): Promise<AccessKey>`
 
 Gets all access keys (public key and permissions object) for a given account.
 

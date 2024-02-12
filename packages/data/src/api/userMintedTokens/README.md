@@ -18,7 +18,7 @@ Returns number of minted tokens by `accountId`.
 
 
 
-### getUserMintedTokens(accountId: string, filters: UserTokensFilter,): Promise<ParsedDataReturn<UserTokensQueryResult>>
+### getUserMintedTokens({accountId: string, filters: UserTokensFilter,network?: "testnet" | mainnet}): Promise<ParsedDataReturn<UserTokensQueryResult>>
 
 
 
@@ -37,12 +37,18 @@ Example:
 
 import { userMintedTokens } from  '@mintbase-js/data'
 
-const { data, error } = await getUserMintedTokens('mintbase1.near', {
+const props = {
+  accountId: 'mintbase1.near',
+  filters: {
       orderBy: 'price asc',
       limit: 10,
       offset: 0,
       listedFilter: true,
-    });
+    },
+  network: 'mainnet'
+}
+
+const { data, error } = await getUserMintedTokens(props);
 
 if (error) {console.log('error', error)}
 

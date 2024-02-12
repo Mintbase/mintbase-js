@@ -11,7 +11,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 Returns token owner by `tokenId` and `contractAddress`.
 
-### tokenOwner(tokenId: string, contractAddress: string)
+### tokenOwner({tokenId: string, contractAddress: string, network: "mainnet" | "testnet"})
 
 This is an example of a data api method.
 
@@ -22,7 +22,13 @@ Example:
 ```typescript
 import { tokenOwner } from "@mintbase-js/data";
 
-const { data, error } = await tokenOwner("1", "mintbase.mintbase1.near");
+const props = {
+  tokenId: "1",
+  contractAddress: "mintbase.mintbase1.near",
+  network: "mainnet"
+}
+
+const { data, error } = await tokenOwner(props);
 
 if (error) {
   console.log("error", error);

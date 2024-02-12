@@ -8,10 +8,14 @@ export type OwnedTokensQueryResult = {
   tokens: Token[];
 }
 
+interface OwnedTokensProps {
+  ownerId: string;
+  pagination: Pagination;
+  network?: Network;
+}
+
 export const ownedTokens = async (
-  ownerId: string,
-  { limit, offset = 0 }: Pagination,
-  network?: Network,
+  { ownerId, pagination: { limit, offset = 0 }, network }: OwnedTokensProps,
 ): Promise<ParsedDataReturn<Token[]>> => {
 
   const { data, error } = await fetchGraphQl<OwnedTokensQueryResult>({
@@ -35,7 +39,7 @@ export const ownedTokensThrowOnError = async (
   pagination: Pagination,
   network?: Network,
 ): Promise<Token[]> => {
-  const { data, error } = await ownedTokens(ownerId, pagination, network);
+  const { data, error } = await ownedTokens({ ownerId, pagination, network });
   if (error) {
     console.error(`An error occurred fetching ownedTokens ${error}`);
     throw new Error(error);

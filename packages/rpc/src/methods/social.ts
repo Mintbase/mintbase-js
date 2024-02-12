@@ -1,5 +1,5 @@
 import { callViewMethod } from '../util';
-import { mbjs } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
 
 export const NEAR_SOCIAL_IPFS_GATEWAY = 'https://ipfs.near.social/ipfs/';
 
@@ -45,9 +45,12 @@ const getImageUrl = (image: ProfileImage): string | null => {
 
 export const nearSocialProfile = async (
   accountId: string,
+  network?: Network,
 ): Promise<NearSocialProfile> => {
 
-  const contractId = mbjs.keys.network === 'testnet'
+  const finalNetwork = network ||  mbjs.keys.network;
+
+  const contractId = finalNetwork === 'testnet'
     ? 'v1.social08.testnet'
     : 'social.near';
 
@@ -58,6 +61,7 @@ export const nearSocialProfile = async (
       args: {
         keys: [`${accountId}/profile/**`],
       },
+      network,
     });
 
 

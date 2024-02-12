@@ -1,7 +1,8 @@
 import BN from 'bn.js';
 import { requestFromNearRpc } from '../util';
+import { Network } from '@mintbase-js/sdk';
 
-export const getBalance = async (accountId: string, network?: string): Promise<BN> => {
+export const getBalance = async (accountId: string, network?: Network): Promise<BN> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',

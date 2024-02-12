@@ -17,7 +17,7 @@ Returns rarity of an attribute by `contractId`, `attributeType` and `attributeVa
 
 
 
-### attributeRarity(contractId: string, attributeType: string, attributeValue: string)
+### attributeRarity({contractId: string, attributeType: string, attributeValue: string, network?: "testnet" | "mainnet"})
 
 
 
@@ -29,6 +29,12 @@ Example:
 
 ```typescript
 import { attributeRarity } from '@mintbase-js/data'
+
+const attributeRarityProps = {
+  contractId: "foo.testnet",
+  attributeType: "eyes",
+  attributeValue: "blue"
+}
 
 const {data, error} = await attributeRarity('test');
 

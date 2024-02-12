@@ -21,10 +21,14 @@ const query = {
   limit: 10,
   offset: 0,
 };
-const { data, error } = await tokensByAttributes(
-  'some-nfts.contract.near',
-  filters
-);
+
+const props = {
+  contractId: 'some-nfts.contract.near',
+  filters: query,
+  network: 'mainnet',
+}
+
+const { data, error } = await tokensByAttributes(props);
 
 if (error) {
   console.log("error", error);

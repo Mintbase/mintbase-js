@@ -2,8 +2,21 @@ import { META_SERVICE_HOST_TESTNET } from '../../constants';
 import { OWNED_MINTED_ORDER_BY, ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
 
 import fetchMock from 'fetch-mock';
-import { mbjs } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
 import { getUserOwnedTokens } from './userOwnedTokens';
+
+
+const props = {
+  accountId: 'mintbase1.near',
+  filters: {
+    orderBy: OWNED_MINTED_ORDER_BY.MINTED,
+    limit: 10,
+    offset: 0,
+    listedFilter: true,
+  },
+  network: 'mainnet' as Network,
+};
+
 
 describe('userOwnedTokens', () => {
   beforeAll(() => {
@@ -24,7 +37,7 @@ describe('userOwnedTokens', () => {
       offset: 0,
       listedFilter: true,
     };
-    const { data } = await getUserOwnedTokens('human.id', filters) as ParsedDataReturn<UserTokensQueryResult>;
+    const { data } = await getUserOwnedTokens(props) as ParsedDataReturn<UserTokensQueryResult>;
     expect(data?.results).toBeDefined();
   });
 
@@ -36,7 +49,7 @@ describe('userOwnedTokens', () => {
       offset: 0,
       listedFilter: true,
     };
-    const { error } = await getUserOwnedTokens('contract.id', filters);
+    const { error } = await getUserOwnedTokens(props);
     expect(error).toBeDefined();
   });
 });

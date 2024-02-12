@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { callViewMethod } from '../util';
 
 type Numerator = {
@@ -40,7 +41,13 @@ const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
   return uiPayout;
 };
 
-export const payouts = async ({ contractId, tokenId }): Promise<UiPayout> => {
+interface  PayoutsProps {
+  contractId: string;
+  tokenId: string;
+  network?: Network;
+}
+
+export const payouts = async ({ contractId, tokenId, network }: PayoutsProps): Promise<UiPayout> => {
   const payout = await callViewMethod<NepPayout>({
     contractId,
     method: 'nft_payout',
@@ -52,7 +59,9 @@ export const payouts = async ({ contractId, tokenId }): Promise<UiPayout> => {
       balance: '10000000000000000',
       max_len_payout: 1000,
     },
-  });
+    network,
+  },
+  );
 
   return nepToUi(payout, tokenId);
 };

@@ -4,7 +4,7 @@
 
 Returns a list of token items (metadata) which match the contract id and passed filters.
 
-### attributesByContract(contractId: string): Promise<Attributes>
+### attributesByContract(contractId: string, network?: "testnet" | "mainnet"): Promise<Attributes>
 
 Example:
 
@@ -14,7 +14,8 @@ Example:
 import { attributesByContract } from "@mintbase-js/data";
 
 const { data, error } = await attributesByContract(
-  'some-nfts.contract.near'
+  'some-nfts.contract.near',
+  'mainnet'
 );
 
 if (error) {

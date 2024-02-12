@@ -11,9 +11,9 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 {% endhint %}
 
-Returns number of tokens by `metadataId` and statuses: `burned, unburned, listed`.
+Returns number of tokens of a contract by `metadataId` and statuses: `burned, unburned, listed`.
 
-### getKey(accountId: string)
+### getKey(accountId: string, network?: "testnet" | "mainnet")
 
 Fetches all historical additions and deletions of full access keys to an account.
 
@@ -25,7 +25,7 @@ Example:
 
 import { getKeyActivity } from  '@mintbase-js/data'
 
-const { data, error } = await getKeyActivity('foo.near');
+const { data, error } = await getKeyActivity('foo.near', 'mainnet');
 
 if (error) {console.log('error', error)}
 

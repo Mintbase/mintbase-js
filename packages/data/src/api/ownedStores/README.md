@@ -17,7 +17,7 @@ Returns stores owned by `ownerId`.
 
 
 
-### ownedStores(ownerId: string)
+### ownedStores(ownerId: string, network?: "testnet" | "mainnet")
 
 
 
@@ -35,7 +35,7 @@ Example:
 ```typescript
 import { ownedStores } from  '@mintbase-js/data'
 
-const {data, error} = await ownedStores('test.near');
+const {data, error} = await ownedStores('test.near', 'mainnet');
 
 if (error) {console.log('error', error)}
 

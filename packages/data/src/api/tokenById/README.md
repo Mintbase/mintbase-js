@@ -22,7 +22,7 @@ Returns token data  by `contractAddress`.
 
 
 
-### tokenById( tokenId: string | number, contractAddress: string,)
+### tokenById({ tokenId: string | number, contractAddress: string, network?: "testnet" | "mainnet"})
 
 
 
@@ -41,7 +41,13 @@ Example:
 
 import { tokenById } from  '@mintbase-js/data'
 
-const { data, error } = await tokenById( '1','rub3n.testnet');
+const props =  {
+  tokenId: '1',
+  contractAddress: 'foo.testnet',
+  network: 'testnet'
+}
+
+const { data, error } = await tokenById(props);
 
 if (error) {console.log('error', error)}
 

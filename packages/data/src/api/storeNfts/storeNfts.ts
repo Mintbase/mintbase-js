@@ -1,16 +1,15 @@
 import { fetchGraphQl } from '../../graphql/fetch';
-import { Pagination, ParsedDataReturn } from '../../types';
+import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { storeNftsQuery } from './storeNfts.query';
-import { StoreNftsResult } from './storeNfts.types';
-import { Network } from '@mintbase-js/sdk';
+import { StoreNftsProps, StoreNftsResult } from './storeNfts.types';
 
-export const storeNfts = async (
-  contractAddress: string | string[],
-  showOnlyListed?: boolean,
-  pagination?: Pagination,
-  network?: Network,
-): Promise<ParsedDataReturn<StoreNftsResult>> => {
+export const storeNfts = async ({
+  contractAddress,
+  showOnlyListed,
+  pagination,
+  network,
+}: StoreNftsProps): Promise<ParsedDataReturn<StoreNftsResult>> => {
   const { data, error } = await fetchGraphQl<StoreNftsResult>({
     query: storeNftsQuery,
     variables: {

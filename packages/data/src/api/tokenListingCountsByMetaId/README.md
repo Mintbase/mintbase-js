@@ -23,14 +23,11 @@ Returns number of tokens by `metadataId`.
 
 
 
-### tokenById( tokenId: string | number, contractAddress: string,)
+### tokenListingCountsByMetaId( metadataId: string, network?: 'mainnet' | 'testnet')
 
 
 
 This is an example of a data api method.
-
-
-
 
 Example:
 
@@ -44,7 +41,7 @@ import { tokenListingCountsByMetaId, TokenListingQueryResults } from  '@mintbase
 
 
 
-const data: TokenListingQueryResults = tokenListingCountsByMetaId('dogeflower.mintbase1.near%3A5ef2d9b0651172d90dc173af0726b5fc');
+const data: TokenListingQueryResults = tokenListingCountsByMetaId('dogeflower.mintbase1.near%3A5ef2d9b0651172d90dc173af0726b5fc', 'mainnet');
 
 
 

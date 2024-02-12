@@ -1,14 +1,14 @@
-import { Network } from '@mintbase-js/sdk';
 import { fetchGraphQl } from '../../graphql/fetch';
-import { Pagination, ParsedDataReturn } from '../../types';
+import { ParsedDataReturn } from '../../types';
 import { parseData } from '../../utils';
 import { tokenOwnersByMetadataIdQuery } from './tokenOwnersByMetadataId.query';
-import { TokenOwnersByMetadataIdQueryResult } from './tokenOwnersByMetadataId.types';
+import { TokenOwnersByMetadataIdQueryResult, TokenOwnersByMetadataProps } from './tokenOwnersByMetadataId.types';
 
-export const tokenOwnersByMetadataId = async (
-  metadataId: string,
-  pagination?: Pagination,
-  network?: Network,  
+export const tokenOwnersByMetadataId = async ({
+  metadataId,
+  pagination,
+  network,
+}: TokenOwnersByMetadataProps,
 ): Promise<ParsedDataReturn<TokenOwnersByMetadataIdQueryResult>> => {
   const { data, error } = await fetchGraphQl<TokenOwnersByMetadataIdQueryResult>({
     query: tokenOwnersByMetadataIdQuery,

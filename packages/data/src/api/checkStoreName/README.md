@@ -1,6 +1,7 @@
 [//]: # `{ "title": "checkStoreName", "order": "2.0.14" }`
 # checkStoreName
 
+Checks if that store `name` already exists.
 
 
 {% hint style="warning" %}
@@ -17,12 +18,7 @@ For the most reliable data, reference our [existing graphql docs](https://docs.m
 
 
 
-
-Checks if that store `name` already exists.
-
-
-
-### checkStoreName( name: string )
+### checkStoreName( name: string, network?: "testnet" | "mainnet" )
 
 
 
@@ -41,7 +37,7 @@ import { checkStoreName } from  '@mintbase-js/data'
 
 
 
-const { data, error } = await checkStoreName('test');
+const { data, error } = await checkStoreName('my cool store', 'mainnet');
 
 if (error) {console.log('error', error)}
 

@@ -22,7 +22,7 @@ Returns nfts by `contractAddress` and filtering by `showOnlyListed` with limit a
 
 
 
-### storeNfts( contractAddress: string, showOnlyListed?: boolean, { limit, offset }?: Pagination)
+### storeNfts( {contractAddress: string, showOnlyListed?: boolean, { limit, offset }?: Pagination, network?: "testnet" | "mainnet"})
 
 
 
@@ -40,6 +40,13 @@ Example:
 ```typescript
 
 import { storeNfts } from  '@mintbase-js/data'
+
+const props = {
+  contractAddress: 'teammintbase.mintbase1.near',
+  showOnlyListed: true,
+  pagination:{ limit: 12, offeset: 0},
+  network: "mainnet",
+}
 
 const { data, error } = await storeNfts('teammintbase.mintbase1.near', true);
 

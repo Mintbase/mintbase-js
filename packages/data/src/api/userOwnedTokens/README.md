@@ -18,7 +18,7 @@ Returns number of owned tokens by `accountId`.
 
 
 
-### getUserOwnedTokens(accountId: string, filters: UserTokensFilter,): Promise<ParsedDataReturn<UserTokensQueryResult>>
+### getUserOwnedTokens({accountId: string, filters: UserTokensFilter,network?: "mainnet" | "testnet"}): Promise<ParsedDataReturn<UserTokensQueryResult>>
 
 
 
@@ -37,12 +37,19 @@ Example:
 
 import { userOwnedTokens } from  '@mintbase-js/data'
 
-const { data, error } = await getUserOwnedTokens('mintbase1.near', {
+
+const props = {
+  accountId: 'mintbase1.near',
+  filters: {
       orderBy: 'price asc',
       limit: 10,
       offset: 0,
       listedFilter: true,
-    });
+    },
+  network: 'mainnet'
+}
+
+const { data, error } = await getUserOwnedTokens(props);
 
 if (error) {console.log('error', error)}
 

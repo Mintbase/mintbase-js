@@ -1,3 +1,4 @@
+import { Network } from '@mintbase-js/sdk';
 import { requestFromNearRpc } from '../util';
 
 export type AccessKey = {
@@ -15,7 +16,7 @@ export type AccessKeyPermissions = {
   };
 }
 
-export const getAccessKeys = async (accountId: string, network?: string): Promise<AccessKey[]> => {
+export const getAccessKeys = async (accountId: string, network?: Network): Promise<AccessKey[]> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',

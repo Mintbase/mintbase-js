@@ -1,3 +1,5 @@
+import { Network } from '@mintbase-js/sdk';
+
 export type TokensByStatus = {
   listedTokens: string[];
   burnedTokens: string[];
@@ -13,3 +15,7 @@ export type TokenByStatusQueryResults = {
   burnedTokens: TokenByStatusProp;
   unburnedTokens: TokenByStatusProp;
 };
+
+export interface TokenByStatusProps {
+  metadataId: string; ownedBy?: string; network?: Network;
+}
