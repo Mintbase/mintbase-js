@@ -2,9 +2,10 @@
 import { batchChangeCreators } from './batchChangeCreators';
 import { GAS, ONE_YOCTO } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';
+import { mbjs } from '../config/config';
 
 describe('batch change minters tests', () => {
-  const contractAddress = 'test.nft.contract';
+  const contractAddress = `test.${mbjs.keys.mbContractV2}`;
   const minter = ['test'];
   const manyMinters = ['test', 'test2', 'test3'];
   const otherManyMinters = ['test4', 'test5'];

@@ -1,26 +1,28 @@
-[//]: # `{ "title": "batchChangeMinters", "order": 0.8 }`
+[//]: # `{ "title": "batchChangeCreators", "order": 0.17 }`
 
-# Batch change minters
+# Batch change creators
 
-Change minting permissions for your smart contract by removing or adding multiple accountIds in one call.
+Change creator permissions for your smart contract by removing or adding multiple accountIds in one call.
 
-Account IDs in the `removeMinters` array will lose minting permission for the specified contract. Ids in the `addMinters` array get granted that permission.
+Account IDs in the `removeCreators` array will lose creator permission for the specified contract. Ids in the `addCreators` array get granted that permission.
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
-## batchChangeMinters(args: addMinterArgs): NearContractCall
+This is only available on Mintbase v2 smart contracts, if you are using a Mintbase v1 contract, use [`batchChangeMinters`](../batchChangeMinters/README.md) instead.
 
-`batchChangeMinters` takes a single argument of type `BatchChangeMintersArgs`
+## batchChangeCreators(args: BatchChangeCreatorsArgs): NearContractCall
+
+`batchChangeCreators` takes a single argument of type `BatchChangeCreatorsArgs`
 
 ```typescript
-type BatchChangeMintersArgs = {
-    //the contract you own for which you wish to grant or revoke minting access
+type BatchChangeCreatorsArgs = {
+    //the contract you own for which you wish to grant or revoke creator access
     // as an argument or through CONTRACT_ADDRESS env
     contractAddress?: string;
-    //an array of ids that will be added as minters for the given contractId, if nothing is provided no minters will be added
-    addMinters: string[];
-    //an array of ids that will be removed as minters for the given contractId, if nothing is provided no minters will be removed
-    removeMinters: string[];
+    //an array of ids that will be added as creators for the given contractId, if nothing is provided no creators will be added
+    addCreators: string[];
+    //an array of ids that will be removed as creators for the given contractId, if nothing is provided no creators will be removed
+    removeCreators: string[];
 };
 ```
 ## React example
@@ -31,31 +33,31 @@ Example usage of batchChangeMinters method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, batchChangeMinters, BatchChangeMintersArgs } from '@mintbase-js/sdk';
+import { execute, batchChangeCreators, BatchChangeCreatorsArgs } from '@mintbase-js/sdk';
 
 
-export const BatchChangeMintersComponent = ({ contractAddress, addMinters, removeMinters }: BatchChangeMintersArgs): JSX.Element => {
-  
+export const BatchChangeMintersComponent = ({ contractAddress, addCreators, removeCreators }: BatchChangeCreatorsArgs): JSX.Element => {
+
   const { selector } = useWallet();
-  
+
   const handleBatchChangeMinters = async (): Promise<void> => {
 
     const wallet = await selector.wallet();
-    
+
     await execute(
       {wallet},
-      batchChangeMinters({ 
+      batchChangeCreators({
           contractAddress: contractAddress,
-          addMinters: addMinters, 
-          removeMinters: removeMinters 
+          addCreators: addCreators,
+          removeCreators: removeCreators
           })
     );
   }
 
   return (
     <div>
-      <button onClick={handleBatchChangeMinters}>
-        batchChangeMinters for contractId : {contractAddress}
+      <button onClick={handleBatchChangeCreators}>
+        batchChangeCreatorcs for contractId : {contractAddress}
       </button>
     </div>
   );

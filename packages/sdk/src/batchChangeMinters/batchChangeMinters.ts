@@ -2,6 +2,7 @@ import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { TOKEN_METHOD_NAMES, NearContractCall, BatchChangeMintersArgs, BatchChangeMintersArgsResponse } from '../types';
+import { isStoreV1 } from '../utils';
 
 /**
  * Add or remove minting access of various ids of a contract you own.
@@ -12,6 +13,10 @@ export const batchChangeMinters = (
   args: BatchChangeMintersArgs,
 ): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addMinters = [], removeMinters = [], contractAddress = mbjs.keys.contractAddress } = args;
+
+  if (!isStoreV1(contractAddress)) {
+    throw new Error(ERROR_MESSAGES.ONLY_V1);
+  }
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);

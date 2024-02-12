@@ -2,16 +2,21 @@ import { mbjs } from '../config/config';
 import {  GAS, ONE_YOCTO } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { TOKEN_METHOD_NAMES, NearContractCall, BatchChangeCreatorsArgs, BatchChangeMintersArgsResponse } from '../types';
+import { isStoreV2 } from '../utils';
 
 /**
- * Add or remove minting access of various ids of a contract you own.
- * @param batchChangeMintersArgs {@link BatchChangeCreatorsArgs}
+ * Add or remove creator access of various ids of a contract you own.
+ * @param batchChangeCreatorsArgs {@link BatchChangeCreatorsArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const batchChangeMinters = (
+export const batchChangeCreators = (
   args: BatchChangeCreatorsArgs,
 ): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addCreators = [], removeCreators = [], contractAddress = mbjs.keys.contractAddress } = args;
+
+  if (!isStoreV2(contractAddress)) {
+    throw new Error(ERROR_MESSAGES.ONLY_V2);
+  }
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
