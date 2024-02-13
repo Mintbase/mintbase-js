@@ -16,42 +16,39 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
-## mint(args: MintArgs): NearContractCall
+## mint(args: MintArgsV1): NearContractCall
+
+- **contractAddress (optional):** This is the address of the contract where the token will be minted. If not provided, the TOKEN_CONTRACT environment variable will be used.
+
+- **ownerId:** This is the NEAR account ID of the owner of the token that will be minted.
+
+- **metadata:** This is an object containing the metadata of the token. It includes properties like title, description, media, etc.
+
+- **royalties (optional):** This is an object that specifies how the funds from the sale of the token will be split among different parties.
+
+- **amount (optional):** This is the number of copies of the token that you want to mint. If not provided, only one copy will be minted.
+
+- **noMedia (optional):** This is a flag that indicates whether the token will be minted without any associated media. If set to true, the token will be minted without any media, which may cause issues with some wallets that expect media to be associated with tokens.
+
+
+- **noReference (optional):** This is a flag that indicates whether the token will be minted without any reference to an external resource. If set to true, the token will be minted without any reference.
+
 
 `mint` takes a single argument of type `MintArgs`
 
+## MintArgsV1
+
+
+
 ```typescript
-export type MintArgs =  {
-  //the contractId from which you want to mint
-  //can be specified through CONTRACT_ADDRESS configuration / environment variables
+export type MintArgsV1 =  {
   contractAddress?: string;
-  //the intended owner of the token being minted
   ownerId: string;
-  // metadata including title, description and reference materials
   metadata: TokenMetadata;
-  options?: MintOptions;
+  royalties?: Splits;
+  amount?: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
-};
-
-export type MintArgs =  {
-  //the contractId from which you want to mint, this can be statically defined via the mbjs config file
-  contractAddress?: string;
-  //the intended owner of the token being minted
-  ownerId: string;
-  //on chain metadata, currently reference and media must be provided unless clearly opted out using the noMedia or noReference args
-  //the storage module returns the media hash to be provided to the media key in the metadata object when uploading as well as the referenceId which should be supplied to the reference key.
-  metadata: TokenMetadata;
-  //permanent royalties to be paid on every token sale provided in a Record of keys (accountIds) and values (amount)
-  //the royalty total is capped at 0.5 eg: {"test1.near" : 0.2, "test2.near": 0.3}
-  royalties?: Splits;
-  //amount of tokens with the same metadata you would like to mint
-  amount?: number;
-  // explicit opt-in to NFT without media, breaks wallets
-  noMedia?: boolean;
-  // explicit opt-in to NFT without reference
-  noReference?: boolean;
-  tokenIdsToMint?: number[];
 };
 
 export type TokenMetadata = {
