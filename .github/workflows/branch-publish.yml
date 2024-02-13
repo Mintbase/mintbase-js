@@ -54,7 +54,7 @@ jobs:
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
           git push --force
 
-      - uses: BennyKritzer/deployment-action@V3.0.3
+      - uses: chrnorm/deployment-action@V3.0.3
         name: Create GitHub deployment
         id: deployment
         with:
@@ -75,7 +75,7 @@ jobs:
 
       - name: Update deployment status (success)
         if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'beta'}}
-        uses: BennyKritzer/deployment-status@V3.0.3
+        uses: chrnorm/deployment-status@V3.0.3
         with:
           token: '${{ github.token }}'
           environment-url: https://www.npmjs.com/settings/mintbase-js/packages
@@ -84,7 +84,7 @@ jobs:
 
       - name: Update deployment status (failure)
         if: ${{ steps.publish.outcome != 'success' && github.ref_name != 'beta'}}
-        uses: BennyKritzer/deployment-status@V3.0.3
+        uses: chrnorm/deployment-status@V3.0.3
         with:
           token: '${{ github.token }}'
           environment-url: https://www.npmjs.com/settings/mintbase-js/packages
