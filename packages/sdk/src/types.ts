@@ -17,7 +17,8 @@ export enum TOKEN_METHOD_NAMES {
   BATCH_CHANGE_CREATORS = 'batch_change_creators',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
-  SET_SPLITS = 'set_split_owners'
+  SET_SPLITS = 'set_split_owners',
+  SET_MINTING_CAP = 'set_minting_cap'
 }
 
 export enum MARKET_METHOD_NAMES {
@@ -315,6 +316,11 @@ export type FtDepositStorageArgs = {
   ftContractAddress: string;
   accountId?: string;
 };
+
+export type SetMintingCapArgs = {
+  contractAddress?: string;
+  mintingCap: number;
+}
 
 export declare type TxnOptionalSignerId = Optional<Transaction, 'signerId'>;
 
