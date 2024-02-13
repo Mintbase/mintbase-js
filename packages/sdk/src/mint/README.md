@@ -22,19 +22,6 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 ```typescript
 export type MintArgs =  {
-  //the contractId from which you want to mint
-  //can be specified through CONTRACT_ADDRESS configuration / environment variables
-  contractAddress?: string;
-  //the intended owner of the token being minted
-  ownerId: string;
-  // metadata including title, description and reference materials
-  metadata: TokenMetadata;
-  options?: MintOptions;
-  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
-  noReference?: boolean; // explicit opt-in to NFT without reference
-};
-
-export type MintArgs =  {
   //the contractId from which you want to mint, this can be statically defined via the mbjs config file
   contractAddress?: string;
   //the intended owner of the token being minted
@@ -51,7 +38,6 @@ export type MintArgs =  {
   noMedia?: boolean;
   // explicit opt-in to NFT without reference
   noReference?: boolean;
-  tokenIdsToMint?: number[];
 };
 
 export type TokenMetadata = {
