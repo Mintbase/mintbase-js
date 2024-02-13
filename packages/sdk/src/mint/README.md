@@ -10,6 +10,8 @@ Royalties can be configured to provide a customized flow of funds as explained b
 
 It is possible to configure the amount of copies you want to mint through the `amount` field, but currently they will all share the same reference material.
 
+Usually, you cannot upload without reference or media. You can however explicitly disabled this check by passing `noMedia: true` if you wish `metadata.media` to be `null`, or `noReference: true` if you wish `metadata.reference` to be null.
+
 The nftContactId can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
 If you want to mint on a v2 smart contract, please [create metadata](../createMetadata/README.md), then [mint on it](../mintOnMetadata/README.md).
