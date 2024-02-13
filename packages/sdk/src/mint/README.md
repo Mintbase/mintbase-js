@@ -18,10 +18,10 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 ## mint(args: MintArgs): NearContractCall
 
-`mint` takes a single argument of type `MintArgs`
+`mint` takes a single argument of type `MintArgsV1`
 
 ```typescript
-export type MintArgs =  {
+export type MintArgsV1 =  {
   //the contractId from which you want to mint, this can be statically defined via the mbjs config file
   contractAddress?: string;
   //the intended owner of the token being minted
@@ -64,10 +64,10 @@ Example usage of mint method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, mint, MintArgs } from '@mintbase-js/sdk';
+import { execute, mint, MintArgsV1 } from '@mintbase-js/sdk';
 
 
-export const MintComponent = ({ media, reference, contractAddress, owner }: MintArgs): JSX.Element => {
+export const MintComponent = ({ media, reference, contractAddress, owner }: MintArgsV1): JSX.Element => {
 
   const { selector } = useWallet();
 
