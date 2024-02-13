@@ -32,8 +32,15 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 - **amount (optional):** This is the number of copies of the token that you want to mint. If not provided, only one copy will be minted.
 
-- **noMedia (optional):** This is a flag that indicates whether the token will be minted without any associated media. If set to true, the token will be minted without any media, which may cause issues with some wallets that expect media to be associated with tokens.
+- **noMedia (optional):** This is a flag that indicates whether the token will be minted without any associated media. If set to true, the token can be minted without any media.
 
+However, if the `media` field in the `reference` object is null and `noMedia` is not set to true, the mint method will throw an error.
+
+If `noMedia` is set to true and the `media` field in the `reference` object is not null, the token will be minted with the provided media.
+
+Essentially, `noMedia` acts as a confirmation for minting a token without media. This may cause issues with some wallets that expect media to be associated with tokens.
+
+Similar logic applies to `noReference` for minting without a reference.
 
 - **noReference (optional):** This is a flag that indicates whether the token will be minted without any reference to an external resource. If set to true, the token will be minted without any reference.
 
