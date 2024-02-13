@@ -18,6 +18,10 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 ## mint(args: MintArgsV1): NearContractCall
 
+`mint` takes a single argument of type `MintArgs`
+
+## MintArgsV1
+
 - **contractAddress (optional):** This is the address of the contract where the token will be minted. If not provided, the TOKEN_CONTRACT environment variable will be used.
 
 - **ownerId:** This is the NEAR account ID of the owner of the token that will be minted.
@@ -32,12 +36,6 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 
 - **noReference (optional):** This is a flag that indicates whether the token will be minted without any reference to an external resource. If set to true, the token will be minted without any reference.
-
-
-`mint` takes a single argument of type `MintArgs`
-
-## MintArgsV1
-
 
 
 ```typescript
