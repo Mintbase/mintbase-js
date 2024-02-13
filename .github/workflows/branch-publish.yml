@@ -54,7 +54,7 @@ jobs:
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
           git push --force
 
-      - uses: Mintbase/deployment-action@master
+      - uses: Mintbase/deployment-action@main
         name: Create GitHub deployment
         id: deployment
         with:
@@ -75,7 +75,7 @@ jobs:
 
       - name: Update deployment status (success)
         if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'beta'}}
-        uses: Mintbase/deployment-status@master
+        uses: Mintbase/deployment-status@main
         with:
           token: '${{ github.token }}'
           environment-url: https://www.npmjs.com/settings/mintbase-js/packages
