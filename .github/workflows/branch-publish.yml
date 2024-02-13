@@ -75,7 +75,7 @@ jobs:
 
       - name: Update deployment status (success)
         if:  ${{ steps.publish.outcome  == 'success' && github.ref_name != 'beta'}}
-        uses: BennyKritzer/deployment-status@v2
+        uses: BennyKritzer/deployment-status@v3.03
         with:
           token: '${{ github.token }}'
           environment-url: https://www.npmjs.com/settings/mintbase-js/packages
@@ -84,7 +84,7 @@ jobs:
 
       - name: Update deployment status (failure)
         if: ${{ steps.publish.outcome != 'success' && github.ref_name != 'beta'}}
-        uses: BennyKritzer/deployment-status@v2
+        uses: BennyKritzer/deployment-status@v3.03
         with:
           token: '${{ github.token }}'
           environment-url: https://www.npmjs.com/settings/mintbase-js/packages
