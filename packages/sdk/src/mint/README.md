@@ -22,25 +22,19 @@ If you want to mint on a v2 smart contract, please [create metadata](../createMe
 
 ## MintArgsV1
 
-- **contractAddress (optional):** This is the address of the contract where the token will be minted. If not provided, the TOKEN_CONTRACT environment variable will be used.
+- `contractAddress` (optional): The address of the contract where the token will be minted. If not provided, the TOKEN_CONTRACT environment variable will be used.
 
-- **ownerId:** This is the NEAR account ID of the owner of the token that will be minted.
+- `ownerId`: The NEAR account ID of the owner of the token that will be minted.
 
-- **metadata:** This is an object containing the metadata of the token. It includes properties like title, description, media, etc.
+- `metadata`: An object containing the metadata of the token. It includes properties like title, description, media, etc.
 
-- **royalties (optional):** This is an object that specifies how the funds from the sale of the token will be split among different parties.
+- `royalties` (optional): An object that specifies how the funds from the sale of the token will be split among different parties.
 
-- **amount (optional):** This is the number of copies of the token that you want to mint. If not provided, only one copy will be minted.
+- `amount` (optional): The number of copies of the token that you want to mint. If not provided, only one copy will be minted.
 
-- **noMedia (optional):** This is a flag that indicates whether the token will be minted without any associated media. If set to true, the token can be minted without any media.
-- - However, if the `media` field in the `reference` object is null and `noMedia` is not set to true, the mint method will throw an error.
-- - If `noMedia` is set to true and the `media` field in the `reference` object is not null, the token will be minted with the provided media.
+- `noMedia` (optional): If you mint a token with `metadata.media = null`, this method will throw an error. While the Mintbase Market can generally deal with media in the reference material, many third parties, most notably wallets, cannot. To disable this check and explicitly mint with the risk of breaking third-party compatibility, use `noMedia: true`
 
-- - Essentially, `noMedia` acts as a confirmation for minting a token without media. This may cause issues with some wallets that expect media to be associated with tokens.
-
-- - Similar logic applies to `noReference` for minting without a reference.
-
-- **noReference (optional):** This is a flag that indicates whether the token will be minted without any reference to an external resource. If set to true, the token will be minted without any reference.
+- `noReference` (optional): Similar to `noMedia`, but with respect to the `metadata.reference` field. This is less crucial for NFT display, but Mintbase NFTs usually come with rich data that does not fit into the NEAR metadata standards, and are thus stored using the `reference` URI.
 
 
 ## Types
