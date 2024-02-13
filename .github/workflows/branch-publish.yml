@@ -54,7 +54,7 @@ jobs:
           lerna publish from-package --yes --dist-tag ${{ github.event.action == 'released' && 'latest' || 'prerelease'}}
           git push --force
 
-      - uses: BennyKritzer/deployment-action@v2
+      - uses: BennyKritzer/deployment-action@v3.03
         name: Create GitHub deployment
         id: deployment
         with:
