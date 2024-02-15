@@ -15,6 +15,7 @@ import {
   setupMintbaseWalletSelector,
 } from './wallet/wallet';
 import type { WalletSelectorComponents } from './wallet/wallet';
+
 import type {
   WalletSelector,
   AccountState,
@@ -26,7 +27,8 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
 // This is heavily based on
 // https://github.com/near/wallet-selector/blob/main/examples/react/contexts/WalletSelectorContext.tsx
-// but uses wrappers from @mintbase-js/auth and @mintbase-js/sdk
+// but uses wrappers from @mintbase-js/wallet and @mintbase-js/sdk
+
 export type MintbaseWalletContext = {
   selector: WalletSelector;
   modal: WalletSelectorModal;
@@ -41,11 +43,28 @@ export type MintbaseWalletContext = {
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
 }
 
+interface ContextProviderType {
+  children: React.ReactNode;
+  callbackUrl?: string;
+  network?: string; onlyMbWallet?: boolean;
+  contractAddress?: string;
+  additionalWallets?: Array<WalletModuleFactory>;
+  successUrl?: string;
+  failureUrl?: string;
+}
+
+
 export const MintbaseWalletContext = createContext<MintbaseWalletContext | null>(null);
 
-// eslint-disable-next-line max-len
-export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl?: string; network?: string; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
-  children, network, contractAddress, additionalWallets, onlyMbWallet, callbackUrl,
+export const MintbaseWalletContextProvider: React.FC<ContextProviderType> = ({
+  children,
+  network,
+  contractAddress,
+  additionalWallets,
+  onlyMbWallet,
+  callbackUrl,
+  successUrl,
+  failureUrl,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
@@ -70,6 +89,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
       selectedNetwork,
       selectedContract,
       isOnlyMbWallet ? { additionalWallets } : undefined,
+      successUrl, failureUrl,
     );
   };
 
@@ -92,7 +112,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
 
   // call setup on wallet selector
 
-  
+
   useEffect(() => {
     setupWallet();
 
