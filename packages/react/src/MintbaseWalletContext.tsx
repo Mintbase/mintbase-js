@@ -51,8 +51,8 @@ interface ContextProviderType {
   network?: string; onlyMbWallet?: boolean;
   contractAddress?: string;
   additionalWallets?: Array<WalletModuleFactory>;
-  successUrl: string;
-  failureUrl: string;
+  successUrl?: string;
+  failureUrl?: string;
 }
 
 
