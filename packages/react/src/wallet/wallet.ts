@@ -84,7 +84,7 @@ export const setupMintbaseWalletSelector = async (
           walletUrl: walletUrls[network],
           callbackUrl: callbackUrl,
           successUrl: successUrl || window.location.href,
-          failureUrl: failureUrl || window.location.href,
+          failureUrl: successUrl || window.location.href,
         }),
         ...(options?.additionalWallets || []),
         ...SUPPORTED_NEAR_WALLETS,

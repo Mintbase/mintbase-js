@@ -112,7 +112,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
   const signIn = async (): Promise<MintbaseWalletAccount[]> => {
     const existingAccounts = await getAccounts();
-    const origin = encodeURI(window?.location?.origin);
+    const href = encodeURI(window?.location?.href);
 
     if (existingAccounts.length) {
       return existingAccounts;
@@ -120,8 +120,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     await state.wallet.requestSignIn({
       methodNames: [],
-      successUrl: origin,
-      failureUrl: origin,
+      successUrl: href,
+      failureUrl: href,
     });
 
     return getAccounts();
