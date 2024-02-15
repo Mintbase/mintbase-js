@@ -41,8 +41,6 @@ export type MintbaseWalletContext = {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
-  successUrl: string;
-  failureUrl: string;
 }
 
 interface ContextProviderType {
