@@ -39,13 +39,15 @@ export type MintbaseWalletContext = {
   connect: () => Promise<void>;
   disconnect: () => Promise<void>;
   signMessage: (params: VerifyOwnerParams) => Promise<VerifiedOwner>;
+  successUrl: string;
+  failureUrl: string;
 }
 
 export const MintbaseWalletContext = createContext<MintbaseWalletContext | null>(null);
 
 // eslint-disable-next-line max-len
 export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode; callbackUrl?: string; network?: string; onlyMbWallet?: boolean; contractAddress?: string; additionalWallets?: Array<WalletModuleFactory> }> = ({
-  children, network, contractAddress, additionalWallets, onlyMbWallet, callbackUrl,
+  children, network, contractAddress, additionalWallets, onlyMbWallet, callbackUrl, successUrl, failureUrl,
 }): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
   const [components, setComponents] = useState<WalletSelectorComponents | null>(
@@ -70,6 +72,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
       selectedNetwork,
       selectedContract,
       isOnlyMbWallet ? { additionalWallets } : undefined,
+      successUrl, failureUrl,
     );
   };
 
@@ -92,7 +95,7 @@ export const MintbaseWalletContextProvider: React.FC<{ children: React.ReactNode
 
   // call setup on wallet selector
 
-  
+
   useEffect(() => {
     setupWallet();
 

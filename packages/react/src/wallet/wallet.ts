@@ -71,6 +71,8 @@ export const setupMintbaseWalletSelector = async (
   network?,
   contractAddress?,
   options?: { additionalWallets?: Array<WalletModuleFactory> },
+  successUrl?: string,
+  failureUrl?: string,
 ): Promise<WalletSelectorComponents> => {
 
 
@@ -81,6 +83,8 @@ export const setupMintbaseWalletSelector = async (
         setupMintbaseWallet({
           walletUrl: walletUrls[network],
           callbackUrl: callbackUrl,
+          successUrl: successUrl || window.location.href,
+          failureUrl: failureUrl || window.location.href,
         }),
         ...(options?.additionalWallets || []),
         ...SUPPORTED_NEAR_WALLETS,
