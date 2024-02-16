@@ -12,7 +12,7 @@ export const attributesByContract = async (
   let data;
   let error: string;
 
-  const networkFinal = network ?? mbjs.keys.network;
+  const networkFinal = network  ||  mbjs.keys.network;
 
   const useHost = networkFinal === 'testnet'
     ? META_SERVICE_HOST_TESTNET
