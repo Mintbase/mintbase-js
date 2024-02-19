@@ -7,14 +7,14 @@ import { getUserOwnedTokens } from './userOwnedTokens';
 
 
 const props = {
-  accountId: 'mintbase1.near',
+  accountId: 'rub3n.testnet',
   filters: {
     orderBy: OWNED_MINTED_ORDER_BY.MINTED,
     limit: 10,
     offset: 0,
     listedFilter: true,
   },
-  network: 'mainnet' as Network,
+  network: 'testnet' as Network,
 };
 
 
