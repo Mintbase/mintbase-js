@@ -24,9 +24,10 @@ export const getUserOwnedTokens = async ({
 
   const networkFinal = network || mbjs.keys.network;
 
-  const useHost = networkFinal
+  const useHost = networkFinal === 'testnet'
     ? META_SERVICE_HOST_TESTNET
     : META_SERVICE_HOST;
+
 
   try {
     const res = await fetch(`${useHost}/human/${accountId}/owned?offset=${offset}&limit=${limit}&orderBy=${orderBy}&listedFilter=${listedFilter}`, {
