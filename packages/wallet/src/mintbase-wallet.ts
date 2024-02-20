@@ -122,6 +122,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       methodNames: [],
       successUrl: successUrl || href,
       failureUrl: failureUrl || href,
+      contractId: contractId,
     });
 
     return getAccounts();
