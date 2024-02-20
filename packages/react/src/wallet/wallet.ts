@@ -98,6 +98,7 @@ export const setupMintbaseWalletSelector = async (
         setupMintbaseWallet({
           walletUrl: walletUrls[network],
           callbackUrl: callbackUrl,
+          contractId: contractAddress,
         }),
         ...(options?.additionalWallets || []),
       ],
