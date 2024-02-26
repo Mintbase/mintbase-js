@@ -4,11 +4,11 @@
 
 Update [previously created metadata](../createMetadata/README.md). This is only possible if the metadata has been marked as dynamic while creating it. Only the creator of the metadata is allowed to update it.
 
+In order to keep a history and mark reference material as dynamic, insert a `history` field into your reference material. This starts as an empty array and should contain all historic reference URIs when updating to a new reference material in their historic order.
+
 The `nftContactId` can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
 This only works on v2 smart contracts and no equivalent feature exists for v1.
-
-<!-- TODO: Mintbase paradigm for keeping history -->
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
