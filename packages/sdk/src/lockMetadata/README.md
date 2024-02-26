@@ -26,7 +26,7 @@ export type UpdateMetadataArgs =  {
 ## React example
 
 Example usage of mint method in a hypothetical React component:
-{% code title="UpdateComponent.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="LockMetadataComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
