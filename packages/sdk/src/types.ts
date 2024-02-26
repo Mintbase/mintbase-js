@@ -250,6 +250,14 @@ export type MintOnMetadataArgs = {
   price: number;
 };
 
+export type UpdateMetadataArgs = {
+  contractAddress?: string;
+  metadataId: string;
+  metadata: TokenMetadata;
+  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference?: boolean; // explicit opt-in to NFT without reference
+};
+
 export type TokenMetadata = {
   title?: string;
   description?: string;
@@ -411,6 +419,11 @@ export interface MintOnMetadataArgsResponse {
   num_to_mint?: number; // panic if neither specified!
   token_ids?: string[]; // panic if neither specified!
   split_owners?: Splits;
+}
+
+export interface UpdateMetadataArgsResponse {
+  metadata_id: string;
+  metadata: TokenMetadata;
 }
 
 export interface TransferContractOwnershipArgsResponse {

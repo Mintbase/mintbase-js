@@ -65,7 +65,7 @@ export type TokenMetadata = {
 ## React example
 
 Example usage of mint method in a hypothetical React component:
-{% code title="MintComponent.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="CreateMetadataComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
