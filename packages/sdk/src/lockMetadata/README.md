@@ -1,4 +1,4 @@
-[//]: # `{ "title": "mintOnMetadata", "order": 0.21 }`
+[//]: # `{ "title": "lockMetadata", "order": 0.21 }`
 
 # Lock Metadata (v2)
 

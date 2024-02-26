@@ -1,4 +1,4 @@
-[//]: # `{ "title": "mintOnMetadata", "order": 0.20 }`
+[//]: # `{ "title": "updateMetadata", "order": 0.20 }`
 
 # Update Metadata (v2)
 
@@ -35,7 +35,7 @@ export type UpdateMetadataArgs =  {
 ## React example
 
 Example usage of mint method in a hypothetical React component:
-{% code title="UpdateComponent.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="LockComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
