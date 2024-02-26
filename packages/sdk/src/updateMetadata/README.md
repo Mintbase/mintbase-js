@@ -2,11 +2,13 @@
 
 # Update Metadata (v2)
 
-Update [previously created metadata](../createMetadata/README.md). This is only possible if the metadata has been marked as dynamic while creating it.
+Update [previously created metadata](../createMetadata/README.md). This is only possible if the metadata has been marked as dynamic while creating it. Only the creator of the metadata is allowed to update it.
 
 The `nftContactId` can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
 This only works on v2 smart contracts and no equivalent feature exists for v1.
+
+<!-- TODO: Mintbase paradigm for keeping history -->
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
@@ -18,7 +20,7 @@ This only works on v2 smart contracts and no equivalent feature exists for v1.
 export type UpdateMetadataArgs =  {
   //the contractId from which you want to mint, this can be statically defined via the mbjs config file
   contractAddress?: string;
-  //the ID of the metadata you wish to mint on
+  //the ID of the metadata you wish to update
   metadataId: string;
   //on chain metadata, currently reference and media must be provided unless clearly opted out using the noMedia or noReference args
   //the storage module returns the media hash to be provided to the media key in the metadata object when uploading as well as the referenceId which should be supplied to the reference key.
@@ -38,7 +40,7 @@ Example usage of mint method in a hypothetical React component:
 ```typescript
 import { useState } from 'react';
 import { useWallet } from '@mintbase-js/react';
-import { execute, uppdateMetadata, MintOnMetadataArgs } from '@mintbase-js/sdk';
+import { execute, updateMetadata, MintOnMetadataArgs } from '@mintbase-js/sdk';
 
 
 export const UpdateMetadataComponent = ({ contractAddress, metadataId, metadata }: UpdateMetadataArgs): JSX.Element => {
@@ -50,7 +52,7 @@ export const UpdateMetadataComponent = ({ contractAddress, metadataId, metadata 
     const wallet = await selector.wallet();
 
     await execute(
-      uppdateMetadata({ contractAddress, metadataId, metadata })
+      updateMetadata({ contractAddress, metadataId, metadata })
     );
 
   }
@@ -58,7 +60,7 @@ export const UpdateMetadataComponent = ({ contractAddress, metadataId, metadata 
   return (
     <div>
       <button onClick={handleUpdateMetadata}>
-        Mint on metadata
+        Update metadata
       </button>
     </div>
   );

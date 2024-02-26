@@ -2,7 +2,7 @@ import BN from 'bn.js';
 import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { UpdateMetadataArgs, UpdateMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { LockMetadataArgs, LockMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { isIntString, isStoreV2 } from '../utils';
 
 /**
@@ -10,21 +10,18 @@ import { isIntString, isStoreV2 } from '../utils';
  * @param mintArguments {@link MintArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const updateMetadata = (
-  args: UpdateMetadataArgs,
-): NearContractCall<UpdateMetadataArgsResponse> => {
+export const lockMetadata = (
+  args: LockMetadataArgs,
+): NearContractCall<LockMetadataArgsResponse> => {
   const {
     contractAddress = mbjs.keys.contractAddress,
     metadataId,
-    metadata,
-    noReference = false,
-    noMedia = false,
   } = args;
 
   if (contractAddress == null) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
-  
+
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
   }
@@ -33,22 +30,12 @@ export const updateMetadata = (
     throw new Error(ERROR_MESSAGES.METADATA_ID_NOT_INT);
   }
 
-  // Reference and media need to be present or explicitly opted out of
-  if (!noReference && !metadata.reference) {
-    throw new Error(ERROR_MESSAGES.NO_REFERENCE);
-  }
-  if (!noMedia && !metadata.media) {
-    throw new Error(ERROR_MESSAGES.NO_MEDIA);
-  }
-
-
   return {
     contractAddress: contractAddress || mbjs.keys.contractAddress,
     args: {
       metadata_id: metadataId,
-      metadata,
     },
-    methodName: TOKEN_METHOD_NAMES.UPDATE_METADATA,
+    methodName: TOKEN_METHOD_NAMES.LOCK_METADATA,
     gas: GAS,
     deposit: "1",
   };

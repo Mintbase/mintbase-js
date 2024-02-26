@@ -26,13 +26,13 @@ export const createMetadata = (
     noMedia = false,
     noReference = false,
   } = args;
+  
+  if (contractAddress == null) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+  }
 
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
-  }
-
-  if (contractAddress == null) {
-    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   // Reference and media need to be present or explicitly opted out of

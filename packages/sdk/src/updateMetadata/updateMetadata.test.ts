@@ -18,7 +18,7 @@ describe('updateMetadata method tests', () => {
 
     expect(args).toEqual({
       contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
+      methodName: TOKEN_METHOD_NAMES.UPDATE_METADATA,
       args: {
         metadata_id: '1',
         metadata: {reference: "foo", media: "bar"},
@@ -28,7 +28,7 @@ describe('updateMetadata method tests', () => {
     });
   });
 
-    test('createMetadata with no reference', () => {
+  test('updateMetadata with no reference', () => {
     expect(() => {
       updateMetadata({
         contractAddress: contractAddress,
@@ -38,7 +38,7 @@ describe('updateMetadata method tests', () => {
     }).toThrow(ERROR_MESSAGES.NO_REFERENCE);
   });
 
-  test('createMetadata with no media', () => {
+  test('updateMetadata with no media', () => {
     expect(() => {
       updateMetadata({
         contractAddress: contractAddress,

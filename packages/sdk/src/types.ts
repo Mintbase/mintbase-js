@@ -13,6 +13,8 @@ export enum TOKEN_METHOD_NAMES {
   MINT = 'nft_batch_mint',
   CREATE_METADATA = 'create_metadata',
   MINT_ON_METADATA = 'mint_on_metadata',
+  UPDATE_METADATA = 'update_metadata',
+  LOCK_METADATA = 'lock_metadata',
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   BATCH_CHANGE_CREATORS = 'batch_change_creators',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
@@ -258,6 +260,11 @@ export type UpdateMetadataArgs = {
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
 
+export type LockMetadataArgs = {
+  contractAddress?: string;
+  metadataId: string;
+};
+
 export type TokenMetadata = {
   title?: string;
   description?: string;
@@ -424,6 +431,10 @@ export interface MintOnMetadataArgsResponse {
 export interface UpdateMetadataArgsResponse {
   metadata_id: string;
   metadata: TokenMetadata;
+}
+
+export interface LockMetadataArgsResponse {
+  metadata_id: string;
 }
 
 export interface TransferContractOwnershipArgsResponse {

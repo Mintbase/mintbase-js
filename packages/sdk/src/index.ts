@@ -3,6 +3,7 @@ export * from './constants';
 export * from './createMetadata/createMetadata';
 export * from './mintOnMetadata/mintOnMetadata';
 export * from './updateMetadata/updateMetadata';
+export * from './lockMetadata/lockMetadata';
 export * from './execute/execute';
 export * from './execute/execute.utils';
 export * from './transfer/transfer';
