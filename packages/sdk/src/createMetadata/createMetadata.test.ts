@@ -31,8 +31,9 @@ describe('createMetadata method tests', () => {
         minters_allowlist: null,
         max_supply: null,
         last_possible_mint: null,
+        is_dynamic: null,
       },
-      deposit: '2270000000000000000000',
+      deposit: '2950000000000000000000',
       gas: GAS,
     });
   });
@@ -59,8 +60,9 @@ describe('createMetadata method tests', () => {
         minters_allowlist: null,
         max_supply: null,
         last_possible_mint: null,
+        is_dynamic: null,
       },
-      deposit: '2270000000000000000000',
+      deposit: '2950000000000000000000',
       gas: GAS,
     });
   });
@@ -87,8 +89,9 @@ describe('createMetadata method tests', () => {
         minters_allowlist: ['foo', 'bar'],
         max_supply: null,
         last_possible_mint: null,
+        is_dynamic: null,
       },
-      deposit: '2270000000000000000000',
+      deposit: '4550000000000000000000',
       gas: GAS,
     });
   });
@@ -115,8 +118,9 @@ describe('createMetadata method tests', () => {
         minters_allowlist: null,
         max_supply: 10,
         last_possible_mint: null,
+        is_dynamic: null,
       },
-      deposit: '2270000000000000000000',
+      deposit: '2950000000000000000000',
       gas: GAS,
     });
   });
@@ -143,8 +147,38 @@ describe('createMetadata method tests', () => {
         minters_allowlist: null,
         max_supply: null,
         last_possible_mint: '1640995200000000000',
+        is_dynamic: null,
       },
-      deposit: '2270000000000000000000',
+      deposit: '2950000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('createMetadata which for dynamic NFTs', () => {
+    const args = createMetadata({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      isDynamic: true,
+      price: 1,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
+      args: {
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        price: `1${'0'.repeat(24)}`,
+        metadata_id: null,
+        royalty_args: null,
+        minters_allowlist: null,
+        max_supply: null,
+        is_dynamic: true,
+        last_possible_mint: null,
+      },
+      deposit: '2950000000000000000000',
       gas: GAS,
     });
   });
@@ -178,8 +212,9 @@ describe('createMetadata method tests', () => {
         minters_allowlist: null,
         max_supply: null,
         last_possible_mint: null,
+        is_dynamic: null,
       },
-      deposit: '4670000000000000000000',
+      deposit: '5350000000000000000000',
       gas: GAS,
     });
   });

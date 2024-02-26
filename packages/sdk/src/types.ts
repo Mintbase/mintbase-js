@@ -235,6 +235,7 @@ export type CreateMetadataArgs = {
   mintersAllowlist?: string[];
   maxSupply?: number;
   lastPossibleMint?: Date;
+  isDynamic?: boolean;
   price: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
@@ -400,6 +401,7 @@ export interface CreateMetadataArgsResponse {
   minters_allowlist?: string[];
   max_supply?: number;
   last_possible_mint?: string;
+  is_dynamic?: boolean;
   price: string;
 }
 
