@@ -3,11 +3,11 @@ import { ERROR_MESSAGES } from './errorMessages';
 import { Splits } from './types';
 
 export function isStoreV1(name: string): boolean {
-  return name.endsWith(`.${mbjs.keys.mbContract}`);
+  return !mbjs.keys.checkVersions || name.endsWith(`.${mbjs.keys.mbContract}`);
 }
 
 export function isStoreV2(name: string): boolean {
-  return name.endsWith(`.${mbjs.keys.mbContractV2}`);
+  return !mbjs.keys.checkVersions || name.endsWith(`.${mbjs.keys.mbContractV2}`);
 }
 
 export function standardizeString(name: string): string {

@@ -111,6 +111,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   apiKey?: string;
   connectProxyAddress?: string;
   ftAddresses: FtAddresses | '';
+  checkVersions?: boolean;
 }
 
 export interface MbJsKeysObject extends ConfigOptionsObj  {
