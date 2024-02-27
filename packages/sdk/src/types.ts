@@ -468,8 +468,23 @@ export interface FtDepositStorageArgsResponse {
   account_id: string;
 }
 
-export type ExecuteArgsResponse = BatchChangeMintersArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsV1Response |
-MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
-| ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
+export type ExecuteArgsResponse = TransferArgsResponse
+  | ListArgsResponse
+  | MintArgsV1Response
+  | MinterArgsResponse
+  | DeployContractArgsResponse
+  | DelistMultipleArgsResponse
+  | BuyArgsResponse
+  | BuyArgsFtResponse
+  | BurnArgsResponse
+  | TransferContractOwnershipArgsResponse
+  | ExecuteExtraArgsResponse
+  | FtTransferArgsResponse
+  | CreateMetadataArgsResponse
+  | MintOnMetadataArgsResponse
+  | UpdateMetadataArgsResponse
+  | LockMetadataArgsResponse
+  | BatchChangeMintersArgsResponse
+  | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;
