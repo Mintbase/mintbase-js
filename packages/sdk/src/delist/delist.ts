@@ -14,9 +14,8 @@ export const delist = (
   args: DelistArgs,
 ): NearContractCall<DelistArgsResponse> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenIds, marketAddress = mbjs.keys.marketAddress, oldMarket = false } = args;
-
   
-  if (contractAddress == null) {
+  if (!contractAddress) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 

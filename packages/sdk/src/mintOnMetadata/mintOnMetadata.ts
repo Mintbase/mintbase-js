@@ -22,7 +22,7 @@ export const mintOnMetadata = (
     price,
   } = args;
 
-  if (contractAddress == null) {
+  if (!contractAddress) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
