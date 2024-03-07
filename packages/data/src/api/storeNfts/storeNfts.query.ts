@@ -16,6 +16,7 @@ query ${QUERY_OPS_PREFIX}_getStoreNfts(
       minted_timestamp
       price
       media
+      reference
       nft_contract_id
       metadata_id
       title
