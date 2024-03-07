@@ -14,6 +14,7 @@ export interface StoreNftsData {
   minted_timestamp: string;
   price: number | null;
   media: string;
+  reference: string | null;
   nft_contract_id: string;
   metadata_id: string;
   title: string;
