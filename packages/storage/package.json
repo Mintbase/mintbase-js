@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/storage",
-  "version": "0.5.5-beta-prerelease.0",
+  "version": "0.5.6-beta-prerelease.0",
   "description": "Storage functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {

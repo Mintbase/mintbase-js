@@ -50,6 +50,6 @@ export const updateMetadata = (
     },
     methodName: TOKEN_METHOD_NAMES.UPDATE_METADATA,
     gas: GAS,
-    deposit: "1",
+    deposit: '1',
   };
 };
