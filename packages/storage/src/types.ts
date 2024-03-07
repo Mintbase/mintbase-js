@@ -9,7 +9,7 @@ export type ReferenceObject = {
   category?: string;
   tags?: string[];
   extra?: Trait[];
-  history?: string[]
+  history?: string[];
 }
 
 export type Trait = {

@@ -1,5 +1,5 @@
 import { mbjs } from '@mintbase-js/sdk';
-import FormData from "form-data";
+import FormData from 'form-data';
 
 import {
   ANON_USER_WARNING,
@@ -17,7 +17,7 @@ import { ArweaveResponse } from './types';
 export const uploadBuffer = async (
   buffer: Buffer,
   mimeType: string,
-  fileName: string
+  fileName: string,
 ): Promise<ArweaveResponse> => {
 
   if (mbjs.keys.apiKey == MINTBASE_API_ANON_USER) {
@@ -29,20 +29,20 @@ export const uploadBuffer = async (
   }
 
   const formData = new FormData();
-  formData.append("file", buffer, {
+  formData.append('file', buffer, {
     contentType: mimeType,
     filename: fileName,
   });
 
   try {
     const res = await fetch(ARWEAVE_SERVICE_HOST, {
-        method: "POST",
-        headers: {
-        "mb-api-key": mbjs.keys.apiKey || "anon",
+      method: 'POST',
+      headers: {
+        'mb-api-key': mbjs.keys.apiKey || 'anon',
         ...formData.getHeaders(),
-        },
-        body: formData as unknown as BodyInit,
-        redirect: "follow",
+      },
+      body: formData as unknown as BodyInit,
+      redirect: 'follow',
     });
 
     if (res.status !== 200) {

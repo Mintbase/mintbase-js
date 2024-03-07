@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/auth",
-  "version": "0.5.6-beta-prerelease.0",
+  "version": "0.5.6-beta-prerelease.1",
   "description": "Wallet and auth functions for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
