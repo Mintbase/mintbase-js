@@ -1,3 +1,5 @@
+import { mbjs } from '@mintbase-js/sdk';
+
 import {
   ANON_USER_WARNING,
   ARWEAVE_SERVICE_HOST,
@@ -7,42 +9,7 @@ import {
   MINTBASE_API_KEY_HEADER,
   OBJECT_IS_EMPTY_ERROR,
 } from './constants';
-import { mbjs } from '@mintbase-js/sdk';
-
-
-export type ArweaveResponse = {
-  id: string;
-  block: string;
-  name: string;
-  mimeType: string;
-  media_url?: string;
-};
-
-type HttpError = {
-  status: number;
-  response: Response;
-};
-
-type ReferenceObject = {
-  title?: string;
-  description?: string;
-  media?: File | string;
-  media_type?: string;
-  animation_url?: File | string;
-  document?: File | string;
-  attributes?: Trait[];
-  category?: string;
-  tags?: string[];
-  extra?: Trait[];
-  history?: string[]
-}
-
-type Trait = {
-  display_type: string;
-  trait_type: string;
-  value: number;
-}
-
+import { ReferenceObject, ArweaveResponse } from './types';
 
 /**
  * (Browser) upload a file via POST to upload service
@@ -92,6 +59,7 @@ export const uploadFile = async (
     throw error;
   }
 };
+
 /**
  * (Browser) upload a json reference object via POST to upload service
  * @param ReferenceObject A json reference object to upload
