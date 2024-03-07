@@ -14,9 +14,9 @@ export const batchChangeCreators = (
 ): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addCreators = [], removeCreators = [], contractAddress = mbjs.keys.contractAddress } = args;
   
-    if (!contractAddress) {
-      throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
-    }
+  if (!contractAddress) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+  }
 
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);

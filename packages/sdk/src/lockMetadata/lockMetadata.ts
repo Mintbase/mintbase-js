@@ -37,6 +37,6 @@ export const lockMetadata = (
     },
     methodName: TOKEN_METHOD_NAMES.LOCK_METADATA,
     gas: GAS,
-    deposit: "1",
+    deposit: '1',
   };
 };

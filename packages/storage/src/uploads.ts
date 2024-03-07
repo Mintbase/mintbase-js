@@ -34,7 +34,7 @@ type ReferenceObject = {
   category?: string;
   tags?: string[];
   extra?: Trait[];
-  history?: string[]
+  history?: string[];
 }
 
 type Trait = {

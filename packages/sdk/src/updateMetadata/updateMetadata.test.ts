@@ -13,7 +13,7 @@ describe('updateMetadata method tests', () => {
     const args = updateMetadata({
       contractAddress: contractAddress,
       metadataId: '1',
-      metadata: {reference: "foo", media: "bar"},
+      metadata: { reference: 'foo', media: 'bar' },
     });
 
     expect(args).toEqual({
@@ -21,7 +21,7 @@ describe('updateMetadata method tests', () => {
       methodName: TOKEN_METHOD_NAMES.UPDATE_METADATA,
       args: {
         metadata_id: '1',
-        metadata: {reference: "foo", media: "bar"},
+        metadata: { reference: 'foo', media: 'bar' },
       },
       deposit: '1',
       gas: GAS,
@@ -32,8 +32,8 @@ describe('updateMetadata method tests', () => {
     expect(() => {
       updateMetadata({
         contractAddress: contractAddress,
-        metadataId: "1",
-        metadata: { media: "foo" },
+        metadataId: '1',
+        metadata: { media: 'foo' },
       });
     }).toThrow(ERROR_MESSAGES.NO_REFERENCE);
   });
@@ -42,8 +42,8 @@ describe('updateMetadata method tests', () => {
     expect(() => {
       updateMetadata({
         contractAddress: contractAddress,
-        metadataId: "1",
-        metadata: { reference: "foo" },
+        metadataId: '1',
+        metadata: { reference: 'foo' },
       });
     }).toThrow(ERROR_MESSAGES.NO_MEDIA);
   });
