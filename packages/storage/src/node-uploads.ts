@@ -41,8 +41,7 @@ export const uploadBuffer = async (
         "mb-api-key": mbjs.keys.apiKey || "anon",
         ...formData.getHeaders(),
         },
-        // @ts-ignore
-        body: formData,
+        body: formData as unknown as BodyInit,
         redirect: "follow",
     });
 
