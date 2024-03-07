@@ -14,6 +14,7 @@ export const TESTNET_MOCK = {
   network: NEAR_NETWORKS.TESTNET,
   connectProxyAddress: null,
   ftAddresses: { usdc: USDC_ADDRESS.testnet, usdt: USDT_ADDRESS.testnet },
+  checkVersions: true,
 };
 
 
@@ -31,4 +32,5 @@ export const MAINNET_MOCK = {
   network: NEAR_NETWORKS.MAINNET,
   connectProxyAddress: null,
   ftAddresses: { usdc: USDC_ADDRESS.mainnet, usdt: USDT_ADDRESS.mainnet },
+  checkVersions: true,
 };

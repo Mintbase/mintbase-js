@@ -21,13 +21,13 @@ export const mint = (
     noMedia = false,
     noReference = false,
   } = args;
+  
+    if (!contractAddress) {
+      throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+    }
 
   if (!isStoreV1(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V1);
-  }
-
-  if (contractAddress == null) {
-    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   // Reference and media need to be present or explicitly opted out of

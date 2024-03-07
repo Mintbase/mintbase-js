@@ -22,16 +22,17 @@ export const createMetadata = (
     mintersAllowlist = null,
     maxSupply = null,
     lastPossibleMint = null,
+    isDynamic = null,
     noMedia = false,
     noReference = false,
   } = args;
+  
+  if (!contractAddress) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+  }
 
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
-  }
-
-  if (contractAddress == null) {
-    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   // Reference and media need to be present or explicitly opted out of
@@ -58,12 +59,14 @@ export const createMetadata = (
       minters_allowlist: mintersAllowlist,
       max_supply: maxSupply,
       last_possible_mint: lastPossibleMint ? (+lastPossibleMint * 1e6).toString() : null,
+      is_dynamic: isDynamic,
       price: new BN(price * 1e6).mul(new BN(`1${'0'.repeat(18)}`)).toString(),
     },
     methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
     gas: GAS,
     deposit: createMetadataDeposit({
       nRoyalties: !royalties ? 0 : Object.keys(royalties)?.length,
+      nMinters: !mintersAllowlist? 0 : mintersAllowlist.length,
       metadata,
     }),
   };
@@ -71,17 +74,20 @@ export const createMetadata = (
 
 export function createMetadataDeposit({
   nRoyalties,
+  nMinters,
   metadata,
 }: {
   nRoyalties: number;
+  nMinters: number;
   metadata: TokenMetadata;
 }): string {
   const metadataBytesEstimate = JSON.stringify(metadata).length;
-
-  const totalBytes = STORAGE_BYTES.MINTING_BASE +
+  // storage + nRoyalties * common + nMinters * common + 2 * common
+  const totalBytes = 2 * STORAGE_BYTES.COMMON +
     STORAGE_BYTES.MINTING_FEE +
     metadataBytesEstimate +
-    STORAGE_BYTES.COMMON * nRoyalties;
+    STORAGE_BYTES.COMMON * nRoyalties +
+    STORAGE_BYTES.COMMON * nMinters;
 
   return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
 }

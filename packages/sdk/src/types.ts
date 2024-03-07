@@ -13,6 +13,8 @@ export enum TOKEN_METHOD_NAMES {
   MINT = 'nft_batch_mint',
   CREATE_METADATA = 'create_metadata',
   MINT_ON_METADATA = 'mint_on_metadata',
+  UPDATE_METADATA = 'update_metadata',
+  LOCK_METADATA = 'lock_metadata',
   BATCH_CHANGE_MINTERS = 'batch_change_minters',
   BATCH_CHANGE_CREATORS = 'batch_change_creators',
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
@@ -109,6 +111,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   apiKey?: string;
   connectProxyAddress?: string;
   ftAddresses: FtAddresses | '';
+  checkVersions?: boolean;
 }
 
 export interface MbJsKeysObject extends ConfigOptionsObj  {
@@ -235,6 +238,7 @@ export type CreateMetadataArgs = {
   mintersAllowlist?: string[];
   maxSupply?: number;
   lastPossibleMint?: Date;
+  isDynamic?: boolean;
   price: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
@@ -247,6 +251,19 @@ export type MintOnMetadataArgs = {
   amount?: number;
   tokenIds?: string[];
   price: number;
+};
+
+export type UpdateMetadataArgs = {
+  contractAddress?: string;
+  metadataId: string;
+  metadata: TokenMetadata;
+  noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
+  noReference?: boolean; // explicit opt-in to NFT without reference
+};
+
+export type LockMetadataArgs = {
+  contractAddress?: string;
+  metadataId: string;
 };
 
 export type TokenMetadata = {
@@ -400,6 +417,7 @@ export interface CreateMetadataArgsResponse {
   minters_allowlist?: string[];
   max_supply?: number;
   last_possible_mint?: string;
+  is_dynamic?: boolean;
   price: string;
 }
 
@@ -409,6 +427,15 @@ export interface MintOnMetadataArgsResponse {
   num_to_mint?: number; // panic if neither specified!
   token_ids?: string[]; // panic if neither specified!
   split_owners?: Splits;
+}
+
+export interface UpdateMetadataArgsResponse {
+  metadata_id: string;
+  metadata: TokenMetadata;
+}
+
+export interface LockMetadataArgsResponse {
+  metadata_id: string;
 }
 
 export interface TransferContractOwnershipArgsResponse {
@@ -442,8 +469,23 @@ export interface FtDepositStorageArgsResponse {
   account_id: string;
 }
 
-export type ExecuteArgsResponse = BatchChangeMintersArgsResponse | TransferArgsResponse | ListArgsResponse | MintArgsV1Response |
-MinterArgsResponse | DeployContractArgsResponse | DelistMultipleArgsResponse | BuyArgsResponse | BuyArgsFtResponse | BurnArgsResponse | TransferContractOwnershipArgsResponse
-| ExecuteExtraArgsResponse | FtTransferArgsResponse | Record<string, unknown>;
+export type ExecuteArgsResponse = TransferArgsResponse
+  | ListArgsResponse
+  | MintArgsV1Response
+  | MinterArgsResponse
+  | DeployContractArgsResponse
+  | DelistMultipleArgsResponse
+  | BuyArgsResponse
+  | BuyArgsFtResponse
+  | BurnArgsResponse
+  | TransferContractOwnershipArgsResponse
+  | ExecuteExtraArgsResponse
+  | FtTransferArgsResponse
+  | CreateMetadataArgsResponse
+  | MintOnMetadataArgsResponse
+  | UpdateMetadataArgsResponse
+  | LockMetadataArgsResponse
+  | BatchChangeMintersArgsResponse
+  | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;

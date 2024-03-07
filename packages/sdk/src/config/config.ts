@@ -42,6 +42,7 @@ const startupConfig: MbJsKeysObject = {
   debugMode: isDebugMode ? true : false,
   ftAddresses: isProcessEnv ? FT_ADDRESSES[process.env.NEAR_NETWORK] : FT_ADDRESSES[NEAR_NETWORKS.MAINNET],
   isSet:  isProcessEnv ? true : false,
+  checkVersions: true,
 };
 
 // config is scoped globally as to avoid version mismatches from conflicting
@@ -64,6 +65,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
     connectProxyAddress: null,
     ftAddresses: FT_ADDRESSES[configObj.network],
     isSet: true,
+    checkVersions: true,
   };
 
   config.network = globalConfig.network;

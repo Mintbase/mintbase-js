@@ -22,16 +22,16 @@ export const mintOnMetadata = (
     price,
   } = args;
 
+  if (!contractAddress) {
+    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+  }
+
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
   }
 
   if (!isIntString(metadataId)) {
     throw new Error(ERROR_MESSAGES.METADATA_ID_NOT_INT);
-  }
-
-  if (contractAddress == null) {
-    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (tokenIds && tokenIds.length === 0) {

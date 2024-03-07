@@ -13,13 +13,13 @@ export const batchChangeCreators = (
   args: BatchChangeCreatorsArgs,
 ): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addCreators = [], removeCreators = [], contractAddress = mbjs.keys.contractAddress } = args;
+  
+    if (!contractAddress) {
+      throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+    }
 
   if (!isStoreV2(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V2);
-  }
-
-  if (contractAddress == null) {
-    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (addCreators.length === 0 && removeCreators.length === 0) {

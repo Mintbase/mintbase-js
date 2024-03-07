@@ -13,13 +13,13 @@ export const batchChangeMinters = (
   args: BatchChangeMintersArgs,
 ): NearContractCall<BatchChangeMintersArgsResponse> => {
   const { addMinters = [], removeMinters = [], contractAddress = mbjs.keys.contractAddress } = args;
+  
+    if (!contractAddress) {
+      throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
+    }
 
   if (!isStoreV1(contractAddress)) {
     throw new Error(ERROR_MESSAGES.ONLY_V1);
-  }
-
-  if (contractAddress == null) {
-    throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 
   if (addMinters.length === 0 && removeMinters.length === 0) {

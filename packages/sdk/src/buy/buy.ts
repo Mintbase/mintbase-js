@@ -14,7 +14,7 @@ import { BuyArgs, BuyArgsFtResponse, BuyArgsResponse, FT_METHOD_NAMES, MARKET_ME
 export const buy = (args: BuyArgs): NearContractCall<BuyArgsResponse | BuyArgsFtResponse> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenId, referrerId = null, marketId = mbjs.keys.marketAddress, price, affiliateAccount } = args;
 
-  if (contractAddress == null) {
+  if (!contractAddress) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 

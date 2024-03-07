@@ -11,7 +11,7 @@ import { ERROR_MESSAGES } from '../errorMessages';
  */
 export const burn = ({ tokenIds, contractAddress = mbjs.keys.contractAddress }: BurnArgs): NearContractCall<BurnArgsResponse> => {
 
-  if (contractAddress == null) {
+  if (!contractAddress) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 

@@ -13,7 +13,7 @@ import { ListArgs, ListArgsResponse, MARKET_METHOD_NAMES, NearContractCall } fro
 export const list = (args: ListArgs): NearContractCall<ListArgsResponse> => {
   const { contractAddress = mbjs.keys.contractAddress, tokenId, marketAddress = mbjs.keys.marketAddress, price } = args;
 
-  if (contractAddress == null) {
+  if (!contractAddress) {
     throw new Error(ERROR_MESSAGES.CONTRACT_ADDRESS);
   }
 

@@ -34,6 +34,7 @@ type ReferenceObject = {
   category?: string;
   tags?: string[];
   extra?: Trait[];
+  history?: string[]
 }
 
 type Trait = {
@@ -74,7 +75,7 @@ export const uploadFile = async (
 
     if (request.status !== 200) {
       throw new Error(
-        `Error uploading via arweave service: ${await request.json()}`,
+        `Error uploading via arweave service: ${JSON.stringify(await request.json())}`,
       );
     }
 
@@ -117,7 +118,7 @@ export const uploadReference = async (
 
     if (request.status !== 200) {
       throw new Error(
-        `Error uploading via arweave service: ${await request.json()}`,
+        `Error uploading via arweave service: ${JSON.stringify(await request.json())}`,
       );
     }
 

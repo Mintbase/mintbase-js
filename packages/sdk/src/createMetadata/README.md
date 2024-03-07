@@ -8,7 +8,7 @@ The reference material is typically uploaded to IPFS or Arweave and can be easil
 
 Royalties can be configured to provide a customized flow of funds as explained below.
 
-You can restrict minting via an allowlist of NEAR account IDs that are allowed to mint (`minter_allowslist`), via a maximum supply that will be enforced by the smart contract (`max_supply`), and via an expiry date (`last_possible_mint`).
+You can restrict minting via an allowlist of NEAR account IDs that are allowed to mint (`mintersAllowslist`), via a maximum supply that will be enforced by the smart contract (`maxSupply`), and via an expiry date (`lastPossibleMint`). You can opt-in to making an NFT dynamic (`isDynamic`) to allow [future updates](../updateMetadata/README.md), and [lock the metadata](../lockMetadata/README.md) at a later time.
 
 The `nftContactId` can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
 
@@ -44,6 +44,8 @@ export type CreateMetadataArgs =  {
   noMedia?: boolean;
   // explicit opt-in to NFT without reference
   noReference?: boolean;
+  // explicit opt-in to make the NFT dynamic and allow future updates
+  isDynamic?: boolean;
 };
 
 export type TokenMetadata = {
@@ -65,7 +67,7 @@ export type TokenMetadata = {
 ## React example
 
 Example usage of mint method in a hypothetical React component:
-{% code title="MintComponent.ts" overflow="wrap" lineNumbers="true" %}
+{% code title="CreateMetadataComponent.ts" overflow="wrap" lineNumbers="true" %}
 
 ```typescript
 import { useState } from 'react';
