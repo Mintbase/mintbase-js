@@ -10,7 +10,6 @@ import {
   OBJECT_IS_EMPTY_ERROR,
 } from './constants';
 import { ReferenceObject, ArweaveResponse } from './types';
-import { mbjs } from '@mintbase-js/sdk';
 
 /**
  * (Browser) upload a file via POST to upload service
