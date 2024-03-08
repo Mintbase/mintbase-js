@@ -1,5 +1,6 @@
 export * from './accountsByPublicKey/accountsByPublicKey';
 export * from './attributesByMetaId/attributesByMetaId';
+export * from './dynamicNftMetadata/dynamicNftMetadata';
 export * from './keyActivity/keyActivity';
 export * from './metadataByMetadataId/metadataByMetadataId';
 export * from './nearPrice/nearPrice';
