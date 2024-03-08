@@ -1,4 +1,4 @@
-[//]: # `{ "title": "accountsByPublicKey", "order": "2.0.18" }`
+[//]: # `{ "title": "accountsByPublicKey", "order": "2.0.19" }`
 
 # accountsByPublicKey
 

@@ -62,6 +62,7 @@ export interface ReferenceBlob {
   media_hash?: string;
   description?: string;
   animation_url?: string;
+  history?: string[];
 }
 
 export interface UserTokensResult {
