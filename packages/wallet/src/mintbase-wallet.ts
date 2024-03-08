@@ -7,6 +7,7 @@ import type {
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
+import { requestSignIn } from './signIn';
 
 export enum TransactionSuccessEnum {
   MINT = 'mint',
@@ -118,7 +119,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       return existingAccounts;
     }
 
-    await state.wallet.requestSignIn({
+    await requestSignIn({
       methodNames: [],
       successUrl: successUrl || href,
       failureUrl: failureUrl || href,
