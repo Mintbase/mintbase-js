@@ -6,7 +6,7 @@ query ${QUERY_OPS_PREFIX}_dynamicNftMetadata(
     $contractAddress: String!
     $internalMetadataId: numeric!
     $isActive: Boolean!
-  ) @cached {
+  ) {
     nft_metadata(
       where: {
         nft_contract_id: { _eq: $contractAddress }
