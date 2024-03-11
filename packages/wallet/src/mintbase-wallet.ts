@@ -77,6 +77,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const searchParams = new URL(window.location.href);
 
       const acc = searchParams.searchParams.get('account_id');
+      const allKeys = searchParams.searchParams.get('all_keys');
 
       if (acc && acc?.length > 0) {
         localStorage.setItem('mintbase-wallet:callback_url', callback);
@@ -85,7 +86,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
           'mintbase-wallet_wallet_auth_key',
           JSON.stringify({
             accountId: acc as string,
-            allKeys: [],
+            allKeys: [allKeys],
           }),
         );
       }
