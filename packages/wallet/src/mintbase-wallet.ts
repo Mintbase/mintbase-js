@@ -86,7 +86,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
           'mintbase-wallet_wallet_auth_key',
           JSON.stringify({
             accountId: acc as string,
-            allKeys: [allKeys],
+            allKeys: allKeys ? [allKeys] : [],
           }),
         );
       }
