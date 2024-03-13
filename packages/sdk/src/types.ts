@@ -68,8 +68,8 @@ export enum GRAPHQL_ENDPOINTS  {
 }
 
 export enum RPC_ENDPOINTS  {
-  mainnet = 'https://rpc.mainnet.near.org',
-  testnet = 'https://rpc.testnet.near.org',
+  mainnet = 'https://g.w.lavanet.xyz:443/gateway/near/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
+  testnet = 'https://g.w.lavanet.xyz:443/gateway/neart/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
 }
 
 export enum USDC_ADDRESS {
