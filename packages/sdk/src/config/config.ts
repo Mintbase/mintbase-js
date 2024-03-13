@@ -58,7 +58,8 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   const globalConfig: MbJsKeysObject = {
     network: configObj.network as Network,
     graphqlUrl: GRAPHQL_ENDPOINTS[configObj.network],
-    nearRpcUrl: NEAR_RPC_ENDPOINTS[configObj.network],
+    rpc: configObj.rpc,
+    nearRpcUrl: configObj.rpc ? RPC_ENDPOINTS[configObj.rpc][configObj.network]: NEAR_RPC_ENDPOINTS[configObj.network],
     callbackUrl: configObj.callbackUrl,
     contractAddress: configObj.contractAddress ?? MINTBASE_CONTRACTS[configObj.network],
     marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
@@ -73,6 +74,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   };
 
   config.network = globalConfig.network;
+  config.rpc = globalConfig.rpc;
   config.graphqlUrl = globalConfig.graphqlUrl;
   config.callbackUrl = globalConfig.callbackUrl;
   config.contractAddress = globalConfig.contractAddress;

@@ -104,6 +104,7 @@ export type ConfigOptions = {
   callbackUrl?: string;
   apiKey?: string;
   connectProxyAddress?: string;
+  rpc?: 'lava'| 'near';
 }
 
 export interface ConfigOptionsObj extends ConfigOptions {
