@@ -9,6 +9,7 @@ describe('test mbjs namespace', () => {
 
   it('should set configuration with process.env TESTNET', () => {
     process.env.NEAR_NETWORK = NEAR_NETWORKS.TESTNET;
+    process.env.RPC = 'near';
     process.env.CONTRACT_ADDRESS = TESTNET_MOCK.contractAddress;
     process.env.CALLBACK_URL = TESTNET_MOCK.callbackUrl;
 
@@ -22,6 +23,7 @@ describe('test mbjs namespace', () => {
 
   it('should set configuration with process.env MAINNET', () => {
     process.env.NEAR_NETWORK = NEAR_NETWORKS.MAINNET;
+    process.env.RPC = 'near';
     process.env.CONTRACT_ADDRESS = MAINNET_MOCK.contractAddress;
     process.env.CALLBACK_URL = MAINNET_MOCK.callbackUrl;
 

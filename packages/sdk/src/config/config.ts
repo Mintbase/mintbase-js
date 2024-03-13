@@ -22,7 +22,10 @@ export const isDebugMode = Boolean(typeof window == 'undefined' && process?.env?
 export const hasContractAddress =  Boolean(typeof window == 'undefined' && process?.env?.CONTRACT_ADDRESS);
 export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
 
+const RPC_noRPCenv = isProcessEnv ? NEAR_RPC_ENDPOINTS[process.env.NEAR_NETWORK] :  NEAR_RPC_ENDPOINTS[NEAR_NETWORKS.MAINNET];
+
 export const DEFAULT_API_KEY = 'anon';
+
 
 const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEAR_NETWORK] : MINTBASE_CONTRACTS[NEAR_NETWORKS.MAINNET];
 
@@ -31,7 +34,7 @@ const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEA
 const startupConfig: MbJsKeysObject = {
   network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.MAINNET,
   graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.MAINNET],
-  nearRpcUrl:  isProcessEnv && hasRpcEnv ? RPC_ENDPOINTS[process.env.RPC][process.env.NEAR_NETWORK] : NEAR_RPC_ENDPOINTS[NEAR_NETWORKS.MAINNET],
+  nearRpcUrl:  isProcessEnv && hasRpcEnv ? RPC_ENDPOINTS[process.env.RPC][process.env.NEAR_NETWORK] : RPC_noRPCenv,
   callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '',
   // will check for process.env.CONTRACT_ADDRESS if not will setup mintbase contract according to the network, if not will setup testnet contract
   contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
@@ -55,7 +58,7 @@ export const setGlobalEnv = (configObj: ConfigOptions): MbJsKeysObject => {
   const globalConfig: MbJsKeysObject = {
     network: configObj.network as Network,
     graphqlUrl: GRAPHQL_ENDPOINTS[configObj.network],
-    nearRpcUrl: RPC_ENDPOINTS[configObj.network],
+    nearRpcUrl: NEAR_RPC_ENDPOINTS[configObj.network],
     callbackUrl: configObj.callbackUrl,
     contractAddress: configObj.contractAddress ?? MINTBASE_CONTRACTS[configObj.network],
     marketAddress: MARKET_CONTRACT_ADDRESS[configObj.network],
