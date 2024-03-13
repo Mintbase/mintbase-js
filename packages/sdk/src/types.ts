@@ -67,9 +67,14 @@ export enum GRAPHQL_ENDPOINTS  {
   testnet = 'https://interop-testnet.hasura.app/v1/graphql',
 }
 
-export enum RPC_ENDPOINTS  {
+export enum LAVA_RPC_ENDPOINTS  {
   mainnet = 'https://g.w.lavanet.xyz:443/gateway/near/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
   testnet = 'https://g.w.lavanet.xyz:443/gateway/neart/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
+}
+
+export enum NEAR_RPC_ENDPOINTS  {
+  mainnet = 'https://rpc.mainnet.near.org',
+  testnet = 'https://rpc.testnet.near.org',
 }
 
 export enum USDC_ADDRESS {
@@ -106,7 +111,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS;
   mbContractV2?: MINTBASE_CONTRACTS_V2;
-  nearRpcUrl: RPC_ENDPOINTS | '';
+  nearRpcUrl: NEAR_RPC_ENDPOINTS | LAVA_RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
   connectProxyAddress?: string;

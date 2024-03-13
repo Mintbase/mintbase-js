@@ -1,7 +1,7 @@
 /**
  * mbjs Namespace to set the config vars on all mintbase-js packages, as also retrieve the global keys in any part of the application.
  */
-import { FT_ADDRESSES } from '../constants';
+import { FT_ADDRESSES, RPC_ENDPOINTS } from '../constants';
 import {
   MbJsKeysObject,
   MARKET_CONTRACT_ADDRESS,
@@ -11,12 +11,13 @@ import {
   NEAR_NETWORKS,
   ConfigOptions,
   GRAPHQL_ENDPOINTS,
-  RPC_ENDPOINTS,
+  NEAR_RPC_ENDPOINTS,
 } from '../types';
 
 // to create a new key you have to specify here on the configuration and MbJsKeysObject + add on the setGlobalEnv
 
 export const isProcessEnv = Boolean(typeof window == 'undefined' && process?.env?.NEAR_NETWORK);
+export const hasRpcEnv = Boolean(typeof window == 'undefined' && process?.env?.RPC);
 export const isDebugMode = Boolean(typeof window == 'undefined' && process?.env?.NEAR_NETWORK === NEAR_NETWORKS.TESTNET);
 export const hasContractAddress =  Boolean(typeof window == 'undefined' && process?.env?.CONTRACT_ADDRESS);
 export const hasCallbackUrl =  Boolean(typeof window == 'undefined' && process?.env?.CALLBACK_URL);
@@ -30,7 +31,7 @@ const defaultContractAddress = isProcessEnv ? MINTBASE_CONTRACTS[process.env.NEA
 const startupConfig: MbJsKeysObject = {
   network: isProcessEnv ? process.env.NEAR_NETWORK : NEAR_NETWORKS.MAINNET,
   graphqlUrl: isProcessEnv ? GRAPHQL_ENDPOINTS[process.env.NEAR_NETWORK] : GRAPHQL_ENDPOINTS[NEAR_NETWORKS.MAINNET],
-  nearRpcUrl:  isProcessEnv  ? RPC_ENDPOINTS[process.env.NEAR_NETWORK] : RPC_ENDPOINTS[NEAR_NETWORKS.MAINNET],
+  nearRpcUrl:  isProcessEnv && hasRpcEnv ? RPC_ENDPOINTS[process.env.RPC][process.env.NEAR_NETWORK] : NEAR_RPC_ENDPOINTS[NEAR_NETWORKS.MAINNET],
   callbackUrl: hasCallbackUrl ? process.env.CALLBACK_URL : '',
   // will check for process.env.CONTRACT_ADDRESS if not will setup mintbase contract according to the network, if not will setup testnet contract
   contractAddress: hasContractAddress ? process.env.CONTRACT_ADDRESS : defaultContractAddress,
