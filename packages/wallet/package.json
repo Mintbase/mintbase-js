@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/wallet",
-  "version": "0.5.6-beta-prerelease.6",
+  "version": "0.5.6-beta-prerelease.7",
   "description": "Mintbase Wallet",
   "main": "lib/index.js",
   "keywords": [
