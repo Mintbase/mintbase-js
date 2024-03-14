@@ -15,6 +15,7 @@ export type FtMetadata = {
 interface FtMetadataProps {
   contractId: string;
   network?: Network;
+  rpc?: 'lava' | 'near';
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,11 +52,12 @@ function isStringOrNull(x: any): x is string | null {
   return false;
 }
 
-export const ftMetadata = async ({ contractId, network }: FtMetadataProps): Promise<FtMetadata | null> => {
+export const ftMetadata = async ({ contractId, network, rpc }: FtMetadataProps): Promise<FtMetadata | null> => {
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',
     network: network,
+    rpc: rpc,
   });
 
   return isFtMetadata(res) ? res : null;

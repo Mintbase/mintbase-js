@@ -46,6 +46,7 @@ const getImageUrl = (image: ProfileImage): string | null => {
 export const nearSocialProfile = async (
   accountId: string,
   network?: Network,
+  rpc?: 'near' | 'lava',
 ): Promise<NearSocialProfile> => {
 
   const finalNetwork = network ||  mbjs.keys.network;
@@ -62,6 +63,7 @@ export const nearSocialProfile = async (
         keys: [`${accountId}/profile/**`],
       },
       network,
+      rpc,
     });
 
 
