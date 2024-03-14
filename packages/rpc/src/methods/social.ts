@@ -1,4 +1,4 @@
-import { callViewMethod } from '../util';
+import { RPC_OPTIONS, callViewMethod } from '../util';
 import { Network, mbjs } from '@mintbase-js/sdk';
 
 export const NEAR_SOCIAL_IPFS_GATEWAY = 'https://ipfs.near.social/ipfs/';
@@ -46,7 +46,7 @@ const getImageUrl = (image: ProfileImage): string | null => {
 export const nearSocialProfile = async (
   accountId: string,
   network?: Network,
-  rpc?: 'near' | 'lava',
+  rpc?: RPC_OPTIONS,
 ): Promise<NearSocialProfile> => {
 
   const finalNetwork = network ||  mbjs.keys.network;

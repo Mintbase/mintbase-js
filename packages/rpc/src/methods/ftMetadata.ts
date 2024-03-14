@@ -1,5 +1,5 @@
 import { Network } from '@mintbase-js/sdk';
-import { callViewMethod } from '../util';
+import { RPC_OPTIONS, callViewMethod } from '../util';
 
 export type FtMetadata = {
   spec: string;
@@ -15,7 +15,7 @@ export type FtMetadata = {
 interface FtMetadataProps {
   contractId: string;
   network?: Network;
-  rpc?: 'lava' | 'near';
+  rpc?: RPC_OPTIONS;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

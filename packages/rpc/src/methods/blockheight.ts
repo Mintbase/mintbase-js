@@ -1,7 +1,7 @@
 import { Network } from '@mintbase-js/sdk';
-import { requestFromNearRpc } from '../util';
+import { RPC_OPTIONS, requestFromNearRpc } from '../util';
 
-export const getBlockHeight = async (network?: Network,  rpc?: 'near' | 'lava'): Promise<number> => {
+export const getBlockHeight = async (network?: Network,  rpc?: RPC_OPTIONS): Promise<number> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',

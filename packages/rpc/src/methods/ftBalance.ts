@@ -1,11 +1,11 @@
 import { Network } from '@mintbase-js/sdk';
-import { callViewMethod } from '../util';
+import { RPC_OPTIONS, callViewMethod } from '../util';
 
 interface FTBalanceProps {
   contractId: string;
   accountId: string;
   network?: Network;
-  rpc?: 'lava' | 'near';
+  rpc?: RPC_OPTIONS;
 }
 
 export const ftBalance = async ({ contractId, accountId, network, rpc }: FTBalanceProps): Promise<string> => {

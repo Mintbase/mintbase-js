@@ -1,5 +1,5 @@
 import { Network } from '@mintbase-js/sdk';
-import { callViewMethod } from '../util';
+import { RPC_OPTIONS, callViewMethod } from '../util';
 
 type Numerator = {
   numerator: number;
@@ -45,7 +45,7 @@ interface  PayoutsProps {
   contractId: string;
   tokenId: string;
   network?: Network;
-  rpc?: 'lava' | 'near';
+  rpc?: RPC_OPTIONS;
 }
 
 export const payouts = async ({ contractId, tokenId, network, rpc }: PayoutsProps): Promise<UiPayout> => {

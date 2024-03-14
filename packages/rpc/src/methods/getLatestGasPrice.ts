@@ -1,7 +1,7 @@
 import { Network } from '@mintbase-js/sdk';
-import { requestFromNearRpc } from '../util';
+import { RPC_OPTIONS, requestFromNearRpc } from '../util';
 
-export const getLatestGasPrice = async (network?: Network, rpc?: 'near' | 'lava'): Promise<string> => {
+export const getLatestGasPrice = async (network?: Network, rpc?: RPC_OPTIONS): Promise<string> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
