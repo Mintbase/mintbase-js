@@ -34,7 +34,7 @@ export const callViewMethod = async <T>({
   method: string;
   args?: Record<string, any>;
   network?: string;
-  rpc?: 'lava' | 'near' | 'beta';
+  rpc?: RPC_OPTIONS;
 }): Promise<T> => {
   const args_base64 = args
     ? Buffer.from(JSON.stringify(args), 'utf-8').toString('base64')
