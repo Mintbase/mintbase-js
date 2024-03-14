@@ -16,7 +16,8 @@ This method will work on both server side and client side.
     const config = {
         network: 'testnet',
         callbackUrl: 'https://mintbase.xyz/success',
-        contractAddress: 'buddha.mintspace2.testnet'
+        contractAddress: 'buddha.mintspace2.testnet',
+        rpc: 'near'
     }
 
   mbjs.config(config)
