@@ -5,13 +5,15 @@ interface FTBalanceProps {
   contractId: string;
   accountId: string;
   network?: Network;
+  rpc?: 'lava' | 'near';
 }
 
-export const ftBalance = async ({ contractId, accountId, network }: FTBalanceProps): Promise<string> => {
+export const ftBalance = async ({ contractId, accountId, network, rpc }: FTBalanceProps): Promise<string> => {
   return callViewMethod<string>({
     contractId,
     method: 'ft_balance_of',
     args: { account_id: accountId },
     network: network,
+    rpc,
   });
 };
