@@ -119,7 +119,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS;
   mbContractV2?: MINTBASE_CONTRACTS_V2;
-  nearRpcUrl: NEAR_RPC_ENDPOINTS | LAVA_RPC_ENDPOINTS | '';
+  nearRpcUrl: NEAR_RPC_ENDPOINTS | LAVA_RPC_ENDPOINTS | NEAR_BETA_RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
   connectProxyAddress?: string;

@@ -1,4 +1,4 @@
-import { mbjs, NEAR_RPC_ENDPOINTS, RPC_ENDPOINTS } from '@mintbase-js/sdk';
+import { mbjs, RPC_OPTIONS, RPC_ENDPOINTS, NEAR_RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import fetch from 'cross-fetch';
 
 export const requestFromNearRpc = async (
@@ -30,7 +30,7 @@ export const callViewMethod = async <T>({
   method: string;
   args?: Record<string, any>;
   network?: string;
-  rpc?: 'lava' | 'near';
+  rpc?: RPC_OPTIONS;
 }): Promise<T> => {
   const args_base64 = args
     ? Buffer.from(JSON.stringify(args), 'utf-8').toString('base64')
