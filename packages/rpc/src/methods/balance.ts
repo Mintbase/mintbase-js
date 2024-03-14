@@ -1,8 +1,8 @@
 import BN from 'bn.js';
-import { requestFromNearRpc } from '../util';
+import { RPC_OPTIONS, requestFromNearRpc } from '../util';
 import { Network } from '@mintbase-js/sdk';
 
-export const getBalance = async (accountId: string, network?: Network): Promise<BN> => {
+export const getBalance = async (accountId: string, network?: Network, rpc?: RPC_OPTIONS): Promise<BN> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
@@ -12,7 +12,7 @@ export const getBalance = async (accountId: string, network?: Network): Promise<
       finality: 'final',
       account_id: accountId,
     },
-  }, network);
+  }, network, rpc);
   const balanceString = res?.result?.amount;
   if (!balanceString) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);

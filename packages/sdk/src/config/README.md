@@ -43,6 +43,7 @@ Most @mintbase-js/data and @mintbase-js/sdk methods will accept network as an op
   NEAR_NETWORK=testnet
   CALLBACK_URL=https://mintbase.xyz/success
   CONTRACT_ADDRESS=buddha.mintspace2.testnet
+  RPC=lava
 ```
 
 These variables will only work server-side due to limitations of process.env on client-side, however depending on what bundler you are using you may be able to set env variables at build time.

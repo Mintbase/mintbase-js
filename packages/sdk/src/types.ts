@@ -77,6 +77,11 @@ export enum NEAR_RPC_ENDPOINTS  {
   testnet = 'https://rpc.testnet.near.org',
 }
 
+export enum NEAR_BETA_RPC_ENDPOINTS  {
+  mainnet = 'https://beta.rpc.mainnet.near.org',
+  testnet = 'https://beta.rpc.testnet.near.org',
+}
+
 export enum USDC_ADDRESS {
   mainnet = 'a0b86991c6218b36c1d19d4a2e9eb0ce3606eb48.factory.bridge.near',
   testnet = 'usdc.fakes.testnet',
@@ -98,13 +103,15 @@ export type FtAddresses = {
   usdt: USDT_ADDRESS;
 }
 
+export type RPC_OPTIONS  = 'lava' | 'near' | 'beta'
+
 export type ConfigOptions = {
   network?: Network | string;
   contractAddress?: string;
   callbackUrl?: string;
   apiKey?: string;
   connectProxyAddress?: string;
-  rpc?: 'lava'| 'near';
+  rpc?: RPC_OPTIONS;
 }
 
 export interface ConfigOptionsObj extends ConfigOptions {
@@ -112,7 +119,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   marketAddress?: MARKET_CONTRACT_ADDRESS | '';
   mbContract?: MINTBASE_CONTRACTS;
   mbContractV2?: MINTBASE_CONTRACTS_V2;
-  nearRpcUrl: NEAR_RPC_ENDPOINTS | LAVA_RPC_ENDPOINTS | '';
+  nearRpcUrl: NEAR_RPC_ENDPOINTS | LAVA_RPC_ENDPOINTS | NEAR_BETA_RPC_ENDPOINTS | '';
   debugMode?: boolean;
   apiKey?: string;
   connectProxyAddress?: string;

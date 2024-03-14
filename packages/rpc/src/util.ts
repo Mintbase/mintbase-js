@@ -1,13 +1,18 @@
-import { mbjs, RPC_ENDPOINTS } from '@mintbase-js/sdk';
+import { mbjs, RPC_ENDPOINTS, NEAR_RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import fetch from 'cross-fetch';
+
+
+export type RPC_OPTIONS  = 'lava' | 'near' | 'beta'
+
 
 export const requestFromNearRpc = async (
   body: Record<string, any>,
   network?: string,
+  rpc?:  RPC_OPTIONS,
 ): Promise<Record<string, any> | undefined> => {
 
-  const fetchUrl = RPC_ENDPOINTS[mbjs.keys.network] || mbjs.keys.nearRpcUrl;
-  const rpcAddress = network ? RPC_ENDPOINTS[network] : fetchUrl;
+  const fetchUrl =  mbjs.keys.nearRpcUrl || RPC_ENDPOINTS[mbjs.keys.rpc][mbjs.keys.network]  || NEAR_RPC_ENDPOINTS[mbjs.keys.network];
+  const rpcAddress = network && rpc ? RPC_ENDPOINTS[rpc][network] : fetchUrl;
 
   const res = await fetch(rpcAddress, {
     method: 'POST',
@@ -23,11 +28,13 @@ export const callViewMethod = async <T>({
   method,
   args,
   network,
+  rpc,
 }: {
   contractId: string;
   method: string;
   args?: Record<string, any>;
   network?: string;
+  rpc?: RPC_OPTIONS;
 }): Promise<T> => {
   const args_base64 = args
     ? Buffer.from(JSON.stringify(args), 'utf-8').toString('base64')
@@ -44,7 +51,7 @@ export const callViewMethod = async <T>({
       method_name: method,
       args_base64,
     },
-  }, network);
+  }, network, rpc);
 
   if (res?.error) {
     throw res.error;

@@ -20,7 +20,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "^0.5.6-beta-prerelease.6",
+    "@mintbase-js/sdk": "0.5.6-rpc-fix-1aec566.0",
     "@types/node": "18.11.9",
     "bn.js": "^5.2.1",
     "cross-fetch": "^4.0.0"

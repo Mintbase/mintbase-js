@@ -1,7 +1,7 @@
 import { Network } from '@mintbase-js/sdk';
-import { requestFromNearRpc } from '../util';
+import { RPC_OPTIONS, requestFromNearRpc } from '../util';
 
-export const accountExists = async (accountId: string, network?: Network): Promise<boolean> => {
+export const accountExists = async (accountId: string, network?: Network, rpc?: RPC_OPTIONS): Promise<boolean> => {
   const response = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
@@ -11,7 +11,7 @@ export const accountExists = async (accountId: string, network?: Network): Promi
       finality: 'final',
       account_id: accountId,
     },
-  }, network);
+  }, network, rpc);
 
   if (response?.error) {
     return false;
