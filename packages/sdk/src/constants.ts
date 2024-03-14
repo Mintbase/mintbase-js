@@ -55,7 +55,6 @@ export const FT_ADDRESSES: { testnet: FtAddresses; mainnet: FtAddresses } = {
   },
 };
 
-
 export const RPC_ENDPOINTS = {
   lava: LAVA_RPC_ENDPOINTS,
   near: NEAR_RPC_ENDPOINTS,
