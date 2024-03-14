@@ -1,5 +1,5 @@
 import BN from 'bn.js';
-import { FtAddresses, USDC_ADDRESS, USDT_ADDRESS } from './types';
+import { FtAddresses, LAVA_RPC_ENDPOINTS, NEAR_RPC_ENDPOINTS, USDC_ADDRESS, USDT_ADDRESS } from './types';
 
 export const GAS = '200000000000000';
 export const MAX_GAS = '300000000000000';
@@ -53,4 +53,10 @@ export const FT_ADDRESSES: { testnet: FtAddresses; mainnet: FtAddresses } = {
     usdc: USDC_ADDRESS.mainnet,
     usdt: USDT_ADDRESS.mainnet,
   },
+};
+
+
+export const RPC_ENDPOINTS = {
+  lava: LAVA_RPC_ENDPOINTS,
+  near: NEAR_RPC_ENDPOINTS,
 };
