@@ -54,7 +54,7 @@ describe('dynamicNftMetadata', () => {
       request: (): Promise<DynamicNftMetadataResult> => Promise.reject(new Error(errMessage)),
     }));
 
-    const call = await dynamicNftMetadata({...props, isActive: true});
+    const call = await dynamicNftMetadata({ ...props, isActive: true });
 
     expect(call).toStrictEqual({ error: errMessage });
 

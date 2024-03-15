@@ -5,7 +5,7 @@ export type DynamicNftMetadataProps = {
   contractAddress: string;
   internalMetadataId: number;
   isActive: boolean;
-  network?: Network
+  network?: Network;
 }
 
 export type DynamicNftMetadataResult = {
