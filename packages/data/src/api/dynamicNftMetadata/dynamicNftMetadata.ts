@@ -4,6 +4,8 @@ import { parseData } from '../../utils';
 import { dynamicNftMetadataQuery } from './dynamicNftMetadata.query';
 import { DynamicNftMetadataResult, DynamicNftMetadataProps } from './dynamicNftMetadata.types';
 
+export { DynamicNftMetadataResult, DynamicNftMetadataProps };
+
 // TODO: make isActive toggle optional, if not provided load all metadata
 export const dynamicNftMetadata = async ({
   contractAddress,
