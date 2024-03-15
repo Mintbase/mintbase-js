@@ -17,7 +17,7 @@ export const dynamicNftMetadata = async ({
     ...(network && { network:network }),
   });
 
-  const errorMsg = error ? `Error fetching store nfts, ${error}` : '';
+  const errorMsg = error ? `Error fetching metadata for dynamic NFT (metadata ID: ${internalMetadataId}): ${error}` : '';
 
   return parseData(data, error, errorMsg);
 };

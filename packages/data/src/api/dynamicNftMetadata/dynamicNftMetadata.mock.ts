@@ -33,7 +33,7 @@ export const dynamicNftMetadataMockInactive = {
         media: 'https://arweave.net/media0',
         history: [],
       },
-      isActive: true,
+      isActive: false,
     },
     {
       metadataId: 'dynamic.mintbase2.near:deadbeef1',
@@ -44,7 +44,7 @@ export const dynamicNftMetadataMockInactive = {
         media: 'https://arweave.net/media1',
         history: ['https://arweave.net/reference0'],
       },
-      isActive: true,
+      isActive: false,
     },
   ],
   nft_metadata_aggregate: {
