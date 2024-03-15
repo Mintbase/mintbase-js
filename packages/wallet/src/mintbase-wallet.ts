@@ -65,7 +65,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
-
+      
       const connectionConfig = {
         networkId: networkId,
         keyStore: new keyStores.BrowserLocalStorageKeyStore(),
@@ -74,21 +74,21 @@ export const MintbaseWallet: WalletBehaviourFactory<
         headers: {},
       };
 
-      const searchParams = new URL(window.location.href);
+      // const searchParams = new URL(window.location.href);
 
-      const acc = searchParams.searchParams.get('account_id');
+      // const acc = searchParams.searchParams.get('account_id');
 
-      if (acc && acc?.length > 0) {
-        localStorage.setItem('mintbase-wallet:callback_url', callback);
+      // if (acc && acc?.length > 0) {
+      //   localStorage.setItem('mintbase-wallet:callback_url', callback);
 
-        localStorage.setItem(
-          'mintbase-wallet_wallet_auth_key',
-          JSON.stringify({
-            accountId: acc as string,
-            allKeys: [],
-          }),
-        );
-      }
+      //   localStorage.setItem(
+      //     'mintbase-wallet_wallet_auth_key',
+      //     JSON.stringify({
+      //       accountId: acc as string,
+      //       allKeys: [],
+      //     }),
+      //   );
+      // }
 
       const nearConnection = await connect(connectionConfig);
 
