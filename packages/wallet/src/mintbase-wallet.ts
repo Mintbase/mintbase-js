@@ -3,10 +3,14 @@ import * as nearAPI from 'near-api-js';
 import type {
   Action,
   BrowserWallet,
+  FinalExecutionOutcome,
+  Optional,
   Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
+import { createAction } from '@near-wallet-selector/wallet-utils';
+
 
 export enum TransactionSuccessEnum {
   MINT = 'mint',
@@ -65,7 +69,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
     if (typeof window !== undefined) {
       const { connect, WalletConnection, keyStores } = nearAPI;
-
       const connectionConfig = {
         networkId: networkId,
         keyStore: new keyStores.BrowserLocalStorageKeyStore(),
@@ -74,25 +77,10 @@ export const MintbaseWallet: WalletBehaviourFactory<
         headers: {},
       };
 
-      const searchParams = new URL(window.location.href);
-
-      const acc = searchParams.searchParams.get('account_id');
-
-      if (acc && acc?.length > 0) {
-        localStorage.setItem('mintbase-wallet:callback_url', callback);
-
-        localStorage.setItem(
-          'mintbase-wallet_wallet_auth_key',
-          JSON.stringify({
-            accountId: acc as string,
-            allKeys: [],
-          }),
-        );
-      }
-
       const nearConnection = await connect(connectionConfig);
 
       const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
+      localStorage.setItem('mintbase-wallet:callback_url', callback);
 
       return {
         wallet,
@@ -138,6 +126,46 @@ export const MintbaseWallet: WalletBehaviourFactory<
     return;
   };
 
+
+  const transformTransactions = async (
+    transactions: Array<Optional<Transaction, 'signerId'>>,
+  ): Promise<Array<nearAPI.transactions.Transaction>> => {
+    const account = state.wallet.account();
+    const { networkId, signer, provider } = account.connection;
+
+    const localKey = await signer.getPublicKey(account.accountId, networkId);
+
+    return Promise.all(
+      transactions.map(async (transaction, index) => {
+        const actions = transaction.actions.map((action) =>
+          createAction(action),
+        );
+        const accessKey = await account.accessKeyForTransaction(
+          transaction.receiverId,
+          actions as any,
+          localKey,
+        );
+
+        if (!accessKey) {
+          throw new Error(
+            `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
+          );
+        }
+
+        const block = await provider.block({ finality: 'final' });
+
+        return nearAPI.transactions.createTransaction(
+          account.accountId,
+          nearAPI.utils.PublicKey.from(accessKey.public_key),
+          transaction.receiverId,
+          accessKey.access_key.nonce + index + 1,
+          actions as any,
+          nearAPI.utils.serialize.base_decode(block.header.hash),
+        );
+      }),
+    );
+  };
+
   const assertValidSigner = (signerId: string): void => {
     if (signerId && signerId !== state.wallet.getAccountId()) {
       throw new Error(
@@ -146,31 +174,16 @@ export const MintbaseWallet: WalletBehaviourFactory<
     }
   };
 
-  const signAndSendTransactions = async ({
-    transactions,
-    callbackUrl,
-  }: {
-    transactions: Array<Transaction>;
-    callbackUrl?: string;
-  }): Promise<void> => {
+  const signAndSendTransactions = async ({ transactions, callbackUrl }): Promise<void> => {
+    if (!state.wallet.isSignedIn()) {
+      throw new Error('Wallet not signed in');
+    }
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
-    // fix txn length issue
-    // if (transactions?.length > 10) {
-    // }
-
-    for (const { signerId } of transactions) {
-      assertValidSigner(signerId);
-    }
-    const stringifiedParam = JSON.stringify(transactions);
-
-    const urlParam = encodeURIComponent(stringifiedParam);
-    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
-    newUrl.searchParams.set('transactions_data', urlParam);
-    newUrl.searchParams.set('callback_url', cbUrl);
-
-    window.location.assign(newUrl.toString());
-    return;
+    return state.wallet.requestSignTransactions({
+      transactions: await transformTransactions(transactions),
+      callbackUrl: cbUrl,
+    });
   };
 
   const signAndSendTransaction =  async ({
@@ -183,38 +196,27 @@ export const MintbaseWallet: WalletBehaviourFactory<
     actions: Array<Action>;
     signerId: string;
     callbackUrl: string;
-  }): Promise<void> => {
+  }): Promise<FinalExecutionOutcome> => {
     assertValidSigner(signerId);
 
     if (!receiverId && !contractId) {
       throw new Error('No receiver found to send the transaction to');
     }
 
-    const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
 
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
-    const urlParam = encodeURIComponent(stringifiedParam);
+    const callback = cbUrl || successUrl;
 
-    const currentUrl = new URL(window.location.href);
+    const account = state.wallet.account();
 
-    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
-    newUrl.searchParams.set('transactions_data', urlParam);
-
-    if (successUrl) {
-      if (successUrl && successUrl.length > 0) {
-        newUrl.searchParams.set(
-          'success_url',
-          successUrl || currentUrl.toString(),
-        );
-      }
-    }
-
-    newUrl.searchParams.set('callback_url', cbUrl);
-
-    window.location.assign(newUrl.toString());
-    return;
+    return account.signAndSendTransaction({
+      receiverId: receiverId,
+      actions: actions.map((action) => createAction(action)) as any,
+      walletCallbackUrl: callback,
+    });
   };
+
 
   const verifyOwner = async (): Promise<void> => {
     throw new Error(`The verifyOwner method is not supported by ${metadata.name}`);
