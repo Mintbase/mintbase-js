@@ -211,7 +211,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const account = state.wallet.account();
 
     return account.signAndSendTransaction({
-      receiverId: receiverId,
+      receiverId: receiverId || contractId,
       actions: actions.map((action) => createAction(action)) as any,
       walletCallbackUrl: callback,
     });
