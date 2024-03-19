@@ -55,7 +55,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     successUrl?: string;
     failureUrl?: string;
     contractId?: string;
-    lak?: boolean;
   }
 > = async ({
   metadata,
