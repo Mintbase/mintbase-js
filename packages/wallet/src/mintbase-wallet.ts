@@ -65,7 +65,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
   contractId,
   callback,
   networkId,
-  lak = 'true',
 }) => {
 
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
@@ -79,16 +78,10 @@ export const MintbaseWallet: WalletBehaviourFactory<
         headers: {},
       };
 
-      if (!lak) { 
-        const newUrl = new URL(`${metadata.walletUrl}/connect`);
-        window.location.assign(newUrl);
-      }
-      
       const searchParams = new URL(window.location.href);
       const acc = searchParams.searchParams.get('account_id');
-      
-      if (!lak && acc) { 
-        //adding this manually makes near-api-js not send the params that lead to the creation of LAK on the wallet side
+      //make near-api-js not throw without lak
+      if (acc && !contractId) {
         localStorage.setItem(
           'mintbase-wallet_wallet_auth_key',
           JSON.stringify({
@@ -97,9 +90,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
           }),
         );
       }
-
+  
       const nearConnection = await connect(connectionConfig);
-
       const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
       localStorage.setItem('mintbase-wallet:callback_url', callback);
 
