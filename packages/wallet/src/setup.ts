@@ -1,3 +1,4 @@
+
 import type {
   BrowserWallet,
   WalletModuleFactory,
@@ -13,6 +14,7 @@ interface MintbaseWalletSetup {
   failureUrl?: string;
   deprecated?: boolean;
   contractId?: string;
+  lak?: boolean;
 }
 
 const icon =
@@ -44,7 +46,7 @@ export function setupMintbaseWallet({
         walletUrl: resolveWalletUrl(moduleOptions.options.network.networkId, walletUrl),
       },
       init: (options) => {
-        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network, successUrl, failureUrl, contractId,  ...options });
+        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network.networkId, successUrl, failureUrl, contractId,  ...options });
       },
     };
     return wallet;
