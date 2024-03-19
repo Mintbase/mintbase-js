@@ -50,11 +50,12 @@ interface Networks {
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
   {
-    networkId: any;
+    networkId: string;
     callback: string;
     successUrl?: string;
     failureUrl?: string;
     contractId?: string;
+    lak?: boolean;
   }
 > = async ({
   metadata,
@@ -64,6 +65,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
   contractId,
   callback,
   networkId,
+  lak = 'true',
 }) => {
 
   const setupWalletState = async (): Promise<MintbaseWalletState> | null => {
@@ -76,6 +78,20 @@ export const MintbaseWallet: WalletBehaviourFactory<
         walletUrl: metadata.walletUrl,
         headers: {},
       };
+
+      const searchParams = new URL(window.location.href);
+      const acc = searchParams.searchParams.get('account_id');
+      
+      if (!lak && acc) { 
+        //adding this manually makes near-api-js not send the params that lead to the creation of LAK on the wallet side
+        localStorage.setItem(
+          'mintbase-wallet_wallet_auth_key',
+          JSON.stringify({
+            accountId: acc as string,
+            allKeys: [],
+          }),
+        );
+      }
 
       const nearConnection = await connect(connectionConfig);
 
@@ -127,45 +143,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
   };
 
 
-  const transformTransactions = async (
-    transactions: Array<Optional<Transaction, 'signerId'>>,
-  ): Promise<Array<nearAPI.transactions.Transaction>> => {
-    const account = state.wallet.account();
-    const { networkId, signer, provider } = account.connection;
-
-    const localKey = await signer.getPublicKey(account.accountId, networkId);
-
-    return Promise.all(
-      transactions.map(async (transaction, index) => {
-        const actions = transaction.actions.map((action) =>
-          createAction(action),
-        );
-        const accessKey = await account.accessKeyForTransaction(
-          transaction.receiverId,
-          actions as any,
-          localKey,
-        );
-
-        if (!accessKey) {
-          throw new Error(
-            `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
-          );
-        }
-
-        const block = await provider.block({ finality: 'final' });
-
-        return nearAPI.transactions.createTransaction(
-          account.accountId,
-          nearAPI.utils.PublicKey.from(accessKey.public_key),
-          transaction.receiverId,
-          accessKey.access_key.nonce + index + 1,
-          actions as any,
-          nearAPI.utils.serialize.base_decode(block.header.hash),
-        );
-      }),
-    );
-  };
-
   const assertValidSigner = (signerId: string): void => {
     if (signerId && signerId !== state.wallet.getAccountId()) {
       throw new Error(
@@ -178,12 +155,28 @@ export const MintbaseWallet: WalletBehaviourFactory<
     if (!state.wallet.isSignedIn()) {
       throw new Error('Wallet not signed in');
     }
+    //// near-api-js code fails if no lak
+    // const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
+
+    // return state.wallet.requestSignTransactions({
+    //   transactions: await transformTransactions(transactions),
+    //   callbackUrl: cbUrl,
+    // });
+    
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
-    return state.wallet.requestSignTransactions({
-      transactions: await transformTransactions(transactions),
-      callbackUrl: cbUrl,
-    });
+    for (const { signerId } of transactions) {
+      assertValidSigner(signerId);
+    }
+    const stringifiedParam = JSON.stringify(transactions);
+
+    const urlParam = encodeURIComponent(stringifiedParam);
+    const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
+    newUrl.searchParams.set('transactions_data', urlParam);
+    newUrl.searchParams.set('callback_url', cbUrl);
+
+    window.location.assign(newUrl.toString());
+    return;
   };
 
   const signAndSendTransaction =  async ({
@@ -202,7 +195,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     if (!receiverId && !contractId) {
       throw new Error('No receiver found to send the transaction to');
     }
-
 
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
@@ -265,6 +257,45 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     return null;
   };
+
+  // const transformTransactions = async (
+  //   transactions: Array<Optional<Transaction, 'signerId'>>,
+  // ): Promise<Array<nearAPI.transactions.Transaction>> => {
+  //   const account = state.wallet.account();
+  //   const { networkId, signer, provider } = account.connection;
+
+  //   const localKey = await signer.getPublicKey(account.accountId, networkId);
+
+  //   return Promise.all(
+  //     transactions.map(async (transaction, index) => {
+  //       const actions = transaction.actions.map((action) =>
+  //         createAction(action),
+  //       );
+  //       const accessKey = await account.accessKeyForTransaction(
+  //         transaction.receiverId,
+  //         actions as any,
+  //         localKey,
+  //       );
+
+  //       if (!accessKey) {
+  //         throw new Error(
+  //           `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
+  //         );
+  //       }
+
+  //       const block = await provider.block({ finality: 'final' });
+
+  //       return nearAPI.transactions.createTransaction(
+  //         account.accountId,
+  //         nearAPI.utils.PublicKey.from(accessKey.public_key),
+  //         transaction.receiverId,
+  //         accessKey.access_key.nonce + index + 1,
+  //         actions as any,
+  //         nearAPI.utils.serialize.base_decode(block.header.hash),
+  //       );
+  //     }),
+  //   );
+  // };
 
   return {
     getAccountId,
