@@ -79,6 +79,11 @@ export const MintbaseWallet: WalletBehaviourFactory<
         headers: {},
       };
 
+      if (!lak) { 
+        const newUrl = new URL(`${metadata.walletUrl}/connect`);
+        window.location.assign(newUrl);
+      }
+      
       const searchParams = new URL(window.location.href);
       const acc = searchParams.searchParams.get('account_id');
       

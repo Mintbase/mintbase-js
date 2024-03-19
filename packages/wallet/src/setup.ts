@@ -27,7 +27,6 @@ export function setupMintbaseWallet({
   failureUrl = '',
   callbackUrl = '',
   contractId = '',
-  lak = true,
 }: MintbaseWalletSetup = {}): WalletModuleFactory<BrowserWallet> {
 
   return async (moduleOptions): Promise<WalletModule<BrowserWallet> | null> => {
@@ -47,7 +46,7 @@ export function setupMintbaseWallet({
         walletUrl: resolveWalletUrl(moduleOptions.options.network.networkId, walletUrl),
       },
       init: (options) => {
-        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network.networkId, successUrl, failureUrl, contractId, lak: lak,  ...options });
+        return MintbaseWallet({ callback: callbackUrl, networkId: moduleOptions.options.network.networkId, successUrl, failureUrl, contractId,  ...options });
       },
     };
     return wallet;
