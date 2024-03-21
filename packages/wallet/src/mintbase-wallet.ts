@@ -4,8 +4,6 @@ import type {
   Action,
   BrowserWallet,
   FinalExecutionOutcome,
-  Optional,
-  Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
@@ -42,10 +40,6 @@ export type CallBackArgs = {
   type: TransactionSuccessEnum;
 }
 
-interface Networks {
-  mainnet: string;
-  testnet: string;
-}
 
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
@@ -89,7 +83,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
           }),
         );
       }
-  
+
       const nearConnection = await connect(connectionConfig);
       const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
       localStorage.setItem('mintbase-wallet:callback_url', callback);
@@ -158,7 +152,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     //   transactions: await transformTransactions(transactions),
     //   callbackUrl: cbUrl,
     // });
-    
+
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
     for (const { signerId } of transactions) {
