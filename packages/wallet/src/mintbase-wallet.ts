@@ -4,6 +4,8 @@ import type {
   Action,
   BrowserWallet,
   FinalExecutionOutcome,
+  Optional,
+  Transaction,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
@@ -162,7 +164,9 @@ export const MintbaseWallet: WalletBehaviourFactory<
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
     }
-    const stringifiedParam = JSON.stringify(transactions);
+    const transactionsTransformed = await transformTransactions(transactions);
+
+    const stringifiedParam = JSON.stringify(transactionsTransformed);
 
     const urlParam = encodeURIComponent(stringifiedParam);
     const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
@@ -204,13 +208,13 @@ export const MintbaseWallet: WalletBehaviourFactory<
     }
     const account = state.wallet.account();
 
-    return account.signAndSendTransaction({
+    return account['signAndSendTransaction']({
       receiverId: receiverId || contractId,
-      actions: actions.map((action) => createAction(action)) as any,
-      walletCallbackUrl: callback,
+      actions: actions.map((action) => createAction(action)),
+      walletCallbackUrl: callbackUrl,
     });
-  };
 
+  };
 
   const verifyOwner = async (): Promise<void> => {
     throw new Error(`The verifyOwner method is not supported by ${metadata.name}`);
@@ -259,6 +263,47 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     return null;
   };
+
+
+  const transformTransactions = async (
+    transactions: Array<Optional<Transaction, 'signerId'>>,
+  ): Promise<Array<nearAPI.transactions.Transaction>> => {
+    const account = state.wallet.account();
+    const { networkId, signer, provider } = account.connection;
+
+    const localKey = await signer.getPublicKey(account.accountId, networkId);
+
+    return Promise.all(
+      transactions.map(async (transaction, index) => {
+        const actions = transaction.actions.map((action) =>
+          createAction(action),
+        );
+        const accessKey = await account.accessKeyForTransaction(
+          transaction.receiverId,
+          actions,
+          localKey,
+        );
+
+        if (!accessKey) {
+          throw new Error(
+            `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
+          );
+        }
+
+        const block = await provider.block({ finality: 'final' });
+
+        return nearAPI.transactions.createTransaction(
+          account.accountId,
+          nearAPI.utils.PublicKey.from(accessKey.public_key),
+          transaction.receiverId,
+          accessKey.access_key.nonce + index + 1,
+          actions,
+          nearAPI.utils.serialize.base_decode(block.header.hash),
+        );
+      }),
+    );
+  };
+
 
   // const transformTransactions = async (
   //   transactions: Array<Optional<Transaction, 'signerId'>>,
