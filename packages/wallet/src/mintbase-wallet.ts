@@ -215,7 +215,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
       receiverId: receiverId || contractId,
       actions: actions.map((action) => createAction(action)),
       walletCallbackUrl: callbackUrl,
-    }), 'obj')
+    }, 'obj');
 
 
     return account['signAndSendTransaction']({
