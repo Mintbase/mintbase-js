@@ -34,9 +34,7 @@ const checkCallbackUrl = (callbackUrl: string): string => {
     if (isValidURL(globalCallBackUrl)) {
       return globalCallBackUrl;
     } else {
-      console.error(
-        'please set your callbackUrl property on setupMintbaseWallet - further help available on our telegram channel: https://t.me/mintdev',
-      );
+      console.warn('We recommend you to set the callbackUrl property on setupMintbaseWallet  \n read more here:  \n https://docs.mintbase.xyz/dev/mintbase-sdk-ref/wallet#setupmintbasewallet  \n  \n further help available on our telegram channel:  \n https://t.me/mintdev');
       return new URL(window.location.href).toString();
     }
   }
