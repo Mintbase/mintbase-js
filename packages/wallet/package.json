@@ -16,6 +16,6 @@
     "@near-wallet-selector/core": "8.9.5",
     "@near-wallet-selector/wallet-utils": "^8.9.5",
     "bn.js": "^5.2.1",
-    "near-api-js": "3.0.3"
+    "near-api-js": "^1.0.0 || ^2.0.0"
   }
 }
