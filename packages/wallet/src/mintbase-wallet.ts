@@ -198,6 +198,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const callback = cbUrl || successUrl;
 
+    console.log(actions, actions.map((action) => createAction(action)), 'actions')
+
     if (!contractId) {
       const newUrl = new URL(`${metadata.walletUrl}/sign-transaction`);
       const stringifiedParam = JSON.stringify([{ receiverId, signerId, actions }]);
@@ -207,6 +209,14 @@ export const MintbaseWallet: WalletBehaviourFactory<
       window.location.assign(newUrl.toString());
     }
     const account = state.wallet.account();
+
+    console.log(actions, actions.map((action) => createAction(action)), 'actions')
+    console.log({
+      receiverId: receiverId || contractId,
+      actions: actions.map((action) => createAction(action)),
+      walletCallbackUrl: callbackUrl,
+    }), 'obj')
+
 
     return account['signAndSendTransaction']({
       receiverId: receiverId || contractId,
