@@ -108,14 +108,16 @@ export const MintbaseWallet: WalletBehaviourFactory<
     const existingAccounts = await getAccounts();
     const href = encodeURI(window?.location?.href);
 
+    console.log(href, 'href');
+
     if (existingAccounts.length) {
       return existingAccounts;
     }
 
     await state.wallet.requestSignIn({
       methodNames: [],
-      successUrl: successUrl || href,
-      failureUrl: failureUrl || href,
+      successUrl: href,
+      failureUrl: href,
       contractId: contractId,
     });
 
