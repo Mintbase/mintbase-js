@@ -98,7 +98,7 @@ export const MintbaseWalletContextProvider: React.FC<ContextProviderType> = ({
 
     setIsWalletSelectorSetup(true);
     setComponents(components);
-  }, []);
+  }, [successUrl, callbackUrl, selectedNetwork]);
 
   const onCloseModal = (): void => {
     setIsWaitingForConnection(false);
