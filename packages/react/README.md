@@ -60,7 +60,7 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 
 ## properties:
 
-**contractAddress** : `your near contract address / your mintbase store address`
+**contractAddress** (optional): `If you set this it will connect the user using Limited Access Keys, set with your near contract address / your mintbase store address`
 
 **network** : ` mainnet | testnet`
 
