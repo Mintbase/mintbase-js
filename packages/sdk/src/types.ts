@@ -254,6 +254,7 @@ export type CreateMetadataArgs = {
   lastPossibleMint?: Date;
   isDynamic?: boolean;
   price: number;
+  ftAddress?: string;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
@@ -434,6 +435,7 @@ export interface CreateMetadataArgsResponse {
   last_possible_mint?: string;
   is_dynamic?: boolean;
   price: string;
+  ft_contract_id?: string;
 }
 
 export interface MintOnMetadataArgsResponse {
