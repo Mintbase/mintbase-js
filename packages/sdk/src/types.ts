@@ -20,7 +20,8 @@ export enum TOKEN_METHOD_NAMES {
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
   SET_SPLITS = 'set_split_owners',
-  SET_MINTING_CAP = 'set_minting_cap'
+  SET_MINTING_CAP = 'set_minting_cap',
+  DEPOSIT_STORAGE = 'deposit_storage',
 }
 
 export enum MARKET_METHOD_NAMES {
