@@ -1,6 +1,6 @@
-import { GAS } from '../constants';
+import { GAS, MAX_GAS } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { FT_METHOD_NAMES, TOKEN_METHOD_NAMES } from '../types';
 import { mintOnMetadata } from './mintOnMetadata';
 import { mbjs } from '../config/config';
 
@@ -128,4 +128,43 @@ describe('mintOnMetadata method tests', () => {
       });
     }).toThrow(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   });
+
+    test('mintOnMetadata using FT', () => {
+    const wnearAddress = 'wnear.near';
+    const args = mintOnMetadata({
+      contractAddress: contractAddress,
+      metadataId: '1',
+      ownerId,
+      price: 1,
+      ftAddress: wnearAddress
+    });
+
+    expect(args).toEqual([
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.DEPOSIT_STORAGE,
+        args: {},
+        deposit: '7120000000000000000000',
+        gas: GAS,
+      },
+      {
+        contractAddress: wnearAddress,
+        methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
+        args: {
+          receiver_id: contractAddress,
+          amount: '1000000000000000000000000',
+          msg: JSON.stringify({
+            metadata_id: '1',
+            owner_id: ownerId,
+            num_to_mint: 1,
+            token_ids: null,
+          }),
+          memo: null,
+        },
+        deposit: '1',
+        gas: MAX_GAS,
+      }
+    ]);
+  });
+
 });

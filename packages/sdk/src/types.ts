@@ -265,6 +265,7 @@ export type MintOnMetadataArgs = {
   amount?: number;
   tokenIds?: string[];
   price: number;
+  ftAddress?: string;
 };
 
 export type UpdateMetadataArgs = {
@@ -477,6 +478,13 @@ export interface FtTransferArgsResponse {
   receiver_id: string;
   amount: string;
   memo: string | null;
+}
+
+export interface FtTransferCallArgsResponse {
+  receiver_id: string;
+  amount: string;
+  memo: string | null;
+  msg: string;
 }
 
 export interface FtDepositStorageArgsResponse {

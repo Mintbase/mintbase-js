@@ -1,13 +1,13 @@
 import BN from 'bn.js';
 import { mbjs } from '../config/config';
-import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
+import { GAS, MAX_GAS, ONE_YOCTO, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { MintOnMetadataArgs, MintOnMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { FT_METHOD_NAMES, FtTransferCallArgsResponse, MintOnMetadataArgs, MintOnMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { isIntString, isStoreV2 } from '../utils';
 
 // TODO:
 //   - [x] separate out the deposit
-//   - [ ] pay with FT
+//   - [x] pay with FT
 //   - [ ] update README
 // 
 
@@ -18,7 +18,7 @@ import { isIntString, isStoreV2 } from '../utils';
  */
 export const mintOnMetadata = (
   args: MintOnMetadataArgs,
-): [NearContractCall<{}>, NearContractCall<MintOnMetadataArgsResponse>] => {
+): [NearContractCall<{}>, NearContractCall<MintOnMetadataArgsResponse | FtTransferCallArgsResponse>] => {
   const {
     contractAddress = mbjs.keys.contractAddress,
     metadataId,
@@ -26,6 +26,7 @@ export const mintOnMetadata = (
     amount = null,
     tokenIds = null,
     price,
+    ftAddress,
   } = args;
 
   if (!contractAddress) {
@@ -56,19 +57,43 @@ export const mintOnMetadata = (
     throw new Error(ERROR_MESSAGES.TOKEN_ID_NOT_INT);
   }
 
+  const mintArgs = {
+    metadata_id: metadataId,
+    owner_id: ownerId,
+    num_to_mint: tokenIds ? null : amountCalc,
+    token_ids: tokenIds,
+  };
+  const storageDeposit = depositMintingStorage(
+    contractAddress, mintOnMetadataDeposit(amountCalc, 0)
+  );
+  const totalPrice = new BN(`1${'0'.repeat(24)}`).muln(price).muln(amountCalc).toString();
+
+  if (ftAddress) {
+    return [
+      storageDeposit,
+      {
+        contractAddress: ftAddress,
+        args: {
+          receiver_id: contractAddress,
+          amount: totalPrice,
+          msg: JSON.stringify(mintArgs),
+          memo: null,
+        },
+        methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
+        deposit: ONE_YOCTO,
+        gas: MAX_GAS,
+      }
+    ]
+  }
+
   return [
-    depositMintingStorage(contractAddress, mintOnMetadataDeposit(amountCalc, 0)),
+    storageDeposit,
     {
       contractAddress: contractAddress || mbjs.keys.contractAddress,
-      args: {
-        metadata_id: metadataId,
-        owner_id: ownerId,
-        num_to_mint: tokenIds ? null : amountCalc,
-        token_ids: tokenIds,
-      },
+      args: mintArgs,
       methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
       gas: GAS,
-      deposit: new BN(`1${'0'.repeat(24)}`).muln(price).muln(amountCalc).toString(),
+      deposit: totalPrice,
     }
   ];
 };
