@@ -174,11 +174,13 @@ export const MintbaseWallet: WalletBehaviourFactory<
     actions,
     signerId,
     callbackUrl,
+    evmTransaction,
   }: {
     receiverId: string;
     actions: Array<Action>;
     signerId: string;
     callbackUrl: string;
+    evmTransaction?: string;
   }): Promise<FinalExecutionOutcome> => {
     assertValidSigner(signerId);
 
@@ -196,6 +198,11 @@ export const MintbaseWallet: WalletBehaviourFactory<
       const urlParam = encodeURIComponent(stringifiedParam);
       newUrl.searchParams.set('transactions_data', urlParam);
       newUrl.searchParams.set('callback_url', callback);
+
+      if (evmTransaction) {
+        newUrl.searchParams.set('evm_transaction', encodeURIComponent(Buffer.from(evmTransaction).toString('base64')));
+      }
+      
       window.location.assign(newUrl.toString());
     }
     const account = state.wallet.account();
