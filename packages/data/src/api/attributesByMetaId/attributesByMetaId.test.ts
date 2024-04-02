@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
 import { Attribute, NftAttributesQueryResult } from '../../types';
 import {  attributesByMetaId  } from './attributesByMetaId';
@@ -48,7 +47,7 @@ describe('attributesByMetaId', () => {
       'attribute_type': 'BidAmount',
     }];
     (GraphQLClient as jest.Mock).mockImplementationOnce(() => ({
-      request: (env: 'testnet'): Promise<NftAttributesQueryResult> =>
+      request: (): Promise<NftAttributesQueryResult> =>
         Promise.resolve({
           nft_attributes: attributes,
         }),
@@ -58,4 +57,3 @@ describe('attributesByMetaId', () => {
   });
 
 });
-

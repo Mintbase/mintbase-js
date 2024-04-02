@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { CONTRACT_DEPOSIT, DEFAULT_MB_LOGO, DEFAULT_MB_BASE_URI, GAS_CONSTANTS } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';

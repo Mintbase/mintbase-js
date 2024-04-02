@@ -36,7 +36,7 @@ describe('mintOnMetadata method tests', () => {
         },
         deposit: '1000000000000000000000000',
         gas: GAS,
-      }
+      },
     ]);
   });
 
@@ -68,7 +68,7 @@ describe('mintOnMetadata method tests', () => {
         },
         deposit: '5000000000000000000000000',
         gas: GAS,
-      }
+      },
     ]);
   });
 
@@ -100,7 +100,7 @@ describe('mintOnMetadata method tests', () => {
         },
         deposit: '2000000000000000000000000',
         gas: GAS,
-      }
+      },
     ]);
   });
 
@@ -129,14 +129,14 @@ describe('mintOnMetadata method tests', () => {
     }).toThrow(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   });
 
-    test('mintOnMetadata using FT', () => {
+  test('mintOnMetadata using FT', () => {
     const wnearAddress = 'wnear.near';
     const args = mintOnMetadata({
       contractAddress: contractAddress,
       metadataId: '1',
       ownerId,
       price: 1,
-      ftAddress: wnearAddress
+      ftAddress: wnearAddress,
     });
 
     expect(args).toEqual([
@@ -163,7 +163,7 @@ describe('mintOnMetadata method tests', () => {
         },
         deposit: '1',
         gas: MAX_GAS,
-      }
+      },
     ]);
   });
 

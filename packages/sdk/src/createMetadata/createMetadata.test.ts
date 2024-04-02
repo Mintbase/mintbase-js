@@ -227,7 +227,7 @@ describe('createMetadata method tests', () => {
   });
 
   test('createMetadata with FT payment', () => {
-    const wnearAddress = 'wnear.near'
+    const wnearAddress = 'wnear.near';
     const args = createMetadata({
       contractAddress: contractAddress,
       metadata: { reference, media },

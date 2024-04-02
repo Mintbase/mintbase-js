@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
 import { tokensByStatus, tokensByStatusThrowOnError } from './tokensByStatus';
 import { TOKEN_RESULT_MOCK }  from './tokenByStatus.mock';

@@ -1,5 +1,5 @@
 import { DocumentNode } from 'graphql';
-import { GraphQLClient } from 'graphql-request';
+import { GraphQLClient, Variables } from 'graphql-request';
 import { getErrorMessage } from '../errorHandling';
 import { GRAPHQL_ENDPOINTS, mbjs, NEAR_NETWORKS, Network } from '@mintbase-js/sdk';
 
@@ -17,7 +17,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
   network,
 }: {
   query: DocumentNode | string;
-  variables?: any;
+  variables?: V;
   network?: Network | null | undefined;
 }): Promise<GqlFetchResult<T>> => {
 
@@ -44,7 +44,7 @@ export const fetchGraphQl = async <T, V = Record<string, unknown>>({
     try {
       const client = new GraphQLClient(graphqlEndpoint);
       return {
-        data: await client.request<T>(query, variables),
+        data: await client.request<T>(query, variables as Variables),
       };
     
     } catch (error:unknown) {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { GraphQLClient } from 'graphql-request';
 import { keyActivity } from './keyActivity';
 import { KEY_ACTIVITY_MOCK }  from './keyActivity.mock';

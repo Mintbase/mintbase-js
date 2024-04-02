@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { batchChangeMinters } from './batchChangeMinters';
 import { GAS, ONE_YOCTO } from '../constants';
 import { TOKEN_METHOD_NAMES } from '../types';

@@ -36,8 +36,15 @@ const db = new Firestore({
   projectId: GCP_PROJECT,
 });
 
+export type GasTelemetryDoc = {
+  gasBurnt: number;
+  mintedCount: number;
+  receipts: string[];
+  lastUpdated: Date;
+};
+
 export const writeGasTelemetryToFirestore = async(
-  data: object,
+  data: GasTelemetryDoc,
 ): Promise<void> => {
   await db
     .collection(TELEMETRY_COLLECTION)

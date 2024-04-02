@@ -15,7 +15,7 @@ test('transfer contract ownership', async () => {
   const bobAccount = await connect(bob, bobKey);
 
   // maybe move this into mb-data if this query provides further utility
-  const { data } = await fetchGraphQl<any>({
+  const { data } = await fetchGraphQl<{ nft_contracts: Array<{ owner_id: string }> }>({
     query: gql`query MyQuery {
       nft_contracts(where: {id: {_eq: "qrq9m4sfaf.mintspace2.testnet"}}) {
         owner_id
@@ -23,7 +23,7 @@ test('transfer contract ownership', async () => {
     }`,
   });
 
-  if (data.nft_contracts[0].owner_id == 'mb_alice.testnet') {
+  if (data?.nft_contracts[0]?.owner_id === 'mb_alice.testnet') {
     const aliceToBob = (await execute(
       { account: aliceAccount },
       transferContractOwnership({
@@ -45,4 +45,3 @@ test('transfer contract ownership', async () => {
     expect(bobToAlice.receipts_outcome).not.toBeUndefined();
   }
 });
-

@@ -26,9 +26,9 @@ describe('graphql/fetch', () => {
   // });
 
   it('should return invalid Network Error Message if network is wrong', async () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { data, error } = await fetchGraphQl<FakeData>({ query: fakeQuery, network: 'aaaa' });
+    const { error } = await fetchGraphQl<FakeData>({ query: fakeQuery, network: 'aaaa' });
     expect(error).toBeDefined();
     expect(error).toBe('Please add a valid Network');
   });
