@@ -1,6 +1,6 @@
 import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO } from '../constants';
-import { SetMintingCapArgs, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { SetMintingCapArgs, NearContractCall, TOKEN_METHOD_NAMES, SetMintingCapArgsResponse } from '../types';
 import { isStoreV2 } from '../utils';
 import { ERROR_MESSAGES } from '../errorMessages';
 
@@ -10,7 +10,7 @@ import { ERROR_MESSAGES } from '../errorMessages';
  * @param args {@link SetMintingCapArgs}
  * @returns contract call to be passed to @mintbase-js/sdk execute method
  */
-export const setMintingCap = (args: SetMintingCapArgs): NearContractCall<{}> => {
+export const setMintingCap = (args: SetMintingCapArgs): NearContractCall<SetMintingCapArgsResponse> => {
 
   const { contractAddress = mbjs.keys.contractAddress, mintingCap } = args;
 

@@ -2,14 +2,10 @@ import BN from 'bn.js';
 import { mbjs } from '../config/config';
 import { GAS, MAX_GAS, ONE_YOCTO, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { FT_METHOD_NAMES, FtTransferCallArgsResponse, MintOnMetadataArgs, MintOnMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
+import { EmptyObject, FT_METHOD_NAMES, FtTransferCallArgsResponse, MintOnMetadataArgs, MintOnMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { isIntString, isStoreV2 } from '../utils';
 
-// TODO:
-//   - [x] separate out the deposit
-//   - [x] pay with FT
-//   - [ ] update README
-// 
+type DepositAndMintCalls = [NearContractCall<EmptyObject>, NearContractCall<MintOnMetadataArgsResponse | FtTransferCallArgsResponse>]
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -18,7 +14,7 @@ import { isIntString, isStoreV2 } from '../utils';
  */
 export const mintOnMetadata = (
   args: MintOnMetadataArgs,
-): [NearContractCall<{}>, NearContractCall<MintOnMetadataArgsResponse | FtTransferCallArgsResponse>] => {
+): DepositAndMintCalls  => {
   const {
     contractAddress = mbjs.keys.contractAddress,
     metadataId,
@@ -64,7 +60,7 @@ export const mintOnMetadata = (
     token_ids: tokenIds,
   };
   const storageDeposit = depositMintingStorage(
-    contractAddress, mintOnMetadataDeposit(amountCalc, 0)
+    contractAddress, mintOnMetadataDeposit(amountCalc),
   );
   const totalPrice = new BN(`1${'0'.repeat(24)}`).muln(price).muln(amountCalc).toString();
 
@@ -82,8 +78,8 @@ export const mintOnMetadata = (
         methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
         deposit: ONE_YOCTO,
         gas: MAX_GAS,
-      }
-    ]
+      },
+    ];
   }
 
   return [
@@ -94,22 +90,22 @@ export const mintOnMetadata = (
       methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
       gas: GAS,
       deposit: totalPrice,
-    }
+    },
   ];
 };
 
 const depositMintingStorage = (
-  contractAddress: string, amount: string
-): NearContractCall<{}> => ({
+  contractAddress: string, amount: string,
+): NearContractCall<EmptyObject> => ({
   contractAddress,
   args: {},
   methodName: TOKEN_METHOD_NAMES.DEPOSIT_STORAGE,
   gas: GAS,
   deposit: amount,
-})
+});
 
 
-export function mintOnMetadataDeposit(nTokens: number, price: number): string {
+export function mintOnMetadataDeposit(nTokens: number): string {
   const totalBytes = STORAGE_BYTES.MINTING_BASE +
     STORAGE_BYTES.MINTING_FEE +
     (STORAGE_BYTES.TOKEN_BASE + STORAGE_BYTES.COMMON) * nTokens;

@@ -6,12 +6,10 @@ jest.mock('cross-fetch');
 
 describe('getTxnStatus', () => {
 
-  // eslint-disable-next-line @typescript-eslint/camelcase
-  const mockResponseWithReceipts = (receipts_outcome: object): void => {
+  const mockResponseWithReceipts = (receipts_outcome: unknown): void => {
     (fetch as jest.Mock).mockResolvedValueOnce({
       json: jest.fn().mockResolvedValueOnce({
         result: {
-          // eslint-disable-next-line @typescript-eslint/camelcase
           receipts_outcome,
         },
       }),

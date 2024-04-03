@@ -13,7 +13,7 @@ export const getBalance = async (accountId: string, network?: Network, rpc?: RPC
       account_id: accountId,
     },
   }, network, rpc);
-  const balanceString = res?.result?.amount;
+  const balanceString = res?.result?.amount as string;
   if (!balanceString) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }

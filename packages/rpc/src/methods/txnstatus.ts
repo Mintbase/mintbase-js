@@ -3,6 +3,16 @@ import { RPC_OPTIONS, requestFromNearRpc } from '../util';
 
 export type TxnStatus = 'pending' | 'success' | 'failure';
 
+type ReceiptOutcome = {
+  outcome: {
+    status: {
+      Unknown: unknown;
+      Failure: unknown;
+      Success: unknown;
+    }
+  }
+}
+
 export const getTxnStatus = async (
   txnHash: string,
   senderId: string,
@@ -24,7 +34,7 @@ export const getTxnStatus = async (
   if (!(res.result?.receipts_outcome instanceof Array)) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }
-  res.result?.receipts_outcome?.forEach((outcome: any) => {
+  res.result?.receipts_outcome?.forEach((outcome: ReceiptOutcome) => {
     if (!outcome?.outcome?.status) {
       throw new Error(`Malformed response: ${JSON.stringify(res)}`);
     }

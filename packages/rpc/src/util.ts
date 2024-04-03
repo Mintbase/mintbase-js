@@ -6,10 +6,10 @@ export type RPC_OPTIONS  = 'lava' | 'near' | 'beta'
 
 
 export const requestFromNearRpc = async (
-  body: Record<string, any>,
+  body: Record<string, unknown>,
   network?: string,
   rpc?:  RPC_OPTIONS,
-): Promise<Record<string, any> | undefined> => {
+): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
 
   const fetchUrl =  mbjs.keys.nearRpcUrl || RPC_ENDPOINTS[mbjs.keys.rpc][mbjs.keys.network]  || NEAR_RPC_ENDPOINTS[mbjs.keys.network];
   const rpcAddress = network && rpc ? RPC_ENDPOINTS[rpc][network] : fetchUrl;
@@ -56,7 +56,8 @@ export const callViewMethod = async <T>({
   if (res?.error) {
     throw res.error;
   }
-
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   const parsed = JSON.parse(Buffer.from(res?.result?.result).toString());
   return parsed as T;
 };

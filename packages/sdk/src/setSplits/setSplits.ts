@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';

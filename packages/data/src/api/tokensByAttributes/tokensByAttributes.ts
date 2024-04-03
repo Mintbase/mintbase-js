@@ -1,4 +1,4 @@
-import { Network, mbjs } from '@mintbase-js/sdk';
+import { mbjs } from '@mintbase-js/sdk';
 import { META_SERVICE_HOST, META_SERVICE_HOST_TESTNET, MINTBASE_API_KEY_HEADER } from '../../constants';
 import { ParsedDataReturn } from '../../types';
 import { objectWithCamelKeys, parseData } from '../../utils';
@@ -13,7 +13,7 @@ export const tokensByAttributes = async ({
 }: TokensByAttributesProps,
 ): Promise<ParsedDataReturn<FilteredMetadataQueryResult>> => {
 
-  let data;
+  let data: { results: FilteredMetadataResult[], totalRecords: number };
   let error: string;
 
   const networkFinal = network  || mbjs.keys.network;
@@ -40,7 +40,7 @@ export const tokensByAttributes = async ({
 
     data = await res.json();
     // transform results to camel case
-    data.results = data.results.map(objectWithCamelKeys);
+    data.results = data.results.map(objectWithCamelKeys) as FilteredMetadataResult[];
 
   } catch (err) {
     error = `Error fetching filtered data, ${err}`;

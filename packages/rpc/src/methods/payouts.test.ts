@@ -44,14 +44,25 @@ describe('payouts rpc call', () => {
   });
 });
 
-const isPercentFloat = (x: any): boolean => {
+const isPercentFloat = (x: unknown): boolean => {
   return typeof x === 'number' && x >= 0 && x <= 100;
 };
 
-const isAccountPercent = (x: any): boolean => {
-  return typeof x.account === 'string' && isPercentInt(x.percent);
+type AccountPercent = {
+  account: string;
+  percent: number;
+}
+
+const isAccountPercent = (x: unknown): x is AccountPercent => {
+  if (['undefined', 'null'].includes(typeof x)) {
+    return false;
+  }
+  return (
+    typeof (x as AccountPercent).account === 'string' &&
+    isPercentInt((x as AccountPercent).percent)
+  );
 };
 
-const isPercentInt = (x: any): boolean => {
+const isPercentInt = (x: unknown): boolean => {
   return typeof x === 'number' && x >= 0 && x <= 10000;
 };

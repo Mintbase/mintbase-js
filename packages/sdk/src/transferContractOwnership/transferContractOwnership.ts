@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { GAS, ONE_YOCTO } from '../constants';
 import { NearContractCall, TOKEN_METHOD_NAMES, TransferContractOwnershipArgs, TransferContractOwnershipArgsResponse } from '../types';

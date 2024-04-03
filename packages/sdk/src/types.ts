@@ -149,7 +149,7 @@ export enum TransactionSuccessEnum {
 }
 
 export type CallBackArgs =  {
-  args: object;
+  args: Record<string, unknown>;
   type: TransactionSuccessEnum;
 }
 
@@ -476,6 +476,10 @@ export interface SetSplitsArgsResponse {
   split_between: Record<string, number>;
 }
 
+export type SetMintingCapArgsResponse = {
+  minting_cap: number;
+}
+
 export interface FtTransferArgsResponse {
   receiver_id: string;
   amount: string;
@@ -513,3 +517,7 @@ export type ExecuteArgsResponse = TransferArgsResponse
   | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;
+
+// utility types
+export type EmptyObject = Record<string, never>
+export type AnyObject = Record<string, unknown>

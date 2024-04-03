@@ -8,7 +8,7 @@ const toCamel = (s: string): string => {
   });
 };
 
-export const objectWithCamelKeys = (obj: object): object => Object
+export const objectWithCamelKeys = (obj: Record<string, unknown>): Record<string, unknown> => Object
   .keys(obj)
   .map((key) => ({
     snake: key,
@@ -48,4 +48,3 @@ export const validTokenId = (tokenId: string | number): boolean => {
     ? /^\d+$/.test(tokenId)
     : /^\d+$/.test(tokenId.toString());
 };
-
