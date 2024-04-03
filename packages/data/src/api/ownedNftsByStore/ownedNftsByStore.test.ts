@@ -57,7 +57,7 @@ describe('tokenById', () => {
 
     const errorMessage = 'Error fetching nfts from undefined, please check the arguments provided';
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const call = await ownedNftsByStore({ ownerId: undefined });
 
@@ -73,7 +73,7 @@ describe('tokenById', () => {
 
     const errorMessage = 'Error fetching nfts from test1.mintbase.near, please check the arguments provided';
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const call = await ownedNftsByStore({ ownerId: 'test1.mintbase.near', contractAddress: 'aaa' });
 
@@ -89,7 +89,7 @@ describe('tokenById', () => {
 
     const errorMessage = 'Error fetching nfts from test1.mintbase.near, please check the arguments provided';
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const call = await ownedNftsByStore({ ownerId: 'test1.mintbase.near', pagination: { limit: 'xxx', offset: 0 }, contractAddress: 'aaa' });
 

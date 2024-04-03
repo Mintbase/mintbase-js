@@ -1,17 +1,6 @@
 import { Network } from '@mintbase-js/sdk';
 import { RPC_OPTIONS, callViewMethod } from '../util';
 
-type Numerator = {
-  numerator: number;
-};
-
-type Payouts = {
-  royalty: {
-    split_between: Record<string, Numerator>;
-    percentage: Numerator;
-  };
-};
-
 type NepPayout = {
   payout: Record<string, string>;
 };

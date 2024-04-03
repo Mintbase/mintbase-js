@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/camelcase */
 import { mbjs } from '../config/config';
 import { MAX_GAS, ONE_YOCTO  } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';

@@ -26,6 +26,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: null,
         royalty_args: null,
         minters_allowlist: null,
@@ -55,6 +56,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: '1',
         royalty_args: null,
         minters_allowlist: null,
@@ -84,6 +86,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: null,
         royalty_args: null,
         minters_allowlist: ['foo', 'bar'],
@@ -113,6 +116,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: null,
         royalty_args: null,
         minters_allowlist: null,
@@ -142,6 +146,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: null,
         royalty_args: null,
         minters_allowlist: null,
@@ -171,6 +176,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: null,
         royalty_args: null,
         minters_allowlist: null,
@@ -200,6 +206,7 @@ describe('createMetadata method tests', () => {
           media: media,
         },
         price: `1${'0'.repeat(24)}`,
+        ft_contract_id: null,
         metadata_id: null,
         royalty_args: {
           percentage: 4008,
@@ -215,6 +222,37 @@ describe('createMetadata method tests', () => {
         is_dynamic: null,
       },
       deposit: '5350000000000000000000',
+      gas: GAS,
+    });
+  });
+
+  test('createMetadata with FT payment', () => {
+    const wnearAddress = 'wnear.near';
+    const args = createMetadata({
+      contractAddress: contractAddress,
+      metadata: { reference, media },
+      price: 1,
+      ftAddress: wnearAddress,
+    });
+
+    expect(args).toEqual({
+      contractAddress: contractAddress,
+      methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
+      args: {
+        metadata: {
+          reference: reference,
+          media: media,
+        },
+        price: `1${'0'.repeat(24)}`,
+        ft_contract_id: wnearAddress,
+        metadata_id: null,
+        royalty_args: null,
+        minters_allowlist: null,
+        max_supply: null,
+        last_possible_mint: null,
+        is_dynamic: null,
+      },
+      deposit: '2950000000000000000000',
       gas: GAS,
     });
   });

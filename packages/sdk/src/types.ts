@@ -20,7 +20,8 @@ export enum TOKEN_METHOD_NAMES {
   TOKEN_ACCOUNT_REVOKE =  'nft_revoke',
   TOKEN_ACCOUNT_REVOKE_ALL = 'nft_revoke_all',
   SET_SPLITS = 'set_split_owners',
-  SET_MINTING_CAP = 'set_minting_cap'
+  SET_MINTING_CAP = 'set_minting_cap',
+  DEPOSIT_STORAGE = 'deposit_storage',
 }
 
 export enum MARKET_METHOD_NAMES {
@@ -148,7 +149,7 @@ export enum TransactionSuccessEnum {
 }
 
 export type CallBackArgs =  {
-  args: object;
+  args: Record<string, unknown>;
   type: TransactionSuccessEnum;
 }
 
@@ -253,6 +254,7 @@ export type CreateMetadataArgs = {
   lastPossibleMint?: Date;
   isDynamic?: boolean;
   price: number;
+  ftAddress?: string;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
@@ -264,6 +266,7 @@ export type MintOnMetadataArgs = {
   amount?: number;
   tokenIds?: string[];
   price: number;
+  ftAddress?: string;
 };
 
 export type UpdateMetadataArgs = {
@@ -432,6 +435,7 @@ export interface CreateMetadataArgsResponse {
   last_possible_mint?: string;
   is_dynamic?: boolean;
   price: string;
+  ft_contract_id?: string;
 }
 
 export interface MintOnMetadataArgsResponse {
@@ -472,10 +476,21 @@ export interface SetSplitsArgsResponse {
   split_between: Record<string, number>;
 }
 
+export type SetMintingCapArgsResponse = {
+  minting_cap: number;
+}
+
 export interface FtTransferArgsResponse {
   receiver_id: string;
   amount: string;
   memo: string | null;
+}
+
+export interface FtTransferCallArgsResponse {
+  receiver_id: string;
+  amount: string;
+  memo: string | null;
+  msg: string;
 }
 
 export interface FtDepositStorageArgsResponse {
@@ -502,3 +517,7 @@ export type ExecuteArgsResponse = TransferArgsResponse
   | Record<string, unknown>;
 
 export type FinalExecutionOutcome = FEO;
+
+// utility types
+export type EmptyObject = Record<string, never>
+export type AnyObject = Record<string, unknown>

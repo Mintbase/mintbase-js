@@ -8,9 +8,9 @@ export const getLatestGasPrice = async (network?: Network, rpc?: RPC_OPTIONS): P
     method: 'gas_price',
     params: [null],
   }, network, rpc);
-  const blockHeight = res?.result?.gas_price;
-  if (!blockHeight) {
+  const gasPrice = res?.result?.gas_price as string;
+  if (!gasPrice) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }
-  return blockHeight;
+  return gasPrice;
 };

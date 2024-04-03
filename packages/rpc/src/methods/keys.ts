@@ -28,7 +28,7 @@ export const getAccessKeys = async (accountId: string, network?: Network, rpc?: 
     },
   }, network, rpc);
 
-  const accessKeys = res?.result?.keys;
+  const accessKeys = res?.result?.keys as AccessKey[];
 
   if (res?.error) {
     throw res.error;

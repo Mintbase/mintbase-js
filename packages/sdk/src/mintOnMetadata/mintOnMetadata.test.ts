@@ -1,6 +1,6 @@
-import { GAS } from '../constants';
+import { GAS, MAX_GAS } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { TOKEN_METHOD_NAMES } from '../types';
+import { FT_METHOD_NAMES, TOKEN_METHOD_NAMES } from '../types';
 import { mintOnMetadata } from './mintOnMetadata';
 import { mbjs } from '../config/config';
 
@@ -17,18 +17,27 @@ describe('mintOnMetadata method tests', () => {
       price: 1,
     });
 
-    expect(args).toEqual({
-      contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
-      args: {
-        metadata_id: '1',
-        owner_id: ownerId,
-        num_to_mint: 1,
-        token_ids: null,
+    expect(args).toEqual([
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.DEPOSIT_STORAGE,
+        args: {},
+        deposit: '7120000000000000000000',
+        gas: GAS,
       },
-      deposit: '1007120000000000000000000',
-      gas: GAS,
-    });
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
+        args: {
+          metadata_id: '1',
+          owner_id: ownerId,
+          num_to_mint: 1,
+          token_ids: null,
+        },
+        deposit: '1000000000000000000000000',
+        gas: GAS,
+      },
+    ]);
   });
 
   test('mintOnMetadata with amount', () => {
@@ -40,18 +49,27 @@ describe('mintOnMetadata method tests', () => {
       price: 1,
     });
 
-    expect(args).toEqual({
-      contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
-      args: {
-        metadata_id: '1',
-        owner_id: ownerId,
-        num_to_mint: 5,
-        token_ids: null,
+    expect(args).toEqual([
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.DEPOSIT_STORAGE,
+        args: {},
+        deposit: '27920000000000000000000',
+        gas: GAS,
       },
-      deposit: '5027920000000000000000000',
-      gas: GAS,
-    });
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
+        args: {
+          metadata_id: '1',
+          owner_id: ownerId,
+          num_to_mint: 5,
+          token_ids: null,
+        },
+        deposit: '5000000000000000000000000',
+        gas: GAS,
+      },
+    ]);
   });
 
   test('mintOnMetadata with specified token IDs', () => {
@@ -63,18 +81,27 @@ describe('mintOnMetadata method tests', () => {
       price: 1,
     });
 
-    expect(args).toEqual({
-      contractAddress: contractAddress,
-      methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
-      args: {
-        metadata_id: '1',
-        owner_id: ownerId,
-        num_to_mint: null,
-        token_ids: ['1', '2'],
+    expect(args).toEqual([
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.DEPOSIT_STORAGE,
+        args: {},
+        deposit: '12320000000000000000000',
+        gas: GAS,
       },
-      deposit: '2012320000000000000000000',
-      gas: GAS,
-    });
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
+        args: {
+          metadata_id: '1',
+          owner_id: ownerId,
+          num_to_mint: null,
+          token_ids: ['1', '2'],
+        },
+        deposit: '2000000000000000000000000',
+        gas: GAS,
+      },
+    ]);
   });
 
   test('mintOnMetadata with amount/token ID length mismatch', () => {
@@ -101,4 +128,43 @@ describe('mintOnMetadata method tests', () => {
       });
     }).toThrow(ERROR_MESSAGES.EMPTY_TOKEN_IDS);
   });
+
+  test('mintOnMetadata using FT', () => {
+    const wnearAddress = 'wnear.near';
+    const args = mintOnMetadata({
+      contractAddress: contractAddress,
+      metadataId: '1',
+      ownerId,
+      price: 1,
+      ftAddress: wnearAddress,
+    });
+
+    expect(args).toEqual([
+      {
+        contractAddress: contractAddress,
+        methodName: TOKEN_METHOD_NAMES.DEPOSIT_STORAGE,
+        args: {},
+        deposit: '7120000000000000000000',
+        gas: GAS,
+      },
+      {
+        contractAddress: wnearAddress,
+        methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
+        args: {
+          receiver_id: contractAddress,
+          amount: '1000000000000000000000000',
+          msg: JSON.stringify({
+            metadata_id: '1',
+            owner_id: ownerId,
+            num_to_mint: 1,
+            token_ids: null,
+          }),
+          memo: null,
+        },
+        deposit: '1',
+        gas: MAX_GAS,
+      },
+    ]);
+  });
+
 });

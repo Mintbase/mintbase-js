@@ -8,7 +8,7 @@ export const getBlockHeight = async (network?: Network,  rpc?: RPC_OPTIONS): Pro
     method: 'status',
     params: [],
   }, network, rpc);
-  const blockHeight = res?.result?.sync_info?.latest_block_height;
+  const blockHeight = (res?.result?.sync_info as {latest_block_height: number})?.latest_block_height;
   if (!blockHeight) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }

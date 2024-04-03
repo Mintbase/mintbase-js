@@ -25,6 +25,7 @@ export const createMetadata = (
     isDynamic = null,
     noMedia = false,
     noReference = false,
+    ftAddress = null,
   } = args;
   
   if (!contractAddress) {
@@ -61,6 +62,7 @@ export const createMetadata = (
       last_possible_mint: lastPossibleMint ? (+lastPossibleMint * 1e6).toString() : null,
       is_dynamic: isDynamic,
       price: new BN(price * 1e6).mul(new BN(`1${'0'.repeat(18)}`)).toString(),
+      ft_contract_id: ftAddress,
     },
     methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
     gas: GAS,

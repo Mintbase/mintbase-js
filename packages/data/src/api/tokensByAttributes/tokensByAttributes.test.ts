@@ -34,14 +34,6 @@ describe('tokensByAttributes', () => {
 
   it('returns data and converts ', async () => {
     fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, { body: { results: [{ token_id: '123' }] } });
-    const query = {
-      filters: {
-        'eyes': ['blue', 'green'],
-        'face': ['busted'],
-      },
-      limit: 10,
-      offset: 0,
-    };
     const { data } = await tokensByAttributes(props) as ParsedDataReturn<FilteredMetadataQueryResult>;
     expect(data).toBeDefined();
     expect(data?.results[0].tokenId).toBeDefined();
@@ -49,14 +41,6 @@ describe('tokensByAttributes', () => {
 
   it('returns errors', async () => {
     fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, 504, { overwriteRoutes: true });
-    const query = {
-      filters: {
-        'eyes': ['blue', 'green'],
-        'face': ['busted'],
-      },
-      limit: 10,
-      offset: 0,
-    };
     const { error } = await tokensByAttributes(props);
     expect(error).toBeDefined();
   });

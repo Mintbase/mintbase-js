@@ -54,7 +54,7 @@ export type UserTokensQueryResult = {
 export interface ReferenceBlob {
   tags?: Array<string>;
   type?: string;
-  extra?: Array<{ trait_type?: string; value?: any; display_type?: string }>;
+  extra?: Array<{ trait_type?: string; value?: unknown; display_type?: string }>;
   media?: string;
   store?: string;
   title?: string;
