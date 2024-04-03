@@ -32,7 +32,6 @@ describe('userMintedTokens', () => {
     fetchMock.mock(`begin:${META_SERVICE_HOST_TESTNET}`, { body: { results: [{ token_id: '123' }] } });
     const { data } = await getUserMintedTokens(props) as ParsedDataReturn<UserTokensQueryResult>;
 
-    console.log(data);
 
     expect(data?.results).toBeDefined();
   });
