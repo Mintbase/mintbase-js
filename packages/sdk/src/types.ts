@@ -251,7 +251,8 @@ export type CreateMetadataArgs = {
   royalties?: Splits;
   mintersAllowlist?: string[];
   maxSupply?: number;
-  lastPossibleMint?: Date;
+  startsAt?: Date;
+  expiresAt?: Date;
   isDynamic?: boolean;
   price: number;
   ftAddress?: string;
@@ -432,7 +433,8 @@ export interface CreateMetadataArgsResponse {
   royalty_args?: RoyaltyArgs;
   minters_allowlist?: string[];
   max_supply?: number;
-  last_possible_mint?: string;
+  starts_at?: string;
+  expires_at?: string;
   is_dynamic?: boolean;
   price: string;
   ft_contract_id?: string;
