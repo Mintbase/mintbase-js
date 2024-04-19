@@ -2,14 +2,16 @@
 
 # Mint on Metadata (v2)
 
+{% hint style="warning" %}
+This method works on NFT smart contracts v2. If you want to mint on a v1 smart contract, please use the [corresponding method](../mint/README.md).
+{% endhint %}
+
+
 Mint on [previously created metadata](../createMetadata/README.md). Make sure to attach the required price! If the metadata was created using the `ftAddress` parameter, you need to make sure to pass the same the `ftAddress` to this method.
 
 If you want specific token IDs, you can specify those via the `tokenIds` parameter. If your token IDs are already in use, this will cause a smart contract panic. You can also mint multiple tokens without specifying token IDs using the `amount` parameter. Make sure that there is no mismatch between your `tokenIds` and `amount` parameters.
 
 The `nftContactId` can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
-
-
-If you want to mint on a v1 smart contract, please use the [corresponding method](../mint/README.md).
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
