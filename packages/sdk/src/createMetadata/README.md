@@ -2,6 +2,10 @@
 
 # Create Metadata
 
+{% hint style="warning" %}
+This method works on NFT smart contracts v2. If you want to mint on a v1 smart contract, please use the [corresponding method](../mint/README.md).
+{% endhint %}
+
 Create metadata for a specified reference material on a contract of your choice. Others can then [mint tokens on that metadata](../mintOnMetadata/README.md), while you as the creator will get the payout from the price specified on creating the metadata. You need to have been given creator permission.
 
 The reference material is typically uploaded to IPFS or Arweave and can be easily done through our `uploadReference` method found in the storage module. Follow [this guide](https://docs.mintbase.xyz/dev/getting-started/upload-reference-material-to-arweave-and-mint) to learn how to handle permanent uploads!
@@ -13,8 +17,6 @@ Using the `ftAddress` parameter, you can specify that you want the minting price
 You can restrict minting via an allowlist of NEAR account IDs that are allowed to mint (`mintersAllowslist`), via a maximum supply that will be enforced by the smart contract (`maxSupply`), and via an expiry date (`lastPossibleMint`). You can opt-in to making an NFT dynamic (`isDynamic`) to allow [future updates](../updateMetadata/README.md), and [lock the metadata](../lockMetadata/README.md) at a later time.
 
 The `nftContactId` can be supplied as an argument or through the `TOKEN_CONTRACT` environment variable.
-
-If you want to mint on a v1 smart contract, please use the [corresponding method](../mint/README.md).
 
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method. For a guide showing how to make a contract call with mintbase-js click [here](https://docs.mintbase.xyz/dev/getting-started/make-your-first-contract-call-deploycontract)**
 
@@ -38,8 +40,10 @@ export type CreateMetadataArgs =  {
   mintersAllowlist?: string[];
   //maximum amount of tokens allowed to be minted on this metadata
   maxSupply?: string[];
-  //date when minting of this metadata will be disabled.
-  lastPossibleMint?: Date;
+  //date when minting of this metadata will be enabled, nobody will be able to mint earlier.
+  startsAt?: Date;
+  //date when minting of this metadata will be disabled, nobody will be able to mint later.
+  expiresAt?: Date;
   //price in $NEAR that has to be paid for minting on this metadata, will be distributed between royalty holders
   price: number;
   // explicit opt-in to NFT without media, breaks wallets
