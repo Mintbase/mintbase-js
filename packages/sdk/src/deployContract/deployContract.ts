@@ -14,16 +14,16 @@ const ARWEAVE_BASE_URI = 'https://arweave.net';
 export const deployContract = (args: DeployContractArgs): NearContractCall<DeployContractArgsResponse> => {
   const { name, factoryContractId = mbjs.keys.mbContract, ownerId, metadata } = args;
 
-  const deposit = (() => {
+  const deposit = ((): string => {
     switch (factoryContractId) {
-      case mbjs.keys.mbContract:
-        return DEPLOY_CONTRACT_V1_DEPOSIT
-      case mbjs.keys.mbContractV2:
-        return DEPLOY_CONTRACT_V2_DEPOSIT
-      default:
-        throw new Error(ERROR_MESSAGES.INVALID_FACTORY);
+    case mbjs.keys.mbContract:
+      return DEPLOY_CONTRACT_V1_DEPOSIT;
+    case mbjs.keys.mbContractV2:
+      return DEPLOY_CONTRACT_V2_DEPOSIT;
+    default:
+      throw new Error(ERROR_MESSAGES.INVALID_FACTORY);
     }
-  })()
+  })();
 
   const { symbol, icon = DEFAULT_MB_LOGO, baseUri = ARWEAVE_BASE_URI, reference = null, referenceHash = null } = metadata;
 
