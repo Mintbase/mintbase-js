@@ -1,4 +1,4 @@
-[//]: # `{ "title": "depositStorage", "order": 0.19 }`
+[//]: # `{ "title": "setMintingCap", "order": 0.19 }`
 
 # Set a minting cap
 
