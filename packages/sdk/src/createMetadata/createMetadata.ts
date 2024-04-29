@@ -51,7 +51,7 @@ export const createMetadata = (
   }
 
   if ((ftAddress && !ftDecimals) || (ftDecimals && !ftAddress)) {
-    throw new Error(ERROR_MESSAGES.FT_ADDRESS_DECIMALS)
+    throw new Error(ERROR_MESSAGES.FT_ADDRESS_DECIMALS);
   }
 
   const { royaltyTotal, roundedRoyalties } = processRoyalties(royalties);
@@ -101,8 +101,8 @@ export function createMetadataDeposit({
   return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
 }
 
-export function formatPrice(price: number, ftDecimals: number) {
+export function formatPrice(price: number, ftDecimals: number): string {
   const base = new BN(price * 1e6);
-  const multiplier = new BN(`1${'0'.repeat((ftDecimals ?? 24) - 6)}`)
-  return base.mul(multiplier).toString()
+  const multiplier = new BN(`1${'0'.repeat((ftDecimals ?? 24) - 6)}`);
+  return base.mul(multiplier).toString();
 }

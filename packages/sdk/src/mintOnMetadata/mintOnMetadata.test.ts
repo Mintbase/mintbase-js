@@ -130,13 +130,15 @@ describe('mintOnMetadata method tests', () => {
   });
 
   test('mintOnMetadata using FT', () => {
-    const wnearAddress = 'wnear.near';
+    const usdcAddress = 'wnear.near';
+    const usdcDecimals = 6;
     const args = mintOnMetadata({
       contractAddress: contractAddress,
       metadataId: '1',
       ownerId,
       price: 1,
-      ftAddress: wnearAddress,
+      ftAddress: usdcAddress,
+      ftDecimals: usdcDecimals,
     });
 
     expect(args).toEqual([
@@ -148,11 +150,11 @@ describe('mintOnMetadata method tests', () => {
         gas: GAS,
       },
       {
-        contractAddress: wnearAddress,
+        contractAddress: usdcAddress,
         methodName: FT_METHOD_NAMES.FT_TRANSFER_CALL,
         args: {
           receiver_id: contractAddress,
-          amount: '1000000000000000000000000',
+          amount: `1${'0'.repeat(6)}`,
           msg: JSON.stringify({
             metadata_id: '1',
             owner_id: ownerId,

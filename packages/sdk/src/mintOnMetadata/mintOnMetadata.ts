@@ -40,7 +40,7 @@ export const mintOnMetadata = (
   }
 
   if ((ftAddress && !ftDecimals) || (ftDecimals && !ftAddress)) {
-    throw new Error(ERROR_MESSAGES.FT_ADDRESS_DECIMALS)
+    throw new Error(ERROR_MESSAGES.FT_ADDRESS_DECIMALS);
   }
 
   if (tokenIds && tokenIds.length === 0) {
@@ -68,7 +68,7 @@ export const mintOnMetadata = (
   const storageDeposit = depositMintingStorage(
     contractAddress, mintOnMetadataDeposit(amountCalc),
   );
-  const formattedPrice = formatPrice(price, ftDecimals);
+  const formattedPrice = formatPrice(price * amountCalc, ftDecimals);
 
   if (ftAddress) {
     return [
