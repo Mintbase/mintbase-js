@@ -1,6 +1,5 @@
-import BN from 'bn.js';
 import { mbjs } from '../config/config';
-import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
+import { GAS } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { UpdateMetadataArgs, UpdateMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { isIntString, isStoreV2 } from '../utils';

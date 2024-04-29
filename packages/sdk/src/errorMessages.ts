@@ -35,4 +35,5 @@ export const ERROR_MESSAGES = {
   BATCH_CHANGE_MINTERS_NO_CHANGE: `There are no minters provided to the batchChangeMinters method to be changed, try adding account IDs to at least one of the fields ${SUPPORT}`,
   BATCH_CHANGE_CREATORS_NO_CHANGE: `There are no creators provided to the batchChangeCreators method to be changed, try adding account IDs to at least one of the fields ${SUPPORT}`,
   INVALID_FACTORY: `Your specified factory contract ID is not known to Mintbase ${SUPPORT}`,
+  FT_ADDRESS_DECIMALS: `If you specify an ftAddress, you must also specify ftDecimals and vice versa ${SUPPORT}`,
 };

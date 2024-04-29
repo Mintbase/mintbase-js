@@ -256,6 +256,7 @@ export type CreateMetadataArgs = {
   isDynamic?: boolean;
   price: number;
   ftAddress?: string;
+  ftDecimals?: number;
   noMedia?: boolean;     // explicit opt-in to NFT without media, breaks wallets
   noReference?: boolean; // explicit opt-in to NFT without reference
 };
@@ -268,6 +269,7 @@ export type MintOnMetadataArgs = {
   tokenIds?: string[];
   price: number;
   ftAddress?: string;
+  ftDecimals?: number;
 };
 
 export type UpdateMetadataArgs = {

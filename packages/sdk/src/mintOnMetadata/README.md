@@ -7,7 +7,7 @@ This method works on NFT smart contracts v2. If you want to mint on a v1 smart c
 {% endhint %}
 
 
-Mint on [previously created metadata](../createMetadata/README.md). Make sure to attach the required price! If the metadata was created using the `ftAddress` parameter, you need to make sure to pass the same the `ftAddress` to this method.
+Mint on [previously created metadata](../createMetadata/README.md). Make sure to attach the required price! If the metadata was created using the `ftAddress` parameter, you need to make sure to pass the same the `ftAddress` and `ftDecimals` to this method.
 
 If you want specific token IDs, you can specify those via the `tokenIds` parameter. If your token IDs are already in use, this will cause a smart contract panic. You can also mint multiple tokens without specifying token IDs using the `amount` parameter. Make sure that there is no mismatch between your `tokenIds` and `amount` parameters.
 
@@ -33,6 +33,11 @@ export type MintOnMetadataArgs =  {
   tokenIds?: string[];
   //price for minting on token in NEAR
   price: number;
+  // Address of FT with which the mint shall be paid
+  ftAddress?: string;
+  // Decimal places that the atomic unit of the FT represents
+  ftDecimals?: string;
+
 };
 ```
 

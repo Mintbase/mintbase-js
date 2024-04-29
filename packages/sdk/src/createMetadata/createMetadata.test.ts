@@ -235,12 +235,13 @@ describe('createMetadata method tests', () => {
   });
 
   test('createMetadata with FT payment', () => {
-    const wnearAddress = 'wnear.near';
+    const usdcAddress = 'usdc.near';
     const args = createMetadata({
       contractAddress: contractAddress,
       metadata: { reference, media },
       price: 1,
-      ftAddress: wnearAddress,
+      ftAddress: usdcAddress,
+      ftDecimals: 6,
     });
 
     expect(args).toEqual({
@@ -251,8 +252,8 @@ describe('createMetadata method tests', () => {
           reference: reference,
           media: media,
         },
-        price: `1${'0'.repeat(24)}`,
-        ft_contract_id: wnearAddress,
+        price: `1${'0'.repeat(6)}`,
+        ft_contract_id: usdcAddress,
         metadata_id: null,
         royalty_args: null,
         minters_allowlist: null,

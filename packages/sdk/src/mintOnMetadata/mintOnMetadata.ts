@@ -4,6 +4,7 @@ import { GAS, MAX_GAS, ONE_YOCTO, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT
 import { ERROR_MESSAGES } from '../errorMessages';
 import { EmptyObject, FT_METHOD_NAMES, FtTransferCallArgsResponse, MintOnMetadataArgs, MintOnMetadataArgsResponse, NearContractCall, TOKEN_METHOD_NAMES } from '../types';
 import { isIntString, isStoreV2 } from '../utils';
+import { formatPrice } from '../createMetadata/createMetadata';
 
 type DepositAndMintCalls = [NearContractCall<EmptyObject>, NearContractCall<MintOnMetadataArgsResponse | FtTransferCallArgsResponse>]
 
@@ -23,6 +24,7 @@ export const mintOnMetadata = (
     tokenIds = null,
     price,
     ftAddress,
+    ftDecimals,
   } = args;
 
   if (!contractAddress) {
@@ -35,6 +37,10 @@ export const mintOnMetadata = (
 
   if (!isIntString(metadataId)) {
     throw new Error(ERROR_MESSAGES.METADATA_ID_NOT_INT);
+  }
+
+  if ((ftAddress && !ftDecimals) || (ftDecimals && !ftAddress)) {
+    throw new Error(ERROR_MESSAGES.FT_ADDRESS_DECIMALS);
   }
 
   if (tokenIds && tokenIds.length === 0) {
@@ -62,7 +68,7 @@ export const mintOnMetadata = (
   const storageDeposit = depositMintingStorage(
     contractAddress, mintOnMetadataDeposit(amountCalc),
   );
-  const totalPrice = new BN(`1${'0'.repeat(24)}`).muln(price).muln(amountCalc).toString();
+  const formattedPrice = formatPrice(price * amountCalc, ftDecimals);
 
   if (ftAddress) {
     return [
@@ -71,7 +77,7 @@ export const mintOnMetadata = (
         contractAddress: ftAddress,
         args: {
           receiver_id: contractAddress,
-          amount: totalPrice,
+          amount: formattedPrice,
           msg: JSON.stringify(mintArgs),
           memo: null,
         },
@@ -89,7 +95,7 @@ export const mintOnMetadata = (
       args: mintArgs,
       methodName: TOKEN_METHOD_NAMES.MINT_ON_METADATA,
       gas: GAS,
-      deposit: totalPrice,
+      deposit: formattedPrice,
     },
   ];
 };
