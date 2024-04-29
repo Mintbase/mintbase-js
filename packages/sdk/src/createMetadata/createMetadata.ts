@@ -27,6 +27,7 @@ export const createMetadata = (
     noMedia = false,
     noReference = false,
     ftAddress = null,
+    ftDecimals = null,
   } = args;
   
   if (!contractAddress) {
@@ -49,6 +50,10 @@ export const createMetadata = (
     throw new Error(ERROR_MESSAGES.METADATA_ID_NOT_INT);
   }
 
+  if ((ftAddress && !ftDecimals) || (ftDecimals && !ftAddress)) {
+    throw new Error(ERROR_MESSAGES.FT_ADDRESS_DECIMALS)
+  }
+
   const { royaltyTotal, roundedRoyalties } = processRoyalties(royalties);
 
   return {
@@ -63,7 +68,7 @@ export const createMetadata = (
       starts_at: startsAt ? (+startsAt * 1e6).toString() : null,
       expires_at: expiresAt ? (+expiresAt * 1e6).toString() : null,
       is_dynamic: isDynamic,
-      price: new BN(price * 1e6).mul(new BN(`1${'0'.repeat(18)}`)).toString(),
+      price: formatPrice(price, ftDecimals),
       ft_contract_id: ftAddress,
     },
     methodName: TOKEN_METHOD_NAMES.CREATE_METADATA,
@@ -94,4 +99,10 @@ export function createMetadataDeposit({
     STORAGE_BYTES.COMMON * nMinters;
 
   return `${Math.ceil(totalBytes)}${'0'.repeat(STORAGE_PRICE_PER_BYTE_EXPONENT)}`;
+}
+
+export function formatPrice(price: number, ftDecimals: number) {
+  const base = new BN(price * 1e6);
+  const multiplier = new BN(`1${'0'.repeat((ftDecimals ?? 24) - 6)}`)
+  return base.mul(multiplier).toString()
 }

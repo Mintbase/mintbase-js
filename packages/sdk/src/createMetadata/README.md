@@ -12,7 +12,7 @@ The reference material is typically uploaded to IPFS or Arweave and can be easil
 
 Royalties can be configured to provide a customized flow of funds as explained below.
 
-Using the `ftAddress` parameter, you can specify that you want the minting price for this token to be paid via the desired fungible token.
+Using the `ftAddress` parameter, you can specify that you want the minting price for this token to be paid via the desired fungible token. This also requires you to specify a number for `ftDecimals`.
 
 You can restrict minting via an allowlist of NEAR account IDs that are allowed to mint (`mintersAllowslist`), via a maximum supply that will be enforced by the smart contract (`maxSupply`), and via an expiry date (`lastPossibleMint`). You can opt-in to making an NFT dynamic (`isDynamic`) to allow [future updates](../updateMetadata/README.md), and [lock the metadata](../lockMetadata/README.md) at a later time.
 
@@ -52,6 +52,10 @@ export type CreateMetadataArgs =  {
   noReference?: boolean;
   // explicit opt-in to make the NFT dynamic and allow future updates
   isDynamic?: boolean;
+  // Address of FT with which the mint shall be paid
+  ftAddress?: string;
+  // Decimal places that the atomic unit of the FT represents
+  ftDecimals?: string;
 };
 
 export type TokenMetadata = {
