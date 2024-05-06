@@ -124,7 +124,7 @@ export interface ConfigOptionsObj extends ConfigOptions {
   debugMode?: boolean;
   apiKey?: string;
   connectProxyAddress?: string;
-  ftAddresses: FtAddresses | '';
+  ftAddresses: FtAddresses;
   checkVersions?: boolean;
 }
 

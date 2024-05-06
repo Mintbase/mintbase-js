@@ -4,6 +4,8 @@
 
 This acts as registration for FT transfers. You cannot transfer FTs to an account that does is not registered with the corresponding FT smart contract.
 
+To simplify this process, the module exports `usdcDepositStorage` and `usdtDepositStorage` with a pre-filled `ftContractAddress` parameter.
+
 **As with all new SDK api methods, this call should be wrapped in [execute](../#execute) and passed a signing method**
 
 ## ftDepositStorage(args: FtDepositStorageArgs): NearContractCall
