@@ -12,7 +12,7 @@ The reference material is typically uploaded to IPFS or Arweave and can be easil
 
 Royalties can be configured to provide a customized flow of funds as explained below.
 
-Using the `ftAddress` parameter, you can specify that you want the minting price for this token to be paid via the desired fungible token. This also requires you to specify a number for `ftDecimals`.
+Using the `ftAddress` parameter, you can specify that you want the minting price for this token to be paid via the desired fungible token. This also requires you to specify a number for `ftDecimals`. Note that the mint will fail if the smart contract is not registered with the corresponding FT. Please check [`ftDepositStorage`](../ftDepositStorage/README.md) for instructions how to do so. Similarly, if a royalty holder (by default the metadata creator), is not registered, the FTs cannot be transferred to them and will be "stuck" with the smart contract.
 
 You can restrict minting via an allowlist of NEAR account IDs that are allowed to mint (`mintersAllowslist`), via a maximum supply that will be enforced by the smart contract (`maxSupply`), and via an expiry date (`lastPossibleMint`). You can opt-in to making an NFT dynamic (`isDynamic`) to allow [future updates](../updateMetadata/README.md), and [lock the metadata](../lockMetadata/README.md) at a later time.
 
