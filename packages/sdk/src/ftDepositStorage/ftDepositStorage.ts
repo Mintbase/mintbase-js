@@ -1,7 +1,7 @@
 import { mbjs } from '../config/config';
 import { GAS_CONSTANTS, FT_STORAGE_DEPOSIT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { NearContractCall, FT_METHOD_NAMES, FtDepositStorageArgs, FtDepositStorageArgsResponse, USDC_ADDRESS } from '../types';
+import { NearContractCall, FT_METHOD_NAMES, FtDepositStorageArgs, FtDepositStorageArgsResponse } from '../types';
 
 
 /**
@@ -27,8 +27,12 @@ export const ftDepositStorage = ({
   };
 };
 
-export const usdcDepositStorege = ({accountId}: {accountId: string}) =>
-  ftDepositStorage({accountId, ftContractAddress: mbjs.keys.ftAddresses.usdc});
+export const usdcDepositStorage = (
+  { accountId }: {accountId: string},
+): NearContractCall<FtDepositStorageArgsResponse> =>
+  ftDepositStorage({ accountId, ftContractAddress: mbjs.keys.ftAddresses.usdc });
 
-export const usdtDepositStorege = ({accountId}: {accountId: string}) =>
-  ftDepositStorage({accountId, ftContractAddress: mbjs.keys.ftAddresses.usdt});
+export const usdtDepositStorage = (
+  { accountId }: {accountId: string},
+): NearContractCall<FtDepositStorageArgsResponse> =>
+  ftDepositStorage({ accountId, ftContractAddress: mbjs.keys.ftAddresses.usdt });

@@ -1,7 +1,7 @@
 import { mbjs } from '../config/config';
 import { MAX_GAS, ONE_YOCTO  } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
-import { BuyArgs, BuyArgsFtResponse, BuyArgsResponse, FT_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall } from '../types';
+import { BuyArgs, BuyArgsFtResponse, BuyArgsResponse, FT_METHOD_NAMES, MARKET_METHOD_NAMES, NearContractCall, USDC_ADDRESS, USDT_ADDRESS } from '../types';
 
 //todo make a buy at listed price method
 
@@ -18,7 +18,7 @@ export const buy = (args: BuyArgs): NearContractCall<BuyArgsResponse | BuyArgsFt
   }
 
   if (args.ftAddress) {
-    if (!Object.values(mbjs.keys.ftAddresses).includes(args.ftAddress)) {
+    if (!Object.values(mbjs.keys.ftAddresses).includes(args.ftAddress as USDC_ADDRESS | USDT_ADDRESS)) {
       throw new Error(ERROR_MESSAGES.UNSUPPORTED_FT);
     }
 
