@@ -212,9 +212,38 @@ export const MintbaseWallet: WalletBehaviourFactory<
     throw new Error(`The verifyOwner method is not supported by ${metadata.name}`);
   };
 
-  const signMessage = async (): Promise<void> => {
-    throw new Error(`The signMessage method is not supported by ${metadata.name}`);
+  const signMessage = async ({ message, nonce, recipient, callbackUrl }): Promise<void> => {
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
+
+    const newUrl = new URL(`${metadata.walletUrl}/sign-message`);
+    newUrl.searchParams.set('message', message);
+    newUrl.searchParams.set('nonce', nonce);
+    newUrl.searchParams.set('recipient', recipient);
+    newUrl.searchParams.set('callbackUrl', cbUrl);
+    window.location.assign(newUrl.toString());
   };
+
+  const verifyMessage = async ({ accountId, publicKey, signature, message, nonce, recipient, callbackUrl }): Promise<boolean> => {
+
+    const newUrl = new URL(`${metadata.walletUrl}/api/verify-message`);
+    newUrl.searchParams.set('message', message);
+    newUrl.searchParams.set('accountId', accountId);
+    newUrl.searchParams.set('publicKey', publicKey);
+    newUrl.searchParams.set('signature', signature);
+    newUrl.searchParams.set('nonce', nonce);
+    newUrl.searchParams.set('recipient', recipient);
+    newUrl.searchParams.set('callbackUrl', callbackUrl);
+
+    try {
+      const response = await fetch(newUrl.toString())
+      const data = await response.json();
+
+      const { isValid } = data
+      return isValid
+    } catch (e) {
+      return false
+    }
+  }
 
   const getAvailableBalance = async (): Promise<void> => {
     // const accountId = state.wallet.getAccountId();
@@ -307,5 +336,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     getAccounts,
     switchAccount,
     signAndSendTransactions,
+    verifyMessage
   };
 };
