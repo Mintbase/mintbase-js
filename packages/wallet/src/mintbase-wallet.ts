@@ -223,7 +223,8 @@ export const MintbaseWallet: WalletBehaviourFactory<
       window.location.assign(newUrl.toString());
     };
 
-    const verifyMessage = async ({ accountId, publicKey, signature, message, nonce, recipient, callbackUrl }): Promise<void> => {
+    const verifyMessage = async ({ accountId, publicKey, signature, message, nonce, recipient, callbackUrl }): Promise<boolean> => {
+
       const newUrl = new URL(`${metadata.walletUrl}/api/verify-message`);
       newUrl.searchParams.set('message', message);
       newUrl.searchParams.set('accountId', accountId);
@@ -233,11 +234,15 @@ export const MintbaseWallet: WalletBehaviourFactory<
       newUrl.searchParams.set('recipient', recipient);
       newUrl.searchParams.set('callbackUrl', callbackUrl);
 
-      const response = await fetch(newUrl.toString())
-      const data = await response.json();
+      try {
+        const response = await fetch(newUrl.toString())
+        const data = await response.json();
 
-      const { isValid } = data
-      return isValid
+        const { isValid } = data
+        return isValid
+      } catch (e) {
+        return false
+      }
     }
 
     const getAvailableBalance = async (): Promise<void> => {
