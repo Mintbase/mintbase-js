@@ -20,6 +20,7 @@ query ${QUERY_OPS_PREFIX}_getOwnedTokens(
     baseUri: base_uri
     metadataId: metadata_id
     title
+    description
     minter
     media
     document: reference_blob(path: "$.document")
