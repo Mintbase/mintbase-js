@@ -11,6 +11,7 @@ export type Token = {
   baseUri: string;
   metadataId: string;
   title: string;
+  description: string;
   minter: string;
   media: string;
   document: string;
