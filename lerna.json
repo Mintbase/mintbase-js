@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/lerna/schemas/lerna-schema.json",
   "useNx": true,
-  "version": "0.6.0-beta-prerelease.6",
+  "version": "0.6.0-beta-prerelease.7",
   "packages": [
     "packages/*"
   ]
