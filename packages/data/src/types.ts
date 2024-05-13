@@ -74,6 +74,7 @@ export interface UserTokensResult {
   base_uri: string;
   metadata_id: string;
   title: string;
+  description: string;
   media: string;
   reference: string;
   reference_blob: ReferenceBlob;
