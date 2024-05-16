@@ -9,11 +9,18 @@ export const requestFromNearRpc = async (
   body: Record<string, unknown>,
   network?: string,
   rpc?:  RPC_OPTIONS,
-): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+): Promise<{ result: Record<string, unknown>; error: unknown } | undefined> => {
 
   const fetchUrl =  mbjs.keys.nearRpcUrl || RPC_ENDPOINTS[mbjs.keys.rpc][mbjs.keys.network]  || NEAR_RPC_ENDPOINTS[mbjs.keys.network];
-  const rpcAddress = network && rpc ? RPC_ENDPOINTS[rpc][network] : fetchUrl;
+  let rpcAddress = fetchUrl; // default value
 
+  if (network && rpc) {
+    rpcAddress = RPC_ENDPOINTS[rpc][network];
+  } else if (network && !rpc) {
+    rpcAddress = RPC_ENDPOINTS[mbjs.keys.rpc][network];
+  } else if (!network && rpc) {
+    rpcAddress = RPC_ENDPOINTS[rpc][mbjs.keys.network];
+  }
   const res = await fetch(rpcAddress, {
     method: 'POST',
     body: JSON.stringify(body),
