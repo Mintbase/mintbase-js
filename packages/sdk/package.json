@@ -21,9 +21,6 @@
   "license": "MIT",
   "dependencies": {
     "bn.js": "5.2.1",
-    "near-api-js": "^2.1.4"
-  },
-  "devDependencies": {
-    "@near-wallet-selector/core": "8.9.3"
-  }
+    "near-api-js": "^3.0.0"
+  } 
 }
