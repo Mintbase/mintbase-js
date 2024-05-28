@@ -18,6 +18,15 @@ export function isIntString(x: string): boolean {
   return parseInt(x).toString() === x;
 }
 
+/**
+ * Converts Date object into string representation of its unix timestamp in mircoseconds.
+ * @param date 
+ * @returns timestamp in miliseconds
+ */
+export function dateToTimestamp(date: Date): string {
+  return (date.getTime() * 1e6).toString();
+}
+
 export function processRoyalties(
   royalties: Splits | null | undefined,
 ): {
