@@ -3,6 +3,7 @@ import { ERROR_MESSAGES } from '../errorMessages';
 import { TOKEN_METHOD_NAMES } from '../types';
 import { createMetadata } from './createMetadata';
 import { mbjs } from '../config/config';
+import { dateToTimestamp } from '../utils';
 
 describe('createMetadata method tests', () => {
   const contractAddress = `test.${mbjs.keys.mbContractV2}`;
@@ -134,11 +135,13 @@ describe('createMetadata method tests', () => {
   });
 
   test('createMetadata with start/expiry date', () => {
+    const startsAt = new Date('2021-01-01 00:00:00');
+    const expiresAt = new Date('2022-01-01 00:00:00');
     const args = createMetadata({
       contractAddress: contractAddress,
       metadata: { reference, media },
-      startsAt: new Date('2021-01-01 00:00:00'),
-      expiresAt: new Date('2022-01-01 00:00:00'),
+      startsAt,
+      expiresAt,
       price: 1,
     });
 
@@ -156,8 +159,8 @@ describe('createMetadata method tests', () => {
         royalty_args: null,
         minters_allowlist: null,
         max_supply: null,
-        starts_at: '1609455600000000000',
-        expires_at: '1640991600000000000',
+        starts_at: dateToTimestamp(startsAt),
+        expires_at: dateToTimestamp(expiresAt),
         is_dynamic: null,
       },
       deposit: '2950000000000000000000',

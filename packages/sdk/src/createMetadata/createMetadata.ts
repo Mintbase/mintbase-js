@@ -3,7 +3,7 @@ import { mbjs } from '../config/config';
 import { GAS, STORAGE_BYTES, STORAGE_PRICE_PER_BYTE_EXPONENT } from '../constants';
 import { ERROR_MESSAGES } from '../errorMessages';
 import { CreateMetadataArgs, CreateMetadataArgsResponse, NearContractCall, TokenMetadata, TOKEN_METHOD_NAMES } from '../types';
-import { isIntString, isStoreV2, processRoyalties } from '../utils';
+import { dateToTimestamp, isIntString, isStoreV2, processRoyalties } from '../utils';
 
 /**
  * Mint a token given via reference json on a given contract with a specified owner, amount of copies as well and royalties can be specified via options
@@ -65,8 +65,8 @@ export const createMetadata = (
       royalty_args: !royaltyTotal ? null : { split_between: roundedRoyalties, percentage: Math.round(royaltyTotal * 10000) },
       minters_allowlist: mintersAllowlist,
       max_supply: maxSupply,
-      starts_at: startsAt ? (+startsAt * 1e6).toString() : null,
-      expires_at: expiresAt ? (+expiresAt * 1e6).toString() : null,
+      starts_at: startsAt ? dateToTimestamp(startsAt) : null,
+      expires_at: expiresAt ? dateToTimestamp(expiresAt) : null,
       is_dynamic: isDynamic,
       price: formatPrice(price, ftDecimals),
       ft_contract_id: ftAddress,
