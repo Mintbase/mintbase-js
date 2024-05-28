@@ -44,7 +44,8 @@ describe('upload tests in browser', () => {
     const result = await uploadReference(referenceObject);
 
     const [call] = fetchMock.mock.calls;
-    expect((call as any)[1].headers['mb-api-key']).toBe(FAKE_API_KEY);
+    type Call = {headers: Record<string, string>}[]
+    expect((call as Call)[1].headers['mb-api-key']).toBe(FAKE_API_KEY);
     expect(result).toEqual({
       status: 200,
       media_url: 'https://arweave.net/undefined',

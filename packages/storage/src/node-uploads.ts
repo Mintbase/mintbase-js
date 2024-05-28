@@ -7,7 +7,6 @@ import {
   MAX_UPLOAD_BYTES,
   MAX_UPLOAD_ERROR_MSG,
   MINTBASE_API_ANON_USER,
-  MINTBASE_API_KEY_HEADER,
 } from './constants';
 import { ArweaveResponse } from './types';
 /**
