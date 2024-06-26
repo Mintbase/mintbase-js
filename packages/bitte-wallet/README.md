@@ -21,8 +21,8 @@ You can check a [quick example of Simple Login](https://github.com/Mintbase/exam
 
 
 <p align="center">
-<img  src='https://img.shields.io/npm/dw/@mintbase-js/wallet'  />
-<img  src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet'>
+<img  src='https://img.shields.io/npm/dw/@mintbase-js/bitte-wallet'  />
+<img  src='https://img.shields.io/bundlephobia/min/@mintbase-js/bitte-wallet'>
 </p>
 
 ## Video tutorial
