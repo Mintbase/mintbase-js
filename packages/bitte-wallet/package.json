@@ -1,0 +1,24 @@
+{
+  "name": "@mintbase-js/bitte-wallet",
+  "version": "0.6.0-beta-prerelease.1",
+  "description": "Bitte Wallet",
+  "main": "lib/index.js",
+  "keywords": [
+    "bitte",
+    "wallet"
+  ],
+  "scripts": {
+    "build": "tsc"
+  },
+  "author": "Bitte",
+  "license": "MIT",
+  "dependencies": {
+    "@near-wallet-selector/core": "8.9.5",
+    "@near-wallet-selector/wallet-utils": "^8.9.5",
+    "bn.js": "^5.2.1",
+    "near-api-js": "^2.1.3"
+  },
+  "peerDependencies": {
+    "near-api-js": "^2.0.0"
+  }
+}

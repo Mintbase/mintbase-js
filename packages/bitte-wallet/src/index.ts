@@ -1,0 +1,1 @@
+export { setupBitteWallet } from './setup';
