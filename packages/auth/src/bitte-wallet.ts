@@ -134,7 +134,7 @@ export const BitteWalletAuth = {
 
     return BitteWalletAuth.walletSelectorComponents.selector.store.observable
       .pipe(
-        map((state) => state.accounts),
+        map((state:any) => state.accounts),
         distinctUntilChanged(),
       )
       .subscribe(callback);
