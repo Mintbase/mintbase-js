@@ -103,7 +103,7 @@ Then use it in your dApp:
 import { setupWalletSelector } from  "@near-wallet-selector/core";
 import { setupBitteWallet } from  "@mintbase-js/bitte-wallet";
 
-const  bitteWalletØ = setupBitteWallet({
+const  bitteWallet = setupBitteWallet({
     networkId:  'mainnet',
     walletUrl:  'https://wallet.bitte.ai',
     callbackUrl:  'https://www.mywebsite.com',
