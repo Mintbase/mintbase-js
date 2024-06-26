@@ -1,5 +1,6 @@
 export * from './account';
 export * from './wallet';
+export { BitteWalletAuth } from './bitte-wallet';
 export * from './constants';
 
 // this is done to avoid importing near-api-js more than once
