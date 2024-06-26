@@ -20,8 +20,6 @@ import type {
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 
-
-
 export type BitteWalletContext = {
   selector: WalletSelector;
   modal: WalletSelectorModal;
