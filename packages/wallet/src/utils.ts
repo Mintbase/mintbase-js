@@ -2,7 +2,6 @@
     Mintbase Wallet Utils file
 */
 
-import { Network } from '@near-wallet-selector/core';
 
 const checkCallbackUrl = (callbackUrl: string): string => {
   function isValidURL(url): boolean {
@@ -81,4 +80,20 @@ const resolveWalletUrl = (network: string, walletUrl?: string): string  => {
   }
 };
 
-export { checkCallbackUrl, getCallbackUrl, resolveWalletUrl };
+const resolveBitteWallet = (network: string, walletUrl?: string): string  => {
+  if (walletUrl) {
+    return walletUrl;
+  }
+
+  switch (network) {
+  case 'mainnet':
+    return 'https://wallet.bitte.ai';
+  case 'testnet':
+    return 'https://testnet.wallet.bitte.ai/';
+  default:
+    throw new Error('Invalid wallet url');
+  }
+};
+
+export { checkCallbackUrl, getCallbackUrl, resolveBitteWallet, resolveWalletUrl };
+

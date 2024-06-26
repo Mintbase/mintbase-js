@@ -1,11 +1,11 @@
 
 import type {
-    BrowserWallet,
-    WalletModule,
-    WalletModuleFactory,
+  BrowserWallet,
+  WalletModule,
+  WalletModuleFactory,
 } from '@near-wallet-selector/core';
 import { BitteWallet } from './bitte-wallet';
-import { resolveWalletUrl } from './utils';
+import { resolveBitteWallet } from './utils';
   
   interface BitteWalletSetup {
     callbackUrl?: string;
@@ -42,7 +42,7 @@ import { resolveWalletUrl } from './utils';
           available: true,
           successUrl,
           failureUrl,
-          walletUrl: resolveWalletUrl(moduleOptions.options.network.networkId, walletUrl),
+          walletUrl: resolveBitteWallet(moduleOptions.options.network.networkId, walletUrl),
         },
         init: (options) => {
           return BitteWallet({ callback: callbackUrl, networkId: moduleOptions.options.network.networkId, successUrl, failureUrl, contractId,  ...options });
