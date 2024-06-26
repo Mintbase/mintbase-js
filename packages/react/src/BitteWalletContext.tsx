@@ -7,7 +7,7 @@ import React, {
   useState,
 } from 'react';
 import {
-BitteWalletAuth
+  BitteWalletAuth,
 } from './wallet/bitte-wallet';
 import type { WalletSelectorComponents } from './wallet/bitte-wallet';
 
@@ -71,7 +71,7 @@ export const BitteWalletContextProvider: React.FC<ContextProviderType> = ({
   const selectedNetwork =  network;
   const selectedContract = contractAddress;
 
-  const { setupBitteWalletSelector, registerWalletAccountsSubscriber, connectWalletSelector, pollForWalletConnection, disconnectFromWalletSelector, signMessage } = BitteWalletAuth
+  const { setupBitteWalletSelector, registerWalletAccountsSubscriber, connectWalletSelector, pollForWalletConnection, disconnectFromWalletSelector, signMessage } = BitteWalletAuth;
 
   const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
     const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
