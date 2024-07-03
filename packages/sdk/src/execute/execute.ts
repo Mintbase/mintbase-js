@@ -6,7 +6,7 @@ import {
   validateSigningOptions,
 } from './execute.utils';
 import { callbackSideCheck } from './checkCallback';
-import { FinalExecutionOutcome } from '@near-wallet-selector/core';
+import { FinalExecutionOutcome as FinalExecutionOutcomeNWS } from '@near-wallet-selector/core';
 
 /**
  * Base method for executing contract calls.
@@ -19,7 +19,7 @@ export const execute = async (
   { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
 ): Promise<
-  void | FinalExecutionOutcome | FinalExecutionOutcome[]
+  void | FinalExecutionOutcomeNWS | FinalExecutionOutcomeNWS[]
 > => {
   validateSigningOptions({ wallet, account });
 

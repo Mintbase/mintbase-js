@@ -1,5 +1,6 @@
-import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
+import type { Wallet, FinalExecutionOutcome as FinalExecutionOutcomeNWS } from '@near-wallet-selector/core';
 import type { Account } from 'near-api-js';
+
 import type {
   CallBackArgs,
   ContractCall,
@@ -7,6 +8,7 @@ import type {
   NearExecuteOptions,
   ExecuteArgsResponse,
   ComposableCall,
+  FinalExecutionOutcome,
 } from '../types';
 import { NoSigningMethodPassedError } from '../errors';
 
@@ -21,8 +23,8 @@ export const checkCallbackUrl = (
   callbackUrl: string,
   callbackArgs: CallBackArgs,
   wallet: Wallet,
-  outcomes: void | FinalExecutionOutcome[],
-): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
+  outcomes: void | FinalExecutionOutcomeNWS[],
+): void | FinalExecutionOutcomeNWS[] | FinalExecutionOutcomeNWS => {
   const isNotBrowserWallet = wallet?.type !== 'browser';
   const hasCallbackUrl = Boolean(
     typeof window !== 'undefined' && callbackUrl?.length > 0,
@@ -95,7 +97,7 @@ export const genericBatchExecute = async (
   account: Account,
   callbackUrl: string,
   callbackArgs: CallBackArgs,
-): Promise<void | FinalExecutionOutcome[]> => {
+): Promise<void | FinalExecutionOutcomeNWS[]> => {
   const url = callbackUrlFormatter(callbackUrl, callbackArgs);
   if (wallet) {
     return url
@@ -120,8 +122,8 @@ const batchExecuteWithNearAccount = async (
           contractId: call.contractAddress,
           methodName: call.methodName,
           args: call.args,
-          gas: BigInt(call.gas.toString()),
-          attachedDeposit: BigInt(call.deposit.toString()),
+          gas: BigInt(call.gas),
+          attachedDeposit: BigInt(call.deposit),
           ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
         }),
       );
@@ -140,7 +142,7 @@ const batchExecuteWithBrowserWallet = async (
   wallet: Wallet,
   callback?: string,
   callbackArgs?: CallBackArgs,
-): Promise<void | FinalExecutionOutcome[]> => {
+): Promise<void | FinalExecutionOutcomeNWS[]> => {
   return wallet.signAndSendTransactions({
     transactions: calls.map(
       convertGenericCallToWalletCall,

@@ -1,5 +1,4 @@
 import { Wallet } from '@near-wallet-selector/core';
-import BN from 'bn.js';
 import { Account, providers } from 'near-api-js';
 import type { Optional, Transaction } from '@near-wallet-selector/core';
 
@@ -156,8 +155,8 @@ export type ContractCall<T> = {
   contractAddress: string;
   methodName: string;
   args: T;
-  gas: string | BN;
-  deposit: string | BN;
+  gas: string | bigint;
+  deposit: string | bigint;
   signerId?: string;
   callbackUrl?: string;
   meta?: CallBackArgs;
