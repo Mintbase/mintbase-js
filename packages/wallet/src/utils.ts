@@ -2,8 +2,6 @@
     Mintbase Wallet Utils file
 */
 
-import { Network } from '@near-wallet-selector/core';
-
 const checkCallbackUrl = (callbackUrl: string): string => {
   function isValidURL(url): boolean {
     const urlPattern = /^(https?|ftp|http?):\/\/[^\s/$.?#].[^\s]*$/;
