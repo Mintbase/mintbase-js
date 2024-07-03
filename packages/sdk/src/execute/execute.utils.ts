@@ -1,4 +1,4 @@
-import type { Wallet } from '@near-wallet-selector/core';
+import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
 import type { Account } from 'near-api-js';
 import type {
   CallBackArgs,
@@ -7,7 +7,6 @@ import type {
   NearExecuteOptions,
   ExecuteArgsResponse,
   ComposableCall,
-  FinalExecutionOutcome,
 } from '../types';
 import { NoSigningMethodPassedError } from '../errors';
 
@@ -142,15 +141,13 @@ const batchExecuteWithBrowserWallet = async (
   callback?: string,
   callbackArgs?: CallBackArgs,
 ): Promise<void | FinalExecutionOutcome[]> => {
-  const res = await wallet.signAndSendTransactions({
+  return wallet.signAndSendTransactions({
     transactions: calls.map(
       convertGenericCallToWalletCall,
     ) as TxnOptionalSignerId[],
     ...(callback && { callbackUrl: callback }),
     ...(callbackArgs && { callbackArgs: callbackArgs }),
   });
-
-  return res;
 };
 
 export const convertGenericCallToWalletCall = (

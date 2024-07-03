@@ -1,4 +1,4 @@
-import type { ComposableCall, FinalExecutionOutcome, NearExecuteOptions } from '../types';
+import type { ComposableCall, NearExecuteOptions } from '../types';
 import {
   checkCallbackUrl,
   flattenArgs,
@@ -6,6 +6,7 @@ import {
   validateSigningOptions,
 } from './execute.utils';
 import { callbackSideCheck } from './checkCallback';
+import { FinalExecutionOutcome } from '@near-wallet-selector/core';
 
 /**
  * Base method for executing contract calls.
