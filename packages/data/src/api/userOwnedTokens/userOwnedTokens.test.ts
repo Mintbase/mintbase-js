@@ -1,5 +1,5 @@
 import { META_SERVICE_HOST_TESTNET } from '../../constants';
-import { OWNED_MINTED_ORDER_BY, ParsedDataReturn, UserTokensFilter, UserTokensQueryResult } from '../../types';
+import { OWNED_MINTED_ORDER_BY, ParsedDataReturn, UserTokensQueryResult } from '../../types';
 
 import fetchMock from 'fetch-mock';
 import { Network, mbjs } from '@mintbase-js/sdk';

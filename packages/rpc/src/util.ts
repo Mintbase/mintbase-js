@@ -32,7 +32,7 @@ export const callViewMethod = async <T>({
 }: {
   contractId: string;
   method: string;
-  args?: Record<string, any>;
+  args?: Record<string, unknown>;
   network?: string;
   rpc?: RPC_OPTIONS;
 }): Promise<T> => {

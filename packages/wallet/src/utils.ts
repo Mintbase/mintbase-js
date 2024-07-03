@@ -2,7 +2,6 @@
     Mintbase Wallet Utils file
 */
 
-
 const checkCallbackUrl = (callbackUrl: string): string => {
   function isValidURL(url): boolean {
     const urlPattern = /^(https?|ftp|http?):\/\/[^\s/$.?#].[^\s]*$/;

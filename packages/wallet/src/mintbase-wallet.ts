@@ -10,22 +10,6 @@ import { getCallbackUrl } from './utils';
 import { createAction } from '@near-wallet-selector/wallet-utils';
 
 
-export enum TransactionSuccessEnum {
-  MINT = 'mint',
-  TRANSFER = 'transfer',
-  BURN = 'burn',
-  DEPLOY_STORE = 'deploy-store',
-  MAKE_OFFER = 'make-offer',
-  REVOKE_MINTER = 'revoke-minter',
-  ADD_MINTER = 'add-minter',
-  TRANSFER_STORE_OWNERSHIP = 'transfer-store-ownership',
-  AUCTION_LIST = 'list',
-  SIMPLE_SALE_LIST = 'simple-sale-list',
-  UNLIST = 'unlist',
-  TAKE_OFFER = 'take-offer',
-  WITHDRAW_OFFER = 'withdraw-offer',
-}
-
 interface MintbaseWalletState {
   wallet: nearAPI.WalletConnection;
 }
@@ -34,12 +18,6 @@ interface MintbaseWalletAccount {
   accountId: string;
   publicKey: string;
 }
-
-export type CallBackArgs = {
-  args: object;
-  type: TransactionSuccessEnum;
-}
-
 
 export const MintbaseWallet: WalletBehaviourFactory<
   BrowserWallet,
@@ -145,13 +123,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     if (!state.wallet.isSignedIn()) {
       throw new Error('Wallet not signed in');
     }
-    //// near-api-js code fails if no lak
-    // const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
-
-    // return state.wallet.requestSignTransactions({
-    //   transactions: await transformTransactions(transactions),
-    //   callbackUrl: cbUrl,
-    // });
 
     const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
@@ -202,7 +173,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     return account.signAndSendTransaction({
       receiverId: receiverId || contractId,
-      actions: actions.map((action) => createAction(action)) as any,
+      actions: actions.map((action) => createAction(action)) as nearAPI.transactions.Action[],
       walletCallbackUrl: callback,
     });
   };
@@ -235,15 +206,15 @@ export const MintbaseWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('callbackUrl', callbackUrl);
 
     try {
-      const response = await fetch(newUrl.toString())
+      const response = await fetch(newUrl.toString());
       const data = await response.json();
 
-      const { isValid } = data
-      return isValid
+      const { isValid } = data;
+      return isValid;
     } catch (e) {
-      return false
+      return false;
     }
-  }
+  };
 
   const getAvailableBalance = async (): Promise<void> => {
     // const accountId = state.wallet.getAccountId();
@@ -254,14 +225,13 @@ export const MintbaseWallet: WalletBehaviourFactory<
   const getAccounts = async (): Promise<MintbaseWalletAccount[]> => {
     const accountId = state.wallet.getAccountId();
     const account = state.wallet.account();
-
-    if (!accountId || !account) {
-      return [];
-    }
-
     const currentAccount: string = window.localStorage.getItem(
       'mintbase-wallet:account-creation-data',
-    )!;
+    );
+
+    if (!accountId || !account || !currentAccount) {
+      return [];
+    }
 
     return [
       {
@@ -285,45 +255,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     return null;
   };
 
-  // const transformTransactions = async (
-  //   transactions: Array<Optional<Transaction, 'signerId'>>,
-  // ): Promise<Array<nearAPI.transactions.Transaction>> => {
-  //   const account = state.wallet.account();
-  //   const { networkId, signer, provider } = account.connection;
-
-  //   const localKey = await signer.getPublicKey(account.accountId, networkId);
-
-  //   return Promise.all(
-  //     transactions.map(async (transaction, index) => {
-  //       const actions = transaction.actions.map((action) =>
-  //         createAction(action),
-  //       );
-  //       const accessKey = await account.accessKeyForTransaction(
-  //         transaction.receiverId,
-  //         actions as any,
-  //         localKey,
-  //       );
-
-  //       if (!accessKey) {
-  //         throw new Error(
-  //           `Failed to find matching key for transaction sent to ${transaction.receiverId}`,
-  //         );
-  //       }
-
-  //       const block = await provider.block({ finality: 'final' });
-
-  //       return nearAPI.transactions.createTransaction(
-  //         account.accountId,
-  //         nearAPI.utils.PublicKey.from(accessKey.public_key),
-  //         transaction.receiverId,
-  //         accessKey.access_key.nonce + index + 1,
-  //         actions as any,
-  //         nearAPI.utils.serialize.base_decode(block.header.hash),
-  //       );
-  //     }),
-  //   );
-  // };
-
   return {
     getAccountId,
     isSignedIn,
@@ -336,6 +267,6 @@ export const MintbaseWallet: WalletBehaviourFactory<
     getAccounts,
     switchAccount,
     signAndSendTransactions,
-    verifyMessage
+    verifyMessage,
   };
 };
