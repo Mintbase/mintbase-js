@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/auth",
-  "version": "0.6.0-beta-prerelease.1",
+  "version": "0.6.0-beta-prerelease.0",
   "description": "Wallet and auth functions for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@mintbase-js/sdk": "0.5.2-beta.0",
-    "@mintbase-js/wallet": "0.5.2-beta.0",
+    "@mintbase-js/wallet": "0.6.0-add-bitte-wallet-setup-f054e86.0",
     "@near-wallet-selector/core": "8.9.3",
     "@near-wallet-selector/here-wallet": "8.9.3",
     "@near-wallet-selector/ledger": "8.9.3",
