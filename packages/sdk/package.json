@@ -1,6 +1,6 @@
 {
   "name": "@mintbase-js/sdk",
-  "version": "0.6.0-beta-prerelease.0",
+  "version": "0.6.0-beta-prerelease.1",
   "description": "Core functions for  Mintbase JS SDK",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -22,5 +22,5 @@
   "dependencies": {
     "bn.js": "5.2.1",
     "near-api-js": "^3.0.0"
-  } 
+  }
 }
