@@ -5,9 +5,9 @@ import type {
   BrowserWallet,
   FinalExecutionOutcome,
   WalletBehaviourFactory,
+
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
-import { createAction } from '@near-wallet-selector/wallet-utils';
 
 
 interface MintbaseWalletState {
@@ -170,10 +170,9 @@ export const MintbaseWallet: WalletBehaviourFactory<
       window.location.assign(newUrl.toString());
     }
     const account = state.wallet.account();
-
     return account.signAndSendTransaction({
       receiverId: receiverId || contractId,
-      actions: actions.map((action) => createAction(action)) as nearAPI.transactions.Action[],
+      actions: actions.map((action) => new nearAPI.transactions.Action(action)),
       walletCallbackUrl: callback,
     });
   };

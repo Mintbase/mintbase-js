@@ -1,5 +1,5 @@
-import type { Wallet, FinalExecutionOutcome } from '@near-wallet-selector/core';
-import type { providers, Account } from 'near-api-js';
+import type { Wallet } from '@near-wallet-selector/core';
+import type { Account } from 'near-api-js';
 import type {
   CallBackArgs,
   ContractCall,
@@ -7,8 +7,8 @@ import type {
   NearExecuteOptions,
   ExecuteArgsResponse,
   ComposableCall,
+  FinalExecutionOutcome,
 } from '../types';
-import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
 
 /**
@@ -96,7 +96,7 @@ export const genericBatchExecute = async (
   account: Account,
   callbackUrl: string,
   callbackArgs: CallBackArgs,
-): Promise<void | providers.FinalExecutionOutcome[]> => {
+): Promise<void | FinalExecutionOutcome[]> => {
   const url = callbackUrlFormatter(callbackUrl, callbackArgs);
   if (wallet) {
     return url
@@ -121,8 +121,8 @@ const batchExecuteWithNearAccount = async (
           contractId: call.contractAddress,
           methodName: call.methodName,
           args: call.args,
-          gas: new BN(call.gas),
-          attachedDeposit: new BN(call.deposit),
+          gas: BigInt(call.gas.toString()),
+          attachedDeposit: BigInt(call.deposit.toString()),
           ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
         }),
       );

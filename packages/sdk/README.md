@@ -44,7 +44,7 @@ The method accepts any number of contract calls as arguments after the `signingO
 execute(
   signingOptions: NearCallSigningOptions
   calls: NearContractCall[],
-): Promise<providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]>
+): Promise<FinalExecutionOutcome | FinalExecutionOutcome[]>
 ```
 Here is an example using the execute function call:
 ## NearContractCall

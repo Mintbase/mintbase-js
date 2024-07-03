@@ -10,4 +10,4 @@ export { Account, providers, connect as connectToNear, KeyPair } from 'near-api-
 export { InMemoryKeyStore, KeyStore } from 'near-api-js/lib/key_stores';
 
 // adding some other types from within libraries as a convenience
-export { FinalExecutionOutcome } from '@near-wallet-selector/core';
+export { FinalExecutionOutcome } from 'near-api-js/lib/providers';

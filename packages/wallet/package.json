@@ -15,6 +15,6 @@
   "dependencies": {
     "@near-wallet-selector/wallet-utils": "^8.9.5",
     "bn.js": "^5.2.1",
-    "near-api-js": "^3.0.0"
+    "near-api-js": "^4.0.0"
   }
 }

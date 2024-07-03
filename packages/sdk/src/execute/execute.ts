@@ -1,5 +1,4 @@
-import type { providers } from 'near-api-js';
-import type { ComposableCall, NearExecuteOptions } from '../types';
+import type { ComposableCall, FinalExecutionOutcome, NearExecuteOptions } from '../types';
 import {
   checkCallbackUrl,
   flattenArgs,
@@ -19,7 +18,7 @@ export const execute = async (
   { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
 ): Promise<
-  void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]
+  void | FinalExecutionOutcome | FinalExecutionOutcome[]
 > => {
   validateSigningOptions({ wallet, account });
 
