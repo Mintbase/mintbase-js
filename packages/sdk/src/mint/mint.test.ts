@@ -6,7 +6,7 @@ import { mbjs } from '../config/config';
 
 describe('mint method tests', () => {
   const contractAddress = `test.${mbjs.keys.mbContract}`;
-  // const contractAddressV2 = 'test.mintbase2.near';
+  // const contractAddressV2 = 'test.mintbasev2.near';
   const reference = 'test';
   const media = 'test';
   const ownerId = 'test';

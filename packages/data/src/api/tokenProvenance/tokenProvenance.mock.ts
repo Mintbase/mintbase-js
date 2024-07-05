@@ -57,7 +57,7 @@ export const tokenProvenanceMock = {
     {
       'price': null,
       'action_receiver': 'nate.near',
-      'action_sender': 'mintbase2.near',
+      'action_sender': 'mintbasev2.near',
       'tx_sender': 'simple.market.mintbase1.near',
       'kind': 'transfer',
       'timestamp': '2022-11-03T07:52:58.381844',
@@ -84,8 +84,8 @@ export const tokenProvenanceMock = {
     {
       'price': null,
       'action_receiver': 'simple.market.mintbase1.near',
-      'action_sender': 'mintbase2.near',
-      'tx_sender': 'mintbase2.near',
+      'action_sender': 'mintbasev2.near',
+      'tx_sender': 'mintbasev2.near',
       'kind': 'approve',
       'timestamp': '2022-10-25T16:18:17.962725',
       'receipt_id': '33TuEXVnLGeEK3RcHnqr6rWq7qcPeaJgCbNJdzRpso4n',
@@ -94,7 +94,7 @@ export const tokenProvenanceMock = {
       'price': null,
       'action_receiver': null,
       'action_sender': null,
-      'tx_sender': 'mintbase2.near',
+      'tx_sender': 'mintbasev2.near',
       'kind': 'mint',
       'timestamp': '2022-10-25T16:15:52.028816',
       'receipt_id': 'CeYJViLgrWGd1o4oGCV3nUEr8XTytY5gtytLSuVna1ZN',

@@ -8,7 +8,7 @@ import { Network } from '@mintbase-js/sdk';
 jest.mock('graphql-request');
 
 const props = {
-  contractAddress: 'dynamic.mintbase2.near',
+  contractAddress: 'dynamic.mintbasev2.near',
   internalMetadataId: 0,
   network: 'mainnet' as Network,
 };

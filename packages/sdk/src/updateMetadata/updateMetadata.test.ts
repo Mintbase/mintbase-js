@@ -6,7 +6,7 @@ import { mbjs } from '../config/config';
 
 describe('updateMetadata method tests', () => {
   const contractAddress = `test.${mbjs.keys.mbContractV2}`;
-  // const contractAddressV2 = 'test.mintbase2.near';
+  // const contractAddressV2 = 'test.mintbasev2.near';
 
   test('updateMetadata without options', () => {
     const args = updateMetadata({

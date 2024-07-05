@@ -1,9 +1,9 @@
 export const dynamicNftMetadataMockActive = {
   nft_metadata: [
     {
-      metadataId: 'dynamic.mintbase2.near:deadbeef2',
+      metadataId: 'dynamic.mintbasev2.near:deadbeef2',
       internalMetadataId: 0,
-      contractAddress: 'dynamic.mintbase2.near',
+      contractAddress: 'dynamic.mintbasev2.near',
       reference: 'https://arweave.net/reference2',
       referenceBlob: {
         media: 'https://arweave.net/media2',
@@ -25,8 +25,8 @@ export const dynamicNftMetadataMockActive = {
 export const dynamicNftMetadataMockInactive = {
   nft_metadata: [
     {
-      metadataId: 'dynamic.mintbase2.near:deadbeef0',
-      contractAddress: 'dynamic.mintbase2.near',
+      metadataId: 'dynamic.mintbasev2.near:deadbeef0',
+      contractAddress: 'dynamic.mintbasev2.near',
       internalMetadataId: 0,
       reference: 'https://arweave.net/reference0',
       referenceBlob: {
@@ -36,8 +36,8 @@ export const dynamicNftMetadataMockInactive = {
       isActive: false,
     },
     {
-      metadataId: 'dynamic.mintbase2.near:deadbeef1',
-      contractAddress: 'dynamic.mintbase2.near',
+      metadataId: 'dynamic.mintbasev2.near:deadbeef1',
+      contractAddress: 'dynamic.mintbasev2.near',
       internalMetadataId: 0,
       reference: 'https://arweave.net/reference1',
       referenceBlob: {
