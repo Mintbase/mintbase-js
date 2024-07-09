@@ -1,4 +1,4 @@
-import {mbjs} from "@mintbase-js/sdk";
+import { mbjs } from '@mintbase-js/sdk';
 
 export const dynamicNftMetadataMockActive = {
   nft_metadata: [
