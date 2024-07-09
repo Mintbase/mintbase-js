@@ -3,12 +3,12 @@ import { DynamicNftMetadataResult } from './dynamicNftMetadata.types';
 
 import { GraphQLClient } from 'graphql-request';
 import { dynamicNftMetadataMockInactive, dynamicNftMetadataMockActive } from './dynamicNftMetadata.mock';
-import { Network } from '@mintbase-js/sdk';
+import { Network, mbjs } from '@mintbase-js/sdk';
 
 jest.mock('graphql-request');
 
 const props = {
-  contractAddress: 'dynamic.mintbasev2.near',
+  contractAddress: `dynamic.${mbjs.keys.mbContractV2}`,
   internalMetadataId: 0,
   network: 'mainnet' as Network,
 };

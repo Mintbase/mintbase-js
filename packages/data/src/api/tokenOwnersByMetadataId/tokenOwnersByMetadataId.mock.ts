@@ -2,7 +2,7 @@ export const tokenOwnersByMetadataIdMock = {
   mb_views_nft_tokens: [
     {
       token_id: '99',
-      owner: 'mintbasev2.near',
+      owner: 'mintbase2.near',
     },
     {
       token_id: '104',
@@ -15,4 +15,3 @@ export const tokenOwnersByMetadataIdMock = {
     },
   },
 };
-
