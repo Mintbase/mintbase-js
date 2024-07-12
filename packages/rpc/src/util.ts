@@ -2,19 +2,20 @@ import { mbjs, RPC_ENDPOINTS, NEAR_RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import fetch from 'cross-fetch';
 
 
-export type RPC_OPTIONS  = 'lava' | 'near' | 'beta'
-
+export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear'
 
 export const requestFromNearRpc = async (
   body: Record<string, unknown>,
   network?: string,
   rpc?:  RPC_OPTIONS,
-): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+  rpcUrl?: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
 
   const fetchUrl =  mbjs.keys.nearRpcUrl || RPC_ENDPOINTS[mbjs.keys.rpc][mbjs.keys.network]  || NEAR_RPC_ENDPOINTS[mbjs.keys.network];
   const rpcAddress = network && rpc ? RPC_ENDPOINTS[rpc][network] : fetchUrl;
 
-  const res = await fetch(rpcAddress, {
+  const fetchRpcUrl = rpcUrl || rpcAddress;
+
+  const res = await fetch(fetchRpcUrl, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'Content-type': 'application/json' },
