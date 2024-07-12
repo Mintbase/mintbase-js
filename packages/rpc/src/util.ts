@@ -30,12 +30,14 @@ export const callViewMethod = async <T>({
   args,
   network,
   rpc,
+  rpcUrl,
 }: {
   contractId: string;
   method: string;
   args?: Record<string, unknown>;
   network?: string;
   rpc?: RPC_OPTIONS;
+  rpcUrl?: string
 }): Promise<T> => {
   const args_base64 = args
     ? Buffer.from(JSON.stringify(args), 'utf-8').toString('base64')
@@ -52,7 +54,7 @@ export const callViewMethod = async <T>({
       method_name: method,
       args_base64,
     },
-  }, network, rpc);
+  }, network, rpc, rpcUrl);
 
   if (res?.error) {
     throw res.error;

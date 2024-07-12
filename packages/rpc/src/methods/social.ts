@@ -47,6 +47,7 @@ export const nearSocialProfile = async (
   accountId: string,
   network?: Network,
   rpc?: RPC_OPTIONS,
+  rpcUrl?: string,
 ): Promise<NearSocialProfile> => {
 
   const finalNetwork = network ||  mbjs.keys.network;
@@ -64,6 +65,7 @@ export const nearSocialProfile = async (
       },
       network,
       rpc,
+      rpcUrl,
     });
 
 

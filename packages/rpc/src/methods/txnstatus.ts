@@ -18,13 +18,14 @@ export const getTxnStatus = async (
   senderId: string,
   network?: Network,
   rpc?: RPC_OPTIONS,
+  rpcUrl?: string,
 ): Promise<TxnStatus> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
     method: 'tx',
     params: [txnHash, senderId],
-  }, network, rpc);
+  }, network, rpc, rpcUrl);
   if (res?.error) {
     throw res.error;
   }
