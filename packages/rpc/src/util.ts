@@ -6,16 +6,8 @@ export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear'
 
 export const requestFromNearRpc = async (
   body: Record<string, unknown>,
-  network?: string,
-  rpc?:  RPC_OPTIONS,
   rpcUrl?: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
-
-  const fetchUrl =  mbjs.keys.nearRpcUrl || RPC_ENDPOINTS[mbjs.keys.rpc][mbjs.keys.network]  || NEAR_RPC_ENDPOINTS[mbjs.keys.network];
-  const rpcAddress = network && rpc ? RPC_ENDPOINTS[rpc][network] : fetchUrl;
-
-  const fetchRpcUrl = rpcUrl || rpcAddress;
-
-  const res = await fetch(fetchRpcUrl, {
+  const res = await fetch(rpcUrl, {
     method: 'POST',
     body: JSON.stringify(body),
     headers: { 'Content-type': 'application/json' },
@@ -24,19 +16,16 @@ export const requestFromNearRpc = async (
   return res.json();
 };
 
+
 export const callViewMethod = async <T>({
   contractId,
   method,
   args,
-  network,
-  rpc,
   rpcUrl,
 }: {
   contractId: string;
   method: string;
   args?: Record<string, unknown>;
-  network?: string;
-  rpc?: RPC_OPTIONS;
   rpcUrl?: string
 }): Promise<T> => {
   const args_base64 = args
@@ -54,7 +43,7 @@ export const callViewMethod = async <T>({
       method_name: method,
       args_base64,
     },
-  }, network, rpc, rpcUrl);
+  }, rpcUrl);
 
   if (res?.error) {
     throw res.error;

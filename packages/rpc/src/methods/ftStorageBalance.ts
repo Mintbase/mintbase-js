@@ -9,13 +9,11 @@ interface FTStorageProps {
   rpcUrl?: string
 }
 
-export const ftStorageBalance = async ({ contractId, accountId, network, rpc, rpcUrl }: FTStorageProps): Promise<string | null> => {
+export const ftStorageBalance = async ({ contractId, accountId,  rpcUrl }: FTStorageProps): Promise<string | null> => {
   const balance = await callViewMethod<{ total: string; available: string } | null>({
     contractId,
     method: 'storage_balance_of',
     args: { account_id: accountId },
-    network: network,
-    rpc: rpc,
     rpcUrl: rpcUrl,
   });
 

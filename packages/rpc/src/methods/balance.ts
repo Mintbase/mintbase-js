@@ -1,8 +1,7 @@
 import BN from 'bn.js';
-import { RPC_OPTIONS, requestFromNearRpc } from '../util';
-import { Network } from '@mintbase-js/sdk';
+import { requestFromNearRpc } from '../util';
 
-const fetchBalance = async (accountId: string, network?: Network, rpc?: RPC_OPTIONS, rpcUrl?: string): Promise<BN> => {
+const fetchBalance = async (accountId: string, rpcUrl?: string): Promise<BN> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
@@ -12,7 +11,7 @@ const fetchBalance = async (accountId: string, network?: Network, rpc?: RPC_OPTI
       finality: 'final',
       account_id: accountId,
     },
-  }, network, rpc, rpcUrl);
+  }, rpcUrl);
 
   const balanceString = res?.result?.amount as string;
   if (!balanceString) {
@@ -21,6 +20,6 @@ const fetchBalance = async (accountId: string, network?: Network, rpc?: RPC_OPTI
   return new BN(balanceString);
 };
 
-export const getBalance = async (accountId: string, network?: Network, rpc?: RPC_OPTIONS, rpcUrl?: string): Promise<BN> => {
-  return fetchBalance(accountId, network, rpc, rpcUrl);
+export const getBalance = async (accountId: string, rpcUrl?: string): Promise<BN> => {
+  return fetchBalance(accountId, rpcUrl);
 };

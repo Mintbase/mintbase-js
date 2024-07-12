@@ -38,7 +38,7 @@ interface  PayoutsProps {
   rpcUrl?: string
 }
 
-export const payouts = async ({ contractId, tokenId, network, rpc, rpcUrl }: PayoutsProps): Promise<UiPayout> => {
+export const payouts = async ({ contractId, tokenId, rpcUrl }: PayoutsProps): Promise<UiPayout> => {
   const payout = await callViewMethod<NepPayout>({
     contractId,
     method: 'nft_payout',
@@ -50,8 +50,6 @@ export const payouts = async ({ contractId, tokenId, network, rpc, rpcUrl }: Pay
       balance: '10000000000000000',
       max_len_payout: 1000,
     },
-    network,
-    rpc,
     rpcUrl,
   },
   );
