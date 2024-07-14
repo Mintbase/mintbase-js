@@ -8,25 +8,19 @@ import {
 } from './nearPrice.types';
 
 
-export const fetchPriceFromCoinGecko = async (): Promise<NearPriceData> => {
-  const req = await fetch(COIN_GECKO_API);
-  const data = await req.json() as CoinGeckoNearPriceData;
-  return { price: data.near.usd };
-};
-
-export const fetchPriceFromBinance = async (): Promise<NearPriceData> => {
-  const req = await fetch(BINANCE_API);
-  const data = await req.json() as NearPriceData;
-  return data;
-};
+async function fetchPrice<T>(url: string, tokenPrice: (data: T) => NearPriceData): Promise<NearPriceData> {
+  const req = await fetch(url);
+  const data = await req.json() as T;
+  return tokenPrice(data);
+}
 
 export const nearPrice = async (): Promise<ParsedDataReturn<string>> => {
   try {
     let res: NearPriceData;
     try {
-      res = await fetchPriceFromBinance();
+      res = await fetchPrice<CoinGeckoNearPriceData>(COIN_GECKO_API, data => ({ price: data.near.usd }));
     } catch (err) {
-      res = await fetchPriceFromCoinGecko();
+      res =  await fetchPrice<NearPriceData>(BINANCE_API, data => data);
     }
     return parseData(res.price);
   } catch (err) {
