@@ -22,11 +22,12 @@ export const fetchPriceFromBinance = async (): Promise<NearPriceData> => {
 
 export const nearPrice = async (): Promise<ParsedDataReturn<string>> => {
   try {
-    const res = await Promise.any([
-      fetchPriceFromCoinGecko(),
-      fetchPriceFromBinance(),
-    ]);
-
+    let res: NearPriceData;
+    try {
+      res = await fetchPriceFromBinance();
+    } catch (err) {
+      res = await fetchPriceFromCoinGecko();
+    }
     return parseData(res.price);
   } catch (err) {
     console.error(
