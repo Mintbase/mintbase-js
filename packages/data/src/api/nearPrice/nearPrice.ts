@@ -22,7 +22,6 @@ export const nearPrice = async (): Promise<ParsedDataReturn<string>> => {
         return await fetchPrice<CoinGeckoNearPriceData>(COIN_GECKO_API, data => ({ price: data.near.usd }));
       });
 
-    console.log(res, 'res');
     return parseData(res.price);
   } catch (err) {
     console.error(
