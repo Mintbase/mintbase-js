@@ -16,12 +16,13 @@ async function fetchPrice<T>(url: string, tokenPrice: (data: T) => NearPriceData
 
 export const nearPrice = async (): Promise<ParsedDataReturn<string>> => {
   try {
-    let res: NearPriceData;
-    try {
-      res = await fetchPrice<NearPriceData>(BINANCE_API, data => data);
-    } catch (err) {
-      res = await fetchPrice<CoinGeckoNearPriceData>(COIN_GECKO_API, data => ({ price: data.near.usd }));
-    }
+    const res = await fetchPrice<NearPriceData>(BINANCE_API, data => data)
+      .catch(async (err) => {
+        console.log('First API call failed, trying second API', err);
+        return await fetchPrice<CoinGeckoNearPriceData>(COIN_GECKO_API, data => ({ price: data.near.usd }));
+      });
+
+    console.log(res, 'res');
     return parseData(res.price);
   } catch (err) {
     console.error(
