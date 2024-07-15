@@ -18,9 +18,9 @@ export const nearPrice = async (): Promise<ParsedDataReturn<string>> => {
   try {
     let res: NearPriceData;
     try {
-      res = await fetchPrice<CoinGeckoNearPriceData>(COIN_GECKO_API, data => ({ price: data.near.usd }));
+      res = await fetchPrice<NearPriceData>(BINANCE_API, data => data);
     } catch (err) {
-      res =  await fetchPrice<NearPriceData>(BINANCE_API, data => data);
+      res = await fetchPrice<CoinGeckoNearPriceData>(COIN_GECKO_API, data => ({ price: data.near.usd }));
     }
     return parseData(res.price);
   } catch (err) {
