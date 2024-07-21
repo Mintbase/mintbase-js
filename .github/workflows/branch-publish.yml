@@ -30,6 +30,7 @@ jobs:
         run: |
           echo NEAR_NETWORK=testnet >> .env
           echo NFT_CONTRACT_ID=default_contract >> .env
+          npm install # Ensure package-lock.json is in sync
           npm ci
           npm run lint
           npm run build
