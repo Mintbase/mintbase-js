@@ -5,24 +5,25 @@ import {
   Wallet,
 } from '@near-wallet-selector/core';
 import { setupModal } from '@near-wallet-selector/modal-ui';
-import { map, distinctUntilChanged, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Subscription } from 'rxjs';
 
 import {
   WALLET_CONNECTION_POLL_INTERVAL,
   WALLET_CONNECTION_TIMEOUT,
 } from './constants';
 
-import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
+import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
 
+
+import { setupBitteWallet, setupMintbaseWallet } from '@mintbase-js/wallet';
 import type {
-  WalletSelector,
   AccountState,
   WalletModuleFactory,
+  WalletSelector,
 } from '@near-wallet-selector/core';
 import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
-import { setupMintbaseWallet } from '@mintbase-js/wallet';
 
 // error messages
 const SUPPORT = '- further help available on our telegram channel: https://t.me/mintdev';
@@ -76,17 +77,24 @@ export const setupMintbaseWalletSelector = async (
 ): Promise<WalletSelectorComponents> => {
 
 
+  const baseModuleWallet = {
+    walletUrl: walletUrls[network],
+    callbackUrl: callbackUrl,
+    contractId: contractAddress,
+  };
+
   if (onlyMbWallet === false) {
+    const moduleWallet = {
+      ...baseModuleWallet,
+      successUrl: successUrl || window.location.href,
+      failureUrl: successUrl || window.location.href,
+    };
+    
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
       modules: [
-        setupMintbaseWallet({
-          walletUrl: walletUrls[network],
-          callbackUrl: callbackUrl,
-          successUrl: successUrl || window.location.href,
-          failureUrl: successUrl || window.location.href,
-          contractId: contractAddress,
-        }),
+        setupBitteWallet(moduleWallet),
+        setupMintbaseWallet(moduleWallet),
         ...(options?.additionalWallets || []),
         ...SUPPORTED_NEAR_WALLETS,
       ],
@@ -95,11 +103,12 @@ export const setupMintbaseWalletSelector = async (
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
       modules: [
-        setupMintbaseWallet({
-          walletUrl: walletUrls[network],
-          callbackUrl: callbackUrl,
-          contractId: contractAddress,
-        }),
+        setupBitteWallet(
+          baseModuleWallet,
+        ),
+        setupMintbaseWallet(
+          baseModuleWallet,
+        ),
         ...(options?.additionalWallets || []),
       ],
     });
