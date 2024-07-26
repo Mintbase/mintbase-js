@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@mintbase-js/wallet": "0.6.0-add-bitte-wallet-setup-ac02910.0",
+    "@mintbase-js/data": "0.6.0-add-bitte-wallet-setup-ac02910.0",
     "@near-wallet-selector/core": "8.9.3",
     "@near-wallet-selector/here-wallet": "8.9.3",
     "@near-wallet-selector/meteor-wallet": "8.9.3",
