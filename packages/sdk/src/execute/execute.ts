@@ -1,4 +1,3 @@
-import type { providers } from 'near-api-js';
 import type { ComposableCall, NearExecuteOptions } from '../types';
 import {
   checkCallbackUrl,
@@ -7,6 +6,8 @@ import {
   validateSigningOptions,
 } from './execute.utils';
 import { callbackSideCheck } from './checkCallback';
+import type { FinalExecutionOutcome } from '@near-js/types'; // Ensure consistent type import
+import type { FinalExecutionOutcome as WalletSelectorFinalExecutionOutcome } from '@near-wallet-selector/core/node_modules/@near-js/types/lib/provider/response'; // Import the type directly
 
 /**
  * Base method for executing contract calls.
@@ -19,7 +20,7 @@ export const execute = async (
   { wallet, account, callbackUrl, callbackArgs }: NearExecuteOptions,
   ...calls: ComposableCall[]
 ): Promise<
-  void | providers.FinalExecutionOutcome | providers.FinalExecutionOutcome[]
+  void | FinalExecutionOutcome | FinalExecutionOutcome[]
 > => {
   validateSigningOptions({ wallet, account });
 
@@ -34,5 +35,9 @@ export const execute = async (
     callbackArgs,
   );
 
-  return checkCallbackUrl(callbackFinal, callbackArgs, wallet, outcomes);
+  return checkCallbackUrl(
+    callbackFinal,
+    callbackArgs,
+    wallet,
+    outcomes as WalletSelectorFinalExecutionOutcome[]  );
 };

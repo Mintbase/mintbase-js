@@ -173,9 +173,9 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     return account.signAndSendTransaction({
       receiverId: receiverId || contractId,
-      actions: actions.map((action) => createAction(action)) as nearAPI.transactions.Action[],
+      actions: actions.map((action) => createAction(action) as unknown as nearAPI.transactions.Action),
       walletCallbackUrl: callback,
-    });
+    })as unknown as FinalExecutionOutcome;
   };
 
 

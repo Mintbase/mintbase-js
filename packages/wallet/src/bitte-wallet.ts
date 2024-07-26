@@ -8,6 +8,7 @@ import type {
 } from '@near-wallet-selector/core';
 import { getCallbackUrl } from './utils';
 import { createAction } from '@near-wallet-selector/wallet-utils';
+import type { FinalExecutionOutcome as NearFinalExecutionOutcome } from '@near-js/types';
 
 
 export enum TransactionSuccessEnum {
@@ -36,7 +37,7 @@ interface BitteWalletAccount {
 }
 
 export type CallBackArgs = {
-  args: object;
+  args:  Record<string, unknown>;
   type: TransactionSuccessEnum;
 }
 
@@ -200,11 +201,11 @@ export const BitteWallet: WalletBehaviourFactory<
     }
     const account = state.wallet.account();
 
-    return account.signAndSendTransaction({
+    return await account.signAndSendTransaction({
       receiverId: receiverId || contractId,
       actions: actions.map((action) => createAction(action)) as any,
       walletCallbackUrl: callback,
-    });
+    }) as any;
   };
 
 
@@ -235,15 +236,15 @@ export const BitteWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('callbackUrl', callbackUrl);
 
     try {
-      const response = await fetch(newUrl.toString())
+      const response = await fetch(newUrl.toString());
       const data = await response.json();
 
-      const { isValid } = data
-      return isValid
+      const { isValid } = data;
+      return isValid;
     } catch (e) {
-      return false
+      return false;
     }
-  }
+  };
 
   const getAvailableBalance = async (): Promise<void> => {
     // const accountId = state.wallet.getAccountId();
@@ -336,6 +337,6 @@ export const BitteWallet: WalletBehaviourFactory<
     getAccounts,
     switchAccount,
     signAndSendTransactions,
-    verifyMessage
+    verifyMessage,
   };
 };

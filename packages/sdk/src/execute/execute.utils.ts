@@ -124,7 +124,7 @@ const batchExecuteWithNearAccount = async (
           gas: new BN(call.gas),
           attachedDeposit: new BN(call.deposit),
           ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
-        }),
+        }) as any,
       );
     } catch (err: unknown) {
       console.error(
