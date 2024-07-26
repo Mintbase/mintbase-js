@@ -81,7 +81,6 @@
     "packages/*"
   ],
   "dependencies": {
-    "@near-wallet-selector/bitte-wallet": "^8.9.11",
     "@near-wallet-selector/core": "^8.9.11",
     "jest-fetch-mock": "^3.0.3"
   }
