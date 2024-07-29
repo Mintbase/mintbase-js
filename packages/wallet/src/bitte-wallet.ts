@@ -6,7 +6,7 @@ import type {
   FinalExecutionOutcome,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
-import { getCallbackUrlBitte } from './utils';
+import { getCallbackUrl } from './utils';
 import { createAction } from '@near-wallet-selector/wallet-utils';
 
 
@@ -36,7 +36,7 @@ interface BitteWalletAccount {
 }
 
 export type CallBackArgs = {
-  args: object;
+  args:  Record<string, unknown>;
   type: TransactionSuccessEnum;
 }
 
@@ -76,7 +76,7 @@ export const BitteWallet: WalletBehaviourFactory<
       //make near-api-js not throw without lak
       if (acc && !contractId) {
         localStorage.setItem(
-          'bitte-wallet:wallet_auth_key',
+          'mintbase-wallet_wallet_auth_key',
           JSON.stringify({
             accountId: acc as string,
             allKeys: [],
@@ -85,8 +85,8 @@ export const BitteWallet: WalletBehaviourFactory<
       }
 
       const nearConnection = await connect(connectionConfig);
-      const wallet = new WalletConnection(nearConnection, 'bitte-wallet');
-      localStorage.setItem('bitte-wallet:callback_url', callback);
+      const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
+      localStorage.setItem('mintbase-wallet:callback_url', callback);
 
       return {
         wallet,
@@ -123,7 +123,7 @@ export const BitteWallet: WalletBehaviourFactory<
   };
 
   const signOut = async (): Promise<void> => {
-    window.localStorage.removeItem('bitte-wallet:account-data');
+    window.localStorage.removeItem('mintbase-wallet:account-data');
 
     if (state.wallet.isSignedIn()) {
       state.wallet.signOut();
@@ -153,7 +153,7 @@ export const BitteWallet: WalletBehaviourFactory<
     //   callbackUrl: cbUrl,
     // });
 
-    const { cbUrl } = getCallbackUrlBitte(callbackUrl ?? '');
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
@@ -186,7 +186,7 @@ export const BitteWallet: WalletBehaviourFactory<
       throw new Error('No receiver found to send the transaction to');
     }
 
-    const { cbUrl } = getCallbackUrlBitte(callbackUrl ?? '');
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
     const callback = cbUrl || successUrl;
 
@@ -200,11 +200,11 @@ export const BitteWallet: WalletBehaviourFactory<
     }
     const account = state.wallet.account();
 
-    return account.signAndSendTransaction({
+    return await account.signAndSendTransaction({
       receiverId: receiverId || contractId,
       actions: actions.map((action) => createAction(action)) as any,
       walletCallbackUrl: callback,
-    });
+    }) as any;
   };
 
 
@@ -213,7 +213,7 @@ export const BitteWallet: WalletBehaviourFactory<
   };
 
   const signMessage = async ({ message, nonce, recipient, callbackUrl }): Promise<void> => {
-    const { cbUrl } = getCallbackUrlBitte(callbackUrl ?? '');
+    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
 
     const newUrl = new URL(`${metadata.walletUrl}/sign-message`);
     newUrl.searchParams.set('message', message);
@@ -235,15 +235,15 @@ export const BitteWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('callbackUrl', callbackUrl);
 
     try {
-      const response = await fetch(newUrl.toString())
+      const response = await fetch(newUrl.toString());
       const data = await response.json();
 
-      const { isValid } = data
-      return isValid
+      const { isValid } = data;
+      return isValid;
     } catch (e) {
-      return false
+      return false;
     }
-  }
+  };
 
   const getAvailableBalance = async (): Promise<void> => {
     // const accountId = state.wallet.getAccountId();
@@ -260,7 +260,7 @@ export const BitteWallet: WalletBehaviourFactory<
     }
 
     const currentAccount: string = window.localStorage.getItem(
-      'bitte-wallet:account-creation-data',
+      'mintbase-wallet:account-creation-data',
     )!;
 
     return [
@@ -280,7 +280,7 @@ export const BitteWallet: WalletBehaviourFactory<
 
   const setActiveAccountId = (accountId: string): null => {
     activeAccountId = accountId;
-    window.localStorage.setItem('bitte-wallet:activeAccountId', accountId);
+    window.localStorage.setItem('mintbase-wallet:activeAccountId', accountId);
 
     return null;
   };
@@ -336,6 +336,6 @@ export const BitteWallet: WalletBehaviourFactory<
     getAccounts,
     switchAccount,
     signAndSendTransactions,
-    verifyMessage
+    verifyMessage,
   };
 };
