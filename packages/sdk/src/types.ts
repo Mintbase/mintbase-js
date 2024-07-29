@@ -60,7 +60,7 @@ export enum MINTBASE_CONTRACTS {
 
 export enum MINTBASE_CONTRACTS_V2 {
   testnet =  'mintspace3.testnet',
-  mainnet = 'mintbase2.near',
+  mainnet = 'mintbasev2.near',
 }
 
 export enum GRAPHQL_ENDPOINTS  {
