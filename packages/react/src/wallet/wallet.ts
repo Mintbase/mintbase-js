@@ -104,7 +104,7 @@ export const setupMintbaseWalletSelector = async (
     walletSelectorComponents.selector = await setupWalletSelector({
       network: network,
       modules: [
-        setupBitteWallet(moduleWallet),
+        setupBitteWallet(BitteModuleWallet),
         setupMintbaseWallet(moduleWallet),
         ...(options?.additionalWallets || []),
         ...SUPPORTED_NEAR_WALLETS,
