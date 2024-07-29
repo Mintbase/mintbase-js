@@ -186,7 +186,7 @@ export const BitteWallet: WalletBehaviourFactory<
       throw new Error('No receiver found to send the transaction to');
     }
 
-    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
+    const { cbUrl } = getCallbackUrlBitte(callbackUrl ?? '');
 
     const callback = cbUrl || successUrl;
 
