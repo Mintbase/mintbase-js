@@ -83,7 +83,7 @@ export const setupMintbaseWalletSelector = async (
 
 
   const BitteModuleWallet = {
-    walletUrl: walletUrls[network],
+    walletUrl: BitteWalletUrls[network],
     callbackUrl: callbackUrl,
     contractId: contractAddress,
   };
