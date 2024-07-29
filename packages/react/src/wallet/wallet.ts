@@ -65,6 +65,11 @@ const walletUrls = {
   mainnet: 'https://wallet.mintbase.xyz',
 };
 
+const BitteWalletUrls = {
+  testnet: 'https://testnet.wallet.bitte.ai/',
+  mainnet: 'https://wallet.bitte.ai/',
+};
+
 // eslint-disable-next-line max-len
 export const setupMintbaseWalletSelector = async (
   callbackUrl,
@@ -77,7 +82,13 @@ export const setupMintbaseWalletSelector = async (
 ): Promise<WalletSelectorComponents> => {
 
 
-  const baseModuleWallet = {
+  const BitteModuleWallet = {
+    walletUrl: walletUrls[network],
+    callbackUrl: callbackUrl,
+    contractId: contractAddress,
+  };
+
+  const MbModuleWallet = {
     walletUrl: walletUrls[network],
     callbackUrl: callbackUrl,
     contractId: contractAddress,
@@ -85,7 +96,7 @@ export const setupMintbaseWalletSelector = async (
 
   if (onlyMbWallet === false) {
     const moduleWallet = {
-      ...baseModuleWallet,
+      ...MbModuleWallet,
       successUrl: successUrl || window.location.href,
       failureUrl: successUrl || window.location.href,
     };
@@ -104,10 +115,10 @@ export const setupMintbaseWalletSelector = async (
       network: network,
       modules: [
         setupBitteWallet(
-          baseModuleWallet,
+          BitteModuleWallet,
         ),
         setupMintbaseWallet(
-          baseModuleWallet,
+          MbModuleWallet,
         ),
         ...(options?.additionalWallets || []),
       ],
