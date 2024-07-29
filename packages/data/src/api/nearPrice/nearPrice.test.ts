@@ -3,22 +3,34 @@ import fetch from 'cross-fetch';
 
 jest.mock('cross-fetch');
 
+beforeEach(() => {
+  jest.resetAllMocks(); // Reset all mocks before each test
+});
 
 describe('nearPrice', () => {
-  it('returns first fulfilled promise (binance or gecko)', async () => {
+  it('returns first fulfilled promise binance', async () => {
     (fetch as jest.Mock)
       .mockResolvedValueOnce({
-        json: () => Promise.resolve({
-          near: {
-            usd: '123',
-          },
-        }),
+        json: () => Promise.resolve({ price: '123' }),
       })
       .mockRejectedValueOnce({
-        binance: 'broken',
+        gecko: 'broken',
       });
 
     const { data, error } = await nearPrice();
+    expect(data).toBe('123');
+    expect(error).toBeUndefined();
+  });
+
+  it('returns second fulfilled promise gecko if binance fails', async () => {
+    (fetch as jest.Mock)
+      .mockRejectedValueOnce(new Error('Binance API failed'))
+      .mockResolvedValueOnce({
+        json: () => Promise.resolve({ near: { usd: '123' } }), // Adjusted to match the expected structure
+      });
+
+    const { data, error } = await nearPrice();
+
     expect(data).toBe('123');
     expect(error).toBeUndefined();
   });
