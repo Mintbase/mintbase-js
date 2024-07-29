@@ -204,7 +204,7 @@ export const BitteWallet: WalletBehaviourFactory<
       receiverId: receiverId || contractId,
       actions: actions.map((action) => createAction(action)) as any,
       walletCallbackUrl: callback,
-    }) as any;
+    });
   };
 
 
