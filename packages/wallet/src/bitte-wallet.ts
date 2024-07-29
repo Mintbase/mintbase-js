@@ -6,7 +6,7 @@ import type {
   FinalExecutionOutcome,
   WalletBehaviourFactory,
 } from '@near-wallet-selector/core';
-import { getCallbackUrl } from './utils';
+import { getCallbackUrlBitte } from './utils';
 import { createAction } from '@near-wallet-selector/wallet-utils';
 
 
@@ -76,7 +76,7 @@ export const BitteWallet: WalletBehaviourFactory<
       //make near-api-js not throw without lak
       if (acc && !contractId) {
         localStorage.setItem(
-          'mintbase-wallet_wallet_auth_key',
+          'bitte-wallet:wallet_auth_key',
           JSON.stringify({
             accountId: acc as string,
             allKeys: [],
@@ -85,8 +85,8 @@ export const BitteWallet: WalletBehaviourFactory<
       }
 
       const nearConnection = await connect(connectionConfig);
-      const wallet = new WalletConnection(nearConnection, 'mintbase-wallet');
-      localStorage.setItem('mintbase-wallet:callback_url', callback);
+      const wallet = new WalletConnection(nearConnection, 'bitte-wallet');
+      localStorage.setItem('bitte-wallet:callback_url', callback);
 
       return {
         wallet,
@@ -123,7 +123,7 @@ export const BitteWallet: WalletBehaviourFactory<
   };
 
   const signOut = async (): Promise<void> => {
-    window.localStorage.removeItem('mintbase-wallet:account-data');
+    window.localStorage.removeItem('bitte-wallet:account-data');
 
     if (state.wallet.isSignedIn()) {
       state.wallet.signOut();
@@ -153,7 +153,7 @@ export const BitteWallet: WalletBehaviourFactory<
     //   callbackUrl: cbUrl,
     // });
 
-    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
+    const { cbUrl } = getCallbackUrlBitte(callbackUrl ?? '');
 
     for (const { signerId } of transactions) {
       assertValidSigner(signerId);
@@ -213,7 +213,7 @@ export const BitteWallet: WalletBehaviourFactory<
   };
 
   const signMessage = async ({ message, nonce, recipient, callbackUrl }): Promise<void> => {
-    const { cbUrl } = getCallbackUrl(callbackUrl ?? '');
+    const { cbUrl } = getCallbackUrlBitte(callbackUrl ?? '');
 
     const newUrl = new URL(`${metadata.walletUrl}/sign-message`);
     newUrl.searchParams.set('message', message);
@@ -260,7 +260,7 @@ export const BitteWallet: WalletBehaviourFactory<
     }
 
     const currentAccount: string = window.localStorage.getItem(
-      'mintbase-wallet:account-creation-data',
+      'bitte-wallet:account-creation-data',
     )!;
 
     return [
@@ -280,7 +280,7 @@ export const BitteWallet: WalletBehaviourFactory<
 
   const setActiveAccountId = (accountId: string): null => {
     activeAccountId = accountId;
-    window.localStorage.setItem('mintbase-wallet:activeAccountId', accountId);
+    window.localStorage.setItem('bitte-wallet:activeAccountId', accountId);
 
     return null;
   };
