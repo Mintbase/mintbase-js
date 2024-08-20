@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "@mintbase-js/sdk": "^0.6.1-beta.0",
-    "@mintbase-js/wallet": "^0.6.1-beta.0",
+    "@mintbase-js/wallet": "0.6.0-add-bitte-wallet-setup-f054e86.0",
     "@near-wallet-selector/core": "8.9.3",
     "@near-wallet-selector/here-wallet": "8.9.3",
     "@near-wallet-selector/ledger": "8.9.3",
