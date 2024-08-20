@@ -1,10 +1,11 @@
 import fetch from 'cross-fetch';
-import { AccessKey, getAccessKeys } from './keys';
+import {  getAccessKeys } from './keys';
+import { AccessKey } from '../types';
 
 jest.mock('cross-fetch');
 
 describe('keys', () => {
-  const getRes = async (): Promise<AccessKey[]> => await getAccessKeys({ accountId: 'nate.near', rpcUrl: 'rpc'});
+  const getRes = async (): Promise<AccessKey[]> => await getAccessKeys({ accountId: 'nate.near', rpcUrl: 'https://rpc.testnet.near.org'});
 
   it('should return access keys for accounts', async () => {
     (fetch as jest.Mock).mockResolvedValueOnce({
