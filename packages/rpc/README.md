@@ -15,23 +15,23 @@ We now accepts rpcUrl on each method, so you can pass your own RPC regarding one
 https://docs.near.org/api/rpc/providers
 
 
-### `getBalance({account: string, rpcUrl?: string}): BN`
+### `getBalance({account: string, rpcUrl: string}): BN`
 
 Fetches the balance of a NEAR account (in yocto) by address.
 
-### `getBlockHeight({rpcUrl?: string}): number`
+### `getBlockHeight({rpcUrl: string}): number`
 
 Returns the current block height for the configured network.
 
-### `getTxnStatus({txnHash: string, senderId: string,rpcUrl?: string}): TxnStatus`
+### `getTxnStatus({txnHash: string, senderId: string,rpcUrl: string}): TxnStatus`
 
 For a transaction hash, determine the status of a transaction on the configured network: `pending`, `success`, or `failure`
 
-### `payouts({ contractId, tokenId, rpcUrl? }): Promise<UiPayout>`
+### `payouts({ contractId, tokenId, rpcUrl }): Promise<UiPayout>`
 
 Calls a token contract in order to determine the percentage amounts paid out to royalty accounts.
 
-### `getAccessKeys({accountId: string,rpcUrl?: string}): Promise<AccessKey>`
+### `getAccessKeys({accountId: string,rpcUrl: string}): Promise<AccessKey>`
 
 Gets all access keys (public key and permissions object) for a given account.
 
