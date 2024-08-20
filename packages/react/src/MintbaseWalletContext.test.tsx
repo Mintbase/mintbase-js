@@ -37,7 +37,6 @@ globalThis.mbjs = {
 };
 
 
-// This shit is fucked.
 describe.skip('WalletContext', () => {
 //   test('should provide error message when setup goes wrong', async () => {
 //     // throw on startup
