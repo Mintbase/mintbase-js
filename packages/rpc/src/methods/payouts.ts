@@ -1,17 +1,5 @@
+import { NepPayout, PayoutsProps, UiPayout } from '../types';
 import { callViewMethod } from '../util';
-
-type NepPayout = {
-  payout: Record<string, string>;
-};
-
-type UiPayout = {
-  equalAccounts: boolean;
-  splits: Array<{ account: string; percent: number }>;
-  royalties: Array<{ account: string; percent: number }>;
-  royaltyPercent: number;
-  splitPercent: number;
-  tokenId: string;
-};
 
 const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
   const uiPayout = {
@@ -29,11 +17,7 @@ const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
   return uiPayout;
 };
 
-interface  PayoutsProps {
-  contractId: string;
-  tokenId: string;
-  rpcUrl?: string
-}
+
 
 export const payouts = async ({ contractId, tokenId, rpcUrl }: PayoutsProps): Promise<UiPayout> => {
   const payout = await callViewMethod<NepPayout>({

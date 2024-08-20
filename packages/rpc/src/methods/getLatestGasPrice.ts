@@ -1,13 +1,15 @@
-import { requestFromNearRpc } from '../util';
+import { queryNearRpc } from '../util';
 
-export const getLatestGasPrice = async (rpcUrl?: string): Promise<string> => {
-  const res = await requestFromNearRpc({
-    jsonrpc: '2.0',
-    id: 'dontcare',
+export const getLatestGasPrice = async (rpcUrl: string): Promise<string> => {
+
+  const res = await queryNearRpc({
     method: 'gas_price',
     params: [null],
-  }, rpcUrl);
+    rpcUrl
+  }, );
+
   const gasPrice = res?.result?.gas_price as string;
+
   if (!gasPrice) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }

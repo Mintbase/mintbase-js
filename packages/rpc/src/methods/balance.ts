@@ -1,17 +1,18 @@
 import BN from 'bn.js';
-import { requestFromNearRpc } from '../util';
+import { queryNearRpc,  } from '../util';
+import { AccountParams } from '../types';
 
-const fetchBalance = async (accountId: string, rpcUrl?: string): Promise<BN> => {
-  const res = await requestFromNearRpc({
-    jsonrpc: '2.0',
-    id: 'dontcare',
-    method: 'query',
+export const getBalance = async ({ accountId, rpcUrl }: AccountParams): Promise<BN> => {
+
+  const res = await queryNearRpc({
     params: {
-      request_type: 'view_account',
-      finality: 'final',
-      account_id: accountId,
-    },
-  }, rpcUrl);
+    request_type: 'view_account',
+    finality: 'final',
+    account_id: accountId,
+   },
+    method:'query',
+    rpcUrl
+  })
 
   const balanceString = res?.result?.amount as string;
   if (!balanceString) {
@@ -20,6 +21,3 @@ const fetchBalance = async (accountId: string, rpcUrl?: string): Promise<BN> => 
   return new BN(balanceString);
 };
 
-export const getBalance = async (accountId: string, rpcUrl?: string): Promise<BN> => {
-  return fetchBalance(accountId, rpcUrl);
-};

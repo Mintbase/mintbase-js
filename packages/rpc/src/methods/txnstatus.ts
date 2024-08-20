@@ -1,4 +1,4 @@
-import { requestFromNearRpc } from '../util';
+import { queryNearRpc, requestFromNearRpc } from '../util';
 
 export type TxnStatus = 'pending' | 'success' | 'failure';
 
@@ -15,14 +15,11 @@ type ReceiptOutcome = {
 export const getTxnStatus = async (
   txnHash: string,
   senderId: string,
-  rpcUrl?: string,
+  rpcUrl: string,
 ): Promise<TxnStatus> => {
-  const res = await requestFromNearRpc({
-    jsonrpc: '2.0',
-    id: 'dontcare',
-    method: 'tx',
-    params: [txnHash, senderId],
-  }, rpcUrl);
+
+  const res = await queryNearRpc({params:[txnHash, senderId],method:'tx',rpcUrl})
+
   if (res?.error) {
     throw res.error;
   }

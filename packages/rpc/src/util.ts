@@ -1,43 +1,24 @@
 import fetch from 'cross-fetch';
 
-export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear' | 'pagoda'
 
-type RpcNodes = {
-  [key in RPC_OPTIONS]?: string;
-};
 
-export const rpcNodes: {
-  mainnet: RpcNodes;
-  testnet: RpcNodes;
-} = {
-  mainnet: {
-    lava: "https://near.lava.build:443",
-    near: "https://rpc.mainnet.near.org",
-    fastnear: "https://free.rpc.fastnear.com/",
-    pagoda: "https://rpc.mainnet.pagoda.co"
-  },
-  testnet: {
-    lava: "https://near-testnet.lava.build:433",
-    near: "https://rpc.testnet.near.org",
-    fastnear:
-    "https://test.rpc.fastnear.com",
-    pagoda: "https://rpc.testnet.pagoda.co",
-  }
-};
+export const queryNearRpc = async ({params, method, rpcUrl}) => {
+  return await requestFromNearRpc({
+    jsonrpc: '2.0',
+    id: 'dontcare',
+    method:method,
+    params:params,
+  }, rpcUrl)
+}
+
 
 export const requestFromNearRpc = async (
   body: Record<string, unknown>,
-  rpcUrl?: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+  rpcUrl: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
 
-   const validUrls = Object.values(rpcNodes.mainnet).concat(Object.values(rpcNodes.testnet));
 
-  // Set default rpcUrl if not provided
    if (!rpcUrl) {
-    rpcUrl = rpcNodes.mainnet.near;
-  }
-
-  if (rpcUrl && !validUrls.includes(rpcUrl)) {
-    throw new Error('Invalid rpcUrl');
+    throw new Error('please add a valid RPC Url, you can check a list of providers on: https://docs.near.org/api/rpc/providers');
   }
 
   try {

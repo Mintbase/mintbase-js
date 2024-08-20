@@ -1,18 +1,18 @@
-import { requestFromNearRpc } from '../util';
+import { AccountParams } from '../types';
+import { queryNearRpc } from '../util';
 
-export const accountExists = async (accountId: string,  rpcUrl?: string): Promise<boolean> => {
-  const response = await requestFromNearRpc({
-    jsonrpc: '2.0',
-    id: 'dontcare',
-    method: 'query',
+export const accountExists = async ({accountId, rpcUrl}: AccountParams): Promise<boolean> => {
+
+  const res = await queryNearRpc({
     params: {
       request_type: 'view_account',
       finality: 'final',
       account_id: accountId,
     },
-  }, rpcUrl);
+    method: 'query',
+    rpcUrl})
 
-  if (response?.error) {
+  if (res?.error) {
     return false;
   }
   return true;

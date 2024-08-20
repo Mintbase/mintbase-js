@@ -14,7 +14,7 @@ describe('accountExists', () => {
     });
 
     expect(
-      await accountExists('benipsen.near'),
+      await accountExists({accountId: 'root.near', rpcUrl: 'rpc'}),
     ).toBe(true);
   });
 
@@ -26,7 +26,7 @@ describe('accountExists', () => {
     });
 
     expect(
-      await accountExists('notreal.near'),
+      await accountExists({accountId: 'xyz&&&.near', rpcUrl: 'rpc'}),
     ).toBe(false);
   });
 });

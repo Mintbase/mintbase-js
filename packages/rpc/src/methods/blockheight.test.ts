@@ -15,7 +15,7 @@ describe('getBlockHeight', () => {
       }),
     });
 
-    const h = await getBlockHeight();
+    const h = await getBlockHeight('');
     expect(typeof h).toBe('number');
     expect(h > 0).toBe(true);
   });

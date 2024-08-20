@@ -19,7 +19,7 @@ describe('near social', () => {
       }),
     });
 
-    const profile = await nearSocialProfile('benipsen.testnet');
+    const profile = await nearSocialProfile({accountId: 'nate.testnet', network: 'testnet', rpcUrl: 'rpc'});
     expect(profile.name).toBeDefined();
     expect(profile.imageUrl).toBeNull();
   });
@@ -49,7 +49,7 @@ describe('near social', () => {
       }),
     });
 
-    const profile = await nearSocialProfile('benipsen.testnet');
+    const profile = await nearSocialProfile({accountId: 'nate.testnet', network: 'testnet', rpcUrl: 'rpc'});
     expect(profile.name).toBeDefined();
     expect(profile.backgroundImageUrl).not.toBeNull();
     expect(profile.imageUrl).toContain(NEAR_SOCIAL_IPFS_GATEWAY);
@@ -67,7 +67,7 @@ describe('near social', () => {
       }),
     });
 
-    const profile = await nearSocialProfile('benipsen.nope');
+    const profile = await nearSocialProfile({accountId: 'nate.nope', network: 'testnet', rpcUrl: 'rpc'});
     expect(profile.name).toBeUndefined();
   });
 });
