@@ -11,18 +11,18 @@ export const rpcNodes: {
   testnet: RpcNodes;
 } = {
   mainnet: {
-    lava: "https://g.w.lavanet.xyz:443/gateway/near/rpc-http/f538cb3b0a85aafdb9996886d004ee0a",
+    lava: "https://near.lava.build:443",
     near: "https://rpc.mainnet.near.org",
     fastnear: "https://free.rpc.fastnear.com/",
     pagoda: "https://rpc.mainnet.pagoda.co"
   },
   testnet: {
-    lava: "https://g.w.lavanet.xyz:443/gateway/neart/rpc-http/f538cb3b0a85aafdb9996886d004ee0a",
+    lava: "https://near-testnet.lava.build:433",
     near: "https://rpc.testnet.near.org",
-    pagoda: "https://rpc.testnet.pagoda.co",
     fastnear:
-      "https://test.rpc.fastnear.com",
-  },
+    "https://test.rpc.fastnear.com",
+    pagoda: "https://rpc.testnet.pagoda.co",
+  }
 };
 
 export const requestFromNearRpc = async (
