@@ -2,7 +2,6 @@
 import { execute } from './execute';
 import { MAX_GAS, ONE_YOCTO } from '../constants';
 import { NoSigningMethodPassedError } from '../errors';
-import BN from 'bn.js';
 import { ExecuteArgsResponse, NearContractCall } from '../types';
 
 
@@ -139,10 +138,11 @@ describe('contract method calls (execute)', () => {
       contractId: testContract,
       methodName: testMethod,
       args: testArgs,
-      gas: new BN(MAX_GAS),
-      attachedDeposit: new BN(ONE_YOCTO),
+      gas: BigInt(MAX_GAS),
+      attachedDeposit: BigInt(ONE_YOCTO),
       // walletCallbackUrl: '',
     };
+    
     expect(mockNearAccount.functionCall)
       .toHaveBeenCalledWith(expectedCallArgs);
   });

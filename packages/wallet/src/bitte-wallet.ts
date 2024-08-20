@@ -36,7 +36,7 @@ interface BitteWalletAccount {
 }
 
 export type CallBackArgs = {
-  args: object;
+  args:  Record<string, unknown>;
   type: TransactionSuccessEnum;
 }
 
@@ -200,7 +200,7 @@ export const BitteWallet: WalletBehaviourFactory<
     }
     const account = state.wallet.account();
 
-    return account.signAndSendTransaction({
+    return await account.signAndSendTransaction({
       receiverId: receiverId || contractId,
       actions: actions.map((action) => createAction(action)) as any,
       walletCallbackUrl: callback,
@@ -217,7 +217,7 @@ export const BitteWallet: WalletBehaviourFactory<
 
     const newUrl = new URL(`${metadata.walletUrl}/sign-message`);
     newUrl.searchParams.set('message', message);
-    newUrl.searchParams.set('nonce', nonce);
+    newUrl.searchParams.set('nonce', Buffer.from(nonce).toString('base64'));
     newUrl.searchParams.set('recipient', recipient);
     newUrl.searchParams.set('callbackUrl', cbUrl);
     window.location.assign(newUrl.toString());
@@ -230,20 +230,20 @@ export const BitteWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('accountId', accountId);
     newUrl.searchParams.set('publicKey', publicKey);
     newUrl.searchParams.set('signature', signature);
-    newUrl.searchParams.set('nonce', nonce);
+    newUrl.searchParams.set('nonce', Buffer.from(nonce).toString('base64'));
     newUrl.searchParams.set('recipient', recipient);
     newUrl.searchParams.set('callbackUrl', callbackUrl);
 
     try {
-      const response = await fetch(newUrl.toString())
+      const response = await fetch(newUrl.toString());
       const data = await response.json();
 
-      const { isValid } = data
-      return isValid
+      const { isValid } = data;
+      return isValid;
     } catch (e) {
-      return false
+      return false;
     }
-  }
+  };
 
   const getAvailableBalance = async (): Promise<void> => {
     // const accountId = state.wallet.getAccountId();
@@ -336,6 +336,6 @@ export const BitteWallet: WalletBehaviourFactory<
     getAccounts,
     switchAccount,
     signAndSendTransactions,
-    verifyMessage
+    verifyMessage,
   };
 };

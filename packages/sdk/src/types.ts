@@ -1,5 +1,4 @@
 import { Wallet } from '@near-wallet-selector/core';
-import BN from 'bn.js';
 import { Account } from 'near-api-js';
 import type { Optional, Transaction } from '@near-wallet-selector/core';
 import type { FinalExecutionOutcome as FEO } from '@near-wallet-selector/core';
@@ -162,8 +161,8 @@ export type ContractCall<T> = {
   contractAddress: string;
   methodName: string;
   args: T;
-  gas: string | BN;
-  deposit: string | BN;
+  gas: string;
+  deposit: string;
   signerId?: string;
   callbackUrl?: string;
   meta?: CallBackArgs;

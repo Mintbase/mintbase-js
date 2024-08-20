@@ -8,7 +8,6 @@ import type {
   ExecuteArgsResponse,
   ComposableCall,
 } from '../types';
-import BN from 'bn.js';
 import { NoSigningMethodPassedError } from '../errors';
 
 /**
@@ -121,8 +120,8 @@ const batchExecuteWithNearAccount = async (
           contractId: call.contractAddress,
           methodName: call.methodName,
           args: call.args,
-          gas: new BN(call.gas),
-          attachedDeposit: new BN(call.deposit),
+          gas: BigInt(call.gas),
+          attachedDeposit: BigInt(call.deposit),
           ...(callbackUrl && { walletCallbackUrl: callbackUrl }),
         }),
       );

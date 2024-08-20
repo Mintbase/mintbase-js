@@ -1,12 +1,12 @@
 {
-  "name": "@mintbase-js/auth",
+  "name": "@mintbase-js/react",
   "version": "0.6.1-beta-prerelease.1",
-  "description": "Wallet and auth functions for Mintbase JS SDK",
+  "description": "React app tools for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
-    "lint": "eslint . --fix --ext ts",
+    "lint": "eslint . --fix --ext ts --ext tsx",
     "test": "jest --coverage"
   },
   "files": [
@@ -18,25 +18,18 @@
   "keywords": [],
   "author": "",
   "license": "MIT",
+  "devDependencies": {
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.5.2"
+  },
   "dependencies": {
-    "@mintbase-js/sdk": "^0.6.1-update-packages-24058ee.0",
     "@mintbase-js/wallet": "0.6.1-update-packages-24058ee.0",
     "@near-wallet-selector/core": "8.9.12",
     "@near-wallet-selector/here-wallet": "8.9.12",
-    "@near-wallet-selector/ledger": "8.9.12",
     "@near-wallet-selector/meteor-wallet": "8.9.12",
     "@near-wallet-selector/modal-ui": "8.9.12",
     "@near-wallet-selector/my-near-wallet": "8.9.12",
-    "@near-wallet-selector/wallet-connect": "8.9.12",
-    "bs58": "^5.0.0",
-    "js-sha256": "^0.9.0",
-    "rxjs": "^7.5.7"
-  },
-  "devDependencies": {
-    "@types/node": "18.11.9",
-    "jest-environment-jsdom": "^29.7.0"
-  },
-  "peerDependencies": {
-    "isomorphic-textencoder": "^1.0.1"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
   }
 }

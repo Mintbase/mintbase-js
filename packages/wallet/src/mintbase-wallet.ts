@@ -188,7 +188,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
 
     const newUrl = new URL(`${metadata.walletUrl}/sign-message`);
     newUrl.searchParams.set('message', message);
-    newUrl.searchParams.set('nonce', nonce);
+    newUrl.searchParams.set('nonce', Buffer.from(nonce).toString('base64'));
     newUrl.searchParams.set('recipient', recipient);
     newUrl.searchParams.set('callbackUrl', cbUrl);
     window.location.assign(newUrl.toString());
@@ -201,7 +201,7 @@ export const MintbaseWallet: WalletBehaviourFactory<
     newUrl.searchParams.set('accountId', accountId);
     newUrl.searchParams.set('publicKey', publicKey);
     newUrl.searchParams.set('signature', signature);
-    newUrl.searchParams.set('nonce', nonce);
+    newUrl.searchParams.set('nonce', Buffer.from(nonce).toString('base64'));
     newUrl.searchParams.set('recipient', recipient);
     newUrl.searchParams.set('callbackUrl', callbackUrl);
 
