@@ -1,4 +1,4 @@
-import { queryNearRpc, requestFromNearRpc } from '../util';
+import { queryNearRpc } from '../util';
 
 export type TxnStatus = 'pending' | 'success' | 'failure';
 
