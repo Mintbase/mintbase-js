@@ -11,7 +11,7 @@ This module provides a wrapper around common RPC calls used to fetch on-chain da
 
 ## Available Modules & Methods
 
-We now accepts rpcUrl in each method, so you can pass your own RPC regarding one of those on the list:
+We now accepts rpcUrl on each method, so you can pass your own RPC regarding one of those on the list:
 https://docs.near.org/api/rpc/providers
 
 
