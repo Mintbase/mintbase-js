@@ -24,11 +24,11 @@
   },
   "dependencies": {
     "@mintbase-js/wallet": "0.6.0-add-bitte-wallet-setup-ac02910.0",
-    "@near-wallet-selector/core": "8.9.12",
-    "@near-wallet-selector/here-wallet": "8.9.12",
-    "@near-wallet-selector/meteor-wallet": "8.9.12",
-    "@near-wallet-selector/modal-ui": "8.9.12",
-    "@near-wallet-selector/my-near-wallet": "8.9.12",
+    "@near-wallet-selector/core": "8.9.3",
+    "@near-wallet-selector/here-wallet": "8.9.3",
+    "@near-wallet-selector/meteor-wallet": "8.9.3",
+    "@near-wallet-selector/modal-ui": "8.9.3",
+    "@near-wallet-selector/my-near-wallet": "8.9.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"
   }
