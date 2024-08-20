@@ -14,7 +14,7 @@ This module provides a wrapper around common RPC calls used to fetch on-chain da
 We now accepts rpcUrl in each method, so you can pass your own RPC regarding one of those on the list:
 `packages/rpc/src/util.ts#9`
 
-if **rpcUrl** not passed, it will fallback to near rpc mainnet.
+If `rpcUrl` is not passed, it will fallback to the `https://rpc.mainnet.near.org`.
 
 ### `getBalance(account: string, rpcUrl?: string): BN`
 
