@@ -21,8 +21,8 @@
   "dependencies": {
     "@google-cloud/firestore": "^6.8.0",
     "@google-cloud/secret-manager": "^4.2.2",
-    "@mintbase-js/auth": "^0.6.1-beta-prerelease.0",
-    "@mintbase-js/sdk": "^0.3.2-upgrade-packages-3378beb.0",
+    "@mintbase-js/auth": "^0.6.1-beta.0",
+    "@mintbase-js/sdk": "^0.6.1-beta.0",
     "graphql-request": "^5.2.0"
   },
   "devDependencies": {
