@@ -20,10 +20,9 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "bn.js": "5.2.1",
-    "near-api-js": "^2.1.4"
+    "near-api-js": "^4.0.3"
   },
   "devDependencies": {
-    "@near-wallet-selector/core": "8.9.3"
+    "@near-wallet-selector/core": "8.9.12"
   }
 }

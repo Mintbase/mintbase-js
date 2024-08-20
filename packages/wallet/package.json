@@ -13,12 +13,8 @@
   "author": "Mintbase",
   "license": "MIT",
   "dependencies": {
-    "@near-wallet-selector/core": "8.9.5",
-    "@near-wallet-selector/wallet-utils": "^8.9.5",
-    "bn.js": "^5.2.1",
-    "near-api-js": "^2.1.3"
-  },
-  "peerDependencies": {
-    "near-api-js": "^2.0.0"
+    "@near-wallet-selector/core": "8.9.12",
+    "@near-wallet-selector/wallet-utils": "^8.9.12",
+    "near-api-js": "^4.0.3"
   }
 }
