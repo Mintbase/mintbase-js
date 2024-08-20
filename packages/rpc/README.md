@@ -11,31 +11,31 @@ This module provides a wrapper around common RPC calls used to fetch on-chain da
 
 ## Available Modules & Methods
 
-`type Network: 'testnet' | 'mainnet'`
+We now accepts rpcUrl in each method, so you can pass your own RPC regarding one of those on the list:
+`packages/rpc/src/util.ts#9`
 
-### `getBalance(account: string, network?: Network, rpc?: RPC_OPTIONS): BN`
+if **rpcUrl** not passed, it will fallback to near rpc mainnet.
+
+### `getBalance(account: string, rpcUrl?: string): BN`
 
 Fetches the balance of a NEAR account (in yocto) by address.
 
-### `getBlockHeight(network?: Network,  rpc?: RPC_OPTIONS): number`
+### `getBlockHeight(rpcUrl?: string): number`
 
 Returns the current block height for the configured network.
 
-### `getTxnStatus(txnHash: string, senderId: string,network?: Network,  rpc?: RPC_OPTIONS): TxnStatus`
+### `getTxnStatus(txnHash: string, senderId: string,rpcUrl?: string): TxnStatus`
 
 For a transaction hash, determine the status of a transaction on the configured network: `pending`, `success`, or `failure`
 
-### `payouts({ contractId, tokenId, network, rpc }): Promise<UiPayout>`
+### `payouts({ contractId, tokenId, rpcUrl? }): Promise<UiPayout>`
 
 Calls a token contract in order to determine the percentage amounts paid out to royalty accounts.
 
-### `getAccessKeys(accountId: string, network?: Network,  rpc?: RPC_OPTIONS): Promise<AccessKey>`
+### `getAccessKeys(accountId: string,rpcUrl?: string): Promise<AccessKey>`
 
 Gets all access keys (public key and permissions object) for a given account.
 
-## Configuration
-
-Before calling these methods the near network should be configured using the [config SDK method](https://docs.mintbase.io/dev/mintbase-sdk-ref/sdk/config)
 
 ## Future
 

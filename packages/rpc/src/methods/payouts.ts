@@ -1,5 +1,4 @@
-import { Network } from '@mintbase-js/sdk';
-import { RPC_OPTIONS, callViewMethod } from '../util';
+import { callViewMethod } from '../util';
 
 type NepPayout = {
   payout: Record<string, string>;
@@ -33,8 +32,6 @@ const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
 interface  PayoutsProps {
   contractId: string;
   tokenId: string;
-  network?: Network;
-  rpc?: RPC_OPTIONS;
   rpcUrl?: string
 }
 

@@ -1,5 +1,4 @@
-import { Network } from '@mintbase-js/sdk';
-import { RPC_OPTIONS, callViewMethod } from '../util';
+import { callViewMethod } from '../util';
 
 export type FtMetadata = {
   spec: string;
@@ -14,8 +13,6 @@ export type FtMetadata = {
 
 interface FtMetadataProps {
   contractId: string;
-  network?: Network;
-  rpc?: RPC_OPTIONS;
   rpcUrl?: string
 }
 
@@ -53,7 +50,7 @@ function isStringOrNull(x: any): x is string | null {
   return false;
 }
 
-export const ftMetadata = async ({ contractId,  rpcUrl }: FtMetadataProps): Promise<FtMetadata | null> => {
+export const ftMetadata = async ({ contractId, rpcUrl }: FtMetadataProps): Promise<FtMetadata | null> => {
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',

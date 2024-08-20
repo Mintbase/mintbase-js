@@ -1,19 +1,56 @@
-import { mbjs, RPC_ENDPOINTS, NEAR_RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import fetch from 'cross-fetch';
 
+export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear' | 'pagoda'
 
-export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear'
+type RpcNodes = {
+  [key in RPC_OPTIONS]?: string;
+};
+
+export const rpcNodes: {
+  mainnet: RpcNodes;
+  testnet: RpcNodes;
+} = {
+  mainnet: {
+    lava: "https://g.w.lavanet.xyz:443/gateway/near/rpc-http/f538cb3b0a85aafdb9996886d004ee0a",
+    near: "https://rpc.mainnet.near.org",
+    fastnear: "https://free.rpc.fastnear.com/",
+    pagoda: "https://rpc.mainnet.pagoda.co"
+  },
+  testnet: {
+    lava: "https://g.w.lavanet.xyz:443/gateway/neart/rpc-http/f538cb3b0a85aafdb9996886d004ee0a",
+    near: "https://rpc.testnet.near.org",
+    pagoda: "https://rpc.testnet.pagoda.co",
+    fastnear:
+      "https://test.rpc.fastnear.com",
+  },
+};
 
 export const requestFromNearRpc = async (
   body: Record<string, unknown>,
   rpcUrl?: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
-  const res = await fetch(rpcUrl, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: { 'Content-type': 'application/json' },
-  });
 
-  return res.json();
+   const validUrls = Object.values(rpcNodes.mainnet).concat(Object.values(rpcNodes.testnet));
+
+  // Set default rpcUrl if not provided
+   if (!rpcUrl) {
+    rpcUrl = rpcNodes.mainnet.near;
+  }
+
+  if (rpcUrl && !validUrls.includes(rpcUrl)) {
+    throw new Error('Invalid rpcUrl');
+  }
+
+  try {
+    const res = await fetch(rpcUrl, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-type': 'application/json' },
+    });
+
+    return res.json();
+  } catch (error) {
+    return { result: {}, error };
+  }
 };
 
 
@@ -48,8 +85,8 @@ export const callViewMethod = async <T>({
   if (res?.error) {
     throw res.error;
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const parsed = JSON.parse(Buffer.from(res?.result?.result).toString());
+
+  const resultBuffer = Buffer.from(res?.result?.result as string);
+  const parsed = JSON.parse(resultBuffer.toString());
   return parsed as T;
 };

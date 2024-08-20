@@ -1,6 +1,6 @@
 import {  requestFromNearRpc } from '../util';
 
-export const getGasPrice = async (hash?: string, rpcUrl?: string): Promise<number> => {
+export const getGasPrice = async (hash: string, rpcUrl?: string): Promise<number> => {
   const res = await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',

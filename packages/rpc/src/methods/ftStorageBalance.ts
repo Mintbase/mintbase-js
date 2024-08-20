@@ -1,11 +1,8 @@
-import { Network } from '@mintbase-js/sdk';
-import { RPC_OPTIONS, callViewMethod } from '../util';
+import { callViewMethod } from '../util';
 
 interface FTStorageProps {
   contractId: string;
   accountId: string;
-  network?: Network;
-  rpc?: RPC_OPTIONS;
   rpcUrl?: string
 }
 
