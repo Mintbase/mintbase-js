@@ -5,8 +5,8 @@ export const getGasPrice = async (hash: string, rpcUrl: string): Promise<number>
   const res = await callNearRpc({
     method: 'gas_price',
     params: [hash || null],
-    rpcUrl
-  }, );
+    rpcUrl,
+  } );
 
   const gasPrice = res?.result?.gas_price as number;
 

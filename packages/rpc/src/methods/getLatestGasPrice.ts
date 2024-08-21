@@ -5,8 +5,8 @@ export const getLatestGasPrice = async (rpcUrl: string): Promise<string> => {
   const res = await callNearRpc({
     method: 'gas_price',
     params: [null],
-    rpcUrl
-  }, );
+    rpcUrl,
+  } );
 
   const gasPrice = res?.result?.gas_price as string;
 

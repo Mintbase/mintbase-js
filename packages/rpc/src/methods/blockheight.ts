@@ -5,7 +5,7 @@ export const getBlockHeight = async (rpcUrl: string): Promise<number> => {
   const res = await callNearRpc({
     params: [],
     method: 'status',
-    rpcUrl})
+    rpcUrl });
 
   const blockHeight = (res?.result?.sync_info as {latest_block_height: number})?.latest_block_height;
   if (!blockHeight) {

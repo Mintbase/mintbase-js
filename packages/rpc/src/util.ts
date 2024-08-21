@@ -1,13 +1,13 @@
 import fetch from 'cross-fetch';
 
-export const callNearRpc = async ({params, method, rpcUrl}):  Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+export const callNearRpc = async ({ params, method, rpcUrl }):  Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
   return await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',
     method:method,
     params:params,
-  }, rpcUrl)
-}
+  }, rpcUrl);
+};
 
 
 export const requestFromNearRpc = async (
@@ -15,7 +15,7 @@ export const requestFromNearRpc = async (
   rpcUrl: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
 
 
-   if (!rpcUrl) {
+  if (!rpcUrl) {
     throw new Error('please add a valid RPC Url, you can check a list of providers on: https://docs.near.org/api/rpc/providers');
   }
 

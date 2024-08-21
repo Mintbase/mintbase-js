@@ -18,7 +18,7 @@ export const getTxnStatus = async (
   rpcUrl: string,
 ): Promise<TxnStatus> => {
 
-  const res = await callNearRpc({params:[txnHash, senderId],method:'tx',rpcUrl})
+  const res = await callNearRpc({ params:[txnHash, senderId], method:'tx', rpcUrl });
 
   if (res?.error) {
     throw res.error;

@@ -23,8 +23,8 @@ const getImageUrl = (image: ProfileImage): string | null => {
 export const nearSocialProfile = async ({
   accountId,
   network,
-  rpcUrl
-}: SocialParams
+  rpcUrl,
+}: SocialParams,
 ): Promise<NearSocialProfile> => {
 
 

@@ -18,7 +18,6 @@ const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
 };
 
 
-
 export const payouts = async ({ contractId, tokenId, rpcUrl }: PayoutsProps): Promise<UiPayout> => {
   const payout = await callViewMethod<NepPayout>({
     contractId,

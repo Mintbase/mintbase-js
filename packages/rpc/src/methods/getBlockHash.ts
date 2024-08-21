@@ -4,8 +4,8 @@ export const getBlockHash = async (rpcUrl: string): Promise<string> => {
   const res = await callNearRpc({
     method: 'status',
     params: [],
-    rpcUrl
-  }, );
+    rpcUrl,
+  } );
 
   const blockHash = (res?.result?.sync_info as {latest_block_hash: string})?.latest_block_hash;
 

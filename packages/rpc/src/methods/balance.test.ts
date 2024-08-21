@@ -14,7 +14,7 @@ describe('getBalance', () => {
       }),
     });
 
-    const b = await getBalance({accountId:'foo.near', rpcUrl:'rpcUrl'});
+    const b = await getBalance({ accountId:'foo.near', rpcUrl:'rpcUrl' });
     expect(b instanceof BN).toBe(true);
     expect(b.eq(new BN(123))).toBe(true);
   });

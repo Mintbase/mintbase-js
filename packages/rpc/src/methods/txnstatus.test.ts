@@ -21,8 +21,8 @@ describe('getTxnStatus', () => {
       { outcome: { status: true } },
       { outcome: { status: true } },
     ]);
-    let txnHash = '9Nieji1G1d9iUmkMindAAdwz7mcESG2NFxredjv9cWrZ';
-    let senderId = 'reginanogueira.near';
+    const txnHash = '9Nieji1G1d9iUmkMindAAdwz7mcESG2NFxredjv9cWrZ';
+    const senderId = 'reginanogueira.near';
 
     const status = await getTxnStatus(txnHash, senderId, 'rpc');
     expect(status).toStrictEqual('success');
@@ -32,8 +32,8 @@ describe('getTxnStatus', () => {
     mockResponseWithReceipts([
       { outcome: { status: true } },
     ]);
-    let txnHash = 'DfePCY1bRdCn8BsBjod4kP3sW6Uc1VYV4yJxnFNy5Vui';
-    let senderId = 'yoneru.near';
+    const txnHash = 'DfePCY1bRdCn8BsBjod4kP3sW6Uc1VYV4yJxnFNy5Vui';
+    const senderId = 'yoneru.near';
 
     const status = await getTxnStatus(txnHash, senderId, 'rpc');
     expect(status).toStrictEqual('success');
@@ -43,8 +43,8 @@ describe('getTxnStatus', () => {
     mockResponseWithReceipts([
       { outcome: { status:  { Failure: true } } },
     ]);
-    let txnHash = 'test.txn.hash';
-    let senderId = 'foo.near';
+    const txnHash = 'test.txn.hash';
+    const senderId = 'foo.near';
 
     const status = await getTxnStatus(txnHash, senderId, 'rpc');
     expect(status).toStrictEqual('failure');

@@ -2,17 +2,17 @@ import { AccessKey, AccountParams } from '../types';
 import { callNearRpc } from '../util';
 
 
-export const getAccessKeys = async ({accountId, rpcUrl}: AccountParams): Promise<AccessKey[]> => {
+export const getAccessKeys = async ({ accountId, rpcUrl }: AccountParams): Promise<AccessKey[]> => {
 
   const res = await callNearRpc({
     method: 'query',
-       params: {
+    params: {
       request_type: 'view_access_key_list',
       finality: 'final',
       account_id: accountId,
     },
-    rpcUrl
-  }, );
+    rpcUrl,
+  } );
 
   const accessKeys = res?.result?.keys as AccessKey[];
 
