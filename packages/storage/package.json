@@ -16,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "0.6.1-update-packages-24058ee.0",
+    "@mintbase-js/sdk": "0.6.2",
     "form-data": "^4.0.0",
     "near-api-js": "^4.0.3"
   },
