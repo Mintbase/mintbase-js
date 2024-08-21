@@ -19,8 +19,8 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@mintbase-js/sdk": "^0.6.1-update-packages-24058ee.0",
-    "@mintbase-js/wallet": "0.6.1-update-packages-24058ee.0",
+    "@mintbase-js/sdk": "0.6.2",
+    "@mintbase-js/wallet": "0.6.2",
     "@near-wallet-selector/core": "8.9.12",
     "@near-wallet-selector/here-wallet": "8.9.12",
     "@near-wallet-selector/ledger": "8.9.12",
