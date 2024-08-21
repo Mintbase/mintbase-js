@@ -1,7 +1,7 @@
-import { queryNearRpc } from '../util';
+import { callNearRpc } from '../util';
 
 export const getBlockHash = async (rpcUrl: string): Promise<string> => {
-  const res = await queryNearRpc({
+  const res = await callNearRpc({
     method: 'status',
     params: [],
     rpcUrl

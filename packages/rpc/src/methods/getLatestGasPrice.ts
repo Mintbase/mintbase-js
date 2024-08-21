@@ -1,8 +1,8 @@
-import { queryNearRpc } from '../util';
+import { callNearRpc } from '../util';
 
 export const getLatestGasPrice = async (rpcUrl: string): Promise<string> => {
 
-  const res = await queryNearRpc({
+  const res = await callNearRpc({
     method: 'gas_price',
     params: [null],
     rpcUrl

@@ -54,7 +54,7 @@ export const ftMetadata = async ({ contractId, rpcUrl }: FtMetadataProps): Promi
   const res = callViewMethod<FtMetadata>({
     contractId,
     method: 'ft_metadata',
-    rpcUrl: rpcUrl,
+    rpcUrl,
   });
 
   return isFtMetadata(res) ? res : null;

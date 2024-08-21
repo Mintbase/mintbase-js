@@ -6,7 +6,7 @@ export const ftStorageBalance = async ({ contractId, accountId,  rpcUrl }: FTPar
     contractId,
     method: 'storage_balance_of',
     args: { account_id: accountId },
-    rpcUrl: rpcUrl,
+    rpcUrl,
   });
 
   return balance?.total || null;

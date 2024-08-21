@@ -1,8 +1,6 @@
 import fetch from 'cross-fetch';
 
-
-
-export const queryNearRpc = async ({params, method, rpcUrl}):  Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+export const callNearRpc = async ({params, method, rpcUrl}):  Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
   return await requestFromNearRpc({
     jsonrpc: '2.0',
     id: 'dontcare',

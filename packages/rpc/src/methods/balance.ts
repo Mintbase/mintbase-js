@@ -1,10 +1,10 @@
 import BN from 'bn.js';
-import { queryNearRpc,  } from '../util';
+import { callNearRpc,  } from '../util';
 import { AccountParams } from '../types';
 
 export const getBalance = async ({ accountId, rpcUrl }: AccountParams): Promise<BN> => {
 
-  const res = await queryNearRpc({
+  const res = await callNearRpc({
     params: {
     request_type: 'view_account',
     finality: 'final',
