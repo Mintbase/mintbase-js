@@ -67,6 +67,11 @@ export enum GRAPHQL_ENDPOINTS  {
   testnet = 'https://interop-testnet.hasura.app/v1/graphql',
 }
 
+export enum FASTNEAR_RPC_ENDPOINTS  {
+  mainnet = 'https://free.rpc.fastnear.com/',
+  testnet = 'https://g.w.lavanet.xyz:443/gateway/neart/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
+}
+
 export enum LAVA_RPC_ENDPOINTS  {
   mainnet = 'https://g.w.lavanet.xyz:443/gateway/near/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
   testnet = 'https://g.w.lavanet.xyz:443/gateway/neart/rpc-http/f538cb3b0a85aafdb9996886d004ee0a',
@@ -103,7 +108,7 @@ export type FtAddresses = {
   usdt: USDT_ADDRESS;
 }
 
-export type RPC_OPTIONS  = 'lava' | 'near' | 'beta'
+export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear'
 
 export type ConfigOptions = {
   network?: Network | string;

@@ -1,18 +1,5 @@
-import { Network } from '@mintbase-js/sdk';
-import { RPC_OPTIONS, callViewMethod } from '../util';
-
-type NepPayout = {
-  payout: Record<string, string>;
-};
-
-type UiPayout = {
-  equalAccounts: boolean;
-  splits: Array<{ account: string; percent: number }>;
-  royalties: Array<{ account: string; percent: number }>;
-  royaltyPercent: number;
-  splitPercent: number;
-  tokenId: string;
-};
+import { NepPayout, PayoutsProps, UiPayout } from '../types';
+import { callViewMethod } from '../util';
 
 const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
   const uiPayout = {
@@ -30,14 +17,9 @@ const nepToUi = (nepPayout: NepPayout, tokenId: string): UiPayout => {
   return uiPayout;
 };
 
-interface  PayoutsProps {
-  contractId: string;
-  tokenId: string;
-  network?: Network;
-  rpc?: RPC_OPTIONS;
-}
 
-export const payouts = async ({ contractId, tokenId, network, rpc }: PayoutsProps): Promise<UiPayout> => {
+
+export const payouts = async ({ contractId, tokenId, rpcUrl }: PayoutsProps): Promise<UiPayout> => {
   const payout = await callViewMethod<NepPayout>({
     contractId,
     method: 'nft_payout',
@@ -49,8 +31,7 @@ export const payouts = async ({ contractId, tokenId, network, rpc }: PayoutsProp
       balance: '10000000000000000',
       max_len_payout: 1000,
     },
-    network,
-    rpc,
+    rpcUrl,
   },
   );
 

@@ -1,6 +1,5 @@
 import { getTxnStatus } from './txnstatus';
 import fetch from 'cross-fetch';
-import { mbjs } from '@mintbase-js/sdk';
 
 jest.mock('cross-fetch');
 
@@ -24,11 +23,8 @@ describe('getTxnStatus', () => {
     ]);
     let txnHash = '9Nieji1G1d9iUmkMindAAdwz7mcESG2NFxredjv9cWrZ';
     let senderId = 'reginanogueira.near';
-    if (mbjs.keys.debugMode) {
-      txnHash = '6zgh2u9DqHHiXzdy9ouTP7oGky2T4nugqzqt9wJZwNFm';
-      senderId = 'sender.testnet';
-    }
-    const status = await getTxnStatus(txnHash, senderId);
+
+    const status = await getTxnStatus(txnHash, senderId, 'rpc');
     expect(status).toStrictEqual('success');
   });
 
@@ -38,11 +34,8 @@ describe('getTxnStatus', () => {
     ]);
     let txnHash = 'DfePCY1bRdCn8BsBjod4kP3sW6Uc1VYV4yJxnFNy5Vui';
     let senderId = 'yoneru.near';
-    if (mbjs.keys.debugMode) {
-      txnHash = '35jBJFY566f4Jk5JzwTnoyJoFCdfRgPuCaJLtrNrFamE';
-      senderId = 'yadda.testnet';
-    }
-    const status = await getTxnStatus(txnHash, senderId);
+
+    const status = await getTxnStatus(txnHash, senderId, 'rpc');
     expect(status).toStrictEqual('success');
   });
 
@@ -52,11 +45,8 @@ describe('getTxnStatus', () => {
     ]);
     let txnHash = 'test.txn.hash';
     let senderId = 'foo.near';
-    if (mbjs.keys.debugMode) {
-      txnHash = 'not.a.real.txn';
-      senderId = 'bar.testnet';
-    }
-    const status = await getTxnStatus(txnHash, senderId);
+
+    const status = await getTxnStatus(txnHash, senderId, 'rpc');
     expect(status).toStrictEqual('failure');
   });
 

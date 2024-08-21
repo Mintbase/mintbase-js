@@ -28,6 +28,7 @@ describe('payouts rpc call', () => {
     const payout = await payouts({
       contractId: 'ticketingv2.mintspace2.testnet',
       tokenId: '154',
+      rpcUrl: 'rpc'
     });
 
     expect(typeof payout.equalAccounts).toBe('boolean');

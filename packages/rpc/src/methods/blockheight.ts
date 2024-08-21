@@ -1,13 +1,12 @@
-import { Network } from '@mintbase-js/sdk';
-import { RPC_OPTIONS, requestFromNearRpc } from '../util';
+import { callNearRpc } from '../util';
 
-export const getBlockHeight = async (network?: Network,  rpc?: RPC_OPTIONS): Promise<number> => {
-  const res = await requestFromNearRpc({
-    jsonrpc: '2.0',
-    id: 'dontcare',
-    method: 'status',
+export const getBlockHeight = async (rpcUrl: string): Promise<number> => {
+
+  const res = await callNearRpc({
     params: [],
-  }, network, rpc);
+    method: 'status',
+    rpcUrl})
+
   const blockHeight = (res?.result?.sync_info as {latest_block_height: number})?.latest_block_height;
   if (!blockHeight) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);

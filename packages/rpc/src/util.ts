@@ -1,40 +1,48 @@
-import { mbjs, RPC_ENDPOINTS, NEAR_RPC_ENDPOINTS } from '@mintbase-js/sdk';
 import fetch from 'cross-fetch';
 
-
-export type RPC_OPTIONS  = 'lava' | 'near' | 'beta'
+export const callNearRpc = async ({params, method, rpcUrl}):  Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+  return await requestFromNearRpc({
+    jsonrpc: '2.0',
+    id: 'dontcare',
+    method:method,
+    params:params,
+  }, rpcUrl)
+}
 
 
 export const requestFromNearRpc = async (
   body: Record<string, unknown>,
-  network?: string,
-  rpc?:  RPC_OPTIONS,
-): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
+  rpcUrl: string): Promise<{ result: Record<string, unknown>, error: unknown } | undefined> => {
 
-  const fetchUrl =  mbjs.keys.nearRpcUrl || RPC_ENDPOINTS[mbjs.keys.rpc][mbjs.keys.network]  || NEAR_RPC_ENDPOINTS[mbjs.keys.network];
-  const rpcAddress = network && rpc ? RPC_ENDPOINTS[rpc][network] : fetchUrl;
 
-  const res = await fetch(rpcAddress, {
-    method: 'POST',
-    body: JSON.stringify(body),
-    headers: { 'Content-type': 'application/json' },
-  });
+   if (!rpcUrl) {
+    throw new Error('please add a valid RPC Url, you can check a list of providers on: https://docs.near.org/api/rpc/providers');
+  }
 
-  return res.json();
+  try {
+    const res = await fetch(rpcUrl, {
+      method: 'POST',
+      body: JSON.stringify(body),
+      headers: { 'Content-type': 'application/json' },
+    });
+
+    return res.json();
+  } catch (error) {
+    return { result: {}, error };
+  }
 };
+
 
 export const callViewMethod = async <T>({
   contractId,
   method,
   args,
-  network,
-  rpc,
+  rpcUrl,
 }: {
   contractId: string;
   method: string;
-  args?: Record<string, any>;
-  network?: string;
-  rpc?: RPC_OPTIONS;
+  args?: Record<string, unknown>;
+  rpcUrl?: string
 }): Promise<T> => {
   const args_base64 = args
     ? Buffer.from(JSON.stringify(args), 'utf-8').toString('base64')
@@ -51,13 +59,13 @@ export const callViewMethod = async <T>({
       method_name: method,
       args_base64,
     },
-  }, network, rpc);
+  }, rpcUrl);
 
   if (res?.error) {
     throw res.error;
   }
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const parsed = JSON.parse(Buffer.from(res?.result?.result).toString());
+
+  const resultBuffer = Buffer.from(res?.result?.result as string);
+  const parsed = JSON.parse(resultBuffer.toString());
   return parsed as T;
 };

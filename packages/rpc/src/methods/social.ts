@@ -1,31 +1,8 @@
-import { RPC_OPTIONS, callViewMethod } from '../util';
-import { Network, mbjs } from '@mintbase-js/sdk';
+import { NearSocialProfile, ProfileImage, SocialParams } from '../types';
+import { callViewMethod } from '../util';
 
 export const NEAR_SOCIAL_IPFS_GATEWAY = 'https://ipfs.near.social/ipfs/';
 
-type ProfileImage = {
-  ipfs_cid: string;
-  url?: string;
-  nft?: {
-    contractId: string;
-    tokenId: string;
-  };
-}
-
-type NearSocialProfile = {
-  name?: string;
-  description?: string;
-  image?: ProfileImage;
-  imageUrl?: string;
-  backgroundImageUrl?: string;
-  linktree?: {
-    twitter: string;
-    github: string;
-    telegram: string;
-    website: string;
-  };
-  tags?: Record<string, string>;
-};
 
 const getImageUrl = (image: ProfileImage): string | null => {
   let imageUrl = null;
@@ -43,15 +20,15 @@ const getImageUrl = (image: ProfileImage): string | null => {
   return imageUrl;
 };
 
-export const nearSocialProfile = async (
-  accountId: string,
-  network?: Network,
-  rpc?: RPC_OPTIONS,
+export const nearSocialProfile = async ({
+  accountId,
+  network,
+  rpcUrl
+}: SocialParams
 ): Promise<NearSocialProfile> => {
 
-  const finalNetwork = network ||  mbjs.keys.network;
 
-  const contractId = finalNetwork === 'testnet'
+  const contractId = network === 'testnet'
     ? 'v1.social08.testnet'
     : 'social.near';
 
@@ -62,8 +39,7 @@ export const nearSocialProfile = async (
       args: {
         keys: [`${accountId}/profile/**`],
       },
-      network,
-      rpc,
+      rpcUrl,
     });
 
 

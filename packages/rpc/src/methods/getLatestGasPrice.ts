@@ -1,14 +1,15 @@
-import { Network } from '@mintbase-js/sdk';
-import { RPC_OPTIONS, requestFromNearRpc } from '../util';
+import { callNearRpc } from '../util';
 
-export const getLatestGasPrice = async (network?: Network, rpc?: RPC_OPTIONS): Promise<string> => {
-  const res = await requestFromNearRpc({
-    jsonrpc: '2.0',
-    id: 'dontcare',
+export const getLatestGasPrice = async (rpcUrl: string): Promise<string> => {
+
+  const res = await callNearRpc({
     method: 'gas_price',
     params: [null],
-  }, network, rpc);
+    rpcUrl
+  }, );
+
   const gasPrice = res?.result?.gas_price as string;
+
   if (!gasPrice) {
     throw new Error(`Malformed response: ${JSON.stringify(res)}`);
   }
