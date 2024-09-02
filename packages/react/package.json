@@ -24,7 +24,7 @@
   },
   "dependencies": {
     "@mintbase-js/data": "0.6.2",
-    "@mintbase-js/wallet": "0.6.2",
+    "@mintbase-js/wallet": "0.6.2-remove-browser-wallet-check-2093eb3.0",
     "@near-wallet-selector/core": "8.9.12",
     "@near-wallet-selector/here-wallet": "8.9.12",
     "@near-wallet-selector/meteor-wallet": "8.9.12",
