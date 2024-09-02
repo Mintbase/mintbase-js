@@ -20,10 +20,10 @@ export const callbackSideCheck = (
   let callbackFinal = callbackUrl;
 
   if (currentEnv === 'client') {
-    const shouldGetFromMbjs = callbackUrl?.length < 1 || callbackUrl === undefined && 
-      window?.['mbjs']?.callbackUrl && window?.['mbjs']?.callbackUrl.length > 0; 
+    const shouldGetFromMbjs = callbackUrl?.length < 1 || callbackUrl === undefined &&
+      window?.['mbjs']?.callbackUrl && window?.['mbjs']?.callbackUrl.length > 0;
 
-    if (wallet?.id == 'mintbase-wallet') {
+    if (wallet?.id == 'mintbase-wallet' || wallet?.id == 'bitte-wallet') {
       if (callbackUrl?.length < 1 || callbackUrl === undefined) {
         let mbjsCallbackUrl = '';
 
