@@ -23,12 +23,11 @@ export const checkCallbackUrl = (
   wallet: Wallet,
   outcomes: void | FinalExecutionOutcome[],
 ): void | FinalExecutionOutcome[] | FinalExecutionOutcome => {
-  const isNotBrowserWallet = wallet?.type !== 'browser';
   const hasCallbackUrl = Boolean(
     typeof window !== 'undefined' && callbackUrl?.length > 0,
   );
 
-  if (hasCallbackUrl && isNotBrowserWallet) {
+  if (hasCallbackUrl) {
     const { transactionHash } = checkTransactionHash(outcomes);
 
     let finalUrl = `${callbackUrl}?transactionHashes=${transactionHash}`;
