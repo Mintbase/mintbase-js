@@ -57,7 +57,7 @@ export const BitteWalletAuth = {
   },
   setupBitteWalletSelector: async (
     callbackUrl,
-    onlyMbWallet = false,
+    onlyBitteWallet = false,
     network?,
     contractAddress?,
     options?: { additionalWallets?: Array<WalletModuleFactory> },
@@ -65,7 +65,7 @@ export const BitteWalletAuth = {
     failureUrl?: string,
   ): Promise<WalletSelectorComponents> => {
 
-    if (onlyMbWallet === false) {
+    if (onlyBitteWallet === false) {
       BitteWalletAuth.walletSelectorComponents.selector = await setupWalletSelector({
         network: network,
         modules: [

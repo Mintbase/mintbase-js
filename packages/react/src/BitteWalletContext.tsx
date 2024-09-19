@@ -42,6 +42,7 @@ interface ContextProviderType {
   additionalWallets?: Array<WalletModuleFactory>;
   successUrl?: string;
   failureUrl?: string;
+  onlyBitteWallet?: boolean
 }
 
 
@@ -52,7 +53,7 @@ export const BitteWalletContextProvider: React.FC<ContextProviderType> = ({
   network,
   contractAddress,
   additionalWallets,
-  onlyMbWallet,
+  onlyBitteWallet,
   callbackUrl,
   successUrl,
   failureUrl,
@@ -73,21 +74,21 @@ export const BitteWalletContextProvider: React.FC<ContextProviderType> = ({
 
   const { setupBitteWalletSelector, registerWalletAccountsSubscriber, connectWalletSelector, pollForWalletConnection, disconnectFromWalletSelector, signMessage } = BitteWalletAuth;
 
-  const setupMbWallet = async (): Promise<WalletSelectorComponents> => {
-    const isOnlyMbWallet = !!onlyMbWallet || !!(additionalWallets && additionalWallets.length > 0);
+  const setupBitteWallet = async (): Promise<WalletSelectorComponents> => {
+    const isOnlyBitteWallet = !!onlyBitteWallet || !!(additionalWallets && additionalWallets.length > 0);
 
     return await setupBitteWalletSelector(
       callbackUrl,
-      isOnlyMbWallet,
+      isOnlyBitteWallet,
       selectedNetwork,
       selectedContract,
-      isOnlyMbWallet ? { additionalWallets } : undefined,
+      isOnlyBitteWallet ? { additionalWallets } : undefined,
       successUrl, failureUrl,
     );
   };
 
   const setup = useCallback(async () => {
-    const components = await setupMbWallet();
+    const components = await setupBitteWallet();
 
     setIsWalletSelectorSetup(true);
     setComponents(components);
@@ -98,7 +99,7 @@ export const BitteWalletContextProvider: React.FC<ContextProviderType> = ({
   };
 
   const setupWallet = async (): Promise<WalletSelectorComponents> => {
-    const components = await setupMbWallet();
+    const components = await setupBitteWallet();
 
     return components;
   };
