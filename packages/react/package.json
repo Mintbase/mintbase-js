@@ -6,8 +6,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
-    "lint": "eslint . --fix --ext ts --ext tsx",
-    "test": "jest --coverage"
+    "lint": "eslint . --fix --ext ts --ext tsx"
   },
   "files": [
     "lib"
