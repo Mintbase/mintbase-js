@@ -24,7 +24,7 @@ You can check a [quick example of Simple Login](https://github.com/Mintbase/exam
 
 - [Installing](#Installing)
 
-- [MintbaseWalletContextProvider (default)](#mintbasewalletcontextprovider) : The default Mintbase Wallet provider
+- [BitteWalletContextProvider (default)](#bittewalletcontextprovider) : The default Bitte Wallet provider
 
 
 # Installing
@@ -52,9 +52,9 @@ pnpm install @mintbase-js/react
 pnpm install @near-wallet-selector/modal-ui
 ```
 
-# MintbaseWalletContextProvider
+# BitteWalletContextProvider
 
-the default way of interacting with Mintbase Wallet is using the MintbaseWalletContextProvider
+the default way of interacting with Mintbase Wallet is using the BitteWalletContextProvider
 
 {% code title="app.tsx" overflow="wrap" lineNumbers="true" %}
 
@@ -72,15 +72,15 @@ the default way of interacting with Mintbase Wallet is using the MintbaseWalletC
 
 ```typescript
 import "@near-wallet-selector/modal-ui/styles.css";
-import { MintbaseWalletContextProvider } from  '@mintbase-js/react'
+import { BitteWalletContextProvider } from  '@mintbase-js/react'
 
-<MintbaseWalletContextProvider
+<BitteWalletContextProvider
   contractAddress="mycontract.mintbase1.near"
   network="mainnet"
   callbackUrl="https://www.mywebsite.com/callback"
 >
    <Component {...pageProps} />
-</MintbaseWalletContextProvider>
+</BitteWalletContextProvider>
 
 ```
 
