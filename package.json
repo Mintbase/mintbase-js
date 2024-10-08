@@ -83,6 +83,6 @@
   "dependencies": {
     "@near-wallet-selector/core": "8.9.13",
     "jest-fetch-mock": "^3.0.3",
-    "near-api-js": "^5.0.0"
+    "near-api-js": "4.0.3"
   }
 }
