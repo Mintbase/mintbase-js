@@ -15,8 +15,7 @@ import {
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
-import { wagmiConfig, web3Modal } from './web3-modal';
-import { setupEthereumWallets } from "@near-wallet-selector/ethereum-wallets";
+
 
 import { setupBitteWallet, setupMintbaseWallet } from '@mintbase-js/wallet';
 import type {
@@ -34,12 +33,10 @@ export const ERROR_MESSAGES =  {
   WALLET_CONNECTION_NOT_FOUND:  `Wallet connection not received after ${WALLET_CONNECTION_TIMEOUT}ms - ${SUPPORT}`,
 };
 
-const alwaysOnboardDuringSignIn = true;
 export const SUPPORTED_NEAR_WALLETS: Array<WalletModuleFactory> =[
   setupMeteorWallet(),
   setupMyNearWallet(),
   setupHereWallet(),
-  setupEthereumWallets({ wagmiConfig, web3Modal, alwaysOnboardDuringSignIn }),
 ];
 
 // mintbase SDK wallet functionality wraps
