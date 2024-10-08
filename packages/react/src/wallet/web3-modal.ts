@@ -50,7 +50,7 @@ const nearChain = {
 };
 
 const metadata = {
-  name: "Bitte Wallet by Mintbase",
+  name: "Bitte Wallet",
   description: "Near Wallet Connect to EVM",
   url: "wallet.bitte.ai",
   icons: [],
