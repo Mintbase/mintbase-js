@@ -25,7 +25,7 @@ const EVMWalletChain = evmWalletChains.mainnet;
 
 // see more here: https://docs.reown.com/appkit/react/core/installation#cloud-configuration
 // please replace it with your own one
-const reownProjectId = '5bb0fe33763b3bea40b8d69e4269b4ae';
+const reownProjectId = 'b6facfc0dfb00812382fe1b7bcc07069';
 
 const onMainnet = true; // you need to put smth like NetworkId == "mainnet"; here
 const nearChain = {
@@ -49,13 +49,11 @@ const nearChain = {
   testnet: !onMainnet,
 };
 
-// this metadata is used later by EVM wallets
-const url = "http://localhost:3000"; // needs to be replaced with your host url
 const metadata = {
-  name: "Bitte Wallet",
-  description: "EVM Wallet from Mintbase", // fix the description here
-  url: url,
-  icons: [], // add icon if needed
+  name: "Bitte Wallet by Mintbase",
+  description: "Near Wallet Connect to EVM",
+  url: "wallet.bitte.ai",
+  icons: [],
 };
 
 export const wagmiConfig = createConfig({
