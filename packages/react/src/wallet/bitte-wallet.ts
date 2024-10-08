@@ -26,6 +26,8 @@ import { ConnectionTimeoutError } from './wallet';
 import { setupMeteorWallet } from '@near-wallet-selector/meteor-wallet';
 import { setupHereWallet } from '@near-wallet-selector/here-wallet';
 import { setupMyNearWallet } from '@near-wallet-selector/my-near-wallet';
+import { wagmiConfig, web3Modal } from './web3-modal';
+import { setupEthereumWallets } from "@near-wallet-selector/ethereum-wallets";
 
 const SUPPORT = '- further help available on our telegram channel: https://t.me/mintdev';
 
@@ -34,10 +36,12 @@ export const ERROR_MESSAGES =  {
   WALLET_CONNECTION_NOT_FOUND:  `Wallet connection not received after ${WALLET_CONNECTION_TIMEOUT}ms - ${SUPPORT}`,
 };
 
+const alwaysOnboardDuringSignIn = true;
 export const SUPPORTED_NEAR_WALLETS: Array<WalletModuleFactory> =[
   setupMeteorWallet(),
   setupMyNearWallet(),
   setupHereWallet(),
+  setupEthereumWallets({ wagmiConfig, web3Modal, alwaysOnboardDuringSignIn }),
 ];
 
 export type WalletSelectorComponents = {
