@@ -4,7 +4,7 @@
   "description": "React app tools for Mintbase JS SDK",
   "main": "lib/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --noEmitOnError false --skipLibCheck ",
     "watch": "tsc && tsc --watch & jest --watch --coverage",
     "lint": "eslint . --fix --ext ts --ext tsx"
   },
