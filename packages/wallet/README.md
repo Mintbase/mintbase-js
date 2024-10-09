@@ -11,13 +11,13 @@
 
 
 
-This is the [Mintbase Wallet](https://wallet.mintbase.xyz/) SDK package.
+This is the [Bitte Wallet](https://wallet.bitte.ai/) SDK package.
 You can check a quick example of Simple Login using Next.js 14 and @mintbase-js/react
 
-check our [React integration](https://docs.mintbase.xyz/dev/mintbase-sdk-ref/react#mintbasewalletcontextprovider)
+check our [React integration](https://docs.mintbase.xyz/dev/mintbase-sdk-ref/react#bittewalletcontextprovider)
 
 Example:
-You can check a [quick example of Simple Login](https://github.com/Mintbase/examples/tree/main/starter) using Next.js 14 and @mintbase-js/react
+You can check a [quick example of Simple Login](https://github.com/Mintbase/templates/tree/main/starter-next) using Next.js 14 and @mintbase-js/react
 
 
 <p align="center">
@@ -101,9 +101,9 @@ Then use it in your dApp:
 
 ```ts
 import { setupWalletSelector } from  "@near-wallet-selector/core";
-import { setupMintbaseWallet } from  "@mintbase-js/wallet";
+import { setupBitteWallet } from  "@mintbase-js/wallet";
 
-const  mintbaseWallet = setupMintbaseWallet({
+const  mintbaseWallet = setupBitteWallet({
     networkId:  'mainnet',
     walletUrl:  'https://wallet.mintbase.xyz',
     callbackUrl:  'https://www.mywebsite.com',
@@ -121,7 +121,7 @@ const  selector = await  setupWalletSelector({
 
 
 
-## setupMintbaseWallet
+## setupBitteWallet
 
 
 

@@ -21,7 +21,7 @@ import type { WalletSelectorModal } from '@near-wallet-selector/modal-ui';
 import { SUPPORTED_NEAR_WALLETS } from './wallets.setup';
 import { ERROR_MESSAGES } from './errorMessages';
 import { mbjs } from '@mintbase-js/sdk';
-import { setupMintbaseWallet } from '@mintbase-js/wallet';
+import { setupBitteWallet } from '@mintbase-js/wallet';
 
 // mintbase SDK wallet functionality wraps
 // Near Wallet Selector lib, provided by NEAR Protocol
@@ -45,12 +45,12 @@ export let walletSelectorComponents: WalletSelectorComponents = {
  */
 
 const walletUrls = {
-  testnet: 'https://testnet.wallet.mintbase.xyz/',
-  mainnet: 'https://wallet.mintbase.xyz',
+  testnet: 'https://testnet.wallet.bitte.ai/',
+  mainnet: 'https://wallet.bitte.ai',
 };
 
 // eslint-disable-next-line max-len
-export const setupMintbaseWalletSelector = async (
+export const setupBitteWalletSelector = async (
   callbackUrl,
   onlyMbWallet = false,
   network?,
@@ -65,7 +65,7 @@ export const setupMintbaseWalletSelector = async (
       network: network,
       debug: mbjs.keys.debugMode,
       modules: [
-        setupMintbaseWallet({
+        setupBitteWallet({
           walletUrl: walletUrls[network],
           deprecated: false,
           callbackUrl: callbackUrl,
@@ -79,7 +79,7 @@ export const setupMintbaseWalletSelector = async (
       network: network,
       debug: mbjs.keys.debugMode,
       modules: [
-        setupMintbaseWallet({
+        setupBitteWallet({
           walletUrl: walletUrls[network],
           deprecated: false,
           callbackUrl: callbackUrl,
