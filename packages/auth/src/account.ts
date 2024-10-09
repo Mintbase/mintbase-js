@@ -1,6 +1,7 @@
 
-import { connectToNear, Account, KeyStore } from '.';
 import { mbjs } from '@mintbase-js/sdk';
+import { Account, connect as connectToNear } from 'near-api-js';
+import { KeyStore } from 'near-api-js/lib/key_stores';
 
 /**
  * Connect to a NEAR account `accountId` with credentials in `keyStore` {@link KeyStore}
@@ -23,7 +24,7 @@ export const connect = async (
   keyStore: KeyStore,
   network: Network = mbjs.keys.network as Network,
 ): Promise<Account> => {
-  
+
   const near = await connectToNear({
     keyStore,
     networkId: network ||  mbjs.keys.network as Network,
