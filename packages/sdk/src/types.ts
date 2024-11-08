@@ -118,7 +118,7 @@ export type FtAddresses = {
   usdt: USDT_ADDRESS;
 }
 
-export type RPC_OPTIONS  = 'lava' | 'near' | 'beta' | 'fastnear'
+export type RPC_OPTIONS  = 'lava' | 'near' | 'pagoda' | 'fastnear'
 
 export type ConfigOptions = {
   network?: Network | string;
