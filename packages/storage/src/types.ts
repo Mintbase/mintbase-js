@@ -1,6 +1,7 @@
 export type ReferenceObject = {
   title?: string;
   description?: string;
+  creatorAddress?: string;
   media?: File | string;
   media_type?: string;
   animation_url?: File | string;
