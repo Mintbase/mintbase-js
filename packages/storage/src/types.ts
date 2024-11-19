@@ -10,9 +10,6 @@ export type ReferenceObject = {
   tags?: string[];
   extra?: Trait[];
   history?: string[];
-  creatorAddress?: string;
-  metadata_content_flag?: string;
-  id?: string;
 }
 
 export type Trait = {
