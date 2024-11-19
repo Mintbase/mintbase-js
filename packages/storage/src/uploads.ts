@@ -65,7 +65,7 @@ export const uploadFile = async (
  * @param ReferenceObject A json reference object to upload
  */
 export const uploadReference = async (
-  referenceObject: ReferenceObject,
+  referenceObject: ReferenceObject & { [k: string]: unknown },
 ): Promise<ArweaveResponse> => {
 
   if (Object.keys(referenceObject).length == 0) {
