@@ -1,7 +1,6 @@
 export type ReferenceObject = {
   title?: string;
   description?: string;
-  creatorAddress?: string;
   media?: File | string;
   media_type?: string;
   animation_url?: File | string;
@@ -11,6 +10,9 @@ export type ReferenceObject = {
   tags?: string[];
   extra?: Trait[];
   history?: string[];
+  creatorAddress?: string;
+  metadata_content_flag?: string;
+  id?: string;
 }
 
 export type Trait = {
