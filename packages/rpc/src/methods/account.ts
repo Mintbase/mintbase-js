@@ -12,11 +12,14 @@ export const accountExists = async ({ accountId, rpcUrl }: AccountParams): Promi
       method: 'query',
       rpcUrl });
 
+    console.log({ res });
+
     if (res?.error) {
       return false;
     }
     return true;
   } catch (error) {
+    console.log({ error });
     return true;
   }
 };
