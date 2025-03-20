@@ -2,18 +2,21 @@ import { AccountParams } from '../types';
 import { callNearRpc } from '../util';
 
 export const accountExists = async ({ accountId, rpcUrl }: AccountParams): Promise<boolean> => {
+  try {
+    const res = await callNearRpc({
+      params: {
+        request_type: 'view_account',
+        finality: 'final',
+        account_id: accountId,
+      },
+      method: 'query',
+      rpcUrl });
 
-  const res = await callNearRpc({
-    params: {
-      request_type: 'view_account',
-      finality: 'final',
-      account_id: accountId,
-    },
-    method: 'query',
-    rpcUrl });
-
-  if (res?.error) {
-    return false;
+    if (res?.error) {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return true;
   }
-  return true;
 };
