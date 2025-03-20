@@ -2,7 +2,6 @@ import { AccountParams } from '../types';
 import { callNearRpc } from '../util';
 
 export const accountExists = async ({ accountId, rpcUrl }: AccountParams): Promise<boolean> => {
-
   const res = await callNearRpc({
     params: {
       request_type: 'view_account',
@@ -10,9 +9,10 @@ export const accountExists = async ({ accountId, rpcUrl }: AccountParams): Promi
       account_id: accountId,
     },
     method: 'query',
-    rpcUrl });
+    rpcUrl,
+  });
 
-  if (res?.error) {
+  if (res?.error && !res?.result?.block_hash) {
     return false;
   }
   return true;
