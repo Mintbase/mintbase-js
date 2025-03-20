@@ -12,9 +12,7 @@ export const accountExists = async ({ accountId, rpcUrl }: AccountParams): Promi
     rpcUrl,
   });
 
-  console.log({ res });
-
-  if (res?.error && !res?.result) {
+  if (res?.error && !res?.result?.block_hash) {
     return false;
   }
   return true;

@@ -28,8 +28,7 @@ export const requestFromNearRpc = async (
 
     return res.json();
   } catch (error) {
-    console.log(error);
-    return { result: {}, error: { message: error, status: 'network_error' } };
+    return { result: {}, error };
   }
 };
 
