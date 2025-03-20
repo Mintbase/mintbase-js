@@ -14,7 +14,7 @@ export const accountExists = async ({ accountId, rpcUrl }: AccountParams): Promi
 
   console.log({ res });
 
-  if (res?.error) {
+  if (res?.error && !res?.result) {
     return false;
   }
   return true;
