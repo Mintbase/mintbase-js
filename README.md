@@ -16,7 +16,6 @@ Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap you
 <img src="https://img.shields.io/github/release-date/mintbase/mintbase-js" />
 <img src="https://img.shields.io/github/actions/workflow/status/mintbase/mintbase-js/branch-publish.yml" />
 <img src="https://img.shields.io/github/commit-activity/m/mintbase/mintbase-js" />
- <img src="https://img.shields.io/npm/l/@mintbase-js/react"/>
 <a href="https://coveralls.io/github/Mintbase/mintbase-js?branch=beta" target="_blank"> <img src="https://coveralls.io/repos/github/Mintbase/mintbase-js/badge.svg?branch=beta"/> </a>
 
 </p>
@@ -31,9 +30,6 @@ Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap you
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/data' />
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/data' />
 <br/>
-<b>@mintbase-js/react:</b>
- &nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/react' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/react' />
 <br/>
 <b>@mintbase-js/rpc:</b>
  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src='https://img.shields.io/npm/dw/@mintbase-js/rpc' />
@@ -47,9 +43,7 @@ Check our [Templates website](https://templates.mintbase.xyz/), to bootstrap you
 <img src='https://img.shields.io/npm/dw/@mintbase-js/storage' />
 <img src='https://img.shields.io/bundlephobia/min/@mintbase-js/storage' />
 <br/>
-<b>@mintbase-js/wallet:</b>
-<img src='https://img.shields.io/npm/dw/@mintbase-js/wallet' />
-<img src='https://img.shields.io/bundlephobia/min/@mintbase-js/wallet' />
+
 </p>
 
 
@@ -69,8 +63,11 @@ For guides and specific use case examples visit our [General Documentation](http
 ## Specific Module Documentation
 
 
-### [@mintbase-js/wallet docs](packages/wallet)
-  - the mintbase wallet js sdk.
+### [@mintbase-js/wallet] *deprecated*
+  - please check [@bitte-ai/wallet](https://github.com/BitteProtocol/wallet)
+
+### [@mintbase-js/react] *deprecated*
+  - please check [@bitte-ai/react](https://github.com/BitteProtocol/react)
 
 ### [@mintbase-js/sdk docs](packages/sdk)
 

@@ -1,2 +1,0 @@
-// styleMock.js
-module.exports = {};
